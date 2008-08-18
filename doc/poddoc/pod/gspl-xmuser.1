@@ -1,0 +1,66 @@
+=head1 NAME
+
+gspl-xmuser - X/Motif user control
+
+=head1 SYNOPSIS
+
+B<gspl-xmuser>
+
+=head1 DESCRIPTION
+
+B<Gspl-Xmuser> is a fully interactive Motif alternative to the standard
+user control program gspl-user(1), but only in the fully interactive
+mode, so it cannot be started by a user without I<Edit admin file>
+privilege.
+
+Unlike gspl-user(1) there are no specific command line options to
+B<gspl-xmuser>. The facility to change or specify resources settings for an
+X11 (and hence Motif) program on the command line can be used.
+
+=head1 FILES
+
+F<~/.gnuspool>
+configuration file (home directory)
+
+F<.gnuspool>
+configuration file (current directory)
+
+F<gspl-xmuser.help>
+message file
+
+F<spufile0>
+user control file
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item GSPL-XMUSERCONF
+
+path name of alternative message file.
+
+=back
+
+=head1 SEE ALSO
+
+gspl-pq(1),
+gspl-pr(1),
+gspl-user(1),
+gspl-qdel(1),
+gspl-qchange(1),
+gspl-qlist(1),
+gspl-plist(1),
+gspl-uchange(1),
+gspl-ulist(1),
+gspl-spuconv(8).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  spuser gspl-xmuser

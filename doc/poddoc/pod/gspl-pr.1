@@ -1,0 +1,738 @@
+=head1 NAME
+
+gspl-pr - print spooler
+
+gspl-rpr - print spooler to remote queue
+
+=head1 SYNOPSIS
+
+B<gspl-pr>
+[ I<-options> ]
+[ I<file> ... ]
+
+B<gspl-rpr>
+[ I<-options> ]
+[ I<file> ... ]
+
+=head1 DESCRIPTION
+
+B<gspl-pr> queues up one or more print jobs for the B<GNUspool> spooler.
+
+B<gspl-rpr> queues up one or more print jobs to a remote queue running the
+B<GNUspool> spooler. B<GNUspool> does not need to be running on the
+submitting machine; only the message file and hosts file are required.
+
+If one or more files are specified, each file is treated as a separate
+spool job, with a title constructed from the file name. If no files
+are specified B<gspl-pr> and B<gspl-rpr> read from the standard input
+instead. In this case the job is placed on the queue with a blank
+title unless otherwise specified.
+
+The standard default options are to print one copy,
+preceded by a banner page, with the priority, printer and form
+types specified for the user. The standard banner page will contain:
+the user name and job title (in large characters), the name of the
+user who submitted the job (if different), the job number, its size
+and priority.
+
+Other default options may be set up using environment variables
+C<GSPL_PR> for B<gspl-pr> and C<GSPL_RPR> for B<gspl-rpr> and/or F<.gnuspool>
+files. Any defaults may be overridden by re-specifying that option on
+the command line.
+
+=head1 OPTIONS
+
+=for man
+Note that the order of treatment, letters and keywords described below
+may be modified by editing the file \fIrest.help\fR \-
+see \fIspsyntax\fR\|(5).
+
+The environment variable on which options are supplied is C<GSPL_PR>
+for B<gspl-pr> and C<GSPL_RPR> for B<gspl-rpr> and the environment variable to
+specify the help file is C<SPRESTCONF> in both cases.
+
+=over 4
+
+=item -? or +explain
+
+causes a summary of the other options to be displayed without taking
+further action.
+
+=item -a or +mail-attention
+
+requests that a message be sent in the mail to the user if a job is
+awaiting attention, either because it reaches the top of the queue and
+the required form type is currently unavailable or because the form
+requires alignment.
+
+=item -A or +write-attention
+
+requests that a message be sent to every terminal at which the user is
+logged in, or by mail otherwise if the user is not logged in, if a job is
+awaiting attention, either because it reaches the top of the queue and
+the required form type is currently unavailable or because the form
+requires alignment.
+
+=item -b or +noatt-message
+
+turns off any job attention messages previously requested.
+
+=item -c I<n> or +copies I<n>
+
+sets the number of copies to be printed to I<n>, which may possibly be
+zero.
+
+The maximum number of copies at a time may be restricted to a number
+for each user such as 10. See the output from gspl-user(1) for
+information on the maximum number of copies.
+
+=item -C I<nnnn> or +classcode I<nnnn>
+
+where I<nnnn> is some collection of the letters C<A> through to C<P>
+inclusive (upper or lower case) with C<-> to indicate ranges, requests
+that the job be given the specified I<class code>.
+
+The class code of a job may restrict which printers the job may be
+printed on, or which other users can display details of the job.
+
+In normal circumstances (except where the user has I<override class>
+privilege), the specified class code is reduced to the intersection of
+(i.e. is "I<and>ed" with) the specified class code and the user's own
+class code.
+
+=item -d or +delimiter-number
+
+is used in conjunction with the B<-D>I<string> option to specify that
+a page is to be considered complete after reading I<n> delimiter
+strings. The default value is 1.
+
+=item -D I<string> or +delimiter I<string>
+
+specifies an alternative delimiter to the default of formfeed as being
+the end of a page. If a number is given using the B<-d>I<n> option,
+then the page is considered ended after that number of occurrences of
+the delimiter.
+
+The string given may contain standard constructs such as
+
+	\n
+	\r
+	\t
+
+etc to denote linefeed, carriage return etc. Remember that when the
+job is printed, the printer's setup file may re-specify the delimiter,
+which will replace the delimiter specified by these options.
+
+=item -E I<n> or +external-system I<n>
+
+(B<gspl-pr> only) Used internally to signify originating system type. I<n>
+may be a number, or the name of a system type given in
+F<gnuspool.ext>. This option may only be used by C<root> or
+C<spooler> regardless of other privileges set, as it is intended for
+use by B<xtlpd> to set parameters on incoming jobs. Any errors in this
+parameter, including permissions, are silently ignored.
+
+=item -f I<string> or +formtype I<string>
+
+specifies that the supplied form type (with optional suffix introduced
+by "C<.>" or "C<->") is used. Note that not all users may be allowed
+to select form types other some pattern, causing the job to be
+rejected.
+
+=item -F I<string> or +post-proc-flags I<string>
+
+causes the specified I<string> to be passed as the value of the
+environment variable C<SPOOLFLAGS> to any program invoked at the time
+the job is printed. This might be as a post-processing filter command,
+or alternatively some shell command invoked as (for example) a
+C<docstart> string.
+
+=item -h I<string> or +header I<string>
+
+supplies I<string> as the title for each job, otherwise it is derived
+from the file name specified. The title appears on the banner page, if
+this is printed.
+
+=item -i or +interpolate
+
+causes any file name suffixes B<.c>, B<.o> etc of the files from which
+jobs are created, to be appended to the form type, unless it already
+has a suffix, for example:
+
+	gspl-pr -i -f a4 x.c y.ps
+
+would submit jobs using the files B<x.c> and B<y.ps> with form types
+C<a4.c> and C<a4.ps> respectively.
+
+=item -I or +no-interpolate
+
+cancels any previously-specified B<-i> option.
+
+=item -j I<n> or +job-wait-time I<n>
+
+is relevant only if input to B<gspl-pr> or B<gspl-rpr> is from a pipeline as in
+
+	program|gspl-pr ....
+
+This causes a job to be submitted if no data is received over the pipe
+for I<n> seconds.
+
+B<gspl-pr> or B<gspl-rpr> will still wait, and may submit any number of
+subsequent jobs until the pipe is closed by the program generating the
+output.
+
+Note that nothing can be done by B<gspl-pr> to guess at what output might
+appear (possibly halfway through a line) if the program writing to the
+pipe does not flush its output buffer after each occasion that it
+writes something.
+
+Specify a parameter of zero to cancel any previous B<-j> option, if
+required.
+
+=item -l or +local-only
+
+in a networked environment requests that the job be printed only on
+the printers local to the machine at which the job is submitted.
+
+=item -L or +network-wide
+
+cancels the request that the job or jobs be printed only on printers
+local to the machine at which the job is submitted.
+
+=item -m or +mail-message
+
+requests a message to be sent in the mail to the user on completion or
+termination of the job.
+
+=item -n I<nn> or +delay-for I<nn>
+
+specifies that the job should be held on the queue for at least I<nn>
+minutes from the current time before being printed. The time may
+alternatively be specified as I<hh:mm> or as I<hh:mm:ss>, specifying a
+delay in hours and minutes, or hours, minutes and seconds.
+
+=item -N I<time> or +delay-until I<time>
+
+is an alternative to the B<-n>I<nn> option to specify the earliest
+time at which the job is to be printed. The argument may be I<hh:mm>
+or I<hh:mm:ss> to give the time of day in 24-hour clock notation. If
+the time has passed, then tomorrow is assumed.
+
+Alternatively a date and a comma may be prefixed to the time in the
+form I<mm/dd> or I<dd/mm> depending upon the local convention for date
+format used. Thus the resulting argument might be
+
+	10/11,12:30
+
+=item -o I<host> or +originating-host I<host>
+
+(B<gspl-pr> only) Used internally to signify originating host name, in
+place of the local host. The host name given should appear in the host
+file F<gnuspool.hosts>, possibly with the C<external> keyword. This
+option may only be specified by B<spooler> or B<root> users, but is
+silently ignored in other cases as are all other errors. It is
+intended for use by xtlpd(8) to set parameters on incoming jobs.
+
+=item -O I<flag> or +odd-even-flags I<flag>
+
+where I<flag> is one of B<O>, B<E>, B<A>, B<B> or B<-> (the letters
+may be upper or lower case), cause odd or even-numbered pages to be
+skipped. or B<-> to reset this flag.
+
+B<O> causes odd-numbered pages not to be printed.
+
+B<E> causes even-numbered pages not to be printed.
+
+B<A> and B<B> are useful if more than one copy is to be printed.
+
+B<A> causes even-numbered pages not to be printed on odd-numbered
+copies, and odd-numbered pages not to be printed on even-numbered
+copies.
+
+B<B> is the other way around.
+
+If you do not understand this, all you have to do is remember that
+
+	gspl-pr -c2 -OA ....
+
+prints all the odd-numbered pages followed by all the even-numbered
+ones.
+
+For this to work properly, page delimiters must be set appropriately.
+
+=item -p I<n> or +priority I<n>
+
+specifies the priority of the job, between 1 (lowest) and 255
+(highest) or some narrower range to which the user is limited.
+
+Increasing the priority of a job increases its chances of being
+printed earlier than it otherwise would be whilst increasing the
+charge applied to the user in a non-linear fashion.
+
+=item -P I<name> or +printer I<name>
+
+specifies that the job is to be sent to a printer with the name given,
+as opposed to printing it on the first available printer with the
+given form type. I<name> may be a pattern to select any printer
+matching the pattern.
+
+A user may be limited to a range of printers which must be a superset
+of I<name>.
+
+To "turn off" a printer name previously specified by a preceding B<-P>I<name>
+option, put a single B<-> sign as the printer name.
+
+=item -q or +retain
+
+requests that the job or jobs be retained on the queue with copies set
+to zero after printing, for explicit deletion, or automatically at the
+expiry of the timeout (as set by the B<-t>I<n> option).
+
+=item -Q I<hostname> or +host I<hostname>
+
+send the job or jobs to the given I<hostname>. Note that I<hostname>
+must be in F<gnuspool.hosts> on the submitting machine and the
+submitting machine's hostname must be in F<gnuspool.hosts> on the
+receiving machine.
+
+If supplied to B<gspl-pr> it will re-invoke B<gspl-rpr> with the same
+I<command-line> options. It is, however, required for B<gspl-rpr>, which
+will not try to invoke B<gspl-pr> if it is not supplied (as that could
+loop endlessly, this could happen if the B<-Q> option was in a
+F<.gnuspool> file for B<gspl-pr> but not in one for B<gspl-rpr>).
+
+=item -r or +banner
+
+restores banner pages previously suppressed using B<-s>.
+
+Note that some form types may be set up never to use banners
+regardless of this option.
+
+=item -R I<m-n>or +page-range I<m-n>
+
+Specifies that pages I<m> through to I<n> inclusive are to be
+printed. This does of course assume that the job has recognisable
+pages. If I<m> or I<n> are omitted, then "the beginning" or "the end"
+respectively is assumed, so C<-R 3-5> would print pages 3 to 5, C<-7>
+would print pages 1 to 7 inclusive, and C<-R 4-> would print page 4 to
+the end inclusive. C<-R 1-> would turn this option off by selecting 1
+to the end.
+
+=item -s or +no-banner
+
+suppresses any banner page (large letter user name etc) which is
+printed before the job itself.
+
+Note that some form types may be set up always to print banners
+regardless of this option.
+
+=item -t I<n> or +printed-timeout I<n>
+
+=for html
+<P>specifies that if retained on the queue (either because of the
+<STRONG>-q</STRONG> option, or because the setup file has the
+<CODE>retain</CODE> keyword as <a href="TxtRef-4.html#Printer_retain_kw">described under printer
+setup files</a>), the job will be deleted automatically after <EM>n</EM>
+hours. The default value is 24 hours, and the maximum value is 32767
+hours (nearly 4 years).</P>
+
+=begin man
+
+specifies that if retained on the queue (either because of the \fB\-q\fR
+option, or because the setup file has the \f(CW\*(C`retain\*(C'\fR keyword as
+described in the system reference manual on printer setup files), the
+job will be deleted automatically after \&\fIn\fR hours. The default
+value is 24 hours, and the maximum value is 32767 hours (nearly 4
+years).
+
+=end man
+
+=item -T I<n> or +not-printed-timeout I<n>
+
+specifies that if held on the queue without being printed, the job will
+be deleted automatically after I<n> hours. The default value is 168
+hours (1 week), and the maximum value is 32767 hours (nearly 4 years).
+
+=item -u I<name> or +post-user I<name>
+
+requests that the specified user name be substituted for the
+submitting user on the banner page optionally printed at the start of
+the job. The job still remains the responsibility of the submitting
+user.
+
+To "turn off" a user name specified in a previous B<-u>I<name> option,
+put a single B<-> sign as the user name.
+
+The user name must exist on the machine to which the job is queued,
+but this will be ignored if not.
+
+=item -U I<user> or +originating-user I<user>
+
+(B<gspl-pr> only) Used internally to signify originating user name. This
+may only be specified by users C<spooler> and C<root> to have any
+effect, otherwise the option is silently ignored, as are all
+errors. It is intended for use by xtlpd(8) to set parameters on
+incoming jobs.
+
+=item -v or -V or +toggle-verbose
+
+alternately with successive uses turns on or off the verbose switch.
+This causes job number information to be output on standard error when
+job are submitted.
+
+=item +verbose
+
+turns on the verbose switch. There is no default letter option
+(however it is possible to create one by editing the I<message file>).
+
+=item +no-verbose
+
+turns off the verbose switch. There is no default letter option
+(however it is possible to create one by editing the I<message file>).
+
+=item -w or +write-message
+
+requests a message to be sent to every terminal at which the user is
+logged in, or by mail otherwise if the user is not logged in, when the
+job is completed or terminated.
+
+=item -x or +no-message
+
+turns off any job completion messages previously requested with B<-m>
+or B<-w>
+
+=item -z or +no-retain
+
+cancels a request that the job or jobs be retained on the queue after
+printing.
+
+=item -Z I<limit> or +job-size-limit I<limit>
+
+limit the size of jobs to I<limit>. I<limit> may be a number, giving a
+size in bytes, or it may be suffixed with B<P> to indicate a number of
+pages.
+
+If a job exceeds the limit it is truncated with a warning message, but
+a job is still created. If the limit is prefixed with an B<E>, then
+the warning becomes an error, and no job is created.
+
+Supply an argument of a single B<-> to turn off this option.
+
+=item +freeze-current
+
+Save all the current options in a F<.gnuspool> file in the current
+directory. This will supply defaults for further B<gspl-pr> or B<gspl-rpr>
+commands invoked subsequently when started from the directory.
+
+Note that no job will be expected from standard input if no files are
+specified after including this option.
+
+=item +freeze-home
+
+Save all the current options in a F<.gnuspool> file in the user's home
+directory. This will supply defaults for further B<gspl-pr> or B<gspl-rpr>
+commands invoked subsequently.
+
+Note that no job will be expected from standard input if no files are
+specified after including this option.
+
+=back
+
+=head1 FILES
+
+F<~/.gnuspool>
+configuration file (home directory)
+
+F< .gnuspool>
+configuration file (current directory)
+
+F<rest.help>
+message file
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item GSPL_PR
+
+space-separated options to override defaults for B<gspl-pr>.
+
+=item GSPL_RPR
+
+space-separated options to override defaults for B<gspl-rpr>.
+
+=item SPRESTCONF
+
+location of alternative help file.
+
+=back
+
+=head1 NOTES
+
+B<N.B.> Please note that from release 23 the scheduler spshed(8) is no
+longer automatically started if it is not running -- use gspl-start(1).
+
+=head2 Messages via terminal and e-mail
+
+=begin man
+
+You can have a message sent to your terminal
+or receive mail in two circumstances.
+.Ip "1." 4
+When your job has:
+.RS 4
+.Ip "a." 4
+Completed normally
+.Ip "b." 4
+Been manually deleted (using \fIgspl-pq\fR\|(1) etc).
+.Ip "c." 4
+Been automatically deleted after remaining on the queue for a
+specified time as specified using the \fB\-t\fR or \fB\-T\fR options.
+.Ip "d." 4
+Been aborted during printing.
+.RE
+.RS 4
+.RE
+.Ip "2" 4
+.IX Item "2"
+When your job reaches the top of the queue and:
+.RS 4
+.Ip "a." 4
+It has been selected for printing, but operator attention is required
+for:
+.RS 4
+.Ip "i." 4
+Approval of an alignment page
+.Ip "ii." 4
+.IX Item "ii."
+Confirmation to proceed in single job operation
+.RE
+.RS 4
+.RE
+.Ip "b." 4
+It has not been selected for printing because no printer is available
+with the selected form type loaded.
+.RE
+.RS 4
+.RE
+
+=end man
+
+=for html
+<P>You can have a message sent to your terminal or receive mail in two
+circumstances.</P>
+<OL>
+<LI>
+When your job has:
+<OL type=a>
+<LI>
+Completed normally
+<LI>
+Been manually deleted (using <CODE>gspl-pq(1)</CODE> etc).
+<LI>
+Been automatically deleted after remaining on the queue for a
+specified time as specified using the <STRONG>-t</STRONG> or <STRONG>-T</STRONG> options.
+<LI>
+Been aborted during printing.
+</OL>
+<LI>
+When your job reaches the top of the queue and:
+<OL type=a>
+<LI>
+It has been selected for printing, but operator attention is required
+for:
+<OL type=i>
+<LI>
+Approval of an alignment page
+<LI>
+Confirmation to proceed in single job operation
+</OL>
+<LI>
+It has not been selected for printing because no printer is available
+with the selected form type loaded.
+</OL>
+</OL>
+
+The option B<-w> causes a message to be sent to your terminal, and the
+option B<-m> causes you to be sent mail in one of the first set of
+circumstances. If neither is specified, you should still receive mail
+if a filter process produces output on standard error or terminates
+abnormally, or if a job is automatically deleted.
+
+=for html
+<P>(Do not forget you can override the <CODE>MAILER</CODE> program to
+change this behaviour if required as described in <a
+href="TxtRef-11.html#Alternative_mailer_program">Chapter 11</a>).</P>
+
+=begin man
+
+(Do not forget you can override the \f(CW\*(C`MAILER\*(C'\fR program
+to change this behaviour if required as described in the \fIReference
+Manual\fR).
+
+=end man
+
+The option B<-A> causes a message to be sent to your terminal, and the option
+B<-a> causes you to be sent mail in the second set of circumstances.
+
+If any of these are set in the environment
+and you don't want them, you may suppress them on the B<gspl-pr> command
+line using B<-x> to turn off both the B<-w> and B<-m> options, and
+B<-b> to turn off the B<-A> and B<-a> options.
+
+If your terminal cannot be written to, or you have logged out when a
+message to your terminal is invoked, it will be diverted to the mail
+program instead.
+
+=head2 Queue Timeouts.
+
+When the B<gspl-pr> or B<gspl-rpr> command receives its data on
+standard input from a pipe, or terminal device, the job is not normally
+submitted until an end-of-file indication is encountered. This is typically
+caused by the termination of the process writing to the pipe, or by typing the
+end-of-file character (often I<ctrl-D>) when input is being taken from a terminal.
+
+In some circumstances the process writing to the pipe may never
+finish, or the terminal being read from may not be being accessed by a
+human, but the user may wish to proceed anyway with printing.
+
+The B<-j> option provides a wait timeout in seconds. If some characters
+have been received, the timeout is set before reading more
+characters. If the timeout expires before any more characters are
+read, then a job is created using the characters received so far and
+B<gspl-pr> or B<gspl-rpr> restarts, possibly making further jobs if more
+characters arrive.
+
+This cannot be ideal in the case of pipes without some co-operation
+from the sending process; this is because if I<stdio> (i.e. the C library functions
+C<printf> etc, which is also used by many other languages and applications) then the output is
+usually "buffered" in 1024-byte chunks, and thus up to 1023 bytes of
+the last part of the output will not be written out to the pipe until
+the sending process decides to send some more or terminates, and
+therefore all but the last of the jobs created by use of this option
+may be "short" by up to 1023 bytes.
+
+If the sending process is a 'C' program or other
+program which the user has access to, then the user should ensure that
+the routine C<fflush>  is used after every block of output, thus:
+ 
+ printf("Totals for......\n";, ....);
+ fflush(stdout);
+
+Alternatively, the routine C<setbuf>  should be invoked to reduce the buffering on
+standard output.
+
+If the user does not have any access to the sending process this
+option may have undesirable effects at "the seams" of the various jobs
+due to this buffering. The only successful approach would be to insert
+a filter process in between B<gspl-pr> and the sending process to ensure
+that complete pages only were passed through to B<gspl-pr>.  It is
+considered unacceptable to monopolise a printer on speculation that
+further data may arrive.
+
+A parameter of zero turns off the B<-j> option if it has been set in
+an environment variable or F<.gnuspool> file.
+
+=head2 Delay times.
+
+The B<-n> and B<-N> options provide for the job to be held unprinted
+on the queue for, or until, a specific time.
+
+The B<-n> option provides a time interval to be held I<for>, in minutes, in hours and
+minutes, or in hours, minutes and seconds. The following examples all specify
+the same time interval of 1 hour and 30 minutes. If no colon appears, a time
+period of minutes is assumed:
+ 
+ -n 90
+ -n 1:30
+ -n 1:30:00
+
+The B<-N> option provides an explicit time and possibly a date to be
+held I<until>. The
+time may be specified as a 24-hour clock time with optional seconds thus
+
+ -N 16:35
+ -N 04:28:32
+
+In these cases the given time in the next 24
+hours is taken to be the required time. If a different date is required this
+can be put in front of the time in the format I<yy/mm/dd> with a comma thus:
+
+ -N 91/2/12,12:30
+
+The year may be omitted, and the date will be taken as a future
+date. The date will be taken as I<dd/mm> for timezones less than 4
+West, otherwise I<mm/dd>.
+
+This allows the printing of long jobs to be printed at a quiet time,
+overnight for example. Alternatively specifying a delay time can
+provide an opportunity for thought and possible amendment before
+continuing.
+
+=head2 Environment selection of gspl-pr and gspl-rpr options.
+
+In common with all GNUspool programs, a configuration file mechanism
+applies to B<gspl-pr> and B<gspl-rpr>.
+
+The environment variable C<GSPL_PR> may be used to contain options
+for B<gspl-pr> and the environment variable C<GSPL_RPR> may be used to contain
+options for B<gspl-rpr>, and the F<.gnuspool> files may contain the keyword
+C<GSPL_PR> or C<GSPL_RPR> to select options without having to specify
+them on the command line.
+
+This enables you to specify, for example, that you always want the
+B<-v> (job confirmation) option, or that when in certain directories,
+you always want to use the form type C<letterhead>, or C<invoices>, or
+perhaps 2 copies.
+
+=head2 Saving current gspl-pr or gspl-rpr options
+
+The special options C<+freeze-current> and C<+freeze-home> cause the
+currently selected set of options to be saved in F<.gnuspool> files in
+the current directory or home directory respectively. Either or both
+may be specified.
+
+If no file arguments are given to B<gspl-pr> or B<gspl-rpr> when one or both
+of these keywords are specified, then the program will not expect to
+find data on the standard input. If file arguments are given, then the
+C<.gnuspool> file or files are saved before the file arguments are
+processed. If the C<.gnuspool> file cannot be saved, perhaps because the
+access permission to the current directory is inappropriate, the jobs
+files specified will still be queued, the program will not fatally
+abort.
+
+=head2 Interaction of gspl-pr and gspl-rpr
+
+If the B<-Q> option is given to B<gspl-pr>, either on the command line or
+in the environment or B<.gnuspool> files, then B<gspl-rpr> will be invoked
+with the same command line options (but B<gspl-rpr> will accept its own
+C<GSPL_RPR> environment variable or B<.gnuspool> file options).
+
+B<Gspl-Rpr>, however, will not invoke B<gspl-pr> if the B<-Q> option is not
+given; this is an error. Remember that the B<-Q> option could be set
+from a C<GSPL_PR> definition in a B<.gnuspool> file, but without a
+B<-Q> option on an C<GSPL_RPR> definition, this would mean that B<gspl-rpr>
+did not get invoked with a B<-Q> option, so this could give an
+infinite loop.
+
+=head1 SEE ALSO
+
+spsyntax(5),
+gnuspool.conf(5),
+gnuspool.hosts(5).
+
+=head1 DIAGNOSTICS
+
+Various diagnostics are read and printed as required from the message
+file, by default F<rest.help>.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gspl-pr gspl-rpr GSPL_PR xtlpd dd hostname html

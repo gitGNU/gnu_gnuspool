@@ -1,0 +1,5 @@
+You have "ghostscript" available to translate PostScript to other formats.
+
+Do you want to use it?
+
+It is usually more flexible than built-in PostScript emulation on a printer.

@@ -1,0 +1,5 @@
+Please give the argument string for the program to send outgoing data
+to the printer.
+
+Instead of putting a host name or IP address in, enter $SPOOLDEV
+instead. This will make the result more portable.

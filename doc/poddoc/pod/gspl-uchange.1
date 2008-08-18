@@ -1,0 +1,347 @@
+=head1 NAME
+
+gspl-uchange - update or change user permissions
+
+=head1 SYNOPSIS
+
+B<gspl-uchange>
+[ I<-options> ]
+[ users ]
+
+=head1 DESCRIPTION
+
+B<gspl-uchange> may be used to update the user permissions file giving
+the user profiles of various users and the operations which they may
+be permitted to perform within the B<GNUspool> system, together with
+the default permissions which are assigned by default to new
+B<GNUspool> users.
+
+Further options allow for a "password dump" file to be
+maintained. This is for the benefit of NIS-type environments where
+reading through most of the password database can take an unacceptably
+long time, the user name and userid hash table is maintained in a file
+and updated as necessary.
+
+The invoking user must have I<edit admin file> permission.
+
+=head1 OPTIONS
+
+=for man
+Note that the order of treatment, letters and keywords described below
+may be modified by editing the file \fIrest.help\fR \-
+see \fIspsyntax\fR\|(5).
+
+The environment variable on which options are supplied is C<GSPL-UCHANGE> and the
+environment variable to specify the help file is C<SPRESTCONF>.
+
+=over 4
+
+=item -? or +explain
+
+causes a summary of the other options to be displayed without taking
+further action.
+
+=item -A or +copy-defaults
+
+copy the default profile to all users I<before> setting other
+permissions on the named users (with the B<-u> option) or after
+setting the defaults (with the B<-D> option).
+
+The privileges of the invoking user are not changed by this operation.
+
+=item -c I<classcode> or +class I<classcode>
+
+set the class code of the user(s) as specified by the argument.
+
+=item -D or +set-defaults
+
+indicate that the other options are to apply to the default
+profile for new users.
+
+=item -d I<num> or +default-priority I<num>
+
+set the default job priority to I<num>, which must be between 1 and 255.
+
+=item -F I<pattern> or +form-allowed I<pattern>
+
+set the permitted form types to match I<pattern>.
+
+=item -f I<formtype> or +default-form I<formtype>
+
+set the default form type to I<formtype>.
+
+=item -l I<num> or +min-priority I<num>
+
+set the minimum job priority to I<num>, which must be between 1 and 255.
+
+=item -m I<num> or +max-priority I<num>
+
+set the maximum job priority to I<num>, which must be between 1 and 255.
+
+=item -N or +no-rebuild
+
+cancel the B<-R> option.
+
+=item -n I<num> or +max-copies I<num>
+
+set the maximum number of copies to I<num>, which must be between 1 and 255.
+
+=item -O I<pattern> or +ptr-allowed I<pattern>
+
+set the permitted printers to match I<pattern>.
+
+=item -o I<printer> or +default-ptr I<printer>
+
+set the default printer to I<printer>.
+
+=item -p I<privileges> or +privileges I<privileges>
+
+set the privileges of the user(s) as specified by the argument.
+
+=item -R or +rebuild-file
+
+rebuild the user permissions file F<spufile0>
+incorporating any changes in the password list.
+
+=item -s or +no-copy-defaults
+
+cancel the effect of the B<-A> option
+
+=item -u or +set-users
+
+indicate that the other options are to apply to the users specified on
+the rest of the command line.
+
+=item -X or +dump-passwd
+
+dump out the hash table of the password file to avoid re-reading the
+password file within the other programs.
+
+=item -Y or +default-passwd
+
+default handling of password hash file dump - rebuild if it is already
+present and B<-R> specified, otherwise not.
+
+=item -Z or +kill-dump-passwd
+
+delete any existing dumped password hash file.
+
+=item +freeze-current
+
+Save all the current options in a F<.gnuspool> file in the current
+directory.
+
+=item +freeze-home
+
+Save all the current options in a F<.gnuspool> file in the user's home
+directory.
+
+=back
+
+=head1 Users or default
+
+In one operation B<gspl-uchange> either adjusts the default permissions,
+to be applied to new users, if B<-D> is specified, or specified users,
+if nothing or B<-u> is specified. So first set the required defaults:
+
+	gspl-uchange -D -n 20 -p Form,Prinq,Hgo,Cdef -A
+
+Then set named users
+
+	gspl-uchange -p ALL jmc root spooler
+
+=head1 Rebuilding the user control file
+
+After adding new users to the system, you should rebuild the user
+control file by running
+
+	gspl-uchange -R
+
+On a system with a large number of users, this can take a long time,
+so the previous method of adding new users as they were encountered
+meant that various hold-ups occurred in standard utilities or the
+scheduler, whichever was the first to "notice" the changes, which
+might, in the event, be half-complete.
+
+We suggest that this command be added to the "add new user" procedure
+for your installation.
+
+=head1 Dumping the password file
+
+When any of the B<GNUspool> programs which may require to map numeric
+user ids to names and vice versa start, one of the first operations is
+to build the appropriate hash tables. This may take some time if there
+are a large number of user names, especially if NIS (a.k.a. I<yellow
+pages>) is in use.
+
+A short cut is to dump out the password file into a hash table file,
+by default F<pwdump0>, which may be quickly read in by
+the relevant programs instead of rebuilding the hash table each time.
+
+You may opt to create the dumped password file by running
+
+	gspl-uchange -X
+
+This should only be done when all B<GNUspool> programs are stopped.
+
+Afterwards, each time the user control file is rebuilt using the B<-R>
+option (or equivalents in other programs such as gspl-user(1)), this file
+will also be rebuilt. B<-X> does not have to be specified again.
+
+If you ever decide you want to dispense with this file, run
+B<gspl-uchange> with the B<-Z> option.
+
+For completeness, the B<-Y> option is provided to cancel B<-X> or
+B<-Z> in case they are provided in the environment or a F<.gnuspool>
+file, an extremely bad idea.
+
+=head2 Privileges
+
+The following may be specified as the argument to B<-p>, as one or
+more (comma-separated) of the following codes, optionally preceded by
+a minus to turn off the corresponding privilege. These codes are the
+same as those displayed by gspl-ulist(1).
+
+B<Gspl-uchange> disregards the case of the codes entered.
+
+=over 8
+
+=item Adm
+
+edit admin file
+
+=item Stp
+
+stop scheduler
+
+=item Form
+
+select forms other than restriction pattern
+
+=item Otherp
+
+select printers other than restriction pattern
+
+=item Cpri
+
+change priority once queued
+
+=item Otherj
+
+edit other users' jobs.
+
+=item Prinq
+
+select printer list
+
+=item Hgo
+
+stop and start printers
+
+=item Anyp
+
+select any priority once queued
+
+=item Cdef
+
+change own default priority within range
+
+=item Addp
+
+add and delete printers
+
+=item Cover
+
+override class
+
+=item Unq
+
+unqueue jobs
+
+=item Votj
+
+view (but not change) other users' jobs
+
+=item Remj
+
+access remote jobs
+
+=item Remp
+
+access remote printers
+
+=item Accessj
+
+access non-displayed job attributes
+
+=item Freeze
+
+freeze parameters from display
+
+=back
+
+C<ALL> may be used to denote all of the permissions. For example:
+
+	-p Otherj,Otherp
+	-p ALL,-Adm
+
+Notice how C<ALL> is set first and then C<Adm> taken away in the
+second example.
+
+A hexadecimal value is also accepted, but this is intended only for
+the benefit of the installation routines.
+
+=head1 FILES
+
+F<~/.gnuspool>
+configuration file (home directory)
+
+F< .gnuspool>
+configuration file (current directory)
+
+F<rest.help>
+message file
+
+F<pwdump0>
+dumped password hash file
+
+F<spufile0>
+user permissions file
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item GSPL_UCHANGE
+
+space-separated options to override defaults.
+
+=item SPRESTCONF
+
+location of alternative help file.
+
+=back
+
+=head1 SEE ALSO
+
+gspl-ulist(1),
+gspl-user(1),
+spsyntax(5),
+gnuspool.conf(5),
+gnuspool.hosts(5).
+
+=head1 DIAGNOSTICS
+
+Various diagnostics are read and printed as required from the message
+file, by default F<rest.help>.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gspl-uchange SPRESTCONF gspl-user gspl-ulist

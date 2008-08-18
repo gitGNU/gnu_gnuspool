@@ -1,0 +1,37 @@
+#ifdef	__cplusplus
+extern	"C"	{
+#endif
+extern	int	gspool_open(const char *, const char *, const classcode_t),
+		gspool_close(const int),
+		gspool_jobfind(const int, const unsigned, const jobno_t, const netid_t, slotno_t *, struct apispq *),
+		gspool_jobfindslot(const int, const unsigned, const jobno_t, const netid_t, slotno_t *),
+		gspool_jobmon(const int, void (*)(const int)),
+		gspool_joblist(const int, const unsigned, int *, slotno_t **),
+		gspool_jobread(const int, const unsigned, const slotno_t, struct apispq *),
+		gspool_jobdel(const int, const unsigned, const slotno_t),
+		gspool_jobupd(const int, const unsigned, const slotno_t, const struct apispq *),
+		gspool_jobres(const int, jobno_t *),
+		gspool_ptrfind(const int, const unsigned, const char *, const netid_t, slotno_t *, struct apispptr *),
+		gspool_ptrfindslot(const int, const unsigned, const char *, const netid_t, slotno_t *),
+		gspool_ptrmon(const int, void (*)(const int)),
+		gspool_ptrlist(const int, const unsigned, int *, slotno_t **),
+		gspool_ptrread(const int, const unsigned, const slotno_t, struct apispptr *),
+		gspool_ptradd(const int, const struct apispptr *),
+		gspool_ptrdel(const int, const unsigned, const slotno_t),
+		gspool_ptrop(const int, const unsigned, const slotno_t, const unsigned),
+		gspool_ptrupd(const int, const unsigned, const slotno_t, const struct apispptr *),
+		gspool_getspd(const int, struct apisphdr *),
+		gspool_getspu(const int, const char *, struct apispdet *),
+		gspool_putspd(const int, const struct apisphdr *),
+		gspool_putspu(const int, const char *, const struct apispdet *);
+
+extern	FILE	*gspool_jobadd(const int, struct apispq *, const char *, const unsigned, const unsigned),
+		*gspool_jobdata(const int, const unsigned, const slotno_t),
+		*gspool_jobpbrk(const int, const unsigned, const slotno_t);
+#ifdef	__cplusplus
+}
+#endif
+
+extern	int	gspool_dataerror;
+
+#endif	/*_XTAPI_H*/

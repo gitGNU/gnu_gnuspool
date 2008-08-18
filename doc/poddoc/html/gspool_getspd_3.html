@@ -1,0 +1,243 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>gspool_getspd - get the default permissions</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#return_values">RETURN VALUES</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>gspool_getspd - get the default permissions</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<STRONG>#include &lt;gspool.h&gt;</STRONG>
+<BR><p><strong>int gspool_getspd(const int</strong> <em>fd</em><strong>, struct apisphdr *</strong><em>res</em><strong>)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <strong>gspool_getspd()</strong> function is used to retrieve the defaults
+privileges, form types etc for new users on the host with which the
+API is communicating.</p>
+<p><em>fd</em> is a file descriptor previously returned by <strong>gspool_open</strong></p>
+<p><em>res</em> is a descriptor which upon return will contain the the default
+user privileges. The structure <strong>apisphdr</strong> is defined in <em>gspool.h</em>
+and contains the following elements:</p>
+<A NAME="Apisphdr_def"></a>
+<div class=indtab>
+<table border=0 cellpadding=1 cellspacing=0 summary="Header">
+<tr>
+<th align=left class=dense>Type</th>
+<th align=left class=dense>Field</th>
+<th align=left class=dense>Description</th>
+</tr>
+<tr>
+<td class=dense><span class=FileName>long</span></td>
+<td class=dense><span class=FileName>sph_lastp</span></td>
+<td class=dense>Time last read password file</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned char</span></td>
+<td class=dense><span class=FileName>sph_minp</span></td>
+<td class=dense>Minimum priority</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned char</span></td>
+<td class=dense><span class=FileName>sph_maxp</span></td>
+<td class=dense>Maximum priority</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned char</span></td>
+<td class=dense><span class=FileName>sph_defp</span></td>
+<td class=dense>Default priority</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>sph_form</span></td>
+<td class=dense>Default form type</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>sph_formallow</span></td>
+<td class=dense>Allowed form type pattern</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>sph_ptr</span></td>
+<td class=dense>Default printer</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>sph_ptrallow</span></td>
+<td class=dense>Allowed printer pattern</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned long</span></td>
+<td class=dense><span class=FileName>sph_flgs</span></td>
+<td class=dense>Privilege flag</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>classcode_t</span></td>
+<td class=dense><span class=FileName>sph_class</span></td>
+<td class=dense>Class of printers</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned char</span></td>
+<td class=dense><span class=FileName>sph_cps</span></td>
+<td class=dense>Maximum copies allowed</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned char</span></td>
+<td class=dense><span class=FileName>sph_version</span></td>
+<td class=dense>Release of GNUspool</td>
+</tr>
+</table>
+</div><p>The <code>spu_flgs</code> field will contain a combination of the following:</p>
+<div class=indtab>
+<table border=0 cellpadding=1 cellspacing=0 summary="spu_flgs">
+<tr>
+<td class=dense><span class=FileName>PV_ADMIN</span></td>
+<td class=dense>Administrator (edit admin file)</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_SSTOP</span></td>
+<td class=dense>Can run sstop (can stop scheduler)</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_FORMS</span></td>
+<td class=dense>Can use other forms than default</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_CPRIO</span></td>
+<td class=dense>Can change priority on queue</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_OTHERJ</span></td>
+<td class=dense>Can change other users' jobs</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_PRINQ</span></td>
+<td class=dense>Can move to printer queue</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_HALTGO</span></td>
+<td class=dense>Can halt, restart printer</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_ANYPRIO</span></td>
+<td class=dense>Can set any priority on queue</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_CDEFLT</span></td>
+<td class=dense>Can change own default priority</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_ADDDEL</span></td>
+<td class=dense>Can add/delete printers</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_COVER</span></td>
+<td class=dense>Can override class</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_UNQUEUE</span></td>
+<td class=dense>Can unqueue jobs</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_VOTHERJ</span></td>
+<td class=dense>Can view other jobs not neccesarily edit</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_REMOTEJ</span></td>
+<td class=dense>Can access remote jobs</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_REMOTEP</span></td>
+<td class=dense>Can access remote printers</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_FREEZEOK</span></td>
+<td class=dense>Can save default options</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_ACCESSOK</span></td>
+<td class=dense>Can access sub-screens</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PV_OTHERP</span></td>
+<td class=dense>Can use other printers from default</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>ALLPRIVS</span></td>
+<td class=dense>A combination of all of the above</td>
+</tr>
+</table>
+</div><p>
+</p>
+<hr />
+<h1><a name="return_values">RETURN VALUES</a></h1>
+<P>The function returns 0 if successful otherwise one of the error codes
+<A HREF="TxtAPI-3.html#Error_codes">listed in Chapter 3</A>.</P><p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>An example to view the default privleges on the host machine:</p>
+<pre>
+ int fd, ret;
+ struct apisphdr res;</pre>
+<pre>
+ fd = gspool_open(&quot;myhost&quot;, (char *) 0, 0);
+ if (fd &lt; 0) { /* error handling */
+     ...
+ }</pre>
+<pre>
+ ret = gspool_getspd(fd, &amp;res);
+ if (ret &lt; 0)  { /* error handling */
+     ...
+ }</pre>
+<pre>
+ if (res.sph_flgs &amp; PV_HALTGO)
+     printf(&quot;users cannot stop and start printers\n&quot;);</pre>
+<pre>
+ printf(&quot;the default maximum priority is %s\n&quot;, res);
+ gspool_close(fd);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>gspool_getspu(3),
+gspool_putspu(3),
+gspool_putspd(3).</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>John M Collins, Xi Software Ltd.</p>
+
+</body>
+
+</html>

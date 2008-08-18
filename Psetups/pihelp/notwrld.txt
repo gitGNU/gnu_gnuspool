@@ -1,0 +1,6 @@
+The device is not world-writable - the spooler will not be able to
+access it. Do you want this fixed?
+
+Note that on many systems, particularly Linux, this will be
+automatically reset by "udev" or "devfsd" so you may need to turn off
+the reset in there as well.

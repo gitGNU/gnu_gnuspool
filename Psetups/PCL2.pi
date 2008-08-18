@@ -1,0 +1,105 @@
+# Copyright 2008 Free Software Foundation, Inc.
+#
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.
+#
+# For ps set up gs filter using hpijs
+# Default colour mode
+
+{
+	(*ps*)
+		nohdr
+		filter 'GS -q -sDEVICE=ijs -sIjsServer=IJS -dIjsUseOutputFD -sDeviceManufacturer=HEWLETT-PACKARD'
+		filter ' -sDeviceModel="MODEL" -sPAPERSIZE=GSSIZE'
+	(lh)
+		nohdr
+		filter 'GS -q -sDEVICE=ijs -sIjsServer=IJS -dIjsUseOutputFD -sDeviceManufacturer=HEWLETT-PACKARD'
+		filter ' -sDeviceModel="MODEL" -sPAPERSIZE=GSSIZE'
+}
+
+# Various kinds of PostScript - ps ordinary p photo qualifty h high res m mono d draft dm draft mono
+
+{
+	(ps*)
+		filter ' -sIjsParams="Quality:Quality=0,Quality:ColorMode=2"'
+	(pps*)
+		filter ' -sIjsParams="Quality:Quality=2,Quality:ColorMode=2"'
+	(hps*)
+		filter ' -sIjsParams="Quality:Quality=3,Quality:ColorMode=2"'
+	(cps*)
+		filter ' -sIjsParams="Quality:Quality=0,Quality:ColorMode=2"'
+	(mps*)
+		filter ' -sIjsParams="Quality:Quality=0,Quality:ColorMode=0"'
+	(dps*)
+		filter ' -sIjsParams="Quality:Quality=1,Quality:ColorMode=2"'
+	(dcps*)
+		filter ' -sIjsParams="Quality:Quality=1,Quality:ColorMode=2"'
+	(dmps*)
+		filter ' -sIjsParams="Quality:Quality=1,Quality:ColorMode=0"'
+
+# Letterhead - select suitable defaults
+# Alternative input tray
+
+	(lh)
+		filter ' -sIjsParams="Quality:Quality=2,Quality:ColorMode=0,PS:MediaPosition=2"'
+
+# Straight PCL
+
+	(lj)
+		docstart OFF_LINE_TERM
+		docend LINE_TERM
+
+# Variant of straight through with various pitches
+
+	(*12)
+		sufstart P12
+		docstart LINE_TERM
+		docend OFF_LINE_TERM
+	(*8)
+		sufstart P8
+		docstart LINE_TERM
+		docend OFF_LINE_TERM
+	(*16)
+		sufstart P16
+		docstart LINE_TERM
+		docend OFF_LINE_TERM
+	(*15)
+		sufstart P15
+		docstart LINE_TERM
+		docend OFF_LINE_TERM
+	(*)
+		sufstart P10
+		docstart LINE_TERM
+		docend OFF_LINE_TERM
+}
+
+# Cater for duplex mode if available
+
+{
+	(*ps-dup)
+		filter ' -dDuplex=true'
+}
+
+# Finish off filter command for ps and lh
+
+{
+	(*ps*)
+		filter ' -dNOPAUSE -dSAFER -sOutputFile=- - -c quit'
+	(lh)
+		filter ' -dNOPAUSE -dSAFER -sOutputFile=- - -c quit'
+}
+
+# For modes with italics
+{
+	(*it*)
+		docstart ITALICS
+		sufend CANCITAL
+}
+
+# For 8lpi
+{
+	(*8ln)
+		docstart SET8LPI
+		sufend SET6LPI
+}

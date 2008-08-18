@@ -1,0 +1,65 @@
+=head1 NAME
+
+xtlpq - support displaying job list on LPD protocol servers
+
+=head1 SYNOPSIS
+
+B<xtlpq>
+I<-p ptr>
+I<-H host>
+[ I<-P port> ]
+[ I<-S host> ]
+[ I<-l> ]
+
+=head1 DESCRIPTION
+
+B<xtlpq> obtains and outputs a list of pending jobs on an external
+print server supporting the LPD protocol. It is invoked by gspl-lpq(1)
+and is not intended for general use.
+
+=head1 OPTIONS
+
+=over 8
+
+=item -p I<ptr>
+
+Specify printer.
+
+=item -H I<host>
+
+Specify host name.
+
+=item -P I<port>
+
+Specify port name or number, if not standard.
+
+-item B<-S> I<host>
+
+Specify outgoing IP address.
+
+=item -l
+
+Produce a long listing.
+
+=back
+
+=head1 SEE ALSO
+
+gspl-lpq(1),
+spsyntax(5),
+xtlpc(8),
+xtlprm(8).
+
+=head1 DIAGNOSTICS
+
+Various diagnostics are read and printed as required on standard error.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

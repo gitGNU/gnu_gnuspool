@@ -1,0 +1,13 @@
+; testapi.def : Declares the module parameters for the application.
+
+NAME         TESTAPI
+DESCRIPTION  'TESTAPI Windows Application'
+EXETYPE      WINDOWS
+
+CODE         PRELOAD MOVEABLE DISCARDABLE
+DATA         PRELOAD MOVEABLE MULTIPLE
+
+HEAPSIZE     1024   ; initial heap size
+; Stack size is passed as argument to linker's /STACK option
+
+

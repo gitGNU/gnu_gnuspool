@@ -1,0 +1,154 @@
+=head1 NAME
+
+gspl-charge - display/update user charges
+
+=head1 SYNOPSIS
+
+B<gspl-charge>
+[ I<-options> ]
+[ user ] ...
+
+=head1 DESCRIPTION
+
+B<gspl-charge> displays and/or updates the charges recorded by
+B<GNUspool> against various users specified on the command line, or
+all users if none are specified.
+
+It is only available to users with the I<Edit admin file> privilege.
+
+Charges relate to jobs which have originated on the machine on which
+I<gspl-charge> was invoked. The actual charging rate is determined by the
+machine on which the job is printed.
+
+=head1 OPTIONS
+
+=for man
+Note that the order of treatment, letters and keywords described below
+may be modified by editing the file \fIrest.help\fR \-
+see \fIspsyntax\fR\|(5).
+
+The environment variable on which options are supplied is C<GSPL_CHARGE> and the
+environment variable to specify the help file is C<SPRESTCONF>.
+
+=over 4
+
+=item -? or +explain
+
+causes a summary of the other options to be displayed without taking
+further action.
+
+=item -C or +consolidate
+
+causes a consolidation record to be written for each user mentioned in
+the file, which summarises the charges to date for each user. The
+records remain in the file, this creating a current balance of account
+record to save processing entries in the accounts file.
+
+=item -c I<fee> or +add-charge I<fee>
+
+causes the specified I<fee> to be added to the charge for the
+specified user or users, or all users if none are given.
+
+If combined with a print option (B<-p> or B<-P>), the print is done
+after the charge is applied.
+
+=item -K or +cancel-flags
+
+Cancels all previously-set options B<-p>, B<-P>, B<-z>, B<-C> and
+B<-R>. Useful if you want to start again from some indeterminate state
+in a configuration file.
+
+=item -P or +print-full
+
+causes the full log of charges for the specified user or users, or all
+users if none are given, to be displayed on standard output.
+
+=item -p or +print-users
+
+(the default if no other options are specified) causes the charge
+summary for the specified user or users, or all users if none are
+given, to be displayed on standard output.
+
+=item -R or +reset-file
+
+causes all records to be deleted from the file except for
+consolidation records for each user with a non-zero charge. If the
+charge for each user is zero (as a result of applying the B<-z> option
+perhaps), then the file will be left empty.
+
+Note that the spool scheduler spshed(8) should not be running when
+this option is invoked.
+
+=item -z or +zero-charge
+
+clears to zero the charges for the specified user or users, or all
+users if none are given. This is done by appending an appropriate
+record or records to the charge file, the previous information (as
+displayed by B<-P> will still be available.
+
+If combined with a print option (B<-p> or B<-P>), the print is done
+before the option is applied.
+
+=item +freeze-current
+
+Save all the current options in a F<.gnuspool> file in the current
+directory.
+
+=item +freeze-home
+
+Save all the current options in a F<.gnuspool> file in the user's home
+directory.
+
+=back
+
+=head1 FILES
+
+F<~/.gnuspool>
+configuration file (home directory)
+
+F< .gnuspool>
+configuration file (current directory)
+
+F<rest.help>
+message file
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item GSPL-CHARGE
+
+space-separated options to override defaults.
+
+=item RESTCONF
+
+location of alternative help file.
+
+=back
+
+=head1 NOTES
+
+It is intended to deprecate this in the next release.
+
+=head1 SEE ALSO
+
+gspl-user(1),
+spsyntax(5),
+gnuspool.conf(5),
+gnuspool.hosts(5).
+
+=head1 DIAGNOSTICS
+
+Various diagnostics are read and printed as required from the message
+file, by default F<rest.help>.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gspl-charge

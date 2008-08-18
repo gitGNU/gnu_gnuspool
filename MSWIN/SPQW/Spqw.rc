@@ -1,0 +1,1545 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+// Generated Help ID header file
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.hm"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""res\\spqw.rc2""  // non-App Studio edited resources\r\n"
+    "\r\n"
+    "#include ""afxres.rc""  // Standard components\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "RES\\SPQW.ICO"
+IDR_JOBS                ICON    DISCARDABLE     "RES\\JOBS.ICO"
+IDR_PTR                 ICON    DISCARDABLE     "RES\\PTR.ICO"
+IDR_VIEWJOB             ICON    DISCARDABLE     "RES\\VIEWJOB.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Program options\tCtrl-P",    ID_FILE_PROGRAMOPTIONS
+        MENUITEM "&Display options\tCtrl-D",    ID_FILE_DISPLAYOPTIONS
+        MENUITEM "&Save to file\tCtrl-S",       ID_FILE_SAVETOFILE
+        MENUITEM SEPARATOR
+        MENUITEM "&Network Stats",              ID_FILE_NETWORKSTATS
+        MENUITEM "&User Permissions",           ID_FILE_USERPERMISSIONS
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tCtrl-Q",               ID_APP_EXIT
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "Window &options\tCtrl-O",     ID_WINDOW_WINDOWOPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "New &Job WIndow\tCtrl-J",     ID_WINDOW_NEWJOBWINDOW
+        MENUITEM "New &Printer Window\tCtrl-N", ID_WINDOW_NEWPRINTERWINDOW
+        MENUITEM SEPARATOR
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+        MENUITEM SEPARATOR
+        MENUITEM "Set job list &format",        ID_WINDOW_SETJOBLISTFORMAT
+        MENUITEM "Set printer list for&mat",    ID_WINDOW_SETPRINTERLISTFORMAT
+
+        POPUP "Printer Colo&urs"
+        BEGIN
+            POPUP "&Program (new windows)"
+            BEGIN
+                MENUITEM "&Idle",                       ID_FILE_PCOLOUR_IDLE
+                MENUITEM "&Printing",                   ID_FILE_PCOLOUR_PRINTING
+
+                MENUITEM "&Awaiting Operator",          ID_FILE_PCOLOUR_AWOPER
+
+                MENUITEM "&Halted",                     ID_FILE_PCOLOUR_HALTED
+
+                MENUITEM "&Error",                      ID_FILE_PCOLOUR_ERROR
+
+                MENUITEM "&Offline",                    ID_FILE_PCOLOUR_OFFLINE
+
+                MENUITEM "&Startup",                    ID_FILE_PCOLOUR_STARTUP
+
+                MENUITEM "Shut&down",                   ID_FILE_PCOLOUR_SHUTD
+
+            END
+            POPUP "&Current Printer Window"
+            BEGIN
+                MENUITEM "&Idle",                       ID_FILE_WPCOLOUR_IDLE
+
+                MENUITEM "&Printing",                   ID_FILE_WPCOLOUR_PRINTING
+
+                MENUITEM "&Awaiting Operator",          ID_FILE_WPCOLOUR_AWOPER
+
+                MENUITEM "&Halted",                     ID_FILE_WPCOLOUR_HALTED
+
+                MENUITEM "&Error",                      ID_FILE_WPCOLOUR_ERROR
+
+                MENUITEM "&Offline",                    ID_FILE_WPCOLOUR_OFFLINE
+
+                MENUITEM "&Startup",                    ID_FILE_WPCOLOUR_STARTUP
+
+                MENUITEM "Shut&down",                   ID_FILE_WPCOLOUR_SHUTD
+
+            END
+            MENUITEM "Copy to &Application",        ID_FILE_PCOLOUR_COPYTOPROG
+
+            MENUITEM "Copy to &Window",             ID_FILE_PCOLOUR_COPYTOWIN
+
+        END
+        MENUITEM "&Save width settings",        ID_WINDOW_SAVEWIDTHSETTINGS
+    END
+    POPUP "&Action"
+    BEGIN
+        MENUITEM "&Abort job",                  ID_ACTION_ABORTJOB
+        MENUITEM "Another &copy",               ID_ACTION_ANOTHERCOPY
+        MENUITEM "&Go printer",                 ID_ACTION_GOPRINTER
+        MENUITEM "Halt &EOJ",                   ID_ACTION_HALTEOJ
+        MENUITEM "&Halt at once",               ID_ACTION_HALTATONCE
+        MENUITEM "&OK Alignment",               ID_ACTION_OKALIGNMENT
+        MENUITEM "&Disapprove Alignment",       ID_ACTION_DISAPPROVEALIGNMENT
+
+    END
+    POPUP "&Jobs"
+    BEGIN
+        MENUITEM "&View job",                   ID_JOBS_VIEWJOB
+        MENUITEM "&Form and copies",            ID_JOBS_FORMANDCOPIES
+        MENUITEM "&Pages",                      ID_JOBS_PAGES
+        MENUITEM "&User and mail",              ID_JOBS_USERANDMAIL
+        MENUITEM "&Retention",                  ID_JOBS_RETENTION
+        MENUITEM "&Class codes",                ID_JOBS_CLASSCODES
+        MENUITEM SEPARATOR
+        MENUITEM "Un&queue job",                ID_JOBS_UNQUEUEJOB
+        MENUITEM "Copy jo&b",                   ID_JOBS_COPYJOB
+        MENUITEM "Copy &options in job",        ID_JOBS_COPYOPTIONSINJOB
+    END
+    POPUP "&Printers"
+    BEGIN
+        MENUITEM "&Form type",                  ID_PRINTERS_FORMTYPE
+        MENUITEM "&Interrupt",                  ID_PRINTERS_INTERRUPT
+        MENUITEM "&Class Codes",                ID_PRINTERS_CLASSCODES
+    END
+    POPUP "&Search"
+    BEGIN
+        MENUITEM "&Search for....",             ID_SEARCH_SEARCHFOR
+        MENUITEM "Search &Forward\tF3",         ID_SEARCH_SEARCHFORWARD
+        , GRAYED
+        MENUITEM "Search &Backwards\tF4",       ID_SEARCH_SEARCHBACKWARDS
+        , GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Set Start Page",              ID_SEARCH_SETSTARTPAGE
+        MENUITEM "Set End Page",                ID_SEARCH_SETENDPAGE
+        MENUITEM "Set 'halted at' page",        ID_SEARCH_SETHALTEDATPAGE
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "Show &Toolbar",               ID_VIEW_TOOLBAR
+        MENUITEM "Show &Status Bar",            ID_VIEW_STATUS_BAR
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Index",                      ID_HELP_INDEX
+        MENUITEM "&Using Help",                 ID_HELP_USING
+        MENUITEM "",                            1
+        MENUITEM "&About SPQW...",              ID_APP_ABOUT
+    END
+END
+
+IDR_JOBFLOAT MENU DISCARDABLE 
+BEGIN
+    POPUP ""
+    BEGIN
+        MENUITEM "&Abort/delete",               ID_ACTION_ABORTJOB
+        MENUITEM "Change &form",                ID_JOBS_FORMANDCOPIES
+        MENUITEM "&One more copy",              ID_ACTION_ANOTHERCOPY
+        MENUITEM "&View Job",                   ID_JOBS_VIEWJOB
+    END
+END
+
+IDR_PTRFLOAT MENU DISCARDABLE 
+BEGIN
+    POPUP ""
+    BEGIN
+        MENUITEM "&Halt printer",               ID_ACTION_HALTEOJ
+        MENUITEM "&Stop Printer",               ID_ACTION_HALTATONCE
+        MENUITEM "&Go printer",                 ID_ACTION_GOPRINTER
+        MENUITEM SEPARATOR
+        MENUITEM "Set &Formtype",               ID_PRINTERS_FORMTYPE
+        MENUITEM SEPARATOR
+        MENUITEM "&OK Align",                   ID_ACTION_OKALIGNMENT
+        MENUITEM "&Not OK align",               ID_ACTION_DISAPPROVEALIGNMENT
+
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "1",            ID_PRINTERS_INTERRUPT,  VIRTKEY, SHIFT, NOINVERT
+    "A",            ID_ACTION_ABORTJOB,     VIRTKEY, SHIFT, NOINVERT
+    "C",            ID_ACTION_ANOTHERCOPY,  VIRTKEY, SHIFT, NOINVERT
+    "D",            ID_ACTION_ABORTJOB,     VIRTKEY, SHIFT, NOINVERT
+    "G",            ID_ACTION_GOPRINTER,    VIRTKEY, SHIFT, NOINVERT
+    "H",            ID_ACTION_HALTEOJ,      VIRTKEY, NOINVERT
+    "H",            ID_ACTION_HALTATONCE,   VIRTKEY, SHIFT, NOINVERT
+    "J",            ID_WINDOW_NEWJOBWINDOW, VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_WINDOW_NEWPRINTERWINDOW, VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_WINDOW_WINDOWOPTIONS, VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PROGRAMOPTIONS, VIRTKEY, CONTROL, NOINVERT
+    "Q",            ID_APP_EXIT,            VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_DISPLAYOPTIONS, VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_JOBS_VIEWJOB,        VIRTKEY, SHIFT, NOINVERT
+    VK_DELETE,      ID_ACTION_ABORTJOB,     VIRTKEY, NOINVERT
+    VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    VK_F3,          ID_SEARCH_SEARCHFORWARD, VIRTKEY, NOINVERT
+    VK_F4,          ID_SEARCH_SEARCHBACKWARDS, VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  34, 22, 217, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About SPQW"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    CTEXT           "SPQW Version 23.18",IDC_STATIC,40,9,119,8
+    CTEXT           "Copyright © Xi Software Ltd 2004",IDC_STATIC,40,23,119,
+                    8
+    DEFPUSHBUTTON   "OK",IDOK,176,6,32,14,WS_GROUP
+    CTEXT           "Revised 6 August 2004",IDC_STATIC,40,37,119,8
+END
+
+IDD_RETAIN DIALOGEX 22, 65534, 232, 125
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Retention Options"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Retain on queue after printing",IDC_RETAIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,10,12,126,10,0,HIDC_RETAIN
+    CONTROL         "Printed",IDC_PRINTED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,28,59,10,0,HIDC_PRINTED
+    LTEXT           "If printed, delete after",IDC_STATIC,12,44,68,8
+    EDITTEXT        IDC_DIP,100,42,32,12,ES_AUTOHSCROLL | ES_NUMBER,0,
+                    HIDC_DIP
+    CONTROL         "Spin1",IDC_SCR_DIP,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,133,41,6,14,0,HIDC_SCR_DIP
+    LTEXT           "hours",IDC_STATIC,144,44,20,8
+    LTEXT           "If NOT printed, delete after",IDC_STATIC,12,60,84,8
+    EDITTEXT        IDC_DINP,100,58,32,12,ES_AUTOHSCROLL | ES_NUMBER,0,
+                    HIDC_DINP
+    CONTROL         "Spin2",IDC_SCR_DINP,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,133,57,6,14,0,HIDC_SCR_DINP
+    LTEXT           "hours",IDC_STATIC,144,60,20,8
+    CONTROL         "Do not print before......",IDC_HOLD,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,64,80,98,10,0,HIDC_HOLD
+    LTEXT           ":",IDC_COLON,30,100,8,8,WS_DISABLED
+    EDITTEXT        IDC_HOUR,5,100,26,14,ES_READONLY | ES_NUMBER | 
+                    WS_DISABLED,0,HIDC_HOUR
+    CONTROL         "Spin3",IDC_SCR_HOUR,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,24,100,7,14
+    LTEXT           ":",IDC_COLON3,205,105,8,8,WS_DISABLED
+    EDITTEXT        IDC_MIN,41,100,24,14,ES_READONLY | ES_NUMBER | 
+                    WS_DISABLED,0,HIDC_MIN
+    CONTROL         "Spin3",IDC_SCR_MIN,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,56,100,7,14
+    EDITTEXT        IDC_WDAY,70,100,53,14,ES_READONLY | WS_DISABLED,0,
+                    HIDC_WDAY
+    CONTROL         "Spin3",IDC_SCR_WDAY,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,116,100,7,14
+    EDITTEXT        IDC_MDAY,129,100,22,14,ES_READONLY | ES_NUMBER | 
+                    WS_DISABLED,0,HIDC_MDAY
+    CONTROL         "Spin3",IDC_SCR_MDAY,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,143,100,7,14
+    EDITTEXT        IDC_MON,155,100,60,14,ES_READONLY | WS_DISABLED,0,
+                    HIDC_MON
+    CONTROL         "Spin3",IDC_SCR_MON,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,208,100,7,14
+    DEFPUSHBUTTON   "OK",IDOK,178,10,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,178,31,40,14
+END
+
+IDD_PAGE DIALOGEX 30, 46, 196, 159
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Page options"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Start page",IDC_STATIC,4,12,35,8
+    EDITTEXT        IDC_STARTP,49,11,42,12,ES_NUMBER,0,HIDC_STARTP
+    CONTROL         "Spin1",IDC_SCR_STARTP,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,83,10,7,14
+    LTEXT           "End page",IDC_STATIC,3,39,36,8
+    EDITTEXT        IDC_ENDP,49,36,42,12,0,0,HIDC_ENDP
+    CONTROL         "Spin2",IDC_SCR_ENDP,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,83,35,7,14
+    LTEXT           "Halted at",IDC_STATIC,3,65,36,8,WS_DISABLED
+    EDITTEXT        IDC_HATP,49,63,42,12,ES_NUMBER | WS_DISABLED,0,HIDC_HATP
+    CONTROL         "Spin1",IDC_SCR_HATP,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,83,62,7,14
+    GROUPBOX        "Select pages",IDC_STATIC,111,8,71,70,WS_GROUP
+    CONTROL         "All pages",IDC_ALLP,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,113,22,43,10,0,HIDC_ALLP
+    CONTROL         "Odd pages",IDC_ODDP,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,113,32,48,10,0,HIDC_ODDP
+    CONTROL         "Even pages",IDC_EVENP,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,113,42,54,10,0,HIDC_EVENP
+    CONTROL         "Swap odd/even",IDC_SWAPOE,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,113,60,67,10,0,HIDC_SWAPOE
+    CTEXT           "Post-processing options",IDC_STATIC,28,88,140,8
+    EDITTEXT        IDC_PPFLAGS,28,108,137,12,ES_AUTOHSCROLL | WS_GROUP,0,
+                    HIDC_PPFLAGS
+    DEFPUSHBUTTON   "OK",IDOK,28,136,40,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,125,136,40,14
+END
+
+IDD_USERMAIL DIALOGEX 6, 18, 160, 81
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "User and mail options"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Post User",IDC_STATIC,4,6,35,8
+    COMBOBOX        IDC_USER,54,6,82,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | 
+                    WS_TABSTOP,0,HIDC_USER
+    CONTROL         "Mail completion",IDC_MAIL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,25,83,10,0,HIDC_MAIL
+    CONTROL         "Write completion",IDC_WRITE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,35,83,10,0,HIDC_WRITE
+    CONTROL         "Mail attention",IDC_MATTN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,45,83,10,0,HIDC_MATTN
+    CONTROL         "Write attention",IDC_WATTN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,55,83,10,0,HIDC_WATTN
+    DEFPUSHBUTTON   "OK",IDOK,101,25,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,101,51,40,14
+END
+
+IDD_FORMCPS DIALOGEX 6, 18, 171, 135
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Form Header Printer Copies Priority"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Form type",IDC_STATIC,6,9,33,8
+    COMBOBOX        IDC_FORMTYPE,46,7,62,36,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,0,HIDC_FORMTYPE
+    LTEXT           "Header",IDC_STATIC,6,34,29,8
+    EDITTEXT        IDC_HEADER,45,32,62,12,ES_AUTOHSCROLL,0,HIDC_HEADER
+    CONTROL         "Suppress",IDC_SUPPH,"Button",BS_AUTOCHECKBOX | 
+                    BS_LEFTTEXT | WS_TABSTOP,114,33,45,10,0,HIDC_SUPPH
+    LTEXT           "Printer",IDC_STATIC,6,58,29,8
+    COMBOBOX        IDC_PRINTER,45,55,62,39,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,0,HIDC_PRINTER
+    LTEXT           "Copies",IDC_STATIC,6,84,26,8
+    EDITTEXT        IDC_COPIES,45,82,28,12,0,0,HIDC_COPIES
+    CONTROL         "Spin2",IDC_SCR_COPIES,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,74,81,10,14,0,HIDC_SCR_COPIES
+    LTEXT           "Priority",IDC_STATIC,85,84,26,8
+    EDITTEXT        IDC_PRIORITY,120,82,28,12,0,0,HIDC_PRIORITY
+    CONTROL         "Spin1",IDC_SCR_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,153,81,10,14,0,
+                    HIDC_SCR_PRIORITY
+    DEFPUSHBUTTON   "OK",IDOK,12,108,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,115,108,40,14
+END
+
+IDD_PRFORM DIALOGEX 0, 0, 159, 80
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Set printer form type"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Form",IDC_STATIC,15,18,30,7
+    COMBOBOX        IDC_FORMTYPE,47,15,73,60,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,0,HIDC_FORMTYPE
+    DEFPUSHBUTTON   "OK",IDOK,24,52,35,14
+    PUSHBUTTON      "Cancel",IDCANCEL,100,52,35,14
+END
+
+IDD_SEARCHDATA DIALOGEX 0, 0, 237, 78
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Search job data"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Search",IDC_STATIC,8,20,30,7
+    EDITTEXT        IDC_LOOKFOR,44,17,126,12,ES_AUTOHSCROLL,0,HIDC_LOOKFOR
+    GROUPBOX        "",IDC_STATIC,0,35,52,39,NOT WS_VISIBLE
+    CONTROL         "Forward",IDC_SEARCH_FORWARD,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,5,45,39,10,0,HIDC_SEARCH_FORWARD
+    CONTROL         "Backward",IDC_SEARCH_BACK,"Button",BS_AUTORADIOBUTTON,5,
+                    60,45,10,0,HIDC_SEARCH_BACK
+    CONTROL         "Wrap Around",IDC_WRAPROUND,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,65,45,60,10,0,HIDC_WRAPROUND
+    CONTROL         "Ignore Case",IDC_IGNORECASE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,65,60,75,10,0,HIDC_IGNORECASE
+    LTEXT           ". = wild card",IDC_STATIC,140,52,44,7
+    DEFPUSHBUTTON   "OK",IDOK,196,8,34,12
+    PUSHBUTTON      "Cancel",IDCANCEL,196,29,34,12
+END
+
+IDD_SEARCHJP DIALOGEX 0, 0, 237, 98
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Search for job/printer strings"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Search",IDC_STATIC,10,15,30,7
+    EDITTEXT        IDC_LOOKFOR,48,12,126,12,ES_AUTOHSCROLL,0,HIDC_LOOKFOR
+    CONTROL         "Forward",IDC_SEARCH_FORWARD,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,15,40,65,10,0,HIDC_SEARCH_FORWARD
+    CONTROL         "Backward",IDC_SEARCH_BACK,"Button",BS_AUTORADIOBUTTON,
+                    15,55,50,8,0,HIDC_SEARCH_BACK
+    CONTROL         "Wrap Around",IDC_WRAPROUND,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,70,65,10,0,HIDC_WRAPROUND
+    CONTROL         "User",IDC_SRCH_USER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,85,40,34,10,0,HIDC_SRCH_USER
+    CONTROL         "Job title",IDC_SRCH_JTITLE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,85,55,50,9,0,HIDC_SRCH_JTITLE
+    CONTROL         "Formtype",IDC_SRCH_FORMTYPE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,85,70,45,10,0,HIDC_SRCH_FORMTYPE
+    CONTROL         "Device",IDC_SRCH_DEVICE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,140,40,44,10,0,HIDC_SRCH_DEVICE
+    CONTROL         "Printer",IDC_SRCH_PRINTER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,140,55,39,10,0,HIDC_SRCH_PRINTER
+    DEFPUSHBUTTON   "OK",IDOK,195,10,35,14
+    PUSHBUTTON      "Cancel",IDCANCEL,195,31,35,14
+END
+
+IDD_VIEWMENU DIALOGEX 0, 0, 136, 64
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "View Options"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Start page",IDC_SETSTART,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,12,60,10,0,HIDC_SETSTART
+    CONTROL         "End page",IDC_SETEND,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,28,68,10,0,HIDC_SETEND
+    CONTROL         "Set ""halted at""",IDC_SETHAT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,44,64,10,0,HIDC_SETHAT
+    DEFPUSHBUTTON   "OK",IDOK,88,11,40,11
+    PUSHBUTTON      "Cancel",IDCANCEL,88,27,40,11
+    PUSHBUTTON      "Quit view",IDC_QUITDATA,88,43,40,11,0,0,HIDC_QUITDATA
+END
+
+IDD_PROGOPTS DIALOGEX 0, 0, 204, 127
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Program options"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Confirm abort jobs",IDC_STATIC,4,8,80,64
+    CONTROL         "Never",IDC_NEVER,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,8,20,35,10,0,HIDC_NEVER
+    CONTROL         "On unprinted jobs",IDC_UNPRINTED,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,8,36,68,10,0,
+                    HIDC_UNPRINTED
+    CONTROL         "Always",IDC_ALWAYS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,8,52,56,10,0,HIDC_ALWAYS
+    GROUPBOX        "Host offline",IDC_STATIC,92,8,58,48
+    CONTROL         "Ignore",IDC_PROBE_IGNORE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,100,20,35,10,0,HIDC_PROBE_IGNORE
+    CONTROL         "Warn",IDC_PROBE_WARN,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,100,36,32,10,0,HIDC_PROBE_WARN
+    GROUPBOX        "Saved job extension",IDC_STATIC,4,80,72,41
+    CONTROL         "XTC",IDC_SJXBC,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,8,93,35,10,0,HIDC_SJXBC
+    CONTROL         "BAT",IDC_SJBAT,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,
+                    8,105,35,10,0,HIDC_SJBAT
+    CONTROL         "Save hold times as dates",IDC_ABSHOLD,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,95,65,92,10,0,HIDC_ABSHOLD
+    LTEXT           "Polling",IDC_STATIC,100,90,28,8
+    EDITTEXT        IDC_POLLTIME,100,101,34,14,ES_AUTOHSCROLL | ES_NUMBER,0,
+                    HIDC_POLLTIME
+    CONTROL         "Spin1",IDC_SCR_POLLTIME,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS | WS_GROUP,140,101,7,14,
+                    0,HIDC_SCR_POLLTIME
+    LTEXT           "Millisec",IDC_STATIC,151,104,29,8
+    DEFPUSHBUTTON   "OK",IDOK,160,12,35,14
+    PUSHBUTTON      "Cancel",IDCANCEL,160,35,35,14
+END
+
+IDD_BATFILE DIALOG DISCARDABLE  0, 0, 80, 47
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+END
+
+IDD_EDITFMT DIALOGEX 0, 0, 243, 131
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Edit Format Code"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Format code",IDC_STATIC,16,30,48,7
+    COMBOBOX        IDC_FMTCODE,88,28,140,84,CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP,0,HIDC_FMTCODE
+    LTEXT           "Width",IDC_STATIC,16,66,30,8
+    EDITTEXT        IDC_WIDTH,88,64,28,12,ES_AUTOHSCROLL | ES_NUMBER,0,
+                    HIDC_WIDTH
+    CONTROL         "Spin1",IDC_SCR_WIDTH,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,117,63,10,14,0,HIDC_SCR_WIDTH
+    CONTROL         "Tab format left if too long",IDC_TABLEFT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,136,64,84,10,0,HIDC_TABLEFT
+    CONTROL         "Skip fields to right if too long",IDC_SKIPRIGHT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,136,80,96,10,0,
+                    HIDC_SKIPRIGHT
+    DEFPUSHBUTTON   "OK",IDOK,8,100,42,18
+    PUSHBUTTON      "Cancel",IDCANCEL,186,100,42,18
+END
+
+IDD_EDITSEP DIALOGEX 0, 0, 234, 61
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "New separator string"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "String:",IDC_STATIC,8,12,40,12
+    EDITTEXT        IDC_SEPVALUE,48,8,168,14,ES_AUTOHSCROLL,0,HIDC_SEPVALUE
+    DEFPUSHBUTTON   "OK",IDOK,8,36,42,18
+    PUSHBUTTON      "Cancel",IDCANCEL,185,36,42,18
+END
+
+IDD_FORMATDEF DIALOGEX 0, 0, 319, 179
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Set up formats"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "For:",IDC_STATIC,24,14,16,8
+    EDITTEXT        IDC_WHAT4,80,12,127,13,ES_AUTOHSCROLL | NOT WS_BORDER | 
+                    NOT WS_TABSTOP
+    LISTBOX         IDC_FMTLIST,4,40,220,99,LBS_USETABSTOPS | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP,0,HIDC_FMTLIST
+    PUSHBUTTON      "New",IDC_NEWFMT,233,40,37,14,0,0,HIDC_NEWFMT
+    PUSHBUTTON      "New sep",IDC_NEWSEP,276,40,37,14,0,0,HIDC_NEWSEP
+    PUSHBUTTON      "Edit",IDC_EDITFMT,233,79,37,14,0,0,HIDC_EDITFMT
+    PUSHBUTTON      "Delete",IDC_DELFMT,276,79,37,14,0,0,HIDC_DELFMT
+    PUSHBUTTON      "Reset Default formats",IDC_RESETDEFLT,233,118,80,14,0,0,
+                    HIDC_RESETDEFLT
+    DEFPUSHBUTTON   "OK",IDOK,4,155,37,14
+    PUSHBUTTON      "Cancel",IDCANCEL,276,155,37,14
+END
+
+IDD_JOBFILE DIALOG DISCARDABLE  0, 0, 76, 15
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+END
+
+IDD_ORESTRICT22 DIALOGEX 0, 0, 236, 231
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Restrict display to ....."
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Printer",IDC_STATIC,4,12,29,8
+    COMBOBOX        IDC_OPTR,44,10,65,48,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP,0,HIDC_OPTR
+    LTEXT           "User",IDC_STATIC,4,36,30,8
+    COMBOBOX        IDC_OUSER,44,34,48,56,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP,0,HIDC_OUSER
+    LTEXT           "Title",IDC_STATIC,4,60,30,8
+    EDITTEXT        IDC_OTITLE,44,57,72,13,ES_AUTOHSCROLL,0,HIDC_OTITLE
+    GROUPBOX        "Display",IDC_PUNPRESTR,20,88,84,68
+    CONTROL         "All jobs",IDC_ALLJOBS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,28,100,35,10,0,HIDC_ALLJOBS
+    CONTROL         "Unprinted jobs only",IDC_UNPJOBS,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,28,118,68,10,0,
+                    HIDC_UNPJOBS
+    CONTROL         "Printed jobs only",IDC_PJOBS,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,28,136,60,10,0,
+                    HIDC_PJOBS
+    GROUPBOX        "Job display",IDC_STATIC,20,164,112,52
+    CONTROL         "Only for given printer",IDC_JINCNONULL,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,24,176,88,10,
+                    0,HIDC_JINCNONULL
+    CONTROL         "For given printer, plus null",IDC_JINCNULL,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,24,188,100,10,0,
+                    HIDC_JINCNULL
+    CONTROL         "Regardless of printer",IDC_JINCALL,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,24,200,96,10,0,
+                    HIDC_JINCALL
+    CTEXT           "Class codes",IDC_STATIC,160,12,41,8,WS_TABSTOP
+    PUSHBUTTON      "Set All",IDC_SETALL,160,24,41,11,0,0,HIDC_SETALL
+    PUSHBUTTON      "Clear all",IDC_CLEARALL,160,120,41,11,0,0,HIDC_CLEARALL
+    CONTROL         "A",IDC_CC_A,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,140,38,15,10,0,HIDC_CC_A
+    CONTROL         "B",IDC_CC_B,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,140,48,15,10,0,HIDC_CC_B
+    CONTROL         "C",IDC_CC_C,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,140,58,15,10,0,HIDC_CC_C
+    CONTROL         "D",IDC_CC_D,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,140,68,15,10,0,HIDC_CC_D
+    CONTROL         "E",IDC_CC_E,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,140,78,15,10,0,HIDC_CC_E
+    CONTROL         "F",IDC_CC_F,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,140,88,15,10,0,HIDC_CC_F
+    CONTROL         "G",IDC_CC_G,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,140,98,15,10,0,HIDC_CC_G
+    CONTROL         "H",IDC_CC_H,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,140,108,15,10,0,HIDC_CC_H
+    CONTROL         "I",IDC_CC_I,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,161,38,15,10,0,HIDC_CC_I
+    CONTROL         "J",IDC_CC_J,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,161,48,15,10,0,HIDC_CC_J
+    CONTROL         "K",IDC_CC_K,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,161,58,15,10,0,HIDC_CC_K
+    CONTROL         "L",IDC_CC_L,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,161,68,15,10,0,HIDC_CC_L
+    CONTROL         "M",IDC_CC_M,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,161,78,15,10,0,HIDC_CC_M
+    CONTROL         "N",IDC_CC_N,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,161,88,15,10,0,HIDC_CC_N
+    CONTROL         "O",IDC_CC_O,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,161,98,15,10,0,HIDC_CC_O
+    CONTROL         "P",IDC_CC_P,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,161,108,15,10,0,HIDC_CC_P
+    CONTROL         "a",IDC_CC_A2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,180,38,15,10,0,HIDC_CC_A2
+    CONTROL         "b",IDC_CC_B2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,180,48,15,10,0,HIDC_CC_B2
+    CONTROL         "c",IDC_CC_C2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,180,58,15,10,0,HIDC_CC_C2
+    CONTROL         "d",IDC_CC_D2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,180,68,15,10,0,HIDC_CC_D2
+    CONTROL         "e",IDC_CC_E2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,180,78,15,10,0,HIDC_CC_E2
+    CONTROL         "f",IDC_CC_F2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,180,88,15,10,0,HIDC_CC_F2
+    CONTROL         "g",IDC_CC_G2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,180,98,15,10,0,HIDC_CC_G2
+    CONTROL         "h",IDC_CC_H2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,180,108,15,10,0,HIDC_CC_H2
+    CONTROL         "i",IDC_CC_I2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,201,38,15,10,0,HIDC_CC_I2
+    CONTROL         "j",IDC_CC_J2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,201,48,15,10,0,HIDC_CC_J2
+    CONTROL         "k",IDC_CC_K2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,201,58,15,10,0,HIDC_CC_K2
+    CONTROL         "l",IDC_CC_L2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,201,68,15,10,0,HIDC_CC_L2
+    CONTROL         "m",IDC_CC_M2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,201,78,15,10,0,HIDC_CC_M2
+    CONTROL         "n",IDC_CC_N2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,201,88,15,10,0,HIDC_CC_N2
+    CONTROL         "o",IDC_CC_O2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,201,98,15,10,0,HIDC_CC_O2
+    CONTROL         "p",IDC_CC_P2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,201,108,15,10,0,HIDC_CC_P2
+    DEFPUSHBUTTON   "OK",IDOK,164,152,37,14
+    PUSHBUTTON      "Cancel",IDCANCEL,164,178,37,14
+END
+
+IDD_SECURITY22 DIALOGEX 62, 22, 200, 116
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Security options"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CTEXT           "Class codes",IDC_STATIC,76,12,41,8,WS_TABSTOP
+    PUSHBUTTON      "Set All",IDC_SETALL,6,39,40,14,0,0,HIDC_SETALL
+    PUSHBUTTON      "Clear all",IDC_CLEARALL,6,72,40,14,0,0,HIDC_CLEARALL
+    CONTROL         "A",IDC_CC_A,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,59,27,15,10,0,HIDC_CC_A
+    CONTROL         "B",IDC_CC_B,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,59,37,15,10,0,HIDC_CC_B
+    CONTROL         "C",IDC_CC_C,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,59,47,15,10,0,HIDC_CC_C
+    CONTROL         "D",IDC_CC_D,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,59,57,15,10,0,HIDC_CC_D
+    CONTROL         "E",IDC_CC_E,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,59,67,15,10,0,HIDC_CC_E
+    CONTROL         "F",IDC_CC_F,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,59,77,15,10,0,HIDC_CC_F
+    CONTROL         "G",IDC_CC_G,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,59,87,15,10,0,HIDC_CC_G
+    CONTROL         "H",IDC_CC_H,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,59,97,15,10,0,HIDC_CC_H
+    CONTROL         "I",IDC_CC_I,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,80,27,15,10,0,HIDC_CC_I
+    CONTROL         "J",IDC_CC_J,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,80,37,15,10,0,HIDC_CC_J
+    CONTROL         "K",IDC_CC_K,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,80,47,15,10,0,HIDC_CC_K
+    CONTROL         "L",IDC_CC_L,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,80,57,15,10,0,HIDC_CC_L
+    CONTROL         "M",IDC_CC_M,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,80,67,15,10,0,HIDC_CC_M
+    CONTROL         "N",IDC_CC_N,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,80,77,15,10,0,HIDC_CC_N
+    CONTROL         "O",IDC_CC_O,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,80,87,15,10,0,HIDC_CC_O
+    CONTROL         "P",IDC_CC_P,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,80,97,15,10,0,HIDC_CC_P
+    CONTROL         "a",IDC_CC_A2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,100,27,15,10,0,HIDC_CC_A2
+    CONTROL         "b",IDC_CC_B2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,100,37,15,10,0,HIDC_CC_B2
+    CONTROL         "c",IDC_CC_C2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,100,47,15,10,0,HIDC_CC_C2
+    CONTROL         "d",IDC_CC_D2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,100,57,15,10,0,HIDC_CC_D2
+    CONTROL         "e",IDC_CC_E2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,100,67,15,10,0,HIDC_CC_E2
+    CONTROL         "f",IDC_CC_F2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,100,77,15,10,0,HIDC_CC_F2
+    CONTROL         "g",IDC_CC_G2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,100,87,15,10,0,HIDC_CC_G2
+    CONTROL         "h",IDC_CC_H2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,100,97,15,10,0,HIDC_CC_H2
+    CONTROL         "i",IDC_CC_I2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,121,27,15,10,0,HIDC_CC_I2
+    CONTROL         "j",IDC_CC_J2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,121,37,15,10,0,HIDC_CC_J2
+    CONTROL         "k",IDC_CC_K2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,121,47,15,10,0,HIDC_CC_K2
+    CONTROL         "l",IDC_CC_L2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,121,57,15,10,0,HIDC_CC_L2
+    CONTROL         "m",IDC_CC_M2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,121,67,15,10,0,HIDC_CC_M2
+    CONTROL         "n",IDC_CC_N2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,121,77,15,10,0,HIDC_CC_N2
+    CONTROL         "o",IDC_CC_O2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,121,87,15,10,0,HIDC_CC_O2
+    CONTROL         "p",IDC_CC_P2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,121,97,15,10,0,HIDC_CC_P2
+    CONTROL         "Local only",IDC_LOCALONLY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,148,93,42,10,0,HIDC_LOCALONLY
+    DEFPUSHBUTTON   "OK",IDOK,148,20,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,148,44,40,14
+END
+
+IDD_NETSTATS DIALOGEX 0, 0, 240, 111
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Network Status"
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Host",IDC_STATIC,24,20,30,8
+    COMBOBOX        IDC_HOST,72,18,76,76,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP,0,HIDC_HOST
+    CONTROL         "Probe sent (or no probe required)",IDC_NS_PROBESENT,
+                    "Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,24,
+                    40,124,10,0,HIDC_NS_PROBESENT
+    CONTROL         "TCP Connection made",IDC_CONNECTED,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,24,58,124,10,
+                    0,HIDC_CONNECTED
+    CONTROL         "Sync Requested",IDC_NS_SYNCREQ,"Button",BS_AUTOCHECKBOX | 
+                    BS_LEFTTEXT | WS_TABSTOP,24,76,124,10,0,HIDC_NS_SYNCREQ
+    CONTROL         "Sync Completed",IDC_NS_SYNCDONE,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,24,94,124,10,
+                    0,HIDC_NS_SYNCDONE
+    DEFPUSHBUTTON   "OK",IDOK,176,16,46,17
+    PUSHBUTTON      "Cancel",IDCANCEL,176,50,46,17
+END
+
+IDD_USERPERM DIALOGEX 0, 0, 379, 286
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "User permissions from server"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "User:",IDC_STATIC,12,7,30,8
+    EDITTEXT        IDC_USER,68,5,60,13,ES_AUTOHSCROLL | ES_READONLY,0,
+                    0x807600ad
+    LTEXT           "Default form",IDC_STATIC,12,26,46,8
+    EDITTEXT        IDC_FORMTYPE,68,24,60,13,ES_AUTOHSCROLL | ES_READONLY,0,
+                    0x807600a3
+    LTEXT           "Min / Default / Max Prio",IDC_STATIC,152,7,92,8
+    EDITTEXT        IDC_MINP,260,5,27,13,ES_AUTOHSCROLL | ES_READONLY,0,
+                    HIDC_MINP
+    EDITTEXT        IDC_DEFP,304,5,27,13,ES_AUTOHSCROLL | ES_READONLY,0,
+                    HIDC_DEFP
+    EDITTEXT        IDC_MAXP,348,5,27,13,ES_AUTOHSCROLL | ES_READONLY,0,
+                    HIDC_MAXP
+    LTEXT           "Max number of copies",IDC_STATIC,152,26,72,8
+    EDITTEXT        IDC_COPIES,260,24,27,13,ES_AUTOHSCROLL | ES_READONLY,0,
+                    0x807600a7
+    LTEXT           "Allowable form types",IDC_STATIC,12,49,72,8
+    EDITTEXT        IDC_FORMALLOW,92,47,200,12,ES_AUTOHSCROLL,0,
+                    HIDC_FORMALLOW
+    LTEXT           "Default ptr",IDC_STATIC,12,66,46,8
+    EDITTEXT        IDC_DEFPRINTER,68,64,60,13,ES_AUTOHSCROLL | ES_READONLY,
+                    0,HIDC_DEFPRINTER
+    LTEXT           "Allowable ptr types",IDC_STATIC,144,66,72,8
+    EDITTEXT        IDC_PTRALLOW,224,64,144,12,ES_AUTOHSCROLL,0,
+                    HIDC_PTRALLOW
+    CONTROL         "Access remote jobs",IDC_REMOTEJ,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,84,76,10,0,HIDC_REMOTEJ
+    CONTROL         "Select alternative forms",IDC_FORMS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,99,100,10,0,HIDC_FORMS
+    CONTROL         "Change own default priority",IDC_CDEFLT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,114,107,10,0,HIDC_CDEFLT
+    CONTROL         "Change priority on queue",IDC_CPRIO,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,129,108,10,0,HIDC_CPRIO
+    CONTROL         "Set any priority",IDC_ANYPRIO,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,145,80,10,0,HIDC_ANYPRIO
+    CONTROL         "Unqueue",IDC_UNQUEUE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,159,72,10,0,HIDC_UNQUEUE
+    CONTROL         "Change other users' jobs",IDC_OTHERJ,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,192,100,10,0,HIDC_OTHERJ
+    CONTROL         "View other users' jobs",IDC_VOTHERJ,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,207,84,10,0,HIDC_VOTHERJ
+    CONTROL         "Stop scheduler",IDC_SSTOP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,222,76,10,0,HIDC_SSTOP
+    CONTROL         "Override class",IDC_COVER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,237,68,10,0,HIDC_COVER
+    CONTROL         "System administrator",IDC_ADMIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,252,88,10,0,HIDC_ADMIN
+    CONTROL         "Select printer list",IDC_PRINQ,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,140,84,68,10,0,HIDC_PRINQ
+    CONTROL         "Access remote printers",IDC_REMOTEP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,140,99,93,10,0,HIDC_REMOTEP
+    CONTROL         "Stop/start printers",IDC_HALTGO,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,140,114,76,10,0,HIDC_HALTGO
+    CONTROL         "Add and delete printers",IDC_ADDDEL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,140,129,93,10,0,HIDC_ADDDEL
+    CONTROL         "Unrestricted printers",IDC_OTHERP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,236,85,84,9,0,HIDC_OTHERP
+    CONTROL         "May access secondary fields",IDC_ACCESSOK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,236,99,116,10,0,
+                    HIDC_ACCESSOK
+    CONTROL         "May save defaults",IDC_FREEZEOK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,236,115,68,8,0,
+                    HIDC_FREEZEOK
+    CTEXT           "Class codes",IDC_STATIC,150,160,53,10,WS_TABSTOP
+    CONTROL         "A",IDC_CC_A,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,128,178,19,12,0,0x807600c0
+    CONTROL         "B",IDC_CC_B,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,128,191,19,12,0,0x807600c1
+    CONTROL         "C",IDC_CC_C,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,128,203,19,12,0,0x807600c2
+    CONTROL         "D",IDC_CC_D,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,128,215,19,12,0,0x807600c3
+    CONTROL         "E",IDC_CC_E,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,128,228,19,12,0,0x807600c4
+    CONTROL         "F",IDC_CC_F,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,128,240,19,12,0,0x807600c5
+    CONTROL         "G",IDC_CC_G,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,128,252,19,12,0,0x807600c6
+    CONTROL         "H",IDC_CC_H,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,128,265,19,12,0,0x807600c7
+    CONTROL         "I",IDC_CC_I,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,155,178,19,12,0,0x807600c8
+    CONTROL         "J",IDC_CC_J,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,155,191,19,12,0,0x807600c9
+    CONTROL         "K",IDC_CC_K,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,155,203,19,12,0,0x807600ca
+    CONTROL         "L",IDC_CC_L,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,155,215,19,12,0,0x807600cb
+    CONTROL         "M",IDC_CC_M,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,155,228,19,12,0,0x807600cc
+    CONTROL         "N",IDC_CC_N,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,155,240,19,12,0,0x807600cd
+    CONTROL         "O",IDC_CC_O,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,155,252,19,12,0,0x807600ce
+    CONTROL         "P",IDC_CC_P,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,155,265,19,12,0,0x807600cf
+    CONTROL         "a",IDC_CC_A2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,181,178,19,12,0,0x807600d0
+    CONTROL         "b",IDC_CC_B2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,181,191,19,12,0,0x807600d1
+    CONTROL         "c",IDC_CC_C2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,181,203,19,12,0,0x807600d2
+    CONTROL         "d",IDC_CC_D2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,181,215,19,12,0,0x807600d3
+    CONTROL         "e",IDC_CC_E2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,181,228,19,12,0,0x807600d4
+    CONTROL         "f",IDC_CC_F2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,181,240,19,12,0,0x807600d5
+    CONTROL         "g",IDC_CC_G2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,181,252,19,12,0,0x807600d6
+    CONTROL         "h",IDC_CC_H2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,181,265,19,12,0,0x807600d7
+    CONTROL         "i",IDC_CC_I2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,207,178,19,12,0,0x807600d8
+    CONTROL         "j",IDC_CC_J2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,207,191,19,12,0,0x807600d9
+    CONTROL         "k",IDC_CC_K2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,207,203,19,12,0,0x807600da
+    CONTROL         "l",IDC_CC_L2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,207,215,19,12,0,0x807600db
+    CONTROL         "m",IDC_CC_M2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,207,228,19,12,0,0x807600dc
+    CONTROL         "n",IDC_CC_N2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,207,240,19,12,0,0x807600dd
+    CONTROL         "o",IDC_CC_O2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,207,252,19,12,0,0x807600de
+    CONTROL         "p",IDC_CC_P2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | 
+                    WS_TABSTOP,207,265,19,12,0,0x807600df
+    DEFPUSHBUTTON   "OK",IDOK,280,220,72,20
+    PUSHBUTTON      "Cancel",IDCANCEL,280,257,72,20
+END
+
+IDD_LOGINHOST DIALOGEX 0, 0, 186, 131
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Please log in to Unix Host...."
+FONT 10, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Login to Unix Host",IDC_STATIC,13,15,55,8
+    EDITTEXT        IDC_UNIXHOST,90,13,67,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Client Host Name",IDC_STATIC,13,37,53,8
+    EDITTEXT        IDC_CLIENTHOST,90,35,67,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "User Name",IDC_STATIC,13,59,35,8
+    EDITTEXT        IDC_USER,64,56,94,14,ES_AUTOHSCROLL,0,HIDC_USER
+    LTEXT           "Password",IDC_STATIC,13,81,31,8
+    EDITTEXT        IDC_PASSWD,64,78,94,14,ES_PASSWORD | ES_AUTOHSCROLL,0,
+                    HIDC_PASSWD
+    DEFPUSHBUTTON   "OK",IDOK,7,110,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,110,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  DISCARDABLE     "RES\\IDR_MAIN.BMP"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_RETAIN, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 124
+    END
+
+    IDD_LOGINHOST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 124
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 16
+BEGIN
+    BUTTON      ID_ACTION_ABORTJOB
+    BUTTON      ID_JOBS_FORMANDCOPIES
+    BUTTON      ID_ACTION_ANOTHERCOPY
+    BUTTON      ID_JOBS_VIEWJOB
+    SEPARATOR
+    BUTTON      ID_PRINTERS_FORMTYPE
+    BUTTON      ID_ACTION_GOPRINTER
+    BUTTON      ID_ACTION_HALTEOJ
+    BUTTON      ID_ACTION_HALTATONCE
+    SEPARATOR
+    BUTTON      ID_ACTION_OKALIGNMENT
+    BUTTON      ID_ACTION_DISAPPROVEALIGNMENT
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "SPQW- Xi-Text Windows Queue Management"
+    IDP_TOO_MANY_ROWS       "Sorry - too many rows to accomodate in job/printer display."
+    IDS_PSTATUS_NULL        "(null)"
+    IDS_PSTATUS_OFFLINE     "Offline"
+    IDS_PSTATUS_ERROR       "Error"
+    IDS_PSTATUS_HALT        "Halted"
+    IDS_PSTATUS_INIT        "Startup"
+    IDS_PSTATUS_WAIT        "Idle"
+    IDS_PSTATUS_SHUTD       "Shutdown"
+    IDS_PSTATUS_RUN         "Printing"
+    IDS_PSTATUS_OPER        "A/w oper"
+    IDP_NOJOBSELECTED       "You must select a job first.  (Click on one)"
+    IDP_NOPTRSELECTED       "You must select a printer first. (Click on one)."
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "SPQW - Xi-Text Queue view for Windows"
+    AFX_IDS_IDLEMESSAGE     "For Help, press F1"
+    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nProgram Version"
+    ID_APP_EXIT             "Quit out of spqw"
+    ID_HELP_INDEX           "List Help topics"
+    ID_HELP_USING           "Display instructions about how to use help"
+    ID_CONTEXT_HELP         "Display help for clicked on buttons, menus and windows\nContext Help"
+    ID_HELP                 "Display help for current task or command"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane"
+    ID_PREV_PANE            "Switch back to the previous window pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles"
+    ID_WINDOW_SPLIT         "Split the active window into panes"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_PRINTERS_FORMTYPE    "Set the form type on the selected printer\nSet Printer Form"
+    ID_PRINTERS_INTERRUPT   "Interrupt printer to select higher priority job"
+    ID_PRINTERS_CLASSCODES  "Set class codes on printer"
+    ID_ACTION_ABORTJOB      "Abort and/or delete the currently-selected job\nAbort/Delete Job"
+    ID_ACTION_ANOTHERCOPY   "Print another copy of the job\nOne more copy"
+    ID_ACTION_GOPRINTER     "Start the currently-selected printer\nStart Printer"
+    ID_ACTION_HALTEOJ       "Halt the currently-selected printer at the end of the current job\nHalt at EOJ"
+    ID_ACTION_HALTATONCE    "Halt the currently-selected printer at once\nHalt now"
+    ID_ACTION_OKALIGNMENT   "Approve the alignment on the currently-selected printer\nAlign OK"
+    ID_ACTION_DISAPPROVEALIGNMENT 
+                            "Disapprove the alignment page on the currently-selected printer\nRe-align"
+    ID_JOBS_VIEWJOB         "Fetch and display a copy of the job.\nView Job"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_JOBS_FORMANDCOPIES   "Set the form, header, printer, copies and priority of the job\nSet form etc"
+    ID_JOBS_PAGES           "Select page range and post-processor options for job"
+    ID_JOBS_USERANDMAIL     "Select user to post to; also set completion and attention messages"
+    ID_JOBS_RETENTION       "Select whether job is to be retained before and after printing"
+    ID_JOBS_CLASSCODES      "Select class codes (security options) for job"
+    ID_WINDOW_NEWJOBWINDOW  "Create a new job display window"
+    ID_WINDOW_NEWPRINTERWINDOW "Create a new printer window"
+    ID_SEARCH_SEARCHFOR     "Search for specified string"
+    ID_SEARCH_SEARCHFORWARD "Repeat last search forwards"
+    ID_SEARCH_SEARCHBACKWARDS "Repeat last search backwards"
+    ID_SEARCH_SETSTARTPAGE  "Set page to start printing from"
+    ID_SEARCH_SETENDPAGE    "Set page to halt printing at."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDR_JOBS                "\nJoblistDoc\nJoblistFile\n(*.xjb)\n.xjb\nJobFileType\nJobFileType"
+    IDR_PTR                 "\nPtrlistDoc\nPtrlistFile\n(*.xpt)\n.xpt\nPtrlistFileType\nPtrlistFileType"
+    IDR_VIEWJOB             "\nJdataDocType\nJdataFileType\n(*.xjd)\n.xjd\nJdataFileType\nJDataFileType"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_PREVINSTANCE        "Sorry but you are only supposed to have one copy of this program running at once as it uses too many system resources. Please switch to your previous copy."
+    IDP_NO_SERVER           "No server is specified in hosts file. Please set one up (using SPRSETW)."
+    IDP_NO_HOSTFILE         "There is no hosts file (typically C:\\XITEXT\\HOSTS). This file should be set up with ""Sprsetw"" first."
+    IDP_HF_INVALIDHOST      "Unknown or invalid host name in hosts file.\nPlease rerun ""sprsetw""."
+    IDP_HF_BADTIMEOUT       "Invalid timeout entry in hosts file.\nPlease re-run ""sprsetw"" and retry."
+    IDP_HF_NOALIAS          "Your hosts file specifies a host as an internet address (e.g. 192.10.2.3), but you have given no alias.\nPlease re-run ""sprsetw"" to fix."
+    IDP_SK_CCLISTSOCK       "Cannot create ""listen"" socket."
+    IDP_SK_CCPROBESOCK      "Cannot create ""probe"" socket"
+    IDP_GSPU_NOSOCK         "Unable to create UDP socket to access user permissions from server. Please verify (is ""xtnetserv"" running on server?)."
+    IDP_GSPU_NOBIND         "Unable to bind UDP socket to access user details. Please reboot machine."
+    IDP_GSPU_NOSEND         "Send failure on UDP socket for accessing user details from server.."
+    IDP_GSPU_NORECV         "Receive failure obtaining user details from Unix host. Is ""xtnetserv"" running?"
+    IDP_GSPU_NVALID         "Invalid user details returned from Unix Server. Is the ""/etc/Xitext-hosts"" file set up correctly on the server? This machine should be set up as a DOS client and the appropriate user name included."
+    IDP_PROBE_SOCKERR       "Unable to create UDP socket for probe to host. You may need to allocate more TCP/IP buffers."
+    IDP_PROBE_BINDERR       "Unable to bind UDP socket for probe to host. You may need to reboot this machine."
+    IDP_PROBE_SENDERR       "Failure sending probe. You may need to reboot this machine and/or some or all of your Unix hosts."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_JANUARY             "January"
+    IDS_FEBRUARY            "February"
+    IDS_MARCH               "March"
+    IDS_APRIL               "April"
+    IDS_MAY                 "May"
+    IDS_JUNE                "June"
+    IDS_JULY                "July"
+    IDS_AUGUST              "August"
+    IDS_SEPTEMBER           "September"
+    IDS_OCTOBER             "October"
+    IDS_NOVEMBER            "November"
+    IDS_DECEMBER            "December"
+    IDS_SUNDAY              "Sunday"
+    IDS_MONDAY              "Monday"
+    IDS_TUESDAY             "Tuesday"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_WEDNESDAY           "Wednesday"
+    IDS_THURSDAY            "Thursday"
+    IDS_FRIDAY              "Friday"
+    IDS_SATURDAY            "Saturday"
+    IDS_LOCALPTR            "[Local ptr]"
+    IDS_PHADAB              "ABORTING"
+    IDS_PNALIGN             "Not algn"
+    IDS_PHEOJ               "HEOJ"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_NOSEARCHSTR         "You haven't given a search string yet."
+    IDP_NOTFOUND            "Search string not found."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_INTER               "!!"
+    ID_INDICATOR_STARTP     "START"
+    ID_INDICATOR_ENDP       "END"
+    ID_INDICATOR_HATP       "**HLT**"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_SEARCH_SETHALTEDATPAGE "Reset the page at which printing was halted"
+    ID_FILE_PROGRAMOPTIONS  "Set options for program"
+    ID_WINDOW_WINDOWOPTIONS "Set display options for window "
+    ID_FILE_SAVETOFILE      "Save program options to file for next time."
+    ID_FILE_DISPLAYOPTIONS  "Set or reset the view of jobs and printers applying to new windows."
+    ID_WINDOW_SETJOBLISTFORMAT "Redefine the format of the job list display."
+    ID_WINDOW_SETPRINTERLISTFORMAT 
+                            "Redefine the format of the printer list display."
+    ID_JOBS_UNQUEUEJOB      "Remove job from queue and save a copy on this machine"
+    ID_JOBS_COPYJOB         "Make a copy of job on this machine"
+    ID_JOBS_COPYOPTIONSINJOB "Copy options in job as default for ""spr""."
+    ID_FILE_NETWORKSTATS    "Display status of host connections."
+    ID_FILE_USERPERMISSIONS "Display user permissions with server."
+    ID_WINDOW_SAVEWIDTHSETTINGS "Save width settings as default width"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_WRONGFORM           "Sorry but you aren't allowed to chose paper types other than your pattern limit."
+    IDP_NOTYOURJ            "This job is not yours (and you are not allowed to edit it). Please ask someone else to do this if you need to."
+    IDP_ACONFA_PRINTED      "Please confirm you want to delete this job. At least one copy has been printed."
+    IDP_ACONFA_NPRINTED     "Please confirm that you want to delete this job. It has not been printed yet."
+    IDP_CCONFA_NPRINTED     "Please confirm that you want to delete this job. It has not been printed yet."
+    IDP_NOPRINQ             "Sorry but you are not allowed to access items on the printer list... Look only!"
+    IDP_CONFIRM_REINSTALIGN "Do you really want to force a new alignment page on this printer?"
+    IDP_PRIN_CANTCCC        "Sorry but you are not allowed to change class codes on printers."
+    IDP_PRIN_RUNNING        "Sorry but the printer in question is running. Please halt it before attempting this operation."
+    IDP_PRIN_CANTGO         "Sorry but you are not allowed to start printers."
+    IDP_PRIN_CANTHALT       "Sorry but you are not allowed to halt printers."
+    IDP_PRIN_NOTRUNNING     "The printer must be running before you can use this command."
+    IDP_CONFIRM_BYPASSALIGN "Please confirm that you want to bypass the alignment routine for this printer."
+    IDP_PRIN_CANTINT        "Sorry but you are not allowed to interrupt printers."
+    IDP_ASYNCSEL            "Cannot set async messages - messages will not work."
+    IDP_LISTASYNCSEL        "Cannot set up asynchronous messages on listening socket. New machines starting up will not be noticed."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_PROBEASYNCSEL       "Cannot set up asynchronous messages on probe socket. Messages will not be noticed from other machines."
+    IDP_CCFEEDSOCKET        "Cannot create TCP socket to fetch file copy - sorry. You may need to configure more TCP slots in your kernel."
+    IDP_CCOFEEDSOCKET       "Cannot access host to fetch copy of job over TCP socket - sorry."
+    IDP_CSFEEDSOCKET        "Cannot send initial packet on feed socket - sorry"
+    IDP_CCTEMPFILE          "Cannot create temporary file to copy remote job into - sorry."
+    IDP_CWTEMPFILE          "Cannot write temporary file for remote job - is file system full?"
+    IDP_NOMEMFORPAGES       "No memory for page break markers - sorry."
+    IDP_NOMEMFORJOB         "There is no memory available for the page buffers for this job - sorry"
+    IDP_INVALIDDOC          "Sorry - document is not valid - cannot display"
+    IDP_JOBTOOWIDE          "Sorry but your job has too long lines to be scrolled under Windows."
+    IDP_JOBTOOLONG          "Sorry but your job has too many lines to be scrolled through under windows."
+    IDP_STARTPGTENDP        "You have tried to set a start page greater than an end page. Please reset one or the other and try again."
+    IDP_SSTARTPGTENDP       "You have tried to set a start page greater than an end page. Please reset one or the other and try again."
+    IDP_SENDPLTSTARTP       "You have tried to set an end page less than the start page. Please reset one or the other and try again."
+    IDP_HATPGTENDP          "You have tried to reset the ""halted at"" page to come after the end page. This cannot be right - please reset on or the other and try again."
+    IDP_PRINGTNPRIN         "The time you have given to delete the job (if retained on the queue) after the job has been printed is greater than the time if it has NOT been printed. Do you really mean this?"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_ZEROCLASS           "You have specified no class code letters. You must check at least one. Please do so and try again."
+    IDP_JDNOSEARCHS         "No search string specified (yet)."
+    IDP_JDSNOTFOUND         "Unable to find the string in the job text."
+    IDP_JPNOSEARCHS         "No string specified - please select one first."
+    IDP_JPNOITEM            "You have turned off all items in the attributes to look for. You must specify one."
+    IDP_FOSSILCC            "Fossil class code in XITEXT.INI file."
+    IDP_SAVEPROPTS          "Do you want to save the program options before you exit?"
+    IDP_WRONGPTR            "Sorry but you are not allowed to choose printer names other than your limit pattern."
+    IDP_CCJOBQFILE          "Cannot create job queue file. (This is the copy of the job file)."
+    IDP_CWJOBQFILE          "Cannot write job queue file. (This is the file used to hold a copy of the job file)."
+    IDP_CWBATFILE           "Trouble writing batch file. This is the .bat file containing the ""spr"" command to re-invoke the job."
+    IDP_CDJOBQFILE          "Cannot delete job queue file pending abort or other error - sorry."
+    IDP_CRMSGFILE           "Cannot read message file for ""spr""."
+    IDP_ARGDEFERRS          "Errors in argument definitions in ""spr"" option defaults."
+    IDP_NOCODESEL           "You didn't select a format code. Please try again."
+    IDP_TOOMANYFMTS         "Too many format codes - sorry"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_EDITINGJFMT         "Job list display format"
+    IDS_EDITINGPFMT         "Printer list display format"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_DEF_JFMT            "%12N %6u %14h %13f %4Q %4S %3c %3p %14P"
+    IDS_DEF_PFMT            "%14p %10d %16f %>8s %3x %7j %7u %6w"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_JFORMAT_A           "Note if broadcast attention message flag set"
+    IDS_JFORMAT_C           "Class code of job"
+    IDS_JFORMAT_F           "Postprocessor flags (string)"
+    IDS_JFORMAT_H           "Hold time/date"
+    IDS_JFORMAT_K           "Size of job in Kilobytes"
+    IDS_JFORMAT_L           "Place reached in job (kilobytes)"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_JFORMAT_N           "Job number"
+    IDS_JFORMAT_O           "Odd/even pages requested"
+    IDS_JFORMAT_P           "Printer"
+    IDS_JFORMAT_Q           "Page reached"
+    IDS_JFORMAT_R           "Page range"
+    IDS_JFORMAT_S           "Size of job in pages (or KB if no delimiter)"
+    IDS_JFORMAT_T           "Time to delete job if not printed"
+    IDS_JFORMAT_U           "User name to post to"
+    IDS_JFORMAT_W           "Submission time"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_JFORMAT_aa          "Mail attention message to user"
+    IDS_JFORMAT_cc          "Copies"
+    IDS_JFORMAT_ff          "Form type"
+    IDS_JFORMAT_hh          "Job title"
+    IDS_JFORMAT_ll          "Local job only marker"
+    IDS_JFORMAT_mm          "Mail user on completion marker"
+    IDS_JFORMAT_nn          "Sequence number in queue"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_JFORMAT_oo          "Name of host which job originated on."
+    IDS_JFORMAT_pp          "Priority"
+    IDS_JFORMAT_qq          "Retain job on queue after printing"
+    IDS_JFORMAT_ss          "Suppress header"
+    IDS_JFORMAT_tt          "Delete time if printed"
+    IDS_JFORMAT_uu          "User name job submitted by"
+    IDS_JFORMAT_ww          "Broadcast message on completion"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PFORMAT_aa          "Abort in progress marker"
+    IDS_PFORMAT_cc          "Class code"
+    IDS_PFORMAT_dd          "Device / network address"
+    IDS_PFORMAT_ee          "Description of printer"
+    IDS_PFORMAT_ff          "Form type"
+    IDS_PFORMAT_hh          "Halt at end of job set"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PFORMAT_ii          "Process id of ""spd"" process on host"
+    IDS_PFORMAT_jj          "Job number being printed"
+    IDS_PFORMAT_ll          "Local printer only"
+    IDS_PFORMAT_mm          "Message fed back indicating cause of error/offline condition"
+    IDS_PFORMAT_nn          "Non-aligned marker"
+    IDS_PFORMAT_pp          "Printer name"
+    IDS_PFORMAT_ss          "State of printer + message"
+    IDS_PFORMAT_tt          "State of printer, no message"
+    IDS_PFORMAT_uu          "User name of job being printed"
+    IDS_PFORMAT_ww          "Combine various messages Abort / N/A"
+    IDS_PFORMAT_xx          "Indicate limits set in form <>"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PFORMAT_yy          "Lower limit on job size"
+    IDS_PFORMAT_zz          "Upper limit on job size"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_LOCALONLY           "Local only"
+    IDS_JF_WATTN            "Wattn"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_JF_MATTN            "Mattn"
+    IDS_JF_MAIL             "Mail"
+    IDS_JF_WRITE            "Write"
+    IDS_JF_ODD              "Odd"
+    IDS_JF_EVEN             "Even"
+    IDS_JF_SWAP             ",Swap"
+    IDS_JF_LOCALONLY        "Local only"
+    IDS_JF_RETN             "Retn"
+    IDS_JF_NOH              "Nohdr"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SJFORMAT_A          "Watt"
+    IDS_SJFORMAT_C          "Class"
+    IDS_SJFORMAT_F          "P/p f"
+    IDS_SJFORMAT_H          "Hold"
+    IDS_SJFORMAT_K          "SizeK"
+    IDS_SJFORMAT_L          "PosK"
+    IDS_SJFORMAT_N          "Jnum"
+    IDS_SJFORMAT_O          "O/E"
+    IDS_SJFORMAT_P          "Ptr"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SJFORMAT_Q          "Pos"
+    IDS_SJFORMAT_R          "Rge"
+    IDS_SJFORMAT_S          "SzP"
+    IDS_SJFORMAT_T          "DNP"
+    IDS_SJFORMAT_U          "Pusr"
+    IDS_SJFORMAT_W          "Stime"
+    IDS_SJFORMAT_aa         "M/a"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SJFORMAT_cc         "Cs"
+    IDS_SJFORMAT_ff         "Form"
+    IDS_SJFORMAT_hh         "Title"
+    IDS_SJFORMAT_ll         "Loco"
+    IDS_SJFORMAT_mm         "Mail"
+    IDS_SJFORMAT_nn         "Seq"
+    IDS_SJFORMAT_oo         "Orig"
+    IDS_SJFORMAT_pp         "Pr"
+    IDS_SJFORMAT_qq         "Retn"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SJFORMAT_ss         "S/H"
+    IDS_SJFORMAT_tt         "DelP"
+    IDS_SJFORMAT_uu         "Usr"
+    IDS_SJFORMAT_ww         "Wc"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SPFORMAT_aa         "Ab"
+    IDS_SPFORMAT_cc         "Class"
+    IDS_SPFORMAT_dd         "Dev"
+    IDS_SPFORMAT_ee         "Descr"
+    IDS_SPFORMAT_ff         "Form"
+    IDS_SPFORMAT_hh         "Heoj"
+    IDS_SPFORMAT_ii         "HPid"
+    IDS_SPFORMAT_jj         "JNum"
+    IDS_SPFORMAT_ll         "Loco"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SPFORMAT_mm         "Msg"
+    IDS_SPFORMAT_nn         "N/A"
+    IDS_SPFORMAT_pp         "Ptr"
+    IDS_SPFORMAT_ss         "S/Msg"
+    IDS_SPFORMAT_tt         "State"
+    IDS_SPFORMAT_uu         "User"
+    IDS_SPFORMAT_ww         "Msgs"
+    IDS_SPFORMAT_xx         "Lim"
+    IDS_SPFORMAT_yy         "Llim"
+    IDS_SPFORMAT_zz         "Ulim"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_XTENQ_PASSREQ       "You need to supply a password to log in to the server."
+    IDP_XTENQ_BADPASSWD     "The supplied password is incorrect."
+    IDP_XTENQ_UNKNOWN       "Unknown problem obtaining user data from server."
+    IDP_XTENQ_BADCLIENT     "This is an unknown client user or host name. Please check that the /etc/Xitext-hosts file is correct on the server."
+    IDP_XTENQ_UNKNOWNU      "Unable to identify user on server. Please check the windows user name and also the user name(s) in the /etc/Xitext-hosts file."
+    IDP_CONNDIED            "Connection has died to server. Shall I refresh it?"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_PRINTERCOLOURS_PROGRAMNEWWINDOWS_IDLE 
+                            "Colour for printer ready to print\nIdle printer"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_PCOLOUR_IDLE    "Colour for when printer is ready to print\nIdle colour"
+    ID_FILE_PCOLOUR_PRINTING 
+                            "Colour for when printer is printing\nPrinting colour"
+    ID_FILE_PCOLOUR_AWOPER  "Colour for printers awaiting operator\nAwaiting operator colour"
+    ID_FILE_PCOLOUR_HALTED  "Colour for when printer halted (normally)\nPrinter halted colour"
+    ID_FILE_PCOLOUR_ERROR   "Colour for when printer halted with error\nError halted colour"
+    ID_FILE_PCOLOUR_OFFLINE "Colour for when printer halted offline\nOffline printer colour"
+    ID_FILE_PCOLOUR_STARTUP "Colour for when printer is starting up\nStartup colour"
+    ID_FILE_PCOLOUR_SHUTD   "Colour for when printer is shutting down\nShutdown colour"
+    ID_FILE_WPCOLOUR_IDLE   "Colour for when printer is ready to print\nIdle colour"
+    ID_FILE_WPCOLOUR_PRINTING 
+                            "Colour for when printer is printing\nPrinting colour"
+    ID_FILE_WPCOLOUR_AWOPER "Colour for printers awaiting operator\nAwaiting operator colour"
+    ID_FILE_WPCOLOUR_HALTED "Colour for when printer halted (normally)\nPrinter halted colour"
+    ID_FILE_WPCOLOUR_ERROR  "Colour for when printer halted with error\nError halted colour"
+    ID_FILE_WPCOLOUR_OFFLINE 
+                            "Colour for when printer halted offline\nOffline printer colour"
+    ID_FILE_WPCOLOUR_STARTUP 
+                            "Colour for when printer is starting up\nStartup colour"
+    ID_FILE_WPCOLOUR_SHUTD  "Colour for when printer is shutting down\nShutdown colour"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_PCOLOUR_COPYTOPROG 
+                            "Copy current printer colours to application defaults\nCopy to application"
+    ID_FILE_PCOLOUR_COPYTOWIN 
+                            "Copy application colours to window colours\nCopy to window"
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "res\spqw.rc2"  // non-App Studio edited resources
+
+#include "afxres.rc"  // Standard components
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

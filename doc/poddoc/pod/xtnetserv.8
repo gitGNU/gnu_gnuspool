@@ -1,0 +1,95 @@
+=head1 NAME
+
+xtnetserv - remote server process
+
+=head1 SYNOPSIS
+
+B<xtnetserv>
+
+=head1 DESCRIPTION
+
+B<xtnetserv> is the remote server process for the B<GNUspool> spooler
+and document management system. It serves 3 purposes; firstly
+it accepts jobs from other hosts submitted by gspl-rpr(1), secondly it
+accepts jobs and administration requests from DOS and Windows
+machines, and finally it supports API operations.
+
+It is normally invoked by gspl-start(1).
+
+Information, in respect of other machines to connect to is read from
+the file F<gnuspool.hosts>.
+
+=head1 FILES
+
+F<gnuspool.hosts>
+host/client names and descriptions
+
+F<gnuspool.conf>
+master configuration file
+
+F<int-config>
+message file
+
+F<spshed_reps>
+error log file
+
+F<spufile0>
+user data
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item SPOOLDIR
+
+alternative location for spool directory
+
+=item SPHELPDIR
+
+help files directory
+
+=back
+
+=head1 INTERNET PORTS
+
+B<xtnetserv> uses 2 ports:
+
+	gsnetsrv
+
+(B<N.B.> no second "e") to accept incoming jobs on TCP from gspl-rpr(1), and on
+UDP from the DOS/Windows interface, and 2 further ports
+
+	gspoolapi
+
+to communicate with the API library.
+
+The port numbers are set up in the F</etc/services> file when
+B<GNUspool> is first installed.
+
+=head1 SEE ALSO
+
+gspl-rpr(1),
+gspl-start(1),
+gspl-stop(1),
+gnuspool.conf(5),
+gnuspool.hosts(5),
+spshed(8).
+
+=head1 DIAGNOSTICS
+
+B<xtnetserv> runs as a "daemon process" and diagnostics, apart from
+those detected when it is first started, are not usually written to
+any terminal but to the file F<spshed_reps> in the spool directory.
+
+In the event of any problems this file should be examined.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  xtnetserv gspl-rpr API gspl-start SPOOLDIR SPHELPDIR

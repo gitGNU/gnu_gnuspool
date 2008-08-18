@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+	<title>Printer Selections</title>
+	<style>
+	<!--
+		TD P { margin-bottom: 0.06in; font-family: "Times"; font-size: 14pt; font-weight: bold }
+		H2 { margin-top: 0in; margin-bottom: 0.08in; font-family: "Times" }
+		H3 { margin-top: 0.05in; margin-bottom: 0.02in; font-family: "Times"; text-decoration: underline }
+		P { margin-bottom: 0.02in; font-family: "Times"; font-size: 14pt; font-weight: bold }
+		A:link { color: #993366; font-family: "Times";
+		font-size: 12pt; font-weight: bold;
+		text-decoration: none }
+		A:visited { color: #993366; font-family: "Times";
+		font-size: 12pt; font-weight: bold;
+		text-decoration: none }
+		A:active { color: #993366; font-family: "Times";
+		font-size: 12pt; font-weight: bold; text-decoration: none }
+	-->
+	</style>
+	<script src="/gsjsfunc.js"></script>
+</head>
+<body link="#993366" bgcolor="#ffffcc">
+<h2>GNUspool</h2>
+<p><a target=List href="javascript:gsp_joblist()"
+onmouseover="javascript:window.status='Switch back to job view';return true">Jobs</a></p>
+<p><font color="#ff0000"><i>Printers</i></font></p>
+<p><a target=List href="javascript:relogin()"
+onmouseover="javascript:window.status='Log in as a different user';return true">Re-login</a></p>
+<h3>Printer Action</h3>
+<p><a target=List href="javascript:gsp_action('start')"
+onmouseover="javascript:window.status='Start the selected printer(s)';return true">Start</a></p>
+<p><a target=List href="javascript:gsp_action('heoj')"
+onmouseover="javascript:window.status='Stop the selected printer(s) at the end of the current job, now if not printing';return true">Halt at EOJ</a></p>
+<p><a target=List href="javascript:gsp_action('halt')"
+onmouseover="javascript:window.status='Stop the selected printer(s) now';return true">Halt now</a></p>
+<h3>Current Job</h3>
+<p><a target=List href="javascript:gsp_action('pab')"
+onmouseover="javascript:window.status='Abort printing the current job';return true">Abort</a></p>
+<p><a target=List href="javascript:gsp_action('prst')"
+onmouseover="javascript:window.status='Restart the current job';return true">Restart</a></p>
+<p><a target=List href="javascript:gsp_action('int')"
+onmouseover="javascript:window.status='Interrupt the current job and reschedule';return true">
+Interrupt</a></p>
+<h3>Alignment</h3>
+<p><a target=List href="javascript:gsp_action('alok')"
+onmouseover="javascript:window.status='Approve alignment page';return true">
+OK</a></p>
+<p><a target=List href="javascript:gsp_action('alnok')"
+onmouseover="javascript:window.status='Reject alignment page';return true">Reprint</a></p>
+<H3>Settings</H3>
+<p><a target=List href="javascript:gsp_formdev()"
+onmouseover="javascript:window.status='Select form type on printer';return true">
+Form type</a></p>
+<p><a target=List href="javascript:gsp_class()"
+onmouseover="javascript:window.status='Select class code for printer';return true">
+Class code</a></p>
+<h3>List format</h3>
+<p><a target=List href="javascript:do_formats()"
+onmouseover="javascript:window.status='Select printer attributes for display';return true">Set format</a></p>
+<p><a target=List href="javascript:do_options()"
+onmouseover="javascript:window.status='Select various display options';return true">Options</a></p>
+<p><a target=List href="javascript:clearboxes()"
+onmouseover="javascript:window.status='Clear selections';return true">Clear Marked</a></p>
+<p><a target=List href="javascript:document.location.reload()"
+onmouseover="javascript:window.status='Refresh printer view';return true">Refresh</a></p>
+</body>
+</html>

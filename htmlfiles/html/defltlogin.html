@@ -1,0 +1,15 @@
+<html>
+<head><title>(Default) Login Successful</title></head>
+<body>
+<script src="/gsjsfunc.js"></script>
+<script language="JavaScript">
+var prog = urlnoarg(document.location);
+var pname = nosuffix(basename(document.location.pathname));
+var cooklist = getcookies(pname);
+if  (!cooklist.usercode)
+    cooklist.usercode = $Y;
+storecookies(cooklist, pname, $Z);
+invokeprog(prog, cooklist);
+</script>
+</body>
+</html>

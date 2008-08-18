@@ -1,0 +1,2 @@
+Does the printer in question print in colour?
+We need to ask this to set up appropriate filters.

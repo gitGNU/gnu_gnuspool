@@ -1,0 +1,126 @@
+#
+#   Copyright 2008 Free Software Foundation, Inc.
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#	Makefile for local CGI programs
+#
+
+SHELL		=	/bin/sh
+@SET_MAKE@
+prefix		=	@prefix@
+exec_prefix	=	@exec_prefix@
+CC		=	@CC@
+CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
+LDFLAGS		=
+LIBS		=	@LIBS@
+LIBDIR		=	@libdir@
+LIBNET		=	@SOCKLIBS@
+MV		=	mv
+RM		= 	rm -f
+PARENT		=	..
+BASE		=	../..
+INLINE		=	$(PARENT)/inline
+HDRS		=	$(PARENT)/hdrs
+MYLIBDIR	=	$(PARENT)/lib
+LIB		=	$(MYLIBDIR)/libgnuspool_int.a
+SHLIB		=	$(MYLIBDIR)/libgnuspool_int.so
+CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(PARENT) -I$(BASE)
+INSTALL		=	@INSTALL@
+INSTALL_DATA	=	@INSTALL_DATA@
+SPOOLUSER	=	@SPOOLUSER@
+USERMODES	=	-o $(SPOOLUSER) -g root -m 4755
+CGIMODES	=	-o $(SPOOLUSER) -g root -m 6755
+BINDIR		=	@bindir@
+INTBINDIR	=	@pkgexecdir@
+CGIBINDIR	=	$(INTBINDIR)/cgi-bin
+
+PROGS=sqcgi sqvcgi sqdcgi sqccgi sqcrcgi spcgi spccgi
+SHPROGS=sqcgi_s sqvcgi_s sqdcgi_s sqccgi_s sqcrcgi_s spcgi_s spccgi_s
+
+all:	@main_target@
+
+nonshared:	$(PROGS)
+
+shared:	$(SHPROGS)
+
+sqcgi:		sqcgi.o $(LIB)
+	$(CC) -o $@ $(LDFLAGS) sqcgi.o $(LIB) $(LIBNET) $(LIBS)
+
+sqcgi_s:	sqcgi.o $(LIB)
+	$(CC) -o sqcgi $(LDFLAGS) sqcgi.o $(SHLIB) $(LIBNET) $(LIBS)
+	touch $@
+
+sqvcgi:		sqvcgi.o $(LIB)
+	$(CC) -o $@ $(LDFLAGS) sqvcgi.o $(LIB) $(LIBNET) $(LIBS)
+
+sqvcgi_s:	sqvcgi.o $(LIB)
+	$(CC) -o sqvcgi $(LDFLAGS) sqvcgi.o $(SHLIB) $(LIBNET) $(LIBS)
+	touch $@
+
+sqdcgi:		sqdcgi.o $(LIB)
+	$(CC) -o $@ $(LDFLAGS) sqdcgi.o $(LIB) $(LIBNET) $(LIBS)
+
+sqdcgi_s:	sqdcgi.o $(LIB)
+	$(CC) -o sqdcgi $(LDFLAGS) sqdcgi.o $(SHLIB) $(LIBNET) $(LIBS)
+	touch $@
+
+sqccgi:		sqccgi.o $(LIB)
+	$(CC) -o $@ $(LDFLAGS) sqccgi.o $(LIB) $(LIBNET) $(LIBS)
+
+sqccgi_s:	sqccgi.o $(LIB)
+	$(CC) -o sqccgi $(LDFLAGS) sqccgi.o $(SHLIB) $(LIBNET) $(LIBS)
+	touch $@
+
+sqcrcgi:	sqcrcgi.o $(LIB)
+	$(CC) -o $@ $(LDFLAGS) sqcrcgi.o $(LIB) $(LIBNET) $(LIBS)
+
+sqcrcgi_s:	sqcrcgi.o $(LIB)
+	$(CC) -o sqcrcgi $(LDFLAGS) sqcrcgi.o $(SHLIB) $(LIBNET) $(LIBS)
+	touch $@
+
+spcgi:		spcgi.o $(LIB)
+	$(CC) -o $@ $(LDFLAGS) spcgi.o $(LIB) $(LIBNET) $(LIBS)
+
+spcgi_s:	spcgi.o $(LIB)
+	$(CC) -o spcgi $(LDFLAGS) spcgi.o $(SHLIB) $(LIBNET) $(LIBS)
+	touch $@
+
+spccgi:		spccgi.o $(LIB)
+	$(CC) -o $@ $(LDFLAGS) spccgi.o $(LIB) $(LIBNET) $(LIBS)
+
+spccgi_s:	spccgi.o $(LIB)
+	$(CC) -o spccgi $(LDFLAGS) spccgi.o $(SHLIB) $(LIBNET) $(LIBS)
+	touch $@
+
+install:
+	$(INSTALL) -d $(CGIBINDIR)
+	$(INSTALL) $(CGIMODES) $(PROGS) $(CGIBINDIR)
+
+install-strip:
+	$(INSTALL) -d $(CGIBINDIR)
+	$(INSTALL) -s $(CGIMODES) $(PROGS) $(CGIBINDIR)
+
+#
+#	Clean-ups.
+#
+
+clean:
+	$(RM) *.o $(PROGS) *_s
+
+distclean:	clean
+	$(RM) Makefile
+
+reallyclean:	distclean
+	$(RM) TAGS

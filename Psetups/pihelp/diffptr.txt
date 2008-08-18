@@ -1,0 +1,8 @@
+Do you need to specify a different printer name in the LPD protocol?
+
+Sometimes a terminal server with two or more printers requires
+individual printers to be selected by name within the protocol.
+
+Sometime it insists on a particular name anyway.
+
+If the printer fails to output you may have to look at this parameter.

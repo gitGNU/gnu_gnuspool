@@ -1,0 +1,3 @@
+Please give the new name for the printer.
+It should be lower-case alphabetic characters and
+digits, starting with a letter.

@@ -1,0 +1,4 @@
+Do you just want to remove the printer from the active list but
+keep the definition?
+
+Alternatively you may want to remove all traces.

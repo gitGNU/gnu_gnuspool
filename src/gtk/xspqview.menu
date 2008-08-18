@@ -1,0 +1,19 @@
+<ui>
+  <menubar name='ViewMenu'>
+    <menu action='VFileMenu'>
+      <menuitem action='ExitVSave'/>
+      <menuitem action='ExitVNoS'/>
+    </menu>
+    <menu action='VSearchMenu'>
+      <menuitem action='VSearch'/>
+      <menuitem action='VSearchf'/>
+      <menuitem action='VSearchb'/>
+    </menu>
+    <menu action='SpageMenu'>
+      <menuitem action='Sstart'/>
+      <menuitem action='Shat'/>
+      <menuitem action='Send'/>
+      <menuitem action='Crange'/>
+    </menu>
+  </menubar>
+</ui>

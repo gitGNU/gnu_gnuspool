@@ -1,0 +1,2 @@
+What is requested is the host name (e.g. myprinter.example.com) or the
+IP address of the printer.

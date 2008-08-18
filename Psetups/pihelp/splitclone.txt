@@ -1,0 +1,2 @@
+Do you want to "split" this clone so that it has
+a separate definition in its own right?

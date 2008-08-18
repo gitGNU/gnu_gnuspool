@@ -1,0 +1,3 @@
+Your printer can be made a "clone" (symbolic link) to another printer.
+The parameters are shared and the only differences are the printer name
+and the device parameter.

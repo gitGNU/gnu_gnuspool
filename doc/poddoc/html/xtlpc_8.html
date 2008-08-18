@@ -1,0 +1,246 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>xtlpc - LPD protocol server driver</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#diagnostics">DIAGNOSTICS</a></li>
+	<li><a href="#exit_codes">EXIT CODES</a></li>
+	<li><a href="#files">FILES</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>xtlpc - LPD protocol server driver</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>xtlpc</strong>
+<em>-H hostname</em>
+<em>-f ctrlfile</em>
+[ <em>-F fifo</em> ]
+[ <em>-S host</em> ]
+[ <em>-P ptrname</em> ]
+[ <em>-N</em> ]
+[ <em>file</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>xtlpc</strong> is a terminal server program for use by <strong>GNUspool</strong> where
+the destination is an LPD protocol server. Input is usually taken from
+standard input, or from the supplied file name.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2dh_hostname">-H <em>hostname</em></a></strong>
+
+<dd>
+<p>This is the host name or IP address to be used to access the
+printer. In <strong>GNUspool</strong> setup files, it may be appropriate to
+substitute <code>$SPOOLDEV</code> or <code>$SPOOLPTR</code> here.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2df_ctrlfile">-f <em>ctrlfile</em></a></strong>
+
+<dd>
+<p>This specifies the location of the control file, typically
+<em>xtlpc-ctrl</em> in the internal programs directory.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2ds_hostname">-S <em>hostname</em></a></strong>
+
+<dd>
+<p>This is the host name or IP address of the sending host, in the cases
+where <code>gethostname(3)</code> does not yield an appropriate answer.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dp_ptrname">-P <em>ptrname</em></a></strong>
+
+<dd>
+<p>The LPD protocol supplies a name to the printer. By default, this is
+taken from <strong>SPOOLPTR</strong>, i.e. the name given as the name of the printer
+under <strong>GNUspool</strong>. Some terminal servers require a specific name to be
+given to the printer, perhaps to select which printer, or printer
+option of several is to be specified. This option overrides this
+printer name in the protocol.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2df_fifo">-F <em>fifo</em></a></strong>
+
+<dd>
+<p>Take input from the named <em>fifo</em> rather than standard input or the
+supplied file.</p>
+</dd>
+<dd>
+<p>This is useful in situations where the LPD protocol has to be run from
+a command line, i.e. a console session, and files sent to it by having
+<strong>GNUspool</strong> write to the fifo.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dn">-N</a></strong>
+
+<dd>
+<p>Avoid sending zero length files, which confuse some servers.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="diagnostics">DIAGNOSTICS</a></h1>
+<p><strong>xtlpc</strong> generates any appropriate diagnostics on standard error.</p>
+<p>
+</p>
+<hr />
+<h1><a name="exit_codes">EXIT CODES</a></h1>
+<p>Normal termination is denoted by an exit code of zero.</p>
+<ol>
+<li>
+<p>Usage error, invalid option etc.</p>
+</li>
+<li>
+<p>No control file given.</p>
+</li>
+<li>
+<p>No destination host given.</p>
+</li>
+<li>
+<p>Cannot open input file.</p>
+</li>
+<li>
+<p>Unknown host name.</p>
+</li>
+<li>
+<p>Cannot open control file.</p>
+</li>
+<li>
+<p>Syntax errors in control file.</p>
+</li>
+<li>
+<p>No spool directory defined.</p>
+</li>
+<li>
+<p>Cannot select spool directory.</p>
+</li>
+<li>
+<p>Control card format not given in control file</p>
+</li>
+<li>
+<p>Invalid format control card in control file</p>
+</li>
+<li>
+<p>Cannot write to spool directory</p>
+</li>
+<li>
+<p>Cannot create spool file</p>
+</li>
+<li>
+<p>Cannot allocate file name.</p>
+</li>
+<li>
+<p>Cannot open FIFO.</p>
+</li>
+<li>
+<p>Name given is not a FIFO.</p>
+</li>
+<li>
+<p>Cannot specify input and FIFO.</p>
+</li>
+<li>
+<p>Cannot create sequence file</p>
+</li>
+<li>
+<p>No port name in control file</p>
+</li>
+<li>
+<p>TCP protocol missing</p>
+</li>
+<li>
+<p>Cannot find named port in service file</p>
+</li>
+<li>
+<p>Cannot open socket.</p>
+</li>
+<li>
+<p>Cannot bind port</p>
+</li>
+<li>
+<p>Cannot allocate TCP device</p>
+</li>
+<li>
+<p>Cannot make connection</p>
+</li>
+<li>
+<p>Cannot allocate TCP space or change stream</p>
+</li>
+<li>
+<p>Write failure writing to socket</p>
+</li>
+<li>
+<p>Lost spool file</p>
+</li>
+<li>
+<p>Read failure ack packet.</p>
+</li>
+<li>
+<p>Error return from remote.</p>
+</li>
+<li>
+<p>Cannot determine own host name</p>
+</li>
+<li>
+<p>Invalid host name</p>
+</li>
+<li>
+<p>Exit on signal.</p>
+</li>
+</ol>
+<p>
+</p>
+<hr />
+<h1><a name="files">FILES</a></h1>
+<p><em>xtlpc-ctrl</em>
+control file</p>
+<p><em>/var/spool/gnuspool/xtlpc</em>
+spool directory (may be changed in <em>xtlpc-ctrl</em>)</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>xilp(8),
+xtelnet(8),
+xtftp(8),
+xtlhp(8).</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>John M Collins, Xi Software Ltd.</p>
+
+</body>
+
+</html>

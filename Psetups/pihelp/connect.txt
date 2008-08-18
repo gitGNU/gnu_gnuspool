@@ -1,0 +1,4 @@
+Printers may be connected directly to the computer by a serial, parallel or USB
+interface or they may use some kind of network / terminal server.
+
+Please indicate how your printer is connected.

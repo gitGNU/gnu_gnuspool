@@ -1,0 +1,20 @@
+<html>
+<head>
+<title>Printer $Y disappeared</title>
+</head>
+<body>
+<H1>Printer $Y disappeared</H1>
+The printer you asked to work on, $Y, has disappeared.
+<p>
+Maybe
+<script language="JavaScript">
+var jn = "$Y";
+var ind = jn.indexOf(':');
+if  (ind > 0)
+    document.write(" the link to the host \"" + jn.substr(0, ind) + "\" has broken or ");
+</script>
+the Printer has just been deleted by another user.
+<p>
+Press <a href="javascript:window.close();">here</a> to close this window.
+</body>
+</html>

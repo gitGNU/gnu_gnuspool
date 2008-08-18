@@ -1,0 +1,4 @@
+When printing more then one copy, usually if the second and subsequent
+copy follows on from the first, the banner is not reprinted. You can
+opt to have the banner page on every copy if you want and this
+controls it.

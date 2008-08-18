@@ -1,0 +1,18 @@
+  Copyright 2008 Free Software Foundation, Inc.
+
+  Copying and distribution of this file, with or without modification,
+  are permitted in any medium without royalty provided the copyright
+  notice and this notice are preserved.
+
+----------------------------------------------------------------------
+
+These routines are for emulating LPD interface.
+
+XTLPD emulates a server and converts incoming LPD jobs to jobs for
+spr. It also provides directory listing and remove options. There are
+provisions of mail messages which is what the spq_extern field is all
+about. This has not been changed much since 1995.
+
+XTLPC sends outgoing jobs to printers etc which take LPD protocol. It
+tries to be clever and converts multiple copies etc. Probably much of
+the stuff in the control file should be hardwired.

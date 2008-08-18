@@ -1,0 +1,594 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>spstart - start GNUspool</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#starting_gnuspool">Starting GNUspool</a></li>
+	<li><a href="#starting_printers">Starting printers</a></li>
+	<li><a href="#halting_printers">Halting printers</a></li>
+	<li><a href="#interrupting_printers">Interrupting printers</a></li>
+	<li><a href="#adding_printers">Adding printers</a></li>
+	<li><a href="#deleting_printers">Deleting printers</a></li>
+	<li><a href="#changing_printers">Changing printers</a></li>
+	<li><a href="#alignment_pages">Alignment pages</a></li>
+	<li><a href="#state_testing">State testing</a></li>
+	<ul>
+
+		<li><a href="#standard_state_names_for_spstat">Standard state names for spstat</a></li>
+	</ul>
+
+	<li><a href="#connect_and_disconnect">Connect and disconnect</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#files">FILES</a></li>
+	<li><a href="#environment">ENVIRONMENT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#diagnostics">DIAGNOSTICS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>spstart - start GNUspool</p>
+<p>spstart - start a printer</p>
+<p>sphalt - halt a printer at end of job</p>
+<p>spstop - halt a printer immediately</p>
+<p>spinter - interrupt printer</p>
+<p>spadd - add a printer</p>
+<p>spdel - delete a printer</p>
+<p>spchange - change a printer</p>
+<p>spok - approve alignment</p>
+<p>spnok - disapprove alignment</p>
+<p>spstat - test state of printer</p>
+<p>spconn - connect GNUspool host</p>
+<p>spdisconn - disconnect GNUspool host</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>spstart</strong>
+[ <em>jobsize</em> [ <em>printersize</em> ] ]</p>
+<p><strong>spstart</strong>
+[ <em>-options</em> ]
+<em>printer</em> [ <em>formtype</em> ]</p>
+<p><strong>sphalt</strong>
+[ <em>-options</em> ]
+<em>printer</em></p>
+<p><strong>spstop</strong>
+[ <em>-options</em> ]
+<em>printer</em></p>
+<p><strong>spinter</strong>
+[ <em>-options</em> ]
+<em>printer</em></p>
+<p><strong>spadd</strong>
+<em>-options</em>
+<em>printer</em>
+<em>formtype</em></p>
+<p><strong>spdel</strong>
+[ <em>-options</em> ]
+<em>printer</em></p>
+<p><strong>spchange</strong>
+<em>-options</em>
+<em>printer</em>
+[ <em>formtype</em> ]</p>
+<p><strong>spok</strong>
+[ <em>-options</em> ]
+<em>printer</em></p>
+<p><strong>spnok</strong>
+[ <em>-options</em> ]
+<em>printer</em></p>
+<p><strong>spstat</strong>
+[ <em>-options</em> ]
+<em>printer</em>
+<em>state</em></p>
+<p><strong>spconn</strong>
+<em>host</em></p>
+<p><strong>spdisconn</strong>
+<em>host</em></p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Note that all these programs are in fact hard links to the same
+program.</p>
+<p>
+</p>
+<hr />
+<h1><a name="starting_gnuspool">Starting GNUspool</a></h1>
+<a name="Spstart_start"></a><p><strong>spstart</strong> without arguments, or with one or two numeric arguments,
+may be used to start the <strong>GNUspool</strong> scheduler, spshed(8), together
+with associated programs, such as xtnetserv(8).</p>
+<p>The first optional argument specifies to <code>spshed(8)</code> that when
+allocating an initial block of shared memory for jobs it should
+allocate memory for at least the specified number of jobs.</p>
+<p>The second optional argument performs the same function with
+printers.</p>
+<p>These should not strictly be necessary, but on some platforms there
+are strange problems about allocating and deallocating blocks of
+shared memory whilst a program is running which these are intended to
+alleviate.</p>
+<p>If <code>spshed(8)</code> is already running, <strong>spstart</strong> will have no effect.</p>
+<p>Printers with numeric names in the other form of <strong>spstart</strong> will not
+cause confusion if <code>spshed(8)</code> is running.</p>
+<p>All other forms of this command will initialise spshed(8), but this is
+<em>very strongly</em> not recommended. The scheduler should be started
+first, connections to other machines established, possibly using
+<strong>spconn</strong>, and then printers should be started.</p>
+<p>
+</p>
+<hr />
+<h1><a name="starting_printers">Starting printers</a></h1>
+<a name="Spstart_use"></a><pre>
+        spstart lj4</pre>
+<p>will start printer <code>lj4</code> if it is halted. It will have no effect if
+it is already running. If it is printing, but it has been set to halt
+at the end of the current job, then this setting will be turned off,
+and the printer will continue at the end of the current job.</p>
+<pre>
+        spstart lj4 a4</pre>
+<p>will likewise do nothing, other than canceling a ``halt at end of
+current job'' setting, if printer <code>lj4</code> is running with the paper type
+<code>a4</code> (i.e. form type up to the first ``<code>.</code>'' or <code>-</code> is <code>a4</code>,
+ignoring the ``suffix''). Otherwise, printer <code>lj4</code> will be halted at
+the end of the current job if it is running, <strong>spstart</strong> will wait for
+it to halt, change the form type to <code>a4</code> and then restart it.</p>
+<p>Only ``paper types'', ignoring the suffix, are compared in deciding
+whether the form type is loaded.</p>
+<p>Shell-style wild cards (which should probably be protected from
+incorrect expansion by shell using quotes) may be used, in conjunction
+with the <strong>-f</strong> option, to start multiple printers, thus:</p>
+<pre>
+        spstart -f 'l*'
+        spstart -f '*[!a-m]'
+        spstart -f 'l*,*[!a-m]'</pre>
+<p>will respectively start all printers whose names begin with <code>l</code>, all
+printers whose names do not end with <code>a</code> through to <code>m</code> and both
+those classes of printers. Many installations include</p>
+<pre>
+        spstart -f '*'</pre>
+<p>in the ``startup script'' to start up all local printers.</p>
+<p>Most of the options (e.g. <strong>-l</strong> and <strong>-C</strong>) serve only to clarify which
+printer or printers are being referred to where there is ambiguity or
+the user wishes to restrict the field.</p>
+<p>Names of printers starting with digits will not cause any confusion if
+<code>spshed(8)</code> is running.</p>
+<p>Printers on remote machines may be started by prefixing the machine
+name, thus</p>
+<pre>
+        spstart -f host1:l*</pre>
+<p>Printers are not started on more than one machine at once. You should
+start the printers as separate commands:</p>
+<pre>
+        spstart -f '*'
+        spstart -f 'host1:*'
+        spstart -f 'host2:*'</pre>
+<p>To run <strong>spstart</strong>, the user must have <em>halt and restart printers</em>
+permission.</p>
+<p>
+</p>
+<hr />
+<h1><a name="halting_printers">Halting printers</a></h1>
+<a name="Sphalt_use"></a>
+<a name="Spstop_use"></a><pre>
+        sphalt lj4</pre>
+<p>will halt printer <code>lj4</code> at the end of the current job if it is
+running and will otherwise have no effect.</p>
+<pre>
+        sphalt -f 'l*'</pre>
+<p>will likewise halt all printers whose names start with <code>l</code> etc.</p>
+<p>Most of the options (e.g. <strong>-l</strong> and <strong>-C</strong>) serve only to clarify which
+printer or printers are being referred to where there is ambiguity or
+the user wishes to restrict the field.</p>
+<p><strong>spstop</strong> is like <strong>sphalt</strong>, but the printers are halted immediately,
+aborting any current job.</p>
+<p>Printers on remote machines may be halted by prefixing the machine
+name, thus</p>
+<pre>
+        spstop -f host1:l*</pre>
+<p>To run these commands, the user must have <em>halt and restart printers</em>
+permission.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interrupting_printers">Interrupting printers</a></h1>
+<a name="Spinter_use"></a><pre>
+        spinter lj4</pre>
+<p>interrupts the given printer (or printers), so as to enable a
+higher-priority job to be handled and the interrupted job resumed at
+the interrupted page. Note that this will only work as intended if
+page delimiters are correctly defined.</p>
+<p>Printers on remote machines may be interrupted by prefixing the machine
+name, thus</p>
+<pre>
+        spinter host1:lj4</pre>
+<p>To run this, the user must have <em>halt and restart printers</em>
+permission.</p>
+<p>
+</p>
+<hr />
+<h1><a name="adding_printers">Adding printers</a></h1>
+<a name="Spadd_use"></a><pre>
+        spadd -l tty15 lj4b a4</pre>
+<p>adds a new printer with the specified parameters. The <strong>-l</strong> option is
+mandatory to denote the device name (or network address) as is the
+initial form type, in the above example <code>a4</code>.</p>
+<pre>
+        spadd -l 193.112.238.95 -N ptr9 a4</pre>
+<p>adds a network (terminal server) printer with the IP address
+given.</p>
+<p>Please note that this does nothing to create an initial setup
+file, which should be created first.</p>
+<p>Printers on remote machines may not be added with this command.</p>
+<p>To run <strong>spadd</strong>, the user must have <em>add and delete printers</em>
+permission.</p>
+<p>
+</p>
+<hr />
+<h1><a name="deleting_printers">Deleting printers</a></h1>
+<a name="Spdel_use"></a><pre>
+        spdel lj4b</pre>
+<p>deletes the specified printer. It is a mistake to try to delete more
+than one printer at a time with this command.</p>
+<p>Printers on remote machines may not be deleted with this command.</p>
+<p>To run <strong>spdel</strong>, the user must have <em>add and delete printers</em>
+permission.</p>
+<p>
+</p>
+<hr />
+<h1><a name="changing_printers">Changing printers</a></h1>
+<a name="Spchange_use"></a><p><strong>spchange</strong> with appropriate options and a printer name (with optional
+form type) changes the specified parameters of a printer, which should
+be halted (and is left halted).</p>
+<p>To run <strong>spchange</strong>, the user must have <em>add and delete printers</em>
+permission.</p>
+<p>
+</p>
+<hr />
+<h1><a name="alignment_pages">Alignment pages</a></h1>
+<a name="Spok_use"></a>
+<a name="Spnok_use"></a><p>If a printer is in ``awaiting operator'' state, then <strong>spok</strong> and
+<strong>spnok</strong> may be used to communicate with it.</p>
+<p>If it is in single sheet mode, then the printer will be continued
+identically whichever command is used.</p>
+<p>If it is waiting for the approval of an alignment page, <strong>spok</strong> will
+grant approval and continue with printing, <strong>spnok</strong> will disapprove
+the alignment page, causing the alignment routine to be rerun.</p>
+<p>To run <strong>spok</strong> and <strong>spnok</strong>, the user must have <em>select printer list</em>
+permission.</p>
+<p>
+</p>
+<hr />
+<h1><a name="state_testing">State testing</a></h1>
+<a name="Spstat_use"></a><pre>
+        spstat lj4</pre>
+<p>will return an exit code of 0 (TRUE to shells) if the printer is
+running, (i.e. printing or idle) and otherwise 1 (FALSE to
+shells). Some other exit code will be returned, together with a
+message, if there is an error, e.g. non-existent printer.</p>
+<p>To test for specific states, use the state names as listed by
+splist(1), (in fact it takes the state names from the same file
+<em>rest.help</em> by default) for example.</p>
+<pre>
+        if spstat lj4 error || spstat lj4 offline
+        then    echo trouble with lj4
+        fi</pre>
+<p>
+</p>
+<h2><a name="standard_state_names_for_spstat">Standard state names for spstat</a></h2>
+<p>The following state names are used by <strong>spstat</strong>, which are usually
+shared with <code>splist(1)</code> in the message file
+<em>rest.help</em> by default. As with other GNUspool
+programs, the message file may be edited as required:</p>
+<dl>
+<dt><strong><a name="item_offline">offline</a></strong>
+
+<dd>
+<p>printer has gone off-line or timed out</p>
+</dd>
+</li>
+<dt><strong><a name="item_error">error</a></strong>
+
+<dd>
+<p>an error has been raised by the printer, driver or GNUspool</p>
+</dd>
+</li>
+<dt><strong><a name="item_halted">halted</a></strong>
+
+<dd>
+<p>printer is shut down and printing suspended by GNUspool</p>
+</dd>
+</li>
+<dt><strong><a name="item_startup">startup</a></strong>
+
+<dd>
+<p>being initialised to a ready/printing state from the halted state</p>
+</dd>
+</li>
+<dt><strong><a name="item_idle">idle</a></strong>
+
+<dd>
+<p>ready to print next job but nothing to print</p>
+</dd>
+</li>
+<dt><strong><a name="item_shutdown">shutdown</a></strong>
+
+<dd>
+<p>in process of being taken down to the <a href="#item_halted"><code>halted</code></a> state</p>
+</dd>
+</li>
+<dt><strong><a name="item_printing">printing</a></strong>
+
+<dd>
+<p>a job is currently being printed</p>
+</dd>
+</li>
+<dt><strong><a name="item_a_2fw_oper">a/w oper</a></strong>
+
+<dd>
+<p>awaiting operator attention</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="connect_and_disconnect">Connect and disconnect</a></h1>
+<a name="Spconn_use"></a>
+<a name="Spdisconn_use"></a><p><strong>spconn</strong> instructs the <strong>GNUspool</strong> scheduler to attempt to raise a
+connection to the given host, which should be specified in the file
+<em>/etc/gnuspool.hosts</em>, and not currently active.</p>
+<p><strong>spdisconn</strong> instructs the <strong>GNUspool</strong> scheduler to close a connection
+to the given host, which should be specified in the file
+<em>/etc/gnuspool.hosts</em>, and currently active.</p>
+<p>Both of these commands return immediately; however the connection may
+take some time and indeed may not succeed without the command
+returning an error message or code.</p>
+<p>The user must have <em>stop scheduler</em> permission to run these commands.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>Note that the order of treatment, letters and keywords described below
+may be modified by editing the file <em>rest.help</em> - see spsyntax(5).</p>
+<p>The environment variable on which options are supplied is the same as
+the name of the program invoked except in upper-case, for example,
+<a href="#item_spstart"><code>SPSTART</code></a>. The environment variable to specify the help file is
+<a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
+<dl>
+<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+
+<dd>
+<p>causes a summary of the other options to be displayed without taking
+further action.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dn_or__2bnetwork_2ddevice">-N or +network-device</a></strong>
+
+<dd>
+<p>indicate to that the argument to <strong>-l</strong> refers to a network device.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dl_or__2bline_2ddevice">-L or +line-device</a></strong>
+
+<dd>
+<p>indicate to that the argument to <strong>-l</strong> refers to a line (e.g. <code>tty</code>
+or <code>lp</code>-style) device.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2ds_or__2blocal_2donly">-s or +local-only</a></strong>
+
+<dd>
+<p>(for <strong>spadd</strong>) mark printer as being local only to the host.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dw_or__2bnetwork_2dwide">-w or +network-wide</a></strong>
+
+<dd>
+<p>(for <strong>spadd</strong>) mark printer as being available to other machines.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dl_device_or__2bdevice_2dname_device">-l <em>device</em> or +device-name <em>device</em></a></strong>
+
+<dd>
+<p>in the case of <strong>spadd</strong>, defines the device name or network address of
+the printer.</p>
+</dd>
+<dd>
+<p>With other options, it may be used to specify which of several
+similarly-named printers is intended.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dc_nnnn_or__2bclasscode_nnnn">-C <em>nnnn</em> or +classcode <em>nnnn</em></a></strong>
+
+<dd>
+<p>where <em>nnnn</em> consists of the letters <strong>A</strong> to <strong>P</strong> (upper or lower
+case), with <strong>-</strong> to denote ranges, specifies a class code.</p>
+</dd>
+<dd>
+<p>in the case of <strong>spadd</strong>, it defines the class code (subject to
+modification by the user's class code) which will be given to the
+printer.</p>
+</dd>
+<dd>
+<p>With other options, it may be used to specify which of several
+similarly-named printers is intended.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dd_string_or__2bdescription_string">-D <em>string</em> or +description <em>string</em></a></strong>
+
+<dd>
+<p>set the description or comment field associated with the printer to
+<em>string</em>.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dv_device_or__2bnew_2ddevice_device">-v <em>device</em> or +new-device <em>device</em></a></strong>
+
+<dd>
+<p>for <strong>spchange</strong>, reset the device name as specified. Note that the
+<strong>-l</strong> option may help to select the desired printer.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2ds_or__2bset_2dclasscode">-S or +set-classcode</a></strong>
+
+<dd>
+<p>for <strong>spchange</strong>, reset the class code as specified. Note that the
+<strong>-C</strong> option may help to select the desired printer.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2df_or__2bforce_2dall">-f or +force-all</a></strong>
+
+<dd>
+<p>for <strong>spstart</strong>, <strong>sphalt</strong>, <strong>spstop</strong>, <strong>spinter</strong>, <strong>spchange</strong>,
+<strong>spok</strong>, <strong>spnok</strong> indicate that if the printer name argument selects
+more than one printer, then all such printers are intended.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dn_or__2bno_2dforce">-n or +no-force</a></strong>
+
+<dd>
+<p>cancels the <strong>-f</strong> option.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dw_or__2bwait_2dcomplete">-W or +wait-complete</a></strong>
+
+<dd>
+<p>wait for operations to complete before exiting.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2de_or__2bno_2dwait">-E or +no-wait</a></strong>
+
+<dd>
+<p>do not wait for operations to complete before exiting.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
+
+<dd>
+<p>Save all the current options in a <em>.gnuspool</em> file in the current
+directory.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2bfreeze_2dhome">+freeze-home</a></strong>
+
+<dd>
+<p>Save all the current options in a <em>.gnuspool</em> file in the user's home
+directory.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="files">FILES</a></h1>
+<p><em>~/.gnuspool</em>
+configuration file (home directory)</p>
+<p><em> .gnuspool</em>
+configuration file (current directory)</p>
+<p><em>rest.help</em>
+message file</p>
+<p>
+</p>
+<hr />
+<h1><a name="environment">ENVIRONMENT</a></h1>
+<p><strong>N.B.</strong> Separate variables are provided for each program from Release
+23 onwards. Previously <a href="#item_spstart"><code>SPSTART</code></a> applied to each program.</p>
+<dl>
+<dt><strong><a name="item_spstart">SPSTART</a></strong>
+
+<dd>
+<p>space-separated options to override defaults for <strong>spstart</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_sphalt">SPHALT</a></strong>
+
+<dd>
+<p>space-separated options to override defaults for <strong>sphalt</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_spadd">SPADD</a></strong>
+
+<dd>
+<p>space-separated options to override defaults for <strong>spadd</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_spdel">SPDEL</a></strong>
+
+<dd>
+<p>space-separated options to override defaults for <strong>spdel</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_spchange">SPCHANGE</a></strong>
+
+<dd>
+<p>space-separated options to override defaults for <strong>spchange</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_spok">SPOK</a></strong>
+
+<dd>
+<p>space-separated options to override defaults for <strong>spok</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_spnok">SPNOK</a></strong>
+
+<dd>
+<p>space-separated options to override defaults for <strong>spnok</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_spstat">SPSTAT</a></strong>
+
+<dd>
+<p>space-separated options to override defaults for <strong>spstat</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+
+<dd>
+<p>location of alternative help file.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>splist(1),
+spq(1),
+sqlist(1),
+spsyntax(5),
+gnuspool.conf(5),
+gnuspool.hosts(5),
+spshed(8),
+xtnetserv(8).</p>
+<p>
+</p>
+<hr />
+<h1><a name="diagnostics">DIAGNOSTICS</a></h1>
+<p>Various diagnostics are read and printed as required from the message
+file, by default <em>rest.help</em>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>John M Collins, Xi Software Ltd.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+=head1 NAME
+
+gspool_ptrlist - get a list of printers
+
+=head1 SYNOPSIS
+
+=for man
+\&\fB#include <gspool.h>\fR
+.PP
+
+=for html
+<STRONG>#include &lt;gspool.h&gt;</STRONG>
+<br>
+
+B<int gspool_ptrlist(const int> I<fd>B<, const unsigned>
+I<flags>B<, int *>I<numptrs>B<, slotno_t **>I<slots>B<)>
+
+=head1 DESCRIPTION
+
+The B<gspool_ptrlist()> function is used to obtain a list of printers.
+
+I<fd> is a file descriptor previously returned by B<gspool_open>
+
+I<flags> is either zero, or C<GSPOOL_FLAG_LOCALONLY> to request that
+only printers local to the server be listed.
+
+I<numptrs> is a pointer to an integer value which, on successful
+completion, will contain the number of printer slots returned.
+
+I<slots> is a pointer to to an array of slot numbers. These slot
+numbers can be used to access individual printers. The memory used by
+this vector is owned by the API, therefore no attempt should be made
+by the user to free it.
+
+=head1 RETURN VALUES
+
+=for html
+<P>The function returns 0 if successful otherwise one of the error codes
+<a href="TxtAPI-3.html#Error_codes">listed in Chapter 3</a>.</p>
+
+=for man
+The function \fBgspool_ptrlist()\fR returns 0 if successful, otherwise one
+of the following codes:
+.Ip "GSPOOL_INVALID_FD" 8
+Invalid File descriptor
+.Ip "GSPOOL_BADWRITE" 8
+failure writing to the network
+.Ip "GSPOOL_BADREAD" 8
+failure reading from the network
+
+=head1 NOTES
+
+The value assigned to C<*slots> is owned by the API, so the user
+should not attempt to free it. This contrasts, for example, with X
+library routines.
+
+Also note that certain other calls to the API, notably B<gspool_joblist>,
+may reuse the space, so the contents should be copied if required
+before other API calls are made.
+
+=head1 EXAMPLE
+
+An example to list all printers
+
+ int fd, ret, np, i;
+ slotno_t *slots;
+
+ fd = gspool_open("myhost", (char *) 0, 0);
+ if (fd < 0) { /* error handling */
+     ...
+ }
+
+ ret = gspool_ptrlist(fd, 0, &np, &slots);
+ if (ret < 0) { /* error handling */
+     ...
+ }
+
+ for (i = 0; i < np; i++) {
+     slotno_t this_slot = slots[i];
+     /* process this_slot */
+     ...
+ }
+ gspool_close(fd);
+
+=head1 SEE ALSO
+
+gspool_ptrread(3),
+gspool_ptradd(3),
+gspool_ptrdel(3),
+gspool_ptrfind(3),
+gspool_ptrfindslot(3),
+gspool_ptrupd(3),
+gspool_ptrmon(3),
+gspool_ptrop(3).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

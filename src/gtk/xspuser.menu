@@ -1,0 +1,37 @@
+<ui>
+  <menubar name='MenuBar'>
+    <menu action='FileMenu'>
+	<menuitem action='Quit'/>
+    </menu>
+    <menu action='DefMenu'>
+	<menuitem action='Dpri'/>
+	<menuitem action='Dform'/>
+	<menuitem action='Dptr'/>
+	<separator/>
+	<menuitem action='Dclass'/>
+	<menuitem action='Dpriv'/>
+	<separator/>
+	<menuitem action='Copyall'/>
+    </menu>
+    <menu action='UserMenu'>
+	<menuitem action='upri'/>
+	<menuitem action='uform'/>
+	<menuitem action='uptr'/>
+	<separator/>
+	<menuitem action='uclass'/>
+	<menuitem action='upriv'/>
+	<separator/>
+	<menuitem action='copydef'/>
+    </menu>
+    <menu action='ChargeMenu'>
+	<menuitem action='dispcharge'/>
+	<separator/>
+	<menuitem action='zerou'/>
+	<menuitem action='zeroall'/>
+	<menuitem action='impose'/>
+    </menu>
+    <menu action='HelpMenu'>
+      <menuitem action='About'/>
+    </menu>
+  </menubar>
+</ui>

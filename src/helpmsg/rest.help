@@ -1,0 +1,9 @@
+# $Header: /sources/gnuspool/gnuspool/src/helpmsg/rest.help,v 1.1 2008/08/18 16:25:54 jmc Exp $
+# This file defines the prompts, help messages etc for user-level programs
+# other than 'spq' and 'spuser'.
+# The numbers give "states" within the internal state machine by which
+# the program operates. These should generally be left alone.
+
+# Auto-generated beyond this line from master.
+
+

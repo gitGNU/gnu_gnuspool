@@ -1,0 +1,566 @@
+=head1 NAME
+
+gspl-start - start GNUspool
+
+gspl-start - start a printer
+
+gspl-phalt - halt a printer at end of job
+
+gspl-pstop - halt a printer immediately
+
+gspl-pinter - interrupt printer
+
+gspl-padd - add a printer
+
+gspl-pdel - delete a printer
+
+gspl-pchange - change a printer
+
+gspl-ok - approve alignment
+
+gspl-nok - disapprove alignment
+
+gspl-pstat - test state of printer
+
+gspl-conn - connect GNUspool host
+
+gspl-disconn - disconnect GNUspool host
+
+=head1 SYNOPSIS
+
+B<gspl-start>
+[ I<jobsize> [ I<printersize> ] ]
+
+B<gspl-start>
+[ I<-options> ]
+I<printer> [ I<formtype> ]
+
+B<gspl-phalt>
+[ I<-options> ]
+I<printer>
+
+B<gspl-pstop>
+[ I<-options> ]
+I<printer>
+
+B<gspl-pinter>
+[ I<-options> ]
+I<printer>
+
+B<gspl-padd>
+I<-options>
+I<printer>
+I<formtype>
+
+B<gspl-pdel>
+[ I<-options> ]
+I<printer>
+
+B<gspl-pchange>
+I<-options>
+I<printer>
+[ I<formtype> ]
+
+B<gspl-ok>
+[ I<-options> ]
+I<printer>
+
+B<gspl-nok>
+[ I<-options> ]
+I<printer>
+
+B<gspl-pstat>
+[ I<-options> ]
+I<printer>
+I<state>
+
+B<gspl-conn>
+I<host>
+
+B<gspl-disconn>
+I<host>
+
+=head1 DESCRIPTION
+
+Note that all these programs are in fact hard links to the same
+program.
+
+=head1 Starting GNUspool
+
+=for html
+<a name="Gspl-Start_start"></a>
+
+B<gspl-start> without arguments, or with one or two numeric arguments,
+may be used to start the B<GNUspool> scheduler, spshed(8), together
+with associated programs, such as xtnetserv(8).
+
+The first optional argument specifies to spshed(8) that when
+allocating an initial block of shared memory for jobs it should
+allocate memory for at least the specified number of jobs.
+
+The second optional argument performs the same function with
+printers.
+
+These should not strictly be necessary, but on some platforms there
+are strange problems about allocating and deallocating blocks of
+shared memory whilst a program is running which these are intended to
+alleviate.
+
+If spshed(8) is already running, B<gspl-start> will have no effect.
+
+Printers with numeric names in the other form of B<gspl-start> will not
+cause confusion if spshed(8) is running.
+
+All other forms of this command will initialise spshed(8), but this is
+I<very strongly> not recommended. The scheduler should be started
+first, connections to other machines established, possibly using
+B<gspl-conn>, and then printers should be started.
+
+=head1 Starting printers
+
+=for html
+<a name="Gspl-Start_use"></a>
+
+	gspl-start lj4
+
+will start printer C<lj4> if it is halted. It will have no effect if
+it is already running. If it is printing, but it has been set to halt
+at the end of the current job, then this setting will be turned off,
+and the printer will continue at the end of the current job.
+
+	gspl-start lj4 a4
+
+will likewise do nothing, other than canceling a "halt at end of
+current job" setting, if printer C<lj4> is running with the paper type
+C<a4> (i.e. form type up to the first "C<.>" or C<-> is C<a4>,
+ignoring the "suffix"). Otherwise, printer C<lj4> will be halted at
+the end of the current job if it is running, B<gspl-start> will wait for
+it to halt, change the form type to C<a4> and then restart it.
+
+Only "paper types", ignoring the suffix, are compared in deciding
+whether the form type is loaded.
+
+Shell-style wild cards (which should probably be protected from
+incorrect expansion by shell using quotes) may be used, in conjunction
+with the B<-f> option, to start multiple printers, thus:
+
+	gspl-start -f 'l*'
+	gspl-start -f '*[!a-m]'
+	gspl-start -f 'l*,*[!a-m]'
+
+will respectively start all printers whose names begin with C<l>, all
+printers whose names do not end with C<a> through to C<m> and both
+those classes of printers. Many installations include
+
+	gspl-start -f '*'
+
+in the "startup script" to start up all local printers.
+
+Most of the options (e.g. B<-l> and B<-C>) serve only to clarify which
+printer or printers are being referred to where there is ambiguity or
+the user wishes to restrict the field.
+
+Names of printers starting with digits will not cause any confusion if
+spshed(8) is running.
+
+Printers on remote machines may be started by prefixing the machine
+name, thus
+
+	gspl-start -f host1:l*
+
+Printers are not started on more than one machine at once. You should
+start the printers as separate commands:
+
+	gspl-start -f '*'
+	gspl-start -f 'host1:*'
+	gspl-start -f 'host2:*'
+
+To run B<gspl-start>, the user must have I<halt and restart printers>
+permission.
+
+=head1 Halting printers
+
+=for html
+<a name="Gspl-Phalt_use"></a>
+<a name="Gspl-Pstop_use"></a>
+
+	gspl-phalt lj4
+
+will halt printer C<lj4> at the end of the current job if it is
+running and will otherwise have no effect.
+
+	gspl-phalt -f 'l*'
+
+will likewise halt all printers whose names start with C<l> etc.
+
+Most of the options (e.g. B<-l> and B<-C>) serve only to clarify which
+printer or printers are being referred to where there is ambiguity or
+the user wishes to restrict the field.
+
+B<gspl-pstop> is like B<gspl-phalt>, but the printers are halted immediately,
+aborting any current job.
+
+Printers on remote machines may be halted by prefixing the machine
+name, thus
+
+	gspl-pstop -f host1:l*
+
+To run these commands, the user must have I<halt and restart printers>
+permission.
+
+=head1 Interrupting printers
+
+=for html
+<a name="Gspl-Pinter_use"></a>
+
+	gspl-pinter lj4
+
+interrupts the given printer (or printers), so as to enable a
+higher-priority job to be handled and the interrupted job resumed at
+the interrupted page. Note that this will only work as intended if
+page delimiters are correctly defined.
+
+Printers on remote machines may be interrupted by prefixing the machine
+name, thus
+
+	gspl-pinter host1:lj4
+
+To run this, the user must have I<halt and restart printers>
+permission.
+
+=head1 Adding printers
+
+=for html
+<a name="Gspl-Padd_use"></a>
+
+	gspl-padd -l tty15 lj4b a4
+
+adds a new printer with the specified parameters. The B<-l> option is
+mandatory to denote the device name (or network address) as is the
+initial form type, in the above example C<a4>.
+
+	gspl-padd -l 193.112.238.95 -N ptr9 a4
+
+adds a network (terminal server) printer with the IP address
+given.
+
+Please note that this does nothing to create an initial setup
+file, which should be created first.
+
+Printers on remote machines may not be added with this command.
+
+To run B<gspl-padd>, the user must have I<add and delete printers>
+permission.
+
+=head1 Deleting printers
+
+=for html
+<a name="Gspl-Pdel_use"></a>
+
+	gspl-pdel lj4b
+
+deletes the specified printer. It is a mistake to try to delete more
+than one printer at a time with this command.
+
+Printers on remote machines may not be deleted with this command.
+
+To run B<gspl-pdel>, the user must have I<add and delete printers>
+permission.
+
+=head1 Changing printers
+
+=for html
+<a name="Gspl-Pchange_use"></a>
+
+B<gspl-pchange> with appropriate options and a printer name (with optional
+form type) changes the specified parameters of a printer, which should
+be halted (and is left halted).
+
+To run B<gspl-pchange>, the user must have I<add and delete printers>
+permission.
+
+=head1 Alignment pages
+
+=for html
+<a name="Gspl-Ok_use"></a>
+<a name="Gspl-Nok_use"></a>
+
+If a printer is in "awaiting operator" state, then B<gspl-ok> and
+B<gspl-nok> may be used to communicate with it.
+
+If it is in single sheet mode, then the printer will be continued
+identically whichever command is used.
+
+If it is waiting for the approval of an alignment page, B<gspl-ok> will
+grant approval and continue with printing, B<gspl-nok> will disapprove
+the alignment page, causing the alignment routine to be rerun.
+
+To run B<gspl-ok> and B<gspl-nok>, the user must have I<select printer list>
+permission.
+
+=head1 State testing
+
+=for html
+<a name="Gspl-Pstat_use"></a>
+
+	gspl-pstat lj4
+
+will return an exit code of 0 (TRUE to shells) if the printer is
+running, (i.e. printing or idle) and otherwise 1 (FALSE to
+shells). Some other exit code will be returned, together with a
+message, if there is an error, e.g. non-existent printer.
+
+To test for specific states, use the state names as listed by
+gspl-plist(1), (in fact it takes the state names from the same file
+F<rest.help> by default) for example.
+
+	if gspl-pstat lj4 error || gspl-pstat lj4 offline
+	then	echo trouble with lj4
+	fi
+
+=head2 Standard state names for gspl-pstat
+
+The following state names are used by B<gspl-pstat>, which are usually
+shared with gspl-plist(1) in the message file
+F<rest.help> by default. As with other GNUspool
+programs, the message file may be edited as required:
+
+=over 8
+
+=item offline
+
+printer has gone off-line or timed out
+
+=item error
+
+an error has been raised by the printer, driver or GNUspool
+
+=item halted
+
+printer is shut down and printing suspended by GNUspool
+
+=item startup
+
+being initialised to a ready/printing state from the halted state
+
+=item idle
+
+ready to print next job but nothing to print
+
+=item shutdown
+
+in process of being taken down to the C<halted> state
+
+=item printing
+
+a job is currently being printed
+
+=item a/w oper
+
+awaiting operator attention
+
+=back
+
+=head1 Connect and disconnect
+
+=for html
+<a name="Gspl-Conn_use"></a>
+<a name="Gspl-Disconn_use"></a>
+
+B<gspl-conn> instructs the B<GNUspool> scheduler to attempt to raise a
+connection to the given host, which should be specified in the file
+F<gnuspool.hosts>, and not currently active.
+
+B<gspl-disconn> instructs the B<GNUspool> scheduler to close a connection
+to the given host, which should be specified in the file
+F<gnuspool.hosts>, and currently active.
+
+Both of these commands return immediately; however the connection may
+take some time and indeed may not succeed without the command
+returning an error message or code.
+
+The user must have I<stop scheduler> permission to run these commands.
+
+=head1 OPTIONS
+
+Note that the order of treatment, letters and keywords described below
+may be modified by editing the file F<rest.help> - see spsyntax(5).
+
+The environment variable on which options are supplied is the same as
+the name of the program invoked except in upper-case and with "-"
+changed to "_" (underscore), for example,
+C<GSPL_START>. The environment variable to specify the help file is
+C<SPRESTCONF>.
+
+=over 4
+
+=item -? or +explain
+
+causes a summary of the other options to be displayed without taking
+further action.
+
+=item -N or +network-device
+
+indicate to that the argument to B<-l> refers to a network device.
+
+=item -L or +line-device
+
+indicate to that the argument to B<-l> refers to a line (e.g. C<tty>
+or C<lp>-style) device.
+
+=item -s or +local-only
+
+(for B<gspl-padd>) mark printer as being local only to the host.
+
+=item -w or +network-wide
+
+(for B<gspl-padd>) mark printer as being available to other machines.
+
+=item -l I<device> or +device-name I<device>
+
+in the case of B<gspl-padd>, defines the device name or network address of
+the printer.
+
+With other options, it may be used to specify which of several
+similarly-named printers is intended.
+
+=item -C I<nnnn> or +classcode I<nnnn>
+
+where I<nnnn> consists of the letters B<A> to B<P> (upper or lower
+case), with B<-> to denote ranges, specifies a class code.
+
+in the case of B<gspl-padd>, it defines the class code (subject to
+modification by the user's class code) which will be given to the
+printer.
+
+With other options, it may be used to specify which of several
+similarly-named printers is intended.
+
+=item -D I<string> or +description I<string>
+
+set the description or comment field associated with the printer to
+I<string>.
+
+=item -v I<device> or +new-device I<device>
+
+for B<gspl-pchange>, reset the device name as specified. Note that the
+B<-l> option may help to select the desired printer.
+
+=item -S or +set-classcode
+
+for B<gspl-pchange>, reset the class code as specified. Note that the
+B<-C> option may help to select the desired printer.
+
+=item -f or +force-all
+
+for B<gspl-start>, B<gspl-phalt>, B<gspl-pstop>, B<gspl-pinter>, B<gspl-pchange>,
+B<gspl-ok>, B<gspl-nok> indicate that if the printer name argument selects
+more than one printer, then all such printers are intended.
+
+=item -n or +no-force
+
+cancels the B<-f> option.
+
+=item -W or +wait-complete
+
+wait for operations to complete before exiting.
+
+=item -E or +no-wait
+
+do not wait for operations to complete before exiting.
+
+=item +freeze-current
+
+Save all the current options in a F<.gnuspool> file in the current
+directory.
+
+=item +freeze-home
+
+Save all the current options in a F<.gnuspool> file in the user's home
+directory.
+
+=back
+
+=head1 FILES
+
+F<~/.gnuspool>
+configuration file (home directory)
+
+F< .gnuspool>
+configuration file (current directory)
+
+F<rest.help>
+message file
+
+=head1 ENVIRONMENT
+
+B<N.B.> Separate variables are provided for each program from Release
+23 onwards. Previously C<GSPL-START> applied to each program.
+
+=over 4
+
+=item GSPL_START
+
+space-separated options to override defaults for B<gspl-start>.
+
+=item GSPL_PHALT
+
+space-separated options to override defaults for B<gspl-phalt>.
+
+=item GSPL_PADD
+
+space-separated options to override defaults for B<gspl-padd>.
+
+=item GSPL_PDEL
+
+space-separated options to override defaults for B<gspl-pdel>.
+
+=item GSPL_PCHANGE
+
+space-separated options to override defaults for B<gspl-pchange>.
+
+=item GSPL_OK
+
+space-separated options to override defaults for B<gspl-ok>.
+
+=item GSPL_NOK
+
+space-separated options to override defaults for B<gspl-nok>.
+
+=item GSPL_PSTAT
+
+space-separated options to override defaults for B<gspl-pstat>.
+
+=item SPRESTCONF
+
+location of alternative help file.
+
+=back
+
+=head1 SEE ALSO
+
+gspl-plist(1),
+gspl-pq(1),
+gspl-qlist(1),
+spsyntax(5),
+gnuspool.conf(5),
+gnuspool.hosts(5),
+spshed(8),
+xtnetserv(8).
+
+=head1 DIAGNOSTICS
+
+Various diagnostics are read and printed as required from the message
+file, by default F<rest.help>.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gspl-start gspl-phalt gspl-pstop gspl-pinter gspl-padd gspl-pdel gspl-pchange gspl-ok gspl-nok
+## LocalWords:  gspl-pstat gspl-conn gspl-disconn formtype html spshed xtnetserv

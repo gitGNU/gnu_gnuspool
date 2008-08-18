@@ -1,0 +1,20 @@
+# Copyright 2008 Free Software Foundation, Inc.
+#
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.
+#
+# These are device parameters for parallel ports
+# Please tune and adjust (stop and restart printer to pick up any changes).
+#
+# open nn gives a timeout in seconds waiting for the device to open before
+#         deciding device is offline
+# offline nn gives a timeout in seconds waiting for an output operation to
+#         complete before deciding device is offline
+# outbuffer nn gives the output buffer size in bytes
+# reopen causes the port to be closed and reopened between jobs (sometimes
+#        necessary to flush the last job output).
+# canhang indicates that the port can "hang" with the last process trying to
+#         close it unable to exit or be killed until the port is reset again.
+#         This makes this condition less harmful.
+

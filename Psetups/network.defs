@@ -1,0 +1,17 @@
+# Copyright 2008 Free Software Foundation, Inc.
+#
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.
+#
+# Default device parameters for network devices
+
+open:30:Timeout on open before giving up
+offline:300:Timeout on write before regarding device as offline
+close:10000:Time to wait for close to complete
+postclose:1:Time to wait after close
+canhang:N:Running processes attached to device hard to kill
+outbuffer:1024:Size of output buffer in bytes
+reopen:Y:Restart server after each job
+logerror:Y:Log error messages to system log
+fberror:Y:Display error messages on screen

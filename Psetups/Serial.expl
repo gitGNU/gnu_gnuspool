@@ -1,0 +1,22 @@
+# These are device parameters for serial lines
+# Please tune and adjust (stop and restart printer to pick up any changes).
+#
+# baud nnn gives baud rate
+# ixon sets xon/xoff
+# ixany lets "any character restart"
+# clocal turns off modem control detection
+# cs5 to cs8 sets character size
+# twostop sets two stop bits
+# parenb enables parity
+# parodd sets odd parity
+# open nn gives a timeout in seconds waiting for the device to open before
+#         deciding device is offline
+# offline nn gives a timeout in seconds waiting for an output operation to
+#         complete before deciding device is offline
+# outbuffer nn gives the output buffer size in bytes
+# reopen causes the port to be closed and reopened between jobs (sometimes
+#        necessary to flush the last job output).
+# canhang indicates that the port can "hang" with the last process trying to
+#         close it unable to exit or be killed until the port is reset again.
+#         This makes this condition less harmful.
+

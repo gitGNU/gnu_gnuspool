@@ -1,0 +1,82 @@
+=head1 NAME
+
+spdinit - interpret setup files
+
+=head1 SYNOPSIS
+
+B<spdinit>
+I<printer>
+I<formtype>
+
+=head1 DESCRIPTION
+
+B<spdinit> is an internal program used by spd(8) to decode printer
+setup files for the B<GNUspool> spooler and document management system.
+
+It is only ever intended to be invoked by the despooler process spd(8),
+and the interface is not in any way guaranteed in future releases.
+
+Output is to standard output, and it may be useful to run strings(1)
+on the result to see whether setup files have produced the expected
+result.
+
+=head1 FILES
+
+F<gnuspool.conf>
+master configuration file
+
+F<int-config>
+message file
+
+F</var/spool/gnuspool>
+spool directory
+
+F<gnuspoolptrs>
+printer setup file directory
+
+F<spshed_reps>
+error log file
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item SPOOLDIR
+alternative location for spool directory
+
+=item SPROGDIR
+alternative location for spool programs
+
+=item SPOOLPT
+alternative location for printer descriptions
+
+=back
+
+=head1 SEE ALSO
+
+gspl-start(1),
+gnuspool.conf(5),
+gnuspool.hosts(5),
+spd(8),
+spshed(8).
+
+=head1 DIAGNOSTICS
+
+B<spdinit> is usually invoked indirectly, via spd(8) and spshed(8)
+from system startup procedures or other programs such as gspl-start(1).
+
+Diagnostics are not written to any terminal but to the file
+F<spshed_reps>.
+
+In the event of any problems (typically syntax errors) this file
+should be examined.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

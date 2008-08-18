@@ -1,0 +1,8 @@
+Please give the program you wish to use to send data to the printer.
+
+It should just be the program name, we'll come to arguments in a minute.
+
+This should be something that takes input from standard input and
+sends it to the required printer.
+
+If need be, create a shell script using a temporary file.

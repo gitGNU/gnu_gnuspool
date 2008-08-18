@@ -1,0 +1,97 @@
+=head1 NAME
+
+gspl-lpq - display job list on LPD protocol servers
+
+=head1 SYNOPSIS
+
+B<gspl-lpq>
+[ I<-l> ]
+[ I<-s> ]
+I<printer>
+
+=head1 DESCRIPTION
+
+B<gspl-lpq> obtains and outputs a list of pending jobs on an external
+print server supporting the LPD protocol.
+
+=head1 OPTIONS
+
+Note that the order of treatment, letters and keywords described below
+may be modified by editing the file F<splpd.help> -
+see spsyntax(5).
+
+The environment variable on which options are supplied is C<GSPL_LPQ> and the
+environment variable to specify the help file is C<LPDINTCONF>.
+
+=over 4
+
+=item -? or +explain
+
+Causes a summary of the other options to be displayed without taking
+further action.
+
+=item -l or +long-list
+
+Produce a long listing.
+
+=item -s or +short-list
+
+Produce a short listing (default).
+
+=item +freeze-current
+
+Save all the current options in a F<.gnuspool> file in the current
+directory.
+
+=item +freeze-home
+
+Save all the current options in a F<.gnuspool> file in the user's home
+directory.
+
+=back
+
+=head1 FILES
+
+F<~/.gnuspool>
+configuration file (home directory)
+
+F< .gnuspool>
+configuration file (current directory)
+
+F<splpd.help>
+message file
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item SPLPD
+
+space-separated options to override defaults.
+
+=item LPDINTCONF
+
+location of alternative help file.
+
+=back
+
+=head1 SEE ALSO
+
+gspl-lprm(1),
+spsyntax(5),
+xtlpc(8).
+
+=head1 DIAGNOSTICS
+
+Various diagnostics are read and printed as required from the message
+file, by default F<splpd.help>.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

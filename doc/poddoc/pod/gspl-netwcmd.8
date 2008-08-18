@@ -1,0 +1,68 @@
+=head1 NAME
+
+gspl-netwcmd - display network command for printer
+
+=head1 SYNOPSIS
+
+B<gspl-netwcmd>
+[ I<-n> ]
+I<printer>
+[ I<form> ]
+
+=head1 DESCRIPTION
+
+B<gspl-netwcmd> can be used to extract the network (terminal server)
+printing command for a given printer and output it on standard
+output. This is often useful for testing terminal server commands from
+the command prompt in the event that error conditions arise and
+enquiring what a given command "would have been".
+
+The current form type is used unless the I<form> argument is given,
+but this generally should not make any difference.
+
+A shell script is output to standard output containing the command. By
+default, all the C<$SPOOLDEV> etc printer environment variables are
+expanded in the output where appropriate as the printer "would see
+it", however this may be suppressed by means of the B<-n> option.
+
+There is a very subtle difference if the C<network> keyword is given
+with
+
+	network exec ....
+
+rather than C<network> without C<exec> or via C<network=>. In the
+first case, just the command is given, whereas in the other two cases
+the output is preceded with
+
+	#! /bin/sh
+
+and a blank line.
+
+Comments are added if no C<reopen> statement appears. An error will be
+generated if the printer is directly connected.
+
+=head1 OPTIONS
+
+=over 4
+
+=item -n
+
+suppress the expansion of environment variables.
+
+=back
+
+=head1 DIAGNOSTICS
+
+An error will be reported if the printer is not a network-style
+(terminal server) printer.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gspl-netwcmd SPOOLDEV

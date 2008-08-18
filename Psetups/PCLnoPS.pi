@@ -1,0 +1,33 @@
+# Copyright 2008 Free Software Foundation, Inc.
+#
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.
+#
+# If suffix name ends with 12 8 16 set that pitch, otherwise 10-pitch
+# Note that this can be combined with "l" to give ".l12" etc
+
+{
+	(*12)
+		sufstart P12
+	(*8)
+		sufstart P8
+	(*16)
+		sufstart P16
+	(*15)
+		sufstart P15
+	(*)
+		sufstart P10
+}
+
+{
+	(*it*)
+		docstart ITALICS
+		sufend CANCITAL
+}
+
+{
+	(*8ln)
+		docstart SET8LPI
+		sufend SET6LPI
+}

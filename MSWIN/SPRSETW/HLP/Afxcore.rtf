@@ -1,0 +1,991 @@
+{\rtf1\ansi\ansicpg1252\uc1 \deff9\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f5\fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}Helvetica{\*\falt Arial};}
+{\f8\froman\fcharset0\fprq2{\*\panose 00000000000000000000}Tms Rmn{\*\falt Times New Roman};}{\f9\fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}Helv{\*\falt Arial};}{\f11\fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}MS Sans Serif;}
+{\f410\froman\fcharset238\fprq2 Times New Roman CE;}{\f411\froman\fcharset204\fprq2 Times New Roman Cyr;}{\f413\froman\fcharset161\fprq2 Times New Roman Greek;}{\f414\froman\fcharset162\fprq2 Times New Roman Tur;}
+{\f415\froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f416\froman\fcharset178\fprq2 Times New Roman (Arabic);}{\f417\froman\fcharset186\fprq2 Times New Roman Baltic;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;
+\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;
+\red128\green128\blue128;\red192\green192\blue192;\red255\green255\blue255;}{\stylesheet{\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \snext0 Normal;}{
+\s1\ql \li0\ri0\sb240\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \b\f9\fs24\ul\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext0 heading 1;}{\s2\ql \li0\ri0\sb120\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\b\f9\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext0 heading 2;}{\s3\ql \li360\ri0\nowidctlpar\faauto\adjustright\rin0\lin360\itap0 \b\f9\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext17 heading 3;}{
+\s4\ql \li360\ri0\nowidctlpar\faauto\adjustright\rin0\lin360\itap0 \f9\fs24\ul\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext17 heading 4;}{\s5\ql \li720\ri0\nowidctlpar\faauto\adjustright\rin0\lin720\itap0 
+\b\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext17 heading 5;}{\s6\ql \li720\ri0\nowidctlpar\faauto\adjustright\rin0\lin720\itap0 \f9\fs20\ul\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext17 heading 6;}{
+\s7\ql \li720\ri0\nowidctlpar\faauto\adjustright\rin0\lin720\itap0 \i\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext17 heading 7;}{\s8\ql \li720\ri0\nowidctlpar\faauto\adjustright\rin0\lin720\itap0 
+\i\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext17 heading 8;}{\s9\ql \li720\ri0\nowidctlpar\faauto\adjustright\rin0\lin720\itap0 \i\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext17 heading 9;}{\*
+\cs10 \additive Default Paragraph Font;}{\*\cs15 \additive \f8\fs16\up6\lang1033\langfe0\langnp1033\langfenp0 \sbasedon10 footnote reference;}{\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext16 footnote text;}{\s17\ql \li720\ri0\nowidctlpar\faauto\adjustright\rin0\lin720\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext17 
+Normal Indent;}{\s18\ql \fi-240\li480\ri0\sb80\nowidctlpar\tx480\faauto\adjustright\rin0\lin480\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext18 nscba;}{
+\s19\ql \fi-240\li240\ri0\sa20\nowidctlpar\faauto\adjustright\rin0\lin240\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext19 j;}{\s20\ql \li480\ri0\sa20\nowidctlpar\faauto\adjustright\rin0\lin480\itap0 
+\f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext20 ij;}{\s21\ql \li0\ri0\sb80\sa20\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext21 btb;}{
+\s22\ql \fi-240\li2400\ri0\sb20\sa20\nowidctlpar\faauto\adjustright\rin0\lin2400\itap0 \f5\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext22 ctcb;}{\s23\ql \fi-240\li480\ri0\sa40\nowidctlpar
+\tx480\faauto\adjustright\rin0\lin480\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext23 ns;}{\s24\ql \li0\ri0\sa120\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f5\fs28\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext24 TT;}{\s25\ql \fi-240\li2400\ri0\sa20\nowidctlpar\faauto\adjustright\rin0\lin2400\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext25 crtj;}{
+\s26\ql \fi-240\li480\ri0\nowidctlpar\tx480\faauto\adjustright\rin0\lin480\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext26 nsca;}{\s27\ql \li0\ri0\sa20\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext27 bt;}{\s28\ql \li240\ri0\sb120\sa40\nowidctlpar\faauto\adjustright\rin0\lin240\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext28 Hf;}{
+\s29\ql \li240\ri0\sb120\sa40\nowidctlpar\faauto\adjustright\rin0\lin240\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext29 Hs;}{\s30\ql \li480\ri0\sb120\sa40\nowidctlpar\faauto\adjustright\rin0\lin480\itap0 
+\f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext30 RT;}{\s31\ql \fi-2160\li2160\ri0\sb240\sa80\nowidctlpar\tx2160\faauto\adjustright\rin0\lin2160\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext31 c;}{\s32\ql \li2160\ri0\sa20\nowidctlpar\faauto\adjustright\rin0\lin2160\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext32 ct;}{
+\s33\ql \li240\ri0\sa20\nowidctlpar\faauto\adjustright\rin0\lin240\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext33 it;}{\s34\ql \li480\ri0\nowidctlpar\faauto\adjustright\rin0\lin480\itap0 
+\f5\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext34 nsct;}{\s35\ql \fi-160\li400\ri0\sb80\sa40\nowidctlpar\faauto\adjustright\rin0\lin400\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext35 
+nscb;}{\s36\ql \fi-2640\li2880\ri0\sb120\sa40\nowidctlpar\brdrb\brdrs\brdrw15 \brdrbtw\brdrs\brdrw15 \tx2880\faauto\adjustright\rin0\lin2880\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext36 HC2;}{
+\s37\ql \fi-2640\li2880\ri0\sb120\sa20\nowidctlpar\tx2880\faauto\adjustright\rin0\lin2880\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext37 C2;}{
+\s38\ql \fi-240\li2400\ri0\sa20\nowidctlpar\faauto\adjustright\rin0\lin2400\itap0 \f5\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext38 ctc;}{\s39\ql \li2160\ri0\sb160\nowidctlpar\faauto\adjustright\rin0\lin2160\itap0 
+\f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext39 crt;}{\s40\ql \li480\ri0\sb20\sa40\nowidctlpar\faauto\adjustright\rin0\lin480\itap0 \f5\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext40 or;}{
+\s41\ql \fi-259\li360\ri0\sb40\sa40\nowidctlpar\tx360\faauto\adjustright\rin0\lin360\itap0 \f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext41 Ln1;}{\s42\ql \li115\ri0\sb80\sa80\nowidctlpar\faauto\adjustright\rin0\lin115\itap0 
+\f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext0 *Intro;}{\s43\ql \li115\ri0\sb80\sa80\keepn\nowidctlpar\faauto\adjustright\rin0\lin115\itap0 \b\f11\fs24\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon3 \snext42 
+*Title;}{\s44\ql \fi-245\li360\ri0\sb80\nowidctlpar\faauto\adjustright\rin0\lin360\itap0 \f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \snext44 *Jl;}{\s45\ql \li360\ri0\sb40\sa40\nowidctlpar\faauto\adjustright\rin0\lin360\itap0 
+\f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \snext0 Lp1;}{\s46\ql \fi-1800\li1915\ri0\sb60\sl-240\slmult1\nowidctlpar\tx1915\faauto\adjustright\rin0\lin1915\itap0 \f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext46 Tph;}{\s47\ql \li115\ri0\sb120\sa80\nowidctlpar\faauto\adjustright\rin0\lin115\itap0 \b\f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \snext41 Proch;}{\*\cs48 \additive \super \sbasedon10 endnote reference;}}{\*\revtbl {Unknown;}}{\info
+{\title AFXCORE}{\subject MFC Core RTF Help}{\author AFX}{\operator John M Collins}{\creatim\yr1992\mo10\dy7\hr11\min4}{\revtim\yr2000\mo12\dy2\hr20\min53}{\version48}{\edmins602}{\nofpages160}{\nofwords4924}{\nofchars28070}{\*\company Xi Software Ltd}
+{\nofcharsws0}{\vern8247}}\widowctrl\ftnbj\aenddoc\makebackup\noxlattoyen\expshrtn\noultrlspc\dntblnsbdb\nospaceforul\hyphcaps0\horzdoc\dghspace120\dgvspace120\dghorigin1701\dgvorigin1984\dghshow0\dgvshow3
+\jcompress\viewkind4\viewscale166\viewzk2\nolnhtadjtbl \fet0\sectd \linex576\headery709\footery709\colsx709\endnhere\sectdefaultcl {\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang{\pntxta .}}
+{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang{\pntxta )}}{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang{\pntxtb (}
+{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl8\pnlcltr\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}\pard\plain 
+\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ main_index}}}{\fs16\up6   }{\b\fs24\up6 Sprsetw Help Index}{\b 
+\par }{\f5 
+\par }{\b Summary
+\par }{
+\par }{\b Sprsetw}{ provides a Windows interface to quickly configure Unix hosts and the server for }{\b Xi-Text}{ and set up standard defaults for queuing jobs used by }{\b Sprserv}{.}{\f5\ulw 
+\par 
+\par }{\b Commands
+\par }{\tab }{\uldb Program menu}{\v menu_program}{
+\par \tab }{\uldb Network menu}{\v menu_network}{
+\par \tab }{\uldb Options menu}{\v menu_options}{
+\par \tab }{\uldb View menu}{\v menu_view}{
+\par \tab }{\uldb Help menu}{\v menu_help}{
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ menu_program}}}{\b Program menu commands}{
+\par 
+\par The Program menu offers the following commands:
+\par 
+\par }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2178 \cellx2070\clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6552 \cellx8622\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Save}{\v HID_PROGRAM_SAVE}{\uldb \cell }{Saves changed hosts and option files.\cell }\pard 
+\ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone 
+\cltxlrtb\clftsWidth3\clwWidth2178 \cellx2070\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6552 \cellx8622\row }\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2178 \cellx2070\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6552 \cellx8622\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Login or Logout}{\v HID_PROGRAM_LOGINORLOGOUT}{\cell 
+Reset user name logged in as, or log out from Unix host.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2178 \cellx2070\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6552 \cellx8622\row }\pard 
+\ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Port Settings}{\v HID_PROGRAM_PORTSETTINGS}{\cell Reset TCP and UDP port services}{\lang2057\langfe1033\langnp2057 \cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {
+\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2178 \cellx2070\clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6552 \cellx8622\row }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr
+\brdrnone \cltxlrtb\clftsWidth3\clwWidth2178 \cellx2070\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6552 \cellx8622\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb 
+Exit}{\v HID_APP_EXIT}{\tab 
+\par }{\uldb \cell }{Exits }{\b Sprsetw}{ prompting if necessary for saving changes.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt
+\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2178 \cellx2070\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6552 \cellx8622\row }\pard 
+\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\fs16\up6 \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ menu_network}}}{ }{\b Network menu commands}{
+\par 
+\par The Network menu offers the following commands. In cases where a "currently-selected host" is referred to you should first move the mouse cursor over the top of the host in question and
+ click the left button once. This host will be highlighted to indicate its selection.
+\par 
+\par }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Add new host}{\v HID_NETWORK_ADDNEWHOST}{\uldb \cell }{
+Prompt for details of a new Unix host to add to the list of Unix hosts supported.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt
+\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row 
+}\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Delete host}{\v HID_NETWORK_DELETEHOST}{\uldb \cell }\pard 
+\qj \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {Delete details of the currently-selected Unix host from the list of Unix hosts supported.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Change host}{\v HID_NETWORK_CHANGEHOST}{\uldb \cell }\pard 
+\ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Change some of the details of the currently-selected Unix host.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone 
+\cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb 
+Set as Server}{\v HID_NETWORK_SETASSERVER}{\uldb \cell }\pard \ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Sets the currently-selected host as the server for this machine.\cell }\pard 
+\ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone 
+\cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\fs16\up6 
+\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ menu_options}}}{ }{\b Options menu commands}{
+\par 
+\par The Options menu offers the following commands. 
+\par 
+\par }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Restore Defaults}{\v HID_OPTIONS_RESTOREDEFAULTS}{\uldb \cell }{
+Restores the queuing options to a standard set of defaults for }{\b Xi\_Text}{.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt
+\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Program options}{\v HID_OPTIONS_PROGRAMOPTIONS}{\uldb \cell }\pard 
+\qj \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Sets miscellaneous queueing options.}{\uldb \cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb \trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Form and Copies}{\v HID_OPTIONS_FORMANDCOPIES}{\uldb \cell }\pard 
+\qj \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {Sets the default form type, header, printer, number of copies and priority.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb User and Mail}{\v HID_OPTIONS_USERANDMAIL}{\uldb \cell }\pard 
+\ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Sets the posting user, mail, write and attention options.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Page}{\v HID_OPTIONS_PAGE}{\uldb \cell }\pard 
+\ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Sets page range and delimiter options.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Retain}{\v HID_OPTIONS_RETAIN}{\uldb \cell }\pard 
+\ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Sets retention options.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 
+\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952
+\row }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Security}{\v HID_OPTIONS_SECURITY}{\uldb \cell }{Sets class codes and "local only" options.
+\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone 
+\cltxlrtb\clftsWidth3\clwWidth2880 \cellx2772\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx8952\row }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{
+\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ menu_view}}}{\b View menu commands}{
+\par 
+\par The View menu offers the following commands:
+\par 
+\par }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth1380 \cellx1272\clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7452\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Toolbar}{\v HID_VIEW_TOOLBAR}{\uldb \cell }{Shows or hides the toolbar.\cell }\pard 
+\ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone 
+\cltxlrtb\clftsWidth3\clwWidth1380 \cellx1272\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7452\row }\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth1380 \cellx1272\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7452\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Status Bar}{\v HID_VIEW_STATUS_BAR}{\uldb \cell }\pard 
+\ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Shows or hides the status bar.
+\par }\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone 
+\clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth1380 \cellx1272\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7452\row }\pard 
+\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ menu_help}}}{\b Help menu commands}{
+\par 
+\par The Help menu offers the following commands, which provide you assistance with this application: 
+\par 
+\par }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth1185 \cellx1077\clvertalt\clbrdrt\brdrnone \clbrdrl
+\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7257\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Index}{\v HID_HELP_INDEX}{\uldb \cell }\pard 
+\ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Offers you an index to topics on which you can get help.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth1185 \cellx1077\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7257\row }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone 
+\cltxlrtb\clftsWidth3\clwWidth1185 \cellx1077\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7257\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb Using Help}{
+\v HID_HELP_INDEX}{\uldb \cell }\pard \ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Provides general instructions on using help.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth1185 \cellx1077\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7257\row }\trowd \trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone 
+\cltxlrtb\clftsWidth3\clwWidth1185 \cellx1077\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7257\pard \ql \li0\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin0 {\uldb About}{\v 
+HID_APP_ABOUT}{\uldb \cell }\pard \ql \fi-720\li720\ri0\widctlpar\intbl\faauto\adjustright\rin0\lin720 {Displays the version number of this application.\cell }\pard \ql \li0\ri0\nowidctlpar\intbl\faauto\adjustright\rin0\lin0 {\trowd 
+\trgaph108\trleft-108\trftsWidth1\trpaddl108\trpaddr108\trpaddfl3\trpaddfr3 \clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone \clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth1185 \cellx1077\clvertalt\clbrdrt\brdrnone \clbrdrl\brdrnone 
+\clbrdrb\brdrnone \clbrdrr\brdrnone \cltxlrtb\clftsWidth3\clwWidth6180 \cellx7257\row }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_PROGRAM_SAVE}}}{ }{\b Save command (Program menu)}{
+\par 
+\par Use this command to save the newly-created or edited list of hosts and options.
+\par 
+\par }{\b Shortcuts
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Toolbar:\tab \{bmc hlp\\filesave.bmp\}
+\par Keys:\tab CTRL+S
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_APP_EXIT}}}{ }{\b Exit command (Program menu)}{
+\par 
+\par Use this command to end your }{\b Sprsetw}{ session. You can also use the Close command on the application Control menu.  }{\b Sprsetw}{ prompts you to save the files if you have not saved the changes.
+\par 
+\par }{\b Shortcuts
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Mouse:\tab Double-click the application's Control menu button.
+\par \tab \{bmc hlp\\appexit.bmp\}
+\par Keys:\tab ALT+F4
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_PROGRAM_LOGINORLOGOUT}}}{ }{\b Login or logout command (Program menu)
+\par }\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\par Use this command to change the user name on the Unix host under which activities are carried out. Alternatively it may be used to terminate the user\rquote s log in session.
+\par 
+\par }{\cs15\f8\fs16\up6 K{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Unix host;Unix host, login;Unix host, logout}}${\footnote 
+\pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Login or logout from Unix host}}}{Select the }{\b Login in as new user}{
+ button to specify a new Unix login user. You will almost certainly be asked for a password.
+\par 
+\par Select the }{\b Logout}{ button to log out. In some cases this will cause the user name to revert to the default case.
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\b \page }{\cs15\b\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_PROGRAM_PORTSETTINGS}}}{\b  Port Settings Command (Program Menu)}{
+\par 
+\par }{\cs15\f8\fs16\up6 ${\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Setting Internet port numbers}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ TCP;TCP, Port Numbers}}}{Use this command to reset the port numbers for the various TCP and }{
+\cs15\f8\fs16\up6 K{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ UDP;UDP, Port Numbers}}}{
+UDP services. Please be very careful about using these!
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_NETWORK_ADDNEWHOST}}}{ }{\b 
+Add new host command (Network menu)}{
+\par 
+\par }{\cs15\f8\fs16\up6 ${\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Adding new Unix host names}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Unix host;Unix host, Adding details;Unix host, New}}}{
+Use this command to add a new host to the list of Unix hosts maintained by }{\b sprsetw}{ and used by other }{\b Xi-Text}{ applications.
+\par 
+\par }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_HOST}}}{ You will be prompted for a }{\i host name}{
+; this should be any name }{\lang2057\langfe1033\langnp2057 recognised}{ by the TCP/IP system. (You may have to edit the Windows hosts file to cause it to be }{\lang2057\langfe1033\langnp2057 recognised}{).
+\par 
+\par }{\cs15\f8\fs16\up6 K{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Unix host;Unix host, Alias}}}{
+As well as a host name, you can give an }{\i alias name}{; this can be some other unique name by which you might prefer to refer to the Unix host as.
+\par 
+\par }{\cs15\f8\fs16\up6 K{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Unix host;Unix host, Timeout;Unix host, Probe}}}{
+Two other parameters are a }{\i timeout}{ parameter, which is used internally to decide if network connections have become ineffective and the }{\i probe}{ flag, which causes}{\cs15\f8\fs16\up6 K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ spqw;spqw, Parameters for}}}{ }{\b spqw}{
+ to first check that the host is available on the network before attempting a TCP connection. These last two parameters are set to 1000 seconds and on respectively. There should be little reason to change them.
+\par }\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\b Shortcuts
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Toolbar:\tab \{bmc hlp\\netadd.bmp\}
+\par Keys:\tab INSERT
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_NETWORK_DELETEHOST}}}{ }{\b Delete host command (Network menu)}{
+\par 
+\par }{\cs15\f8\fs16\up6 ${\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Deleting Unix host names}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Unix host;Unix host, Deletion from list}}}{
+Use this command to delete the currently-selected host name from the list of Unix hosts maintained by }{\b sprsetw}{ and used by other }{\b Xi-Text}{
+ applications. First select a host on the list of hosts by moving the mouse cursor over it and clicking the left button.
+\par 
+\par You will be prompted to confirm that you really want to do this, in case you pressed something by mistake.
+\par 
+\par }{\b Shortcuts
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Toolbar:\tab \{bmc hlp\\netdel.bmp\}
+\par Keys:\tab DELETE
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_NETWORK_CHANGEHOST}}}{ }{\b Change host command (Network menu)}{
+\par 
+\par }{\cs15\f8\fs16\up6 ${\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Changing details of Unix host}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Unix host;Unix host, Change details}}}{
+Use this command to change the currently-selected host name in the list of Unix hosts maintained by }{\b sprsetw}{ and used by other }{\b Xi-Text}{
+ applications. First select a host on the list of hosts by moving the mouse cursor over it and clicking the left button.
+\par 
+\par You will be prompted for new values of }{\i host name}{, the }{\i alias name}{ the }{\i timeout}{ parameter and the }{\i probe}{ flag as for adding new hosts.
+\par 
+\par }{\b Shortcut
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Toolbar:\tab \{bmc hlp\\netchng.bmp\}
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_NETWORK_SETASSERVER}}}{ }{\b Set as server command (Network menu)}{
+\par 
+\par }{\cs15\f8\fs16\up6 ${\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Setting a Unix host as the primary server}}K{\footnote 
+\pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Unix host;Unix host, Set server;Unix host, Main host}}}{
+Use this command to denote that this Unix host is the primary connection to which print jobs will normally be sent. (This will not, of course, necessarily limit which host w
+ill print the resulting jobs). First select a host on the list of hosts by moving the mouse cursor over it and clicking the left button.
+\par 
+\par If connection cannot be made to this host, then the attempt will be rejected as the server should be available at all times.
+\par 
+\par You should always arrange to leave }{\b Sprsetw}{ with a valid server. The files will not be saved if this is not the case.
+\par 
+\par }{\b Shortcut
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Toolbar:\tab \{bmc hlp\\setserv.bmp\}
+\par Keys:\tab HOME
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_OPTIONS_PROGRAMOPTIONS}}}{ }{\b Program options command (Options menu)
+\par 
+\par }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_PROPTS}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Setting program options for sprsetw}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Progam options;Progam options, Setting}}}{
+Use this command to set the default values for the verbose, interpolate and text mode options within the various queue programs.
+\par 
+\par It will, of course be possible to override the various parameters later within those programs. The purpose of this command is to set up the defaults for your system.
+\par 
+\par }{\cs15\f8\fs16\up6 K{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Program options;Program options, Verbose option}}}{
+The purpose of the verbose option is to cause the job number to be displayed when jobs are queued.
+\par 
+\par }{\cs15\f8\fs16\up6 K{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Text mode}}}{
+The text mode option causes DOS to Unix translations of text files to take place. The main effect is that carriage-return characters are stripped.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_OPTIONS_FORMANDCOPIES}}}{ }{\b Form and copies command (Options menu)
+\par 
+\par }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_FORMDLG}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Setting default form type and copies}}}{\cs15\fs16\up6 K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Form type;Form type, Setting default}}}{\cs15\f8\fs16\up6 K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Number of copies}}}{
+Use this command to set the default form type, job title, whether the title should be suppressed, the default printer name, the number of copies and the priority which will apply to jobs subsequently generated by }{\b sprserv}{.
+\par }\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+It will, of course be possible to override the various parameters later within those programs. The purpose of this command is to set up the defaults for your system.
+\par 
+\par }\pard \ql \li0\ri0\widctlpar\tx10890\faauto\adjustright\rin0\lin0\itap0 {The small scroll boxes on the right of the number of copies and the priority enable you to scroll through the allowable range of values.
+\par 
+\par Note that the maximum number of copies and the range of priorities which are allowed are set at the Unix Server end using the }{\b spuser}{ utility. Please see the }{\b\i Xi-Text}{\i  System Reference Manual.}{
+\par 
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {In addition you may not be permitted to select a form type other than your default form type.
+\par 
+\par }{\b Shortcut
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Toolbar:\tab \{bmc hlp\\optform.bmp\}
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_OPTIONS_USERANDMAIL}}}{ }{\b User and mail command (Options menu)
+\par 
+\par }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_USERMAIL}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Setting posting user and mail options}}}{\cs15\fs16\up6 K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Post to user}}K{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Mail result}}}{\cs15\f8\fs16\up6 K{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Write result}}}{Use this command to set the posting user, mail and write options which will apply to jobs subsequently generated by }{\b sprserv}{.
+\par 
+\par It will, of course be possible to override the various parameters later. The purpose of this command is to set up the defaults for your system.
+\par 
+\par }\pard \ql \li0\ri0\widctlpar\tx10890\faauto\adjustright\rin0\lin0\itap0 {The posting user is the user whose name will appear on the banner page for the job, if printed. Y
+our identity will still appear in smaller print on the banner page. The user names presented will be those of users known to the Unix Server.
+\par 
+\par Please see the }{\b\i Xi-Text}{\i  System Reference Manual }{for details of the function of the mail, write, mail and write attention flags.
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_OPTIONS_PAGE}}}{ }{\b Page command (Options menu)
+\par 
+\par }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_PAGE}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Setting page delimiter options}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Page delimiters}}}{
+Use this command to set page delimiters and ranges which will apply to jobs subsequently generated by }{\b sprserv}{.
+\par 
+\par It will, of course be possible to override the various parameters later within those programs. The purpose of this command is to set up the defaults for your system.
+\par }{\b 
+\par }\pard \ql \li0\ri0\widctlpar\tx10890\faauto\adjustright\rin0\lin0\itap0 {The small scrolling boxes near to the start and end pages and the delimiter numbers enabl
+e you to increment or decrement the start and end page and the delimiter count appropriately. Note that there is no "halted at" page in this dialog as this only applies to jobs actually on the job queue. Also note that it is a mistake to set a start page 
+which is greater than an end page.
+\par 
+\par If you select that you only want odd or even pages printed, you can also select whether you want the odd and even page marker inverted after printing each copy so that you get odd and even pages on alternate copies.
+\par 
+\par The format of the delimiter is as given in the }{\b\i Xi-Text}{\i  System Reference Manual}{; the most important escape sequences are:
+\par 
+\par }\pard \ql \fi720\li0\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin0\itap0 {\\n\tab Newline
+\par \\f\tab Formfeed
+\par \\r\tab Carriage return
+\par }\pard \ql \li0\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin0\itap0 {
+\par The post-processing flags are arbitrary string arguments which may be passed to any post processing filter run by the }{\b Xi-Text}{ despooler process.
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_OPTIONS_RETAIN}}}{ }{\b Retain command (Options menu)
+\par 
+\par }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_RETAIN}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Setting options for job retention and holding}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Job retention}}}{Use this command to set retention options which will apply to jobs su
+bsequently generated by }{\b sprserv}{.
+\par 
+\par It will, of course be possible to override the various parameters later. The purpose of this command is to set up the defaults for your system.
+\par }{\b 
+\par }{Firstly, you can mark jobs to be retained on the queue with copies zero after printing, as opposed to being immediately deleted, so that you can reprint them at a later date.
+\par 
+\par You can state the time in hours for which a job will remain on the queue after it has been printed in these circumstances, and you can s
+tate the time in hours after which the job will be automatically deleted even if it has not been printed. If the latter time is less than the first time, this is queried, but is still allowed.
+\par 
+\par If you want to, you can give an earliest time and date at which the job is to be printed. Note that this time is }{\ul not}{ taken into account in determining whether to automatically delete a job.
+\par }{\b 
+\par }\pard \ql \li0\ri0\widctlpar\tx10890\faauto\adjustright\rin0\lin0\itap0 {The small scrolling boxes near to the delete times and the time and date fields enable you to increment or decrement these fiel
+ds appropriately. An attempt to bring forward the earliest time for printing field before the current time will not succeed.
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_OPTIONS_SECURITY}}}{ }{\b Security command (Options menu)
+\par 
+\par }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_SECURITY22}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Setting class code defaults}}}{\cs15\fs16\up6 K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Security}}}{\cs15\f8\fs16\up6 K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Class codes}}}{Use this command to set security options which will apply to jobs subsequently generated by }{
+\b sprserv}{.
+\par 
+\par It will, of course be possible to override the various parameters later. The purpose of this command is to set up the defaults for your system.
+\par }{\b 
+\par }\pard \ql \li0\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin0\itap0 {Each of the 32 class code letters }{\b A}{ to }{\b P}{ and }{\b a}{ to }{\b p}{ may be set or unset with the provisos:
+\par 
+\par }\pard \ql \fi-360\li360\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin360\itap0 {\field{\*\fldinst {SYMBOL 183 \\f "Symbol" \\s 10 \\h}}{\fldrslt }}{\tab You cannot turn all of the class code letters off.
+\par }\pard \ql \li0\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin0\itap0 {
+\par }\pard \ql \fi-360\li360\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin360\itap0 {\field{\*\fldinst {SYMBOL 183 \\f "Symbol" \\s 10 \\h}}{\fldrslt }}{\tab You cannot turn on class code letters if your c
+lass code on the Unix server does not include these letters and you do not have }{\i Override Class}{ Privilege (please see the }{\b\i Xi-Text}{\i  System Reference Manual}{. The check boxes for those class code letters will be disabled.
+\par }\pard \ql \li0\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin0\itap0 {
+\par The buttons }{\b SET ALL}{ and }{\b CLEAR ALL}{ turn on and off all of the class code letters that are possible. If you }{\ul do}{ have }{\i Override Class}{ privilege then the behaviour is slightly different:
+\par 
+\par }\pard \ql \fi-360\li360\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin360\itap0 {\field{\*\fldinst {SYMBOL 183 \\f "Symbol" \\s 10 \\h}}{\fldrslt }}{\tab The }{\b SET ALL}{ button will set th
+e default class codes if the current setting is not the default and will otherwise set all of the class letter boxes.
+\par }\pard \ql \li0\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin0\itap0 {
+\par }\pard \ql \fi-360\li360\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin360\itap0 {\field{\*\fldinst {SYMBOL 183 \\f "Symbol" \\s 10 \\h}}{\fldrslt }}{\tab The }{\b CLEAR ALL}{
+ button will set the default class codes if the current setting is not the default and will otherwise clear all of the class letter boxes.
+\par }\pard \ql \li0\ri0\widctlpar\tx1440\tx2880\tx10890\faauto\adjustright\rin0\lin0\itap0 {
+\par You can also choose to flag a job as only available for printing on a printer local to the Unix Server.
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_OPTIONS_RESTOREDEFAULTS}}}{ }{\b Restore defaults command (Options menu)}{
+\par 
+\par }{\cs15\f8\fs16\up6 ${\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Restoring default options}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ Program options;Program options, Restore defaults}}}{
+Use this command to reset all the form type, page, retention, user and security options to a standard set for }{\b Xi-Text}{ and the current Unix server.
+\par }{\b 
+\par }{The following effects should occur:
+\par 
+\par \tab Form type set to default for server.
+\par \tab Title set to null (obtained from job file)
+\par \tab Suppress header flag set off
+\par \tab Printer set to null
+\par \tab Copies set to 1
+\par \tab Priority set to default for server
+\par \tab Start page set to 1, end page to infinity
+\par \tab Delimiter set to 1 formfeed
+\par \tab Post processing flags set to null
+\par \tab Retain on queue set off
+\par \tab Hold time set off
+\par \tab Delete if printed flag set to 24 hours
+\par \tab Delete if not printed flag set to 168 hours (1 week)
+\par \tab Local printer flag set off
+\par \tab Class codes set to default for server.
+\par }{\b \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_VIEW_TOOLBAR}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ toolbar}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ View Toolbar command}}}{ }{\b Toolbar command (View menu)}{
+\par 
+\par Use this command to display and hide the Toolbar, which includes buttons for some of the most common commands in }{\b Sprsetw}{. A check mark appears next to the menu item when the Toolbar is displayed.
+\par 
+\par See }{\uldb Toolbar}{\v AFX_HIDW_TOOLBAR}{ for help on using the toolbar.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ AFX_HIDW_TOOLBAR}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ toolbar}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ toolbar}}}{ }{\b Toolbar}{
+\par \{bml hlp\\hlptbar.bmp\}
+\par 
+\par The toolbar is displayed across the top of the application window, below the menu bar.  The toolbar provides quick mouse access to many tools used in }{\b Sprsetw}{,
+\par 
+\par To hide or display the Toolbar, choose Toolbar from the View menu (ALT, V, T).
+\par 
+\par }\pard \ql \li0\ri0\widctlpar\brdrb\brdrs\brdrw15\brsp20 \tx1080\faauto\adjustright\rin0\lin0\itap0 {\b Click\tab To}{
+\par }\pard \ql \fi-1080\li1080\ri0\widctlpar\tx1080\faauto\adjustright\rin0\lin1080\itap0 {\{bmc hlp\\filesave.bmp\}\tab Save the files.
+\par 
+\par \{bmc hlp\\netadd.bmp\}\tab Add a new host name
+\par 
+\par \{bmc hlp\\netdel.bmp\}\tab Delete a host name
+\par 
+\par \{bmc hlp\\netchng.bmp\}\tab Change details of a host name.
+\par 
+\par \{bmc hlp\\setserv.bmp\}\tab Set selected host as server.
+\par 
+\par \{bmc hlp\\optform.bmp\}\tab Set up form type, copies, header, printer and priority.
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_VIEW_STATUS_BAR}}K{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ status bar}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ View Status Bar Command}}}{\b Status Bar command (View menu)
+\par }{
+\par Use this command to display and hide the Status Bar, which describes the action to be executed by the selected menu item or depressed toolbar button, and keyboard latch state. A check mark appears next to the menu item when the Status Bar is displayed.
+
+\par 
+\par See }{\uldb Status Bar}{\v AFX_HIDW_STATUS_BAR}{ for help on using the status bar.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ AFX_HIDW_STATUS_BAR}}K{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 K}{ status bar}}}{ }{\cs15\f8\fs16\up6 ${\footnote \pard\plain 
+\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ status bar}}}{\b Status Bar}{
+\par \{bml hlp\\hlpsbar.bmp\}
+\par 
+\par The status bar is displayed at the bottom of the Sprsetw window.  To display or hide the status bar, use the Status Bar command in the View menu.
+\par 
+\par The left area of the status bar describes actions of menu items as you use the arrow keys to navigate through menus.  This area similarly shows messages that describe the actions of tool
+bar buttons as you depress them, before releasing them.  If after viewing the description of the toolbar button command you wish not to execute the command, then release the mouse button while the pointer is off the toolbar button.
+\par 
+\par The right areas of the status bar indicate which of the following keys are latched down:
+\par 
+\par }\pard \ql \li0\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin0\itap0 {\b Indicator\tab Description}{
+\par }\pard \ql \fi-1440\li1440\ri0\sa120\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {CAP\tab The Caps Lock key is latched down.
+\par NUM\tab The Num Lock key is latched down.
+\par SCRL\tab The Scroll Lock key is latched down.
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_HELP_INDEX}}}{\b Index command (Help menu)
+\par }{
+\par Use this command to display the opening screen of Help.  From the opening screen, you can jump to step-by-step instructions for using Sprsetw and various types of reference information.  
+\par 
+\par Once you open Help, you can click the Contents button whenever you want to return to the opening screen.
+\par 
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_HELP_USING}}}{\b Using Help command (Help menu)
+\par }{
+\par Use this command for instructions about using Help.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_APP_ABOUT}}}{\b About command (Help menu)
+\par }{
+\par Use this command to display the copyright notice and version number of your copy of Sprsetw.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_CONTEXT_HELP}}${\footnote \pard\plain 
+\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ Help Using Help Command}}}{\b Context Help command 
+\par }{\{bml hlp\\curhelp.bmp\}
+\par 
+\par Use the Context Help command to obtain help on some portion of Sprsetw.  When you choose the Toolbar's Context Help button, the mouse pointer will change to an arrow and question mark.  Then click somewhere in the }{\b Sprsetw}{
+ window, such as another Toolbar button.  The Help topic will be shown for the item you clicked.
+\par 
+\par }{\b Shortcut
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Keys:\tab SHIFT+F1
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_HT_CAPTION}}}{\b Title Bar}{
+\par }\pard\plain \s42\ql \fi-360\li360\ri0\widctlpar\tx360\faauto\adjustright\rin0\lin360\itap0 \f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\f9 
+\par }\pard \s42\ql \li0\ri0\widctlpar\tx0\faauto\adjustright\rin0\lin0\itap0 {\f9 The title bar is located along the top of a window.  It contains the name of the application and document.
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\par }\pard\plain \s42\ql \li0\ri0\widctlpar\tx0\faauto\adjustright\rin0\lin0\itap0 \f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\f9 To move the window, drag the title bar.  Note: You can also move dialog boxes by dragging their title bars.
+
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\par }\pard \ql \fi-360\li360\ri0\widctlpar\tx360\faauto\adjustright\rin0\lin360\itap0 {A title bar may contain the following elements:
+\par }\pard\plain \s41\ql \fi-360\li360\ri0\sb40\sa40\widctlpar\tx360\faauto\adjustright\rin0\lin360\itap0 \f11\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\f9 \{bmc hlp\\bullet.bmp\}\tab Application Control-menu button
+\par \{bmc hlp\\bullet.bmp\}\tab Maximize button
+\par \{bmc hlp\\bullet.bmp\}\tab Minimize button
+\par \{bmc hlp\\bullet.bmp\}\tab Name of the application
+\par \{bmc hlp\\bullet.bmp\}\tab Restore button
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ scrollbars}}}{ }{\b Scroll bars}{
+\par 
+\par Displayed at the right and bottom edges of the document window.  The scroll boxes inside the scroll bars indicate your vertical and horizontal location in the document.  You can use the mouse to scroll to other parts of the document.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_SC_SIZE}}}{\b Size command (System menu)}{
+\par 
+\par Use this command to display a four-headed arrow so you can size the active window with the arrow keys.
+\par \{bml hlp\\curarw4.bmp\}
+\par 
+\par After the pointer changes to the four-headed arrow:
+\par }\pard \ql \fi-360\li360\ri0\sb60\widctlpar\faauto\adjustright\rin0\lin360\itap0 {1.\tab Press one of the DIRECTION keys (left, right, up, or down arrow key) to move the pointer to the border you want to move.  
+\par 2.\tab Press a DIRECTION key to move the border.
+\par 3.\tab Press ENTER when the window is the size you want.
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {
+\par Note:  This command is unavailable if you maximize the window.
+\par 
+\par }{\b Shortcut
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Mouse:\tab Drag the size bars at the corners or edges of the window.
+\par }\pard \ql \li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_SC_MOVE}}}{\b Move command (Control menu)
+\par }{
+\par Use this command to display a four-headed arrow so you can move the active window or dialog box with the arrow keys.
+\par \{bmc hlp\\curarw4.bmp\}
+\par 
+\par Note:  This command is unavailable if you maximize the window.
+\par 
+\par }{\b Shortcut
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Keys:\tab CTRL+F7
+\par 
+\par }\pard \ql \li0\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HID_SC_MINIMIZE}}${\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 $}{ System Minimize Command}}}{\b 
+Minimize command (application Control menu)
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {
+\par Use this command to reduce the Sprsetw window to an icon.
+\par }\pard \ql \fi-360\li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {\b 
+\par Shortcut}{
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Mouse:\tab Click the minimize icon \{bmc hlp\\scmin.bmp\} on the title bar.
+\par Keys:\tab ALT+F9
+\par }\pard \ql \fi-360\li1080\ri0\widctlpar\faauto\adjustright\rin0\lin1080\itap0 {
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_SC_MAXIMIZE}}}{\b Maximize command (System menu)
+\par }{
+\par Use this command to enlarge the active window to fill the available space.
+\par }\pard \ql \fi-360\li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {\b 
+\par Shortcut}{
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Mouse:\tab Click the maximize icon \{bmc hlp\\scmax.bmp\} on the title bar; or double-click the title bar.
+\par Keys:\tab CTRL+F10 enlarges a document window.
+\par }\pard \ql \fi-360\li1080\ri0\widctlpar\faauto\adjustright\rin0\lin1080\itap0 {
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_SC_CLOSE}}}{\b Close command (Control menus)
+\par }{
+\par Use this command to close the active window or dialog box.
+\par 
+\par Double-clicking a Control-menu box is the same as choosing the Close command.
+\par \{bml hlp\\appexit.bmp\}
+\par 
+\par Note:  If you have multiple windows open for a single document, the Close command on the document Control menu closes only one window at a time.  You can close all windows at once with the Close command on the File menu.
+\par 
+\par }{\b Shortcuts
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Keys: \tab CTRL+F4 closes a document window
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_SC_RESTORE}}}{\b Restore command (Control menu)
+\par }{
+\par Use this command to return the active window to its size and position before you chose the Maximize or Minimize command.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HID_SC_TASKLIST}}}{\b 
+Switch to command (application Control menu)
+\par }{
+\par Use this command to display a list of all open applications.  Use this "Task List" to switch to or close an application on the list.
+\par 
+\par }{\b Shortcut
+\par }\pard \ql \fi-1080\li1440\ri0\widctlpar\tx1440\faauto\adjustright\rin0\lin1440\itap0 {Keys:\tab CTRL+ESC
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {
+\par }{\b Dialog Box Options
+\par }{When you choose the Switch To command, you will be presented with a dialog box with the following options:
+\par }\pard \ql \li0\ri0\sb60\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\b Task List
+\par }\pard \ql \li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {Select the application you want to switch to or close.
+\par }\pard \ql \li0\ri0\sb60\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\b Switch To
+\par }\pard \ql \li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {Makes the selected application active.
+\par }\pard \ql \li0\ri0\sb60\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\b End Task
+\par }\pard \ql \li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {Closes the selected application.
+\par }\pard \ql \li0\ri0\sb60\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\b Cancel
+\par }\pard \ql \li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {Closes the Task List box.
+\par }\pard \ql \li0\ri0\sb60\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\b Cascade
+\par }\pard \ql \li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {Arranges open applications so they overlap and you can see each title bar.  This option does not affect applications reduced to icons.
+\par }\pard \ql \li0\ri0\sb60\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\b Tile
+\par }\pard \ql \li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {Arranges open applications into windows that do not overlap.  This option does not affect applications reduced to icons.
+\par }\pard \ql \li0\ri0\sb60\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\b Arrange Icons
+\par }\pard \ql \li360\ri0\widctlpar\faauto\adjustright\rin0\lin360\itap0 {Arranges the icons of all minimized applications across the bottom of the screen.
+\par }\pard \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HID_HT_NOWHERE}}}{\b No Help Available}{
+\par 
+\par No help is available for this area of the window.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ AFX_HIDP_default}}}{ }{\b No Help Available
+\par }{
+\par No help is available for this message box.
+\par 
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_PROGSAVE}}}{ }{\b Save Files
+\par }{
+\par Please indicate whether you want to save the files (the host file C:\\XITEXT\\HOSTS) and the initial data file (C:\\XITEXT\\XTINI.DAT) before exiting this program as you have changed something.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_RESTOREOK}}}{ }{\b OK to restore}{
+\par 
+\par Please indicate that you want to restore all the options to the default values for }{\b Xi-Text}{.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_WRONGFORM}}}{ }{\b Wrong form type}{
+\par 
+\par You are not allowed to choose form types other than your default form type. You may be allowed to select a form type suffix (following a "." or "-") but the basic paper type must not be changed.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_BADDELIMITER}}}{ }{\b Invalid Delimiter
+\par }{
+\par Your delimiter is has an error in, for example \\xg4. Please see the }{\b\i Xi-Text}{\i  System Reference Manual}{ for valid forms of the delimiter.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_STARTPGENDP}}}{ }{\b Start page greater than end page}{
+
+\par 
+\par You have specified a starting page of a page range which is greater than the end page. This has got to be a mistake! Please reduce the start page number or increase the end page number.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_PRINGNPRIN}}}{ }{\b Printed time greater than non-printed time}{
+\par 
+\par You have said that if a job has been printed, it should be retained on the queue for longer than if it hasn't been printed. You may mean this, but it is a little unusual so it seems best to warn you about it. \page }{\cs15\f8\fs16\up6 #{\footnote 
+\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_ZEROCLASS}}}{ }{\b Zero class code}{
+\par 
+\par You must have at least one class code bit set or no one, including you, will be able to see jobs or have them printed anywhere.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_PREVINSTANCE}}}{ }{\b Previous instance of program}{
+\par 
+\par You already have an active instance of this program. Only one copy is allowed as it is confusing trying to create multiple copies of the files.
+\par 
+\par Please switch to the previous copy using the }{\uldb Task List}{\v HID_SC_TASKLIST}{ menu.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_NOHOSTSYET}}}{ }{\b No hosts yet}{
+\par 
+\par You need to have some hosts set up before you can run the last command you tried.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HIDP_NOTSELECTED}}}{ }{\b No host selected}{
+\par 
+\par Your command requires you to select a host to operate upon.
+\par 
+\par Move the mouse cursor over the one you want to select and click the left button.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HIDP_SUREDEL}}}{ }{\b Sure you want to delete this
+\par }{
+\par We thought it prudent to ask you to confirm you want to delete hosts in case you typed the wrong thing by mistake.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_NOHOSTNAME}}}{ }{\b No host name}{
+\par 
+\par You left the host name field blank - please supply something in here.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HIDP_NOALIASNAME}}}{ }{\b No alias name}{
+\par 
+\par You are required to give an alias name in cases where you supply the host name as an Internet address, e.g. 193.112.238.1.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_ALIASSAMEASHOST}}}{ }{\b Alias name same as host}{
+\par 
+\par You have given an alias name which is indistinguishable from the host name.
+\par 
+\par Please try again.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_BADINETADDR}}}{ }{\b 
+Bad Internet address}{
+\par 
+\par You have specified the host name as an Internet address but this has an incorrect format.
+\par 
+\par Please try again. We really prefer not to use Internet addresses - please set up the host names in \\ETC\\HOSTS as required.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_HIDCLASH}}}{ }{\b Internet address clash}{
+\par 
+\par You have specified an Internet address but this clashes with some other host.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HIDP_HIDCLASHMINE}}}{ }{\b Internet address same as mine}{
+\par 
+\par You have specified an Internet address which is the same as this machine.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HIDP_ALIASCLASH}}}{ }{\b Alias name clashes}{
+\par 
+\par Your alias name clashes with some other name. Please try again.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}
+{ HIDP_HOSTCLASH}}}{ }{\b Host name clashes}{
+\par 
+\par Your host name clashes with some other name. Please try again.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HIDP_UNKNOWNHOSTNAME}}}{ }{\b Unknown host name}{
+\par 
+\par Your host name is not known. It may need setting up in \\ETC\\HOSTS.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HIDP_MYHOSTNAME}}}{ }{\b My host name}{
+\par 
+\par The host name you have given identifies this machine. Please try again.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ HIDP_NOTALIVE}}}{ }{\b Not alive}{
+\par 
+\par The server you have specified is not available. This command is ignored as a valid server is required.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_NO_HOSTFILE}}}{ }{\b No hostfile}{
+\par 
+\par There is no host file.
+\par 
+\par Do not panic if this is the first time you have run this program! This program is about to set one up for you, but it is helpful to warn you what is happening.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_HF_INVALIDHOST}}}{ }{\b Invalid host in host file}{
+\par 
+\par Your host file has an invalid host name in it. Please proceed to set up a new host list and save it.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_HF_BADTIMEOUT}}}{ }{\b Bad timeout in host file}{
+\par 
+\par Your host file has an invalid timeout field in it. Please proceed to set up a new host list and save it.\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_HF_NOALIAS}}}{ }{\b Bad alias in host file}{
+\par 
+\par There is no alias for a host name given as an Internet number.
+\par 
+\par Please proceed to set up a new host list and save it. \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ HIDP_NO_SERVER}}}{ }{\b No server in hosts file.}{
+\par 
+\par There is no machine set up as the server in the hosts file. Please set one up by choosing \'93Set as Server\'94 from the hosts menu.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_GSPU_NOSOCK}}}{ }{\cs15\f8\fs16\up6 #{\footnote 
+\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_GSPU_NOBIND}}}{ }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_GSPU_NOSEND}}}{ }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_GSPU_NORECV}}}{ }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_GSPU_NVALID }}}{ }{\b Errors accessing server}{ 
+\par 
+\par Your previously-specified server is no longer available. Please set up a new one.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_CCINIFILE}}}{ }{\b Cannot create initialisation file}{
+
+\par 
+\par Your initialisation file C:\\XITEXT\\XTINI.DAT cannot be created. Changes will be lost - sorry.
+\par {\*\bkmkstart IDH_102_111}{\*\bkmkend IDH_102_111}\page }{\b {\*\bkmkstart IDH_101_150}{\*\bkmkend IDH_101_150}Default form type }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_101_150}}}{
+\par This field contains the default form type to be set on jobs unless overridden.
+\par \page }{\b {\*\bkmkstart IDH_101_151}{\*\bkmkend IDH_101_151}Header }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #
+}{ IDH_101_151}}}{
+\par This is the default title for each job. If left blank, it will be based on the filename given to }{\b sprserv}{.
+\par \page }{\b {\*\bkmkstart IDH_101_152}{\*\bkmkend IDH_101_152}Suppress header }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_101_152}}}{
+\par Select this if you want the default setting on jobs to be to avoid printing headers. Note that on some form types headers may always be suppressed, or always forced on.
+\par \page }{\b {\*\bkmkstart IDH_101_153}{\*\bkmkend IDH_101_153}Printer }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 
+#}{ IDH_101_153}}}{
+\par This will be the default printer destination for jobs unless overridden. This may be a pattern with shell-like wild-cards. This may be blank, to denote any printer is to be selected.
+\par \page }{\b {\*\bkmkstart IDH_101_154}{\*\bkmkend IDH_101_154}Copies }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #
+}{ IDH_101_154}}}{
+\par This will be the default number of copies on each job unless overridden. It may be zero, to denote that the job is just to be queued, and the number of copies set later.
+\par \page }{\b {\*\bkmkstart IDH_101_155}{\*\bkmkend IDH_101_155}Up/down number of copies }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_101_155}}}{
+\par Use the scroll buttons to increment and decrement the number of copies field.
+\par \page }{\b {\*\bkmkstart IDH_101_156}{\*\bkmkend IDH_101_156}Priority }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_101_156}}}{
+\par This will be the default priority for scrolled jobs. Note that a range of allowable priorities is set for each user.
+\par \page }{\b {\*\bkmkstart IDH_101_157}{\*\bkmkend IDH_101_157}Up/down priority }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_101_157}}}{
+\par Use the scroll buttons to raise and lower the default priority within the limits for the user.
+\par \page }{\b {\*\bkmkstart IDH_102_158}{\*\bkmkend IDH_102_158}Host Name }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_102_158}}}{
+\par Enter the Unix host name to be communicated with here. Alternatively, this may be specified as an IP address such as 193.112.238.2, but in such cases an alias name must also be given.
+\par \page }{\b {\*\bkmkstart IDH_102_159}{\*\bkmkend IDH_102_159}Alias Name }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_102_159}}}{
+\par Enter an alias or alternative name for the Unix host if required. A name must be chosen if the Unix host is given as an IP address.
+\par \page }{\b {\*\bkmkstart IDH_102_160}{\*\bkmkend IDH_102_160}Timeout }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 
+#}{ IDH_102_160}}}{
+\par This gives the interval, in seconds, which applications will automatically refresh the connection if no traffic has taken place. If necessary, then the user will be invited to re-login.
+\par \page }{\b {\*\bkmkstart IDH_102_161}{\*\bkmkend IDH_102_161}Up/down timeout }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_102_161}}}{
+\par Use the scroll buttons to raise and lower the timeout interval.
+\par \page }{\b {\*\bkmkstart IDH_102_162}{\*\bkmkend IDH_102_162}Probe first }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_102_162}}}{
+\par Indicates that a datagram message or "probe" is sent before attempting to make a TCP connection to a Unix host. (Sometimes attempts to make a connection to an offline host are extensively delayed).
+\par \page }{\b {\*\bkmkstart IDH_103_163}{\*\bkmkend IDH_103_163}Login to Unix Host }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_103_163}}}{
+\par This is the Unix host, selected as the primary host (server) for this client.
+\par \page }{\b {\*\bkmkstart IDH_103_164}{\*\bkmkend IDH_103_164}Client Host Name }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_103_164}}}{
+\par This is the network name of this Windows Client.
+\par \page }{\b {\*\bkmkstart IDH_103_165}{\*\bkmkend IDH_103_165}User Name }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_103_165}}}{
+\par This is the Windows user name, which may or may not be the same as the Unix user name. Overtype this with the correct name if necessary.
+\par \page }{\b {\*\bkmkstart IDH_103_166}{\*\bkmkend IDH_103_166}Password }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_103_166}}}{
+\par This is the Unix password of the selected user. It may not always be required.
+\par \page }{\b {\*\bkmkstart IDH_104_167}{\*\bkmkend IDH_104_167}Currently logged in as }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_104_167}}}{
+\par This is the Unix user whom you are currently logged in as.
+\par \page }{\b {\*\bkmkstart IDH_104_168}{\*\bkmkend IDH_104_168}Windows user }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_104_168}}}{
+\par This is the Windows user whom you are logged in here, or none if not logged in.
+\par \page }{\b {\*\bkmkstart IDH_104_169}{\*\bkmkend IDH_104_169}Login as new user }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_104_169}}}{
+\par Press this to log in as a different Unix user.
+\par \page }{\b {\*\bkmkstart IDH_104_170}{\*\bkmkend IDH_104_170}Log Out }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 
+#}{ IDH_104_170}}}{
+\par Press this to log out from the Unix machine.
+\par \page }{\b {\*\bkmkstart IDH_105_171}{\*\bkmkend IDH_105_171}Start page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_171}}}{
+\par This is the default starting page for each job unless overridden.
+\par \page }{\b {\*\bkmkstart IDH_105_172}{\*\bkmkend IDH_105_172}Up/down start page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_172}}}{
+\par Use the scroll buttons to adjust the start page field.
+\par \page }{\b {\*\bkmkstart IDH_105_173}{\*\bkmkend IDH_105_173}End page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_173}}}{
+\par This is the default end page for each job unless overridden. (END) denotes the end of the document.
+\par \page }{\b {\*\bkmkstart IDH_105_174}{\*\bkmkend IDH_105_174}Up/down end page}{\v\cf6 . }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+{\cs15\f8\fs16\up6 #}{ IDH_105_174}}}{
+\par Use the scroll buttons to select the end page.
+\par \page }{\b {\*\bkmkstart IDH_105_175}{\*\bkmkend IDH_105_175}All pages }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_175}}}{
+\par Set default to print all pages.
+\par \page }{\b {\*\bkmkstart IDH_105_176}{\*\bkmkend IDH_105_176}Odd pages }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_176}}}{
+\par Set default to print only odd-numbered pages.
+\par \page }{\b {\*\bkmkstart IDH_105_177}{\*\bkmkend IDH_105_177}Even pages }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_177}}}{
+\par Set default to print only even-numbered pages.
+\par \page }{\b {\*\bkmkstart IDH_105_178}{\*\bkmkend IDH_105_178}Swap odd/even }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_178}}}{
+\par In conjunction with "odd pages" or "even pages", swap settings on alternate copies.
+\par \page }{\b {\*\bkmkstart IDH_105_179}{\*\bkmkend IDH_105_179}Delimiter number }{#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ IDH_105_179}}
+\par Number of instances of the given delimiter constituting a page.
+\par \page }{\b {\*\bkmkstart IDH_105_180}{\*\bkmkend IDH_105_180}Up/down delimiter number }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_180}}}{
+\par Use the scroll buttons to adjust up or down the delimiter number.
+\par \page }{\b {\*\bkmkstart IDH_105_181}{\*\bkmkend IDH_105_181}Delimiter }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_181}}}{
+\par Set the default page delimiter here, as a string, with standard abbreviations, \\n newline \\f formfeed etc.
+\par \page }{\b {\*\bkmkstart IDH_105_182}{\*\bkmkend IDH_105_182}Post-processing options }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_105_182}}}{
+\par This string will be passed as the value of the environment variable SPOOLOPTS to the despooler program spd.
+\par \page }{\b {\*\bkmkstart IDH_106_183}{\*\bkmkend IDH_106_183}Set Default }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_183}}}{
+\par Set the port numbers to the standard settings.
+\par \page }{\b {\*\bkmkstart IDH_106_184}{\*\bkmkend IDH_106_184}Adjust all by }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_184}}}{
+\par Set here a value to adjust all the port numbers by a given amount.
+\par \page }{\b {\*\bkmkstart IDH_106_185}{\*\bkmkend IDH_106_185}Up/down adjust ports }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_185}}}{
+\par Use the scroll buttons to adjust the "adjust all" amount.
+\par \page }{\b {\*\bkmkstart IDH_106_186}{\*\bkmkend IDH_106_186}Increment }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_186}}}{
+\par Increment all the port numbers by the "adjust all" amount.
+\par \page }{\b {\*\bkmkstart IDH_106_187}{\*\bkmkend IDH_106_187}Decrement }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_187}}}{
+\par Decrement all the port numbers by the "adjust all" amount.
+\par \page }{\b {\*\bkmkstart IDH_106_188}{\*\bkmkend IDH_106_188}Client access port number }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_188}}}{
+\par This datagram port number is used by all applications to enquire regarding user information and for }{\b sprserv}{ to send job data to queue jobs.\page }{\b {\*\bkmkstart IDH_106_189}{\*\bkmkend IDH_106_189}Up/down client access port number }{
+\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_106_189}}}{
+\par Use the scroll buttons to individually adjust the client access port number.
+\par \page }{\b {\*\bkmkstart IDH_106_200}{\*\bkmkend IDH_106_200}Save settings to INI file }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_200}}}{
+\par Press this button to save the port settings.
+\par \page }{\b {\*\bkmkstart IDH_106_190}{\*\bkmkend IDH_106_190}Probe port number}{\v\cf6  }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+{\cs15\f8\fs16\up6 #}{ IDH_106_190}}}{\lang2057\langfe1033\langnp2057 
+\par This port is used by }{\b\lang2057\langfe1033\langnp2057 spqw}{\lang2057\langfe1033\langnp2057  when testing that a host is online before attempting TCP connection.
+\par }{\page }{\b {\*\bkmkstart IDH_106_191}{\*\bkmkend IDH_106_191}Up/down probe port }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_191}}}{
+\par }\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {Use the scroll buttons to individually adjust the probe port number.
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\page }{\b {\*\bkmkstart IDH_106_192}{\*\bkmkend IDH_106_192}Connection port}{\v\cf6  }{\cs15\f8\fs16\up6 #{\footnote 
+\pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_106_192}}}{
+\par This TCP port is used by }{\b spqw}{ to exchange information about the queue status, and to send user requests.
+\par \page }{\b {\*\bkmkstart IDH_106_193}{\*\bkmkend IDH_106_193}Up/down connection port }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_193}}}{
+\par Use the scroll buttons to individually adjust the connection port number.
+\par \page }{\b {\*\bkmkstart IDH_106_194}{\*\bkmkend IDH_106_194}View port }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_194}}}{
+\par This TCP port is used to fetch copies of the job data for viewing within }{\b spqw}{.
+\par \page }{\b {\*\bkmkstart IDH_106_195}{\*\bkmkend IDH_106_195}Up/down view port }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_195}}}{
+\par Use the scroll buttons to individually adjust the view port number.
+\par \page }{\b {\*\bkmkstart IDH_106_196}{\*\bkmkend IDH_106_196}API TCP port }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_196}}}{
+\par This TCP port is used by the API library to establish an interface with }{\b xtnetserv}{ on the selected host.
+\par \page }{\b {\*\bkmkstart IDH_106_197}{\*\bkmkend IDH_106_197}Up/down API TCP port }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_197}}}{
+\par Use the scroll buttons to individually adjust the API TCP port.
+\par \page }{\b {\*\bkmkstart IDH_106_198}{\*\bkmkend IDH_106_198}API UDP port }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_198}}}{
+\par This UDP port is used by the API library to receive job change notifications from }{\b xtnetserv}{.
+\par \page }{\b {\*\bkmkstart IDH_106_199}{\*\bkmkend IDH_106_199}Up/down API UDP port }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_106_199}}}{
+\par Use the scroll buttons to individually adjust the API UDP port.
+\par \page }{\b {\*\bkmkstart IDH_107_201}{\*\bkmkend IDH_107_201}Verbose }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 
+#}{ IDH_107_201}}}{
+\par Select this to cause }{\b sprserv}{ to issue a notification of each job submitted. (This is not recommended).
+\par \page }{\b {\*\bkmkstart IDH_107_202}{\*\bkmkend IDH_107_202}Text mode }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_107_202}}}{
+\par Select this to cause job data to be treated as Text. This will cause CR-LF pairs to be translated to linefeed only when jobs are submitted.
+\par \page }{\b {\*\bkmkstart IDH_107_203}{\*\bkmkend IDH_107_203}Interpolate option }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_107_203}}}{
+\par Set this to cause the file name extension to be appended to the form type as a suffix unless the form type already has one.
+\par \page }{\b {\*\bkmkstart IDH_108_204}{\*\bkmkend IDH_108_204}Retain on queue after printing }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_108_204}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_133_204}}}{
+\par Select this to make the default for jobs to be that they are retained after printing.
+\par \page }{\b {\*\bkmkstart IDH_108_205}{\*\bkmkend IDH_108_205}Delete after printing time }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+{\cs15\f8\fs16\up6 #}{ IDH_108_205}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_205}}}{
+\par If a job has been printed, and retained on the queue, it will be kept for the time given here in hours before deleting.\page }{\b {\*\bkmkstart IDH_108_206}{\*\bkmkend IDH_108_206}Up/down delete after printing }{\cs15\f8\fs16\up6 #{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_108_206}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_206}}}{
+\par Use the scroll buttons to adjust the \'93delete after printing\'94 time.
+\par \page }{\b {\*\bkmkstart IDH_108_207}{\*\bkmkend IDH_108_207}Delete if not printed time }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+{\cs15\f8\fs16\up6 #}{ IDH_108_207}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_207}}}{
+\par If a job remains on the queue unprinted for this number of hours, then this gives the time after which it is automatically deleted in hours.
+\par \page }{\b {\*\bkmkstart IDH_108_208}{\*\bkmkend IDH_108_208}Up/down delete if unprinted time }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_108_208}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_133_208}}}{
+\par Use the scroll buttons to adjust the time to deleted if not printed.
+\par \page }{\b {\*\bkmkstart IDH_108_209}{\*\bkmkend IDH_108_209}Set delay time}{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_108_209}}}{
+\par Select this to select a time to delay printing for.\page }{\b Set hold time}{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_133_209}}}{
+\par Select this to select an earliest time for printing.\page }{\b Delay time}{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_108_246}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_108_247}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_108_248}}}{
+\par Select the delay time on jobs in hours, minutes and seconds. \page }{\b Scroll delay time}{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_108_249}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_108_250}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_108_251}}}{
+\par Use the scroll buttons to adjust the delay time, or type the times in if you prefer. \page }{\b Hold time}{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_210}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_133_211}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_212}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_213}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_214}}}{
+\par Select the hold time and date on jobs.\page }{\b Scroll hold time}{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{
+ IDH_133_215}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_216}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_217}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_133_218}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_133_219}}}{
+\par Use the scroll buttons to adjust the hold time.\page }{\b {\*\bkmkstart IDH_109_221}{\*\bkmkend IDH_109_221}Set All }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_221}}}{
+\par Use the button to set all the Class code bits, or rather all the class code bits to which you have access. If you have "override class" permission, this will first set your default class, and thereafter all the bits.
+\par \page }{\b {\*\bkmkstart IDH_109_222}{\*\bkmkend IDH_109_222}Clear all }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_222}}}{
+\par Clear all the class code bits. If you have "override class" permission, this will first reduce the bits to your default class, and thereafter all the bits.
+\par 
+\par You must leave at least one bit set.
+\par }\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\page }{\b {\*\bkmkstart IDH_109_223}{\*\bkmkend IDH_109_223}Class code bits }{\cs15\f8\fs16\up6 #{\footnote 
+\pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_223}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_224}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_225}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_226}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_227}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_228}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_229}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_230}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_231}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_232}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_233}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_234}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_235}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_236}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_237}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_238}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_239}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_240}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_241}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_242}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_243}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_244}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_245}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_246}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_247}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_248}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_249}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_250}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_251}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_252}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_109_253}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_254}}}{
+\par Select each required bit.
+\par \page }{\b {\*\bkmkstart IDH_109_255}{\*\bkmkend IDH_109_255}Local only }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_109_255}}}{
+\par Select this to cause jobs to be marked "local only". As such they will not be visible from other hosts, including this client.
+\par \page }{\b {\*\bkmkstart IDH_110_256}{\*\bkmkend IDH_110_256}Job size limit }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_110_256}}}{
+\par Set a limit on job sizes here. Put 0 to turn off the limit.
+\par \page }{\b {\*\bkmkstart IDH_110_257}{\*\bkmkend IDH_110_257}Up/down job size limit }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_110_257}}}{
+\par Use the scroll buttons to adjust the job size limit.
+\par \page }{\b {\*\bkmkstart IDH_110_258}{\*\bkmkend IDH_110_258}Limit in kilobytes }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_110_258}}}{
+\par Select this if the job size limit is in kilobytes.
+\par \page }{\b {\*\bkmkstart IDH_110_259}{\*\bkmkend IDH_110_259}Limit in pages }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_110_259}}}{
+\par Select this if the job size limit is in pages.
+\par \page }{\b {\*\bkmkstart IDH_110_260}{\*\bkmkend IDH_110_260}Error if limit exceeded }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_110_260}}}{
+\par Select this if outsize jobs are to be rejected with an error. Otherwise they will be truncated with a warning.
+\par \page }{\b {\*\bkmkstart IDH_111_165}{\*\bkmkend IDH_111_165}Post User }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_111_165}}}{
+\par Select this user as an alternative to appear on banner pages etc on jobs. The job will still "belong to" you.
+\par \page }{\b {\*\bkmkstart IDH_111_261}{\*\bkmkend IDH_111_261}Mail and Write Buttons }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\cs15\f8\fs16\up6 #}{ IDH_111_261}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_111_262}}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_111_263}}#{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ IDH_111_264}}}{
+\par Select these buttons to cause notification of job completion, or awaiting attention, by mail or by message (displayed by }{\b sprserv}{, if running).\page }{\cs15\f8\fs16\up6 {\*\bkmkstart IDH_108_210}{\*\bkmkend IDH_108_210}#{\footnote \pard\plain 
+\s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_LOGINOUT}}}{ }{\b Log in or out from Unix host}{
+\par 
+\par Use this dialog to log in as a different user or log out from the Unix Server.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_PORTNUMS}}}{ }{\b Select port numbers}{
+\par 
+\par Use this dialog to adjust the port numbers which the interface uses to converse with Unix hosts. Please be careful setting these!
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 
+\f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_SIZELIM}}}{ }{\b Set Size Limits}{
+\par 
+\par Use this dialog to set job size limits, whether the limit is in kilobytes or pages, and whether exceeding the limit constitutes an error, or the file is truncated with a warning.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_WRONGPTR}}}{ }{\b Wrong printer}{
+\par }\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\lang2057\langfe1033\langnp2057 
+You are limited to a given printer or printer pattern, but the specified printer does not match this.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_REJ_BADPTR}}}{ }{\b Incorrect printer}{
+\par }\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\lang2057\langfe1033\langnp2057 
+You are limited to a given printer or printer pattern, but the specified printer in the job does not match this.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_XTENQ_PASSREQ}}}{ }{\b Password required}{
+\par 
+\par You must supply a password to log in to the Unix server.}{\lang2057\langfe1033\langnp2057 
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_XTENQ_BADPASSWD}}}{ }{\b Incorrect password}{
+\par 
+\par You specified an incorrect password to the Unix host.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_XTENQ_UNKNOWN}}}{ }{\b 
+Unknown response from Unix server}{
+\par 
+\par Unexpected response from the Unix server; possibly you are running an old version of }{\b Xi-Text}{ there?
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_WARNLIMIT}}}{ }{\b Warning - job exceeded limit}{
+
+\par 
+\par Your job exceeded the size limit given in the }{\uldb Size Limit Dialog}{\v HIDD_SIZELIM}{ and has been truncated.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_REJ_ERRLIMIT}}}{ }{\b Error - job exceeded limit}{
+
+\par }\pard\plain \s16\ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {
+\par }\pard\plain \ql \li0\ri0\widctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {Your job exceeded the size limit given in the }{\uldb Size Limit Dialog}{\v HIDD_SIZELIM}{ and has been rejected.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_XTENQ_UNKNOWNU}}}{ }{\b Unknown User}{
+\par 
+\par The user name given is not known on the Unix Server.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_XTENQ_BADCLIENT}}}{ }{\b Invalid Client}{
+\par 
+\par This is not an acceptable client to the Unix server.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_NOMSGFILE}}}{ }{\b No message file}{
+\par 
+\par This shouldn\rquote t appear, it is no longer used.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDD_LOGINHOST}}}{ }{\b Log in to Unix Server}{
+\par 
+\par This dialog is used to specify the Unix user (possibly the same, or mapped to a real Unix user). A password may be required.
+\par \page }{\cs15\f8\fs16\up6 #{\footnote \pard\plain \s16\ql \li0\ri0\nowidctlpar\faauto\adjustright\rin0\lin0\itap0 \f9\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\cs15\f8\fs16\up6 #}{ HIDP_CONNDIED}}}{ }{\b Connection died}{
+\par 
+\par The connection to the Unix server has apparently died. You have the option to try to reestablish it.}{\lang2057\langfe1033\langnp2057 
+\par }}

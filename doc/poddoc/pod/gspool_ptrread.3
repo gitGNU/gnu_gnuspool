@@ -1,0 +1,342 @@
+=head1 NAME
+
+gspool_ptrread - get the details of a printer
+
+=head1 SYNOPSIS
+
+=for man
+\&\fB#include <gspool.h>\fR
+.PP
+
+=for html
+<STRONG>#include &lt;gspool.h&gt;</STRONG>
+<br>
+
+B<int gspool_ptrread(const int>
+I<fd>B<, const unsigned>
+I<flags>B<, const slotno_t>
+I<slot>B<, struct apispptr *>I<ptrd>B<)>
+
+=head1 DESCRIPTION
+
+The B<gspool_ptrread()> function is used to retrieve the details of a
+printer from a given slot number.
+
+I<fd> is a file descriptor previously returned by B<gspool_open>
+
+I<flags> is zero, or a logical OR of one of the following values
+
+=over 4
+
+=item GSPOOL_FLAG_LOCALONLY
+
+Ignore remote printers/hosts, i.e. not local to the server, not the
+client.
+
+=item GSPOOL_FLAG_USERONLY
+
+Ignore other users jobs
+
+=item GSPOOL_FLAG_IGNORESEQ
+
+Ignore changes since the list was last read
+
+=back
+
+I<slot> is the slot number corresponding to the printer as previouly
+returned by a call to B<gspool_ptrlist()> or B<gspool_ptrfindslot()>.
+
+I<ptrd> is a descriptor, which on return will contain the details of
+the printer in a C<struct apispptr> as defined in F<gspool.h> and containing
+the following elements:
+
+=for html
+<a name="Apispptr_def"></a>
+<div class=indtab>
+<table border=0 cellpadding=1 cellspacing=0 summary="printer structure">
+<tr>
+<th align=left class=dense>Type</th>
+<th align=left class=dense>Field</th>
+<th align=left class=dense>Description</th>
+</tr>
+<tr>
+<td class=dense><span class=FileName>jobno_t</span></td>
+<td class=dense><span class=FileName>apispp_job</span></td>
+<td class=dense>Job number being printed</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>slotno_t</span></td>
+<td class=dense><span class=FileName>apispp_jslot</span></td>
+<td class=dense>Slot number of job being printed</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char</span></td>
+<td class=dense><span class=FileName>apispp_state</span></td>
+<td class=dense>State of printer</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char</span></td>
+<td class=dense><span class=FileName>apispp_sflags</span></td>
+<td class=dense>Scheduler flags</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned char</span></td>
+<td class=dense><span class=FileName>apispp_dflags</span></td>
+<td class=dense>Despooler flags</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned char</span></td>
+<td class=dense><span class=FileName>apispp_netflags</span></td>
+<td class=dense>Network flags</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned short</span></td>
+<td class=dense><span class=FileName>apispp_extrn</span></td>
+<td class=dense>External printer type 0=standard</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>classcode_t</span></td>
+<td class=dense><span class=FileName>apispp_class</span></td>
+<td class=dense>Class code bits 1=A 2=B 4=C etc</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>int_pid_t</span></td>
+<td class=dense><span class=FileName>apispp_pid</span></td>
+<td class=dense>Process id of despooler process</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>netid_t</span></td>
+<td class=dense><span class=FileName>apispp_netid</span></td>
+<td class=dense>Host id of printer network byte order</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>slotno_t</span></td>
+<td class=dense><span class=FileName>apispp_rslot</span></td>
+<td class=dense>Slot number on remote machine</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned long</span></td>
+<td class=dense><span class=FileName>apispp_minsize</span></td>
+<td class=dense>Minimum size of acceptable job</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>unsigned long</span></td>
+<td class=dense><span class=FileName>apispp_maxsize</span></td>
+<td class=dense>Maximum size of acceptable job</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>apispp_dev</span></td>
+<td class=dense>Device name</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>apispp_form</span></td>
+<td class=dense>Form type</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>apispp_ptr</span></td>
+<td class=dense>Printer name</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>apispp_feedback</span></td>
+<td class=dense>Feedback message</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>char []</span></td>
+<td class=dense><span class=FileName>apispp_comment</span></td>
+<td class=dense>Printer description</td>
+</tr>
+</table>
+</div>
+
+=for man
+.Ip "jobno_t apispp_job" 8
+Job number being printed
+.Ip "slotno_t apispp_jslot" 8
+Slot number of job being printed
+.Ip "char apispp_state" 8
+State of printer
+.Ip "char apispp_sflags" 8
+Scheduler flags
+.Ip "unsigned char apispp_dflags" 8
+Despooler flags
+.Ip "unsigned char apispp_netflags" 8
+Network flags
+.Ip "unsigned short apispp_extrn" 8
+External printer type 0=standard
+.Ip "classcode_t apispp_class" 8
+Class code bits 1=A 2=B 4=C etc
+.Ip "int_pid_t apispp_pid" 8
+Process id of despooler process
+.Ip "netid_t apispp_netid" 8
+Host id of printer network byte order
+.Ip "slotno_t apispp_rslot" 8
+Slot number on remote machine
+.Ip "unsigned long apispp_minsize" 8
+Minimum size of acceptable job
+.Ip "unsigned long apispp_maxsize" 8
+Maximum size of acceptable job
+.Ip "char apispp_dev[]" 8
+Device name
+.Ip "char apispp_form[]" 8
+Form type
+.Ip "char apispp_ptr[]" 8
+Printer name
+.Ip "char apispp_feedback[]" 8
+Feedback message
+.Ip "char apispp_comment[]" 8
+Printer description
+
+The following bits are set in the C<apispp_sflags> field to indicate
+printer flags:
+
+=for html
+<div class=indtab>
+<table border=0 cellpadding=1 cellspacing=0 summary="printer flags">
+<tr>
+<th align=left class=dense>Bit (#define)</th>
+<th align=left class=dense>Meaning</th>
+</tr>
+<tr>
+<td class=dense><span class=FileName>APISPP_INTER</span></td>
+<td class=dense>Had interrupt message, not yet acted on it.</td>
+<tr>
+<td class=dense><span class=FileName>APISPP_HEOJ</span></td>
+<td class=dense>Had halt at end of job</td>
+</tr>
+</table>
+</div>
+
+=for man
+.Ip "APISPP_INTER" 8
+Had interrupt message, not yet acted on it.
+.Ip "APISPP_HEOJ" 8
+Had halt at end of job
+
+The following bits are set in the C<apispp_dflags> field to indicate
+printer flags:
+
+=for html
+<div class=indtab>
+<table border=0 cellspacing=0 cellpadding=1 summary="printer fields">
+<tr>
+<th align=left class=dense>Bit (#define)</th>
+<th align=left class=dense>Meaning</th>
+</tr>
+<tr>
+<td class=dense><span class=FileName>APISPP_HADAB</span></td>
+<td class=dense>Had "Abort" message</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>APISPP_REQALIGN</span></td>
+<td class=dense>Alignment required</td>
+</tr>
+</table>
+</div>
+
+=for man
+.Ip "APISPP_HADAB" 8
+Had "Abort" message
+.Ip "APISPP_REQALIGN" 8
+Alignment required
+
+The C<apispp_netflags> field contains the following bits:
+
+=for html
+<div class=indtab>
+<table border=0 cellspacing=0 cellpadding=1 summary="network flags">
+<tr>
+<th align=left class=dense>Bit (#define)</th>
+<th align=left class=dense>Meaning</th>
+</tr>
+<tr>
+<td class=dense><span class=FileName>APISPP_LOCALONLY</span></td>
+<td class=dense>Printer is local only to host.</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>APISPP_LOCALHOST</span></td>
+<td class=dense>Printer uses network filter</td>
+</tr>
+</table>
+</div>
+
+=for man
+.Ip "APISPP_LOCALONLY" 8
+Printer is local only to host.
+.Ip "APISPP_LOCALHOST" 8
+Printer uses network filter
+
+=head1 RETURN VALUES
+
+=for html
+<p>The function returns 0 if successful otherwise one of the error codes
+<a href="TxtAPI-3.html#Error_codes">listed in Chapter 3</a>.</p>
+
+=for man
+The function \fBgspool_ptrread()\fR returns 0 if successful, otherwise one
+of the following codes:
+.Ip "GSPOOL_UNKNOWN_PTR" 8
+Printer not found
+.Ip "GSPOOL_INVALID_FD" 8
+Invalid File descriptor
+.Ip "GSPOOL_BADWRITE" 8
+failure writing to the network
+.Ip "GSPOOL_BADREAD" 8
+failure reading from the network
+.Ip "GSPOOL_NOPERM" 8
+The user does not have permission
+.Ip "GSPOOL_SEQUENCE" 8
+Printer sequence error, slot may be out of date
+.Ip "GSPOOL_INVALIDSLOT" 8
+Invalid slot number
+
+=head1 EXAMPLE
+
+An example to read the names of all printers
+
+ int fd, ret, np, i;
+ struct apispptr ptr;
+ slotno_t *slots;
+
+ fd = gspool_open("myhost", (char *)0, 0);
+ if (fd < 0) { 	/* error handling */
+     ...
+ }
+
+ ret = gspool_ptrlist(fd, 0, &np, &slots);
+ if (ret < 0) { /* error handling */
+     ...
+ }
+
+ for (i = 0; i < np, i++) {
+     ret = gspool_ptrread(fd, GSPOOL_FLAG_IGNORESEQ, slots[i], &ptr);
+     if (ret < 0)	{ /* error handling */
+         ...
+     }
+     printf("%s\n", ptr.apispp_ptr);
+ }
+ gspool_close(fd);
+
+=head1 SEE ALSO
+
+gspool_ptrlist(3),
+gspool_ptradd(3),
+gspool_ptrdel(3),
+gspool_ptrupd(3),
+gspool_ptrfind(3),
+gspool_ptrfindslot(3),
+gspool_ptrmon(3),
+gspool_ptrop(3).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

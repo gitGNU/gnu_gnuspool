@@ -1,0 +1,373 @@
+=head1 NAME
+
+gspl-qchange - change spooled jobs
+
+=head1 SYNOPSIS
+
+B<gspl-qchange>
+[ I<-options> ]
+I<job number> ...
+
+=head1 DESCRIPTION
+
+B<gspl-qchange> makes changes to one or more B<GNUspool> spooled jobs,
+which may be on the local host or other hosts on the network. Jobs are
+specified by the job number, which is reported by gspl-qlist(1) in the
+first column of the default output, or by gspl-pr(1) or gspl-rpr(1) when the
+job is queued with the I<verbose> option. Remote jobs are specified by
+prefixing the job number by the host name and a colon, thus
+C<host:1234>. Leading zeroes in the job number may be omitted.
+
+Each of the jobs must be owned by the user, or the user must have
+permission to edit other user's jobs. The user must also have
+permission to I<edit remote jobs> to operate on remote jobs (this is
+normally set for all users).
+
+The changes are specified by options, which are as similar as possible
+to those for gspl-pr(1). It is regarded as a mistake not to specify at
+least one option.
+
+=head1 OPTIONS
+
+=for man
+Note that the order of treatment, letters and keywords described below
+may be modified by editing the file \fIrest.help\fR \-
+see \fIspsyntax\fR\|(5).
+
+The environment variable on which options are supplied is C<GSPL_QCHANGE>
+and the environment variable to specify the help file is
+C<SPRESTCONF>.
+
+=over 4
+
+=item -? or +explain
+
+causes a summary of the other options to be displayed without taking
+further action.
+
+=item -a or +mail-attention
+
+requests that a message be sent in the mail to the user if a job is
+awaiting attention, either because it reaches the top of the queue and
+the required form type is currently unavailable or because the form
+requires alignment.
+
+=item -A or +write-attention
+
+requests that a message be sent to every terminal at which the user is
+logged in, or by mail otherwise if the user is not logged in, if a job is
+awaiting attention, either because it reaches the top of the queue and
+the required form type is currently unavailable or because the form
+requires alignment.
+
+=item -b or +noatt-message
+
+turns off any job attention messages previously requested.
+
+=item -c I<n> or +copies I<n>
+
+sets the number of copies to be printed to I<n>.
+
+The maximum number of copies at a time may be restricted to a number
+for each user such as 10. See the output from gspl-user(1) for
+information on the maximum number of copies. If the user has I<set any
+priority on queue> privilege, this limit is removed.
+
+=item -C I<nnnn> or +classcode I<nnnn>
+
+may be used to set a class code narrow or expand the range of jobs
+from which jobs are selected. It is probably only relevant where the
+user has I<override class> privilege and it is required to expand the
+default class code to select additional jobs. B<N.B.> This does not
+I<set> the classcode. Use B<-S> to set the classcode.
+
+=item -f I<string> or +formtype I<string>
+
+specifies that the supplied form type (with optional suffix introduced
+by "C<.>" or "C<->") is used. Note that not all users may be allowed to
+select form types other some pattern, however only the "paper type",
+i.e. the form type up to the suffix is considered when this
+restriction is active, so the user can still change the form type
+suffix if required. Note that there is no equivalent of the B<-i>
+(interpolate) option to gspl-pr(1).
+
+=item -F I<string> or +post-proc-flags I<string>
+
+changes to the specified I<string>, the data to be passed as the value
+of the environment variable C<SPOOLFLAGS> to any program invoked at
+the time the job is printed. This might be as a post-processing filter
+command, or alternatively some shell command invoked as (for example)
+a C<docstart> string.
+
+=for man
+Please see the \fBGNUspool\fR Reference Manual for more details
+of this.
+
+=item -h I<string> or +header I<string>
+
+replace the title for each job with I<string>. The title appears on
+the banner page, if this is printed.
+
+=item -l or +local-only
+
+in a networked environment requests that the job be printed only on
+the printers local to the machine at which the job is submitted.
+
+=item -L or +network-wide
+
+cancels the request that the job or jobs be printed only on printers
+local to the machine at which the job is submitted.
+
+=item -m or +mail-message
+
+requests a message to be sent in the mail to the user on completion or
+termination of the job.
+
+=item -n I<nn> or +delay-for I<nn>
+
+specifies that the job should be held on the queue for at least I<nn>
+minutes from the current time before being printed. The time may
+alternatively be specified as I<hh:mm> or as I<hh:mm:ss>, specifying a
+delay in hours and minutes, or hours, minutes and seconds. Specify
+zero to cancel this.
+
+=item -N I<time> or +delay-until I<time>
+
+is an alternative to the B<-n>I<nn> option to specify the earliest
+time at which the job is to be printed. The argument may be I<hh:mm>
+or I<hh:mm:ss> to give the time of day in 24-hour clock notation. If
+the time has passed, then tomorrow is assumed.
+
+Alternatively a date and a comma may be prefixed to the time in the
+form I<mm/dd> or I<dd/mm> depending upon the local convention for date
+format used. Thus the resulting argument might be
+
+	10/11,12:30
+
+=item -O I<flag> or +odd-even-flags I<flag>
+
+where I<flag> is one of B<O>, B<E>, B<A>, B<B> or B<-> cause odd or even-numbered pages to be
+skipped.
+
+B<O> causes odd-numbered pages not to be printed.
+
+B<E> causes even-numbered pages not to be printed.
+
+B<A> and B<B> are useful if more than one copy is to be printed.
+
+B<A> causes even-numbered pages not to be printed on odd-numbered
+copies, and odd-numbered pages not to be printed on even-numbered
+copies.
+
+B<B> is the other way around.
+
+If you do not understand this, all you have to do is remember that
+
+	gspl-qchange -c2 -OA ....
+
+prints all the odd-numbered pages followed by all the even-numbered
+ones.
+
+=item -p I<n> or +priority I<n>
+
+specifies the priority of the job, between 1 (lowest) and 255
+(highest) or some narrower range to which the user is limited, unless
+he or she has the I<any priority on queue> privilege.
+
+A user must have the I<change priority on queue> privilege to invoke
+this option.
+
+=item -P I<name> or +printer I<name>
+
+specify I<name> as the destination printer for the job. I<name> may be
+a pattern to select any printer matching the pattern, or B<-> to
+cancel the selection and make it the first available printer.
+
+A user may be limited to a range of printers which must be a superset
+of I<name>.
+
+=item -q or +retain
+
+requests that the job or jobs be retained on the queue with copies set
+to zero after printing, for explicit deletion, or automatically at the
+expiry of the timeout (as set by the B<-t>I<n> option).
+
+=item -r or +banner
+
+restores banner pages previously suppressed using B<-s>.
+
+Note that some form types may be set up never to use banners
+regardless of this option.
+
+=item -R I<m-n>or +page-range I<m-n>
+
+specifies that pages I<m> through to I<n> inclusive are to be
+printed. This does of course assume that the job has recognisable
+pages. If I<m> or I<n> are omitted, then "the beginning" or "the end"
+respectively is assumed.
+
+=item -s or +no-banner
+
+suppresses any banner page (large letter user name etc) which is
+printed before the job itself.
+
+Note that some form types may be set up always to print banners
+regardless of this option.
+
+=item -S I<nnnn> or +set-classcode I<nnnn>
+
+where I<nnnn> is some collection of the letters B<A> through to B<P>
+inclusive (upper or lower case) with B<-> to indicate ranges, requests
+that the job be given the specified I<class code>.
+
+The class code of a job may restrict which printers the job may be
+printed on, or which other users can display details of the job.
+
+In normal circumstances (except where the user has I<override class>
+privilege as displayed by gspl-user(1)), the specified class code is
+reduced to the intersection of (i.e. I<and>ed with) the specified
+class code and the user's own class code.
+
+=item -t I<n> or +printed-timeout I<n>
+
+specifies that if retained on the queue the job will be deleted
+automatically after I<n> hours. The default value is 24 hours, and the
+maximum value is 32767 hours (nearly 4 years).
+
+=item -T I<n> or +not-printed-timeout I<n>
+
+specifies that if held on the queue without being printed, the job will
+be deleted automatically after I<n> hours. The default value is 168
+hours (1 week), and the maximum value is 32767 hours (nearly 4 years).
+
+=item -u I<name> or +post-user I<name>
+
+requests that the specified user name be substituted for the
+submitting user on the banner page optionally printed at the start of
+the job. The job still remains the responsibility of the submitting
+user.
+
+To "turn off" a user name specified in a previous B<-u>I<name> option,
+put a single B<-> sign as the user name.
+
+=item -w or +write-message
+
+requests a message to be sent to every terminal at which the user is
+logged in, or by mail otherwise if the user is not logged in, when the
+job is completed or terminated.
+
+=item -x or +no-message
+
+turns off any job completion messages (B<-m> or B<-w> previously requested.
+
+=item -z or +no-retain
+
+cancels a request that the job or jobs be retained on the queue after
+printing.
+
+=item +freeze-current
+
+Save all the current options in a F<.gnuspool> file in the current
+directory. If there are no jobs given to operate on and this is
+specified, then B<gspl-qchange> will quit without error. If it is unable
+to save the options and jobs are specified, then B<gspl-qchange> will
+continue.
+
+=item +freeze-home
+
+Save all the current options in a F<.gnuspool> file in the user's home
+directory. If there are no jobs given to operate on and this is
+specified, then B<gspl-qchange> will quit without error. If it is unable
+to save the options and jobs are specified, then B<gspl-qchange> will
+continue.
+
+=back
+
+=head1 FILES
+
+F<~/.gnuspool>
+configuration file (home directory)
+
+F< .gnuspool>
+configuration file (current directory)
+
+F<rest.help>
+message file
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item GSPL_QCHANGE
+
+space-separated options to override defaults.
+
+=item SPRESTCONF
+
+location of alternative help file.
+
+=back
+
+=head1 SEE ALSO
+
+gspl-rpr(1),
+gspl-pr(1),
+gspl-pq(1),
+gspl-qdel(1),
+gspl-qlist(1),
+spsyntax(5),
+gnuspool.conf(5),
+gnuspool.hosts(5).
+
+=head1 DIAGNOSTICS
+
+Various diagnostics are read and printed as required from the message
+file, by default F<rest.help>.
+
+=head1 NOTES
+
+The B<-C> option selects the class code for finding the jobs; if you
+have I<override class> privilege, but your default class code does not
+allow the jobs "to be seen" in the output of gspl-qlist(1), then you may
+need to specify this. The B<-S> option sets a new classcode, which may
+be I<and>ed with your default class if you do not have I<override
+class> privilege.
+
+Any errors are reported with appropriate messages on standard
+error. If any errors are detected operating on several jobs, the exit
+code will correspond to the last such error displayed.
+
+=head1 EXAMPLES
+
+To change the number of copies of job 24139 to 3
+
+	gspl-qchange -c3 14139
+
+To changed the formtype to a4.ps for 3 jobs including one on a remote
+machine, C<avon>
+
+	gspl-qchange -f a4.ps 24139 26921 avon:21941
+
+Changing all the jobs associated with printer C<laser> to come out on
+printer C<ljet> may be done with a shell script like this:
+
+	gspl-qlist -F "%N %P" | grep laser | while read JOB REST
+	do
+		gspl-qchange -P ljet $JOB
+	done
+
+Or you can do it in one operation with this "one-liner":
+
+	gspl-qchange -Pljet `gspl-qlist -F"%N %P"|grep laser|sed 's/\(.*\) .*/\1/'`
+
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gspl-qchange gspl-qlist gspl-pr gspl-rpr classcode SPRESTCONF

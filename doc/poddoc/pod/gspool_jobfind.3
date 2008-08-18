@@ -1,0 +1,113 @@
+=head1 NAME
+
+gspool_jobfind - get the details of a job from the job number
+
+gspool_jobfindslot - get the slot number of a job from the job number
+
+=head1 SYNOPSIS
+
+=for man
+\&\fB#include <gspool.h>\fR
+.PP
+
+=for html
+<STRONG>#include &lt;gspool.h&gt;</STRONG>
+<br>
+
+B<int gspool_jobfind(const int>
+I<fd>
+B<, const unsigned>
+I<flags>B<, const jobno_t>
+I<jobnum>B<, const netid_t>
+I<nid>B<, slotno_t *>I<slot>B<, struct apispq *>I<jobd>B<)>
+
+B<int gspool_jobfindslot(const int>
+I<fd>
+B<, const unsigned>
+I<flags>B<, const jobno_t>
+I<jobnum>B<, const netid_t>
+I<nid>B<, slotno_t *>I<slot>B<)>
+
+=head1 DESCRIPTION
+
+The B<gspool_jobfind()> and B<gspool_jobfindslot> functions may be used to
+find a job from a given job number rather than by the slot
+number. B<gspool_jobfind> retrieves the job descriptor, B<gspool_jobfindslot>
+just retrieves the slot number.
+
+I<fd> is a file descriptor previously returned by B<gspool_open>
+
+I<flags> is zero, or a logical OR of one or more of the following values
+
+=over 4
+
+=item GSPOOL_FLAG_LOCALONLY
+
+Ignore remote printers/hosts, i.e. not local to the server, not the
+client.
+
+=item GSPOOL_FLAG_USERONLY
+
+Ignore other users jobs
+
+=back
+
+I<jobnum> is the job number to be searched for.
+
+I<nid> is the network-byte order IP address of the host of the machine
+whose job is to be searched for. This should be correct even if
+C<GSPOOL_FLAG_LOCALONLY> is specified.
+
+I<slot> is a pointer to a location in which the slot number of the job
+is placed if the search is successfull. It may be C<NULL> if this is
+not required (but this would be almost pointless for B<gspool_jobfindslot>).
+
+I<jobd> is a descriptor containing the job descriptor as defined in
+F<gspool.h>.
+
+=for html
+<P>The fields in <CODE>struct apispq</CODE> are defined in the
+gspool_jobread(3) <A HREF="#Apispq_def">documentation</A>.</P>
+
+=for man
+The fields in \fBstruct apispq\fR are defined in the documentation for
+\fIgspool_jobread\fR\|(3).
+
+=head1 RETURN VALUES
+
+=for html
+<P>The function returns 0 if successful otherwise one of the error codes
+<A HREF="TxtAPI-3.html#Error_codes">listed in Chapter 3</A>.</P>
+
+=for man
+The functions \fBgspool_jobfind()\fR and \fBgspool_jobfindslot\fR return 0 if
+successful, otherwise one of the following codes:
+.Ip "GSPOOL_UNKNOWN_JOB" 8
+job not found
+.Ip "GSPOOL_INVALID_FD" 8
+Invalid File descriptor
+.Ip "GSPOOL_BADWRITE" 8
+failure writing to the network
+.Ip "GSPOOL_BADREAD" 8
+failure reading from the network
+
+=head1 SEE ALSO
+
+gspool_jobread(3),
+gspool_joblist(3),
+gspool_jobdata(3),
+gspool_jobadd(3),
+gspool_jobdel(3),
+gspool_jobupd(3),
+gspool_jobmon(3),
+gspool_jobpbrk(3).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

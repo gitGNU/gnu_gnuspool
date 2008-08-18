@@ -1,0 +1,28 @@
+<html>
+<head><title>Set Options for GNUspool printer listing</title></head>
+<body>
+<h1>Options for GNUspool Printers</h1>
+<script src="/gsjsfunc.js"></script>
+<form name=optform method=get onsubmit="return optsave($Z);">
+<table>
+<tr align=left>
+<td colspan=2><input type=checkbox name=header value=1 checked>Display column headers</td>
+</tr>
+<tr align=left>
+<td>Display printer(s)</td>
+<td><input type=text name=queue size=30 maxlength=60></td>
+</tr>
+<tr align=left>
+<td colspan=2><input type=checkbox name=localonly value=1>Restrict display to printers local to server only</td>
+</tr>
+<tr align=left>
+<td colspan=2><input type=checkbox name=sorted value=1>Sort printers into order</td>
+</tr>
+</table>
+<input type=submit value="Set Options" name="Action">
+<input type=reset onClick="return clearchanges();">
+</form>
+<script language="JavaScript">
+record_formchanges(document.optform);
+</script>
+</body>

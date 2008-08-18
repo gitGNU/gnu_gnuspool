@@ -1,0 +1,234 @@
+=head1 NAME
+
+xtlpc - LPD protocol server driver
+
+=head1 SYNOPSIS
+
+B<xtlpc>
+I<-H hostname>
+I<-f ctrlfile>
+[ I<-F fifo> ]
+[ I<-S host> ]
+[ I<-P ptrname> ]
+[ I<-N> ]
+[ I<file> ]
+
+=head1 DESCRIPTION
+
+B<xtlpc> is a terminal server program for use by B<GNUspool> where
+the destination is an LPD protocol server. Input is usually taken from
+standard input, or from the supplied file name.
+
+=head1 OPTIONS
+
+=over 8
+
+=item -H I<hostname>
+
+This is the host name or IP address to be used to access the
+printer. In B<GNUspool> setup files, it may be appropriate to
+substitute C<$SPOOLDEV> or C<$SPOOLPTR> here.
+
+=item -f I<ctrlfile>
+
+This specifies the location of the control file, typically
+F<xtlpc-ctrl> in the internal programs directory.
+
+=item -S I<hostname>
+
+This is the host name or IP address of the sending host, in the cases
+where gethostname(3) does not yield an appropriate answer.
+
+=item -P I<ptrname>
+
+The LPD protocol supplies a name to the printer. By default, this is
+taken from B<SPOOLPTR>, i.e. the name given as the name of the printer
+under B<GNUspool>. Some terminal servers require a specific name to be
+given to the printer, perhaps to select which printer, or printer
+option of several is to be specified. This option overrides this
+printer name in the protocol.
+
+=item -F I<fifo>
+
+Take input from the named I<fifo> rather than standard input or the
+supplied file.
+
+This is useful in situations where the LPD protocol has to be run from
+a command line, i.e. a console session, and files sent to it by having
+B<GNUspool> write to the fifo.
+
+=item -N
+
+Avoid sending zero length files, which confuse some servers.
+
+=back
+
+=head1 DIAGNOSTICS
+
+B<xtlpc> generates any appropriate diagnostics on standard error.
+
+=head1 EXIT CODES
+
+Normal termination is denoted by an exit code of zero.
+
+=over 4
+
+=item 1
+
+Usage error, invalid option etc.
+
+=item 2
+
+No control file given.
+
+=item 3
+
+No destination host given.
+
+=item 4
+
+Cannot open input file.
+
+=item 5
+
+Unknown host name.
+
+=item 6
+
+Cannot open control file.
+
+=item 7
+
+Syntax errors in control file.
+
+=item 8
+
+No spool directory defined.
+
+=item 9
+
+Cannot select spool directory.
+
+=item 10
+
+Control card format not given in control file
+
+=item 11
+
+Invalid format control card in control file
+
+=item 12
+
+Cannot write to spool directory
+
+=item 13
+
+Cannot create spool file
+
+=item 14
+
+Cannot allocate file name.
+
+=item 15
+
+Cannot open FIFO.
+
+=item 16
+
+Name given is not a FIFO.
+
+=item 17
+
+Cannot specify input and FIFO.
+
+=item 20
+
+Cannot create sequence file
+
+=item 30
+
+No port name in control file
+
+=item 31
+
+TCP protocol missing
+
+=item 32
+
+Cannot find named port in service file
+
+=item 33
+
+Cannot open socket.
+
+=item 34
+
+Cannot bind port
+
+=item 35
+
+Cannot allocate TCP device
+
+=item 36
+
+Cannot make connection
+
+=item 37
+
+Cannot allocate TCP space or change stream
+
+=item 40
+
+Write failure writing to socket
+
+=item 41
+
+Lost spool file
+
+=item 42
+
+Read failure ack packet.
+
+=item 43
+
+Error return from remote.
+
+
+=item 50
+
+Cannot determine own host name
+
+=item 51
+
+Invalid host name
+
+=item 200
+
+Exit on signal.
+
+=back
+
+=head1 FILES
+
+F<xtlpc-ctrl>
+control file
+
+F</var/spool/gnuspool/xtlpc>
+spool directory (may be changed in F<xtlpc-ctrl>)
+
+=head1 SEE ALSO
+
+xilp(8),
+xtelnet(8),
+xtftp(8),
+xtlhp(8).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

@@ -1,0 +1,123 @@
+#
+#   Copyright 2008 Free Software Foundation, Inc.
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#	Makefile for api library
+#
+
+prefix		=	@prefix@
+exec_prefix	=	@exec_prefix@
+SHELL		=	/bin/sh
+PARENT		=	..
+BASE		=	../..
+AR		=	ar
+CC		=	@CC@
+RM		=	rm -f
+HDRS		=	$(PARENT)/hdrs
+CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@ @lib_pic@
+CFLAGS		=	$(CCFLAGS) -I$(HDRS)
+LIBDIR		=	@libdir@
+LDSHARED	=	ld -shared -o
+APILIB		=	libgnuspool.a
+APISHLIB	=	libgnuspool.so
+INSTALL		=	@INSTALL@
+INSTALL_DATA	=	@INSTALL_DATA@
+
+OBJECTS=gspool_getspd.o\
+	gspool_getspu.o\
+	gspool_jobadd.o\
+	gspool_jobdata.o\
+	gspool_jobdel.o\
+	gspool_joblist.o\
+	gspool_jobread.o\
+	gspool_jobupd.o\
+	gspool_jobswap.o\
+	gspool_ptradd.o\
+	gspool_ptrdel.o\
+	gspool_ptrlist.o\
+	gspool_ptrop.o\
+	gspool_ptrread.o\
+	gspool_ptrupd.o\
+	gspool_ptrswap.o\
+	gspool_putspd.o\
+	gspool_putspu.o\
+	gspool_open.o
+
+all:	@main_target@
+
+nonshared:	$(APILIB)
+	$(AR) crv $(APILIB) $(OBJECTS)
+	@RANLIB@ $(APILIB)
+	$(RM) $(OBJECTS)
+
+shared:		$(APISHLIB)
+
+$(APILIB):	gspool.h \
+		$(APILIB)(gspool_getspd.o)\
+		$(APILIB)(gspool_getspu.o)\
+		$(APILIB)(gspool_jobadd.o)\
+		$(APILIB)(gspool_jobdata.o)\
+		$(APILIB)(gspool_jobdel.o)\
+		$(APILIB)(gspool_joblist.o)\
+		$(APILIB)(gspool_jobread.o)\
+		$(APILIB)(gspool_jobupd.o)\
+		$(APILIB)(gspool_jobswap.o)\
+		$(APILIB)(gspool_ptradd.o)\
+		$(APILIB)(gspool_ptrdel.o)\
+		$(APILIB)(gspool_ptrlist.o)\
+		$(APILIB)(gspool_ptrop.o)\
+		$(APILIB)(gspool_ptrread.o)\
+		$(APILIB)(gspool_ptrupd.o)\
+		$(APILIB)(gspool_ptrswap.o)\
+		$(APILIB)(gspool_putspd.o)\
+		$(APILIB)(gspool_putspu.o)\
+		$(APILIB)(gspool_open.o)
+
+# Build shared and non-shared version.
+# TODO - build alternative 32-bit and 64-bit versions on some machines
+
+$(APISHLIB):	gspool.h $(OBJECTS)
+	$(LDSHARED) $(APISHLIB) -h $(APISHLIB) $(OBJECTS)
+	$(AR) crv $(APILIB) $(OBJECTS)
+	@RANLIB@ $(APILIB)
+	$(RM) $(OBJECTS)
+
+# Build header out of the bits
+
+gspool.h:	gspool.pre\
+		gspool.post\
+		$(BASE)/config.h\
+		$(HDRS)/xtapi_int.h\
+		$(HDRS)/defaults.h\
+		$(HDRS)/pages.h\
+		$(HDRS)/spq.h\
+		$(HDRS)/spuser.h
+	sh ./Hdrmake.sh $(BASE)/config.h $(HDRS)
+
+install:
+	$(INSTALL) -d $(LIBDIR)
+	$(INSTALL_DATA) $(APILIB) $(LIBDIR)
+	if test -f $(APISHLIB); then $(INSTALL) $(APISHLIB) $(LIBDIR); fi
+
+install_strip:
+	$(INSTALL) -d $(LIBDIR)
+	$(INSTALL_DATA) $(APILIB) $(LIBDIR)
+	if test -f $(APISHLIB); then $(INSTALL) $(APISHLIB) $(LIBDIR); fi
+
+clean:
+	$(RM) gspool.h *.[oa] *.ln *.so
+
+distclean:	clean
+	$(RM) Makefile

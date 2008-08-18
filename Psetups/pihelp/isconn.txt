@@ -1,0 +1,6 @@
+What we are asking for is whether the printer is connected,
+switched on and ready to print, so we can perhaps find out
+relevant information.
+
+Please reply "y" if it is switched on and ready to print,
+otherwise reply "n".

@@ -1,0 +1,167 @@
+=head1 NAME
+
+gspool_ptrop - perform an operation on a printer
+
+=head1 SYNOPSIS
+
+=for man
+\&\fB#include <gspool.h>\fR
+.PP
+
+=for html
+<STRONG>#include &lt;gspool.h&gt;</STRONG>
+<br>
+
+B<int gspool_ptrop(const int>
+I<fd>B<, const unsigned>
+I<flags>B<, const slotno_t>
+I<slot>B<, const unsigned>
+I<op>B<)>
+
+=head1 DESCRIPTION
+
+The B<gspool_ptrop()> function is used to perform an operation on a printer.
+
+I<fd> is a file descriptor previously returned by B<gspool_open>
+
+I<flags> is zero, or C<GSPOOL_FLAG_IGNORESEQ> to ignore changes since the list was last read
+
+I<slot> is the slot number corresponding to the printer as previously
+returned by a call to B<gspool_ptrlist()> or B<gspool_ptrfindslot>.
+
+I<op> is one of the following values:
+
+=for html
+<p>
+<div class=indtab>
+<table border=0 cellspacing=0 cellpadding=1 summary="Printer operations">
+<tr>
+<th align=left class=dense>Operation code</th>
+<th align=left class=dense>Description</th>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PRINOP_RSP</span></td>
+<td class=dense>Restart printer</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PRINOP_PHLT</span></td>
+<td class=dense>Halt printer at the end of the current job</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PRINOP_PSTP</span></td>
+<td class=dense>Halt printer at once</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PRINOP_PGO</span></td>
+<td class=dense>Start printer</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PRINOP_OYES</span></td>
+<td class=dense>Approve alignment page</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PRINOP_ONO</span></td>
+<td class=dense>Disapprove alignment page</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PRINOP_INTER</span></td>
+<td class=dense>Interrupt printer</td>
+</tr>
+<tr>
+<td class=dense><span class=FileName>PRINOP_PJAB</span></td>
+<td class=dense>Abort current job on printer</td>
+</tr>
+</table>
+</div>
+
+=for man
+.Ip "PRINOP_RSP" 8
+Restart printer
+.Ip "PRINOP_PHLT" 8
+Halt printer at the end of the current job
+.Ip "PRINOP_PSTP" 8
+Halt printer at once
+.Ip "PRINOP_PGO" 8
+Start printer
+.Ip "PRINOP_OYES" 8
+Approve alignment page
+.Ip "PRINOP_ONO" 8
+Disapprove alignment page
+.Ip "PRINOP_INTER" 8
+Interrupt printer
+.Ip "PRINOP_PJAB" 8
+Abort current job on printer
+
+=head1 RETURN VALUES
+
+=for html
+<p>The function returns 0 if successful otherwise one of the error codes
+<a href="TxtAPI-3.html#Error_codes">listed in Chapter 3</a>.</p>
+
+=for man
+The function \fBgspool_ptrop()\fR returns 0 if successful, otherwise one
+of the following codes:
+.Ip "GSPOOL_INVALID_FD" 8
+Invalid File descriptor
+.Ip "GSPOOL_BADWRITE" 8
+failure writing to the network
+.Ip "GSPOOL_BADREAD" 8
+failure reading from the network
+.Ip "GSPOOL_NOPERM" 8
+The user does not have permission
+.Ip "GSPOOL_SEQUENCE" 8
+Sequence error, slot may be out of date
+.Ip "GSPOOL_PTR_RUNNING" 8
+Printer is running
+.Ip "GSPOOL_PTR_NOTRUNNING" 8
+Printer is not running
+
+=head1 EXAMPLE
+
+An example to halt all printers:
+
+ int     fd, ret, np, i;
+ struct apispptr ptr;
+ slotno_t *slots;
+
+ fd = gspool_open("myhost", (char *) 0, 0);
+ if (fd < 0) { /* error handling */
+     ...
+ }
+
+ /* make a list of all the printers */
+
+ ret = gspool_ptrlist(fd, 0, &np, &slots);
+ if (ret < 0) { /* error handling */
+     ...
+ }
+
+ for (i = 0; i < np; i++) {
+     ret = gspool_ptrop(fd, GSPOOL_FLAG_IGNORESEQ, slots[i], PRINOP_PHLT);
+     if (ret < 0  &&  ret != GSPOOL_PTR_NOTRUNNING) { 
+         /* error handling ignoring ones already stopped*/
+         ...
+     }
+ }
+ gspool_close(fd);
+
+=head1 SEE ALSO
+
+gspool_ptrlist(3),
+gspool_ptrread(3),
+gspool_ptradd(3),
+gspool_ptrdel(3),
+gspool_ptrfind(3),
+gspool_ptrfindslot(3),
+gspool_ptrupd(3),
+gspool_ptrmon(3).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

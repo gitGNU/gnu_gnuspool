@@ -1,0 +1,2 @@
+Do you want to modify the definition of the printer
+or do you want to remove it.

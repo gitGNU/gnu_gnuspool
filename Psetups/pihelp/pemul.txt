@@ -1,0 +1,4 @@
+Please give the printer emulation of this printer.
+
+We give standard files for PCL, PostScript, Epson and IBM
+emulations.

@@ -1,0 +1,90 @@
+=head1 NAME
+
+gspl-stop - cancel spooler
+
+gspl-suspend - suspend assignment of printers
+
+gspl-release - release assignment of printers
+
+=head1 SYNOPSIS
+
+B<gspl-stop>
+[ I<-y> ]
+
+B<gspl-suspend>
+[ I<-y> ]
+[ I<n> ]
+
+=head1 DESCRIPTION
+
+B<gspl-stop> is a program which should be invoked to bring the B<GNUspool>
+spooler system to an orderly halt prior to system shutdown. Any jobs
+in progress will be saved, and the current page noted for resumption
+when the spooler is restarted. Confirmation is requested (reply C<y>
+or C<n>) unless the C<-y> option is specified.
+
+B<gspl-suspend> halts the assignment of jobs to printers for a short time,
+which defaults to 5 minutes or as given as a time in seconds last
+argument to the command, or until released by B<gspl-release>. Again
+confirmation is requested unless the C<-y> option is given.
+
+Only a user with the I<Stop spooler> privilege may successfully invoke
+any of these commands.
+
+The reason why B<gspl-suspend> this may be useful is that in a network
+scenario, where a new host is brought on line, a considerable amount
+of network traffic is created, and the assignment of printers to jobs
+and the broadcasting of information between hosts can flood the
+network to an unacceptable degree.
+
+=head1 OPTIONS
+
+Note that there is no means of saving the C<-y> option in a F<.gnuspool>
+file as this is not considered to be sensible. If you have to do this,
+put the command in a shell "wrapper".
+
+=over 4
+
+=item -y
+
+Do not ask for confirmation.
+
+=back
+
+=head1 ENVIRONMENT
+
+=over 20
+
+=item SPRESTCONF
+
+path name of alternative message file.
+
+=back
+
+=head1 SEE ALSO
+
+gspl-start(1),
+gnuspool.conf(5),
+gnuspool.hosts(5),
+spd(8),
+spdinit(8),
+spshed(8).
+
+=head1 DIAGNOSTICS
+
+Various diagnostics may be issued, read as required from the message
+file F<rest.help>.
+
+The most important ones are that it is not running and that the user
+is not permitted to invoke the command.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gspl-stop gspl-suspend gspl-release

@@ -1,0 +1,122 @@
+#
+#   Copyright 2008 Free Software Foundation, Inc.
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#	Macro definitions giving symbolic names to SNMP constructs
+#
+
+ccitt				   0
+iso				   1
+joint-iso-ccitt			   2
+internet			   1.3.6.1
+directory			   internet.1
+mgmt				   internet.2
+experimental			   internet.3
+private				   internet.4
+enterprises			   private.1
+hp				   enterprises.11
+nm				   hp.2
+system				   nm.3
+netperipheral			   system.9
+netprinter			   netperipheral.1
+generalDeviceStatus		   netprinter.1
+gdStatusBytes			   generalDeviceStatus.1
+gdStatusEntry			   generalDeviceStatus.2
+gdStatusLineState		   gdStatusEntry.1
+gdStatusPaperState		   gdStatusEntry.2
+gdStatusInterventionState	   gdStatusEntry.3
+gdStatusNewMode			   gdStatusEntry.4
+gdStatusConnectionTerminationAck   gdStatusEntry.5
+gdStatusPeripheralError		   gdStatusEntry.6
+gdStatusIoChannelReset		   gdStatusEntry.7
+gdStatusPaperOut		   gdStatusEntry.8
+gdStatusPaperJam		   gdStatusEntry.9
+gdStatusTonerLow		   gdStatusEntry.10
+gdStatusPagePunt		   gdStatusEntry.11
+gdStatusMemoryOut		   gdStatusEntry.12
+gdStatusIoActive		   gdStatusEntry.13
+gdStatusBusy			   gdStatusEntry.14
+gdStatusWait			   gdStatusEntry.15
+gdStatusInitialize		   gdStatusEntry.16
+gdStatusDoorOpen		   gdStatusEntry.17
+gdStatusPrinting		   gdStatusEntry.18
+gdStatusPaperOutput		   gdStatusEntry.19
+gdStatusReserved		   gdStatusEntry.20
+gdStatusDisplay			   generalDeviceStatus.3
+gdStatusJobName			   generalDeviceStatus.4
+interface			   nm.4
+npCard				   interface.3
+npSys				   npCard.1
+npSysState			   npSys.1
+npSysStatusMessage		   npSys.2
+npSysPeripheralFatalError	   npSys.3
+npSysCardFatalError		   npSys.4
+npSysMaximumWriteBuffers	   npSys.5
+npSysMaximumReadBuffers		   npSys.6
+npSysTotalBytesRecvs		   npSys.7
+npSysTotalBytesSents		   npSys.8
+npSysCurrReadReq		   npSys.9
+npNpi				   npCard.2
+npElt				   npCard.3
+npConns				   npCard.4
+npConnsAccepts			   npConns.1
+npConnsRefuses			   npConns.2
+npConnsDenys			   npConns.3
+npConnsDenysIP			   npConns.4
+npConnsAborts			   npConns.5
+npConnsAbortReason		   npConns.6
+npConnsAbortIP			   npConns.7
+npConnsAbortPort		   npConns.8
+npConnsAbortTime		   npConns.9
+npConnsState			   npConns.10
+npConnsIP			   npConns.11
+npConnsPort			   npConns.12
+npConnsPeriphClose		   npConns.13
+npConnsIdleTimeouts		   npConns.14
+npConnsNmClose			   npConns.15
+npConnsBytesRecvs		   npConns.16
+npConnsBytesSents		   npConns.17
+npCfg				   npCard.5
+npCfgSource			   npCfg.1
+npCfgYiaddr			   npCfg.2
+npCfgSiaddr			   npCfg.3
+npCfgGiaddr			   npCfg.4
+npCfgLogServer			   npCfg.5
+npCfgSyslogFacility		   npCfg.6
+npCfgAccessState		   npCfg.7
+npCfgAccessListNum		   npCfg.8
+npCfgAccessListTable		   npCfg.9
+accessListEntry			   npCfgAccessListTable.1
+npCfgAccessListIndex		   accessListEntry.1
+npCfgAccessListAddress		   accessListEntry.2
+npCfgAccessListAddrMask		   accessListEntry.3
+npCfgIdleTimeout		   npCfg.10
+npCfgLocalSubnets		   npCfg.11
+npTcp				   npCard.6
+npTcpInSegInOrders		   npTcp.1
+npTcpInSegOutOfOrders		   npTcp.2
+npTcpInSegZeroProbes		   npTcp.3
+npTcpInDiscards			   npTcp.4
+npCtl				   npCard.7
+npCtlReconfigIP			   npCtl.1
+npCtlReconfigPort		   npCtl.2
+npCtlReconfigTime		   npCtl.3
+npCtlCloseIP			   npCtl.4
+npCtlClosePort			   npCtl.5
+npCtlImageDump			   npCtl.6
+npCtlCloseConnection		   npCtl.7
+npCtlReconfig			   npCtl.8
+snmp				   hp.2.13
+trap				   snmp.1

@@ -1,0 +1,126 @@
+=head1 NAME
+
+gspool_ptrupd - update the details of a printer
+
+=head1 SYNOPSIS
+
+=for man
+\&\fB#include <gspool.h>\fR
+.PP
+
+=for html
+<STRONG>#include &lt;gspool.h&gt;</STRONG>
+<br>
+
+B<int gspool_ptrupd(const int>
+I<fd>
+B<, const unsigned>
+I<flags>B<, const slotno_t>
+I<slot>B<, struct apispp *>I<ptrd>B<)>
+
+=head1 DESCRIPTION
+
+The B<gspool_ptrupd()> function is used to update the details of a printer.
+
+I<fd> is a file descriptor previously returned by B<gspool_open>
+
+I<flags> is zero, or C<GSPOOL_FLAG_IGNORESEQ> to ignore changes since the list was last read.
+
+I<slot> is the slot number corresponding to the printer as previously
+returned by B<gspool_ptrlist> or B<gspool_ptrfindslot>.
+
+I<ptrd> is a descriptor containing the printer descriptor as defined
+in F<gspool.h>.
+
+=for html
+<P>The fields in <CODE>struct apispptr</CODE> are defined in the
+gspool_ptrread(3) <a href="#Apispptr_def">documentation</a>.</p>
+
+=for man
+The fields in \fBstruct apispptr\fR are defined in the documentation for
+\fIgspool_ptrread\fR\|(3).
+
+Note that we recommend that the whole structure be first read in with
+B<gspool_ptrread> or B<gspool_ptrfind> and then required fields updaated; this
+approach will cover any future extensions with additional fields.
+
+Only changes to the name device, description, form type, local flag,
+the minimun and maximum job sizes, the network filter flag and the
+class code are accepted, and none at all if the printer is running.
+
+=head1 RETURN VALUES
+
+=for html
+<P>The function returns 0 if successful otherwise one of the error codes
+<a href="TxtAPI-3.html#Error_codes">listed in Chapter 3</a>.</p>
+
+=for man
+The function \fBgspool_ptrupd()\fR returns 0 if successful, otherwise one
+of the following codes:
+.Ip "GSPOOL_INVALID_FD" 8
+Invalid File descriptor
+.Ip "GSPOOL_BADWRITE" 8
+failure writing to the network
+.Ip "GSPOOL_BADREAD" 8
+failure reading from the network
+.Ip "GSPOOL_NOPERM" 8
+The user does not have permission
+.Ip "GSPOOL_ZERO_CLASS" 8
+A class code of zero is illegal
+.Ip "GSPOOL_BAD_FORM" 8
+Invalid form type
+.Ip "GSPOOL_SEQUENCE" 8
+Sequence error, slot may be out of date
+.Ip "GSPOOL_UNKNOWN_PTR" 8
+Printer not found
+.Ip "GSPOOL_INVALIDSLOT" 8
+Invalid slot number
+.Ip "GSPOOL_PTR_RUNNING" 8
+Printer is running
+
+=head1 EXAMPLE
+
+An example to change the form type on printer C<hplj1>.
+
+ int fd, ret;
+ struct apispptr ptr;
+ slotno_t pslot;
+
+ fd = gspool_open("myhost", (char *) 0, 0);
+ if (fd < 0) { /* error handling */
+     ...
+ }
+
+ /* Find printer */
+ ret = gspool_ptrfind(fd, 0, "hplj1", servip, &pslot, &ptr);
+ if (ret < 0)  { /* error handling */
+     ...
+ }
+
+ strcpy(ptr.apispp_form, "a4.p10");
+ ret = gspool_ptrupd(fd, 0, pslot, &ptr);
+ if (ret < 0) { /* error handling */
+     ...
+ }
+ gspool_close(fd);
+
+=head1 SEE ALSO
+
+gspool_ptrlist(3),
+gspool_ptrread(3),
+gspool_ptradd(3),
+gspool_ptrdel(3),
+gspool_ptrfind(3),
+gspool_ptrfindslot(3),
+gspool_ptrmon(3),
+gspool_ptrop(3).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

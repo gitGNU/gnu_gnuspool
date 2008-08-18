@@ -1,0 +1,2 @@
+This is the destination (terminal server etc) IP address for the
+printer or host name if this is provided for.

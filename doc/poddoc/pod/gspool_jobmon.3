@@ -1,0 +1,100 @@
+=head1 NAME
+
+gspool_jobmon - set a function to monitor changes to jobs
+
+gspool_setmon - monitor job and printer list changes on Windows
+
+=head1 SYNOPSIS
+
+=for man
+\&\fB#include <gspool.h>\fR
+.PP
+
+=for html
+<STRONG>#include &lt;gspool.h&gt;</STRONG>
+<br>
+
+B<int gspool_jobmon(const int>
+I<fd>B<, void (*>I<fn>B<)(const int))>
+
+B<int gspool_setmon(const int>
+I<fd>B<, HWND>
+I<hWnd>B<, UINT>
+I<wMsg>B<)>
+
+B<int gspool_procmon(const int>
+I<fd>B<)>
+
+B<void gspool_unsetmon(const int> I<fd>B<)>
+
+=head1 DESCRIPTION
+
+=head2 Unix and Linux
+
+The B<gspool_jobmon()> function is used to set the function I<fn> to be
+called upon notification of any changes to the jobs list.
+
+I<fd> is a file descriptor previously returned by B<gspool_open>.
+
+I<fn> is a function which must be declared as returning void and
+taking one C<const int> argument. Alternatively, this may be C<NULL>
+to cancel monitoring.
+
+The function I<fn> will be called upon each change to the job
+list. The argument passed will be I<fd>. Note that any changes to the
+job queue are reported (including changes on other hosts whose details
+are passed through) as the API does not record which jobs the user is
+interested in.
+
+=head2 Windows
+
+=for html
+<a name="Xt_setmon_def"></a>
+
+The B<gspool_setmon> routine may be used to monitor changes to the job
+queue or printer list. Its parameters are as follows.
+
+I<fd> is a file descriptor previously returned by B<gspool_open>.
+
+I<hWnd> is a windows handle to which messages should be sent.
+
+I<wMsg> is the message id to be passed to the window (C<WM_USER> or a
+constant based on this is suggested).
+
+To decode the message, the B<gspool_procmon> is provided. This returns
+C<XTWINAPI_JOBPROD> to indicate a change or changes to the job queue
+and C<XTWINAPI_PTRPROD> to indicate a change or changes to the printer
+list. If there are changes to both, two or more messages will be sent,
+each of which should be decoded via separate B<gspool_procmon> calls.
+
+To cancel monitoring, invoke the routine
+
+ gspool_unsetmon(fd)
+
+If no monitoring is in progress, or the descriptor is invalid, this
+call is just ignored.
+
+=head1 RETURN VALUES
+
+The function B<gspool_jobmon()> returns 0 if successful otherwise the
+error code C<GSPOOL_INVALID_FD> if the file descriptor is
+invalid. Invalid I<fn> parameters will not be detected and the
+application program will probably crash.
+
+=head1 SEE ALSO
+
+gspool_open(3),
+gspool_close(3),
+gspool_joblist(3),
+gspool_ptrlist(3),
+gspool_ptrmon(3).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:

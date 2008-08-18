@@ -1,0 +1,98 @@
+#
+# Control file for lpd client
+# We have the following environment variables set up by spd
+
+#	SPOOLPTR	printer name
+#	SPOOLHDR	job title
+#	SPOOLUSER	numeric userid
+#	SPOOLJUNAME	user name owning job 
+#	SPOOLPUNAME	posting user name
+#	SPOOLFORM	form type
+#	SPOOLFLAGS	post-processing flags
+#	SPOOLPAGE	current page (not likely to be sensible)
+#	SPOOLJOB	job number
+#	SPOOLHOST	host name of owning job
+#	SPOOLRANGE	page range as m-n -n m- or blank
+#	SPOOLOE		0 1 or 2 for all pages odd pages or even pages
+#	SPOOLCPS	number of copies
+
+# The following are set up by the client
+
+#	MYHOST		"my" host name
+#	DESTHOST	destination host name (from -H parameter)
+
+# We must define a spool directory and a port number
+
+XTLPCSPOOL=SPOOLDIR/xtlpc
+PORTNAME=printer
+
+# We must define the format of the C-file and D-file.
+# The %.3d gets filled in in the style of printf.
+
+CFILE=cf%c%.3d$MYHOST
+DFILE=df%c%.3d$MYHOST
+
+# We kick off by defining the form type by pattern matching the requested form
+# type, first default if all else fails
+
+Form	=	f
+
+{ SPOOLFORM ~ *.ps }	Form=l
+{ SPOOLFORM ~ *.pr }	Form=p
+
+# If SPOOLHOST is defined and sensible, use that as host name,
+# otherwise stick with MYHOST which gets set up before we start.
+
+Host	=	$MYHOST
+{ SPOOLHOST }	Host = $SPOOLHOST
+
+# Next we lay out the C-file
+# Kick off with standard stuff
+
+:H$MYHOST
+:P$SPOOLJUNAME
+:J$SPOOLHDR
+:C$Host
+
+# Insert pr title if Form type p
+
+{ Form == p }	:T$SPOOLHDR
+
+# Insert for each copy.....
+
+( SPOOLCPS )	:$Form$DFILE
+
+# Insert delete command
+
+:U$DFILE
+
+# Insert "N" line
+
+:N$SPOOLHDR
+
+# And now for the protocol to send it
+# > means send something ] means do it first time only
+# < means receive something [ means do it first time only
+# * means send whole file
+
+# First say we've got a job for the printer
+# Wait for acknowledgement
+
+]	^B$SPOOLPTR^J
+[	^@
+
+# Now send D-file and wait for acknowledgement
+
+>	^C%$DFILE $DFILE^J
+<	^@
+*	$DFILE
+>	^@
+<	^@
+
+# Send C-file
+
+>	^B%$CFILE $CFILE^J
+<	^@
+*	$CFILE
+>	^@
+<	^@

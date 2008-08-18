@@ -1,0 +1,153 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>xtelnet - reverse telnet terminal server driver</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#diagnostics">DIAGNOSTICS</a></li>
+	<li><a href="#exit_codes">EXIT CODES</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>xtelnet - reverse telnet terminal server driver</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>xtelnet</strong>
+<em>-h hostname</em>
+<em>-p port</em>
+[ <em>-d</em> ]
+[ <em>-l loops</em> ]
+[ <em>-L loopwait</em> ]
+[ <em>-t sleep</em> ]
+[ <em>-s lingertime</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>xtelnet</strong> is a terminal server program for use by <strong>GNUspool</strong> where
+the destination is a server which accepts ``reverse telnet''
+protocol. Data is accepted on standard input.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2dh_hostname">-h <em>hostname</em></a></strong>
+
+<dd>
+<p>This is the host name or IP address to be used to access the
+printer. In <strong>GNUspool</strong> setup files, it may be appropriate to
+substitute <code>$SPOOLDEV</code> or <code>$SPOOLPTR</code> here.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dp_port_number">-p <em>port number</em></a></strong>
+
+<dd>
+<p>This is the port number (or name in <em>/etc/services</em> to be used. In
+<strong>GNUspool</strong> setup files, it may sometimes be appropriate to substitute
+<code>$SPOOLDEV</code> here, but this is unlikely.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dl_n">-l <em>n</em></a></strong>
+
+<dd>
+<p>Make <em>n</em> connection attempts before giving up trying to connect to
+the server.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dl_n">-L <em>n</em></a></strong>
+
+<dd>
+<p>In conjunction with <strong>-l</strong> option, sleep <em>n</em> seconds between attempts
+to connect to the server.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dt_n">-t <em>n</em></a></strong>
+
+<dd>
+<p>Sleep <em>n</em> seconds before exiting, after closing the connection to the
+server. This is sometimes necessary with some servers, as <strong>GNUspool</strong>
+operates too fast for them. However you may prefer to use the
+<code>closewait</code> option in the <em>setup file</em>.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2ds_n">-s <em>n</em></a></strong>
+
+<dd>
+<p>Specify ``linger time'' in seconds (which may be fractional) for the
+connection. This is likewise necessary with some servers.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dd">-d</a></strong>
+
+<dd>
+<p>Debug. Displays activities on standard error.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="diagnostics">DIAGNOSTICS</a></h1>
+<p><strong>xtelnet</strong> generates any appropriate diagnostics on standard
+error. Use the <code>fberror</code> and/or <code>logerror</code> keywords in the <em>setup
+file</em> to record such errors.</p>
+<p>
+</p>
+<hr />
+<h1><a name="exit_codes">EXIT CODES</a></h1>
+<p>Normal termination is denoted by an exit code of zero.</p>
+<ol>
+<li>
+<p>Device appears to be offline.</p>
+</li>
+<li>
+<p>Some kind of device error, failure to connect etc.</p>
+</li>
+<li>
+<p>Incorrect usage, unknown option etc.</p>
+</li>
+<li>
+<p>System error, cannot find host name etc.</p>
+</li>
+</ol>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>xilp(8),
+xtftp(8),
+xtlpc(8),
+xtlhp(8).</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>John M Collins, Xi Software Ltd.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+The device is not owned by the spooler user - do you want to change it
+so that it is?
+
+Note that on many systems, particularly Linux, this will be
+automatically reset by "udev" or "devfsd" so you may need to turn off
+the reset in there as well.
+
+

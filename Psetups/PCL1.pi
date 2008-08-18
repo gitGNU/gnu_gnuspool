@@ -1,0 +1,76 @@
+# Copyright 2008 Free Software Foundation, Inc.
+#
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.
+#
+# Parameters for LaserJet-style Printers.
+# We set up suffixes so that we can select portrait or landscape
+# and a variety of pitches thus:
+# form.p10  - portrait 10 pitch
+# form.l12  - landscape 12 pitch etc.
+
+# Firstly, we give symbolic names to all the escape sequences used
+# Remember: These do not output anything or do anything.
+# Codes such as \e - escape and \xXX character represented as hex
+# are used.
+
+# Use shell script to generate banner pages
+
+bannprog=SPROGDIR/pclbanner
+
+# Define "reset printer" code
+
+RESET=\eE
+
+# Define line terminator command (so that CRs are not ignored).
+# You may need to change the 2 to a 3 in the following line
+# on some printers
+
+LINE_TERM=\e&k2G
+OFF_LINE_TERM=\e&k0G
+
+# Define codes to select portrait or landscape
+
+PORTRAIT=\e&l0O
+LANDSCAPE=\e&l1O
+
+# Define codes for pitch selection
+
+P8=\e(s8.3H
+P12=\e(s12H
+P16=\e(s16.6H
+P10=\e(s10H
+P15=\e(s15H
+
+SET6LPI=\e&l6D
+SET8LPI=\e&l8D
+
+ITALICS=\e(s1S
+CANCITAL=\e(s0S
+
+# Nothing has been output yet, but now we proceed to indicate situations
+# when we output various codes
+
+
+
+# When printer is completely halted, send out reset string
+
+halt	RESET
+
+# If suffix name starts with "l", but not "lh" for letterhead,
+# then output code to set landscape
+# printing. When done, set it back to portrait mode
+# We have a separate docstart for banners
+
+{
+	(l[!h]*)
+# If you don't want to use the banner print program uncomment the
+# "docstart" following to give a portrait banner despite
+# landscape document
+		banner
+#		docstart LINE_TERM
+		-banner
+		docstart LINE_TERM LANDSCAPE
+		docend	PORTRAIT
+}

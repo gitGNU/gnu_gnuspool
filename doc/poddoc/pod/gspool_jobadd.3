@@ -1,0 +1,257 @@
+=head1 NAME
+
+gspool_jobadd - create a new job
+
+=head1 SYNOPSIS
+
+=for man
+\&\fB#include <gspool.h>\fR
+.br
+\&\fB#include <stdio.h>\fR
+.PP
+
+=for html
+<STRONG>#include &lt;gspool.h&gt;
+<br>
+#include &lt;stdio.h&gt;</STRONG>
+<br>
+
+B<FILE *gspool_jobadd(const int>
+I<fd>B<, struct apispq *>I<jobd>B<, const char *>I<delim>B<, const unsigned>
+I<deliml>B<, const unsigned>
+I<delimnum>B<)>
+
+B<int gspool_jobres(const int>
+I<fd>B<, jobno_t *>I<jobno>B<)>
+
+B<int gspool_jobadd(const int>
+I<fd>B<, const int>
+I<infile>B<, int (*>I<func>B<)(int,void*,unsigned)
+struct apispq *>I<jobd>B<, const char *>I<delim>B<, const unsigned>
+I<deliml>B<. const unsigned>
+I<delimnum>B<)>
+
+=head1 DESCRIPTION
+
+=head2 Unix and Linux
+
+The functions B<gspool_jobadd()> (the first form) and B<gspool_jobres> are used to add a job
+under Unix and Linux.
+
+I<fd> is a file descriptor previously returned by B<gspool_open>
+
+I<jobd> is a pointer to a C<struct apispq>, as defined in F<gsapi.h>,
+containing all the details of the job.
+
+=for html
+<P>The fields in <CODE>struct apispq</CODE> are defined in the
+gspool_jobread(3) <A HREF="#Apispq_def">documentation</A>.</P>
+
+=for man
+The fields in \fBstruct apispq\fR are defined in the documentation for
+\fIgspool_jobread\fR\|(3).
+
+Note that we recommend that the whole structure be cleared to zeroes
+initially and then required fields added; this approach will cover any
+future extensions with additional fields which will behave as at
+present if zero.
+
+Also note that from release 23 an additional field C<apispq_pglim> is
+provided in the structure. If this is non-zero, then the size of the
+job is limited. If the bit C<APISPQ_PGLIMIT> in C<apispq_dflags> is
+zero, then the size is limited to the given number of kilobytes. If
+this bit is set, then the size is limited to the given number of
+pages. If a job exceeds the given limit, then its treatment depends
+upon the setting of the bit C<APISPQ_ERRLIMIT> in
+C<apispq_dflags>. If this is zero, then the job is truncated to the
+given number of kilobytes or pages and still proceeds (although a
+warning code is returned by B<gspool_jobres>). If it is set, then it is
+rejected altogether.
+
+I<delim> is a pointer to a string containing the page delimiter
+string, or C<NULL> if the user is content with the single formfeed
+character. I<deliml> is the length of the delimiter string
+I<delim>. This is necessary because I<delim> is not necessarily
+null-terminated.
+
+I<delimnum> in the number of instances of the delimiter
+string/character to be counted to make up a page.
+
+The result is either a standard I/O stream, which can be used as
+output for putc(3), fprintf(3), fwrite(3) etc, or C<NULL> to indicate
+an error has been detected. The I/O stream connection should be
+closed, when complete, with fclose(3). Finally a call should be made
+to B<gspool_jobres>.
+
+For reasons of synchronisation you I<must> call B<gspool_jobres>
+immediately after fclose(3) even if you are not interested in the
+answer. Apart from that several calls to B<gspool_jobadd> may be in
+progress at once to submit several jobs simultaneously.
+
+B<gspool_jobres> returns zero on successful completion (or
+C<GSPOOL_WARN_LIMIT> if the job was truncated but still submitted). The
+parameter I<jobno> is assigned the job number of the job created. This
+value is also assigned to the field C<apispq_job> in the passed
+structure I<jobd> to B<gspool_jobadd>.
+
+Note that you should not call B<gspool_jobres> if B<gspool_jobadd> returns
+C<NULL> for error. Most errors are detected at the B<gspool_jobadd> stage
+and before any data is passed across, but this should not in general
+be relied upon.
+
+=head2 Windows
+
+The second format of the B<gspool_jobadd> function is for use by Windows
+programs, as there is no acceptable equivalent of the pipe(2)
+construct.
+
+The second argument I<infile> is (possibly) a file handle to the file
+from which the job is created and is passed as the first argument to
+I<func>.
+
+The third argument I<func> is a function with the same specifications
+as C<read>, indeed it may very well be C<read>. The main reason for
+doing it this way is that some versions of Windows do strange things
+if C<read> is invoked from within a DLL.
+
+Other aspects of the interface are similar to the Unix routine, apart
+from the routine returning zero for success and an error code for
+failure rather than a C<FILE*> or C<NULL>.
+
+There is no B<gspool_jobres> in the windows version, the job number is
+placed in the field C<apispq_job> in the passed structure I<jobd> to
+B<gspool_jobadd>. For consistency with the Unix version, the external
+variable C<gsapi_dataerror> is also assigned any error code returned.
+
+=head1 ERRORS
+
+If an error is detected the external variable C<gspool_dataerror> will
+be set to the error code.
+
+=for html
+<P>Error codes are <A HREF="TxtAPI-3.html#Error_codes">listed in Chapter
+3</A>, Almost all the codes are possible.</P>
+
+=for man
+Error codes which might be returned are:
+.Ip "GSPOOL_INVALID_FD" 8
+Invalid file descriptor
+.Ip "GSPOOL_BADWRITE" 8
+failure writing to network
+.Ip "GSPOOL_BADREAD" 8
+failure reading from network
+.Ip "GSPOOL_SEQUENCE" 8
+job sequence error - slot may be out of date
+.Ip "GSPOOL_UNKNOWN_JOB" 8
+job not found
+.Ip "GSPOOL_NOPERM" 8
+job does not belong to user
+.Ip "GSPOOL_INVALIDSLOT" 8
+invalid slot number
+.Ip "GSPOOL_ZERO_CLASS" 8
+invalid (effectively zero) class code
+.Ip "GSPOOL_BAD_PRIORITY" 8
+invalid priority
+.Ip "GSPOOL_BAD_COPIES" 8
+invalid number of copies
+.Ip "GSPOOL_BAD_FORM" 8
+invalid form type
+.Ip "GSPOOL_UNKNOWN_USER" 8
+unknown user name
+.Ip "GSPOOL_NOMEM_QF" 8
+no memory for queue file
+.Ip "GSPOOL_FILE_FULL" 8
+file system is full on host
+.Ip "GSPOOL_QFULL" 8
+message queue full on host
+.Ip "GSPOOL_EMPTYFILE" 8
+no job data given
+.Ip "GSPOOL_BAD_PTR" 8
+invalid printer name given (user is limited)
+.Ip "GSPOOL_WARN_LIMIT" 8
+job size exceeded limit, truncated
+.Ip "GSPOOL_PAST_LIMIT" 8
+job size exceeded limit, rejected
+
+=head1 EXAMPLE
+
+An example to add a job called C<readme> from standard input:
+
+ int fd, ret, ch;
+ struct apispq outj;
+ jobno_t jn;
+ FILE *f;
+
+ fd = gspool_open("myhost", (char *) 0, 0);
+ if (fd < 0) { /* error handling */
+     ...
+ }
+
+ /* It is safest to clear the structure first */
+ memset((void *) &outj, '\0', sizeof(outj));
+
+ /* set defaults */
+ outj.apispq_nptimeout = 24 * 7;
+ outj.apispq_ptimeout = 24;
+ outj.apispq_cps = 1;
+ outj.apispq_pri = 150;
+
+ /* The class code specified in gspool_open is not used here. However the
+ user's class code will be &ed with this unless the user has override
+ class privilege. */
+
+ outj.apispq_class = 0xffffffff;
+
+ /* set a large page range to to ensure all pages are printed */
+ outj.apispq_end = 4000;
+
+ /* Only the form type is compulsory here. The others may
+    be set to NULL */
+
+ strcpy(outj.apispq_file, "readme");
+ strcpy(outj.apispq_form, "a4");
+ strcpy(outj.apispq_ptr, "laser");
+
+ /* add the job with the default page delimiter */
+
+ f = gspool_outjadd(fd, &outj, (char *) 0, 1, 1);
+ if (!f)  { /* error handling error in gsapi_dataerror */
+     ...
+ }
+
+ /* now send the data */
+
+ while ((ch = getchar()) != EOF)
+     putc(ch, f);
+ fclose(f);
+
+ ret = gspool_jobres(fd, &jn);
+ if (ret < 0) { /* error handling */
+     ...
+ } else
+     printf("success the job number is %ld\n", jn);
+
+ gspool_close(fd);
+
+=head1 SEE ALSO
+
+gspool_joblist(3),
+gspool_jobread(3),
+gspool_jobdata(3),
+gspool_jobdel(3),
+gspool_jobfind(3),
+gspool_jobfindslot(3),
+gspool_jobupd(3),
+gspool_jobmon(3),
+gspool_jobpbrk(3).
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gsapi jobadd const int struct apispq jobres

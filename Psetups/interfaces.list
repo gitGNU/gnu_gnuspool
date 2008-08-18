@@ -1,0 +1,30 @@
+# Copyright 2008 Free Software Foundation, Inc.
+#
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.
+#
+##  This is a list of known interfaces
+##  Please improve and add to the list.
+##
+##  Format is as follows:
+##
+##  Long Description :	Short description
+##
+
+Parallel port directly connected	:	Parallel
+Serial port directly connected		:	Serial
+
+LPD protocol				:	LPD
+Telnet protocol				:	Telnet
+Telnet/SNMP				:	Telnet-snmp
+
+JetDirect Card using HPNPF		:	HPNPF
+JetDirect Card under AIX 3.2.5 on	:	AIX-HPNPF
+
+Milan Fastport Network Print Server	:	Milan
+Xilogics Annex Print Servers		:	Annex
+QMS Print Server			:	QMS
+Xyplex Print Server			:	Xyplex
+Computone Print Servers			:	Telnet
+Memorex Print Server			:	LPD

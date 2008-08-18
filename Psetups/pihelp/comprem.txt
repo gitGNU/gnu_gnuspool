@@ -1,0 +1,3 @@
+Are you quite sure you want to remove all traces of the printer?
+
+You might be happy just to remove it from the active list.

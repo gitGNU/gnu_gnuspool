@@ -1,0 +1,27 @@
+# Copyright 2008 Free Software Foundation, Inc.
+#
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.
+#
+##  This is a list of known servers and how to speak to them
+##  Please improve and add to the list.
+##
+##  Format is as follows:
+##
+##  Description (from interfaces.list)	:	Command to plug in as network=
+##
+
+LPD		:	SPROGDIR/xtlpc -H $SPOOLDEV -f SDATADIR/xtlpc-ctrl -N
+Telnet		:	SPROGDIR/xtelnet -H $SPOOLPTR -P $SPOOLDEV
+Telnet-snmp	:	SPROGDIR/xtlhp -H $SPOOLPTR -P 9100 -f SDATADIR/xtsnmpdef -c SDATADIR/xtlhp-ctrl
+
+HPNPF		:	/usr/lib/hpnp/hpnpf -x $SPOOLDEV
+AIX-HPNPF	:	/usr/lib/lpd/pio/etc/piohpnpf -x $SPOOLDEV
+
+Milan		:	/usr/lib/lp/bin/fpfilter -P $SPOOLDEV -closewait
+Annex		:	/usr/annex/aprint -A$SPOOLPTR -L$SPOOLDEV -f
+Xyplex		:	/home/xyplex/src/csportd $SPOOLPTR $SPOOLDEV
+
+##QMS		:	/usr/bin/QMSoft/qef -s <Status file> -h $SPOOLDEV
+# Not included as I don't know what a Status file is.

@@ -1,0 +1,3 @@
+Please give the model name of the printer.
+
+E.g. HP LaserJet 6
