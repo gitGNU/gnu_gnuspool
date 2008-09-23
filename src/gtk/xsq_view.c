@@ -605,8 +605,8 @@ void	cb_view(void)
 
 	if  (gtk_text_buffer_get_char_count(vd->fbuf) <= 0)  {
 		doerror($EH{Null job in view});
-		free_view_data(vd);
 		g_object_unref(G_OBJECT(vd->fbuf));
+		free_view_data(vd);
 		return;
 	}
 
