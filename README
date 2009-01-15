@@ -38,8 +38,9 @@ TODO list is translating this to TexInfo format.
 Also included is the MS-Windows sources for the MS Windows client
 software using MFC and on MS Visual C++ which needs converting to Free
 Software. This does actually work and people use it but MFC is about
-as far from Free Software as you can get. Also it's vastly inferior to
-the standard C++ library which is available as Free Software.
+as far from Free Software as you can get so I want to use something
+Free PDQ. Also it's vastly inferior to the standard C++ library which
+is available as Free Software.
 
 I also include the web interface software which does work using Free
 Software but I concede needs rewriting probably using PHP.

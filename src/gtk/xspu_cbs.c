@@ -54,6 +54,9 @@
 #define	LAB_PADDING	10
 #define	NOTE_PADDING	10
 
+#define	DEFAULT_CHG_WIDTH	200
+#define	DEFAULT_CHG_HEIGHT	300
+
 #define	MAX_UBUFF	80	/* FIXME */
 #define	MAX_UDISP	3
 
@@ -972,12 +975,14 @@ void	cb_charges(GtkAction *action)
 	pr = gprompt($P{xspuser charges dlg});
 	dlg = gtk_dialog_new_with_buttons(pr, GTK_WINDOW(toplevel), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	free(pr);
+	gtk_window_set_default_size(GTK_WINDOW(dlg), DEFAULT_CHG_WIDTH, DEFAULT_CHG_HEIGHT);
 	cwid = gtk_tree_view_new();
 	rend = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(cwid), -1, "User", rend, "text", 0, NULL);
+	gtk_tree_view_column_set_resizable(gtk_tree_view_get_column(GTK_TREE_VIEW(cwid), 0), TRUE);
 	rend = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(cwid), -1, "Charge", rend, "text", 1, NULL);
-
+	gtk_tree_view_column_set_resizable(gtk_tree_view_get_column(GTK_TREE_VIEW(cwid), 1), TRUE);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(cwid), GTK_TREE_MODEL(clist_store));
 	g_object_unref(clist_store);		/* So that it gets deallocated */
 
@@ -986,6 +991,7 @@ void	cb_charges(GtkAction *action)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll), cwid);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), scroll, FALSE, FALSE, 0);
+	gtk_box_set_child_packing(GTK_BOX(GTK_DIALOG(dlg)->vbox), scroll, TRUE, TRUE, 0, GTK_PACK_START);
 	gtk_widget_show_all(dlg);
 
 	gtk_dialog_run(GTK_DIALOG(dlg));

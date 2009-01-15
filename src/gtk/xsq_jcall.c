@@ -185,7 +185,7 @@ GtkWidget *create_formpri_dlg(struct dialog_data *ddata, const struct spq *jp)
 	/* Form selection row */
 
 	hbox = gtk_hbox_new(FALSE, DEF_DLG_HPAD);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD*2);
 	lab = gprompt_label($P{xspq job form});
 	gtk_box_pack_start(GTK_BOX(hbox), lab, FALSE, FALSE, DEF_DLG_HPAD);
 	ddata->formsel = make_combo_box_entry(wotjform, jp->spq_form);
@@ -194,7 +194,7 @@ GtkWidget *create_formpri_dlg(struct dialog_data *ddata, const struct spq *jp)
 	/* Title row */
 
 	hbox = gtk_hbox_new(FALSE, DEF_DLG_HPAD);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD*2);
 	lab = gprompt_label($P{xspq job title});
 	gtk_box_pack_start(GTK_BOX(hbox), lab, FALSE, FALSE, DEF_DLG_HPAD);
 	ddata->titlew = gtk_entry_new();
@@ -209,7 +209,7 @@ GtkWidget *create_formpri_dlg(struct dialog_data *ddata, const struct spq *jp)
 	/* Printer row */
 
 	hbox = gtk_hbox_new(FALSE, DEF_DLG_HPAD);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD*2);
 	lab = gprompt_label($P{xspq job printer});
 	gtk_box_pack_start(GTK_BOX(hbox), lab, FALSE, FALSE, DEF_DLG_HPAD);
 	ddata->ptrselw = make_combo_box_entry(wotjprin, jp->spq_ptr);
@@ -232,7 +232,7 @@ GtkWidget *create_formpri_dlg(struct dialog_data *ddata, const struct spq *jp)
 	}
 
 	hbox = gtk_hbox_new(FALSE, DEF_DLG_HPAD);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD*2);
 	lab = gprompt_label($P{xspq job copies});
 	gtk_box_pack_start(GTK_BOX(hbox), lab, FALSE, FALSE, DEF_DLG_HPAD);
 	adj = (GtkAdjustment *) gtk_adjustment_new(curc, 0.0, maxc, 1.0, 10.0, 0.0);
@@ -295,7 +295,7 @@ GtkWidget  *create_page_dlg(struct dialog_data *ddata, const struct spq *jp)
 	/* Start and "halted at" pages */
 
 	hbox = gtk_hbox_new(FALSE, DEF_DLG_HPAD);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD*2);
 	lab = gprompt_label($P{xspq job page names});
 	gtk_box_pack_start(GTK_BOX(hbox), lab, FALSE, FALSE, DEF_DLG_HPAD);
 	cpage = jp->spq_start + 1;
@@ -407,7 +407,7 @@ GtkWidget  *create_usermail_dlg(struct dialog_data *ddata, const struct spq *jp)
 	   TODO?? - generate user list only if/when the page is selected */
 
 	hbox = gtk_hbox_new(FALSE, DEF_DLG_HPAD);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_HPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD*2);
 	lab = gprompt_label($P{xspq post user});
 	gtk_box_pack_start(GTK_BOX(hbox), lab, FALSE, FALSE, DEF_DLG_HPAD);
 	ddata->postuw = gtk_combo_box_new_text();
@@ -426,22 +426,22 @@ GtkWidget  *create_usermail_dlg(struct dialog_data *ddata, const struct spq *jp)
 	ddata->mailw = gprompt_checkbutton($P{xspq job mail});
 	if  (jp->spq_jflags & SPQ_MAIL)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ddata->mailw), TRUE);
-	gtk_box_pack_start(GTK_BOX(vbox), ddata->mailw, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), ddata->mailw, FALSE, FALSE, DEF_DLG_VPAD*2);
 
 	ddata->writew = gprompt_checkbutton($P{xspq job write});
 	if  (jp->spq_jflags & SPQ_WRT)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ddata->writew), TRUE);
-	gtk_box_pack_start(GTK_BOX(vbox), ddata->writew, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), ddata->writew, FALSE, FALSE, DEF_DLG_VPAD*2);
 
 	ddata->mattnw = gprompt_checkbutton($P{xspq job mattn});
 	if  (jp->spq_jflags & SPQ_MATTN)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ddata->mattnw), TRUE);
-	gtk_box_pack_start(GTK_BOX(vbox), ddata->mattnw, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), ddata->mattnw, FALSE, FALSE, DEF_DLG_VPAD*2);
 
 	ddata->wattnw = gprompt_checkbutton($P{xspq job wattn});
 	if  (jp->spq_jflags & SPQ_WATTN)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ddata->wattnw), TRUE);
-	gtk_box_pack_start(GTK_BOX(vbox), ddata->wattnw, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), ddata->wattnw, FALSE, FALSE, DEF_DLG_VPAD*2);
 
 	return  frame;
 }
@@ -695,7 +695,7 @@ GtkWidget *	create_cc_dlg(struct dialog_data *ddata, const struct spq *jp)
 	cc_dlgsetup(vbox, ddata->classcodes, jp->spq_class);
 
 	ddata->locow = gprompt_checkbutton($P{xspq job loconly});
-	gtk_box_pack_start(GTK_BOX(vbox), ddata->locow, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_pack_start(GTK_BOX(vbox), ddata->locow, FALSE, FALSE, DEF_DLG_VPAD*2);
 	if  (jp->spq_jflags & SPQ_LOCALONLY)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ddata->locow), TRUE);
 

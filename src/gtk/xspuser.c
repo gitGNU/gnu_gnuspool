@@ -16,7 +16,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-static	char	rcsid2[] = "@(#) $Revision: 1.1 $";
+static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -259,7 +259,10 @@ GtkWidget  *wstart(void)
 	for  (cnt = 0;  cnt <= PRIV_COL-USNAM_COL;  cnt++)  {
 		GtkCellRenderer     *renderer = gtk_cell_renderer_text_new();
 		char	*msg = gprompt($P{xspuser user hdr}+cnt);
-		gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(uwid), -1, msg, renderer, "text", cnt+USNAM_COL, NULL);
+		gtk_tree_view_column_set_resizable(
+			gtk_tree_view_get_column(GTK_TREE_VIEW(uwid),
+				gtk_tree_view_insert_column_with_attributes(
+					GTK_TREE_VIEW(uwid), -1, msg, renderer, "text", cnt+USNAM_COL, NULL) - 1), TRUE);
 		free(msg);
 	}
 
@@ -461,7 +464,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	struct	spdet	*mypriv;
 	GtkWidget  *vbox;
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

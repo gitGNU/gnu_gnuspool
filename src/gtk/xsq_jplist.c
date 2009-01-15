@@ -363,6 +363,7 @@ void	set_tview_col(struct fielddef *fd, const int typenum)
 	}
 
 	col = gtk_tree_view_get_column(GTK_TREE_VIEW(fd->view), colnum-1);
+	gtk_tree_view_column_set_resizable(col, TRUE);
 	if  (fd->is_sorted)
 		gtk_tree_view_column_set_sort_column_id(col, lp->sortid);
 	lab = gtk_label_new(lp->msgtext);
@@ -1015,7 +1016,7 @@ static void	psearch_result(GtkTreePath *path)
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(pwid));
 
 	gtk_tree_selection_select_path(sel, path);
-	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(jwid), path, NULL, FALSE, 0.0, 0.0);
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(pwid), path, NULL, FALSE, 0.0, 0.0);
 	gtk_tree_path_free(path);
 }
 

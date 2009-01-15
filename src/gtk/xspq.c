@@ -16,7 +16,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-static	char	rcsid2[] = "@(#) $Revision: 1.1 $";
+static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -156,18 +156,18 @@ static GtkActionEntry entries[] = {
 	{ "pmacMenu", NULL, "Pt_r macros" },
 	{ "HelpMenu", NULL, "_Help"  },
 	{ "tb", NULL, "_TB"  },
-	{ "Viewopts", NULL, "_View Options", "equal", "Select view", G_CALLBACK(cb_viewopt) },
-	{ "Saveopts", NULL, "_Save Options", NULL, "Remember view options", G_CALLBACK(cb_saveopts) },
+	{ "Viewopts", GTK_STOCK_PREFERENCES, "_View Options", "equal", "Select view", G_CALLBACK(cb_viewopt) },
+	{ "Saveopts", GTK_STOCK_SAVE, "_Save Options", NULL, "Remember view options", G_CALLBACK(cb_saveopts) },
 	{ "Syserr", NULL, "Display _Error Log", NULL, "Display system error log file", G_CALLBACK(cb_syserr) },
 	{ "Quit", GTK_STOCK_QUIT, "_Quit", "<control>Q", "Quit program", G_CALLBACK(cb_quit)},
 	{ "Jab", NULL, "_Abort Job", "a", "Abort job if printing and delete", G_CALLBACK(cb_jact) },
 	{ "Onemore", NULL, "_Plus one",  "plus", "One more copy of job", G_CALLBACK(cb_onemore)  },
 	{ "Go", NULL, "_Go printer", "<shift>G", "Start printer running", G_CALLBACK(cb_pact)  },
 	{ "Heoj", NULL, "_Halt printer", "H", "Halt printer at end of current job", G_CALLBACK(cb_pact) },
-	{ "Halt", NULL, "_Stop printer", "<shift>H", "Halt printer at once", G_CALLBACK(cb_pact) },
-	{ "Ok", NULL, "_OK alignment", "Y", "Approve alignment page", G_CALLBACK(cb_pact) },
-	{ "NOk", NULL, "_Not OK alignment", "N", "Disapprove alignment page", G_CALLBACK(cb_pact) },
-	{ "View", NULL, "_View job", "<shift>I", "View job as text", G_CALLBACK(cb_view) },
+	{ "Halt", GTK_STOCK_STOP, "_Stop printer", "<shift>H", "Halt printer at once", G_CALLBACK(cb_pact) },
+	{ "Ok", GTK_STOCK_YES, "_OK alignment", "Y", "Approve alignment page", G_CALLBACK(cb_pact) },
+	{ "NOk", GTK_STOCK_NO, "_Not OK alignment", "N", "Disapprove alignment page", G_CALLBACK(cb_pact) },
+	{ "View", GTK_STOCK_ZOOM_FIT, "_View job", "<shift>I", "View job as text", G_CALLBACK(cb_view) },
 	{ "Formj", NULL, "Job _form", "F", "Set job form, title, printer, priority", G_CALLBACK(cb_jform)  },
 	{ "Pages", NULL, "Job _pages", NULL, "Set page range for printing", G_CALLBACK(cb_jpages)  },
 	{ "User", NULL, "_User, mail", NULL, "Set User and mail options", G_CALLBACK(cb_juser)  },
@@ -181,14 +181,14 @@ static GtkActionEntry entries[] = {
 	{ "Classp", NULL, "Set printer _classcode", NULL, "Select class code for printer", G_CALLBACK(cb_pclass)  },
 	{ "Devicep", NULL, "Set printer _device", NULL, "Select device or host/IP for printer", G_CALLBACK(cb_pdev)  },
 	{ "Add", NULL, "_Add printer", NULL, "Add a new printer", G_CALLBACK(cb_padd)  },
-	{ "Delete", NULL, "_Delete printer", NULL, "Delete selected printer", G_CALLBACK(cb_pact)  },
+	{ "Delete", GTK_STOCK_DELETE, "_Delete printer", NULL, "Delete selected printer", G_CALLBACK(cb_pact)  },
 	{ "Search", NULL, "_Search for ...", NULL, "Search for a job or printer", G_CALLBACK(cb_search)  },
 	{ "Fsearch", NULL, "Search _forward", "F3", "Repeat last search going forward", G_CALLBACK(cb_rsearch)  },
 	{ "Rsearch", NULL, "Search _backward", "F4", "Repeat last search going backward", G_CALLBACK(cb_rsearch)  },
 	{ "jrunmac", NULL, "_Run macro command", NULL, "Run macro for job", G_CALLBACK(cb_jmac)  },
 	{ "Jmacedit", NULL, "_Edit macro list", NULL, "Edit list of job macros", G_CALLBACK(cb_jmacedit)  },
 	{ "prunmac", NULL, "_Run macro command", NULL, "Run printer for printer", G_CALLBACK(cb_pmac)  },
-	{ "Pmacedit", NULL, "_Edit macro list", NULL, "Edit list of printer maros", G_CALLBACK(cb_jmacedit)  },
+	{ "Pmacedit", NULL, "_Edit macro list", NULL, "Edit list of printer maros", G_CALLBACK(cb_pmacedit)  },
 	{ "About", NULL, "About xspq", NULL, "About xspq", G_CALLBACK(cb_about)}  };
 
 extern void	init_jlist_win(void);
@@ -386,7 +386,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	GtkWidget  *vbox;
 	int	ret;
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

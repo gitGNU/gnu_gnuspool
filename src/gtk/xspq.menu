@@ -74,8 +74,8 @@
 	<placeholder name='pmac8'/>
 	<placeholder name='pmac9'/>
 	<placeholder name='pmac10'/>
-	<menuitem action='Pmacedit'/>
 	<separator/>
+	<menuitem action='Pmacedit'/>
     </menu>
     <menu action='HelpMenu'>
       <menuitem action='About'/>
