@@ -74,13 +74,13 @@ xmspuser_s:	$(XMSPUSEROBS)
 		touch $@
 
 install:	all
-		$(INSTALL) $(USERMODES) $(BINDIR)
+		$(INSTALL) $(USERMODES) $(USERBINS) $(BINDIR)
 		(m4 xmspq.m4;m4 xmspuser.m4) >GSPOOL
 		$(INSTALL_DATA) GSPOOL $(APPDEFLOC)
 		$(RM) GSPOOL
 
 install-strip:	all
-		$(INSTALL) -s $(USERMODES) $(BINDIR)
+		$(INSTALL) -s $(USERMODES) $(USERBINS) $(BINDIR)
 		(m4 xmspq.m4;m4 xmspuser.m4) >GSPOOL
 		$(INSTALL_DATA) GSPOOL $(APPDEFLOC)
 		$(RM) GSPOOL

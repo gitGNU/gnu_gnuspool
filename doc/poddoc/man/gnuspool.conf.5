@@ -129,18 +129,17 @@
 .\" ========================================================================
 .\"
 .IX Title "GNUSPOOL.CONF 5"
-.TH GNUSPOOL.CONF 5 "2008-07-11" "GNUspool Release 23" "GNUspool Print Manager"
+.TH GNUSPOOL.CONF 5 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
 gnuspool.conf \- master configuration file
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fI/etc/gnuspool.conf\fR is an optional file for providing additional
+\&\fIgnuspool.conf\fR is an optional file for providing additional
 environment variables to component programs of the \fBGNUspool\fR spooler
 and document management system.
 .PP
 This may be useful for relocating standard files and directories, such
-as \fB\s-1SPOOLDIR\s0\fR, which defaults to \fI/var/spool/gnuspool\fR, so that a
-different spool directory is used.
+as \fB\s-1SPOOLDIR\s0\fR, so that a different spool directory is used.
 .PP
 However completely arbitrary environment variable assignments may be
 made, in particular so as to pass the resulting environment on to
@@ -162,14 +161,14 @@ its environment from this file as the first step of execution.
 .IX Header "IMPORTANT NOTES"
 .IP "1" 4
 .IX Item "1"
-Make sure that \fI/etc/gnuspool.conf\fR is world\-readable!
+Make sure that \fIgnuspool.conf\fR is world\-readable!
 .IP "2" 4
 .IX Item "2"
 Ensure that no part of \fBGNUspool\fR is running before altering this
 file.
 .SH "FILES"
 .IX Header "FILES"
-\&\fI/etc/gnuspool.conf\fR
+\&\fIgnuspool.conf\fR
 master configuration file
 .SH "AUTHOR"
 .IX Header "AUTHOR"

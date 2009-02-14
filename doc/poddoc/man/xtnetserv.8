@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "XTNETSERV 8"
-.TH XTNETSERV 8 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.TH XTNETSERV 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
 xtnetserv \- remote server process
 .SH "SYNOPSIS"
@@ -139,27 +139,24 @@ xtnetserv \- remote server process
 .IX Header "DESCRIPTION"
 \&\fBxtnetserv\fR is the remote server process for the \fBGNUspool\fR spooler
 and document management system. It serves 3 purposes; firstly
-it accepts jobs from other hosts submitted by \fIrspr\fR\|(1), secondly it
+it accepts jobs from other hosts submitted by \fIgspl\-rpr\fR\|(1), secondly it
 accepts jobs and administration requests from \s-1DOS\s0 and Windows
 machines, and finally it supports \s-1API\s0 operations.
 .PP
-It is normally invoked by \fIspstart\fR\|(1).
+It is normally invoked by \fIgspl\-start\fR\|(1).
 .PP
 Information, in respect of other machines to connect to is read from
-the file \fI/etc/gnuspool.hosts\fR.
+the file \fIgnuspool.hosts\fR.
 .SH "FILES"
 .IX Header "FILES"
-\&\fI/etc/gnuspool.hosts\fR
+\&\fIgnuspool.hosts\fR
 host/client names and descriptions
 .PP
-\&\fI/etc/gnuspool.conf\fR
+\&\fIgnuspool.conf\fR
 master configuration file
 .PP
 \&\fIint-config\fR
 message file
-.PP
-\&\fI/var/spool/gnuspool\fR
-spool directory
 .PP
 \&\fIspshed_reps\fR
 error log file
@@ -182,7 +179,7 @@ help files directory
 \&        gsnetsrv
 .Ve
 .PP
-(\fBN.B.\fR no second \*(L"e\*(R") to accept incoming jobs on \s-1TCP\s0 from \fIrspr\fR\|(1), and on
+(\fBN.B.\fR no second \*(L"e\*(R") to accept incoming jobs on \s-1TCP\s0 from \fIgspl\-rpr\fR\|(1), and on
 \&\s-1UDP\s0 from the DOS/Windows interface, and 2 further ports
 .PP
 .Vb 1
@@ -195,9 +192,9 @@ The port numbers are set up in the \fI/etc/services\fR file when
 \&\fBGNUspool\fR is first installed.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIrspr\fR\|(1),
-\&\fIspstart\fR\|(1),
-\&\fIsstop\fR\|(1),
+\&\fIgspl\-rpr\fR\|(1),
+\&\fIgspl\-start\fR\|(1),
+\&\fIgspl\-stop\fR\|(1),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5),
 \&\fIspshed\fR\|(8).

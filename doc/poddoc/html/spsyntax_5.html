@@ -105,11 +105,9 @@ environment variable.</p>
 variable assignments, with empty lines and lines beginning with <code>#</code>
 being ignored.</p>
 <p>The name assigned to is the same as that of the calling program but in
-upper case, for example that corresponding to <strong>spq</strong> is <code>SPQ</code>
-etc. This is the same as for the corresponding environment variable.</p>
-<p>There is a single exception to the above statement, in that the
-environment variable corresponding to <strong>spr</strong> is <code>SPOOLOPTS</code>. This is
-retained for historical reasons.</p>
+upper case and with ``-'' changed to ``_'' (underscore), for example that
+corresponding to <strong>gspl-pq</strong> is <code>GSPL_PQ</code> etc. This is the same as for
+the corresponding environment variable.</p>
 <p>Usually options are taken from the following places in order, so that
 later-processed ones override earlier ones:</p>
 <dl>
@@ -124,7 +122,7 @@ initialise the parmaters when the program is invoked.</p>
 
 <dd>
 <p>In some cases, for example default priority, the user's profile as
-displayed by <code>spuser(1)</code> is used to initialise the defaults.</p>
+displayed by gspl-user(1) is used to initialise the defaults.</p>
 </dd>
 </li>
 <dt><strong><a name="item_home_directory">Home directory</a></strong>
@@ -322,9 +320,9 @@ file name specified.</p>
 <p>and the user had specified in a configuration file</p>
 <pre>
         SPRESTCONF=~/$0.help</pre>
-<p>then if he or she were to run, say, <strong>spr</strong>, then the file</p>
+<p>then if he or she were to run, say, <strong>gspl-pr</strong>, then the file</p>
 <pre>
-        ~/spr.help</pre>
+        ~/gspl-pr.help</pre>
 <p>would be searched for. If this did not exist, then a search would be
 made for</p>
 <pre>

@@ -1,10 +1,10 @@
-# $Header: /sources/gnuspool/gnuspool/src/helpmsg/spq.help,v 1.1 2008/08/18 16:25:54 jmc Exp $
+# $Header: /sources/gnuspool/gnuspool/src/helpmsg/spq.help,v 1.2 2009/02/14 22:57:42 toadwarble Exp $
 # This file defines the screen headers, prompts, keystrokes, help and
-# error messages for 'spq'.
+# error messages for 'gspl-pq'.
 # You are welcome to change any of the text (within reason) to get the
 # customisation you require.
 # The numbers give "states" within the internal state machine by which
-# 'spq' operates. These should generally be left alone.
+# 'gspl-pq' operates. These should generally be left alone.
 
 J1:j
 

@@ -923,6 +923,7 @@ void	delmac_clicked(struct macupddata *mdata)
 		gint  seq;
 		gtk_tree_model_get(GTK_TREE_MODEL(mdata->store), &iter, 0, &seq, -1);
 		delete_macro(mdata->jorp, mdata->mlist, seq+1);
+		gtk_list_store_remove(mdata->store, &iter);
 		free(mdata->mlist[seq].cmd);
 		free(mdata->mlist[seq].descr);
 		mdata->mlist[seq].cmd = 0;
@@ -936,6 +937,16 @@ void	updmac_clicked(struct macupddata *mdata)
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(mdata->view));
 	GtkTreeIter  iter;
 	if  (gtk_tree_selection_get_selected(sel, NULL, &iter))  {
+		gint  seq;
+		gtk_tree_model_get(GTK_TREE_MODEL(mdata->store), &iter, 0, &seq, -1);
+		editmac(mdata, seq);
+	}
+}
+
+static void mlist_dblclk(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *col, struct macupddata *mdata)
+{
+	GtkTreeIter	iter;
+	if  (gtk_tree_model_get_iter(GTK_TREE_MODEL(mdata->store), &iter, path))  {
 		gint  seq;
 		gtk_tree_model_get(GTK_TREE_MODEL(mdata->store), &iter, 0, &seq, -1);
 		editmac(mdata, seq);
@@ -967,8 +978,10 @@ void	macro_edit(const char jorp, struct macromenitem *mlist)
 	mwid = gtk_tree_view_new();
 	rend = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(mwid), -1, "Command", rend, "text", 1, NULL);
+	gtk_tree_view_column_set_resizable(gtk_tree_view_get_column(GTK_TREE_VIEW(mwid), 0), TRUE);
 	rend = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(mwid), -1, "Description", rend, "text", 2, NULL);
+	gtk_tree_view_column_set_resizable(gtk_tree_view_get_column(GTK_TREE_VIEW(mwid), 1), TRUE);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(mwid), GTK_TREE_MODEL(mlist_store));
 	g_object_unref(mlist_store);		/* So that it gets deallocated */
@@ -977,7 +990,8 @@ void	macro_edit(const char jorp, struct macromenitem *mlist)
 	gtk_container_set_border_width(GTK_CONTAINER(scroll), 5);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll), mwid);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), scroll, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), scroll, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_set_child_packing(GTK_BOX(GTK_DIALOG(dlg)->vbox), scroll, TRUE, TRUE, DEF_DLG_VPAD, GTK_PACK_START);
 
 	mdata.view = mwid;
 	mdata.store = mlist_store;
@@ -986,6 +1000,7 @@ void	macro_edit(const char jorp, struct macromenitem *mlist)
 
 	hbox = gtk_hbox_new(TRUE, DEF_DLG_HPAD);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD);
+	gtk_box_set_child_packing(GTK_BOX(GTK_DIALOG(dlg)->vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD, GTK_PACK_START);
 	butt = make_push_button($P{xspq new macro});
 	g_signal_connect_swapped(G_OBJECT(butt), "clicked", G_CALLBACK(newmac_clicked), &mdata);
 	gtk_box_pack_start(GTK_BOX(hbox), butt, FALSE, FALSE, DEF_DLG_HPAD);
@@ -994,6 +1009,7 @@ void	macro_edit(const char jorp, struct macromenitem *mlist)
 	gtk_box_pack_start(GTK_BOX(hbox), butt, FALSE, FALSE, DEF_DLG_HPAD);
 	butt = make_push_button($P{xspq edit macro});
 	g_signal_connect_swapped(G_OBJECT(butt), "clicked", G_CALLBACK(updmac_clicked), &mdata);
+	g_signal_connect(G_OBJECT(mwid), "row-activated", (GCallback) mlist_dblclk, (gpointer) &mdata);
 	gtk_box_pack_start(GTK_BOX(hbox), butt, FALSE, FALSE, DEF_DLG_HPAD);
 
 	sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(mwid));

@@ -35,7 +35,7 @@ $USERNAME = shift @ARGV;
 $SPOOLDIR = shift @ARGV;
 
 $USERNAME = "@SPOOLUSER@" unless $USERNAME;
-$SPOOLDIR = "/usr/local/var/spool/spd" unless $SPOOLDIR;
+$SPOOLDIR = "/usr/local/var/gnuspool" unless $SPOOLDIR;
 $UID = 50;
 
 exit 0 if getpwnam($USERNAME);

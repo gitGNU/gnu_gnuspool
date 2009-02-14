@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "SPD 8"
-.TH SPD 8 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.TH SPD 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
 spd \- spool despooler
 .SH "SYNOPSIS"
@@ -150,7 +150,7 @@ The arguments are the printer name and the \fIslot number\fR in shared
 memory which refers to it.
 .SH "FILES"
 .IX Header "FILES"
-\&\fI/etc/gnuspool.conf\fR
+\&\fIgnuspool.conf\fR
 master configuration file
 .PP
 \&\fIint-config\fR
@@ -184,7 +184,7 @@ alternative location for printer descriptions
 .SH "DIAGNOSTICS"
 .IX Header "DIAGNOSTICS"
 \&\fBspd\fR is usually invoked indirectly, via \fIspshed\fR\|(8) from system
-startup procedures or other programs such as \fIspstart\fR\|(1).
+startup procedures or other programs such as \fIgspl\-start\fR\|(1).
 .PP
 Thereafter it runs as a \*(L"daemon process\*(R" and diagnostics are not
 written to any terminal but to the file \fIspshed_reps\fR.

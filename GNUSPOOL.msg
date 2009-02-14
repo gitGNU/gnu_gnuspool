@@ -2370,7 +2370,7 @@ P{Right tab field} ++
 ">"
 
 [
-Error messages whilst saving .xitext files
+Error messages whilst saving .gnuspool files
 ]
 
 E{saveopts crashed} = ROUND(@, 10)
@@ -4835,13 +4835,13 @@ Please be patient!"
 E,H{Not registered yet} ++
 "Sorry, but your user id %R has not yet been
 registered for GNUSpool. You need to run
-(or have run for you) ""spuser -i"" ""xmspuser"" or ""xspuser"".",
+(or have run for you) ""gspl-user -i"" ""gspl-xmuser"" or ""gspl-xuser"".",
 "Sorry, but your user id %R has not yet been
 registered for GNUSpool. You need to run
-(or have run for you) ""spuser -i"" ""xmspuser"" or ""xspuser""."
+(or have run for you) ""gspl-user -i"" ""gspl-xmuser"" or ""gspl-xuser""."
 
 E{Warn errors in host file} ++
-"%P: Warning: There are errors in the /etc/Xitext-hosts file"
+"%P: Warning: There are errors in the gnuspool.hosts file"
 
 E{Reconnection whilst still connected} ++
 "Warning: host %s - reconnection of unclosed connection"
@@ -5215,10 +5215,10 @@ E{Lost track of job} ++				"Lost track of job on %s slot number %d1 0x%x1"
 E{Lost track of printer} ++			"Lost track of printer on %s slot number %d1 0x%x1"
 
 E{Recompile port} ++
-"Sorry but the scheduler cannot send a signal to a user process such as spq
+"Sorry but the scheduler cannot send a signal to a user process such as gspl-pq
 using the ""kill(2)"" system call. It may be that it will have to be recompiled
 to run as the superuser.
-However probably the permissions of programs such as ""spshed"" and ""spq""
+However probably the permissions of programs such as ""spshed"" and ""gspl-pq""
 are incorrect - is it possible that these were restored from backup and the
 permissions not reset correctly?"
 

@@ -32,12 +32,11 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><em>/etc/gnuspool.conf</em> is an optional file for providing additional
+<p><em>gnuspool.conf</em> is an optional file for providing additional
 environment variables to component programs of the <strong>GNUspool</strong> spooler
 and document management system.</p>
 <p>This may be useful for relocating standard files and directories, such
-as <strong>SPOOLDIR</strong>, which defaults to <em>/var/spool/gnuspool</em>, so that a
-different spool directory is used.</p>
+as <strong>SPOOLDIR</strong>, so that a different spool directory is used.</p>
 <p>However completely arbitrary environment variable assignments may be
 made, in particular so as to pass the resulting environment on to
 subprocesses invoked by the despooler program spd(8).</p>
@@ -55,7 +54,7 @@ its environment from this file as the first step of execution.</p>
 <h1><a name="important_notes">IMPORTANT NOTES</a></h1>
 <ol>
 <li>
-<p>Make sure that <em>/etc/gnuspool.conf</em> is world-readable!</p>
+<p>Make sure that <em>gnuspool.conf</em> is world-readable!</p>
 </li>
 <li>
 <p>Ensure that no part of <strong>GNUspool</strong> is running before altering this
@@ -66,7 +65,7 @@ file.</p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>/etc/gnuspool.conf</em>
+<p><em>gnuspool.conf</em>
 master configuration file</p>
 <p>
 </p>

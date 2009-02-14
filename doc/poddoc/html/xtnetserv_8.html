@@ -43,24 +43,22 @@
 <h1><a name="description">DESCRIPTION</a></h1>
 <p><strong>xtnetserv</strong> is the remote server process for the <strong>GNUspool</strong> spooler
 and document management system. It serves 3 purposes; firstly
-it accepts jobs from other hosts submitted by rspr(1), secondly it
+it accepts jobs from other hosts submitted by gspl-rpr(1), secondly it
 accepts jobs and administration requests from DOS and Windows
 machines, and finally it supports API operations.</p>
-<p>It is normally invoked by spstart(1).</p>
+<p>It is normally invoked by gspl-start(1).</p>
 <p>Information, in respect of other machines to connect to is read from
-the file <em>/etc/gnuspool.hosts</em>.</p>
+the file <em>gnuspool.hosts</em>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>/etc/gnuspool.hosts</em>
+<p><em>gnuspool.hosts</em>
 host/client names and descriptions</p>
-<p><em>/etc/gnuspool.conf</em>
+<p><em>gnuspool.conf</em>
 master configuration file</p>
 <p><em>int-config</em>
 message file</p>
-<p><em>/var/spool/gnuspool</em>
-spool directory</p>
 <p><em>spshed_reps</em>
 error log file</p>
 <p><em>spufile0</em>
@@ -90,7 +88,7 @@ user data</p>
 <p><strong>xtnetserv</strong> uses 2 ports:</p>
 <pre>
         gsnetsrv</pre>
-<p>(<strong>N.B.</strong> no second ``e'') to accept incoming jobs on TCP from rspr(1), and on
+<p>(<strong>N.B.</strong> no second ``e'') to accept incoming jobs on TCP from gspl-rpr(1), and on
 UDP from the DOS/Windows interface, and 2 further ports</p>
 <pre>
         gspoolapi</pre>
@@ -101,9 +99,9 @@ UDP from the DOS/Windows interface, and 2 further ports</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>rspr(1),
-spstart(1),
-sstop(1),
+<p>gspl-rpr(1),
+gspl-start(1),
+gspl-stop(1),
 gnuspool.conf(5),
 gnuspool.hosts(5),
 spshed(8).</p>

@@ -39,7 +39,7 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><em>/etc/gnuspool.hosts</em> is used to inform the <strong>GNUspool</strong> spooler and
+<p><em>gnuspool.hosts</em> is used to inform the <strong>GNUspool</strong> spooler and
 document management system, and in particular <strong>spshed</strong>(8) and
 <strong>xtnetserv</strong>(8), which other host machines are to be attached.</p>
 <p>The host machines should in general be provided for in the standard
@@ -83,7 +83,7 @@ which order machines are booted.</p>
 
 <dd>
 <p>indicates that no connection at all is attempted. To connect to the
-machine in question, then <code>spconn(1)</code> should be invoked.</p>
+machine in question, then gspl-conn(1) should be invoked.</p>
 </dd>
 </li>
 <dt><strong><a name="item_trusted">trusted</a></strong>
@@ -103,7 +103,7 @@ validations, so the other host need not make such enquiries.</p>
 acting as a server for Windows clients. The specified <em>username</em> is to be
 considered as the owner of any jobs submitted, and the user to whom
 charges should be applied and to which privileges apply; see
-<strong>spuser</strong>(1).</p>
+<strong>gspl-user</strong>(1).</p>
 </dd>
 <dd>
 <p>If <em>(username)</em> is omitted, then the Windows user is assumed, which
@@ -178,7 +178,7 @@ file.</p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>/etc/gnuspool.hosts</em>
+<p><em>gnuspool.hosts</em>
 hosts description file</p>
 
 </body>

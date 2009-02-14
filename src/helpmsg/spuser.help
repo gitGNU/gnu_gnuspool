@@ -1,10 +1,10 @@
-# $Header: /sources/gnuspool/gnuspool/src/helpmsg/spuser.help,v 1.1 2008/08/18 16:25:54 jmc Exp $
+# $Header: /sources/gnuspool/gnuspool/src/helpmsg/spuser.help,v 1.2 2009/02/14 22:57:42 toadwarble Exp $
 # This file defines the screen headers, prompts, keystrokes, help and
-# error messages for 'spuser'.
+# error messages for 'gspl-user'.
 # You are welcome to change any of the text (within reason) to get the
 # customisation you require.
 # The numbers give "states" within the internal state machine by which
-# 'spuser' operates. These should generally be left alone.
+# 'gspl-user' operates. These should generally be left alone.
 
 T1:User    def min max cps form              ptr             Class       S/Priv
 T2:

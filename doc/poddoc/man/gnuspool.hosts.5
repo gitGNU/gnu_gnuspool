@@ -129,12 +129,12 @@
 .\" ========================================================================
 .\"
 .IX Title "GNUSPOOL.HOSTS 5"
-.TH GNUSPOOL.HOSTS 5 "2008-07-11" "GNUspool Release 23" "GNUspool Print Manager"
+.TH GNUSPOOL.HOSTS 5 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
 gnuspool.hosts \- hosts description file
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fI/etc/gnuspool.hosts\fR is used to inform the \fBGNUspool\fR spooler and
+\&\fIgnuspool.hosts\fR is used to inform the \fBGNUspool\fR spooler and
 document management system, and in particular \fBspshed\fR(8) and
 \&\fBxtnetserv\fR(8), which other host machines are to be attached.
 .PP
@@ -174,7 +174,7 @@ which order machines are booted.
 .IP "manual" 8
 .IX Item "manual"
 indicates that no connection at all is attempted. To connect to the
-machine in question, then \fIspconn\fR\|(1) should be invoked.
+machine in question, then \fIgspl\-conn\fR\|(1) should be invoked.
 .IP "trusted" 8
 .IX Item "trusted"
 indicates that the host is \*(L"trusted\*(R" by the current machine, which
@@ -190,7 +190,7 @@ indicates that no connection is attempted; the current machine is
 acting as a server for Windows clients. The specified \fIusername\fR is to be
 considered as the owner of any jobs submitted, and the user to whom
 charges should be applied and to which privileges apply; see
-\&\fBspuser\fR(1).
+\&\fBgspl-user\fR(1).
 .Sp
 If \fI(username)\fR is omitted, then the Windows user is assumed, which
 should correspond to a user name on the host system.
@@ -247,5 +247,5 @@ may be specified, but this \fBmust\fR precede all other host names in the
 file.
 .SH "FILES"
 .IX Header "FILES"
-\&\fI/etc/gnuspool.hosts\fR
+\&\fIgnuspool.hosts\fR
 hosts description file

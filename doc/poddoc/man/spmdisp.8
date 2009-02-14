@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "SPMDISP 8"
-.TH SPMDISP 8 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.TH SPMDISP 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
 spmdisp \- generate messages
 .SH "SYNOPSIS"
@@ -139,7 +139,7 @@ spmdisp \- generate messages
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 \&\fBSpmdisp\fR generates messages as required by \fIspshed\fR\|(8) in response to
-the mail or write completion or attention options of \fIspr\fR\|(1) and
+the mail or write completion or attention options of \fIgspl\-pr\fR\|(1) and
 equivalents.
 .PP
 By default, it uses the system basic mailer to dispose of mail
@@ -152,7 +152,7 @@ which by default is \fIint-config\fR.
 The program to be used in each case may be overridden by assignments
 to the environment variables \f(CW\*(C`MAILER\*(C'\fR, \f(CW\*(C`WRITER\*(C'\fR and \f(CW\*(C`DOSWRITER\*(C'\fR,
 most conveniently in the master configuration file
-\&\fI/etc/gnuspool.conf\fR. The program (or shell script) to be run in each
+\&\fIgnuspool.conf\fR. The program (or shell script) to be run in each
 case should take data on standard input and the relevant user name as
 the first argument, and will run under the identity \f(CW\*(C`spooler\*(C'\fR.
 .PP

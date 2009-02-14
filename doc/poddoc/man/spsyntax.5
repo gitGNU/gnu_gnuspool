@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "SPSYNTAX 5"
-.TH SPSYNTAX 5 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.TH SPSYNTAX 5 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
 spsyntax \- option handling for GNUspool programs
 .SH "DESCRIPTION"
@@ -210,12 +210,9 @@ variable assignments, with empty lines and lines beginning with \f(CW\*(C`#\*(C'
 being ignored.
 .PP
 The name assigned to is the same as that of the calling program but in
-upper case, for example that corresponding to \fBspq\fR is \f(CW\*(C`SPQ\*(C'\fR
-etc. This is the same as for the corresponding environment variable.
-.PP
-There is a single exception to the above statement, in that the
-environment variable corresponding to \fBspr\fR is \f(CW\*(C`SPOOLOPTS\*(C'\fR. This is
-retained for historical reasons.
+upper case and with \*(L"\-\*(R" changed to \*(L"_\*(R" (underscore), for example that
+corresponding to \fBgspl-pq\fR is \f(CW\*(C`GSPL_PQ\*(C'\fR etc. This is the same as for
+the corresponding environment variable.
 .PP
 Usually options are taken from the following places in order, so that
 later-processed ones override earlier ones:
@@ -226,7 +223,7 @@ initialise the parmaters when the program is invoked.
 .IP "User profile" 4
 .IX Item "User profile"
 In some cases, for example default priority, the user's profile as
-displayed by \fIspuser\fR\|(1) is used to initialise the defaults.
+displayed by \fIgspl\-user\fR\|(1) is used to initialise the defaults.
 .IP "Home directory" 4
 .IX Item "Home directory"
 The file \fI~/.gnuspool\fR is read, and any options specified therein
@@ -412,10 +409,10 @@ and the user had specified in a configuration file
 \&        SPRESTCONF=~/$0.help
 .Ve
 .PP
-then if he or she were to run, say, \fBspr\fR, then the file
+then if he or she were to run, say, \fBgspl-pr\fR, then the file
 .PP
 .Vb 1
-\&        ~/spr.help
+\&        ~/gspl-pr.help
 .Ve
 .PP
 would be searched for. If this did not exist, then a search would be

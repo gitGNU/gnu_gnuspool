@@ -46,9 +46,9 @@
 <p><strong>spshed</strong> is the spool scheduler process for the <strong>GNUspool</strong> spooler
 and document management system.</p>
 <p>To start <strong>GNUspool</strong>, <strong>spshed</strong> should be started. This should normally
-be done using spstart(1), which restarts it and passes the appropriate
+be done using gspl-start(1), which restarts it and passes the appropriate
 options. This may be put within the Operating System startup scripts.</p>
-<p>Likewise to halt it, <code>sstop(1)</code> should be invoked. This should be put,
+<p>Likewise to halt it, gspl-stop(1) should be invoked. This should be put,
 using the <strong>-y</strong> option, in any system shutdown
 routines.</p>
 <p>If you do need to kill <strong>spshed</strong> for any reason, first try <code>kill(1)</code>
@@ -56,13 +56,12 @@ routines.</p>
 to attempt to tidy up any IPC facilities before shutting down.</p>
 <p>Information, either in respect of other machines to connect
 to, or pre-existing jobs and printers on the current machine, are read
-from the files <em>/etc/gnuspool.hosts</em> and the directory
-<em>/var/spool/gnuspool</em> respectively.</p>
+from the files <em>gnuspool.hosts</em> and the spool directory respectively.</p>
 <p>If a networked version of <strong>GNUspool</strong> is being run, then a ``slave''
 <strong>spshed</strong> process is spawned to monitor and process incoming network
 messages. Incoming remotely-submitted jobs and API interfaces are
 handled via a separate process xtnetserv(8), which is also invoked as
-appropriate by spstart(1).</p>
+appropriate by gspl-start(1).</p>
 <p>Appropriate log messages are written by <strong>spshed</strong> and other system
 processes to a log file, <em>spshed_reps</em>. Be sure to
 check this file for any error messages relevant to any problems you
@@ -71,14 +70,12 @@ encounter.</p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>/etc/gnuspool.hosts</em>
+<p><em>gnuspool.hosts</em>
 host names and descriptions</p>
-<p><em>/etc/gnuspool.conf</em>
+<p><em>gnuspool.conf</em>
 master configuration file</p>
 <p><em>int-config</em>
 message file</p>
-<p><em>/var/spool/gnuspool</em>
-spool directory</p>
 <p><em>spshed_jfile</em>
 job file</p>
 <p><em>spshed_pfile</em>
@@ -166,34 +163,34 @@ undertakes ``probes'' on a UDP port.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spr(1),
-spq(1),
-spuser(1),
-sqdel(1),
-sqchange(1),
-sqlist(1),
-splist(1),
-spcharge(1),
-spstart(1),
-sstop(1),
+<p>gspl-pr(1),
+gspl-pq(1),
+gspl-puser(1),
+gspl-qdel(1),
+gspl-qchange(1),
+gspl-qlist(1),
+gspl-plist(1),
+gspl-charge(1),
+gspl-start(1),
+gspl-stop(1),
 gnuspool.conf(5),
 gnuspool.hosts(5),
-cjlist(8),
-cplist(8),
+gspl-cjlist(8),
+gspl-cplist(8),
 dosspwrite(8),
 ripc(8),
 spd(8),
 spdinit(8),
 spmdisp(8),
 spwrite(8),
-spuconv(8),
+gspl-spuconv(8),
 xtnetserv(8).</p>
 <p>
 </p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p><strong>spshed</strong> is invoked from system startup procedures or other programs
-such as spstart(1). Thereafter it runs as a ``daemon process'' and
+such as gspl-start(1). Thereafter it runs as a ``daemon process'' and
 diagnostics are not written to any terminal but to the file
 <em>spshed_reps</em>.</p>
 <p>In the event of any problems this file should be examined.</p>

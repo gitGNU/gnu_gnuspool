@@ -41,7 +41,7 @@
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
 <p><strong>Spmdisp</strong> generates messages as required by <code>spshed(8)</code> in response to
-the mail or write completion or attention options of <code>spr(1)</code> and
+the mail or write completion or attention options of gspl-pr(1) and
 equivalents.</p>
 <p>By default, it uses the system basic mailer to dispose of mail
 options, <code>spwrite(8)</code> to send messages to users' terminals and
@@ -51,7 +51,7 @@ which by default is <em>int-config</em>.</p>
 <p>The program to be used in each case may be overridden by assignments
 to the environment variables <a href="#item_mailer"><code>MAILER</code></a>, <a href="#item_writer"><code>WRITER</code></a> and <a href="#item_doswriter"><code>DOSWRITER</code></a>,
 most conveniently in the master configuration file
-<em>/etc/gnuspool.conf</em>. The program (or shell script) to be run in each
+<em>gnuspool.conf</em>. The program (or shell script) to be run in each
 case should take data on standard input and the relevant user name as
 the first argument, and will run under the identity <code>spooler</code>.</p>
 <p>These variables may also be set on a per-user basis by assignment in a
