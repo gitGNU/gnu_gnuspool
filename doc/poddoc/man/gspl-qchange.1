@@ -128,21 +128,21 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SQCHANGE 1"
-.TH SQCHANGE 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-QCHANGE 1"
+.TH GSPL-QCHANGE 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-sqchange \- change spooled jobs
+gspl\-qchange \- change spooled jobs
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBsqchange\fR
+\&\fBgspl-qchange\fR
 [ \fI\-options\fR ]
 \&\fIjob number\fR ...
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBsqchange\fR makes changes to one or more \fBGNUspool\fR spooled jobs,
+\&\fBgspl-qchange\fR makes changes to one or more \fBGNUspool\fR spooled jobs,
 which may be on the local host or other hosts on the network. Jobs are
-specified by the job number, which is reported by \fIsqlist\fR\|(1) in the
-first column of the default output, or by \fIspr\fR\|(1) or \fIrspr\fR\|(1) when the
+specified by the job number, which is reported by \fIgspl\-qlist\fR\|(1) in the
+first column of the default output, or by \fIgspl\-pr\fR\|(1) or \fIgspl\-rpr\fR\|(1) when the
 job is queued with the \fIverbose\fR option. Remote jobs are specified by
 prefixing the job number by the host name and a colon, thus
 \&\f(CW\*(C`host:1234\*(C'\fR. Leading zeroes in the job number may be omitted.
@@ -153,7 +153,7 @@ permission to \fIedit remote jobs\fR to operate on remote jobs (this is
 normally set for all users).
 .PP
 The changes are specified by options, which are as similar as possible
-to those for \fIspr\fR\|(1). It is regarded as a mistake not to specify at
+to those for \fIgspl\-pr\fR\|(1). It is regarded as a mistake not to specify at
 least one option.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
@@ -161,7 +161,7 @@ Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \-
 see \fIspsyntax\fR\|(5).
 
-The environment variable on which options are supplied is \f(CW\*(C`SQCHANGE\*(C'\fR
+The environment variable on which options are supplied is \f(CW\*(C`GSPL_QCHANGE\*(C'\fR
 and the environment variable to specify the help file is
 \&\f(CW\*(C`SPRESTCONF\*(C'\fR.
 .IP "\-? or +explain" 4
@@ -189,7 +189,7 @@ turns off any job attention messages previously requested.
 sets the number of copies to be printed to \fIn\fR.
 .Sp
 The maximum number of copies at a time may be restricted to a number
-for each user such as 10. See the output from \fIspuser\fR\|(1) for
+for each user such as 10. See the output from \fIgspl\-user\fR\|(1) for
 information on the maximum number of copies. If the user has \fIset any
 priority on queue\fR privilege, this limit is removed.
 .IP "\-C \fInnnn\fR or +classcode \fInnnn\fR" 4
@@ -207,7 +207,7 @@ select form types other some pattern, however only the \*(R"paper type",
 i.e. the form type up to the suffix is considered when this
 restriction is active, so the user can still change the form type
 suffix if required. Note that there is no equivalent of the \fB\-i\fR
-(interpolate) option to \fIspr\fR\|(1).
+(interpolate) option to \fIgspl\-pr\fR\|(1).
 .IP "\-F \fIstring\fR or +post\-proc\-flags \fIstring\fR" 4
 .IX Item "-F string or +post-proc-flags string"
 changes to the specified \fIstring\fR, the data to be passed as the value
@@ -275,7 +275,7 @@ copies.
 If you do not understand this, all you have to do is remember that
 .Sp
 .Vb 1
-\&        sqchange -c2 -OA ....
+\&        gspl-qchange -c2 -OA ....
 .Ve
 .Sp
 prints all the odd-numbered pages followed by all the even-numbered
@@ -330,7 +330,7 @@ The class code of a job may restrict which printers the job may be
 printed on, or which other users can display details of the job.
 .Sp
 In normal circumstances (except where the user has \fIoverride class\fR
-privilege as displayed by \fIspuser\fR\|(1)), the specified class code is
+privilege as displayed by \fIgspl\-user\fR\|(1)), the specified class code is
 reduced to the intersection of (i.e. \fIand\fRed with) the specified
 class code and the user's own class code.
 .IP "\-t \fIn\fR or +printed\-timeout \fIn\fR" 4
@@ -368,15 +368,15 @@ printing.
 .IX Item "+freeze-current"
 Save all the current options in a \fI.gnuspool\fR file in the current
 directory. If there are no jobs given to operate on and this is
-specified, then \fBsqchange\fR will quit without error. If it is unable
-to save the options and jobs are specified, then \fBsqchange\fR will
+specified, then \fBgspl-qchange\fR will quit without error. If it is unable
+to save the options and jobs are specified, then \fBgspl-qchange\fR will
 continue.
 .IP "+freeze\-home" 4
 .IX Item "+freeze-home"
 Save all the current options in a \fI.gnuspool\fR file in the user's home
 directory. If there are no jobs given to operate on and this is
-specified, then \fBsqchange\fR will quit without error. If it is unable
-to save the options and jobs are specified, then \fBsqchange\fR will
+specified, then \fBgspl-qchange\fR will quit without error. If it is unable
+to save the options and jobs are specified, then \fBgspl-qchange\fR will
 continue.
 .SH "FILES"
 .IX Header "FILES"
@@ -390,19 +390,19 @@ configuration file (current directory)
 message file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SQCHANGE\s0" 4
-.IX Item "SQCHANGE"
+.IP "\s-1GSPL_QCHANGE\s0" 4
+.IX Item "GSPL_QCHANGE"
 space-separated options to override defaults.
 .IP "\s-1SPRESTCONF\s0" 4
 .IX Item "SPRESTCONF"
 location of alternative help file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIrspr\fR\|(1),
-\&\fIspr\fR\|(1),
-\&\fIspq\fR\|(1),
-\&\fIsqdel\fR\|(1),
-\&\fIsqlist\fR\|(1),
+\&\fIgspl\-rpr\fR\|(1),
+\&\fIgspl\-pr\fR\|(1),
+\&\fIgspl\-pq\fR\|(1),
+\&\fIgspl\-qdel\fR\|(1),
+\&\fIgspl\-qlist\fR\|(1),
 \&\fIspsyntax\fR\|(5),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5).
@@ -414,7 +414,7 @@ file, by default \fIrest.help\fR.
 .IX Header "NOTES"
 The \fB\-C\fR option selects the class code for finding the jobs; if you
 have \fIoverride class\fR privilege, but your default class code does not
-allow the jobs \*(L"to be seen\*(R" in the output of \fIsqlist\fR\|(1), then you may
+allow the jobs \*(L"to be seen\*(R" in the output of \fIgspl\-qlist\fR\|(1), then you may
 need to specify this. The \fB\-S\fR option sets a new classcode, which may
 be \fIand\fRed with your default class if you do not have \fIoverride
 class\fR privilege.
@@ -427,30 +427,30 @@ code will correspond to the last such error displayed.
 To change the number of copies of job 24139 to 3
 .PP
 .Vb 1
-\&        sqchange -c3 14139
+\&        gspl-qchange -c3 14139
 .Ve
 .PP
 To changed the formtype to a4.ps for 3 jobs including one on a remote
 machine, \f(CW\*(C`avon\*(C'\fR
 .PP
 .Vb 1
-\&        sqchange -f a4.ps 24139 26921 avon:21941
+\&        gspl-qchange -f a4.ps 24139 26921 avon:21941
 .Ve
 .PP
 Changing all the jobs associated with printer \f(CW\*(C`laser\*(C'\fR to come out on
 printer \f(CW\*(C`ljet\*(C'\fR may be done with a shell script like this:
 .PP
 .Vb 4
-\&        sqlist -F "%N %P" | grep laser | while read JOB REST
+\&        gspl-qlist -F "%N %P" | grep laser | while read JOB REST
 \&        do
-\&                sqchange -P ljet $JOB
+\&                gspl-qchange -P ljet $JOB
 \&        done
 .Ve
 .PP
 Or you can do it in one operation with this \*(L"one\-liner\*(R":
 .PP
 .Vb 1
-\&        sqchange -Pljet `sqlist -F"%N %P"|grep laser|sed 's/\e(.*\e) .*/\e1/'`
+\&        gspl-qchange -Pljet `gspl-qlist -F"%N %P"|grep laser|sed 's/\e(.*\e) .*/\e1/'`
 .Ve
 .SH "AUTHOR"
 .IX Header "AUTHOR"

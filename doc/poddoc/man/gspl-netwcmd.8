@@ -128,71 +128,60 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SSTOP 1"
-.TH SSTOP 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-NETWCMD 8"
+.TH GSPL-NETWCMD 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-sstop \- cancel spooler
-.PP
-ssuspend \- suspend assignment of printers
-.PP
-srelease \- release assignment of printers
+gspl\-netwcmd \- display network command for printer
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBsstop\fR
-[ \fI\-y\fR ]
-.PP
-\&\fBssuspend\fR
-[ \fI\-y\fR ]
-[ \fIn\fR ]
+\&\fBgspl-netwcmd\fR
+[ \fI\-n\fR ]
+\&\fIprinter\fR
+[ \fIform\fR ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBsstop\fR is a program which should be invoked to bring the \fBGNUspool\fR
-spooler system to an orderly halt prior to system shutdown. Any jobs
-in progress will be saved, and the current page noted for resumption
-when the spooler is restarted. Confirmation is requested (reply \f(CW\*(C`y\*(C'\fR
-or \f(CW\*(C`n\*(C'\fR) unless the \f(CW\*(C`\-y\*(C'\fR option is specified.
+\&\fBgspl-netwcmd\fR can be used to extract the network (terminal server)
+printing command for a given printer and output it on standard
+output. This is often useful for testing terminal server commands from
+the command prompt in the event that error conditions arise and
+enquiring what a given command \*(L"would have been\*(R".
 .PP
-\&\fBssuspend\fR halts the assignment of jobs to printers for a short time,
-which defaults to 5 minutes or as given as a time in seconds last
-argument to the command, or until released by \fBsrelease\fR. Again
-confirmation is requested unless the \f(CW\*(C`\-y\*(C'\fR option is given.
+The current form type is used unless the \fIform\fR argument is given,
+but this generally should not make any difference.
 .PP
-Only a user with the \fIStop spooler\fR privilege may successfully invoke
-any of these commands.
+A shell script is output to standard output containing the command. By
+default, all the \f(CW$SPOOLDEV\fR etc printer environment variables are
+expanded in the output where appropriate as the printer \*(L"would see
+it\*(R", however this may be suppressed by means of the \fB\-n\fR option.
 .PP
-The reason why \fBssuspend\fR this may be useful is that in a network
-scenario, where a new host is brought on line, a considerable amount
-of network traffic is created, and the assignment of printers to jobs
-and the broadcasting of information between hosts can flood the
-network to an unacceptable degree.
+There is a very subtle difference if the \f(CW\*(C`network\*(C'\fR keyword is given
+with
+.PP
+.Vb 1
+\&        network exec ....
+.Ve
+.PP
+rather than \f(CW\*(C`network\*(C'\fR without \f(CW\*(C`exec\*(C'\fR or via \f(CW\*(C`network=\*(C'\fR. In the
+first case, just the command is given, whereas in the other two cases
+the output is preceded with
+.PP
+.Vb 1
+\&        #! /bin/sh
+.Ve
+.PP
+and a blank line.
+.PP
+Comments are added if no \f(CW\*(C`reopen\*(C'\fR statement appears. An error will be
+generated if the printer is directly connected.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
-Note that there is no means of saving the \f(CW\*(C`\-y\*(C'\fR option in a \fI.gnuspool\fR
-file as this is not considered to be sensible. If you have to do this,
-put the command in a shell \*(L"wrapper\*(R".
-.IP "\-y" 4
-.IX Item "-y"
-Do not ask for confirmation.
-.SH "ENVIRONMENT"
-.IX Header "ENVIRONMENT"
-.IP "\s-1SPRESTCONF\s0" 20
-.IX Item "SPRESTCONF"
-path name of alternative message file.
-.SH "SEE ALSO"
-.IX Header "SEE ALSO"
-\&\fIspstart\fR\|(1),
-\&\fIgnuspool.conf\fR\|(5),
-\&\fIgnuspool.hosts\fR\|(5),
-\&\fIspd\fR\|(8),
-\&\fIspdinit\fR\|(8),
-\&\fIspshed\fR\|(8).
+.IP "\-n" 4
+.IX Item "-n"
+suppress the expansion of environment variables.
 .SH "DIAGNOSTICS"
 .IX Header "DIAGNOSTICS"
-Various diagnostics may be issued, read as required from the message
-file \fIrest.help\fR.
-.PP
-The most important ones are that it is not running and that the user
-is not permitted to invoke the command.
+An error will be reported if the printer is not a network-style
+(terminal server) printer.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

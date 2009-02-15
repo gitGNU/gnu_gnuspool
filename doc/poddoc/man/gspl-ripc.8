@@ -128,13 +128,13 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "RIPC 8"
-.TH RIPC 8 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-RIPC 8"
+.TH GSPL-RIPC 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-ripc \- trace and clean GNUspool IPC facilities
+gspl\-ripc \- trace and clean GNUspool IPC facilities
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBripc\fR
+\&\fBgspl-ripc\fR
 [ \fI\-d\fR ]
 [ \fI\-r\fR ]
 [ \fI\-F\fR ]
@@ -150,16 +150,16 @@ ripc \- trace and clean GNUspool IPC facilities
 [ \fI\-N char\fR ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBripc\fR traces, monitors problems with or deletes \s-1IPC\s0 facilities used by
+\&\fBgspl-ripc\fR traces, monitors problems with or deletes \s-1IPC\s0 facilities used by
 \&\fBGNUspool\fR. Many of the facilities are used for debugging, but it also
 serves as a quick method of deleting the \s-1IPC\s0 facilities, being easier
 to use than \fBipcs\fR and \fBipcrm\fR, in the event that the scheduler has
 crashed or been killed without deleting the \s-1IPC\s0 facilities.
 .PP
-To use this facility, just run \fBripc\fR thus:
+To use this facility, just run \fBgspl-ripc\fR thus:
 .PP
 .Vb 1
-\&        ripc -d >/dev/null
+\&        gspl-ripc -d >/dev/null
 .Ve
 .PP
 The diagnostic output may be useful as it reports any inconsistencies.
@@ -169,7 +169,7 @@ The monitoring option can be used to diagnose processes, possibly not
 segments, in cases where a third-party application is suspected of
 damaging the shared memory.
 .PP
-\&\fBRipc\fR also checks for errors in memory-mapped files where the
+\&\fBGspl-ripc\fR also checks for errors in memory-mapped files where the
 version of \fBGNUspool\fR is using those rather than shared memory.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
@@ -215,7 +215,7 @@ suppressed because messages on the queue can't be \*(L"peeked at\*(R" or \*(L"un
 This is only relevant for versions of \fBGNUspool\fR which use
 memory-mapped files rather than shared memory. It specifies the
 location of the spool directory. If this is not specified, then the
-master configuration file \fI/etc/gnuspool.conf\fR is consulted to find
+master configuration file \fIgnuspool.conf\fR is consulted to find
 the spool directory location, or failing that, the directory
 \&\fI/var/spool/gnuspool\fR is used.
 .IP "\-x" 4
@@ -242,7 +242,7 @@ To specify a space, you may need to use quotes thus:
 To delete all \s-1IPC\s0 facilities after \fBGNUspool\fR has crashed.
 .PP
 .Vb 1
-\&        ripc -d -o /dev/null
+\&        gspl-ripc -d -o /dev/null
 .Ve
 .PP
 To monitor the job shared memory segment for errors, printing out the
@@ -252,11 +252,11 @@ out the contents of the segment including in hexadecimal after
 corruption is detected.
 .PP
 .Vb 1
-\&        ripc -D 30 -P -ef -o joblog -A -x
+\&        gspl-ripc -D 30 -P -ef -o joblog -A -x
 .Ve
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIspstart\fR\|(1),
+\&\fIgspl\-start\fR\|(1),
 \&\fIspshed\fR\|(8).
 .SH "AUTHOR"
 .IX Header "AUTHOR"

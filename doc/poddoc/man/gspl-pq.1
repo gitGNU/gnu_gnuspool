@@ -128,17 +128,17 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SPQ 1"
-.TH SPQ 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-PQ 1"
+.TH GSPL-PQ 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-spq \- view spool queue interactively
+gspl\-pq \- view spool queue interactively
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBspq\fR
+\&\fBgspl-pq\fR
 [ \fI\-options\fR ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBspq\fR is a screen-oriented program which displays in real time the
+\&\fBgspl-pq\fR is a screen-oriented program which displays in real time the
 current state of the \fBGNUspool\fR spool queue and printer list,
 refreshing the screen automatically as the queue changes or printer
 state changes, and allowing the status of jobs on the queue to be
@@ -155,7 +155,7 @@ Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \-
 see \fIspsyntax\fR\|(5).
 
-The environment variable on which options are supplied is \f(CW\*(C`SPQ\*(C'\fR and the
+The environment variable on which options are supplied is \f(CW\*(C`GSPL_PQ\*(C'\fR and the
 environment variable to specify the help file is \f(CW\*(C`SPQCONF\*(C'\fR.
 .PP
 Certain commands available on-screen enable many of these options to
@@ -214,7 +214,7 @@ restrict the display of printers).
 commence with cursor in jobs section of the screen.
 .IP "\-l or +local\-only" 4
 .IX Item "-l or +local-only"
-display only jobs or printers local to the host on which \fBspq\fR is
+display only jobs or printers local to the host on which \fBgspl-pq\fR is
 invoked.
 .IP "\-M or +no\-error\-box" 4
 .IX Item "-M or +no-error-box"
@@ -311,9 +311,6 @@ configuration file (current directory)
 \&\fIspq.help\fR
 message file
 .PP
-\&\fI/var/spool/gnuspool\fR
-spool directory
-.PP
 \&\fIgnuspoolptrs\fR
 printers directory
 .PP
@@ -321,20 +318,20 @@ printers directory
 error log file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPQ\s0" 4
-.IX Item "SPQ"
+.IP "\s-1GSPL_PQ\s0" 4
+.IX Item "GSPL_PQ"
 space-separated options to override defaults.
 .IP "\s-1SPQCONF\s0" 4
 .IX Item "SPQCONF"
 path name of alternative message file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIspr\fR\|(1),
-\&\fIspuser\fR\|(1),
-\&\fIsqdel\fR\|(1),
-\&\fIsqchange\fR\|(1),
-\&\fIsqlist\fR\|(1),
-\&\fIsplist\fR\|(1),
+\&\fIgspl\-pr\fR\|(1),
+\&\fIgspl\-user\fR\|(1),
+\&\fIgspl\-qdel\fR\|(1),
+\&\fIgspl\-qchange\fR\|(1),
+\&\fIgspl\-qlist\fR\|(1),
+\&\fIgspl\-plist\fR\|(1),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5).
 .SH "DIAGNOSTICS"

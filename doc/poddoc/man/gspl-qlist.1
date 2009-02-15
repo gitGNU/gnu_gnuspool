@@ -128,24 +128,24 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SQLIST 1"
-.TH SQLIST 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-QLIST 1"
+.TH GSPL-QLIST 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-sqlist \- display job queue
+gspl\-qlist \- display job queue
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBsqlist\fR
+\&\fBgspl-qlist\fR
 [ \fI\-options\fR ]
 [ \fIjob number\fR ... ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBsqlist\fR outputs a table on standard output showing jobs on the
+\&\fBgspl-qlist\fR outputs a table on standard output showing jobs on the
 \&\fBGNUspool\fR spool queue, including those queued on other hosts on the
 network.
 .PP
 Each line of the output corresponds to a single job, and by default
 the output is generally similar to the default format of the jobs
-screen of the \fIspq\fR\|(1) command, something like:
+screen of the \fIgspl\-pq\fR\|(1) command, something like:
 .PP
 .Vb 3
 \& 0024139     jmc report1 a4      23K 1 150
@@ -167,7 +167,7 @@ Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \-
 see \fIspsyntax\fR\|(5).
 
-The environment variable on which options are supplied is \f(CW\*(C`SQLIST\*(C'\fR
+The environment variable on which options are supplied is \f(CW\*(C`GSPL_QLIST\*(C'\fR
 and the environment variable to specify the help file is
 \&\f(CW\*(C`SPRESTCONF\*(C'\fR.
 .IP "\-? or +explain" 4
@@ -307,10 +307,10 @@ misinterprets them.
 For example
 .PP
 .Vb 4
-\&        sqlist -q ljet,ptr3
-\&        sqlist -q 'ptr*,lp[1-9]'
-\&        sqlist -u 'j*'
-\&        sqlist -t 'Acc*'
+\&        gspl-qlist -q ljet,ptr3
+\&        gspl-qlist -q 'ptr*,lp[1-9]'
+\&        gspl-qlist -u 'j*'
+\&        gspl-qlist -t 'Acc*'
 .Ve
 .Sh "Format codes"
 .IX Subsection "Format codes"
@@ -377,7 +377,7 @@ job number, prefixed by host name if remote.
 odd/even/swap flags.
 .IP "%o" 4
 .IX Item "%o"
-originating host (might be different if via \fIrspr\fR\|(1)).
+originating host (might be different if via \fIgspl\-rpr\fR\|(1)).
 .IP "%P" 4
 .IX Item "%P"
 printer destination
@@ -447,18 +447,18 @@ configuration file (current directory)
 message file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SQLIST\s0" 4
-.IX Item "SQLIST"
+.IP "\s-1GSPL_QLIST\s0" 4
+.IX Item "GSPL_QLIST"
 space-separated options to override defaults.
 .IP "\s-1SPRESTCONF\s0" 4
 .IX Item "SPRESTCONF"
 location of alternative help file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIsplist\fR\|(1),
-\&\fIspq\fR\|(1),
-\&\fIsqchange\fR\|(1),
-\&\fIsqdel\fR\|(1),
+\&\fIgspl\-plist\fR\|(1),
+\&\fIgspl\-pq\fR\|(1),
+\&\fIgspl\-qchange\fR\|(1),
+\&\fIgspl\-qdel\fR\|(1),
 \&\fIspsyntax\fR\|(5),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5).

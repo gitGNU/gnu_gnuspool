@@ -128,87 +128,123 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "MSPR 1"
-.TH MSPR 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-LPCOVER 1"
+.TH GSPL-LPCOVER 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-mspr \- print spooler or save if not running
+gspl\-lpcover \- emulate LP
 .PP
-mrspr \- print spooler to remote queue or save if unavailable
+gspl\-lpstatc \- emulate LPSTAT
+.PP
+cancel \- emulate CANCEL
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBmspr\fR
+\&\fBgspl-lpcover\fR
 [ \fI\-options\fR ]
 [ \fIfile\fR ... ]
 .PP
-\&\fBmrspr\fR
+\&\fBgspl-lpstatc\fR
 [ \fI\-options\fR ]
-[ \fIfile\fR ... ]
+.PP
+\&\fBcancel\fR
+\&\fIjobnumber\fR [ ... ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBmspr\fR either queues up one or more print jobs for the \fBGNUspool\fR
-spooler using \fIspr\fR\|(1) if it is running, or else places a series of
-files in an alternative spool directory, such that when run as shell
-scripts when the \fBGNUspool\fR spooler process \fIspshed\fR\|(8) is running, the
-jobs are queued as originally specified.
+\&\fBgspl-lpcover\fR may be used instead of the standard \fBlp\fR command. It
+converts the options that most \fBlp\fR commands take to the equivalent
+\&\fIgspl\-pr\fR\|(1) commandds and then invokes \fIgspl\-pr\fR\|(1) to submit the print jobs.
 .PP
-\&\fBmrspr\fR queues up one or more print jobs to a remote queue running
-the \fBGNUspool\fR spooler using \fIrspr\fR\|(1) if it is available, or otherwise
-places a series of files in an alternative spool directory for
-queueing when the remote machine is available.
+The \fBgspl-pr\fR program provides a much greater set of facilities than
+\&\fBlp\fR. Although it is strongly recommended to switch to the \fIgspl\-pr\fR\|(1)
+command to take advantage of these, they can be made available to
+users of our \fBgspl-lpcover\fR command. This is done by setting up
+\&\f(CW\*(C`GSPL_PR\*(C'\fR in the application or user environment.
+.PP
+\&\fBGspl-lpcover\fR is usually installed in place of \fBlp\fR in \fI/usr/bin\fR, with
+the original binary moved to something like \fIold.lp\fR in the same
+directory.
+.PP
+\&\fBGspl-lpstatc\fR emulates \fBlpstat\fR as far as is practicable, generating a
+report of outstanding print jobs from the print queue in a format
+similar to the original \fBlpstat\fR.
+.PP
+\&\fBcancel\fR is a shell script which invokes \fIgspl\-qdel\fR\|(1) on its arguments.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
-Options are as per \fBspr\fR and \fBrspr\fR. If the job can be queued
-immediately, these programs are directly invoked.
-.SH "EXIT CODES"
-.IX Header "EXIT CODES"
-An exit code of zero is returned if the job or jobs are successfully
-queued using \fIspr\fR\|(1) or \fIrspr\fR\|(1) or successfully saved in the alternate
-directory. Any non-zero exit code from \fIspr\fR\|(1) or \fIrspr\fR\|(1) will be
-passed back to the user. Standard exit codes and error messages are
-displayed if the files cannot be opened or saved.
-.SH "FILES"
-.IX Header "FILES"
-\&\fI~/.gnuspool\fR
-configuration file (home directory)
-.PP
-\&\fI .gnuspool\fR
-configuration file (current directory)
-.PP
-\&\fIrest.help\fR
-message file
-.PP
-\&\fI/var/spool/gnuspool_alt/CMDF*\fR
-command file (shell script)
-.PP
-\&\fI/var/spool/gnuspool_alt/ASPF*\fR
-data file (contents of job)
+The options below document \fBgspl-lpcover\fR only. Options to \fBgspl-lpstatc\fR
+generate a warning message on standard error and are otherwise
+ignored. Options to \fBgspl-lpcover\fR which are not documented here are ignored.
+.IP "\-c" 8
+.IX Item "-c"
+This has no effect, but generates a warning message on standard error,
+as with \fBGNUspool\fR spool files are always copied.
+.IP "\-d \fIname\fR" 8
+.IX Item "-d name"
+Specify printer destination as \fIname\fR. The destination may also be
+specified in the environment variable \f(CW\*(C`LPDEST\*(C'\fR, which this option
+overrides. An argument of \f(CW\*(C`any\*(C'\fR to \fB\-d\fR cancels any existing
+\&\f(CW\*(C`LPDEST\*(C'\fR environment variable.
+.Sp
+This is translated directly into a \fB\-P\fR option to \fBgspl-pr\fR.
+.IP "\-f \fIform\fR" 8
+.IX Item "-f form"
+specifies the supplied form type. This is translated directly into an
+\&\fB\-f\fR option to \fBgspl-pr\fR.
+.IP "\-H \fIarg\fR" 8
+.IX Item "-H arg"
+There is no direct mapping for the \fB\-H\fR argument.
+.IP "\-m" 8
+.IX Item "-m"
+Mail user. This is translated directly into an \fB\-m\fR option to \fBgspl-pr\fR.
+.IP "\-n \fIn\fR" 8
+.IX Item "-n n"
+Specify the number of copies. This is translated directly into a \fB\-c\fR
+option to \fBgspl-pr\fR.
+.IP "\-o \fIarg\fR" 8
+.IX Item "-o arg"
+Only \fB\-o\fR \f(CW\*(C`nobanner\*(C'\fR, to suppress the header page, is interpreted
+and translated to the \fB\-s\fR option to \fBgspl-pr\fR.
+.IP "\-P \fIarg\fR" 8
+.IX Item "-P arg"
+This is translated into \fB\-R\fR page range arguments for \fBgspl-pr\fR.
+.IP "\-q \fIn\fR" 8
+.IX Item "-q n"
+This is translated into a \fB\-p\fR argument for \fBgspl-pr\fR scaled
+appropriately, taking into account the user's maximum, minimum and
+default priorities.
+.IP "\-S" 8
+.IX Item "-S"
+This option is ignored.
+.IP "\-s" 8
+.IX Item "-s"
+This turns off the \fB\-v\fR argument for \fBgspl-pr\fR which is normally
+included.
+.IP "\-T" 8
+.IX Item "-T"
+This option is ignored.
+.IP "\-t <arg>" 8
+.IX Item "-t <arg>"
+This is translated to a \fB\-h\fR (title) argument to \fBgspl-pr\fR.
+.IP "\-w" 8
+.IX Item "-w"
+This is translated directly to the \fB\-w\fR (write message) option to
+\&\fBgspl-pr\fR.
+.IP "\-y" 8
+.IX Item "-y"
+This option is ignored.
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPOOLOPTS\s0" 4
-.IX Item "SPOOLOPTS"
-space-separated options to override defaults for \fBrspr\fR.
-.IP "\s-1RSPR\s0" 4
-.IX Item "RSPR"
-space-separated options to override defaults for \fBmrspr\fR.
-.IP "\s-1SPRESTCONF\s0" 4
-.IX Item "SPRESTCONF"
-location of alternative help file.
-.IP "\s-1ALTSPD\s0" 4
-.IX Item "ALTSPD"
-location of alternate spool directory, if not \fI/var/spool/gnuspool_alt\fR.
-.SH "SEE ALSO"
-.IX Header "SEE ALSO"
-\&\fIgnuspool.conf\fR\|(5),
-\&\fIgnuspool.hosts\fR\|(5),
-\&\fIrspr\fR\|(1)
-\&\fIspr\fR\|(1),
-\&\fIspsyntax\fR\|(5),
-\&\fIspshed\fR\|(8),
-\&\fIxtnetserv\fR\|(8).
+.IP "\s-1LPDEST\s0" 8
+.IX Item "LPDEST"
+Specify destination for \fBgspl-lpcover\fR.
+.IP "\s-1LPSTATFMT\s0" 8
+.IX Item "LPSTATFMT"
+Specify alternate format for \fBgspl-lpstatc\fR.
 .SH "DIAGNOSTICS"
 .IX Header "DIAGNOSTICS"
-Various diagnostics are read and printed as required from the message
-file, by default \fIrest.help\fR.
+Various warnings about unimplemented features are printed by
+\&\fBgspl-lpcover\fR and \fBgspl-lpstatc\fR.
+.PP
+Others may be generated by software each invokes.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

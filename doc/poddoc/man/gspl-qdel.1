@@ -128,91 +128,99 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SPCHARGE 1"
-.TH SPCHARGE 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-QDEL 1"
+.TH GSPL-QDEL 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-spcharge \- display/update user charges
+gspl\-qdel \- delete spool jobs
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBspcharge\fR
+\&\fBgspl-qdel\fR
 [ \fI\-options\fR ]
-[ user ] ...
+\&\fIjob number\fR ...
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBspcharge\fR displays and/or updates the charges recorded by
-\&\fBGNUspool\fR against various users specified on the command line, or
-all users if none are specified.
+\&\fBgspl-qdel\fR deletes one or more jobs from the \fBGNUspool\fR job spool queue,
+which may be on the local host or other hosts on the network. Jobs are
+specified by the job number, which is reported by \fIgspl\-qlist\fR\|(1) in the
+first column of the default output, or by \fIgspl\-pr\fR\|(1) or \fIgspl\-rpr\fR\|(1) when the
+job is queued with the \fIverbose\fR option. Remote jobs are specified by
+prefixing the job number by the host name and a colon, thus
+\&\f(CW\*(C`host:1234\*(C'\fR. Leading zeroes in the job number may be omitted.
 .PP
-It is only available to users with the \fIEdit admin file\fR privilege.
-.PP
-Charges relate to jobs which have originated on the machine on which
-\&\fIspcharge\fR was invoked. The actual charging rate is determined by the
-machine on which the job is printed.
+\&\fBGspl-qdel\fR will not delete jobs not marked as \*(L"printed\*(R" unless the \fB\-y\fR
+option is given.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
 Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \-
 see \fIspsyntax\fR\|(5).
 
-The environment variable on which options are supplied is \f(CW\*(C`SPCHARGE\*(C'\fR and the
+The environment variable on which options are supplied is \f(CW\*(C`GSPL_QDEL\*(C'\fR and the
 environment variable to specify the help file is \f(CW\*(C`SPRESTCONF\*(C'\fR.
 .IP "\-? or +explain" 4
 .IX Item "-? or +explain"
 causes a summary of the other options to be displayed without taking
 further action.
-.IP "\-C or +consolidate" 4
-.IX Item "-C or +consolidate"
-causes a consolidation record to be written for each user mentioned in
-the file, which summarises the charges to date for each user. The
-records remain in the file, this creating a current balance of account
-record to save processing entries in the accounts file.
-.IP "\-c \fIfee\fR or +add\-charge \fIfee\fR" 4
-.IX Item "-c fee or +add-charge fee"
-causes the specified \fIfee\fR to be added to the charge for the
-specified user or users, or all users if none are given.
-.Sp
-If combined with a print option (\fB\-p\fR or \fB\-P\fR), the print is done
-after the charge is applied.
-.IP "\-K or +cancel\-flags" 4
-.IX Item "-K or +cancel-flags"
-Cancels all previously-set options \fB\-p\fR, \fB\-P\fR, \fB\-z\fR, \fB\-C\fR and
-\&\fB\-R\fR. Useful if you want to start again from some indeterminate state
-in a configuration file.
-.IP "\-P or +print\-full" 4
-.IX Item "-P or +print-full"
-causes the full log of charges for the specified user or users, or all
-users if none are given, to be displayed on standard output.
-.IP "\-p or +print\-users" 4
-.IX Item "-p or +print-users"
-(the default if no other options are specified) causes the charge
-summary for the specified user or users, or all users if none are
-given, to be displayed on standard output.
-.IP "\-R or +reset\-file" 4
-.IX Item "-R or +reset-file"
-causes all records to be deleted from the file except for
-consolidation records for each user with a non-zero charge. If the
-charge for each user is zero (as a result of applying the \fB\-z\fR option
-perhaps), then the file will be left empty.
-.Sp
-Note that the spool scheduler \fIspshed\fR\|(8) should not be running when
-this option is invoked.
-.IP "\-z or +zero\-charge" 4
-.IX Item "-z or +zero-charge"
-clears to zero the charges for the specified user or users, or all
-users if none are given. This is done by appending an appropriate
-record or records to the charge file, the previous information (as
-displayed by \fB\-P\fR will still be available.
-.Sp
-If combined with a print option (\fB\-p\fR or \fB\-P\fR), the print is done
-before the option is applied.
+.IP "\-C \fInnnn\fR or +classcode \fInnnn\fR" 4
+.IX Item "-C nnnn or +classcode nnnn"
+may be used to set a class code to narrow or expand the range of jobs
+from which jobs are selected. It is probably only relevant where the
+user has \fIoverride class\fR privilege and it is required to expand the
+default class code to select additional jobs.
+.IP "\-d or +delete" 4
+.IX Item "-d or +delete"
+cancel a previously-specified \fB\-k\fR option.
+.IP "\-D \fIname\fR or +directory \fIname\fR" 4
+.IX Item "-D name or +directory name"
+Save unqueued jobs to \fIname\fR rather than the current directory.
+.IP "\-e or +do\-not\-unqueue" 4
+.IX Item "-e or +do-not-unqueue"
+cancel a previously-specified \fB\-u\fR option. The jobs will just be
+deleted, not unqueued.
+.IP "\-J \fIname\fR or +job\-prefix \fIname\fR" 4
+.IX Item "-J name or +job-prefix name"
+specify the given \fIname\fR as the prefix for the job file, followed
+by the job number, to be used by the \fB\-u\fR option rather than the
+default of \fBJ\fR (which in turn may be changed by editing the
+message file).
+.IP "\-k or +do\-not\-delete" 4
+.IX Item "-k or +do-not-delete"
+when performing an unqueue as specified with the \fB\-u\fR option, do not
+delete the job at the end.
+.IP "\-n or +keep\-unprinted" 4
+.IX Item "-n or +keep-unprinted"
+is the default case. Jobs which have not yet been printed are not
+deleted.
+.IP "\-S \fIname\fR or +command\-prefix \fIname\fR" 4
+.IX Item "-S name or +command-prefix name"
+specify the given \fIname\fR as the prefix for the command file, followed
+by the job number, to be used by the \fB\-u\fR option rather than the
+default of \fBC\fR (which in turn may be changed by editing the
+message file).
+.IP "\-u or +unqueue" 4
+.IX Item "-u or +unqueue"
+unqueue jobs, i.e. copy to current directory or directory selected
+with the \fB\-D\fR option. Jobs are copied as two files, a \fIjob file\fR
+containing the text of the job and a \fIcommand file\fR containing an
+\&\fBgspl-pr\fR command. The command file may be run as a shell script to
+re-queue the job with the same options.
+.IP "\-y or +delete\-unprinted" 4
+.IX Item "-y or +delete-unprinted"
+cancels all jobs, whether printed or not.
 .IP "+freeze\-current" 4
 .IX Item "+freeze-current"
 Save all the current options in a \fI.gnuspool\fR file in the current
-directory.
+directory. If there are no jobs given to operate on and this is
+specified, then \fBgspl-qdel\fR will quit without error. If it is unable
+to save the options and jobs are specified, then \fBgspl-qdel\fR will
+continue.
 .IP "+freeze\-home" 4
 .IX Item "+freeze-home"
 Save all the current options in a \fI.gnuspool\fR file in the user's home
-directory.
+directory. If there are no jobs given to operate on and this is
+specified, then \fBgspl-qdel\fR will quit without error. If it is unable
+to save the options and jobs are specified, then \fBgspl-qdel\fR will
+continue.
 .SH "FILES"
 .IX Header "FILES"
 \&\fI~/.gnuspool\fR
@@ -225,18 +233,19 @@ configuration file (current directory)
 message file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPCHARGE\s0" 4
-.IX Item "SPCHARGE"
+.IP "\s-1GSPL_QDEL\s0" 4
+.IX Item "GSPL_QDEL"
 space-separated options to override defaults.
-.IP "\s-1RESTCONF\s0" 4
-.IX Item "RESTCONF"
+.IP "\s-1SPRESTCONF\s0" 4
+.IX Item "SPRESTCONF"
 location of alternative help file.
-.SH "NOTES"
-.IX Header "NOTES"
-It is intended to deprecate this in the next release.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIspuser\fR\|(1),
+\&\fIgspl\-rpr\fR\|(1),
+\&\fIgspl\-pr\fR\|(1),
+\&\fIgspl\-pq\fR\|(1),
+\&\fIgspl\-qchange\fR\|(1),
+\&\fIgspl\-qlist\fR\|(1),
 \&\fIspsyntax\fR\|(5),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5).
@@ -244,6 +253,16 @@ It is intended to deprecate this in the next release.
 .IX Header "DIAGNOSTICS"
 Various diagnostics are read and printed as required from the message
 file, by default \fIrest.help\fR.
+.SH "NOTES"
+.IX Header "NOTES"
+The \fB\-C\fR option selects the class code for finding the jobs; if you
+have \fIoverride class\fR privilege, but your default class code does not
+allow the jobs \*(L"to be seen\*(R" in the output of \fIgspl\-qlist\fR\|(1), then you may
+need to specify this.
+.PP
+Any errors are reported with appropriate messages on standard
+error. If any errors are detected operating on several jobs, the exit
+code will correspond to the last such error displayed.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

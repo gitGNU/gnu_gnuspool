@@ -128,22 +128,22 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SPLIST 1"
-.TH SPLIST 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-PLIST 1"
+.TH GSPL-PLIST 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-splist \- display printer queue
+gspl\-plist \- display printer list
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBsplist\fR
+\&\fBgspl-plist\fR
 [ \fI\-options\fR ]
 [ \fIprinter\fR ... ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBsplist\fR generates a list of the printers, with their current status,
+\&\fBgspl-plist\fR generates a list of the printers, with their current status,
 on the \fBGNUspool\fR printer lists, including those on remote machines,
 on standard output. Each line of the output corresponds to a single
 printer, and by default the output is generally similar to the default
-format of the printers screen of the \fIspq\fR\|(1) command.
+format of the printers screen of the \fIgspl\-pq\fR\|(1) command.
 .PP
 Various options allow the user to control the output in various ways
 as described below.
@@ -151,7 +151,7 @@ as described below.
 The output can be restricted to one or more named printers by listing
 them on the command line.
 .PP
-The default output of \fBsplist\fR looks like the following
+The default output of \fBgspl-plist\fR looks like the following
 .PP
 .Vb 3
 \& ljet       lp    a4      idle
@@ -172,10 +172,10 @@ Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \-
 see \fIspsyntax\fR\|(5).
 
-The environment variable on which options are supplied is \f(CW\*(C`SPLIST\*(C'\fR and the
+The environment variable on which options are supplied is \f(CW\*(C`GSPL_PLIST\*(C'\fR and the
 environment variable to specify the help file is \f(CW\*(C`SPRESTCONF\*(C'\fR.
-.IP "\-? or +explain" 4
-.IX Item "-? or +explain"
+.IP "\-? or +explain or +help" 4
+.IX Item "-? or +explain or +help"
 causes a summary of the other options to be displayed without taking
 further action.
 .IP "\-C \fIclasscode\fR or +classcode \fIclasscode\fR" 4
@@ -204,7 +204,7 @@ default \fIrest.help\fR, which may be adjusted as
 required.
 .IP "\-l or +local\-only" 4
 .IX Item "-l or +local-only"
-include only printers local to the host on which the \fBsplist\fR command
+include only printers local to the host on which the \fBgspl-plist\fR command
 is run.
 .IP "\-N or +no\-header" 4
 .IX Item "-N or +no-header"
@@ -336,17 +336,17 @@ configuration file (current directory)
 message file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPLIST\s0" 4
-.IX Item "SPLIST"
+.IP "\s-1GSPL_PLIST\s0" 4
+.IX Item "GSPL_PLIST"
 space-separated options to override defaults.
 .IP "\s-1SPRESTCONF\s0" 4
 .IX Item "SPRESTCONF"
 location of alternative help file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIspstart\fR\|(1),
-\&\fIspq\fR\|(1),
-\&\fIsqlist\fR\|(1),
+\&\fIgspl\-start\fR\|(1),
+\&\fIgspl\-pq\fR\|(1),
+\&\fIgspl\-qlist\fR\|(1),
 \&\fIspsyntax\fR\|(5),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5).

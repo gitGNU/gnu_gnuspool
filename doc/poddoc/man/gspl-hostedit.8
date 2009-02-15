@@ -128,21 +128,21 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "HOSTEDIT 8"
-.TH HOSTEDIT 8 "2008-07-11" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-HOSTEDIT 8"
+.TH GSPL-HOSTEDIT 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-hostedit \- edit GNUspool host table
+gspl\-hostedit \- edit GNUspool host table
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBhostedit\fR
+\&\fBgspl-hostedit\fR
 [ \-\fIo file\fR ]
 [ \-\fIs arg\fR ]
 [ \-\fII\fR ]
 [ \fIfile\fR ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBhostedit\fR is a simple curses-based program to edit host tables for
-\&\fI/etc/gnuspool.hosts\fR, the host table for GNUspool.
+\&\fBgspl-hostedit\fR is a simple curses-based program to edit host tables for
+\&\fIgnuspool.hosts\fR, the host table for GNUspool.
 .PP
 It knows about local addresses (selecting the correct \s-1IP\s0 address for a
 machine with different IPs on different networks), Windows clients,
@@ -153,10 +153,8 @@ output is to standard output unless the \fB\-o\fR option is given.
 .PP
 Normally this would be run as follows:
 .PP
-.Vb 3
-\&        hostedit -o /tmp/hostfile /etc/gnuspool.hosts
-\&        cp /tmp/hostfile /etc/gnuspool.hosts
-\&        rm /tmp/hostfile
+.Vb 1
+\&        gspl-hostedit -I /usr/local/etc/gnuspool.hosts
 .Ve
 .PP
 You will usually have to stop and restart GNUspool after you have
@@ -178,7 +176,7 @@ Edit in place; a file argument must be given.
 .SH "COMMANDS"
 .IX Header "COMMANDS"
 The following command keys are used from within the screen displayed
-by \fBhostedit\fR. As with other GNUspool commands, any commands which
+by \fBgspl-hostedit\fR. As with other GNUspool commands, any commands which
 operate upon an existing item will do so with the item to which the
 cursor is moved.
 .IP "k or \fIcursor up\fR" 4

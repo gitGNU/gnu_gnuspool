@@ -128,97 +128,23 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SPUSER 1"
-.TH SPUSER 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-XMPQ 1"
+.TH GSPL-XMPQ 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-spuser \- list spool user details.
+gspl\-xmpg \- X/Motif spool queue view
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBspuser\fR
-[ \fI\-options\fR ]
+\&\fBgspl-xmpg\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBspuser\fR provides 3 functions:
+\&\fBGspl-Xmpg\fR is a fully interactive Motif alternative to the standard
+print queue manager \fIgspl\-pq\fR\|(1). As with \fIspq\fR\|(1) the format of the screen
+display, the help messages and the command keystrokes can be easily
+altered to suit your requirements.
 .PP
-With no arguments it lists the permissions for the invoking user and
-exits.
-.PP
-With the \fB\-c\fR option it enables the invoking user to edit his own
-default priority, form type and printer. The user must have \fIchange
-default priority\fR permission to do this.
-.PP
-With the \fB\-i\fR option it enables the invoking user to interactively
-review and update the list of permissions for all users. The user must
-have \fIedit admin file\fR permission to do this.
-For more information about the details of the interactive commands,
-please see the on-line help information, obtained by pressing ?
-(although this may be changed on your site). This section focuses on
-the command-line options which may be used to control the initial
-display.
-
-.SH "OPTIONS"
-.IX Header "OPTIONS"
-Note that the order of treatment, letters and keywords described below
-may be modified by editing the file \fIrest.help\fR \-
-see \fIspsyntax\fR\|(5).
-
-The environment variable on which options are supplied is \f(CW\*(C`SPUSER\*(C'\fR and the
-environment variable to specify the help file is \f(CW\*(C`SPUSERCONF\*(C'\fR.
-.PP
-Certain commands available on-screen enable many of these options to
-be changed and saved in configuration files.
-.IP "\-? or +explain" 4
-.IX Item "-? or +explain"
-causes a summary of the other options to be displayed without taking
-further action.
-.IP "\-B or +no\-help\-box" 4
-.IX Item "-B or +no-help-box"
-put help messages in inverse video rather than in a box.
-.IP "\-b or +help\-box" 4
-.IX Item "-b or +help-box"
-put help messages in a box rather than displaying inverse video.
-.IP "\-c or +form\-and\-prio" 4
-.IX Item "-c or +form-and-prio"
-interactively set default priority, form type and printer for the
-invoking user.
-.IP "\-d or +display" 4
-.IX Item "-d or +display"
-is the default. A list of permissions is output to the standard
-output, for example.
-.Sp
-.Vb 9
-\&        Default form a4 form types a4*
-\&        Maximum copies 10
-\&        Priority: min 100 max 200 default 150.  Current charge is 0.
-\&        Default printer `' printer types ``
-\&        Class code: A-Pa-p
-\&        Privileges:
-\&        You may Use other printers.
-\&        You may Access queue options.
-\&        You may Save new default options.
-.Ve
-.IP "\-H or +keep\-char\-help" 4
-.IX Item "-H or +keep-char-help"
-when displaying a help screen, interpret the next key press as a
-command as well as clearing the help screen.
-.IP "\-h or +lose\-char\-help" 4
-.IX Item "-h or +lose-char-help"
-discard whatever key press is made to clear a help screen.
-.IP "\-i or +administer" 4
-.IX Item "-i or +administer"
-view and update the list of users
-.IP "\-M or +no\-error\-box" 4
-.IX Item "-M or +no-error-box"
-put error messages in inverse video rather than in a box.
-.IP "\-m or +error\-box" 4
-.IX Item "-m or +error-box"
-put error messages in a box rather than displaying inverse video.
-.IP "\-n or +numeric\-sort" 4
-.IX Item "-n or +numeric-sort"
-sort users by numeric userid (default).
-.IP "\-u or +user\-sort" 4
-.IX Item "-u or +user-sort"
-sort users by user name
+Unlike \fIgspl\-pq\fR\|(1) there are no specific command line options to
+\&\fBgspl-xmpg\fR. The facility to change or specify resources settings for an
+X11 (and hence Motif) program on the command line can be used.
 .SH "FILES"
 .IX Header "FILES"
 \&\fI~/.gnuspool\fR
@@ -227,31 +153,30 @@ configuration file (home directory)
 \&\fI .gnuspool\fR
 configuration file (current directory)
 .PP
-\&\fIspuser.help\fR
+\&\fIgspl\-xmpg.help\fR
 message file
 .PP
-\&\fIspufile0\fR
-User control file
+\&\fIgnuspoolptrs\fR
+printers directory
+.PP
+\&\fIspshed_reps\fR
+error log file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPUSER\s0" 4
-.IX Item "SPUSER"
-space-separated options to override defaults.
-.IP "\s-1SPUSERCONF\s0" 4
-.IX Item "SPUSERCONF"
-location of alternative help file.
+.IP "GSPL-XMPGCONF" 4
+.IX Item "GSPL-XMPGCONF"
+path name of alternative message file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIspcharge\fR\|(1),
-\&\fIspuchange\fR\|(1),
-\&\fIspulist\fR\|(1),
-\&\fIspsyntax\fR\|(5),
+\&\fIgspl\-pq\fR\|(1),
+\&\fIgspl\-pr\fR\|(1),
+\&\fIgspl\-user\fR\|(1),
+\&\fIgspl\-qdel\fR\|(1),
+\&\fIgspl\-qchange\fR\|(1),
+\&\fIgspl\-qlist\fR\|(1),
+\&\fIgspl\-plist\fR\|(1),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5).
-.SH "DIAGNOSTICS"
-.IX Header "DIAGNOSTICS"
-Various diagnostics are read and printed as required from the message
-file, by default \fIspuser.help\fR.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

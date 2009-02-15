@@ -128,66 +128,53 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SP.LPRM 1"
-.TH SP.LPRM 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-XMUSER 1"
+.TH GSPL-XMUSER 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-sp.lprm \- delete jobs on LPD protocol servers
+gspl\-xmuser \- X/Motif user control
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBsp.lprm\fR
-\&\fIprinter\fR
-\&\fIjob\fR ...
+\&\fBgspl-xmuser\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBsp.lprm\fR deletes pending jobs on an external
-print server supporting the \s-1LPD\s0 protocol.
-.SH "OPTIONS"
-.IX Header "OPTIONS"
-Note that the order of treatment, letters and keywords described below
-may be modified by editing the file \fIsplpd.help\fR \-
-see \fIspsyntax\fR\|(5).
+\&\fBGspl-Xmuser\fR is a fully interactive Motif alternative to the standard
+user control program \fIgspl\-user\fR\|(1), but only in the fully interactive
+mode, so it cannot be started by a user without \fIEdit admin file\fR
+privilege.
 .PP
-The environment variable on which options are supplied is \f(CW\*(C`SPLPRM\*(C'\fR and the
-environment variable to specify the help file is \f(CW\*(C`LPDINTCONF\*(C'\fR.
-.IP "\-? or +explain" 4
-.IX Item "-? or +explain"
-Causes a summary of the other options to be displayed without taking
-further action.
-.IP "+freeze\-current" 4
-.IX Item "+freeze-current"
-Save all the current options in a \fI.gnuspool\fR file in the current
-directory.
-.IP "+freeze\-home" 4
-.IX Item "+freeze-home"
-Save all the current options in a \fI.gnuspool\fR file in the user's home
-directory.
+Unlike \fIgspl\-user\fR\|(1) there are no specific command line options to
+\&\fBgspl-xmuser\fR. The facility to change or specify resources settings for an
+X11 (and hence Motif) program on the command line can be used.
 .SH "FILES"
 .IX Header "FILES"
 \&\fI~/.gnuspool\fR
 configuration file (home directory)
 .PP
-\&\fI .gnuspool\fR
+\&\fI.gnuspool\fR
 configuration file (current directory)
 .PP
-\&\fIsplpd.help\fR
+\&\fIgspl\-xmuser.help\fR
 message file
+.PP
+\&\fIspufile0\fR
+user control file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPLPRM\s0" 4
-.IX Item "SPLPRM"
-space-separated options to override defaults.
-.IP "\s-1LPDINTCONF\s0" 4
-.IX Item "LPDINTCONF"
-location of alternative help file.
+.IP "GSPL-XMUSERCONF" 4
+.IX Item "GSPL-XMUSERCONF"
+path name of alternative message file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIsp.lpq\fR\|(1),
-\&\fIspsyntax\fR\|(5),
-\&\fIxtlpc\fR\|(8).
-.SH "DIAGNOSTICS"
-.IX Header "DIAGNOSTICS"
-Various diagnostics are read and printed as required from the message
-file, by default \fIsplpd.help\fR.
+\&\fIgspl\-pq\fR\|(1),
+\&\fIgspl\-pr\fR\|(1),
+\&\fIgspl\-user\fR\|(1),
+\&\fIgspl\-qdel\fR\|(1),
+\&\fIgspl\-qchange\fR\|(1),
+\&\fIgspl\-qlist\fR\|(1),
+\&\fIgspl\-plist\fR\|(1),
+\&\fIgspl\-uchange\fR\|(1),
+\&\fIgspl\-ulist\fR\|(1),
+\&\fIgspl\-spuconv\fR\|(8).
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

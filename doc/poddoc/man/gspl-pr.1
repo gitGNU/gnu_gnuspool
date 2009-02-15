@@ -128,32 +128,32 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SPR 1"
-.TH SPR 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-PR 1"
+.TH GSPL-PR 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-spr \- print spooler
+gspl\-pr \- print spooler
 .PP
-rspr \- print spooler to remote queue
+gspl\-rpr \- print spooler to remote queue
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBspr\fR
+\&\fBgspl-pr\fR
 [ \fI\-options\fR ]
 [ \fIfile\fR ... ]
 .PP
-\&\fBrspr\fR
+\&\fBgspl-rpr\fR
 [ \fI\-options\fR ]
 [ \fIfile\fR ... ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBspr\fR queues up one or more print jobs for the \fBGNUspool\fR spooler.
+\&\fBgspl-pr\fR queues up one or more print jobs for the \fBGNUspool\fR spooler.
 .PP
-\&\fBrspr\fR queues up one or more print jobs to a remote queue running the
+\&\fBgspl-rpr\fR queues up one or more print jobs to a remote queue running the
 \&\fBGNUspool\fR spooler. \fBGNUspool\fR does not need to be running on the
 submitting machine; only the message file and hosts file are required.
 .PP
 If one or more files are specified, each file is treated as a separate
 spool job, with a title constructed from the file name. If no files
-are specified \fBspr\fR and \fBrspr\fR read from the standard input
+are specified \fBgspl-pr\fR and \fBgspl-rpr\fR read from the standard input
 instead. In this case the job is placed on the queue with a blank
 title unless otherwise specified.
 .PP
@@ -162,11 +162,10 @@ preceded by a banner page, with the priority, printer and form
 types specified for the user. The standard banner page will contain:
 the user name and job title (in large characters), the name of the
 user who submitted the job (if different), the job number, its size
-and priority. The organisation name and serial number (as entered when
-licensing) are also printed.
+and priority.
 .PP
 Other default options may be set up using environment variables
-\&\f(CW\*(C`SPOOLOPTS\*(C'\fR for \fBspr\fR and \f(CW\*(C`RSPR\*(C'\fR for \fBrspr\fR and/or \fI.gnuspool\fR
+\&\f(CW\*(C`GSPL_PR\*(C'\fR for \fBgspl-pr\fR and \f(CW\*(C`GSPL_RPR\*(C'\fR for \fBgspl-rpr\fR and/or \fI.gnuspool\fR
 files. Any defaults may be overridden by re-specifying that option on
 the command line.
 .SH "OPTIONS"
@@ -175,8 +174,8 @@ Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \-
 see \fIspsyntax\fR\|(5).
 
-The environment variable on which options are supplied is \f(CW\*(C`SPOOLOPTS\*(C'\fR
-for \fBspr\fR and \f(CW\*(C`RSPR\*(C'\fR for \fBrspr\fR and the environment variable to
+The environment variable on which options are supplied is \f(CW\*(C`GSPL_PR\*(C'\fR
+for \fBgspl-pr\fR and \f(CW\*(C`GSPL_RPR\*(C'\fR for \fBgspl-rpr\fR and the environment variable to
 specify the help file is \f(CW\*(C`SPRESTCONF\*(C'\fR in both cases.
 .IP "\-? or +explain" 4
 .IX Item "-? or +explain"
@@ -204,7 +203,7 @@ sets the number of copies to be printed to \fIn\fR, which may possibly be
 zero.
 .Sp
 The maximum number of copies at a time may be restricted to a number
-for each user such as 10. See the output from \fIspuser\fR\|(1) for
+for each user such as 10. See the output from \fIgspl\-user\fR\|(1) for
 information on the maximum number of copies.
 .IP "\-C \fInnnn\fR or +classcode \fInnnn\fR" 4
 .IX Item "-C nnnn or +classcode nnnn"
@@ -244,9 +243,9 @@ job is printed, the printer's setup file may re-specify the delimiter,
 which will replace the delimiter specified by these options.
 .IP "\-E \fIn\fR or +external\-system \fIn\fR" 4
 .IX Item "-E n or +external-system n"
-(\fBspr\fR only) Used internally to signify originating system type. \fIn\fR
+(\fBgspl-pr\fR only) Used internally to signify originating system type. \fIn\fR
 may be a number, or the name of a system type given in
-\&\fI/etc/Xitext\-extern\fR. This option may only be used by \f(CW\*(C`root\*(C'\fR or
+\&\fIgnuspool.ext\fR. This option may only be used by \f(CW\*(C`root\*(C'\fR or
 \&\f(CW\*(C`spooler\*(C'\fR regardless of other privileges set, as it is intended for
 use by \fBxtlpd\fR to set parameters on incoming jobs. Any errors in this
 parameter, including permissions, are silently ignored.
@@ -275,7 +274,7 @@ jobs are created, to be appended to the form type, unless it already
 has a suffix, for example:
 .Sp
 .Vb 1
-\&        spr -i -f a4 x.c y.ps
+\&        gspl-pr -i -f a4 x.c y.ps
 .Ve
 .Sp
 would submit jobs using the files \fBx.c\fR and \fBy.ps\fR with form types
@@ -285,20 +284,20 @@ would submit jobs using the files \fBx.c\fR and \fBy.ps\fR with form types
 cancels any previously-specified \fB\-i\fR option.
 .IP "\-j \fIn\fR or +job\-wait\-time \fIn\fR" 4
 .IX Item "-j n or +job-wait-time n"
-is relevant only if input to \fBspr\fR or \fBrspr\fR is from a pipeline as in
+is relevant only if input to \fBgspl-pr\fR or \fBgspl-rpr\fR is from a pipeline as in
 .Sp
 .Vb 1
-\&        program|spr ....
+\&        program|gspl-pr ....
 .Ve
 .Sp
 This causes a job to be submitted if no data is received over the pipe
 for \fIn\fR seconds.
 .Sp
-\&\fBspr\fR or \fBrspr\fR will still wait, and may submit any number of
+\&\fBgspl-pr\fR or \fBgspl-rpr\fR will still wait, and may submit any number of
 subsequent jobs until the pipe is closed by the program generating the
 output.
 .Sp
-Note that nothing can be done by \fBspr\fR to guess at what output might
+Note that nothing can be done by \fBgspl-pr\fR to guess at what output might
 appear (possibly halfway through a line) if the program writing to the
 pipe does not flush its output buffer after each occasion that it
 writes something.
@@ -339,9 +338,9 @@ format used. Thus the resulting argument might be
 .Ve
 .IP "\-o \fIhost\fR or +originating\-host \fIhost\fR" 4
 .IX Item "-o host or +originating-host host"
-(\fBspr\fR only) Used internally to signify originating host name, in
+(\fBgspl-pr\fR only) Used internally to signify originating host name, in
 place of the local host. The host name given should appear in the host
-file \fI/etc/gnuspool.hosts\fR, possibly with the \f(CW\*(C`external\*(C'\fR keyword. This
+file \fIgnuspool.hosts\fR, possibly with the \f(CW\*(C`external\*(C'\fR keyword. This
 option may only be specified by \fBspooler\fR or \fBroot\fR users, but is
 silently ignored in other cases as are all other errors. It is
 intended for use by \fIxtlpd\fR\|(8) to set parameters on incoming jobs.
@@ -366,7 +365,7 @@ copies.
 If you do not understand this, all you have to do is remember that
 .Sp
 .Vb 1
-\&        spr -c2 -OA ....
+\&        gspl-pr -c2 -OA ....
 .Ve
 .Sp
 prints all the odd-numbered pages followed by all the even-numbered
@@ -401,15 +400,15 @@ expiry of the timeout (as set by the \fB\-t\fR\fIn\fR option).
 .IP "\-Q \fIhostname\fR or +host \fIhostname\fR" 4
 .IX Item "-Q hostname or +host hostname"
 send the job or jobs to the given \fIhostname\fR. Note that \fIhostname\fR
-must be in \fI/etc/gnuspool.hosts\fR on the submitting machine and the
-submitting machine's hostname must be in \fI/etc/gnuspool.hosts\fR on the
+must be in \fIgnuspool.hosts\fR on the submitting machine and the
+submitting machine's hostname must be in \fIgnuspool.hosts\fR on the
 receiving machine.
 .Sp
-If supplied to \fBspr\fR it will re-invoke \fBrspr\fR with the same
-\&\fIcommand-line\fR options. It is, however, required for \fBrspr\fR, which
-will not try to invoke \fBspr\fR if it is not supplied (as that could
+If supplied to \fBgspl-pr\fR it will re-invoke \fBgspl-rpr\fR with the same
+\&\fIcommand-line\fR options. It is, however, required for \fBgspl-rpr\fR, which
+will not try to invoke \fBgspl-pr\fR if it is not supplied (as that could
 loop endlessly, this could happen if the \fB\-Q\fR option was in a
-\&\fI.gnuspool\fR file for \fBspr\fR but not in one for \fBrspr\fR).
+\&\fI.gnuspool\fR file for \fBgspl-pr\fR but not in one for \fBgspl-rpr\fR).
 .IP "\-r or +banner" 4
 .IX Item "-r or +banner"
 restores banner pages previously suppressed using \fB\-s\fR.
@@ -462,7 +461,7 @@ The user name must exist on the machine to which the job is queued,
 but this will be ignored if not.
 .IP "\-U \fIuser\fR or +originating\-user \fIuser\fR" 4
 .IX Item "-U user or +originating-user user"
-(\fBspr\fR only) Used internally to signify originating user name. This
+(\fBgspl-pr\fR only) Used internally to signify originating user name. This
 may only be specified by users \f(CW\*(C`spooler\*(C'\fR and \f(CW\*(C`root\*(C'\fR to have any
 effect, otherwise the option is silently ignored, as are all
 errors. It is intended for use by \fIxtlpd\fR\|(8) to set parameters on
@@ -507,7 +506,7 @@ Supply an argument of a single \fB\-\fR to turn off this option.
 .IP "+freeze\-current" 4
 .IX Item "+freeze-current"
 Save all the current options in a \fI.gnuspool\fR file in the current
-directory. This will supply defaults for further \fBspr\fR or \fBrspr\fR
+directory. This will supply defaults for further \fBgspl-pr\fR or \fBgspl-rpr\fR
 commands invoked subsequently when started from the directory.
 .Sp
 Note that no job will be expected from standard input if no files are
@@ -515,7 +514,7 @@ specified after including this option.
 .IP "+freeze\-home" 4
 .IX Item "+freeze-home"
 Save all the current options in a \fI.gnuspool\fR file in the user's home
-directory. This will supply defaults for further \fBspr\fR or \fBrspr\fR
+directory. This will supply defaults for further \fBgspl-pr\fR or \fBgspl-rpr\fR
 commands invoked subsequently.
 .Sp
 Note that no job will be expected from standard input if no files are
@@ -532,19 +531,19 @@ configuration file (current directory)
 message file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPOOLOPTS\s0" 4
-.IX Item "SPOOLOPTS"
-space-separated options to override defaults for \fBspr\fR.
-.IP "\s-1RSPR\s0" 4
-.IX Item "RSPR"
-space-separated options to override defaults for \fBrspr\fR.
+.IP "\s-1GSPL_PR\s0" 4
+.IX Item "GSPL_PR"
+space-separated options to override defaults for \fBgspl-pr\fR.
+.IP "\s-1GSPL_RPR\s0" 4
+.IX Item "GSPL_RPR"
+space-separated options to override defaults for \fBgspl-rpr\fR.
 .IP "\s-1SPRESTCONF\s0" 4
 .IX Item "SPRESTCONF"
 location of alternative help file.
 .SH "NOTES"
 .IX Header "NOTES"
 \&\fBN.B.\fR Please note that from release 23 the scheduler \fIspshed\fR\|(8) is no
-longer automatically started if it is not running \*(-- use \fIspstart\fR\|(1).
+longer automatically started if it is not running \*(-- use \fIgspl\-start\fR\|(1).
 .Sh "Messages via terminal and e\-mail"
 .IX Subsection "Messages via terminal and e-mail"
 You can have a message sent to your terminal
@@ -555,7 +554,7 @@ When your job has:
 .Ip "a." 4
 Completed normally
 .Ip "b." 4
-Been manually deleted (using \fIspq\fR\|(1) etc).
+Been manually deleted (using \fIgspl-pq\fR\|(1) etc).
 .Ip "c." 4
 Been automatically deleted after remaining on the queue for a
 specified time as specified using the \fB\-t\fR or \fB\-T\fR options.
@@ -601,7 +600,7 @@ The option \fB\-A\fR causes a message to be sent to your terminal, and the optio
 \&\fB\-a\fR causes you to be sent mail in the second set of circumstances.
 .PP
 If any of these are set in the environment
-and you don't want them, you may suppress them on the \fBspr\fR command
+and you don't want them, you may suppress them on the \fBgspl-pr\fR command
 line using \fB\-x\fR to turn off both the \fB\-w\fR and \fB\-m\fR options, and
 \&\fB\-b\fR to turn off the \fB\-A\fR and \fB\-a\fR options.
 .PP
@@ -610,7 +609,7 @@ message to your terminal is invoked, it will be diverted to the mail
 program instead.
 .Sh "Queue Timeouts."
 .IX Subsection "Queue Timeouts."
-When the \fBspr\fR or \fBrspr\fR command receives its data on
+When the \fBgspl-pr\fR or \fBgspl-rpr\fR command receives its data on
 standard input from a pipe, or terminal device, the job is not normally
 submitted until an end-of-file indication is encountered. This is typically
 caused by the termination of the process writing to the pipe, or by typing the
@@ -624,7 +623,7 @@ The \fB\-j\fR option provides a wait timeout in seconds. If some characters
 have been received, the timeout is set before reading more
 characters. If the timeout expires before any more characters are
 read, then a job is created using the characters received so far and
-\&\fBspr\fR or \fBrspr\fR restarts, possibly making further jobs if more
+\&\fBgspl-pr\fR or \fBgspl-rpr\fR restarts, possibly making further jobs if more
 characters arrive.
 .PP
 This cannot be ideal in the case of pipes without some co-operation
@@ -651,8 +650,8 @@ standard output.
 If the user does not have any access to the sending process this
 option may have undesirable effects at \*(L"the seams\*(R" of the various jobs
 due to this buffering. The only successful approach would be to insert
-a filter process in between \fBspr\fR and the sending process to ensure
-that complete pages only were passed through to \fBspr\fR.  It is
+a filter process in between \fBgspl-pr\fR and the sending process to ensure
+that complete pages only were passed through to \fBgspl-pr\fR.  It is
 considered unacceptable to monopolise a printer on speculation that
 further data may arrive.
 .PP
@@ -699,29 +698,29 @@ This allows the printing of long jobs to be printed at a quiet time,
 overnight for example. Alternatively specifying a delay time can
 provide an opportunity for thought and possible amendment before
 continuing.
-.Sh "Environment selection of spr and rspr options."
-.IX Subsection "Environment selection of spr and rspr options."
+.Sh "Environment selection of gspl-pr and gspl-rpr options."
+.IX Subsection "Environment selection of gspl-pr and gspl-rpr options."
 In common with all GNUspool programs, a configuration file mechanism
-applies to \fBspr\fR and \fBrspr\fR.
+applies to \fBgspl-pr\fR and \fBgspl-rpr\fR.
 .PP
-The environment variable \f(CW\*(C`SPOOLOPTS\*(C'\fR may be used to contain options
-for \fBspr\fR and the environment variable \f(CW\*(C`RSPR\*(C'\fR may be used to contain
-options for \fBrspr\fR, and the \fI.gnuspool\fR files may contain the keyword
-\&\f(CW\*(C`SPOOLOPTS\*(C'\fR or \f(CW\*(C`RSPR\*(C'\fR to select options without having to specify
+The environment variable \f(CW\*(C`GSPL_PR\*(C'\fR may be used to contain options
+for \fBgspl-pr\fR and the environment variable \f(CW\*(C`GSPL_RPR\*(C'\fR may be used to contain
+options for \fBgspl-rpr\fR, and the \fI.gnuspool\fR files may contain the keyword
+\&\f(CW\*(C`GSPL_PR\*(C'\fR or \f(CW\*(C`GSPL_RPR\*(C'\fR to select options without having to specify
 them on the command line.
 .PP
 This enables you to specify, for example, that you always want the
 \&\fB\-v\fR (job confirmation) option, or that when in certain directories,
 you always want to use the form type \f(CW\*(C`letterhead\*(C'\fR, or \f(CW\*(C`invoices\*(C'\fR, or
 perhaps 2 copies.
-.Sh "Saving current spr or rspr options"
-.IX Subsection "Saving current spr or rspr options"
+.Sh "Saving current gspl-pr or gspl-rpr options"
+.IX Subsection "Saving current gspl-pr or gspl-rpr options"
 The special options \f(CW\*(C`+freeze\-current\*(C'\fR and \f(CW\*(C`+freeze\-home\*(C'\fR cause the
 currently selected set of options to be saved in \fI.gnuspool\fR files in
 the current directory or home directory respectively. Either or both
 may be specified.
 .PP
-If no file arguments are given to \fBspr\fR or \fBrspr\fR when one or both
+If no file arguments are given to \fBgspl-pr\fR or \fBgspl-rpr\fR when one or both
 of these keywords are specified, then the program will not expect to
 find data on the standard input. If file arguments are given, then the
 \&\f(CW\*(C`.gnuspool\*(C'\fR file or files are saved before the file arguments are
@@ -729,17 +728,17 @@ processed. If the \f(CW\*(C`.gnuspool\*(C'\fR file cannot be saved, perhaps beca
 access permission to the current directory is inappropriate, the jobs
 files specified will still be queued, the program will not fatally
 abort.
-.Sh "Interaction of spr and rspr"
-.IX Subsection "Interaction of spr and rspr"
-If the \fB\-Q\fR option is given to \fBspr\fR, either on the command line or
-in the environment or \fB.gnuspool\fR files, then \fBrspr\fR will be invoked
-with the same command line options (but \fBrspr\fR will accept its own
-\&\f(CW\*(C`RSPR\*(C'\fR environment variable or \fB.gnuspool\fR file options).
+.Sh "Interaction of gspl-pr and gspl-rpr"
+.IX Subsection "Interaction of gspl-pr and gspl-rpr"
+If the \fB\-Q\fR option is given to \fBgspl-pr\fR, either on the command line or
+in the environment or \fB.gnuspool\fR files, then \fBgspl-rpr\fR will be invoked
+with the same command line options (but \fBgspl-rpr\fR will accept its own
+\&\f(CW\*(C`GSPL_RPR\*(C'\fR environment variable or \fB.gnuspool\fR file options).
 .PP
-\&\fBRspr\fR, however, will not invoke \fBspr\fR if the \fB\-Q\fR option is not
+\&\fBGspl-Rpr\fR, however, will not invoke \fBgspl-pr\fR if the \fB\-Q\fR option is not
 given; this is an error. Remember that the \fB\-Q\fR option could be set
-from a \f(CW\*(C`SPOOLOPTS\*(C'\fR definition in a \fB.gnuspool\fR file, but without a
-\&\fB\-Q\fR option on an \f(CW\*(C`RSPR\*(C'\fR definition, this would mean that \fBrspr\fR
+from a \f(CW\*(C`GSPL_PR\*(C'\fR definition in a \fB.gnuspool\fR file, but without a
+\&\fB\-Q\fR option on an \f(CW\*(C`GSPL_RPR\*(C'\fR definition, this would mean that \fBgspl-rpr\fR
 did not get invoked with a \fB\-Q\fR option, so this could give an
 infinite loop.
 .SH "SEE ALSO"

@@ -128,58 +128,56 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "XMSPQ 1"
-.TH XMSPQ 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-PASSWD 8"
+.TH GSPL-PASSWD 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-xmspq \- X/Motif spool queue view
+gspl\-passwd \- set passwords for user and API
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBxmspq\fR
+\&\fBgspl-ppasswd\fR
+[ \-\fIu\fR user ]
+[ \-\fIp\fR password ]
+[ \-\fIf\fR ]
+[ \-\fId\fR ]
+[ \-\fIF\fR file ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBXmspq\fR is a fully interactive Motif alternative to the standard
-print queue manager \fIspq\fR\|(1). As with \fIspq\fR\|(1) the format of the screen
-display, the help messages and the command keystrokes can be easily
-altered to suit your requirements.
+\&\fBgspl-passwd\fR sets a password for the current user or a specified user
+if \-\fBu\fR is given. This is separate and distinct from the user's login
+password. This password is used by the web interfaces, the Windows
+interface and the \s-1API\s0.
 .PP
-Unlike \fIspq\fR\|(1) there are no specific command line options to
-\&\fBxmspq\fR. The facility to change or specify resources settings for an
-X11 (and hence Motif) program on the command line can be used.
-.SH "FILES"
-.IX Header "FILES"
-\&\fI~/.gnuspool\fR
-configuration file (home directory)
+The reason for doing this is because it is considered insecure to
+possibly repeatedly try login passwords from user programs.
 .PP
-\&\fI .gnuspool\fR
-configuration file (current directory)
+If \fIany\fR users have a password set in this way, then \fIall\fR users
+will have to to have a password in the file to use any of the
+interfaces requiring a password.
 .PP
-\&\fIxmspq.help\fR
-message file
-.PP
-\&\fI/var/spool/gnuspool\fR
-spool directory
-.PP
-\&\fIgnuspoolptrs\fR
-printers directory
-.PP
-\&\fIspshed_reps\fR
-error log file
-.SH "ENVIRONMENT"
-.IX Header "ENVIRONMENT"
-.IP "\s-1XMSPQCONF\s0" 4
-.IX Item "XMSPQCONF"
-path name of alternative message file.
-.SH "SEE ALSO"
-.IX Header "SEE ALSO"
-\&\fIspq\fR\|(1),
-\&\fIspr\fR\|(1),
-\&\fIspuser\fR\|(1),
-\&\fIsqdel\fR\|(1),
-\&\fIsqchange\fR\|(1),
-\&\fIsqlist\fR\|(1),
-\&\fIsplist\fR\|(1),
-\&\fIgnuspool.conf\fR\|(5),
-\&\fIgnuspool.hosts\fR\|(5).
+Unlike the Unix \fIpasswd\fR\|(1) routine, the old password is not prompted
+for and there is no confirmation.
+.SH "OPTIONS"
+.IX Header "OPTIONS"
+.IP "\fB\-u\fR \fIuser\fR" 4
+.IX Item "-u user"
+Set password for given user. This may only be for other than the
+current user if \fBgspl-passwd\fR is invoked by \fBroot\fR.
+.IP "\fB\-p\fR \fIpassword\fR" 4
+.IX Item "-p password"
+Specify the password to be set other than prompting for it.
+.IP "\fB\-f\fR" 4
+.IX Item "-f"
+It is normally considered an error to include a password for \fBroot\fR
+for the same reasons that the password file is separate. However this
+option may be set to insist upon it.
+.IP "\fB\-d\fR" 4
+.IX Item "-d"
+Delete the user's password from the file.
+.IP "\fB\-F\fR \fIfile\fR" 4
+.IX Item "-F file"
+Use \fIfile\fR to hold the password. The default if no \fIfile\fR is given
+is \fIgspl-passwd\fR. Any number of \fB\-F\fR options may be
+given to set up several password files at once.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

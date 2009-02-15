@@ -128,99 +128,97 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SQDEL 1"
-.TH SQDEL 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-USER 1"
+.TH GSPL-USER 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-sqdel \- delete spool jobs
+gspl\-user \- list spool user details.
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBsqdel\fR
+\&\fBgspl-user\fR
 [ \fI\-options\fR ]
-\&\fIjob number\fR ...
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBsqdel\fR deletes one or more jobs from the \fBGNUspool\fR job spool queue,
-which may be on the local host or other hosts on the network. Jobs are
-specified by the job number, which is reported by \fIsqlist\fR\|(1) in the
-first column of the default output, or by \fIspr\fR\|(1) or \fIrspr\fR\|(1) when the
-job is queued with the \fIverbose\fR option. Remote jobs are specified by
-prefixing the job number by the host name and a colon, thus
-\&\f(CW\*(C`host:1234\*(C'\fR. Leading zeroes in the job number may be omitted.
+\&\fBgspl-user\fR provides 3 functions:
 .PP
-\&\fBSqdel\fR will not delete jobs not marked as \*(L"printed\*(R" unless the \fB\-y\fR
-option is given.
+With no arguments it lists the permissions for the invoking user and
+exits.
+.PP
+With the \fB\-c\fR option it enables the invoking user to edit his own
+default priority, form type and printer. The user must have \fIchange
+default priority\fR permission to do this.
+.PP
+With the \fB\-i\fR option it enables the invoking user to interactively
+review and update the list of permissions for all users. The user must
+have \fIedit admin file\fR permission to do this.
+For more information about the details of the interactive commands,
+please see the on-line help information, obtained by pressing ?
+(although this may be changed on your site). This section focuses on
+the command-line options which may be used to control the initial
+display.
+
 .SH "OPTIONS"
 .IX Header "OPTIONS"
 Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \-
 see \fIspsyntax\fR\|(5).
 
-The environment variable on which options are supplied is \f(CW\*(C`SQDEL\*(C'\fR and the
-environment variable to specify the help file is \f(CW\*(C`SPRESTCONF\*(C'\fR.
+The environment variable on which options are supplied is \f(CW\*(C`GSPL_USER\*(C'\fR and the
+environment variable to specify the help file is \f(CW\*(C`SPUSERCONF\*(C'\fR.
+.PP
+Certain commands available on-screen enable many of these options to
+be changed and saved in configuration files.
 .IP "\-? or +explain" 4
 .IX Item "-? or +explain"
 causes a summary of the other options to be displayed without taking
 further action.
-.IP "\-C \fInnnn\fR or +classcode \fInnnn\fR" 4
-.IX Item "-C nnnn or +classcode nnnn"
-may be used to set a class code to narrow or expand the range of jobs
-from which jobs are selected. It is probably only relevant where the
-user has \fIoverride class\fR privilege and it is required to expand the
-default class code to select additional jobs.
-.IP "\-d or +delete" 4
-.IX Item "-d or +delete"
-cancel a previously-specified \fB\-k\fR option.
-.IP "\-D \fIname\fR or +directory \fIname\fR" 4
-.IX Item "-D name or +directory name"
-Save unqueued jobs to \fIname\fR rather than the current directory.
-.IP "\-e or +do\-not\-unqueue" 4
-.IX Item "-e or +do-not-unqueue"
-cancel a previously-specified \fB\-u\fR option. The jobs will just be
-deleted, not unqueued.
-.IP "\-J \fIname\fR or +job\-prefix \fIname\fR" 4
-.IX Item "-J name or +job-prefix name"
-specify the given \fIname\fR as the prefix for the job file, followed
-by the job number, to be used by the \fB\-u\fR option rather than the
-default of \fBJ\fR (which in turn may be changed by editing the
-message file).
-.IP "\-k or +do\-not\-delete" 4
-.IX Item "-k or +do-not-delete"
-when performing an unqueue as specified with the \fB\-u\fR option, do not
-delete the job at the end.
-.IP "\-n or +keep\-unprinted" 4
-.IX Item "-n or +keep-unprinted"
-is the default case. Jobs which have not yet been printed are not
-deleted.
-.IP "\-S \fIname\fR or +command\-prefix \fIname\fR" 4
-.IX Item "-S name or +command-prefix name"
-specify the given \fIname\fR as the prefix for the command file, followed
-by the job number, to be used by the \fB\-u\fR option rather than the
-default of \fBC\fR (which in turn may be changed by editing the
-message file).
-.IP "\-u or +unqueue" 4
-.IX Item "-u or +unqueue"
-unqueue jobs, i.e. copy to current directory or directory selected
-with the \fB\-D\fR option. Jobs are copied as two files, a \fIjob file\fR
-containing the text of the job and a \fIcommand file\fR containing an
-\&\fBspr\fR command. The command file may be run as a shell script to
-re-queue the job with the same options.
-.IP "\-y or +delete\-unprinted" 4
-.IX Item "-y or +delete-unprinted"
-cancels all jobs, whether printed or not.
-.IP "+freeze\-current" 4
-.IX Item "+freeze-current"
-Save all the current options in a \fI.gnuspool\fR file in the current
-directory. If there are no jobs given to operate on and this is
-specified, then \fBsqdel\fR will quit without error. If it is unable
-to save the options and jobs are specified, then \fBsqdel\fR will
-continue.
-.IP "+freeze\-home" 4
-.IX Item "+freeze-home"
-Save all the current options in a \fI.gnuspool\fR file in the user's home
-directory. If there are no jobs given to operate on and this is
-specified, then \fBsqdel\fR will quit without error. If it is unable
-to save the options and jobs are specified, then \fBsqdel\fR will
-continue.
+.IP "\-B or +no\-help\-box" 4
+.IX Item "-B or +no-help-box"
+put help messages in inverse video rather than in a box.
+.IP "\-b or +help\-box" 4
+.IX Item "-b or +help-box"
+put help messages in a box rather than displaying inverse video.
+.IP "\-c or +form\-and\-prio" 4
+.IX Item "-c or +form-and-prio"
+interactively set default priority, form type and printer for the
+invoking user.
+.IP "\-d or +display" 4
+.IX Item "-d or +display"
+is the default. A list of permissions is output to the standard
+output, for example.
+.Sp
+.Vb 9
+\&        Default form a4 form types a4*
+\&        Maximum copies 10
+\&        Priority: min 100 max 200 default 150.  Current charge is 0.
+\&        Default printer `' printer types ``
+\&        Class code: A-Pa-p
+\&        Privileges:
+\&        You may Use other printers.
+\&        You may Access queue options.
+\&        You may Save new default options.
+.Ve
+.IP "\-H or +keep\-char\-help" 4
+.IX Item "-H or +keep-char-help"
+when displaying a help screen, interpret the next key press as a
+command as well as clearing the help screen.
+.IP "\-h or +lose\-char\-help" 4
+.IX Item "-h or +lose-char-help"
+discard whatever key press is made to clear a help screen.
+.IP "\-i or +administer" 4
+.IX Item "-i or +administer"
+view and update the list of users
+.IP "\-M or +no\-error\-box" 4
+.IX Item "-M or +no-error-box"
+put error messages in inverse video rather than in a box.
+.IP "\-m or +error\-box" 4
+.IX Item "-m or +error-box"
+put error messages in a box rather than displaying inverse video.
+.IP "\-n or +numeric\-sort" 4
+.IX Item "-n or +numeric-sort"
+sort users by numeric userid (default).
+.IP "\-u or +user\-sort" 4
+.IX Item "-u or +user-sort"
+sort users by user name
 .SH "FILES"
 .IX Header "FILES"
 \&\fI~/.gnuspool\fR
@@ -229,40 +227,31 @@ configuration file (home directory)
 \&\fI .gnuspool\fR
 configuration file (current directory)
 .PP
-\&\fIrest.help\fR
+\&\fIgspl\-user.help\fR
 message file
+.PP
+\&\fIspufile0\fR
+User control file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SQDEL\s0" 4
-.IX Item "SQDEL"
+.IP "\s-1GSPL_USER\s0" 4
+.IX Item "GSPL_USER"
 space-separated options to override defaults.
-.IP "\s-1SPRESTCONF\s0" 4
-.IX Item "SPRESTCONF"
+.IP "\s-1SPUSERCONF\s0" 4
+.IX Item "SPUSERCONF"
 location of alternative help file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIrspr\fR\|(1),
-\&\fIspr\fR\|(1),
-\&\fIspq\fR\|(1),
-\&\fIsqchange\fR\|(1),
-\&\fIsqlist\fR\|(1),
+\&\fIgspl\-charge\fR\|(1),
+\&\fIgspl\-uchange\fR\|(1),
+\&\fIgspl\-ulist\fR\|(1),
 \&\fIspsyntax\fR\|(5),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5).
 .SH "DIAGNOSTICS"
 .IX Header "DIAGNOSTICS"
 Various diagnostics are read and printed as required from the message
-file, by default \fIrest.help\fR.
-.SH "NOTES"
-.IX Header "NOTES"
-The \fB\-C\fR option selects the class code for finding the jobs; if you
-have \fIoverride class\fR privilege, but your default class code does not
-allow the jobs \*(L"to be seen\*(R" in the output of \fIsqlist\fR\|(1), then you may
-need to specify this.
-.PP
-Any errors are reported with appropriate messages on standard
-error. If any errors are detected operating on several jobs, the exit
-code will correspond to the last such error displayed.
+file, by default \fIgspl\-user.help\fR.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

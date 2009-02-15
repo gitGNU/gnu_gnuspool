@@ -128,60 +128,87 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "NETWCMD 8"
-.TH NETWCMD 8 "2001-03-31" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-MPR 1"
+.TH GSPL-MPR 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-netwcmd \- display network command for printer
+gsl\-mpr \- print spooler or save if not running
+.PP
+gspl\-mrpr \- print spooler to remote queue or save if unavailable
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBnetwcmd\fR
-[ \fI\-n\fR ]
-\&\fIprinter\fR
-[ \fIform\fR ]
+\&\fBgsl-mpr\fR
+[ \fI\-options\fR ]
+[ \fIfile\fR ... ]
+.PP
+\&\fBgspl-mrpr\fR
+[ \fI\-options\fR ]
+[ \fIfile\fR ... ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBnetwcmd\fR can be used to extract the network (terminal server)
-printing command for a given printer and output it on standard
-output. This is often useful for testing terminal server commands from
-the command prompt in the event that error conditions arise and
-enquiring what a given command \*(L"would have been\*(R".
+\&\fBgsl-mpr\fR either queues up one or more print jobs for the \fBGNUspool\fR
+spooler using \fIgspl\-pr\fR\|(1) if it is running, or else places a series of
+files in an alternative spool directory, such that when run as shell
+scripts when the \fBGNUspool\fR spooler process \fIspshed\fR\|(8) is running, the
+jobs are queued as originally specified.
 .PP
-The current form type is used unless the \fIform\fR argument is given,
-but this generally should not make any difference.
-.PP
-A shell script is output to standard output containing the command. By
-default, all the \f(CW$SPOOLDEV\fR etc printer environment variables are
-expanded in the output where appropriate as the printer \*(L"would see
-it\*(R", however this may be suppressed by means of the \fB\-n\fR option.
-.PP
-There is a very subtle difference if the \f(CW\*(C`network\*(C'\fR keyword is given
-with
-.PP
-.Vb 1
-\&        network exec ....
-.Ve
-.PP
-rather than \f(CW\*(C`network\*(C'\fR without \f(CW\*(C`exec\*(C'\fR or via \f(CW\*(C`network=\*(C'\fR. In the
-first case, just the command is given, whereas in the other two cases
-the output is preceded with
-.PP
-.Vb 1
-\&        #! /bin/sh
-.Ve
-.PP
-and a blank line.
-.PP
-Comments are added if no \f(CW\*(C`reopen\*(C'\fR statement appears. An error will be
-generated if the printer is directly connected.
+\&\fBgspl-mrpr\fR queues up one or more print jobs to a remote queue running
+the \fBGNUspool\fR spooler using \fIgspl\-rpr\fR\|(1) if it is available, or otherwise
+places a series of files in an alternative spool directory for
+queueing when the remote machine is available.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
-.IP "\-n" 4
-.IX Item "-n"
-suppress the expansion of environment variables.
+Options are as per \fBgspl-pr\fR and \fBgspl-rpr\fR. If the job can be queued
+immediately, these programs are directly invoked.
+.SH "EXIT CODES"
+.IX Header "EXIT CODES"
+An exit code of zero is returned if the job or jobs are successfully
+queued using \fIgspl\-pr\fR\|(1) or \fIgspl\-rpr\fR\|(1) or successfully saved in the alternate
+directory. Any non-zero exit code from \fIgspl\-pr\fR\|(1) or \fIgspl\-rpr\fR\|(1) will be
+passed back to the user. Standard exit codes and error messages are
+displayed if the files cannot be opened or saved.
+.SH "FILES"
+.IX Header "FILES"
+\&\fI~/.gnuspool\fR
+configuration file (home directory)
+.PP
+\&\fI .gnuspool\fR
+configuration file (current directory)
+.PP
+\&\fIrest.help\fR
+message file
+.PP
+\&\fIgnuspool_alt/CMDF*\fR
+command file (shell script)
+.PP
+\&\fIgnuspool_alt/ASPF*\fR
+data file (contents of job)
+.SH "ENVIRONMENT"
+.IX Header "ENVIRONMENT"
+.IP "\s-1GSPL_PR\s0" 4
+.IX Item "GSPL_PR"
+space-separated options to override defaults for \fBgspl-pr\fR.
+.IP "\s-1GSPL_RPR\s0" 4
+.IX Item "GSPL_RPR"
+space-separated options to override defaults for \fBgspl-mrpr\fR.
+.IP "\s-1SPRESTCONF\s0" 4
+.IX Item "SPRESTCONF"
+location of alternative help file.
+.IP "\s-1ALTSPD\s0" 4
+.IX Item "ALTSPD"
+location of alternate spool directory.
+.SH "SEE ALSO"
+.IX Header "SEE ALSO"
+\&\fIgnuspool.conf\fR\|(5),
+\&\fIgnuspool.hosts\fR\|(5),
+\&\fIgspl\-rpr\fR\|(1)
+\&\fIgspl\-pr\fR\|(1),
+\&\fIspsyntax\fR\|(5),
+\&\fIspshed\fR\|(8),
+\&\fIxtnetserv\fR\|(8).
 .SH "DIAGNOSTICS"
 .IX Header "DIAGNOSTICS"
-An error will be reported if the printer is not a network-style
-(terminal server) printer.
+Various diagnostics are read and printed as required from the message
+file, by default \fIrest.help\fR.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

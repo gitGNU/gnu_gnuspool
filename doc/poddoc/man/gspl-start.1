@@ -128,86 +128,86 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SPSTART 1"
-.TH SPSTART 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-START 1"
+.TH GSPL-START 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-spstart \- start GNUspool
+gspl\-start \- start GNUspool
 .PP
-spstart \- start a printer
+gspl\-start \- start a printer
 .PP
-sphalt \- halt a printer at end of job
+gspl\-phalt \- halt a printer at end of job
 .PP
-spstop \- halt a printer immediately
+gspl\-pstop \- halt a printer immediately
 .PP
-spinter \- interrupt printer
+gspl\-pinter \- interrupt printer
 .PP
-spadd \- add a printer
+gspl\-padd \- add a printer
 .PP
-spdel \- delete a printer
+gspl\-pdel \- delete a printer
 .PP
-spchange \- change a printer
+gspl\-pchange \- change a printer
 .PP
-spok \- approve alignment
+gspl\-ok \- approve alignment
 .PP
-spnok \- disapprove alignment
+gspl\-nok \- disapprove alignment
 .PP
-spstat \- test state of printer
+gspl\-pstat \- test state of printer
 .PP
-spconn \- connect GNUspool host
+gspl\-conn \- connect GNUspool host
 .PP
-spdisconn \- disconnect GNUspool host
+gspl\-disconn \- disconnect GNUspool host
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBspstart\fR
+\&\fBgspl-start\fR
 [ \fIjobsize\fR [ \fIprintersize\fR ] ]
 .PP
-\&\fBspstart\fR
+\&\fBgspl-start\fR
 [ \fI\-options\fR ]
 \&\fIprinter\fR [ \fIformtype\fR ]
 .PP
-\&\fBsphalt\fR
+\&\fBgspl-phalt\fR
 [ \fI\-options\fR ]
 \&\fIprinter\fR
 .PP
-\&\fBspstop\fR
+\&\fBgspl-pstop\fR
 [ \fI\-options\fR ]
 \&\fIprinter\fR
 .PP
-\&\fBspinter\fR
+\&\fBgspl-pinter\fR
 [ \fI\-options\fR ]
 \&\fIprinter\fR
 .PP
-\&\fBspadd\fR
+\&\fBgspl-padd\fR
 \&\fI\-options\fR
 \&\fIprinter\fR
 \&\fIformtype\fR
 .PP
-\&\fBspdel\fR
+\&\fBgspl-pdel\fR
 [ \fI\-options\fR ]
 \&\fIprinter\fR
 .PP
-\&\fBspchange\fR
+\&\fBgspl-pchange\fR
 \&\fI\-options\fR
 \&\fIprinter\fR
 [ \fIformtype\fR ]
 .PP
-\&\fBspok\fR
+\&\fBgspl-ok\fR
 [ \fI\-options\fR ]
 \&\fIprinter\fR
 .PP
-\&\fBspnok\fR
+\&\fBgspl-nok\fR
 [ \fI\-options\fR ]
 \&\fIprinter\fR
 .PP
-\&\fBspstat\fR
+\&\fBgspl-pstat\fR
 [ \fI\-options\fR ]
 \&\fIprinter\fR
 \&\fIstate\fR
 .PP
-\&\fBspconn\fR
+\&\fBgspl-conn\fR
 \&\fIhost\fR
 .PP
-\&\fBspdisconn\fR
+\&\fBgspl-disconn\fR
 \&\fIhost\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
@@ -215,7 +215,7 @@ Note that all these programs are in fact hard links to the same
 program.
 .SH "Starting GNUspool"
 .IX Header "Starting GNUspool"
-\&\fBspstart\fR without arguments, or with one or two numeric arguments,
+\&\fBgspl-start\fR without arguments, or with one or two numeric arguments,
 may be used to start the \fBGNUspool\fR scheduler, \fIspshed\fR\|(8), together
 with associated programs, such as \fIxtnetserv\fR\|(8).
 .PP
@@ -231,19 +231,19 @@ are strange problems about allocating and deallocating blocks of
 shared memory whilst a program is running which these are intended to
 alleviate.
 .PP
-If \fIspshed\fR\|(8) is already running, \fBspstart\fR will have no effect.
+If \fIspshed\fR\|(8) is already running, \fBgspl-start\fR will have no effect.
 .PP
-Printers with numeric names in the other form of \fBspstart\fR will not
+Printers with numeric names in the other form of \fBgspl-start\fR will not
 cause confusion if \fIspshed\fR\|(8) is running.
 .PP
 All other forms of this command will initialise \fIspshed\fR\|(8), but this is
 \&\fIvery strongly\fR not recommended. The scheduler should be started
 first, connections to other machines established, possibly using
-\&\fBspconn\fR, and then printers should be started.
+\&\fBgspl-conn\fR, and then printers should be started.
 .SH "Starting printers"
 .IX Header "Starting printers"
 .Vb 1
-\&        spstart lj4
+\&        gspl-start lj4
 .Ve
 .PP
 will start printer \f(CW\*(C`lj4\*(C'\fR if it is halted. It will have no effect if
@@ -252,14 +252,14 @@ at the end of the current job, then this setting will be turned off,
 and the printer will continue at the end of the current job.
 .PP
 .Vb 1
-\&        spstart lj4 a4
+\&        gspl-start lj4 a4
 .Ve
 .PP
 will likewise do nothing, other than canceling a \*(L"halt at end of
 current job\*(R" setting, if printer \f(CW\*(C`lj4\*(C'\fR is running with the paper type
 \&\f(CW\*(C`a4\*(C'\fR (i.e. form type up to the first "\f(CW\*(C`.\*(C'\fR" or \f(CW\*(C`\-\*(C'\fR is \f(CW\*(C`a4\*(C'\fR,
 ignoring the \*(L"suffix\*(R"). Otherwise, printer \f(CW\*(C`lj4\*(C'\fR will be halted at
-the end of the current job if it is running, \fBspstart\fR will wait for
+the end of the current job if it is running, \fBgspl-start\fR will wait for
 it to halt, change the form type to \f(CW\*(C`a4\*(C'\fR and then restart it.
 .PP
 Only \*(L"paper types\*(R", ignoring the suffix, are compared in deciding
@@ -270,9 +270,9 @@ incorrect expansion by shell using quotes) may be used, in conjunction
 with the \fB\-f\fR option, to start multiple printers, thus:
 .PP
 .Vb 3
-\&        spstart -f 'l*'
-\&        spstart -f '*[!a-m]'
-\&        spstart -f 'l*,*[!a-m]'
+\&        gspl-start -f 'l*'
+\&        gspl-start -f '*[!a-m]'
+\&        gspl-start -f 'l*,*[!a-m]'
 .Ve
 .PP
 will respectively start all printers whose names begin with \f(CW\*(C`l\*(C'\fR, all
@@ -280,7 +280,7 @@ printers whose names do not end with \f(CW\*(C`a\*(C'\fR through to \f(CW\*(C`m\
 those classes of printers. Many installations include
 .PP
 .Vb 1
-\&        spstart -f '*'
+\&        gspl-start -f '*'
 .Ve
 .PP
 in the \*(L"startup script\*(R" to start up all local printers.
@@ -296,31 +296,31 @@ Printers on remote machines may be started by prefixing the machine
 name, thus
 .PP
 .Vb 1
-\&        spstart -f host1:l*
+\&        gspl-start -f host1:l*
 .Ve
 .PP
 Printers are not started on more than one machine at once. You should
 start the printers as separate commands:
 .PP
 .Vb 3
-\&        spstart -f '*'
-\&        spstart -f 'host1:*'
-\&        spstart -f 'host2:*'
+\&        gspl-start -f '*'
+\&        gspl-start -f 'host1:*'
+\&        gspl-start -f 'host2:*'
 .Ve
 .PP
-To run \fBspstart\fR, the user must have \fIhalt and restart printers\fR
+To run \fBgspl-start\fR, the user must have \fIhalt and restart printers\fR
 permission.
 .SH "Halting printers"
 .IX Header "Halting printers"
 .Vb 1
-\&        sphalt lj4
+\&        gspl-phalt lj4
 .Ve
 .PP
 will halt printer \f(CW\*(C`lj4\*(C'\fR at the end of the current job if it is
 running and will otherwise have no effect.
 .PP
 .Vb 1
-\&        sphalt -f 'l*'
+\&        gspl-phalt -f 'l*'
 .Ve
 .PP
 will likewise halt all printers whose names start with \f(CW\*(C`l\*(C'\fR etc.
@@ -329,14 +329,14 @@ Most of the options (e.g. \fB\-l\fR and \fB\-C\fR) serve only to clarify which
 printer or printers are being referred to where there is ambiguity or
 the user wishes to restrict the field.
 .PP
-\&\fBspstop\fR is like \fBsphalt\fR, but the printers are halted immediately,
+\&\fBgspl-pstop\fR is like \fBgspl-phalt\fR, but the printers are halted immediately,
 aborting any current job.
 .PP
 Printers on remote machines may be halted by prefixing the machine
 name, thus
 .PP
 .Vb 1
-\&        spstop -f host1:l*
+\&        gspl-pstop -f host1:l*
 .Ve
 .PP
 To run these commands, the user must have \fIhalt and restart printers\fR
@@ -344,7 +344,7 @@ permission.
 .SH "Interrupting printers"
 .IX Header "Interrupting printers"
 .Vb 1
-\&        spinter lj4
+\&        gspl-pinter lj4
 .Ve
 .PP
 interrupts the given printer (or printers), so as to enable a
@@ -356,7 +356,7 @@ Printers on remote machines may be interrupted by prefixing the machine
 name, thus
 .PP
 .Vb 1
-\&        spinter host1:lj4
+\&        gspl-pinter host1:lj4
 .Ve
 .PP
 To run this, the user must have \fIhalt and restart printers\fR
@@ -364,7 +364,7 @@ permission.
 .SH "Adding printers"
 .IX Header "Adding printers"
 .Vb 1
-\&        spadd -l tty15 lj4b a4
+\&        gspl-padd -l tty15 lj4b a4
 .Ve
 .PP
 adds a new printer with the specified parameters. The \fB\-l\fR option is
@@ -372,7 +372,7 @@ mandatory to denote the device name (or network address) as is the
 initial form type, in the above example \f(CW\*(C`a4\*(C'\fR.
 .PP
 .Vb 1
-\&        spadd -l 193.112.238.95 -N ptr9 a4
+\&        gspl-padd -l 193.112.238.95 -N ptr9 a4
 .Ve
 .PP
 adds a network (terminal server) printer with the \s-1IP\s0 address
@@ -383,12 +383,12 @@ file, which should be created first.
 .PP
 Printers on remote machines may not be added with this command.
 .PP
-To run \fBspadd\fR, the user must have \fIadd and delete printers\fR
+To run \fBgspl-padd\fR, the user must have \fIadd and delete printers\fR
 permission.
 .SH "Deleting printers"
 .IX Header "Deleting printers"
 .Vb 1
-\&        spdel lj4b
+\&        gspl-pdel lj4b
 .Ve
 .PP
 deletes the specified printer. It is a mistake to try to delete more
@@ -396,34 +396,34 @@ than one printer at a time with this command.
 .PP
 Printers on remote machines may not be deleted with this command.
 .PP
-To run \fBspdel\fR, the user must have \fIadd and delete printers\fR
+To run \fBgspl-pdel\fR, the user must have \fIadd and delete printers\fR
 permission.
 .SH "Changing printers"
 .IX Header "Changing printers"
-\&\fBspchange\fR with appropriate options and a printer name (with optional
+\&\fBgspl-pchange\fR with appropriate options and a printer name (with optional
 form type) changes the specified parameters of a printer, which should
 be halted (and is left halted).
 .PP
-To run \fBspchange\fR, the user must have \fIadd and delete printers\fR
+To run \fBgspl-pchange\fR, the user must have \fIadd and delete printers\fR
 permission.
 .SH "Alignment pages"
 .IX Header "Alignment pages"
-If a printer is in \*(L"awaiting operator\*(R" state, then \fBspok\fR and
-\&\fBspnok\fR may be used to communicate with it.
+If a printer is in \*(L"awaiting operator\*(R" state, then \fBgspl-ok\fR and
+\&\fBgspl-nok\fR may be used to communicate with it.
 .PP
 If it is in single sheet mode, then the printer will be continued
 identically whichever command is used.
 .PP
-If it is waiting for the approval of an alignment page, \fBspok\fR will
-grant approval and continue with printing, \fBspnok\fR will disapprove
+If it is waiting for the approval of an alignment page, \fBgspl-ok\fR will
+grant approval and continue with printing, \fBgspl-nok\fR will disapprove
 the alignment page, causing the alignment routine to be rerun.
 .PP
-To run \fBspok\fR and \fBspnok\fR, the user must have \fIselect printer list\fR
+To run \fBgspl-ok\fR and \fBgspl-nok\fR, the user must have \fIselect printer list\fR
 permission.
 .SH "State testing"
 .IX Header "State testing"
 .Vb 1
-\&        spstat lj4
+\&        gspl-pstat lj4
 .Ve
 .PP
 will return an exit code of 0 (\s-1TRUE\s0 to shells) if the printer is
@@ -432,18 +432,18 @@ shells). Some other exit code will be returned, together with a
 message, if there is an error, e.g. non-existent printer.
 .PP
 To test for specific states, use the state names as listed by
-\&\fIsplist\fR\|(1), (in fact it takes the state names from the same file
+\&\fIgspl\-plist\fR\|(1), (in fact it takes the state names from the same file
 \&\fIrest.help\fR by default) for example.
 .PP
 .Vb 3
-\&        if spstat lj4 error || spstat lj4 offline
+\&        if gspl-pstat lj4 error || gspl-pstat lj4 offline
 \&        then    echo trouble with lj4
 \&        fi
 .Ve
-.Sh "Standard state names for spstat"
-.IX Subsection "Standard state names for spstat"
-The following state names are used by \fBspstat\fR, which are usually
-shared with \fIsplist\fR\|(1) in the message file
+.Sh "Standard state names for gspl-pstat"
+.IX Subsection "Standard state names for gspl-pstat"
+The following state names are used by \fBgspl-pstat\fR, which are usually
+shared with \fIgspl\-plist\fR\|(1) in the message file
 \&\fIrest.help\fR by default. As with other GNUspool
 programs, the message file may be edited as required:
 .IP "offline" 8
@@ -472,13 +472,13 @@ a job is currently being printed
 awaiting operator attention
 .SH "Connect and disconnect"
 .IX Header "Connect and disconnect"
-\&\fBspconn\fR instructs the \fBGNUspool\fR scheduler to attempt to raise a
+\&\fBgspl-conn\fR instructs the \fBGNUspool\fR scheduler to attempt to raise a
 connection to the given host, which should be specified in the file
-\&\fI/etc/gnuspool.hosts\fR, and not currently active.
+\&\fIgnuspool.hosts\fR, and not currently active.
 .PP
-\&\fBspdisconn\fR instructs the \fBGNUspool\fR scheduler to close a connection
+\&\fBgspl-disconn\fR instructs the \fBGNUspool\fR scheduler to close a connection
 to the given host, which should be specified in the file
-\&\fI/etc/gnuspool.hosts\fR, and currently active.
+\&\fIgnuspool.hosts\fR, and currently active.
 .PP
 Both of these commands return immediately; however the connection may
 take some time and indeed may not succeed without the command
@@ -491,8 +491,9 @@ Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \- see \fIspsyntax\fR\|(5).
 .PP
 The environment variable on which options are supplied is the same as
-the name of the program invoked except in upper\-case, for example,
-\&\f(CW\*(C`SPSTART\*(C'\fR. The environment variable to specify the help file is
+the name of the program invoked except in upper-case and with \*(L"\-\*(R"
+changed to \*(L"_\*(R" (underscore), for example,
+\&\f(CW\*(C`GSPL_START\*(C'\fR. The environment variable to specify the help file is
 \&\f(CW\*(C`SPRESTCONF\*(C'\fR.
 .IP "\-? or +explain" 4
 .IX Item "-? or +explain"
@@ -507,13 +508,13 @@ indicate to that the argument to \fB\-l\fR refers to a line (e.g. \f(CW\*(C`tty\
 or \f(CW\*(C`lp\*(C'\fR\-style) device.
 .IP "\-s or +local\-only" 4
 .IX Item "-s or +local-only"
-(for \fBspadd\fR) mark printer as being local only to the host.
+(for \fBgspl-padd\fR) mark printer as being local only to the host.
 .IP "\-w or +network\-wide" 4
 .IX Item "-w or +network-wide"
-(for \fBspadd\fR) mark printer as being available to other machines.
+(for \fBgspl-padd\fR) mark printer as being available to other machines.
 .IP "\-l \fIdevice\fR or +device\-name \fIdevice\fR" 4
 .IX Item "-l device or +device-name device"
-in the case of \fBspadd\fR, defines the device name or network address of
+in the case of \fBgspl-padd\fR, defines the device name or network address of
 the printer.
 .Sp
 With other options, it may be used to specify which of several
@@ -523,7 +524,7 @@ similarly-named printers is intended.
 where \fInnnn\fR consists of the letters \fBA\fR to \fBP\fR (upper or lower
 case), with \fB\-\fR to denote ranges, specifies a class code.
 .Sp
-in the case of \fBspadd\fR, it defines the class code (subject to
+in the case of \fBgspl-padd\fR, it defines the class code (subject to
 modification by the user's class code) which will be given to the
 printer.
 .Sp
@@ -535,16 +536,16 @@ set the description or comment field associated with the printer to
 \&\fIstring\fR.
 .IP "\-v \fIdevice\fR or +new\-device \fIdevice\fR" 4
 .IX Item "-v device or +new-device device"
-for \fBspchange\fR, reset the device name as specified. Note that the
+for \fBgspl-pchange\fR, reset the device name as specified. Note that the
 \&\fB\-l\fR option may help to select the desired printer.
 .IP "\-S or +set\-classcode" 4
 .IX Item "-S or +set-classcode"
-for \fBspchange\fR, reset the class code as specified. Note that the
+for \fBgspl-pchange\fR, reset the class code as specified. Note that the
 \&\fB\-C\fR option may help to select the desired printer.
 .IP "\-f or +force\-all" 4
 .IX Item "-f or +force-all"
-for \fBspstart\fR, \fBsphalt\fR, \fBspstop\fR, \fBspinter\fR, \fBspchange\fR,
-\&\fBspok\fR, \fBspnok\fR indicate that if the printer name argument selects
+for \fBgspl-start\fR, \fBgspl-phalt\fR, \fBgspl-pstop\fR, \fBgspl-pinter\fR, \fBgspl-pchange\fR,
+\&\fBgspl-ok\fR, \fBgspl-nok\fR indicate that if the printer name argument selects
 more than one printer, then all such printers are intended.
 .IP "\-n or +no\-force" 4
 .IX Item "-n or +no-force"
@@ -576,39 +577,39 @@ message file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
 \&\fBN.B.\fR Separate variables are provided for each program from Release
-23 onwards. Previously \f(CW\*(C`SPSTART\*(C'\fR applied to each program.
-.IP "\s-1SPSTART\s0" 4
-.IX Item "SPSTART"
-space-separated options to override defaults for \fBspstart\fR.
-.IP "\s-1SPHALT\s0" 4
-.IX Item "SPHALT"
-space-separated options to override defaults for \fBsphalt\fR.
-.IP "\s-1SPADD\s0" 4
-.IX Item "SPADD"
-space-separated options to override defaults for \fBspadd\fR.
-.IP "\s-1SPDEL\s0" 4
-.IX Item "SPDEL"
-space-separated options to override defaults for \fBspdel\fR.
-.IP "\s-1SPCHANGE\s0" 4
-.IX Item "SPCHANGE"
-space-separated options to override defaults for \fBspchange\fR.
-.IP "\s-1SPOK\s0" 4
-.IX Item "SPOK"
-space-separated options to override defaults for \fBspok\fR.
-.IP "\s-1SPNOK\s0" 4
-.IX Item "SPNOK"
-space-separated options to override defaults for \fBspnok\fR.
-.IP "\s-1SPSTAT\s0" 4
-.IX Item "SPSTAT"
-space-separated options to override defaults for \fBspstat\fR.
+23 onwards. Previously \f(CW\*(C`GSPL\-START\*(C'\fR applied to each program.
+.IP "\s-1GSPL_START\s0" 4
+.IX Item "GSPL_START"
+space-separated options to override defaults for \fBgspl-start\fR.
+.IP "\s-1GSPL_PHALT\s0" 4
+.IX Item "GSPL_PHALT"
+space-separated options to override defaults for \fBgspl-phalt\fR.
+.IP "\s-1GSPL_PADD\s0" 4
+.IX Item "GSPL_PADD"
+space-separated options to override defaults for \fBgspl-padd\fR.
+.IP "\s-1GSPL_PDEL\s0" 4
+.IX Item "GSPL_PDEL"
+space-separated options to override defaults for \fBgspl-pdel\fR.
+.IP "\s-1GSPL_PCHANGE\s0" 4
+.IX Item "GSPL_PCHANGE"
+space-separated options to override defaults for \fBgspl-pchange\fR.
+.IP "\s-1GSPL_OK\s0" 4
+.IX Item "GSPL_OK"
+space-separated options to override defaults for \fBgspl-ok\fR.
+.IP "\s-1GSPL_NOK\s0" 4
+.IX Item "GSPL_NOK"
+space-separated options to override defaults for \fBgspl-nok\fR.
+.IP "\s-1GSPL_PSTAT\s0" 4
+.IX Item "GSPL_PSTAT"
+space-separated options to override defaults for \fBgspl-pstat\fR.
 .IP "\s-1SPRESTCONF\s0" 4
 .IX Item "SPRESTCONF"
 location of alternative help file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIsplist\fR\|(1),
-\&\fIspq\fR\|(1),
-\&\fIsqlist\fR\|(1),
+\&\fIgspl\-plist\fR\|(1),
+\&\fIgspl\-pq\fR\|(1),
+\&\fIgspl\-qlist\fR\|(1),
 \&\fIspsyntax\fR\|(5),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5),

@@ -128,123 +128,71 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "LPCOVER 1"
-.TH LPCOVER 1 "2008-07-11" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-STOP 1"
+.TH GSPL-STOP 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-lpcover \- emulate LP
+gspl\-stop \- cancel spooler
 .PP
-lpstatc \- emulate LPSTAT
+gspl\-suspend \- suspend assignment of printers
 .PP
-cancel \- emulate CANCEL
+gspl\-release \- release assignment of printers
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBlpcover\fR
-[ \fI\-options\fR ]
-[ \fIfile\fR ... ]
+\&\fBgspl-stop\fR
+[ \fI\-y\fR ]
 .PP
-\&\fBlpstatc\fR
-[ \fI\-options\fR ]
-.PP
-\&\fBcancel\fR
-\&\fIjobnumber\fR [ ... ]
+\&\fBgspl-suspend\fR
+[ \fI\-y\fR ]
+[ \fIn\fR ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBlpcover\fR may be used instead of the standard \fBlp\fR command. It
-converts the options that most \fBlp\fR commands take to the equivalent
-\&\fIspr\fR\|(1) commandds and then invokes \fIspr\fR\|(1) to submit the print jobs.
+\&\fBgspl-stop\fR is a program which should be invoked to bring the \fBGNUspool\fR
+spooler system to an orderly halt prior to system shutdown. Any jobs
+in progress will be saved, and the current page noted for resumption
+when the spooler is restarted. Confirmation is requested (reply \f(CW\*(C`y\*(C'\fR
+or \f(CW\*(C`n\*(C'\fR) unless the \f(CW\*(C`\-y\*(C'\fR option is specified.
 .PP
-The \fBspr\fR program provides a much greater set of facilities than
-\&\fBlp\fR. Although it is strongly recommended to switch to the \fIspr\fR\|(1)
-command to take advantage of these, they can be made available to
-users of our \fBlpcover\fR command. This is done by setting up
-\&\f(CW\*(C`SPOOLOPTS\*(C'\fR in the application or user environment.
+\&\fBgspl-suspend\fR halts the assignment of jobs to printers for a short time,
+which defaults to 5 minutes or as given as a time in seconds last
+argument to the command, or until released by \fBgspl-release\fR. Again
+confirmation is requested unless the \f(CW\*(C`\-y\*(C'\fR option is given.
 .PP
-\&\fBLpcover\fR is usually installed in place of \fBlp\fR in \fI/usr/bin\fR, with
-the original binary moved to something like \fIold.lp\fR in the same
-directory.
+Only a user with the \fIStop spooler\fR privilege may successfully invoke
+any of these commands.
 .PP
-\&\fBLpstatc\fR emulates \fBlpstat\fR as far as is practicable, generating a
-report of outstanding print jobs from the print queue in a format
-similar to the original \fBlpstat\fR.
-.PP
-\&\fBcancel\fR is a shell script which invokes \fIsqdel\fR\|(1) on its arguments.
+The reason why \fBgspl-suspend\fR this may be useful is that in a network
+scenario, where a new host is brought on line, a considerable amount
+of network traffic is created, and the assignment of printers to jobs
+and the broadcasting of information between hosts can flood the
+network to an unacceptable degree.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
-The options below document \fBlpcover\fR only. Options to \fBlpstatc\fR
-generate a warning message on standard error and are otherwise
-ignored. Options to \fBlpcover\fR which are not documented here are ignored.
-.IP "\-c" 8
-.IX Item "-c"
-This has no effect, but generates a warning message on standard error,
-as with \fBGNUspool\fR spool files are always copied.
-.IP "\-d \fIname\fR" 8
-.IX Item "-d name"
-Specify printer destination as \fIname\fR. The destination may also be
-specified in the environment variable \f(CW\*(C`LPDEST\*(C'\fR, which this option
-overrides. An argument of \f(CW\*(C`any\*(C'\fR to \fB\-d\fR cancels any existing
-\&\f(CW\*(C`LPDEST\*(C'\fR environment variable.
-.Sp
-This is translated directly into a \fB\-P\fR option to \fBspr\fR.
-.IP "\-f \fIform\fR" 8
-.IX Item "-f form"
-specifies the supplied form type. This is translated directly into an
-\&\fB\-f\fR option to \fBspr\fR.
-.IP "\-H \fIarg\fR" 8
-.IX Item "-H arg"
-There is no direct mapping for the \fB\-H\fR argument.
-.IP "\-m" 8
-.IX Item "-m"
-Mail user. This is translated directly into an \fB\-m\fR option to \fBspr\fR.
-.IP "\-n \fIn\fR" 8
-.IX Item "-n n"
-Specify the number of copies. This is translated directly into a \fB\-c\fR
-option to \fBspr\fR.
-.IP "\-o \fIarg\fR" 8
-.IX Item "-o arg"
-Only \fB\-o\fR \f(CW\*(C`nobanner\*(C'\fR, to suppress the header page, is interpreted
-and translated to the \fB\-s\fR option to \fBspr\fR.
-.IP "\-P \fIarg\fR" 8
-.IX Item "-P arg"
-This is translated into \fB\-R\fR page range arguments for \fBspr\fR.
-.IP "\-q \fIn\fR" 8
-.IX Item "-q n"
-This is translated into a \fB\-p\fR argument for \fBspr\fR scaled
-appropriately, taking into account the user's maximum, minimum and
-default priorities.
-.IP "\-S" 8
-.IX Item "-S"
-This option is ignored.
-.IP "\-s" 8
-.IX Item "-s"
-This turns off the \fB\-v\fR argument for \fBspr\fR which is normally
-included.
-.IP "\-T" 8
-.IX Item "-T"
-This option is ignored.
-.IP "\-t <arg>" 8
-.IX Item "-t <arg>"
-This is translated to a \fB\-h\fR (title) argument to \fBspr\fR.
-.IP "\-w" 8
-.IX Item "-w"
-This is translated directly to the \fB\-w\fR (write message) option to
-\&\fBspr\fR.
-.IP "\-y" 8
+Note that there is no means of saving the \f(CW\*(C`\-y\*(C'\fR option in a \fI.gnuspool\fR
+file as this is not considered to be sensible. If you have to do this,
+put the command in a shell \*(L"wrapper\*(R".
+.IP "\-y" 4
 .IX Item "-y"
-This option is ignored.
+Do not ask for confirmation.
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1LPDEST\s0" 8
-.IX Item "LPDEST"
-Specify destination for \fBlpcover\fR.
-.IP "\s-1LPSTATFMT\s0" 8
-.IX Item "LPSTATFMT"
-Specify alternate format for \fBlpstatc\fR.
+.IP "\s-1SPRESTCONF\s0" 20
+.IX Item "SPRESTCONF"
+path name of alternative message file.
+.SH "SEE ALSO"
+.IX Header "SEE ALSO"
+\&\fIgspl\-start\fR\|(1),
+\&\fIgnuspool.conf\fR\|(5),
+\&\fIgnuspool.hosts\fR\|(5),
+\&\fIspd\fR\|(8),
+\&\fIspdinit\fR\|(8),
+\&\fIspshed\fR\|(8).
 .SH "DIAGNOSTICS"
 .IX Header "DIAGNOSTICS"
-Various warnings about unimplemented features are printed by
-\&\fBlpcover\fR and \fBlpstatc\fR.
+Various diagnostics may be issued, read as required from the message
+file \fIrest.help\fR.
 .PP
-Others may be generated by software each invokes.
+The most important ones are that it is not running and that the user
+is not permitted to invoke the command.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

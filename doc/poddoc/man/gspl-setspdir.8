@@ -128,73 +128,81 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SP.LPQ 1"
-.TH SP.LPQ 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-SETSPDIR 8"
+.TH GSPL-SETSPDIR 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-sp.lpq \- display job list on LPD protocol servers
+gspl\-setspdir \- tidy up or redistribute GNUspool jobs into subdirectories
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBsp.lpq\fR
-[ \fI\-l\fR ]
-[ \fI\-s\fR ]
-\&\fIprinter\fR
+\&\fBgspl-setspdir\fR
+[ \fI\-s n\fR ]
+[ \fI\-r\fR ]
+[ \fI\-d\fR ]
+[ \fI\-f form\fR ]
+[ \fI\-y\fR ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBsp.lpq\fR obtains and outputs a list of pending jobs on an external
-print server supporting the \s-1LPD\s0 protocol.
+\&\fBgspl-setspdir\fR tidies up the \fBGNUspool\fR spool directory, removing old
+spool files, or alternatively re-queuing them with a given default
+form type, and eliminating jobs where the spool file is missing.
+.PP
+Optionally, it may be used to split the main spool directory into a
+series of subdirectories \f(CW000\fR, \f(CW001\fR etc, reducing the size of the
+main spool directory to manageable proportions and also speeding up
+file searches. Alternatively, the subdirectories may be linked to
+different file systems by the user.
+.PP
+For reasonably obvious reasons, \fBgspl-setspdir\fR should be run with the
+spooler shut down.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
-Note that the order of treatment, letters and keywords described below
-may be modified by editing the file \fIsplpd.help\fR \-
-see \fIspsyntax\fR\|(5).
-.PP
-The environment variable on which options are supplied is \f(CW\*(C`SPLPQ\*(C'\fR and the
-environment variable to specify the help file is \f(CW\*(C`LPDINTCONF\*(C'\fR.
-.IP "\-? or +explain" 4
-.IX Item "-? or +explain"
-Causes a summary of the other options to be displayed without taking
-further action.
-.IP "\-l or +long\-list" 4
-.IX Item "-l or +long-list"
-Produce a long listing.
-.IP "\-s or +short\-list" 4
-.IX Item "-s or +short-list"
-Produce a short listing (default).
-.IP "+freeze\-current" 4
-.IX Item "+freeze-current"
-Save all the current options in a \fI.gnuspool\fR file in the current
-directory.
-.IP "+freeze\-home" 4
-.IX Item "+freeze-home"
-Save all the current options in a \fI.gnuspool\fR file in the user's home
-directory.
-.SH "FILES"
-.IX Header "FILES"
-\&\fI~/.gnuspool\fR
-configuration file (home directory)
-.PP
-\&\fI .gnuspool\fR
-configuration file (current directory)
-.PP
-\&\fIsplpd.help\fR
-message file
+.IP "\-d" 4
+.IX Item "-d"
+Clear (delete) any orphaned job files found in the directory or directories.
+.IP "\-f \fIform\fR" 4
+.IX Item "-f form"
+Requeue any orphaned job files with the form type \fIform\fR rather than
+deleting them.
+.IP "\-r" 4
+.IX Item "-r"
+Instead of moving jobs between subdirectories, renumber the jobs
+instead. This should only apply when there were existing
+subdirectories, and the number is being increased.
+.IP "\-s \fIn\fR" 4
+.IX Item "-s n"
+Split the spool directory into \fIn\fR subdirectories, or change the
+number of subdirectories to \fIn\fR, where \fIn\fR may be 0 (to convert back
+to a single spool directory), or a number up to 999.
+.Sp
+We recommend that \fIn\fR be a prime number, as this minimises the chance
+of a cycle of operations which is a factor of the number of
+subdirectories causing just a small number of subdirectories to be
+filled more or less exclusively. Confirmation will be requested if
+\&\fIn\fR is not prime.
+.Sp
+The subdirectories are given the names \f(CW000\fR to \f(CW999\fR, and each job
+will be moved to a subdirectory given by the remainder when its job
+number (the number after the \f(CW\*(C`SP\*(C'\fR) is divided by the number of
+subdirectories.
+.IP "\-y" 4
+.IX Item "-y"
+Answer \*(L"yes\*(R" to any questions which \fBgspl-setspdir\fR asks.
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPLPD\s0" 4
-.IX Item "SPLPD"
-space-separated options to override defaults.
-.IP "\s-1LPDINTCONF\s0" 4
-.IX Item "LPDINTCONF"
-location of alternative help file.
+\&\fBgspl-setspdir\fR creates or updates the environment variable \f(CW\*(C`SPOOLSUBDS\*(C'\fR
+in \fIgnuspool.conf\fR.
+.IP "\s-1SPOOLDIR\s0" 8
+.IX Item "SPOOLDIR"
+location of spool directory
+.IP "\s-1SPOOLSUBDS\s0" 8
+.IX Item "SPOOLSUBDS"
+number of subdirectories
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIsp.lprm\fR\|(1),
-\&\fIspsyntax\fR\|(5),
-\&\fIxtlpc\fR\|(8).
-.SH "DIAGNOSTICS"
-.IX Header "DIAGNOSTICS"
-Various diagnostics are read and printed as required from the message
-file, by default \fIsplpd.help\fR.
+\&\fIgspl\-cjlist\fR\|(8),
+\&\fIgspl\-cplist\fR\|(8),
+\&\fIgspl\-spuconv\fR\|(8),
+\&\fIgnuspool.conf\fR\|(5).
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

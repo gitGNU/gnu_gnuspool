@@ -128,100 +128,58 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "CJLIST 8"
-.TH CJLIST 8 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-SPUCONV 8"
+.TH GSPL-SPUCONV 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-cjlist \- dump out GNUspool jobs to directory
+gspl\-spuconv \- dump out GNUspool user permissions to file
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBcjlist\fR
+\&\fBgspl-spuconv\fR
 [ \fI\-D dir\fR ]
+[ \fI\-v n\fR ]
 [ \fI\-e n\fR ]
-[ \fI\-u\fR ]
 [ \fI\-s\fR ]
 [ \fI\-f\fR ]
-[ \fI\-m\fR ]
-\&\fIjob file\fR \fIoutfile\fR \fIworkdir\fR
+\&\fIuser file\fR \fIoutfile\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBcjlist\fR converts \fBGNUspool\fR job files held in the spool directory to
-an executable shell script which may be used to recreate them. This
-may be useful for backup purposes or for one stage in upgrading from one
-release of \fBGNUspool\fR to another.
-.PP
-The jobs are copied into the backup directory \fIworkdir\fR, and the
-generated shell script file \fIoutfile\fR refers to files in that
-directory.
-.PP
-\&\fBcjlist\fR understands the format of the saved job file for versions of
-\&\fBGNUspool\fR going back to release 18, and when presented with a saved
-file, will attempt to work out from the format which release it
-relates to. If required, it will skip apparent errors in the job file
-also.
-.PP
-In addition to options, three arguments are always supplied to
-\&\fBcjlist\fR.
-.IP "Job list file" 4
-.IX Item "Job list file"
-This is the file containing the attributes of the jobs,
-\&\fIspshed_jfile\fR in the spool directory, by default \fI/var/spool/gnuspool\fR,
-or as relocated by re-specifying \f(CW\*(C`SPOOLDIR\*(C'\fR.
-.IP "Output file" 4
-.IX Item "Output file"
-This file is created by \fBcjlist\fR to contain the executable shell
-script which may be used to create the jobs.
-.IP "Backup directory" 4
-.IX Item "Backup directory"
-This directory is used to hold the job data.
-.PP
-Note that saved jobs make use of the \fB\-U\fR option to \fIspr\fR\|(1) to set the
-ownership correctly but do not attempt to use the \fB\-E\fR and \fB\-o\fR
-options to set external queue or originating hosts.
+\&\fBgspl-spuconv\fR considers a \fBGNUspool\fR spool directory, by default the
+current directory, takes the user file, which is usually
+\&\fIspufile\fR or \fIspufile0.0\fR, and generates a shell script file \fIoutfile\fR, which
+if executed, would recreate the \fBGNUspool\fR users with the same options.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
-.IP "\-D \fIdirectory\fR" 4
+.IP "\-D \fIdirectory\fR" 8
 .IX Item "-D directory"
-specifies the source directory for the jobs and \fIjob file\fR rather
-than the current directory. It can be specified as \f(CW$SPOOLDIR\fR or
-\&\f(CW\*(C`${SPOOLDIR\-/var/spool/gnuspool}\*(C'\fR etc and the environment and/or
-\&\fI/etc/gnuspool.conf\fR will be interrogated to interpolate the value of
-the environment variable given.
+specifies the source directory for the users and \fIuser file\fR. It can be
+specified as \f(CW$SPOOLDIR\fR or \f(CW\*(C`${SPOOLDIR\-/var/spool/gnuspool}\*(C'\fR etc and the
+environment and/or \fIgnuspool.conf\fR will be interrogated to
+interpolate the value of the environment variable given.
 .Sp
 If you use this, don't forget to put single quotes around it thus:
 .Sp
 .Vb 1
-\& cjlist -D '${SPOOLDIR-/var/spool/gnuspool}' ...
+\& gspl-spuconv -D '${SPOOLDIR-/var/spool/gnuspool}' ...
 .Ve
 .Sp
-otherwise the shell will try to interpret the \f(CW\*(C`$\*(C'\fR constructs and not
-\&\fBcjlist\fR.
-.IP "\-e \fIn\fR" 4
+otherwise the shell will try to interpret the $ construct and not
+\&\fBgspl-spuconv\fR.
+.IP "\-e \fIn\fR" 8
 .IX Item "-e n"
 Tolerate \fIn\fR errors of the kinds denoted by the other options before
 giving up trying to convert the file.
-.IP "\-f" 4
-.IX Item "-f"
-Ignore format errors (invalid form types etc) in the saved job file up
-to the limit of errors given by the \fB\-e\fR option.
-.IP "\-m" 4
-.IX Item "-m"
-Create \*(L"missing\*(R" dummy jobs where the \fIjob file\fR refers to jobs not in the
-saved directory.
-.IP "\-s" 4
+.IP "\-s" 8
 .IX Item "-s"
-Ignore file size errors in the saved job file (up to the number of
-total errors given by the \fB\-e\fR option).
-.IP "\-u" 4
-.IX Item "-u"
-Do not reject the save job file if it contains invalid  user names.
-.Sp
-This may be necessary where the job file is corrupted and \fBcjlist\fR
-cannot work out which version it is.
+Ignore file size errors in the saved user file (up to the number of
+total errors given by the \fB\-e\fR option.
+.IP "\-f" 8
+.IX Item "-f"
+Ignore format errors (invalid form types etc) in the saved user file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIcplist\fR\|(8),
-\&\fIsetspdir\fR\|(8),
-\&\fIspuconv\fR\|(8).
+\&\fIgspl\-cjlist\fR\|(8),
+\&\fIgspl\-cplist\fR\|(8),
+\&\fIgspl\-setspdir\fR\|(8).
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

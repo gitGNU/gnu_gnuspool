@@ -128,81 +128,85 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SETSPDIR 8"
-.TH SETSPDIR 8 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-CPLIST 8"
+.TH GSPL-CPLIST 8 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-setspdir \- tidy up or redistribute GNUspool jobs into subdirectories
+gspl\-plist \- dump out GNUspool printers to a shell script
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBsetspdir\fR
-[ \fI\-s n\fR ]
-[ \fI\-r\fR ]
-[ \fI\-d\fR ]
-[ \fI\-f form\fR ]
-[ \fI\-y\fR ]
+\&\fBgspl-plist\fR
+[ \fI\-D dir\fR ]
+[ \fI\-e n\fR ]
+[ \fI\-s\fR ]
+[ \fI\-f\fR ]
+[ \fI\-l\fR ]
+\&\fIptr file\fR \fIoutfile\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBsetspdir\fR tidies up the \fBGNUspool\fR spool directory, removing old
-spool files, or alternatively re-queuing them with a given default
-form type, and eliminating jobs where the spool file is missing.
+\&\fBgspl-plist\fR converts \fBGNUspool\fR printers held in the spool directory to
+an executable shell script which may be used to re-install them. This
+may be useful for backup purposes or for one stage in upgrade from one
+release of \fBGNUspool\fR to another.
 .PP
-Optionally, it may be used to split the main spool directory into a
-series of subdirectories \f(CW000\fR, \f(CW001\fR etc, reducing the size of the
-main spool directory to manageable proportions and also speeding up
-file searches. Alternatively, the subdirectories may be linked to
-different file systems by the user.
+\&\fBgspl-plist\fR considers a \fBGNUspool\fR spool directory, by default the
+current directory, takes the printer file, which is usually
+\&\fIspshed_pfile\fR, and generates a shell script file \fIoutfile\fR, which
+if executed, would recreate the \fBGNUspool\fR printers with the same options.
 .PP
-For reasonably obvious reasons, \fBsetspdir\fR should be run with the
-spooler shut down.
+\&\fBN.B.\fR setup files are not copied, this should be done as a separate
+exercise. In many cases these can be separately copied over from one
+release to the next.
+.PP
+In addition to options, two arguments are always supplied to
+\&\fBgspl-plist\fR.
+.IP "Printer list file" 4
+.IX Item "Printer list file"
+This is the file containing the attributes of the printers,
+\&\fIspshed_pfile\fR in the spool directory or as relocated by
+re-specifying \f(CW\*(C`SPOOLDIR\*(C'\fR.
+.IP "Output file" 4
+.IX Item "Output file"
+This file is created by \fBgspl-plist\fR to contain the executable shell
+script, containing \fIgspl\-padd\fR\|(1) commands, which may be used to reinstall
+the printers.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
-.IP "\-d" 4
-.IX Item "-d"
-Clear (delete) any orphaned job files found in the directory or directories.
-.IP "\-f \fIform\fR" 4
-.IX Item "-f form"
-Requeue any orphaned job files with the form type \fIform\fR rather than
-deleting them.
-.IP "\-r" 4
-.IX Item "-r"
-Instead of moving jobs between subdirectories, renumber the jobs
-instead. This should only apply when there were existing
-subdirectories, and the number is being increased.
-.IP "\-s \fIn\fR" 4
-.IX Item "-s n"
-Split the spool directory into \fIn\fR subdirectories, or change the
-number of subdirectories to \fIn\fR, where \fIn\fR may be 0 (to convert back
-to a single spool directory), or a number up to 999.
+.IP "\-D \fIdirectory\fR" 8
+.IX Item "-D directory"
+specifies the source directory for the printers and \fIptr file\fR. It can be
+specified as \f(CW$SPOOLDIR\fR or \f(CW\*(C`${SPOOLDIR\-/var/spool/gnuspool}\*(C'\fR etc and the
+environment and/or \fIgnuspool.conf\fR will be interrogated to
+interpolate the value of the environment variable given.
 .Sp
-We recommend that \fIn\fR be a prime number, as this minimises the chance
-of a cycle of operations which is a factor of the number of
-subdirectories causing just a small number of subdirectories to be
-filled more or less exclusively. Confirmation will be requested if
-\&\fIn\fR is not prime.
+If you use this, don't forget to put single quotes around it thus:
 .Sp
-The subdirectories are given the names \f(CW000\fR to \f(CW999\fR, and each job
-will be moved to a subdirectory given by the remainder when its job
-number (the number after the \f(CW\*(C`SP\*(C'\fR) is divided by the number of
-subdirectories.
-.IP "\-y" 4
-.IX Item "-y"
-Answer \*(L"yes\*(R" to any questions which \fBsetspdir\fR asks.
-.SH "ENVIRONMENT"
-.IX Header "ENVIRONMENT"
-\&\fBsetspdir\fR creates or updates the environment variable \f(CW\*(C`SPOOLSUBDS\*(C'\fR
-in \fI/etc/gnuspool.conf\fR.
-.IP "\s-1SPOOLDIR\s0" 8
-.IX Item "SPOOLDIR"
-location of spool directory
-.IP "\s-1SPOOLSUBDS\s0" 8
-.IX Item "SPOOLSUBDS"
-number of subdirectories
+.Vb 1
+\& gspl-plist -D '${SPOOLDIR-/var/spool/gnuspool}' ...
+.Ve
+.Sp
+otherwise the shell will try to interpret the \f(CW\*(C`$\*(C'\fR construct and not
+\&\fBgspl-plist\fR.
+.IP "\-e \fIn\fR" 8
+.IX Item "-e n"
+Tolerate \fIn\fR errors of the kinds denoted by the other options before
+giving up trying to convert the file.
+.IP "\-f" 8
+.IX Item "-f"
+Ignore format errors (invalid form types etc) in the saved printer
+file up to the limit of number of errors given by the \fB\-e\fR option.
+.IP "\-l" 8
+.IX Item "-l"
+Modify the shell script created so that printers recreated with be
+\&\*(L"local only\*(R" access rather than network wide.
+.IP "\-s" 8
+.IX Item "-s"
+Ignore file size errors in the saved printer file (up to the number of
+total errors given by the \fB\-e\fR option.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIcjlist\fR\|(8),
-\&\fIcplist\fR\|(8),
-\&\fIspuconv\fR\|(8),
-\&\fIgnuspool.conf\fR\|(5).
+\&\fIgspl\-cjlist\fR\|(8),
+\&\fIgspl\-setspdir\fR\|(8),
+\&\fIgspl\-spuconv\fR\|(8).
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.

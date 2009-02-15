@@ -128,18 +128,18 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SPUCHANGE 1"
-.TH SPUCHANGE 1 "2008-07-12" "GNUspool Release 23" "GNUspool Print Manager"
+.IX Title "GSPL-UCHANGE 1"
+.TH GSPL-UCHANGE 1 "2008-08-18" "GNUspool Release 1" "GNUspool Print Manager"
 .SH "NAME"
-spuchange \- update or change user permissions
+gspl\-uchange \- update or change user permissions
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBspuchange\fR
+\&\fBgspl-uchange\fR
 [ \fI\-options\fR ]
 [ users ]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBspuchange\fR may be used to update the user permissions file giving
+\&\fBgspl-uchange\fR may be used to update the user permissions file giving
 the user profiles of various users and the operations which they may
 be permitted to perform within the \fBGNUspool\fR system, together with
 the default permissions which are assigned by default to new
@@ -158,7 +158,7 @@ Note that the order of treatment, letters and keywords described below
 may be modified by editing the file \fIrest.help\fR \-
 see \fIspsyntax\fR\|(5).
 
-The environment variable on which options are supplied is \f(CW\*(C`SPUCHANGE\*(C'\fR and the
+The environment variable on which options are supplied is \f(CW\*(C`GSPL\-UCHANGE\*(C'\fR and the
 environment variable to specify the help file is \f(CW\*(C`SPRESTCONF\*(C'\fR.
 .IP "\-? or +explain" 4
 .IX Item "-? or +explain"
@@ -240,18 +240,18 @@ Save all the current options in a \fI.gnuspool\fR file in the user's home
 directory.
 .SH "Users or default"
 .IX Header "Users or default"
-In one operation \fBspuchange\fR either adjusts the default permissions,
+In one operation \fBgspl-uchange\fR either adjusts the default permissions,
 to be applied to new users, if \fB\-D\fR is specified, or specified users,
 if nothing or \fB\-u\fR is specified. So first set the required defaults:
 .PP
 .Vb 1
-\&        spuchange -D -n 20 -p Form,Prinq,Hgo,Cdef -A
+\&        gspl-uchange -D -n 20 -p Form,Prinq,Hgo,Cdef -A
 .Ve
 .PP
 Then set named users
 .PP
 .Vb 1
-\&        spuchange -p ALL jmc root spooler
+\&        gspl-uchange -p ALL jmc root spooler
 .Ve
 .SH "Rebuilding the user control file"
 .IX Header "Rebuilding the user control file"
@@ -259,7 +259,7 @@ After adding new users to the system, you should rebuild the user
 control file by running
 .PP
 .Vb 1
-\&        spuchange -R
+\&        gspl-uchange -R
 .Ve
 .PP
 On a system with a large number of users, this can take a long time,
@@ -285,17 +285,17 @@ the relevant programs instead of rebuilding the hash table each time.
 You may opt to create the dumped password file by running
 .PP
 .Vb 1
-\&        spuchange -X
+\&        gspl-uchange -X
 .Ve
 .PP
 This should only be done when all \fBGNUspool\fR programs are stopped.
 .PP
 Afterwards, each time the user control file is rebuilt using the \fB\-R\fR
-option (or equivalents in other programs such as \fIspuser\fR\|(1)), this file
+option (or equivalents in other programs such as \fIgspl\-user\fR\|(1)), this file
 will also be rebuilt. \fB\-X\fR does not have to be specified again.
 .PP
 If you ever decide you want to dispense with this file, run
-\&\fBspuchange\fR with the \fB\-Z\fR option.
+\&\fBgspl-uchange\fR with the \fB\-Z\fR option.
 .PP
 For completeness, the \fB\-Y\fR option is provided to cancel \fB\-X\fR or
 \&\fB\-Z\fR in case they are provided in the environment or a \fI.gnuspool\fR
@@ -305,9 +305,9 @@ file, an extremely bad idea.
 The following may be specified as the argument to \fB\-p\fR, as one or
 more (comma\-separated) of the following codes, optionally preceded by
 a minus to turn off the corresponding privilege. These codes are the
-same as those displayed by \fIspulist\fR\|(1).
+same as those displayed by \fIgspl\-ulist\fR\|(1).
 .PP
-\&\fBSpuchange\fR disregards the case of the codes entered.
+\&\fBGspl-uchange\fR disregards the case of the codes entered.
 .IP "Adm" 8
 .IX Item "Adm"
 edit admin file
@@ -393,16 +393,16 @@ dumped password hash file
 user permissions file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "\s-1SPUCHANGE\s0" 4
-.IX Item "SPUCHANGE"
+.IP "\s-1GSPL_UCHANGE\s0" 4
+.IX Item "GSPL_UCHANGE"
 space-separated options to override defaults.
 .IP "\s-1SPRESTCONF\s0" 4
 .IX Item "SPRESTCONF"
 location of alternative help file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIspulist\fR\|(1),
-\&\fIspuser\fR\|(1),
+\&\fIgspl\-ulist\fR\|(1),
+\&\fIgspl\-user\fR\|(1),
 \&\fIspsyntax\fR\|(5),
 \&\fIgnuspool.conf\fR\|(5),
 \&\fIgnuspool.hosts\fR\|(5).
