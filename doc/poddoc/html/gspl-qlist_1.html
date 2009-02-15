@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>sqlist - display job queue</title>
+<title>gspl-qlist - display job queue</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -37,24 +37,24 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>sqlist - display job queue</p>
+<p>gspl-qlist - display job queue</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>sqlist</strong>
+<p><strong>gspl-qlist</strong>
 [ <em>-options</em> ]
 [ <em>job number</em> ... ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>sqlist</strong> outputs a table on standard output showing jobs on the
+<p><strong>gspl-qlist</strong> outputs a table on standard output showing jobs on the
 <strong>GNUspool</strong> spool queue, including those queued on other hosts on the
 network.</p>
 <p>Each line of the output corresponds to a single job, and by default
 the output is generally similar to the default format of the jobs
-screen of the <code>spq(1)</code> command, something like:</p>
+screen of the gspl-pq(1) command, something like:</p>
 <pre>
  0024139     jmc report1 a4      23K 1 150
  0026921     jmc prgm.c  listing 12K 1 150
@@ -69,7 +69,7 @@ placed on the command line.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_sqlist"><code>SQLIST</code></a>
+<p>The environment variable on which options are supplied is <a href="#item_gspl_qlist"><code>GSPL_QLIST</code></a>
 and the environment variable to specify the help file is
 <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
@@ -116,7 +116,7 @@ characters to be printed and symbols representing the required data
 fields. This option overrides and preceding <strong>-D</strong> option, and is
 itself overridden by a following <strong>-D</strong> option.</p>
 </dd>
-<P>See <a href="#Sqlist_format">the section on format codes</a> for
+<P>See <a href="#Gspl-Qlist_format">the section on format codes</a> for
 details of the format code sequences.</P></li>
 <dt><strong><a name="item__2dh_or__2bheader">-H or +header</a></strong>
 
@@ -181,7 +181,7 @@ names or a list of patters for matching printer names. Shell-like
 pattern matching applies to the pattern. You may well need to put
 quotes around the pattern to avoid misinterpretation by the shell.</p>
 </dd>
-<P>This is further described in the <a href="#Sqlist_pattern">pattern
+<P>This is further described in the <a href="#Gspl-Qlist_pattern">pattern
 arguments</a> section.</P><p>To cancel this argument, give a single <strong>-</strong> sign as an argument.</p>
 </li>
 <dt><strong><a name="item__2dr_or__2bremotes">-r or +remotes</a></strong>
@@ -195,7 +195,7 @@ arguments</a> section.</P><p>To cancel this argument, give a single <strong>-</s
 <dd>
 <p>restricts attention to jobs whose title matches the pattern given.</p>
 </dd>
-<P>The pattern is further described in the <a href="#Sqlist_pattern">pattern
+<P>The pattern is further described in the <a href="#Gspl-Qlist_pattern">pattern
 arguments</a> section.</P></li>
 <dt><strong><a name="item__2du_user_or__2bjust_2duser_user">-u <em>user</em> or +just-user <em>user</em></a></strong>
 
@@ -203,7 +203,7 @@ arguments</a> section.</P></li>
 <p>restricts attention to jobs owned by the given user or list of users
 given by a pattern.</p>
 </dd>
-<P>The pattern is further described in the <a href="#Sqlist_pattern">pattern
+<P>The pattern is further described in the <a href="#Gspl-Qlist_pattern">pattern
 arguments</a> section.</P></li>
 <dt><strong><a name="item__2dv_or__2bview_2djob">-V or +view-job</a></strong>
 
@@ -256,7 +256,7 @@ directory.</p>
 <p>
 </p>
 <h2><a name="patterns">Patterns</a></h2>
-<a name="Sqlist_pattern"></a><p>The <strong>-q</strong>, <strong>-t</strong> and <strong>-u</strong> options may all be given a name, a
+<a name="Gspl-Qlist_pattern"></a><p>The <strong>-q</strong>, <strong>-t</strong> and <strong>-u</strong> options may all be given a name, a
 comma-separated list of names or shell-like wildcard patterns. The
 patterns all take the standard form:</p>
 <div style="margin-left:1.0in;">
@@ -283,14 +283,14 @@ given</td>
 misinterprets them.</p>
 <p>For example</p>
 <pre>
-        sqlist -q ljet,ptr3
-        sqlist -q 'ptr*,lp[1-9]'
-        sqlist -u 'j*'
-        sqlist -t 'Acc*'</pre>
+        gspl-qlist -q ljet,ptr3
+        gspl-qlist -q 'ptr*,lp[1-9]'
+        gspl-qlist -u 'j*'
+        gspl-qlist -t 'Acc*'</pre>
 <p>
 </p>
 <h2><a name="format_codes">Format codes</a></h2>
-<a name="Sqlist_format"></a><p>The format string consists of a string containing the following
+<a name="Gspl-Qlist_format"></a><p>The format string consists of a string containing the following
 character sequences, which are replaced by the corresponding job
 parameters. The string may contain various other printing characters
 or spaces as required.</p>
@@ -409,7 +409,7 @@ is obtained from the message file and inserted.</p>
 <dt><strong><a name="item__o">%o</a></strong>
 
 <dd>
-<p>originating host (might be different if via rspr(1)).</p>
+<p>originating host (might be different if via gspl-rpr(1)).</p>
 </dd>
 </li>
 <dt><strong><a name="item__p">%P</a></strong>
@@ -516,7 +516,7 @@ message file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_sqlist">SQLIST</a></strong>
+<dt><strong><a name="item_gspl_qlist">GSPL_QLIST</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -533,10 +533,10 @@ message file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>splist(1),
-spq(1),
-sqchange(1),
-sqdel(1),
+<p>gspl-plist(1),
+gspl-pq(1),
+gspl-qchange(1),
+gspl-qdel(1),
 spsyntax(5),
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>

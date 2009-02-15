@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>mspr - print spooler or save if not running</title>
+<title>gsl-mpr - print spooler or save if not running</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -32,44 +32,44 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>mspr - print spooler or save if not running</p>
-<p>mrspr - print spooler to remote queue or save if unavailable</p>
+<p>gsl-mpr - print spooler or save if not running</p>
+<p>gspl-mrpr - print spooler to remote queue or save if unavailable</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>mspr</strong>
+<p><strong>gsl-mpr</strong>
 [ <em>-options</em> ]
 [ <em>file</em> ... ]</p>
-<p><strong>mrspr</strong>
+<p><strong>gspl-mrpr</strong>
 [ <em>-options</em> ]
 [ <em>file</em> ... ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>mspr</strong> either queues up one or more print jobs for the <strong>GNUspool</strong>
-spooler using <code>spr(1)</code> if it is running, or else places a series of
+<p><strong>gsl-mpr</strong> either queues up one or more print jobs for the <strong>GNUspool</strong>
+spooler using gspl-pr(1) if it is running, or else places a series of
 files in an alternative spool directory, such that when run as shell
 scripts when the <strong>GNUspool</strong> spooler process <code>spshed(8)</code> is running, the
 jobs are queued as originally specified.</p>
-<p><strong>mrspr</strong> queues up one or more print jobs to a remote queue running
-the <strong>GNUspool</strong> spooler using <code>rspr(1)</code> if it is available, or otherwise
+<p><strong>gspl-mrpr</strong> queues up one or more print jobs to a remote queue running
+the <strong>GNUspool</strong> spooler using gspl-rpr(1) if it is available, or otherwise
 places a series of files in an alternative spool directory for
 queueing when the remote machine is available.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>Options are as per <strong>spr</strong> and <strong>rspr</strong>. If the job can be queued
+<p>Options are as per <strong>gspl-pr</strong> and <strong>gspl-rpr</strong>. If the job can be queued
 immediately, these programs are directly invoked.</p>
 <p>
 </p>
 <hr />
 <h1><a name="exit_codes">EXIT CODES</a></h1>
 <p>An exit code of zero is returned if the job or jobs are successfully
-queued using <code>spr(1)</code> or <code>rspr(1)</code> or successfully saved in the alternate
-directory. Any non-zero exit code from <code>spr(1)</code> or <code>rspr(1)</code> will be
+queued using gspl-pr(1) or gspl-rpr(1) or successfully saved in the alternate
+directory. Any non-zero exit code from gspl-pr(1) or gspl-rpr(1) will be
 passed back to the user. Standard exit codes and error messages are
 displayed if the files cannot be opened or saved.</p>
 <p>
@@ -82,25 +82,25 @@ configuration file (home directory)</p>
 configuration file (current directory)</p>
 <p><em>rest.help</em>
 message file</p>
-<p><em>/var/spool/gnuspool_alt/CMDF*</em>
+<p><em>gnuspool_alt/CMDF*</em>
 command file (shell script)</p>
-<p><em>/var/spool/gnuspool_alt/ASPF*</em>
+<p><em>gnuspool_alt/ASPF*</em>
 data file (contents of job)</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_spoolopts">SPOOLOPTS</a></strong>
+<dt><strong><a name="item_gspl_pr">GSPL_PR</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>rspr</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_rspr">RSPR</a></strong>
+<dt><strong><a name="item_gspl_rpr">GSPL_RPR</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>mrspr</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-mrpr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
@@ -112,7 +112,7 @@ data file (contents of job)</p>
 <dt><strong><a name="item_altspd">ALTSPD</a></strong>
 
 <dd>
-<p>location of alternate spool directory, if not <em>/var/spool/gnuspool_alt</em>.</p>
+<p>location of alternate spool directory.</p>
 </dd>
 </li>
 </dl>
@@ -122,8 +122,8 @@ data file (contents of job)</p>
 <h1><a name="see_also">SEE ALSO</a></h1>
 <p>gnuspool.conf(5),
 gnuspool.hosts(5),
-<code>rspr(1)</code>
-spr(1),
+gspl-rpr(1)
+gspl-pr(1),
 spsyntax(5),
 spshed(8),
 xtnetserv(8).</p>

@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>xmspq - X/Motif spool queue view</title>
+<title>gspl-xmuser - X/Motif user control</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -29,22 +29,22 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>xmspq - X/Motif spool queue view</p>
+<p>gspl-xmuser - X/Motif user control</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>xmspq</strong></p>
+<p><strong>gspl-xmuser</strong></p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>Xmspq</strong> is a fully interactive Motif alternative to the standard
-print queue manager spq(1). As with <code>spq(1)</code> the format of the screen
-display, the help messages and the command keystrokes can be easily
-altered to suit your requirements.</p>
-<p>Unlike <code>spq(1)</code> there are no specific command line options to
-<strong>xmspq</strong>. The facility to change or specify resources settings for an
+<p><strong>Gspl-Xmuser</strong> is a fully interactive Motif alternative to the standard
+user control program gspl-user(1), but only in the fully interactive
+mode, so it cannot be started by a user without <em>Edit admin file</em>
+privilege.</p>
+<p>Unlike gspl-user(1) there are no specific command line options to
+<strong>gspl-xmuser</strong>. The facility to change or specify resources settings for an
 X11 (and hence Motif) program on the command line can be used.</p>
 <p>
 </p>
@@ -52,22 +52,18 @@ X11 (and hence Motif) program on the command line can be used.</p>
 <h1><a name="files">FILES</a></h1>
 <p><em>~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em>.gnuspool</em>
 configuration file (current directory)</p>
-<p><em>xmspq.help</em>
+<p><em>gspl-xmuser.help</em>
 message file</p>
-<p><em>/var/spool/gnuspool</em>
-spool directory</p>
-<p><em>gnuspoolptrs</em>
-printers directory</p>
-<p><em>spshed_reps</em>
-error log file</p>
+<p><em>spufile0</em>
+user control file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_xmspqconf">XMSPQCONF</a></strong>
+<dt><strong><a name="item_gspl_2dxmuserconf">GSPL-XMUSERCONF</a></strong>
 
 <dd>
 <p>path name of alternative message file.</p>
@@ -78,15 +74,16 @@ error log file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spq(1),
-spr(1),
-spuser(1),
-sqdel(1),
-sqchange(1),
-sqlist(1),
-splist(1),
-gnuspool.conf(5),
-gnuspool.hosts(5).</p>
+<p>gspl-pq(1),
+gspl-pr(1),
+gspl-user(1),
+gspl-qdel(1),
+gspl-qchange(1),
+gspl-qlist(1),
+gspl-plist(1),
+gspl-uchange(1),
+gspl-ulist(1),
+gspl-spuconv(8).</p>
 <p>
 </p>
 <hr />

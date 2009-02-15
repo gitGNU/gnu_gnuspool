@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>spuchange - update or change user permissions</title>
+<title>gspl-uchange - update or change user permissions</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -39,19 +39,19 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>spuchange - update or change user permissions</p>
+<p>gspl-uchange - update or change user permissions</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>spuchange</strong>
+<p><strong>gspl-uchange</strong>
 [ <em>-options</em> ]
 [ users ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>spuchange</strong> may be used to update the user permissions file giving
+<p><strong>gspl-uchange</strong> may be used to update the user permissions file giving
 the user profiles of various users and the operations which they may
 be permitted to perform within the <strong>GNUspool</strong> system, together with
 the default permissions which are assigned by default to new
@@ -66,7 +66,7 @@ and updated as necessary.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_spuchange"><code>SPUCHANGE</code></a> and the
+<p>The environment variable on which options are supplied is <code>GSPL-UCHANGE</code> and the
 environment variable to specify the help file is <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
 <dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
@@ -219,14 +219,14 @@ directory.</p>
 </p>
 <hr />
 <h1><a name="users_or_default">Users or default</a></h1>
-<p>In one operation <strong>spuchange</strong> either adjusts the default permissions,
+<p>In one operation <strong>gspl-uchange</strong> either adjusts the default permissions,
 to be applied to new users, if <strong>-D</strong> is specified, or specified users,
 if nothing or <strong>-u</strong> is specified. So first set the required defaults:</p>
 <pre>
-        spuchange -D -n 20 -p Form,Prinq,Hgo,Cdef -A</pre>
+        gspl-uchange -D -n 20 -p Form,Prinq,Hgo,Cdef -A</pre>
 <p>Then set named users</p>
 <pre>
-        spuchange -p ALL jmc root spooler</pre>
+        gspl-uchange -p ALL jmc root spooler</pre>
 <p>
 </p>
 <hr />
@@ -234,7 +234,7 @@ if nothing or <strong>-u</strong> is specified. So first set the required defaul
 <p>After adding new users to the system, you should rebuild the user
 control file by running</p>
 <pre>
-        spuchange -R</pre>
+        gspl-uchange -R</pre>
 <p>On a system with a large number of users, this can take a long time,
 so the previous method of adding new users as they were encountered
 meant that various hold-ups occurred in standard utilities or the
@@ -256,13 +256,13 @@ by default <em>pwdump0</em>, which may be quickly read in by
 the relevant programs instead of rebuilding the hash table each time.</p>
 <p>You may opt to create the dumped password file by running</p>
 <pre>
-        spuchange -X</pre>
+        gspl-uchange -X</pre>
 <p>This should only be done when all <strong>GNUspool</strong> programs are stopped.</p>
 <p>Afterwards, each time the user control file is rebuilt using the <strong>-R</strong>
-option (or equivalents in other programs such as spuser(1)), this file
+option (or equivalents in other programs such as gspl-user(1)), this file
 will also be rebuilt. <strong>-X</strong> does not have to be specified again.</p>
 <p>If you ever decide you want to dispense with this file, run
-<strong>spuchange</strong> with the <strong>-Z</strong> option.</p>
+<strong>gspl-uchange</strong> with the <strong>-Z</strong> option.</p>
 <p>For completeness, the <strong>-Y</strong> option is provided to cancel <strong>-X</strong> or
 <strong>-Z</strong> in case they are provided in the environment or a <em>.gnuspool</em>
 file, an extremely bad idea.</p>
@@ -272,8 +272,8 @@ file, an extremely bad idea.</p>
 <p>The following may be specified as the argument to <strong>-p</strong>, as one or
 more (comma-separated) of the following codes, optionally preceded by
 a minus to turn off the corresponding privilege. These codes are the
-same as those displayed by spulist(1).</p>
-<p><strong>Spuchange</strong> disregards the case of the codes entered.</p>
+same as those displayed by gspl-ulist(1).</p>
+<p><strong>Gspl-uchange</strong> disregards the case of the codes entered.</p>
 <dl>
 <dt><strong><a name="item_adm">Adm</a></strong>
 
@@ -411,7 +411,7 @@ user permissions file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_spuchange">SPUCHANGE</a></strong>
+<dt><strong><a name="item_gspl_uchange">GSPL_UCHANGE</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -428,8 +428,8 @@ user permissions file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spulist(1),
-spuser(1),
+<p>gspl-ulist(1),
+gspl-user(1),
 spsyntax(5),
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>

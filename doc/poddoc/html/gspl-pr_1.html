@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>spr - print spooler</title>
+<title>gspl-pr - print spooler</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -27,9 +27,9 @@
 		<li><a href="#messages_via_terminal_and_email">Messages via terminal and e-mail</a></li>
 		<li><a href="#queue_timeouts_">Queue Timeouts.</a></li>
 		<li><a href="#delay_times_">Delay times.</a></li>
-		<li><a href="#environment_selection_of_spr_and_rspr_options_">Environment selection of spr and rspr options.</a></li>
-		<li><a href="#saving_current_spr_or_rspr_options">Saving current spr or rspr options</a></li>
-		<li><a href="#interaction_of_spr_and_rspr">Interaction of spr and rspr</a></li>
+		<li><a href="#environment_selection_of_gsplpr_and_gsplrpr_options_">Environment selection of gspl-pr and gspl-rpr options.</a></li>
+		<li><a href="#saving_current_gsplpr_or_gsplrpr_options">Saving current gspl-pr or gspl-rpr options</a></li>
+		<li><a href="#interaction_of_gsplpr_and_gsplrpr">Interaction of gspl-pr and gspl-rpr</a></li>
 	</ul>
 
 	<li><a href="#see_also">SEE ALSO</a></li>
@@ -42,29 +42,29 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>spr - print spooler</p>
-<p>rspr - print spooler to remote queue</p>
+<p>gspl-pr - print spooler</p>
+<p>gspl-rpr - print spooler to remote queue</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>spr</strong>
+<p><strong>gspl-pr</strong>
 [ <em>-options</em> ]
 [ <em>file</em> ... ]</p>
-<p><strong>rspr</strong>
+<p><strong>gspl-rpr</strong>
 [ <em>-options</em> ]
 [ <em>file</em> ... ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>spr</strong> queues up one or more print jobs for the <strong>GNUspool</strong> spooler.</p>
-<p><strong>rspr</strong> queues up one or more print jobs to a remote queue running the
+<p><strong>gspl-pr</strong> queues up one or more print jobs for the <strong>GNUspool</strong> spooler.</p>
+<p><strong>gspl-rpr</strong> queues up one or more print jobs to a remote queue running the
 <strong>GNUspool</strong> spooler. <strong>GNUspool</strong> does not need to be running on the
 submitting machine; only the message file and hosts file are required.</p>
 <p>If one or more files are specified, each file is treated as a separate
 spool job, with a title constructed from the file name. If no files
-are specified <strong>spr</strong> and <strong>rspr</strong> read from the standard input
+are specified <strong>gspl-pr</strong> and <strong>gspl-rpr</strong> read from the standard input
 instead. In this case the job is placed on the queue with a blank
 title unless otherwise specified.</p>
 <p>The standard default options are to print one copy,
@@ -72,18 +72,17 @@ preceded by a banner page, with the priority, printer and form
 types specified for the user. The standard banner page will contain:
 the user name and job title (in large characters), the name of the
 user who submitted the job (if different), the job number, its size
-and priority. The organisation name and serial number (as entered when
-licensing) are also printed.</p>
+and priority.</p>
 <p>Other default options may be set up using environment variables
-<a href="#item_spoolopts"><code>SPOOLOPTS</code></a> for <strong>spr</strong> and <a href="#item_rspr"><code>RSPR</code></a> for <strong>rspr</strong> and/or <em>.gnuspool</em>
+<a href="#item_gspl_pr"><code>GSPL_PR</code></a> for <strong>gspl-pr</strong> and <a href="#item_gspl_rpr"><code>GSPL_RPR</code></a> for <strong>gspl-rpr</strong> and/or <em>.gnuspool</em>
 files. Any defaults may be overridden by re-specifying that option on
 the command line.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_spoolopts"><code>SPOOLOPTS</code></a>
-for <strong>spr</strong> and <a href="#item_rspr"><code>RSPR</code></a> for <strong>rspr</strong> and the environment variable to
+<p>The environment variable on which options are supplied is <a href="#item_gspl_pr"><code>GSPL_PR</code></a>
+for <strong>gspl-pr</strong> and <a href="#item_gspl_rpr"><code>GSPL_RPR</code></a> for <strong>gspl-rpr</strong> and the environment variable to
 specify the help file is <a href="#item_sprestconf"><code>SPRESTCONF</code></a> in both cases.</p>
 <dl>
 <dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
@@ -126,7 +125,7 @@ zero.</p>
 </dd>
 <dd>
 <p>The maximum number of copies at a time may be restricted to a number
-for each user such as 10. See the output from <code>spuser(1)</code> for
+for each user such as 10. See the output from gspl-user(1) for
 information on the maximum number of copies.</p>
 </dd>
 </li>
@@ -182,9 +181,9 @@ which will replace the delimiter specified by these options.</p>
 <dt><strong><a name="item__2de_n_or__2bexternal_2dsystem_n">-E <em>n</em> or +external-system <em>n</em></a></strong>
 
 <dd>
-<p>(<strong>spr</strong> only) Used internally to signify originating system type. <em>n</em>
+<p>(<strong>gspl-pr</strong> only) Used internally to signify originating system type. <em>n</em>
 may be a number, or the name of a system type given in
-<em>/etc/Xitext-extern</em>. This option may only be used by <code>root</code> or
+<em>gnuspool.ext</em>. This option may only be used by <code>root</code> or
 <code>spooler</code> regardless of other privileges set, as it is intended for
 use by <strong>xtlpd</strong> to set parameters on incoming jobs. Any errors in this
 parameter, including permissions, are silently ignored.</p>
@@ -226,7 +225,7 @@ has a suffix, for example:</p>
 </dd>
 <dd>
 <pre>
-        spr -i -f a4 x.c y.ps</pre>
+        gspl-pr -i -f a4 x.c y.ps</pre>
 </dd>
 <dd>
 <p>would submit jobs using the files <strong>x.c</strong> and <strong>y.ps</strong> with form types
@@ -242,23 +241,23 @@ has a suffix, for example:</p>
 <dt><strong><a name="item__2dj_n_or__2bjob_2dwait_2dtime_n">-j <em>n</em> or +job-wait-time <em>n</em></a></strong>
 
 <dd>
-<p>is relevant only if input to <strong>spr</strong> or <strong>rspr</strong> is from a pipeline as in</p>
+<p>is relevant only if input to <strong>gspl-pr</strong> or <strong>gspl-rpr</strong> is from a pipeline as in</p>
 </dd>
 <dd>
 <pre>
-        program|spr ....</pre>
+        program|gspl-pr ....</pre>
 </dd>
 <dd>
 <p>This causes a job to be submitted if no data is received over the pipe
 for <em>n</em> seconds.</p>
 </dd>
 <dd>
-<p><strong>spr</strong> or <strong>rspr</strong> will still wait, and may submit any number of
+<p><strong>gspl-pr</strong> or <strong>gspl-rpr</strong> will still wait, and may submit any number of
 subsequent jobs until the pipe is closed by the program generating the
 output.</p>
 </dd>
 <dd>
-<p>Note that nothing can be done by <strong>spr</strong> to guess at what output might
+<p>Note that nothing can be done by <strong>gspl-pr</strong> to guess at what output might
 appear (possibly halfway through a line) if the program writing to the
 pipe does not flush its output buffer after each occasion that it
 writes something.</p>
@@ -319,9 +318,9 @@ format used. Thus the resulting argument might be</p>
 <dt><strong><a name="item__2do_host_or__2boriginating_2dhost_host">-o <em>host</em> or +originating-host <em>host</em></a></strong>
 
 <dd>
-<p>(<strong>spr</strong> only) Used internally to signify originating host name, in
+<p>(<strong>gspl-pr</strong> only) Used internally to signify originating host name, in
 place of the local host. The host name given should appear in the host
-file <em>/etc/gnuspool.hosts</em>, possibly with the <code>external</code> keyword. This
+file <em>gnuspool.hosts</em>, possibly with the <code>external</code> keyword. This
 option may only be specified by <strong>spooler</strong> or <strong>root</strong> users, but is
 silently ignored in other cases as are all other errors. It is
 intended for use by <code>xtlpd(8)</code> to set parameters on incoming jobs.</p>
@@ -356,7 +355,7 @@ copies.</p>
 </dd>
 <dd>
 <pre>
-        spr -c2 -OA ....</pre>
+        gspl-pr -c2 -OA ....</pre>
 </dd>
 <dd>
 <p>prints all the odd-numbered pages followed by all the even-numbered
@@ -407,16 +406,16 @@ expiry of the timeout (as set by the <strong>-t</strong><em>n</em> option).</p>
 
 <dd>
 <p>send the job or jobs to the given <em>hostname</em>. Note that <em>hostname</em>
-must be in <em>/etc/gnuspool.hosts</em> on the submitting machine and the
-submitting machine's hostname must be in <em>/etc/gnuspool.hosts</em> on the
+must be in <em>gnuspool.hosts</em> on the submitting machine and the
+submitting machine's hostname must be in <em>gnuspool.hosts</em> on the
 receiving machine.</p>
 </dd>
 <dd>
-<p>If supplied to <strong>spr</strong> it will re-invoke <strong>rspr</strong> with the same
-<em>command-line</em> options. It is, however, required for <strong>rspr</strong>, which
-will not try to invoke <strong>spr</strong> if it is not supplied (as that could
+<p>If supplied to <strong>gspl-pr</strong> it will re-invoke <strong>gspl-rpr</strong> with the same
+<em>command-line</em> options. It is, however, required for <strong>gspl-rpr</strong>, which
+will not try to invoke <strong>gspl-pr</strong> if it is not supplied (as that could
 loop endlessly, this could happen if the <strong>-Q</strong> option was in a
-<em>.gnuspool</em> file for <strong>spr</strong> but not in one for <strong>rspr</strong>).</p>
+<em>.gnuspool</em> file for <strong>gspl-pr</strong> but not in one for <strong>gspl-rpr</strong>).</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dr_or__2bbanner">-r or +banner</a></strong>
@@ -487,7 +486,7 @@ but this will be ignored if not.</p>
 <dt><strong><a name="item__2du_user_or__2boriginating_2duser_user">-U <em>user</em> or +originating-user <em>user</em></a></strong>
 
 <dd>
-<p>(<strong>spr</strong> only) Used internally to signify originating user name. This
+<p>(<strong>gspl-pr</strong> only) Used internally to signify originating user name. This
 may only be specified by users <code>spooler</code> and <code>root</code> to have any
 effect, otherwise the option is silently ignored, as are all
 errors. It is intended for use by <code>xtlpd(8)</code> to set parameters on
@@ -558,7 +557,7 @@ the warning becomes an error, and no job is created.</p>
 
 <dd>
 <p>Save all the current options in a <em>.gnuspool</em> file in the current
-directory. This will supply defaults for further <strong>spr</strong> or <strong>rspr</strong>
+directory. This will supply defaults for further <strong>gspl-pr</strong> or <strong>gspl-rpr</strong>
 commands invoked subsequently when started from the directory.</p>
 </dd>
 <dd>
@@ -570,7 +569,7 @@ specified after including this option.</p>
 
 <dd>
 <p>Save all the current options in a <em>.gnuspool</em> file in the user's home
-directory. This will supply defaults for further <strong>spr</strong> or <strong>rspr</strong>
+directory. This will supply defaults for further <strong>gspl-pr</strong> or <strong>gspl-rpr</strong>
 commands invoked subsequently.</p>
 </dd>
 <dd>
@@ -594,16 +593,16 @@ message file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_spoolopts">SPOOLOPTS</a></strong>
+<dt><strong><a name="item_gspl_pr">GSPL_PR</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>spr</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_rspr">RSPR</a></strong>
+<dt><strong><a name="item_gspl_rpr">GSPL_RPR</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>rspr</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-rpr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
@@ -618,7 +617,7 @@ message file</p>
 <hr />
 <h1><a name="notes">NOTES</a></h1>
 <p><strong>N.B.</strong> Please note that from release 23 the scheduler <code>spshed(8)</code> is no
-longer automatically started if it is not running -- use spstart(1).</p>
+longer automatically started if it is not running -- use gspl-start(1).</p>
 <p>
 </p>
 <h2><a name="messages_via_terminal_and_email">Messages via terminal and e-mail</a></h2>
@@ -631,7 +630,7 @@ When your job has:
 <LI>
 Completed normally
 <LI>
-Been manually deleted (using <CODE>spq(1)</CODE> etc).
+Been manually deleted (using <CODE>gspl-pq(1)</CODE> etc).
 <LI>
 Been automatically deleted after remaining on the queue for a
 specified time as specified using the <STRONG>-t</STRONG> or <STRONG>-T</STRONG> options.
@@ -664,7 +663,7 @@ change this behaviour if required as described in <a
 href="TxtRef-11.html#Alternative_mailer_program">Chapter 11</a>).</P><p>The option <strong>-A</strong> causes a message to be sent to your terminal, and the option
 <strong>-a</strong> causes you to be sent mail in the second set of circumstances.</p>
 <p>If any of these are set in the environment
-and you don't want them, you may suppress them on the <strong>spr</strong> command
+and you don't want them, you may suppress them on the <strong>gspl-pr</strong> command
 line using <strong>-x</strong> to turn off both the <strong>-w</strong> and <strong>-m</strong> options, and
 <strong>-b</strong> to turn off the <strong>-A</strong> and <strong>-a</strong> options.</p>
 <p>If your terminal cannot be written to, or you have logged out when a
@@ -673,7 +672,7 @@ program instead.</p>
 <p>
 </p>
 <h2><a name="queue_timeouts_">Queue Timeouts.</a></h2>
-<p>When the <strong>spr</strong> or <strong>rspr</strong> command receives its data on
+<p>When the <strong>gspl-pr</strong> or <strong>gspl-rpr</strong> command receives its data on
 standard input from a pipe, or terminal device, the job is not normally
 submitted until an end-of-file indication is encountered. This is typically
 caused by the termination of the process writing to the pipe, or by typing the
@@ -685,7 +684,7 @@ human, but the user may wish to proceed anyway with printing.</p>
 have been received, the timeout is set before reading more
 characters. If the timeout expires before any more characters are
 read, then a job is created using the characters received so far and
-<strong>spr</strong> or <strong>rspr</strong> restarts, possibly making further jobs if more
+<strong>gspl-pr</strong> or <strong>gspl-rpr</strong> restarts, possibly making further jobs if more
 characters arrive.</p>
 <p>This cannot be ideal in the case of pipes without some co-operation
 from the sending process; this is because if <em>stdio</em> (i.e. the C library functions
@@ -708,8 +707,8 @@ standard output.</p>
 <p>If the user does not have any access to the sending process this
 option may have undesirable effects at ``the seams'' of the various jobs
 due to this buffering. The only successful approach would be to insert
-a filter process in between <strong>spr</strong> and the sending process to ensure
-that complete pages only were passed through to <strong>spr</strong>.  It is
+a filter process in between <strong>gspl-pr</strong> and the sending process to ensure
+that complete pages only were passed through to <strong>gspl-pr</strong>.  It is
 considered unacceptable to monopolise a printer on speculation that
 further data may arrive.</p>
 <p>A parameter of zero turns off the <strong>-j</strong> option if it has been set in
@@ -749,13 +748,13 @@ provide an opportunity for thought and possible amendment before
 continuing.</p>
 <p>
 </p>
-<h2><a name="environment_selection_of_spr_and_rspr_options_">Environment selection of spr and rspr options.</a></h2>
+<h2><a name="environment_selection_of_gsplpr_and_gsplrpr_options_">Environment selection of gspl-pr and gspl-rpr options.</a></h2>
 <p>In common with all GNUspool programs, a configuration file mechanism
-applies to <strong>spr</strong> and <strong>rspr</strong>.</p>
-<p>The environment variable <a href="#item_spoolopts"><code>SPOOLOPTS</code></a> may be used to contain options
-for <strong>spr</strong> and the environment variable <a href="#item_rspr"><code>RSPR</code></a> may be used to contain
-options for <strong>rspr</strong>, and the <em>.gnuspool</em> files may contain the keyword
-<a href="#item_spoolopts"><code>SPOOLOPTS</code></a> or <a href="#item_rspr"><code>RSPR</code></a> to select options without having to specify
+applies to <strong>gspl-pr</strong> and <strong>gspl-rpr</strong>.</p>
+<p>The environment variable <a href="#item_gspl_pr"><code>GSPL_PR</code></a> may be used to contain options
+for <strong>gspl-pr</strong> and the environment variable <a href="#item_gspl_rpr"><code>GSPL_RPR</code></a> may be used to contain
+options for <strong>gspl-rpr</strong>, and the <em>.gnuspool</em> files may contain the keyword
+<a href="#item_gspl_pr"><code>GSPL_PR</code></a> or <a href="#item_gspl_rpr"><code>GSPL_RPR</code></a> to select options without having to specify
 them on the command line.</p>
 <p>This enables you to specify, for example, that you always want the
 <strong>-v</strong> (job confirmation) option, or that when in certain directories,
@@ -763,12 +762,12 @@ you always want to use the form type <code>letterhead</code>, or <code>invoices<
 perhaps 2 copies.</p>
 <p>
 </p>
-<h2><a name="saving_current_spr_or_rspr_options">Saving current spr or rspr options</a></h2>
+<h2><a name="saving_current_gsplpr_or_gsplrpr_options">Saving current gspl-pr or gspl-rpr options</a></h2>
 <p>The special options <a href="#item__2bfreeze_2dcurrent"><code>+freeze-current</code></a> and <a href="#item__2bfreeze_2dhome"><code>+freeze-home</code></a> cause the
 currently selected set of options to be saved in <em>.gnuspool</em> files in
 the current directory or home directory respectively. Either or both
 may be specified.</p>
-<p>If no file arguments are given to <strong>spr</strong> or <strong>rspr</strong> when one or both
+<p>If no file arguments are given to <strong>gspl-pr</strong> or <strong>gspl-rpr</strong> when one or both
 of these keywords are specified, then the program will not expect to
 find data on the standard input. If file arguments are given, then the
 <code>.gnuspool</code> file or files are saved before the file arguments are
@@ -778,15 +777,15 @@ files specified will still be queued, the program will not fatally
 abort.</p>
 <p>
 </p>
-<h2><a name="interaction_of_spr_and_rspr">Interaction of spr and rspr</a></h2>
-<p>If the <strong>-Q</strong> option is given to <strong>spr</strong>, either on the command line or
-in the environment or <strong>.gnuspool</strong> files, then <strong>rspr</strong> will be invoked
-with the same command line options (but <strong>rspr</strong> will accept its own
-<a href="#item_rspr"><code>RSPR</code></a> environment variable or <strong>.gnuspool</strong> file options).</p>
-<p><strong>Rspr</strong>, however, will not invoke <strong>spr</strong> if the <strong>-Q</strong> option is not
+<h2><a name="interaction_of_gsplpr_and_gsplrpr">Interaction of gspl-pr and gspl-rpr</a></h2>
+<p>If the <strong>-Q</strong> option is given to <strong>gspl-pr</strong>, either on the command line or
+in the environment or <strong>.gnuspool</strong> files, then <strong>gspl-rpr</strong> will be invoked
+with the same command line options (but <strong>gspl-rpr</strong> will accept its own
+<a href="#item_gspl_rpr"><code>GSPL_RPR</code></a> environment variable or <strong>.gnuspool</strong> file options).</p>
+<p><strong>Gspl-Rpr</strong>, however, will not invoke <strong>gspl-pr</strong> if the <strong>-Q</strong> option is not
 given; this is an error. Remember that the <strong>-Q</strong> option could be set
-from a <a href="#item_spoolopts"><code>SPOOLOPTS</code></a> definition in a <strong>.gnuspool</strong> file, but without a
-<strong>-Q</strong> option on an <a href="#item_rspr"><code>RSPR</code></a> definition, this would mean that <strong>rspr</strong>
+from a <a href="#item_gspl_pr"><code>GSPL_PR</code></a> definition in a <strong>.gnuspool</strong> file, but without a
+<strong>-Q</strong> option on an <a href="#item_gspl_rpr"><code>GSPL_RPR</code></a> definition, this would mean that <strong>gspl-rpr</strong>
 did not get invoked with a <strong>-Q</strong> option, so this could give an
 infinite loop.</p>
 <p>

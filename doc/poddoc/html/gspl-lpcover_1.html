@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>lpcover - emulate LP</title>
+<title>gspl-lpcover - emulate LP</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -29,17 +29,17 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>lpcover - emulate LP</p>
-<p>lpstatc - emulate LPSTAT</p>
+<p>gspl-lpcover - emulate LP</p>
+<p>gspl-lpstatc - emulate LPSTAT</p>
 <p>cancel - emulate CANCEL</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>lpcover</strong>
+<p><strong>gspl-lpcover</strong>
 [ <em>-options</em> ]
 [ <em>file</em> ... ]</p>
-<p><strong>lpstatc</strong>
+<p><strong>gspl-lpstatc</strong>
 [ <em>-options</em> ]</p>
 <p><strong>cancel</strong>
 <em>jobnumber</em> [ ... ]</p>
@@ -47,28 +47,28 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>lpcover</strong> may be used instead of the standard <strong>lp</strong> command. It
+<p><strong>gspl-lpcover</strong> may be used instead of the standard <strong>lp</strong> command. It
 converts the options that most <strong>lp</strong> commands take to the equivalent
-<code>spr(1)</code> commandds and then invokes <code>spr(1)</code> to submit the print jobs.</p>
-<p>The <strong>spr</strong> program provides a much greater set of facilities than
-<strong>lp</strong>. Although it is strongly recommended to switch to the <code>spr(1)</code>
+gspl-pr(1) commandds and then invokes gspl-pr(1) to submit the print jobs.</p>
+<p>The <strong>gspl-pr</strong> program provides a much greater set of facilities than
+<strong>lp</strong>. Although it is strongly recommended to switch to the gspl-pr(1)
 command to take advantage of these, they can be made available to
-users of our <strong>lpcover</strong> command. This is done by setting up
-<code>SPOOLOPTS</code> in the application or user environment.</p>
-<p><strong>Lpcover</strong> is usually installed in place of <strong>lp</strong> in <em>/usr/bin</em>, with
+users of our <strong>gspl-lpcover</strong> command. This is done by setting up
+<code>GSPL_PR</code> in the application or user environment.</p>
+<p><strong>Gspl-lpcover</strong> is usually installed in place of <strong>lp</strong> in <em>/usr/bin</em>, with
 the original binary moved to something like <em>old.lp</em> in the same
 directory.</p>
-<p><strong>Lpstatc</strong> emulates <strong>lpstat</strong> as far as is practicable, generating a
+<p><strong>Gspl-lpstatc</strong> emulates <strong>lpstat</strong> as far as is practicable, generating a
 report of outstanding print jobs from the print queue in a format
 similar to the original <strong>lpstat</strong>.</p>
-<p><strong>cancel</strong> is a shell script which invokes <code>sqdel(1)</code> on its arguments.</p>
+<p><strong>cancel</strong> is a shell script which invokes gspl-qdel(1) on its arguments.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The options below document <strong>lpcover</strong> only. Options to <strong>lpstatc</strong>
+<p>The options below document <strong>gspl-lpcover</strong> only. Options to <strong>gspl-lpstatc</strong>
 generate a warning message on standard error and are otherwise
-ignored. Options to <strong>lpcover</strong> which are not documented here are ignored.</p>
+ignored. Options to <strong>gspl-lpcover</strong> which are not documented here are ignored.</p>
 <dl>
 <dt><strong><a name="item__2dc">-c</a></strong>
 
@@ -86,14 +86,14 @@ overrides. An argument of <code>any</code> to <strong>-d</strong> cancels any ex
 <a href="#item_lpdest"><code>LPDEST</code></a> environment variable.</p>
 </dd>
 <dd>
-<p>This is translated directly into a <strong>-P</strong> option to <strong>spr</strong>.</p>
+<p>This is translated directly into a <strong>-P</strong> option to <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2df_form">-f <em>form</em></a></strong>
 
 <dd>
 <p>specifies the supplied form type. This is translated directly into an
-<strong>-f</strong> option to <strong>spr</strong>.</p>
+<strong>-f</strong> option to <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dh_arg">-H <em>arg</em></a></strong>
@@ -105,33 +105,33 @@ overrides. An argument of <code>any</code> to <strong>-d</strong> cancels any ex
 <dt><strong><a name="item__2dm">-m</a></strong>
 
 <dd>
-<p>Mail user. This is translated directly into an <strong>-m</strong> option to <strong>spr</strong>.</p>
+<p>Mail user. This is translated directly into an <strong>-m</strong> option to <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dn_n">-n <em>n</em></a></strong>
 
 <dd>
 <p>Specify the number of copies. This is translated directly into a <strong>-c</strong>
-option to <strong>spr</strong>.</p>
+option to <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2do_arg">-o <em>arg</em></a></strong>
 
 <dd>
 <p>Only <strong>-o</strong> <code>nobanner</code>, to suppress the header page, is interpreted
-and translated to the <strong>-s</strong> option to <strong>spr</strong>.</p>
+and translated to the <strong>-s</strong> option to <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dp_arg">-P <em>arg</em></a></strong>
 
 <dd>
-<p>This is translated into <strong>-R</strong> page range arguments for <strong>spr</strong>.</p>
+<p>This is translated into <strong>-R</strong> page range arguments for <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dq_n">-q <em>n</em></a></strong>
 
 <dd>
-<p>This is translated into a <strong>-p</strong> argument for <strong>spr</strong> scaled
+<p>This is translated into a <strong>-p</strong> argument for <strong>gspl-pr</strong> scaled
 appropriately, taking into account the user's maximum, minimum and
 default priorities.</p>
 </dd>
@@ -145,7 +145,7 @@ default priorities.</p>
 <dt><strong><a name="item__2ds">-s</a></strong>
 
 <dd>
-<p>This turns off the <strong>-v</strong> argument for <strong>spr</strong> which is normally
+<p>This turns off the <strong>-v</strong> argument for <strong>gspl-pr</strong> which is normally
 included.</p>
 </dd>
 </li>
@@ -158,14 +158,14 @@ included.</p>
 <dt><strong><a name="item__2dt__3carg_3e">-t &lt;arg&gt;</a></strong>
 
 <dd>
-<p>This is translated to a <strong>-h</strong> (title) argument to <strong>spr</strong>.</p>
+<p>This is translated to a <strong>-h</strong> (title) argument to <strong>gspl-pr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dw">-w</a></strong>
 
 <dd>
 <p>This is translated directly to the <strong>-w</strong> (write message) option to
-<strong>spr</strong>.</p>
+<strong>gspl-pr</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dy">-y</a></strong>
@@ -183,13 +183,13 @@ included.</p>
 <dt><strong><a name="item_lpdest">LPDEST</a></strong>
 
 <dd>
-<p>Specify destination for <strong>lpcover</strong>.</p>
+<p>Specify destination for <strong>gspl-lpcover</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item_lpstatfmt">LPSTATFMT</a></strong>
 
 <dd>
-<p>Specify alternate format for <strong>lpstatc</strong>.</p>
+<p>Specify alternate format for <strong>gspl-lpstatc</strong>.</p>
 </dd>
 </li>
 </dl>
@@ -198,7 +198,7 @@ included.</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various warnings about unimplemented features are printed by
-<strong>lpcover</strong> and <strong>lpstatc</strong>.</p>
+<strong>gspl-lpcover</strong> and <strong>gspl-lpstatc</strong>.</p>
 <p>Others may be generated by software each invokes.</p>
 <p>
 </p>

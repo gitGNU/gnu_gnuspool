@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>hostedit - edit GNUspool host table</title>
+<title>gspl-hostedit - edit GNUspool host table</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -28,12 +28,12 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>hostedit - edit GNUspool host table</p>
+<p>gspl-hostedit - edit GNUspool host table</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>hostedit</strong>
+<p><strong>gspl-hostedit</strong>
 [ -<em>o file</em> ]
 [ -<em>s arg</em> ]
 [ -<em>I</em> ]
@@ -42,8 +42,8 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>hostedit</strong> is a simple curses-based program to edit host tables for
-<em>/etc/gnuspool.hosts</em>, the host table for GNUspool.</p>
+<p><strong>gspl-hostedit</strong> is a simple curses-based program to edit host tables for
+<em>gnuspool.hosts</em>, the host table for GNUspool.</p>
 <p>It knows about local addresses (selecting the correct IP address for a
 machine with different IPs on different networks), Windows clients,
 DHCP, trusted hosts, manual connections, probes and timeouts.</p>
@@ -51,9 +51,7 @@ DHCP, trusted hosts, manual connections, probes and timeouts.</p>
 output is to standard output unless the <strong>-o</strong> option is given.</p>
 <p>Normally this would be run as follows:</p>
 <pre>
-        hostedit -o /tmp/hostfile /etc/gnuspool.hosts
-        cp /tmp/hostfile /etc/gnuspool.hosts
-        rm /tmp/hostfile</pre>
+        gspl-hostedit -I /usr/local/etc/gnuspool.hosts</pre>
 <p>You will usually have to stop and restart GNUspool after you have
 done this so that all parts of the system ``know'' about the new hosts,
 however this may not be necessary in all cases, you may only have to
@@ -88,7 +86,7 @@ address.</p>
 <hr />
 <h1><a name="commands">COMMANDS</a></h1>
 <p>The following command keys are used from within the screen displayed
-by <strong>hostedit</strong>. As with other GNUspool commands, any commands which
+by <strong>gspl-hostedit</strong>. As with other GNUspool commands, any commands which
 operate upon an existing item will do so with the item to which the
 cursor is moved.</p>
 <dl>

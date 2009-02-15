@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>cjlist - dump out GNUspool jobs to directory</title>
+<title>gspl-cjlist - dump out GNUspool jobs to directory</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -28,12 +28,12 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>cjlist - dump out GNUspool jobs to directory</p>
+<p>gspl-cjlist - dump out GNUspool jobs to directory</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>cjlist</strong>
+<p><strong>gspl-cjlist</strong>
 [ <em>-D dir</em> ]
 [ <em>-e n</em> ]
 [ <em>-u</em> ]
@@ -45,33 +45,29 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>cjlist</strong> converts <strong>GNUspool</strong> job files held in the spool directory to
+<p><strong>gspl-cjlist</strong> converts <strong>GNUspool</strong> job files held in the spool directory to
 an executable shell script which may be used to recreate them. This
 may be useful for backup purposes or for one stage in upgrading from one
 release of <strong>GNUspool</strong> to another.</p>
 <p>The jobs are copied into the backup directory <em>workdir</em>, and the
 generated shell script file <em>outfile</em> refers to files in that
 directory.</p>
-<p><strong>cjlist</strong> understands the format of the saved job file for versions of
-<strong>GNUspool</strong> going back to release 18, and when presented with a saved
-file, will attempt to work out from the format which release it
-relates to. If required, it will skip apparent errors in the job file
-also.</p>
+<p><strong>gspl-cjlist</strong> will, if required, skip apparent errors in the job file.</p>
 <p>In addition to options, three arguments are always supplied to
-<strong>cjlist</strong>.</p>
+<strong>gspl-cjlist</strong>.</p>
 <dl>
 <dt><strong><a name="item_job_list_file">Job list file</a></strong>
 
 <dd>
 <p>This is the file containing the attributes of the jobs,
-<em>spshed_jfile</em> in the spool directory, by default <em>/var/spool/gnuspool</em>,
+<em>spshed_jfile</em> in the spool directory, by default,
 or as relocated by re-specifying <code>SPOOLDIR</code>.</p>
 </dd>
 </li>
 <dt><strong><a name="item_output_file">Output file</a></strong>
 
 <dd>
-<p>This file is created by <strong>cjlist</strong> to contain the executable shell
+<p>This file is created by <strong>gspl-cjlist</strong> to contain the executable shell
 script which may be used to create the jobs.</p>
 </dd>
 </li>
@@ -82,7 +78,7 @@ script which may be used to create the jobs.</p>
 </dd>
 </li>
 </dl>
-<p>Note that saved jobs make use of the <strong>-U</strong> option to <code>spr(1)</code> to set the
+<p>Note that saved jobs make use of the <strong>-U</strong> option to gspl-pr(1) to set the
 ownership correctly but do not attempt to use the <strong>-E</strong> and <strong>-o</strong>
 options to set external queue or originating hosts.</p>
 <p>
@@ -96,7 +92,7 @@ options to set external queue or originating hosts.</p>
 <p>specifies the source directory for the jobs and <em>job file</em> rather
 than the current directory. It can be specified as <code>$SPOOLDIR</code> or
 <code>${SPOOLDIR-/var/spool/gnuspool}</code> etc and the environment and/or
-<em>/etc/gnuspool.conf</em> will be interrogated to interpolate the value of
+<em>gnuspool.conf</em> will be interrogated to interpolate the value of
 the environment variable given.</p>
 </dd>
 <dd>
@@ -104,11 +100,11 @@ the environment variable given.</p>
 </dd>
 <dd>
 <pre>
- cjlist -D '${SPOOLDIR-/var/spool/gnuspool}' ...</pre>
+ gspl-cjlist -D '${SPOOLDIR-/var/spool/gnuspool}' ...</pre>
 </dd>
 <dd>
 <p>otherwise the shell will try to interpret the <code>$</code> constructs and not
-<strong>cjlist</strong>.</p>
+<strong>gspl-cjlist</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2de_n">-e <em>n</em></a></strong>
@@ -145,7 +141,7 @@ total errors given by the <strong>-e</strong> option).</p>
 <p>Do not reject the save job file if it contains invalid  user names.</p>
 </dd>
 <dd>
-<p>This may be necessary where the job file is corrupted and <strong>cjlist</strong>
+<p>This may be necessary where the job file is corrupted and <strong>gspl-cjlist</strong>
 cannot work out which version it is.</p>
 </dd>
 </li>
@@ -154,9 +150,9 @@ cannot work out which version it is.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>cplist(8),
-setspdir(8),
-spuconv(8).</p>
+<p>gspl-cplist(8),
+gspl-setspdir(8),
+gspl-spuconv(8).</p>
 <p>
 </p>
 <hr />

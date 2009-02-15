@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>ripc - trace and clean GNUspool IPC facilities</title>
+<title>gspl-ripc - trace and clean GNUspool IPC facilities</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -29,12 +29,12 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>ripc - trace and clean GNUspool IPC facilities</p>
+<p>gspl-ripc - trace and clean GNUspool IPC facilities</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>ripc</strong>
+<p><strong>gspl-ripc</strong>
 [ <em>-d</em> ]
 [ <em>-r</em> ]
 [ <em>-F</em> ]
@@ -52,20 +52,20 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>ripc</strong> traces, monitors problems with or deletes IPC facilities used by
+<p><strong>gspl-ripc</strong> traces, monitors problems with or deletes IPC facilities used by
 <strong>GNUspool</strong>. Many of the facilities are used for debugging, but it also
 serves as a quick method of deleting the IPC facilities, being easier
 to use than <strong>ipcs</strong> and <strong>ipcrm</strong>, in the event that the scheduler has
 crashed or been killed without deleting the IPC facilities.</p>
-<p>To use this facility, just run <strong>ripc</strong> thus:</p>
+<p>To use this facility, just run <strong>gspl-ripc</strong> thus:</p>
 <pre>
-        ripc -d &gt;/dev/null</pre>
+        gspl-ripc -d &gt;/dev/null</pre>
 <p>The diagnostic output may be useful as it reports any inconsistencies.</p>
 <p>The monitoring option can be used to diagnose processes, possibly not
 <strong>GNUspool</strong> ones, which are interfering with <strong>GNUspool</strong> shared memory
 segments, in cases where a third-party application is suspected of
 damaging the shared memory.</p>
-<p><strong>Ripc</strong> also checks for errors in memory-mapped files where the
+<p><strong>Gspl-ripc</strong> also checks for errors in memory-mapped files where the
 version of <strong>GNUspool</strong> is using those rather than shared memory.</p>
 <p>
 </p>
@@ -142,7 +142,7 @@ suppressed because messages on the queue can't be ``peeked at'' or ``unread''.</
 <p>This is only relevant for versions of <strong>GNUspool</strong> which use
 memory-mapped files rather than shared memory. It specifies the
 location of the spool directory. If this is not specified, then the
-master configuration file <em>/etc/gnuspool.conf</em> is consulted to find
+master configuration file <em>gnuspool.conf</em> is consulted to find
 the spool directory location, or failing that, the directory
 <em>/var/spool/gnuspool</em> is used.</p>
 </dd>
@@ -183,19 +183,19 @@ character of the argument). The default is <code>.</code>.</p>
 <h1><a name="example">EXAMPLE</a></h1>
 <p>To delete all IPC facilities after <strong>GNUspool</strong> has crashed.</p>
 <pre>
-        ripc -d -o /dev/null</pre>
+        gspl-ripc -d -o /dev/null</pre>
 <p>To monitor the job shared memory segment for errors, printing out the
 <code>ps(1)</code> output (where the full listing is obtained with <code>-ef</code>) search
 for the process id of the last process to attach to the segment. Print
 out the contents of the segment including in hexadecimal after
 corruption is detected.</p>
 <pre>
-        ripc -D 30 -P -ef -o joblog -A -x</pre>
+        gspl-ripc -D 30 -P -ef -o joblog -A -x</pre>
 <p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spstart(1),
+<p>gspl-start(1),
 spshed(8).</p>
 <p>
 </p>

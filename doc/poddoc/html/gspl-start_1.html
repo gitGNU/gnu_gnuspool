@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>spstart - start GNUspool</title>
+<title>gspl-start - start GNUspool</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -29,7 +29,7 @@
 	<li><a href="#state_testing">State testing</a></li>
 	<ul>
 
-		<li><a href="#standard_state_names_for_spstat">Standard state names for spstat</a></li>
+		<li><a href="#standard_state_names_for_gsplpstat">Standard state names for gspl-pstat</a></li>
 	</ul>
 
 	<li><a href="#connect_and_disconnect">Connect and disconnect</a></li>
@@ -46,61 +46,61 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>spstart - start GNUspool</p>
-<p>spstart - start a printer</p>
-<p>sphalt - halt a printer at end of job</p>
-<p>spstop - halt a printer immediately</p>
-<p>spinter - interrupt printer</p>
-<p>spadd - add a printer</p>
-<p>spdel - delete a printer</p>
-<p>spchange - change a printer</p>
-<p>spok - approve alignment</p>
-<p>spnok - disapprove alignment</p>
-<p>spstat - test state of printer</p>
-<p>spconn - connect GNUspool host</p>
-<p>spdisconn - disconnect GNUspool host</p>
+<p>gspl-start - start GNUspool</p>
+<p>gspl-start - start a printer</p>
+<p>gspl-phalt - halt a printer at end of job</p>
+<p>gspl-pstop - halt a printer immediately</p>
+<p>gspl-pinter - interrupt printer</p>
+<p>gspl-padd - add a printer</p>
+<p>gspl-pdel - delete a printer</p>
+<p>gspl-pchange - change a printer</p>
+<p>gspl-ok - approve alignment</p>
+<p>gspl-nok - disapprove alignment</p>
+<p>gspl-pstat - test state of printer</p>
+<p>gspl-conn - connect GNUspool host</p>
+<p>gspl-disconn - disconnect GNUspool host</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>spstart</strong>
+<p><strong>gspl-start</strong>
 [ <em>jobsize</em> [ <em>printersize</em> ] ]</p>
-<p><strong>spstart</strong>
+<p><strong>gspl-start</strong>
 [ <em>-options</em> ]
 <em>printer</em> [ <em>formtype</em> ]</p>
-<p><strong>sphalt</strong>
+<p><strong>gspl-phalt</strong>
 [ <em>-options</em> ]
 <em>printer</em></p>
-<p><strong>spstop</strong>
+<p><strong>gspl-pstop</strong>
 [ <em>-options</em> ]
 <em>printer</em></p>
-<p><strong>spinter</strong>
+<p><strong>gspl-pinter</strong>
 [ <em>-options</em> ]
 <em>printer</em></p>
-<p><strong>spadd</strong>
+<p><strong>gspl-padd</strong>
 <em>-options</em>
 <em>printer</em>
 <em>formtype</em></p>
-<p><strong>spdel</strong>
+<p><strong>gspl-pdel</strong>
 [ <em>-options</em> ]
 <em>printer</em></p>
-<p><strong>spchange</strong>
+<p><strong>gspl-pchange</strong>
 <em>-options</em>
 <em>printer</em>
 [ <em>formtype</em> ]</p>
-<p><strong>spok</strong>
+<p><strong>gspl-ok</strong>
 [ <em>-options</em> ]
 <em>printer</em></p>
-<p><strong>spnok</strong>
+<p><strong>gspl-nok</strong>
 [ <em>-options</em> ]
 <em>printer</em></p>
-<p><strong>spstat</strong>
+<p><strong>gspl-pstat</strong>
 [ <em>-options</em> ]
 <em>printer</em>
 <em>state</em></p>
-<p><strong>spconn</strong>
+<p><strong>gspl-conn</strong>
 <em>host</em></p>
-<p><strong>spdisconn</strong>
+<p><strong>gspl-disconn</strong>
 <em>host</em></p>
 <p>
 </p>
@@ -112,7 +112,7 @@ program.</p>
 </p>
 <hr />
 <h1><a name="starting_gnuspool">Starting GNUspool</a></h1>
-<a name="Spstart_start"></a><p><strong>spstart</strong> without arguments, or with one or two numeric arguments,
+<a name="Gspl-Start_start"></a><p><strong>gspl-start</strong> without arguments, or with one or two numeric arguments,
 may be used to start the <strong>GNUspool</strong> scheduler, spshed(8), together
 with associated programs, such as xtnetserv(8).</p>
 <p>The first optional argument specifies to <code>spshed(8)</code> that when
@@ -124,30 +124,30 @@ printers.</p>
 are strange problems about allocating and deallocating blocks of
 shared memory whilst a program is running which these are intended to
 alleviate.</p>
-<p>If <code>spshed(8)</code> is already running, <strong>spstart</strong> will have no effect.</p>
-<p>Printers with numeric names in the other form of <strong>spstart</strong> will not
+<p>If <code>spshed(8)</code> is already running, <strong>gspl-start</strong> will have no effect.</p>
+<p>Printers with numeric names in the other form of <strong>gspl-start</strong> will not
 cause confusion if <code>spshed(8)</code> is running.</p>
 <p>All other forms of this command will initialise spshed(8), but this is
 <em>very strongly</em> not recommended. The scheduler should be started
 first, connections to other machines established, possibly using
-<strong>spconn</strong>, and then printers should be started.</p>
+<strong>gspl-conn</strong>, and then printers should be started.</p>
 <p>
 </p>
 <hr />
 <h1><a name="starting_printers">Starting printers</a></h1>
-<a name="Spstart_use"></a><pre>
-        spstart lj4</pre>
+<a name="Gspl-Start_use"></a><pre>
+        gspl-start lj4</pre>
 <p>will start printer <code>lj4</code> if it is halted. It will have no effect if
 it is already running. If it is printing, but it has been set to halt
 at the end of the current job, then this setting will be turned off,
 and the printer will continue at the end of the current job.</p>
 <pre>
-        spstart lj4 a4</pre>
+        gspl-start lj4 a4</pre>
 <p>will likewise do nothing, other than canceling a ``halt at end of
 current job'' setting, if printer <code>lj4</code> is running with the paper type
 <code>a4</code> (i.e. form type up to the first ``<code>.</code>'' or <code>-</code> is <code>a4</code>,
 ignoring the ``suffix''). Otherwise, printer <code>lj4</code> will be halted at
-the end of the current job if it is running, <strong>spstart</strong> will wait for
+the end of the current job if it is running, <strong>gspl-start</strong> will wait for
 it to halt, change the form type to <code>a4</code> and then restart it.</p>
 <p>Only ``paper types'', ignoring the suffix, are compared in deciding
 whether the form type is loaded.</p>
@@ -155,14 +155,14 @@ whether the form type is loaded.</p>
 incorrect expansion by shell using quotes) may be used, in conjunction
 with the <strong>-f</strong> option, to start multiple printers, thus:</p>
 <pre>
-        spstart -f 'l*'
-        spstart -f '*[!a-m]'
-        spstart -f 'l*,*[!a-m]'</pre>
+        gspl-start -f 'l*'
+        gspl-start -f '*[!a-m]'
+        gspl-start -f 'l*,*[!a-m]'</pre>
 <p>will respectively start all printers whose names begin with <code>l</code>, all
 printers whose names do not end with <code>a</code> through to <code>m</code> and both
 those classes of printers. Many installations include</p>
 <pre>
-        spstart -f '*'</pre>
+        gspl-start -f '*'</pre>
 <p>in the ``startup script'' to start up all local printers.</p>
 <p>Most of the options (e.g. <strong>-l</strong> and <strong>-C</strong>) serve only to clarify which
 printer or printers are being referred to where there is ambiguity or
@@ -172,44 +172,44 @@ the user wishes to restrict the field.</p>
 <p>Printers on remote machines may be started by prefixing the machine
 name, thus</p>
 <pre>
-        spstart -f host1:l*</pre>
+        gspl-start -f host1:l*</pre>
 <p>Printers are not started on more than one machine at once. You should
 start the printers as separate commands:</p>
 <pre>
-        spstart -f '*'
-        spstart -f 'host1:*'
-        spstart -f 'host2:*'</pre>
-<p>To run <strong>spstart</strong>, the user must have <em>halt and restart printers</em>
+        gspl-start -f '*'
+        gspl-start -f 'host1:*'
+        gspl-start -f 'host2:*'</pre>
+<p>To run <strong>gspl-start</strong>, the user must have <em>halt and restart printers</em>
 permission.</p>
 <p>
 </p>
 <hr />
 <h1><a name="halting_printers">Halting printers</a></h1>
-<a name="Sphalt_use"></a>
-<a name="Spstop_use"></a><pre>
-        sphalt lj4</pre>
+<a name="Gspl-Phalt_use"></a>
+<a name="Gspl-Pstop_use"></a><pre>
+        gspl-phalt lj4</pre>
 <p>will halt printer <code>lj4</code> at the end of the current job if it is
 running and will otherwise have no effect.</p>
 <pre>
-        sphalt -f 'l*'</pre>
+        gspl-phalt -f 'l*'</pre>
 <p>will likewise halt all printers whose names start with <code>l</code> etc.</p>
 <p>Most of the options (e.g. <strong>-l</strong> and <strong>-C</strong>) serve only to clarify which
 printer or printers are being referred to where there is ambiguity or
 the user wishes to restrict the field.</p>
-<p><strong>spstop</strong> is like <strong>sphalt</strong>, but the printers are halted immediately,
+<p><strong>gspl-pstop</strong> is like <strong>gspl-phalt</strong>, but the printers are halted immediately,
 aborting any current job.</p>
 <p>Printers on remote machines may be halted by prefixing the machine
 name, thus</p>
 <pre>
-        spstop -f host1:l*</pre>
+        gspl-pstop -f host1:l*</pre>
 <p>To run these commands, the user must have <em>halt and restart printers</em>
 permission.</p>
 <p>
 </p>
 <hr />
 <h1><a name="interrupting_printers">Interrupting printers</a></h1>
-<a name="Spinter_use"></a><pre>
-        spinter lj4</pre>
+<a name="Gspl-Pinter_use"></a><pre>
+        gspl-pinter lj4</pre>
 <p>interrupts the given printer (or printers), so as to enable a
 higher-priority job to be handled and the interrupted job resumed at
 the interrupted page. Note that this will only work as intended if
@@ -217,83 +217,83 @@ page delimiters are correctly defined.</p>
 <p>Printers on remote machines may be interrupted by prefixing the machine
 name, thus</p>
 <pre>
-        spinter host1:lj4</pre>
+        gspl-pinter host1:lj4</pre>
 <p>To run this, the user must have <em>halt and restart printers</em>
 permission.</p>
 <p>
 </p>
 <hr />
 <h1><a name="adding_printers">Adding printers</a></h1>
-<a name="Spadd_use"></a><pre>
-        spadd -l tty15 lj4b a4</pre>
+<a name="Gspl-Padd_use"></a><pre>
+        gspl-padd -l tty15 lj4b a4</pre>
 <p>adds a new printer with the specified parameters. The <strong>-l</strong> option is
 mandatory to denote the device name (or network address) as is the
 initial form type, in the above example <code>a4</code>.</p>
 <pre>
-        spadd -l 193.112.238.95 -N ptr9 a4</pre>
+        gspl-padd -l 193.112.238.95 -N ptr9 a4</pre>
 <p>adds a network (terminal server) printer with the IP address
 given.</p>
 <p>Please note that this does nothing to create an initial setup
 file, which should be created first.</p>
 <p>Printers on remote machines may not be added with this command.</p>
-<p>To run <strong>spadd</strong>, the user must have <em>add and delete printers</em>
+<p>To run <strong>gspl-padd</strong>, the user must have <em>add and delete printers</em>
 permission.</p>
 <p>
 </p>
 <hr />
 <h1><a name="deleting_printers">Deleting printers</a></h1>
-<a name="Spdel_use"></a><pre>
-        spdel lj4b</pre>
+<a name="Gspl-Pdel_use"></a><pre>
+        gspl-pdel lj4b</pre>
 <p>deletes the specified printer. It is a mistake to try to delete more
 than one printer at a time with this command.</p>
 <p>Printers on remote machines may not be deleted with this command.</p>
-<p>To run <strong>spdel</strong>, the user must have <em>add and delete printers</em>
+<p>To run <strong>gspl-pdel</strong>, the user must have <em>add and delete printers</em>
 permission.</p>
 <p>
 </p>
 <hr />
 <h1><a name="changing_printers">Changing printers</a></h1>
-<a name="Spchange_use"></a><p><strong>spchange</strong> with appropriate options and a printer name (with optional
+<a name="Gspl-Pchange_use"></a><p><strong>gspl-pchange</strong> with appropriate options and a printer name (with optional
 form type) changes the specified parameters of a printer, which should
 be halted (and is left halted).</p>
-<p>To run <strong>spchange</strong>, the user must have <em>add and delete printers</em>
+<p>To run <strong>gspl-pchange</strong>, the user must have <em>add and delete printers</em>
 permission.</p>
 <p>
 </p>
 <hr />
 <h1><a name="alignment_pages">Alignment pages</a></h1>
-<a name="Spok_use"></a>
-<a name="Spnok_use"></a><p>If a printer is in ``awaiting operator'' state, then <strong>spok</strong> and
-<strong>spnok</strong> may be used to communicate with it.</p>
+<a name="Gspl-Ok_use"></a>
+<a name="Gspl-Nok_use"></a><p>If a printer is in ``awaiting operator'' state, then <strong>gspl-ok</strong> and
+<strong>gspl-nok</strong> may be used to communicate with it.</p>
 <p>If it is in single sheet mode, then the printer will be continued
 identically whichever command is used.</p>
-<p>If it is waiting for the approval of an alignment page, <strong>spok</strong> will
-grant approval and continue with printing, <strong>spnok</strong> will disapprove
+<p>If it is waiting for the approval of an alignment page, <strong>gspl-ok</strong> will
+grant approval and continue with printing, <strong>gspl-nok</strong> will disapprove
 the alignment page, causing the alignment routine to be rerun.</p>
-<p>To run <strong>spok</strong> and <strong>spnok</strong>, the user must have <em>select printer list</em>
+<p>To run <strong>gspl-ok</strong> and <strong>gspl-nok</strong>, the user must have <em>select printer list</em>
 permission.</p>
 <p>
 </p>
 <hr />
 <h1><a name="state_testing">State testing</a></h1>
-<a name="Spstat_use"></a><pre>
-        spstat lj4</pre>
+<a name="Gspl-Pstat_use"></a><pre>
+        gspl-pstat lj4</pre>
 <p>will return an exit code of 0 (TRUE to shells) if the printer is
 running, (i.e. printing or idle) and otherwise 1 (FALSE to
 shells). Some other exit code will be returned, together with a
 message, if there is an error, e.g. non-existent printer.</p>
 <p>To test for specific states, use the state names as listed by
-splist(1), (in fact it takes the state names from the same file
+gspl-plist(1), (in fact it takes the state names from the same file
 <em>rest.help</em> by default) for example.</p>
 <pre>
-        if spstat lj4 error || spstat lj4 offline
+        if gspl-pstat lj4 error || gspl-pstat lj4 offline
         then    echo trouble with lj4
         fi</pre>
 <p>
 </p>
-<h2><a name="standard_state_names_for_spstat">Standard state names for spstat</a></h2>
-<p>The following state names are used by <strong>spstat</strong>, which are usually
-shared with <code>splist(1)</code> in the message file
+<h2><a name="standard_state_names_for_gsplpstat">Standard state names for gspl-pstat</a></h2>
+<p>The following state names are used by <strong>gspl-pstat</strong>, which are usually
+shared with gspl-plist(1) in the message file
 <em>rest.help</em> by default. As with other GNUspool
 programs, the message file may be edited as required:</p>
 <dl>
@@ -350,13 +350,13 @@ programs, the message file may be edited as required:</p>
 </p>
 <hr />
 <h1><a name="connect_and_disconnect">Connect and disconnect</a></h1>
-<a name="Spconn_use"></a>
-<a name="Spdisconn_use"></a><p><strong>spconn</strong> instructs the <strong>GNUspool</strong> scheduler to attempt to raise a
+<a name="Gspl-Conn_use"></a>
+<a name="Gspl-Disconn_use"></a><p><strong>gspl-conn</strong> instructs the <strong>GNUspool</strong> scheduler to attempt to raise a
 connection to the given host, which should be specified in the file
-<em>/etc/gnuspool.hosts</em>, and not currently active.</p>
-<p><strong>spdisconn</strong> instructs the <strong>GNUspool</strong> scheduler to close a connection
+<em>gnuspool.hosts</em>, and not currently active.</p>
+<p><strong>gspl-disconn</strong> instructs the <strong>GNUspool</strong> scheduler to close a connection
 to the given host, which should be specified in the file
-<em>/etc/gnuspool.hosts</em>, and currently active.</p>
+<em>gnuspool.hosts</em>, and currently active.</p>
 <p>Both of these commands return immediately; however the connection may
 take some time and indeed may not succeed without the command
 returning an error message or code.</p>
@@ -368,8 +368,9 @@ returning an error message or code.</p>
 <p>Note that the order of treatment, letters and keywords described below
 may be modified by editing the file <em>rest.help</em> - see spsyntax(5).</p>
 <p>The environment variable on which options are supplied is the same as
-the name of the program invoked except in upper-case, for example,
-<a href="#item_spstart"><code>SPSTART</code></a>. The environment variable to specify the help file is
+the name of the program invoked except in upper-case and with ``-''
+changed to ``_'' (underscore), for example,
+<a href="#item_gspl_start"><code>GSPL_START</code></a>. The environment variable to specify the help file is
 <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
 <dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
@@ -395,19 +396,19 @@ or <code>lp</code>-style) device.</p>
 <dt><strong><a name="item__2ds_or__2blocal_2donly">-s or +local-only</a></strong>
 
 <dd>
-<p>(for <strong>spadd</strong>) mark printer as being local only to the host.</p>
+<p>(for <strong>gspl-padd</strong>) mark printer as being local only to the host.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dw_or__2bnetwork_2dwide">-w or +network-wide</a></strong>
 
 <dd>
-<p>(for <strong>spadd</strong>) mark printer as being available to other machines.</p>
+<p>(for <strong>gspl-padd</strong>) mark printer as being available to other machines.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dl_device_or__2bdevice_2dname_device">-l <em>device</em> or +device-name <em>device</em></a></strong>
 
 <dd>
-<p>in the case of <strong>spadd</strong>, defines the device name or network address of
+<p>in the case of <strong>gspl-padd</strong>, defines the device name or network address of
 the printer.</p>
 </dd>
 <dd>
@@ -422,7 +423,7 @@ similarly-named printers is intended.</p>
 case), with <strong>-</strong> to denote ranges, specifies a class code.</p>
 </dd>
 <dd>
-<p>in the case of <strong>spadd</strong>, it defines the class code (subject to
+<p>in the case of <strong>gspl-padd</strong>, it defines the class code (subject to
 modification by the user's class code) which will be given to the
 printer.</p>
 </dd>
@@ -441,22 +442,22 @@ similarly-named printers is intended.</p>
 <dt><strong><a name="item__2dv_device_or__2bnew_2ddevice_device">-v <em>device</em> or +new-device <em>device</em></a></strong>
 
 <dd>
-<p>for <strong>spchange</strong>, reset the device name as specified. Note that the
+<p>for <strong>gspl-pchange</strong>, reset the device name as specified. Note that the
 <strong>-l</strong> option may help to select the desired printer.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2ds_or__2bset_2dclasscode">-S or +set-classcode</a></strong>
 
 <dd>
-<p>for <strong>spchange</strong>, reset the class code as specified. Note that the
+<p>for <strong>gspl-pchange</strong>, reset the class code as specified. Note that the
 <strong>-C</strong> option may help to select the desired printer.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2df_or__2bforce_2dall">-f or +force-all</a></strong>
 
 <dd>
-<p>for <strong>spstart</strong>, <strong>sphalt</strong>, <strong>spstop</strong>, <strong>spinter</strong>, <strong>spchange</strong>,
-<strong>spok</strong>, <strong>spnok</strong> indicate that if the printer name argument selects
+<p>for <strong>gspl-start</strong>, <strong>gspl-phalt</strong>, <strong>gspl-pstop</strong>, <strong>gspl-pinter</strong>, <strong>gspl-pchange</strong>,
+<strong>gspl-ok</strong>, <strong>gspl-nok</strong> indicate that if the printer name argument selects
 more than one printer, then all such printers are intended.</p>
 </dd>
 </li>
@@ -508,54 +509,54 @@ message file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <p><strong>N.B.</strong> Separate variables are provided for each program from Release
-23 onwards. Previously <a href="#item_spstart"><code>SPSTART</code></a> applied to each program.</p>
+23 onwards. Previously <code>GSPL-START</code> applied to each program.</p>
 <dl>
-<dt><strong><a name="item_spstart">SPSTART</a></strong>
+<dt><strong><a name="item_gspl_start">GSPL_START</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>spstart</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-start</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_sphalt">SPHALT</a></strong>
+<dt><strong><a name="item_gspl_phalt">GSPL_PHALT</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>sphalt</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-phalt</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_spadd">SPADD</a></strong>
+<dt><strong><a name="item_gspl_padd">GSPL_PADD</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>spadd</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-padd</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_spdel">SPDEL</a></strong>
+<dt><strong><a name="item_gspl_pdel">GSPL_PDEL</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>spdel</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-pdel</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_spchange">SPCHANGE</a></strong>
+<dt><strong><a name="item_gspl_pchange">GSPL_PCHANGE</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>spchange</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-pchange</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_spok">SPOK</a></strong>
+<dt><strong><a name="item_gspl_ok">GSPL_OK</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>spok</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-ok</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_spnok">SPNOK</a></strong>
+<dt><strong><a name="item_gspl_nok">GSPL_NOK</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>spnok</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-nok</strong>.</p>
 </dd>
 </li>
-<dt><strong><a name="item_spstat">SPSTAT</a></strong>
+<dt><strong><a name="item_gspl_pstat">GSPL_PSTAT</a></strong>
 
 <dd>
-<p>space-separated options to override defaults for <strong>spstat</strong>.</p>
+<p>space-separated options to override defaults for <strong>gspl-pstat</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
@@ -569,9 +570,9 @@ message file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>splist(1),
-spq(1),
-sqlist(1),
+<p>gspl-plist(1),
+gspl-pq(1),
+gspl-qlist(1),
 spsyntax(5),
 gnuspool.conf(5),
 gnuspool.hosts(5),

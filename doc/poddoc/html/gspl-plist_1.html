@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>splist - display printer queue</title>
+<title>gspl-plist - display printer list</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -36,28 +36,28 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>splist - display printer queue</p>
+<p>gspl-plist - display printer list</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>splist</strong>
+<p><strong>gspl-plist</strong>
 [ <em>-options</em> ]
 [ <em>printer</em> ... ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>splist</strong> generates a list of the printers, with their current status,
+<p><strong>gspl-plist</strong> generates a list of the printers, with their current status,
 on the <strong>GNUspool</strong> printer lists, including those on remote machines,
 on standard output. Each line of the output corresponds to a single
 printer, and by default the output is generally similar to the default
-format of the printers screen of the <code>spq(1)</code> command.</p>
+format of the printers screen of the gspl-pq(1) command.</p>
 <p>Various options allow the user to control the output in various ways
 as described below.</p>
 <p>The output can be restricted to one or more named printers by listing
 them on the command line.</p>
-<p>The default output of <strong>splist</strong> looks like the following</p>
+<p>The default output of <strong>gspl-plist</strong> looks like the following</p>
 <pre>
  ljet       lp    a4      idle
  epson      tty15 invoice halted
@@ -72,10 +72,10 @@ using the <strong>-F</strong> option.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_splist"><code>SPLIST</code></a> and the
+<p>The environment variable on which options are supplied is <a href="#item_gspl_plist"><code>GSPL_PLIST</code></a> and the
 environment variable to specify the help file is <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+<dt><strong><a name="item__2d_3f_or__2bexplain_or__2bhelp">-? or +explain or +help</a></strong>
 
 <dd>
 <p>causes a summary of the other options to be displayed without taking
@@ -105,7 +105,7 @@ characters to be printed and symbols representing the required data
 fields. This option overrides and preceding <strong>-D</strong> option, and is
 itself overridden by a following <strong>-D</strong> option.</p>
 </dd>
-<P>See <a href="#Splist_format">the section on format codes</a> for
+<P>See <a href="#Gspl-Plist_format">the section on format codes</a> for
 details of the format code sequences.</P></li>
 <dt><strong><a name="item__2dh_or__2bheader">-H or +header</a></strong>
 
@@ -122,7 +122,7 @@ required.
 =item -l or +local-only</pre>
 </dd>
 <dd>
-<p>include only printers local to the host on which the <strong>splist</strong> command
+<p>include only printers local to the host on which the <strong>gspl-plist</strong> command
 is run.</p>
 </dd>
 </li>
@@ -337,7 +337,7 @@ message file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_splist">SPLIST</a></strong>
+<dt><strong><a name="item_gspl_plist">GSPL_PLIST</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -354,9 +354,9 @@ message file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spstart(1),
-spq(1),
-sqlist(1),
+<p>gspl-start(1),
+gspl-pq(1),
+gspl-qlist(1),
 spsyntax(5),
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>

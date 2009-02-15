@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>setspdir - tidy up or redistribute GNUspool jobs into subdirectories</title>
+<title>gspl-setspdir - tidy up or redistribute GNUspool jobs into subdirectories</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -29,12 +29,12 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>setspdir - tidy up or redistribute GNUspool jobs into subdirectories</p>
+<p>gspl-setspdir - tidy up or redistribute GNUspool jobs into subdirectories</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>setspdir</strong>
+<p><strong>gspl-setspdir</strong>
 [ <em>-s n</em> ]
 [ <em>-r</em> ]
 [ <em>-d</em> ]
@@ -44,7 +44,7 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>setspdir</strong> tidies up the <strong>GNUspool</strong> spool directory, removing old
+<p><strong>gspl-setspdir</strong> tidies up the <strong>GNUspool</strong> spool directory, removing old
 spool files, or alternatively re-queuing them with a given default
 form type, and eliminating jobs where the spool file is missing.</p>
 <p>Optionally, it may be used to split the main spool directory into a
@@ -52,7 +52,7 @@ series of subdirectories <code>000</code>, <code>001</code> etc, reducing the si
 main spool directory to manageable proportions and also speeding up
 file searches. Alternatively, the subdirectories may be linked to
 different file systems by the user.</p>
-<p>For reasonably obvious reasons, <strong>setspdir</strong> should be run with the
+<p>For reasonably obvious reasons, <strong>gspl-setspdir</strong> should be run with the
 spooler shut down.</p>
 <p>
 </p>
@@ -104,7 +104,7 @@ subdirectories.</p>
 <dt><strong><a name="item__2dy">-y</a></strong>
 
 <dd>
-<p>Answer ``yes'' to any questions which <strong>setspdir</strong> asks.</p>
+<p>Answer ``yes'' to any questions which <strong>gspl-setspdir</strong> asks.</p>
 </dd>
 </li>
 </dl>
@@ -112,8 +112,8 @@ subdirectories.</p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
-<p><strong>setspdir</strong> creates or updates the environment variable <a href="#item_spoolsubds"><code>SPOOLSUBDS</code></a>
-in <em>/etc/gnuspool.conf</em>.</p>
+<p><strong>gspl-setspdir</strong> creates or updates the environment variable <a href="#item_spoolsubds"><code>SPOOLSUBDS</code></a>
+in <em>gnuspool.conf</em>.</p>
 <dl>
 <dt><strong><a name="item_spooldir">SPOOLDIR</a></strong>
 
@@ -132,9 +132,9 @@ in <em>/etc/gnuspool.conf</em>.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>cjlist(8),
-cplist(8),
-spuconv(8),
+<p>gspl-cjlist(8),
+gspl-cplist(8),
+gspl-spuconv(8),
 gnuspool.conf(5).</p>
 <p>
 </p>

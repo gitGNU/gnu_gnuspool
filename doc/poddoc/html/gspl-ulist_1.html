@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>spulist - list permissions for users</title>
+<title>gspl-ulist - list permissions for users</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -37,26 +37,26 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>spulist - list permissions for users</p>
+<p>gspl-ulist - list permissions for users</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>spulist</strong>
+<p><strong>gspl-ulist</strong>
 [ <em>-options</em> ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>spulist</strong> lists the permissions of users known to the <strong>GNUspool</strong>
+<p><strong>gspl-ulist</strong> lists the permissions of users known to the <strong>GNUspool</strong>
 print spooler system.</p>
 <p>The invoking user must have <em>edit admin file</em> permission to use
-<strong>spulist</strong>.</p>
+<strong>gspl-ulist</strong>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_spulist"><code>SPULIST</code></a>
+<p>The environment variable on which options are supplied is <code>GSPL-ULIST</code>
 and the environment variable to specify the help file is
 <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
@@ -240,7 +240,7 @@ possible to modify them as required by the user.</p>
 <h2><a name="privileges_format">Privileges format</a></h2>
 <p>The following are output via the <a href="#item__p"><code>%p</code></a> format. Note that the actual
 strings are read from the message file, and are the same ones as are
-used by spuchange(1). <code>ALL</code> is displayed if all privileges are set.</p>
+used by gspl-uchange(1). <code>ALL</code> is displayed if all privileges are set.</p>
 <dl>
 <dt><strong><a name="item_adm">Adm</a></strong>
 
@@ -366,7 +366,7 @@ message file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_spulist">SPULIST</a></strong>
+<dt><strong><a name="item_gspl_ulist">GSPL_ULIST</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -383,8 +383,8 @@ message file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spuchange(1),
-spuser(1),
+<p>gspl-uchange(1),
+gspl-user(1),
 spsyntax(5),
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>

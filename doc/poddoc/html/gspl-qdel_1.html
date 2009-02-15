@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>sqdel - delete spool jobs</title>
+<title>gspl-qdel - delete spool jobs</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -32,32 +32,32 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>sqdel - delete spool jobs</p>
+<p>gspl-qdel - delete spool jobs</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>sqdel</strong>
+<p><strong>gspl-qdel</strong>
 [ <em>-options</em> ]
 <em>job number</em> ...</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>sqdel</strong> deletes one or more jobs from the <strong>GNUspool</strong> job spool queue,
+<p><strong>gspl-qdel</strong> deletes one or more jobs from the <strong>GNUspool</strong> job spool queue,
 which may be on the local host or other hosts on the network. Jobs are
-specified by the job number, which is reported by <code>sqlist(1)</code> in the
-first column of the default output, or by <code>spr(1)</code> or <code>rspr(1)</code> when the
+specified by the job number, which is reported by gspl-qlist(1) in the
+first column of the default output, or by gspl-pr(1) or gspl-rpr(1) when the
 job is queued with the <em>verbose</em> option. Remote jobs are specified by
 prefixing the job number by the host name and a colon, thus
 <code>host:1234</code>. Leading zeroes in the job number may be omitted.</p>
-<p><strong>Sqdel</strong> will not delete jobs not marked as ``printed'' unless the <strong>-y</strong>
+<p><strong>Gspl-qdel</strong> will not delete jobs not marked as ``printed'' unless the <strong>-y</strong>
 option is given.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_sqdel"><code>SQDEL</code></a> and the
+<p>The environment variable on which options are supplied is <a href="#item_gspl_qdel"><code>GSPL_QDEL</code></a> and the
 environment variable to specify the help file is <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
 <dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
@@ -133,7 +133,7 @@ message file).</p>
 <p>unqueue jobs, i.e. copy to current directory or directory selected
 with the <strong>-D</strong> option. Jobs are copied as two files, a <em>job file</em>
 containing the text of the job and a <em>command file</em> containing an
-<strong>spr</strong> command. The command file may be run as a shell script to
+<strong>gspl-pr</strong> command. The command file may be run as a shell script to
 re-queue the job with the same options.</p>
 </dd>
 </li>
@@ -148,8 +148,8 @@ re-queue the job with the same options.</p>
 <dd>
 <p>Save all the current options in a <em>.gnuspool</em> file in the current
 directory. If there are no jobs given to operate on and this is
-specified, then <strong>sqdel</strong> will quit without error. If it is unable
-to save the options and jobs are specified, then <strong>sqdel</strong> will
+specified, then <strong>gspl-qdel</strong> will quit without error. If it is unable
+to save the options and jobs are specified, then <strong>gspl-qdel</strong> will
 continue.</p>
 </dd>
 </li>
@@ -158,8 +158,8 @@ continue.</p>
 <dd>
 <p>Save all the current options in a <em>.gnuspool</em> file in the user's home
 directory. If there are no jobs given to operate on and this is
-specified, then <strong>sqdel</strong> will quit without error. If it is unable
-to save the options and jobs are specified, then <strong>sqdel</strong> will
+specified, then <strong>gspl-qdel</strong> will quit without error. If it is unable
+to save the options and jobs are specified, then <strong>gspl-qdel</strong> will
 continue.</p>
 </dd>
 </li>
@@ -179,7 +179,7 @@ message file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_sqdel">SQDEL</a></strong>
+<dt><strong><a name="item_gspl_qdel">GSPL_QDEL</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -196,11 +196,11 @@ message file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>rspr(1),
-spr(1),
-spq(1),
-sqchange(1),
-sqlist(1),
+<p>gspl-rpr(1),
+gspl-pr(1),
+gspl-pq(1),
+gspl-qchange(1),
+gspl-qlist(1),
 spsyntax(5),
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
@@ -216,7 +216,7 @@ file, by default <em>rest.help</em>.</p>
 <h1><a name="notes">NOTES</a></h1>
 <p>The <strong>-C</strong> option selects the class code for finding the jobs; if you
 have <em>override class</em> privilege, but your default class code does not
-allow the jobs ``to be seen'' in the output of sqlist(1), then you may
+allow the jobs ``to be seen'' in the output of gspl-qlist(1), then you may
 need to specify this.</p>
 <p>Any errors are reported with appropriate messages on standard
 error. If any errors are detected operating on several jobs, the exit

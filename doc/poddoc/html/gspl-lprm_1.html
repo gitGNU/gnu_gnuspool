@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>sp.lpq - display job list on LPD protocol servers</title>
+<title>gspl-lprm - delete jobs on LPD protocol servers</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -31,20 +31,19 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>sp.lpq - display job list on LPD protocol servers</p>
+<p>gspl-lprm - delete jobs on LPD protocol servers</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>sp.lpq</strong>
-[ <em>-l</em> ]
-[ <em>-s</em> ]
-<em>printer</em></p>
+<p><strong>gspl-lprm</strong>
+<em>printer</em>
+<em>job</em> ...</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>sp.lpq</strong> obtains and outputs a list of pending jobs on an external
+<p><strong>gspl-lprm</strong> deletes pending jobs on an external
 print server supporting the LPD protocol.</p>
 <p>
 </p>
@@ -53,7 +52,7 @@ print server supporting the LPD protocol.</p>
 <p>Note that the order of treatment, letters and keywords described below
 may be modified by editing the file <em>splpd.help</em> -
 see spsyntax(5).</p>
-<p>The environment variable on which options are supplied is <code>SPLPQ</code> and the
+<p>The environment variable on which options are supplied is <code>GSPL_LPRM</code> and the
 environment variable to specify the help file is <a href="#item_lpdintconf"><code>LPDINTCONF</code></a>.</p>
 <dl>
 <dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
@@ -61,18 +60,6 @@ environment variable to specify the help file is <a href="#item_lpdintconf"><cod
 <dd>
 <p>Causes a summary of the other options to be displayed without taking
 further action.</p>
-</dd>
-</li>
-<dt><strong><a name="item__2dl_or__2blong_2dlist">-l or +long-list</a></strong>
-
-<dd>
-<p>Produce a long listing.</p>
-</dd>
-</li>
-<dt><strong><a name="item__2ds_or__2bshort_2dlist">-s or +short-list</a></strong>
-
-<dd>
-<p>Produce a short listing (default).</p>
 </dd>
 </li>
 <dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
@@ -105,7 +92,7 @@ message file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_splpd">SPLPD</a></strong>
+<dt><strong><a name="item_splprm">SPLPRM</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -122,7 +109,7 @@ message file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>sp.lprm(1),
+<p>gspl-lpq(1),
 spsyntax(5),
 xtlpc(8).</p>
 <p>

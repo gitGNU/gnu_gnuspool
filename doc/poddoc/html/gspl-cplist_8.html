@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>cplist - dump out GNUspool printers to a shell script</title>
+<title>gspl-plist - dump out GNUspool printers to a shell script</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -28,12 +28,12 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>cplist - dump out GNUspool printers to a shell script</p>
+<p>gspl-plist - dump out GNUspool printers to a shell script</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>cplist</strong>
+<p><strong>gspl-plist</strong>
 [ <em>-D dir</em> ]
 [ <em>-e n</em> ]
 [ <em>-s</em> ]
@@ -44,37 +44,33 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>cplist</strong> converts <strong>GNUspool</strong> printers held in the spool directory to
+<p><strong>gspl-plist</strong> converts <strong>GNUspool</strong> printers held in the spool directory to
 an executable shell script which may be used to re-install them. This
 may be useful for backup purposes or for one stage in upgrade from one
 release of <strong>GNUspool</strong> to another.</p>
-<p><strong>cplist</strong> considers a <strong>GNUspool</strong> spool directory, by default the
+<p><strong>gspl-plist</strong> considers a <strong>GNUspool</strong> spool directory, by default the
 current directory, takes the printer file, which is usually
 <em>spshed_pfile</em>, and generates a shell script file <em>outfile</em>, which
 if executed, would recreate the <strong>GNUspool</strong> printers with the same options.</p>
-<p><strong>cplist</strong> understands the format of the saved printer file for
-versions of <strong>GNUspool</strong> going back to release 16, and when presented
-with a saved file, will attempt to work out from the format which
-release it relates to.</p>
 <p><strong>N.B.</strong> setup files are not copied, this should be done as a separate
 exercise. In many cases these can be separately copied over from one
 release to the next.</p>
 <p>In addition to options, two arguments are always supplied to
-<strong>cplist</strong>.</p>
+<strong>gspl-plist</strong>.</p>
 <dl>
 <dt><strong><a name="item_printer_list_file">Printer list file</a></strong>
 
 <dd>
 <p>This is the file containing the attributes of the printers,
-<em>spshed_pfile</em> in the spool directory, by default <em>/var/spool/gnuspool</em>,
-or as relocated by re-specifying <code>SPOOLDIR</code>.</p>
+<em>spshed_pfile</em> in the spool directory or as relocated by
+re-specifying <code>SPOOLDIR</code>.</p>
 </dd>
 </li>
 <dt><strong><a name="item_output_file">Output file</a></strong>
 
 <dd>
-<p>This file is created by <strong>cplist</strong> to contain the executable shell
-script, containing <code>spadd(1)</code> commands, which may be used to reinstall
+<p>This file is created by <strong>gspl-plist</strong> to contain the executable shell
+script, containing gspl-padd(1) commands, which may be used to reinstall
 the printers.</p>
 </dd>
 </li>
@@ -89,7 +85,7 @@ the printers.</p>
 <dd>
 <p>specifies the source directory for the printers and <em>ptr file</em>. It can be
 specified as <code>$SPOOLDIR</code> or <code>${SPOOLDIR-/var/spool/gnuspool}</code> etc and the
-environment and/or <em>/etc/gnuspool.conf</em> will be interrogated to
+environment and/or <em>gnuspool.conf</em> will be interrogated to
 interpolate the value of the environment variable given.</p>
 </dd>
 <dd>
@@ -97,11 +93,11 @@ interpolate the value of the environment variable given.</p>
 </dd>
 <dd>
 <pre>
- cplist -D '${SPOOLDIR-/var/spool/gnuspool}' ...</pre>
+ gspl-plist -D '${SPOOLDIR-/var/spool/gnuspool}' ...</pre>
 </dd>
 <dd>
 <p>otherwise the shell will try to interpret the <code>$</code> construct and not
-<strong>cplist</strong>.</p>
+<strong>gspl-plist</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2de_n">-e <em>n</em></a></strong>
@@ -122,8 +118,7 @@ file up to the limit of number of errors given by the <strong>-e</strong> option
 
 <dd>
 <p>Modify the shell script created so that printers recreated with be
-``local only'' access rather than network wide. This may be relevant to
-pre-release 18 files.</p>
+``local only'' access rather than network wide.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2ds">-s</a></strong>
@@ -138,9 +133,9 @@ total errors given by the <strong>-e</strong> option.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>cjlist(8),
-setspdir(8),
-spuconv(8).</p>
+<p>gspl-cjlist(8),
+gspl-setspdir(8),
+gspl-spuconv(8).</p>
 <p>
 </p>
 <hr />

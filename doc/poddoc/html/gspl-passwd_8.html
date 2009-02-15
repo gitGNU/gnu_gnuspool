@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>xipasswd - set passwords for user and API</title>
+<title>gspl-passwd - set passwords for user and API</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -27,12 +27,12 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>xipasswd - set passwords for user and API</p>
+<p>gspl-passwd - set passwords for user and API</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>xipassd</strong>
+<p><strong>gspl-ppasswd</strong>
 [ -<em>u</em> user ]
 [ -<em>p</em> password ]
 [ -<em>f</em> ]
@@ -42,7 +42,7 @@
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>xipasswd</strong> sets a password for the current user or a specified user
+<p><strong>gspl-passwd</strong> sets a password for the current user or a specified user
 if -<strong>u</strong> is given. This is separate and distinct from the user's login
 password. This password is used by the web interfaces, the Windows
 interface and the API.</p>
@@ -62,7 +62,7 @@ for and there is no confirmation.</p>
 
 <dd>
 <p>Set password for given user. This may only be for other than the
-current user if <strong>xipasswd</strong> is invoked by <strong>root</strong>.</p>
+current user if <strong>gspl-passwd</strong> is invoked by <strong>root</strong>.</p>
 </dd>
 </li>
 <dt><strong><a name="item__2dp_password"><strong>-p</strong> <em>password</em></a></strong>
@@ -89,7 +89,7 @@ option may be set to insist upon it.</p>
 
 <dd>
 <p>Use <em>file</em> to hold the password. The default if no <em>file</em> is given
-is <em>xipasswd</em>. Any number of <strong>-F</strong> options may be
+is <em>gspl-passwd</em>. Any number of <strong>-F</strong> options may be
 given to set up several password files at once.</p>
 </dd>
 </li>

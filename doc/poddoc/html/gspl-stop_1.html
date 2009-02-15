@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>sstop - cancel spooler</title>
+<title>gspl-stop - cancel spooler</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -30,34 +30,34 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>sstop - cancel spooler</p>
-<p>ssuspend - suspend assignment of printers</p>
-<p>srelease - release assignment of printers</p>
+<p>gspl-stop - cancel spooler</p>
+<p>gspl-suspend - suspend assignment of printers</p>
+<p>gspl-release - release assignment of printers</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>sstop</strong>
+<p><strong>gspl-stop</strong>
 [ <em>-y</em> ]</p>
-<p><strong>ssuspend</strong>
+<p><strong>gspl-suspend</strong>
 [ <em>-y</em> ]
 [ <em>n</em> ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>sstop</strong> is a program which should be invoked to bring the <strong>GNUspool</strong>
+<p><strong>gspl-stop</strong> is a program which should be invoked to bring the <strong>GNUspool</strong>
 spooler system to an orderly halt prior to system shutdown. Any jobs
 in progress will be saved, and the current page noted for resumption
 when the spooler is restarted. Confirmation is requested (reply <code>y</code>
 or <code>n</code>) unless the <a href="#item__2dy"><code>-y</code></a> option is specified.</p>
-<p><strong>ssuspend</strong> halts the assignment of jobs to printers for a short time,
+<p><strong>gspl-suspend</strong> halts the assignment of jobs to printers for a short time,
 which defaults to 5 minutes or as given as a time in seconds last
-argument to the command, or until released by <strong>srelease</strong>. Again
+argument to the command, or until released by <strong>gspl-release</strong>. Again
 confirmation is requested unless the <a href="#item__2dy"><code>-y</code></a> option is given.</p>
 <p>Only a user with the <em>Stop spooler</em> privilege may successfully invoke
 any of these commands.</p>
-<p>The reason why <strong>ssuspend</strong> this may be useful is that in a network
+<p>The reason why <strong>gspl-suspend</strong> this may be useful is that in a network
 scenario, where a new host is brought on line, a considerable amount
 of network traffic is created, and the assignment of printers to jobs
 and the broadcasting of information between hosts can flood the
@@ -93,7 +93,7 @@ put the command in a shell ``wrapper''.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spstart(1),
+<p>gspl-start(1),
 gnuspool.conf(5),
 gnuspool.hosts(5),
 spd(8),

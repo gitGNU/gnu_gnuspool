@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>spuser - list spool user details.</title>
+<title>gspl-user - list spool user details.</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -31,18 +31,18 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>spuser - list spool user details.</p>
+<p>gspl-user - list spool user details.</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>spuser</strong>
+<p><strong>gspl-user</strong>
 [ <em>-options</em> ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>spuser</strong> provides 3 functions:</p>
+<p><strong>gspl-user</strong> provides 3 functions:</p>
 <p>With no arguments it lists the permissions for the invoking user and
 exits.</p>
 <p>With the <strong>-c</strong> option it enables the invoking user to edit his own
@@ -57,7 +57,7 @@ command-line options which may be used to control the initial display.</P><p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_spuser"><code>SPUSER</code></a> and the
+<p>The environment variable on which options are supplied is <a href="#item_gspl_user"><code>GSPL_USER</code></a> and the
 environment variable to specify the help file is <a href="#item_spuserconf"><code>SPUSERCONF</code></a>.</p>
 <p>Certain commands available on-screen enable many of these options to
 be changed and saved in configuration files.</p>
@@ -159,7 +159,7 @@ command as well as clearing the help screen.</p>
 configuration file (home directory)</p>
 <p><em> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>spuser.help</em>
+<p><em>gspl-user.help</em>
 message file</p>
 <p><em>spufile0</em>
 User control file</p>
@@ -168,7 +168,7 @@ User control file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_spuser">SPUSER</a></strong>
+<dt><strong><a name="item_gspl_user">GSPL_USER</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -185,9 +185,9 @@ User control file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spcharge(1),
-spuchange(1),
-spulist(1),
+<p>gspl-charge(1),
+gspl-uchange(1),
+gspl-ulist(1),
 spsyntax(5),
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
@@ -196,7 +196,7 @@ gnuspool.hosts(5).</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>spuser.help</em>.</p>
+file, by default <em>gspl-user.help</em>.</p>
 <p>
 </p>
 <hr />

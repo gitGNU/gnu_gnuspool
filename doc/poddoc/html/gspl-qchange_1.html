@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>sqchange - change spooled jobs</title>
+<title>gspl-qchange - change spooled jobs</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -33,22 +33,22 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>sqchange - change spooled jobs</p>
+<p>gspl-qchange - change spooled jobs</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>sqchange</strong>
+<p><strong>gspl-qchange</strong>
 [ <em>-options</em> ]
 <em>job number</em> ...</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>sqchange</strong> makes changes to one or more <strong>GNUspool</strong> spooled jobs,
+<p><strong>gspl-qchange</strong> makes changes to one or more <strong>GNUspool</strong> spooled jobs,
 which may be on the local host or other hosts on the network. Jobs are
-specified by the job number, which is reported by <code>sqlist(1)</code> in the
-first column of the default output, or by <code>spr(1)</code> or <code>rspr(1)</code> when the
+specified by the job number, which is reported by gspl-qlist(1) in the
+first column of the default output, or by gspl-pr(1) or gspl-rpr(1) when the
 job is queued with the <em>verbose</em> option. Remote jobs are specified by
 prefixing the job number by the host name and a colon, thus
 <code>host:1234</code>. Leading zeroes in the job number may be omitted.</p>
@@ -57,13 +57,13 @@ permission to edit other user's jobs. The user must also have
 permission to <em>edit remote jobs</em> to operate on remote jobs (this is
 normally set for all users).</p>
 <p>The changes are specified by options, which are as similar as possible
-to those for spr(1). It is regarded as a mistake not to specify at
+to those for gspl-pr(1). It is regarded as a mistake not to specify at
 least one option.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_sqchange"><code>SQCHANGE</code></a>
+<p>The environment variable on which options are supplied is <a href="#item_gspl_qchange"><code>GSPL_QCHANGE</code></a>
 and the environment variable to specify the help file is
 <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
@@ -106,7 +106,7 @@ requires alignment.</p>
 </dd>
 <dd>
 <p>The maximum number of copies at a time may be restricted to a number
-for each user such as 10. See the output from <code>spuser(1)</code> for
+for each user such as 10. See the output from gspl-user(1) for
 information on the maximum number of copies. If the user has <em>set any
 priority on queue</em> privilege, this limit is removed.</p>
 </dd>
@@ -130,7 +130,7 @@ select form types other some pattern, however only the ``paper type'',
 i.e. the form type up to the suffix is considered when this
 restriction is active, so the user can still change the form type
 suffix if required. Note that there is no equivalent of the <strong>-i</strong>
-(interpolate) option to spr(1).</p>
+(interpolate) option to gspl-pr(1).</p>
 </dd>
 </li>
 <dt><strong><a name="item__2df_string_or__2bpost_2dproc_2dflags_string">-F <em>string</em> or +post-proc-flags <em>string</em></a></strong>
@@ -227,7 +227,7 @@ copies.</p>
 </dd>
 <dd>
 <pre>
-        sqchange -c2 -OA ....</pre>
+        gspl-qchange -c2 -OA ....</pre>
 </dd>
 <dd>
 <p>prints all the odd-numbered pages followed by all the even-numbered
@@ -309,7 +309,7 @@ printed on, or which other users can display details of the job.</p>
 </dd>
 <dd>
 <p>In normal circumstances (except where the user has <em>override class</em>
-privilege as displayed by spuser(1)), the specified class code is
+privilege as displayed by gspl-user(1)), the specified class code is
 reduced to the intersection of (i.e. <em>and</em>ed with) the specified
 class code and the user's own class code.</p>
 </dd>
@@ -369,8 +369,8 @@ printing.</p>
 <dd>
 <p>Save all the current options in a <em>.gnuspool</em> file in the current
 directory. If there are no jobs given to operate on and this is
-specified, then <strong>sqchange</strong> will quit without error. If it is unable
-to save the options and jobs are specified, then <strong>sqchange</strong> will
+specified, then <strong>gspl-qchange</strong> will quit without error. If it is unable
+to save the options and jobs are specified, then <strong>gspl-qchange</strong> will
 continue.</p>
 </dd>
 </li>
@@ -379,8 +379,8 @@ continue.</p>
 <dd>
 <p>Save all the current options in a <em>.gnuspool</em> file in the user's home
 directory. If there are no jobs given to operate on and this is
-specified, then <strong>sqchange</strong> will quit without error. If it is unable
-to save the options and jobs are specified, then <strong>sqchange</strong> will
+specified, then <strong>gspl-qchange</strong> will quit without error. If it is unable
+to save the options and jobs are specified, then <strong>gspl-qchange</strong> will
 continue.</p>
 </dd>
 </li>
@@ -400,7 +400,7 @@ message file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_sqchange">SQCHANGE</a></strong>
+<dt><strong><a name="item_gspl_qchange">GSPL_QCHANGE</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -417,11 +417,11 @@ message file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>rspr(1),
-spr(1),
-spq(1),
-sqdel(1),
-sqlist(1),
+<p>gspl-rpr(1),
+gspl-pr(1),
+gspl-pq(1),
+gspl-qdel(1),
+gspl-qlist(1),
 spsyntax(5),
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
@@ -437,7 +437,7 @@ file, by default <em>rest.help</em>.</p>
 <h1><a name="notes">NOTES</a></h1>
 <p>The <strong>-C</strong> option selects the class code for finding the jobs; if you
 have <em>override class</em> privilege, but your default class code does not
-allow the jobs ``to be seen'' in the output of sqlist(1), then you may
+allow the jobs ``to be seen'' in the output of gspl-qlist(1), then you may
 need to specify this. The <strong>-S</strong> option sets a new classcode, which may
 be <em>and</em>ed with your default class if you do not have <em>override
 class</em> privilege.</p>
@@ -450,21 +450,21 @@ code will correspond to the last such error displayed.</p>
 <h1><a name="examples">EXAMPLES</a></h1>
 <p>To change the number of copies of job 24139 to 3</p>
 <pre>
-        sqchange -c3 14139</pre>
+        gspl-qchange -c3 14139</pre>
 <p>To changed the formtype to a4.ps for 3 jobs including one on a remote
 machine, <code>avon</code></p>
 <pre>
-        sqchange -f a4.ps 24139 26921 avon:21941</pre>
+        gspl-qchange -f a4.ps 24139 26921 avon:21941</pre>
 <p>Changing all the jobs associated with printer <code>laser</code> to come out on
 printer <code>ljet</code> may be done with a shell script like this:</p>
 <pre>
-        sqlist -F &quot;%N %P&quot; | grep laser | while read JOB REST
+        gspl-qlist -F &quot;%N %P&quot; | grep laser | while read JOB REST
         do
-                sqchange -P ljet $JOB
+                gspl-qchange -P ljet $JOB
         done</pre>
 <p>Or you can do it in one operation with this ``one-liner'':</p>
 <pre>
-        sqchange -Pljet `sqlist -F&quot;%N %P&quot;|grep laser|sed 's/\(.*\) .*/\1/'`</pre>
+        gspl-qchange -Pljet `gspl-qlist -F&quot;%N %P&quot;|grep laser|sed 's/\(.*\) .*/\1/'`</pre>
 <p>
 </p>
 <hr />

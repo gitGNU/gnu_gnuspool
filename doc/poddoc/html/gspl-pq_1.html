@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>spq - view spool queue interactively</title>
+<title>gspl-pq - view spool queue interactively</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -31,18 +31,18 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>spq - view spool queue interactively</p>
+<p>gspl-pq - view spool queue interactively</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>spq</strong>
+<p><strong>gspl-pq</strong>
 [ <em>-options</em> ]</p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>spq</strong> is a screen-oriented program which displays in real time the
+<p><strong>gspl-pq</strong> is a screen-oriented program which displays in real time the
 current state of the <strong>GNUspool</strong> spool queue and printer list,
 refreshing the screen automatically as the queue changes or printer
 state changes, and allowing the status of jobs on the queue to be
@@ -53,7 +53,7 @@ command-line options which may be used to control the initial display.</P><p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_spq"><code>SPQ</code></a> and the
+<p>The environment variable on which options are supplied is <a href="#item_gspl_pq"><code>GSPL_PQ</code></a> and the
 environment variable to specify the help file is <a href="#item_spqconf"><code>SPQCONF</code></a>.</p>
 <p>Certain commands available on-screen enable many of these options to
 be changed and saved in configuration files.</p>
@@ -155,7 +155,7 @@ restrict the display of printers).</p>
 <dt><strong><a name="item__2dl_or__2blocal_2donly">-l or +local-only</a></strong>
 
 <dd>
-<p>display only jobs or printers local to the host on which <strong>spq</strong> is
+<p>display only jobs or printers local to the host on which <strong>gspl-pq</strong> is
 invoked.</p>
 </dd>
 </li>
@@ -311,8 +311,6 @@ configuration file (home directory)</p>
 configuration file (current directory)</p>
 <p><em>spq.help</em>
 message file</p>
-<p><em>/var/spool/gnuspool</em>
-spool directory</p>
 <p><em>gnuspoolptrs</em>
 printers directory</p>
 <p><em>spshed_reps</em>
@@ -322,7 +320,7 @@ error log file</p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_spq">SPQ</a></strong>
+<dt><strong><a name="item_gspl_pq">GSPL_PQ</a></strong>
 
 <dd>
 <p>space-separated options to override defaults.</p>
@@ -339,12 +337,12 @@ error log file</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>spr(1),
-spuser(1),
-sqdel(1),
-sqchange(1),
-sqlist(1),
-splist(1),
+<p>gspl-pr(1),
+gspl-user(1),
+gspl-qdel(1),
+gspl-qchange(1),
+gspl-qlist(1),
+gspl-plist(1),
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
 <p>
