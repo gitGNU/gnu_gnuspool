@@ -360,6 +360,7 @@ clean:
 	cd loccgi;$(MAKE) clean
 	cd remcgi;$(MAKE) clean
 	cd ins;$(MAKE) clean
+	cd helpmsg;$(MAKE) clean
 	cd termserv;$(MAKE) clean
 	cd lpdint;$(MAKE) clean
 	-cd gtk;$(MAKE) clean
@@ -371,6 +372,7 @@ distclean:	clean
 	cd loccgi;$(MAKE) distclean
 	cd remcgi;$(MAKE) distclean
 	cd ins;$(MAKE) distclean
+	cd helpmsg;$(MAKE) distclean
 	cd termserv;$(MAKE) distclean
 	cd lpdint;$(MAKE) distclean
 	-cd gtk;$(MAKE) distclean
