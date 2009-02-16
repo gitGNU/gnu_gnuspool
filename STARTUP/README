@@ -1,5 +1,13 @@
 Startup routine shell scripts.
+=============================
 
+  Copyright 2008 Free Software Foundation, Inc.
+
+  Copying and distribution of this file, with or without modification,
+  are permitted in any medium without royalty provided the copyright
+  notice and this notice are preserved.
+
+----------------------------------------------------------------------
 These shell scripts are intended to aid the insertion of startup
 routines for GNUspool into the /etc/rc* files for various types of
 machine.
@@ -14,4 +22,4 @@ Please help us by adding and correcting these files as various people
 change their startup files. Thanks!
 
 John Collins
-August 2008
+February 2009
