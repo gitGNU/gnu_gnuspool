@@ -1,40 +1,19 @@
-/*
- * Copyright (c) Xi Software Ltd. 1996.
- *
- * defaults.h: created by John Collins on Fri Oct 16 1992.
- *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/INCLUDE/DEFAULTS.H,v 1.1 2008/08/18 16:25:54 jmc Exp $
- * $Log: DEFAULTS.H,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
- *
- * Revision 21.1  1994/08/31  18:19:41  jmc
- * Brand new Release 21
- *
- * Revision 20.1  1994/03/24  16:57:52  jmc
- * Brand new Release 20.
- *
- * Revision 19.3  1993/04/27  15:13:41  jmc
- * Change type of process id to long.
- *
- * Revision 19.2  1993/04/26  18:09:26  jmc
- * Revisions mostly for ansification.
- *
- * Revision 19.1  1992/12/19  18:03:55  jmc
- * New Release 19.
- *
- * Revision 18.3  1992/10/07  16:22:31  jmc
- * Tidy up declarations and add new network facilities.
- *
- * Revision 18.2  1992/09/17  19:51:28  jmc
- * Increase max length of UID field.
- *
- * Revision 18.1  1992/01/11  19:19:08  jmc
- * New release 18
- *
- *----------------------------------------------------------------------
- * DOS C++ Version
- */
+/* defaults.h -- defaults and constants
+
+   Copyright 2009 Free Software Foundation, Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #define	NAMESIZE	14		/* File name size allowing for restricted names */
 #define	MAXTITLE	30		/* Size of header */

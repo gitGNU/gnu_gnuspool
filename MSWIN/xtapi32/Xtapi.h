@@ -1,31 +1,20 @@
-/*
- * Copyright (c) Xi Software Ltd. 1994.
- *
- * xtapi.pre: created by John Collins on Tue Mar  8 1994.
- *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/xtapi32/Xtapi.h,v 1.1 2008/08/18 16:25:54 jmc Exp $
- * $Log: Xtapi.h,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
- *
- * Revision 23.1  1996/02/13 09:02:51  jmc
- * Brand New Release 23.
- *
- * Revision 22.2  1995/10/05  18:26:45  jmc
- * Fix problem with CONSTs.
- *
- * Revision 22.1  1995/01/13  17:07:20  jmc
- * Brand New Release 22
- *
- * Revision 21.1  1994/08/31  18:22:26  jmc
- * Brand new Release 21
- *
- * Revision 20.1  1994/03/24  17:25:52  jmc
- * Brand new Release 20.
- *
- *----------------------------------------------------------------------
- * Prefix to xtapi.h
- */
+/* Xtapi.h -- API header NEEDS CHANGING
+
+   Copyright 2009 Free Software Foundation, Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
 
 #ifndef	_XTAPI_H
 #define	_XTAPI_H
@@ -371,10 +360,13 @@ struct	spcharge	{
  *
  * xtapi.post: created by John Collins on Tue Mar  8 1994.
  *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/xtapi32/Xtapi.h,v 1.1 2008/08/18 16:25:54 jmc Exp $
+ * $Header: /sources/gnuspool/gnuspool/MSWIN/xtapi32/Xtapi.h,v 1.2 2009/02/16 22:55:38 toadwarble Exp $
  * $Log: Xtapi.h,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
+ * Revision 1.2  2009/02/16 22:55:38  toadwarble
+ * Remove irrelevant binary files and insert copyright notices.
+ *
+ * Revision 1.1.1.1  2008/08/18 16:25:54  jmc
+ * Initial Version of GNUspool
  *
  * Revision 23.3  2000/08/28 20:58:39  jmc
  * Add new facilities to API for job and printer find.

@@ -1,44 +1,19 @@
-/*
- *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/INCLUDE/ECODES.H,v 1.1 2008/08/18 16:25:54 jmc Exp $
- * $Log: ECODES.H,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
- *
- * Revision 18.2  1992/10/07  16:22:31  jmc
- * Tidy up declarations and add new network facilities.
- *
- * Revision 18.1  1992/01/11  19:19:19  jmc
- * New release 18
- *
- * Revision 17.1  91/06/14  18:17:47  jmc
- * New version 17.
- *
- * Revision 16.2  91/05/04  13:42:54  jmc
- * Exit code for broken setup files.
- *
- * Revision 16.1  90/12/03  15:12:32  jmc
- * Brand new version 16
- *
- * Revision 15.1  89/10/22  09:58:48  jmc
- * Brand new version 15
- *
- * Revision 14.1  89/10/14  15:52:39  jmc
- * Release 14 introducing shared memory job queues.
- *
- * Revision 13.1  89/10/09  20:17:18  jmc
- * New version 13 with shared memory printer list.
- *
- * Revision 12.1  89/09/30  16:15:47  jmc
- * Version 12 release (to use msgsnd/semaphores).
- *
- * Revision 11.1  89/09/27  20:53:16  jmc
- * Version 11 first release
- *
- *----------------------------------------------------------------------
- *
- *	Standard exit codes
- */
+/* ecodes.h -- standard exit codes
+
+   Copyright 2009 Free Software Foundation, Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #define	E_USAGE		1
 #define	E_BADCLASS	2

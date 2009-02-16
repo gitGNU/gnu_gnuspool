@@ -1,75 +1,19 @@
-/*
- *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/INCLUDE/Spq.h,v 1.1 2008/08/18 16:25:54 jmc Exp $
- * $Log: Spq.h,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
- *
- * Revision 22.2  1995/01/17  18:56:46  jmc
- * Fix signal used for Net shut as SIGTERM used elsewhere.
- *
- * Revision 22.1  1995/01/13  17:07:58  jmc
- * Brand New Release 22
- *
- * Revision 21.2  1994/12/08  18:18:50  jmc
- * Add flag for one copy only.
- *
- * Revision 21.1  1994/08/31  18:19:41  jmc
- * Brand new Release 21
- *
- * Revision 20.2  1994/07/08  09:47:27  jmc
- * Change erroneous condition.
- *
- * Revision 20.1  1994/03/24  16:58:59  jmc
- * Brand new Release 20.
- *
- * Revision 19.4  1993/04/27  17:06:16  jmc
- * Fix size bug.
- *
- * Revision 19.3  1993/04/27  15:13:41  jmc
- * Change type of process id to long.
- *
- * Revision 19.2  1993/04/26  18:09:26  jmc
- * Revisions mostly for ansification.
- *
- * Revision 19.1  1992/12/19  18:03:55  jmc
- * New Release 19.
- *
- * Revision 18.3  1992/10/07  16:22:31  jmc
- * Tidy up declarations and add new network facilities.
- *
- * Revision 18.2  1992/03/23  16:06:20  jmc
- * Changes for long pid.
- *
- * Revision 18.1  1992/01/11  19:19:35  jmc
- * New release 18
- *
- * Revision 17.1  91/06/14  18:18:02  jmc
- * New version 17.
- *
- * Revision 16.1  90/12/03  15:13:45  jmc
- * Brand new version 16
- *
- * Revision 15.1  89/10/22  09:59:04  jmc
- * Brand new version 15
- *
- * Revision 14.2  89/10/16  18:04:38  jmc
- * Separate selection from state code.
- *
- * Revision 14.1  89/10/14  15:53:05  jmc
- * Release 14 introducing shared memory job queues.
- *
- * Revision 13.1  89/10/09  20:18:13  jmc
- * New version 13 with shared memory printer list.
- *
- * Revision 12.1  89/09/30  16:17:05  jmc
- * Version 12 release (to use msgsnd/semaphores).
- *
- * Revision 11.1  89/09/27  20:53:44  jmc
- * Version 11 first release
- *
- *----------------------------------------------------------------------
- */
+/* Spq.h -- spool queue format
+
+   Copyright 2009 Free Software Foundation, Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /*APISTART - beginning of section copied for API*/
 struct	spq	{	/*  Entry in spool queue  */

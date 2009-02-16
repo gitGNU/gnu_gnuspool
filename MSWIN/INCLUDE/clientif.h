@@ -1,49 +1,20 @@
-/*
- * Copyright (c) Xi Software Ltd. 1992.
- *
- * client_if.h: created by John Collins on Tue Dec 15 1992.
- *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/INCLUDE/clientif.h,v 1.1 2008/08/18 16:25:54 jmc Exp $
- * $Log: clientif.h,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
- *
- * Revision 23.5  1997/12/23 09:52:15  jmc
- * Add keep alive stuff to xtnetserv.
- *
- * Revision 23.4  1997/12/01 14:56:59  jmc
- * Add stuff for dynamic IP.
- *
- * Revision 23.3  1997/06/03 16:25:41  jmc
- * Add sequence checking in rspr and xtnetserv.
- *
- * Revision 23.2  1996/02/23 09:42:54  jmc
- * Add user-checking code to DOS interface.
- *
- * Revision 23.1  1996/02/13  09:03:38  jmc
- * Brand New Release 23.
- *
- * Revision 22.1  1995/01/13  17:07:58  jmc
- * Brand New Release 22
- *
- * Revision 21.1  1994/08/31  18:19:41  jmc
- * Brand new Release 21
- *
- * Revision 20.1  1994/03/24  16:57:52  jmc
- * Brand new Release 20.
- *
- * Revision 19.3  1993/03/08  12:02:16  jmc
- * Add new option to send user list.
- *
- * Revision 19.2  1993/01/14  08:43:24  jmc
- * Revisions for additional UDP interface.
- *
- * Revision 19.1  1992/12/19  18:03:55  jmc
- * New Release 19.
- *
- *----------------------------------------------------------------------
- * Structure of reply and error codes sent back to clients
- */
+/* clientif.h -- client program interface
+
+   Copyright 2009 Free Software Foundation, Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
 
 struct	client_if	{
 	unsigned  char	flag;			/* 0 ok otherwise error */

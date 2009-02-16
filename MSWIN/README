@@ -1,7 +1,7 @@
 MS Windows Sources
 ==================
 
-  Copyright 2008 Free Software Foundation, Inc.
+  Copyright 2009 Free Software Foundation, Inc.
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright
@@ -39,6 +39,8 @@ look like the GNUspool one.
 Also note the need to have special entries on the hosts file on the
 [LU]*x boxes. The hostedit program knows about this.
 
+Also note that the names of routines in the API need fixing!
+
 Enjoy!
 
-John Collins July 2008
+John Collins February 2009

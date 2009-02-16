@@ -1,24 +1,19 @@
-/*
- * Copyright (c) Xi Software Ltd. 1994.
- *
- * xt_ptrdel.c: created by John Collins on Fri Mar 11 1994.
- *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/xtapi32/Xt_ptrde.c,v 1.1 2008/08/18 16:25:54 jmc Exp $
- * $Log: Xt_ptrde.c,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
- *
- * Revision 22.1  1995/01/13  17:06:57  jmc
- * Brand New Release 22
- *
- * Revision 21.1  1994/08/31  18:22:26  jmc
- * Brand new Release 21
- *
- * Revision 20.1  1994/03/24  17:25:52  jmc
- * Brand new Release 20.
- *
- *----------------------------------------------------------------------
- */
+/* Xt_ptrde.c -- Delete printer
+
+   Copyright 2009 Free Software Foundation, Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <sys/types.h>
 #include <winsock.h>

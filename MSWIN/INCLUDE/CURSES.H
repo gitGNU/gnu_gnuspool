@@ -1,16 +1,19 @@
-/*
- * Copyright (c) Xi Software Ltd. 1992.
- *
- * curses.h: created by John Collins on Sat Nov 21 1992.
- *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/INCLUDE/CURSES.H,v 1.1 2008/08/18 16:25:54 jmc Exp $
- * $Log: CURSES.H,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
- *
- *----------------------------------------------------------------------
- * MS C++ Version of curses
- */
+/* curses.h -- client program interface
+
+   Copyright 2009 Free Software Foundation, Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #define	CHT_FLAGS_NONE		0
 #define	CHT_FLAGS_TOUCHED	1

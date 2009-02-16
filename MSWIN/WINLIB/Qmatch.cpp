@@ -1,24 +1,19 @@
-/*
- * Copyright (c) Xi Software Ltd. 1994.
- *
- * qmatch.c: created by John Collins on Fri Dec 16 1994.
- *----------------------------------------------------------------------
- * $Header: /sources/gnuspool/gnuspool/MSWIN/WINLIB/Qmatch.cpp,v 1.1 2008/08/18 16:25:54 jmc Exp $
- * $Log: Qmatch.cpp,v $
- * Revision 1.1  2008/08/18 16:25:54  jmc
- * Initial revision
- *
- * Revision 22.2  1995/01/24  11:17:38  jmc
- * Fix buggette in qmatch.
- *
- * Revision 22.1  1995/01/13  17:14:47  jmc
- * Brand New Release 22
- *
- * Revision 21.1  1994/12/19  13:37:26  jmc
- * Introduced in December 1994.
- *
- *----------------------------------------------------------------------
- */
+/* Qmatch.cpp -- match glob-like
+
+   Copyright 2009 Free Software Foundation, Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "stdafx.h"
 #include "defaults.h"
