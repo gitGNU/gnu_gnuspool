@@ -3,14 +3,39 @@ MS Windows Sources
 
   Copyright 2009 Free Software Foundation, Inc.
 
-  Copying and distribution of this file, with or without modification,
-  are permitted in any medium without royalty provided the copyright
-  notice and this notice are preserved.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+----------------------------------------------------------------------
+
+		Additional notice on Copyrights
+		===============================
+
+Many of these sources were originally produced using MS Visual Studio
+and have to have fixed formats, including those of the comments, as
+the files are semi-automatically generated. Many contain a specific
+injunction not to edit them outside of MS Visual Studio. For this
+reason copyright notices have not been included where there is any
+doubt.
+
+For the avoidance of doubt all the provisions of the above copyright
+notice and the terms of GNU GPL v3 apply to everything in this
+directory and to all subdirectories below it.
 
 ----------------------------------------------------------------------
 
 These are actually a working set of programs, written originally for
-MS Visual C++ using MFC in around 1995 together with a version of the
+MS Visual C++ using MFC in around 1992/3 together with a version of the
 API library.
 
 MFC is hugely inferior to the standard C++ library in millions of ways
@@ -20,7 +45,7 @@ The original idea is to have SPQW as the client interface to
 view/manage the spool queue, SPRSETW to configure parameters and
 SPRSERV as a printer "daemon".
 
-You can drag and rop files for printing into SPRSERV but you can also
+You can drag and drop files for printing into SPRSERV but you can also
 use the poorly documented feature of Windows whereby you can print to
 a file by setting up a pseudo-printer in WIN.INI and have SPRSERV
 monitor that file and create print jobs.
@@ -37,10 +62,10 @@ been touched so at the very least the API library needs hacking to
 look like the GNUspool one.
 
 Also note the need to have special entries on the hosts file on the
-[LU]*x boxes. The hostedit program knows about this.
-
-Also note that the names of routines in the API need fixing!
+[LU]*x boxes. The gspl-hostedit program knows about this.
 
 Enjoy!
 
 John Collins February 2009
+----------------------------------------------------------------------
+$Id: README,v 1.3 2009/02/17 09:05:54 toadwarble Exp $
