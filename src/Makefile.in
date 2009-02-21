@@ -277,7 +277,7 @@ insd:   $(LIB)
 	touch $@
 
 gtkd:	$(LIB)
-	-cd gtk;$(MAKE)
+	if cd gtk;$(MAKE); then echo GTK built OK; else echo "GTK build failed - not critcal but please install recent GTK (incl devel libs)"; fi
 	touch $@
 
 # Commenting out Motif stuff

@@ -133,7 +133,7 @@ void	conv_r23(const int ifd)
 		exit(3);
 	}
 
-	printf("#! /bin/sh\n# Converted from user file\n\gspl-uchange -DA -l %d -d %d -m %d -n %d -f %s -c %s -p 0x%lx\n",
+	printf("#! /bin/sh\n# Converted from user file\n\ngspl-uchange -DA -l %d -d %d -m %d -n %d -f %s -c %s -p 0x%lx\n",
 		      oh.sph_minp, oh.sph_defp, oh.sph_maxp, oh.sph_cps,
 		      oh.sph_form, hex_disp(oh.sph_class, 0), (unsigned long) oh.sph_flgs);
 
@@ -155,7 +155,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	extern	int	optind;
 	extern	char	*optarg;
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 	progname = argv[0];
 
 	while  ((ch = getopt(argc, argv, "sfe:D:")) != EOF)

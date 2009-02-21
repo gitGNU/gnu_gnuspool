@@ -33,6 +33,7 @@
 #include "spq.h"
 #include "incl_unix.h"
 #include "ecodes.h"
+#include "files.h"
 
 struct  {
 	char	*srcdir;	/* Directory we read from if not pwd */
@@ -141,7 +142,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	extern	int	optind;
 	extern	char	*optarg;
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	progname = argv[0];
 

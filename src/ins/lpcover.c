@@ -17,9 +17,11 @@
 
 #include "config.h"
 #include <stdio.h>
+#include "defaults.h"
 #include "incl_sig.h"
 #include <sys/types.h>
 #include "incl_unix.h"
+#include "files.h"
 
 #define	MAXVEC	30
 
@@ -190,7 +192,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int	c, ret;
 	char	*progname, *lpd;
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

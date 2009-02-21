@@ -28,6 +28,8 @@
 #include "errors.h"
 #include "incl_unix.h"
 #include "xilp.h"
+#include "defaults.h"
+#include "files.h"
 
 static char TEMPORARY_FILE_NAME[32];
 static char CONTROL_FILE [32];
@@ -467,7 +469,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int i;
 	struct information info;
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	/* Parse the command line for options.  While doing so count
 	   the number of file names.  Should this turn out to be
