@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src/spshed.c, 1.3)
+AC_INIT(src/spshed.c, 1.4)
 AC_SUBST(MAJOR_PACKAGE_VERSION)
 
 changequote(<<, >>)dnl
@@ -242,12 +242,13 @@ esac
 
 if test "$GCC" = "yes"
 then
-	gcc_useful_options='-g -Wall -fno-stack-protector'
+	gcc_useful_options='-g -Wall'
 	case "$ac_shared_libs" in
 	[[yY]]*)
 		AC_DEFINE(SHAREDLIBS)
 		main_target=shared
 		lib_pic=-fPIC
+		gcc_useful_options='-g -Wall -fno-stack-protector'
 		;;
 	*)	: ;;
 	esac
