@@ -15,12 +15,10 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
+#include "config.h"
 #include <stdio.h>
-#include <malloc.h>
 #include <setjmp.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include "incl_unix.h"
 #include "hdefs.h"
 
 extern	int		errors, line_count;
