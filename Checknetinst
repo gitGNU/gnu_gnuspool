@@ -154,14 +154,24 @@ if  (@tcpnconflict || @tcppconflict || @udpnconflict || @udppconflict)  {
 }
 
 if ($errors)  {
-    print "Aborting due to $errors error(s)\n";
+    print '*' x 70,"\n\n";
+    print "Aborting network check due to $errors error(s)\n\n\n";
+    print '*' x 70,"\n\n";
     exit 10;
 }
 
-exit 0 if $had;
+if ($had) {
+    if  ($warnings)  {
+	print '*' x 70,"\n\n";
+	$msg = "You need to install the network services entries.";
+	$und = '=' x length($msg);
+	print "$msg\n$und\n\nHowever there are potential conflicts with other services.\n";
+	print "Try \"make install-net\" but maybe get help first\n\n\n", '*' x 70, "\n\n";
+    }
+    exit 0;
+}
 
-print <<EOM;
-You need to install the network services entries.
-
-You may find "make install-net" helpful.
-EOM
+print '*' x 70,"\n\n";
+$msg = "You need to install the network services entries.";
+$und = '=' x length($msg);
+print "$msg\n$und\n\nYou may find \"make install-net\" helpful in doing this\n\n\n",'*' x 70,"\n";

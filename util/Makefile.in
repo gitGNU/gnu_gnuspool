@@ -73,7 +73,7 @@ install-strip:	all
 #	$(INSTALL) -s shmdump $(BINDIR)
 
 clean:
-	$(RM) *.o helpparse $(BUILDPROGS) $(PROGS) shmdump y.tab.h
+	$(RM) *.o helpparse $(BUILDPROGS) $(PROGS) shmdump
 
 distclean:	clean
 	$(RM) Makefile

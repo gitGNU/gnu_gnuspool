@@ -1,4 +1,4 @@
-GNUspool Release 1.0
+GNUspool Release 1.5
 ====================
 
   Copyright 2008 Free Software Foundation, Inc.
@@ -50,3 +50,7 @@ what I imagined.
 
 John Collins
 August 2008
+
+===================================================================
+Update March 2009: Added CUPS emulation package using Python CUPSPY
+===================================================================

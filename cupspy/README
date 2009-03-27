@@ -1,0 +1,28 @@
+CUPS emulation for GNUspool using Python
+========================================
+
+Several programs, notably Firefox and some incorporating GNOME print,
+assume CUPS is running and get a list of printers using IPP.
+
+This is an attempt written in Python to emulate CUPS and produce
+print jobs for GNUspool.
+
+Each virtual printer that the CUPS emulation produces is a gspl-pr
+command with various options.
+
+We have a copier which we use as a printer with various form suffixes
+to select double-sided prints, bypass tray and single-sided prints as
+required.
+
+You will need to edit "cupspy.conf" to be suitable for your machine
+and then run "cups.py" as superuser to start the emulator daemon. Take
+down CUPS if it is running.
+
+For this reason it isn't installed anywhere by the install stuff (and
+you might not have python handy).
+
+I'm sure this will require a fair bit of polish - particularly in the
+area of PPD files.
+
+John Collins jmc@xisl.com
+March 2009

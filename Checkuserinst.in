@@ -21,6 +21,9 @@
 $USERNAME = shift @ARGV;
 $USERNAME = "@SPOOLUSER@" unless $USERNAME;
 exit 0 if getpwnam($USERNAME);
-print "Please create user @SPOOLUSER@ before proceeding\n";
-print "You may find \"make user-install\" helpful\n";
+print '*' x 70, "\n";
+$msg = "Please create user @SPOOLUSER@ before proceeding with the install";
+$und = '=' x length($msg);
+print "\n\n$msg\n$und\n\nYou may find \"make user-install\" helpful in doing so\n\n\n";
+print '*' x 70, "\n";
 exit 1;
