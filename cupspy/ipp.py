@@ -254,6 +254,7 @@ IPP_TAG_TEXTLANG = name_to_tag['IPP_TAG_TEXTLANG']
 IPP_TAG_NAMELANG = name_to_tag['IPP_TAG_NAMELANG']
 IPP_TAG_BEGIN_COLLECTION = name_to_tag['IPP_TAG_BEGIN_COLLECTION']
 IPP_TAG_UNSUPPORTED_GROUP = name_to_tag['IPP_TAG_UNSUPPORTED_GROUP']
+IPP_TAG_UNSUPPORTED_VALUE = name_to_tag['IPP_TAG_UNSUPPORTED_VALUE']
 IPP_TAG_END = name_to_tag['IPP_TAG_END']
 
 # Common tags
@@ -470,7 +471,7 @@ class ipp:
         resval.setname(self.filb.get(namelength))
         valuelength = struct.unpack('!H', self.filb.get(2))[0]
         resval.setvalue(self.parsevalue(tag, valuelength))
-        while self.filb.peekch() > IPP_TAG_UNSUPPORTED_GROUP:
+        while self.filb.peekch() >= IPP_TAG_UNSUPPORTED_VALUE:
             newtag, namelength = struct.unpack('!BH', self.filb.peek(3))
             if namelength != 0:
                 break
@@ -485,14 +486,14 @@ class ipp:
         while 1:
             attr = self.parseattr()
             grp.setvalue(attr)
-            if self.filb.peekch() <= IPP_TAG_UNSUPPORTED_GROUP:
+            if self.filb.peekch() < IPP_TAG_UNSUPPORTED_VALUE:
                 return  grp
 
     def parseipp(self):
         """Parse an IPP string"""
         self.majv, self.minv, self.statuscode, self.id = self.parsehdr()
         while 1:
-            if self.filb.peekch() <= IPP_TAG_UNSUPPORTED_GROUP:
+            if self.filb.peekch() < IPP_TAG_UNSUPPORTED_VALUE:
                 # Reading groups
                 grptag = self.filb.getch()
                 if grptag == IPP_TAG_END:
@@ -506,7 +507,7 @@ class ipp:
         """Parse an IPP structure and catch errors"""
         try:
             self.parseipp()
-        except (TypeError, struct.error):
+        except (TypeError, struct.error, filebuf.filebufEOF):
             raise IppError("Problem parsing input")
 
     def display(self, resp=0):
