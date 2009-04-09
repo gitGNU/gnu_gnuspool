@@ -18,11 +18,14 @@ You will need to edit "cupspy.conf" to be suitable for your machine
 and then run "cups.py" as superuser to start the emulator daemon. Take
 down CUPS if it is running.
 
-For this reason it isn't installed anywhere by the install stuff (and
-you might not have python handy).
+You may find the "cupspy-setup" Python program helpful for this - you will
+need the Python/gtk module.
+
+(At you will need these it isn't installed anywhere by the install stuff and
+you might not have python handy.
 
 I'm sure this will require a fair bit of polish - particularly in the
 area of PPD files.
 
 John Collins jmc@xisl.com
-March 2009
+April 2009

@@ -56,6 +56,21 @@ class Confdef:
             if len(v) == 0:
                 raise ConfError("Definition of " + k + " missing in " + self.descr)
 
+    def write_defs(self, outfile):
+        """Write out definitions to file"""
+
+        outfile.write("# Definitions for %s\n\n%s:\n\n" % (self.descr, self.descr))
+
+        for k,v in dict.items(self.defs):
+            outfile.write("\t%s=%s\n" % (k, v))
+
+        outfile.write("\n")
+        for a in self.attrlist:
+            typ, val = self.attrs[a]
+            outfile.write("\t%s %s %s\n" % (a, typ, val))
+        outfile.write("\n")
+        
+
 def readuncommline(f):
     """Read a non-empty line from file
 Also strip comments"""
@@ -115,10 +130,10 @@ class Conf:
     """Content of config file"""
 
     def __init__(self):
-        self.defaults = Confdef("Defaults", "Printer", "Copies", "Title", "User")
+        self.defaults = Confdef("DEFAULTS", "Prefix", "Form", "GSPrinter", "Copies", "Title", "User", "Printer")
         self.printers = dict()
-        self.logfile = None
-        self.loglevel = 0
+        self.plist = []
+        self.loglevel = 1
         self.conf_dir = os.getcwd()
         self.ppddir = self.conf_dir
 
@@ -139,41 +154,18 @@ class Conf:
                 break
             opt = m.group(1)
             arg = m.group(2)
-            if opt == "LOG":
-                if len(arg) == 0:
-                    raise ConfError("Invalid null LOG file name")
-                self.logfile = arg
-            elif opt == "LOGLEVEL":
+            if opt == "LOGLEVEL":
                 try:
                     self.loglevel = int(arg)
+                    if self.loglevel < 0 or self.loglevel > 4:
+                        raise ValueErroe
                 except ValueError:
-                    raise ConfError("Invalid LOGLEVEL " + arg + " (should be int)")
-            elif opt == "CONFDIR":
-                direc = arg
-                if  len(direc) == 0:
-                    raise ConfError("Invalid null CONFDIR")
-                try:
-                    s = os.stat(direc)
-                    if not stat.S_ISDIR(s[0]):
-                        raise ConfError("CONFDIR " + direc + " not directory")
-                except OSError:
-                    raise ConfError("Invalid CONFDIR " + direc)
+                    raise ConfError("Invalid LOGLEVEL " + arg + " (should be int < 5)")
             elif opt == "PPDDIR":
                 self.ppddir = arg
                 if  len(arg) == 0:
                     raise ConfError("Invalid null PPDDIR")
                 hadppd = True
-
-        # If logfile is specified, check it's OK and if so redirect stdout
-
-        if self.logfile:
-            if self.logfile[0] != '/':
-                self.logfile = os.path.join(self.conf_dir, self.logfile)
-            try:
-                lf = open(self.logfile, 'a')
-            except IOError:
-                raise ConfError("Cannot open logfile " + self.logfile)
-            sys.stdout = lf
 
         # If ppdir was specified and not absolute, put confdir in front
 
@@ -181,11 +173,11 @@ class Conf:
             if self.ppddir[0] != '/':
                 self.ppddir = os.path.join(self.conf_dir, self.ppddir)
             try:
-                s = os.stat(direc)
+                s = os.stat(self.ppddir)
                 if not stat.S_ISDIR(s[0]):
-                    raise ConfError("PPDDIR " + direc + " not directory")
+                    raise ConfError("PPDDIR " + self.ppddir + " not directory")
             except OSError:
-                raise ConfError("Invalid PPDDIR " + direc)
+                raise ConfError("Invalid PPDDIR " + self.ppddir)
 
     def parse_conf_defaults(self, f):
         """Parse the defaults section of a config file"""
@@ -195,7 +187,9 @@ class Conf:
         """Parse printer definition in a config file"""
         if pname in self.printers:
             raise ConfError("Already had definition of " + pname)
-        pd = Confdef(pname, "Command")
+        self.plist.append(pname)
+        pd = Confdef(pname, "GSPrinter", "Form", "Command")
+        pd.defs["Command"] = ':'
         self.printers[pname] = pd
         parse_loop(f, pd)
 
@@ -207,6 +201,7 @@ class Conf:
 
         confd, filen = os.path.split(os.path.abspath(fname))
         self.conf_dir = confd
+        self.ppddir = confd
 
         # Open the silly thing
 
@@ -236,42 +231,99 @@ class Conf:
         for ptr in self.printers.values():
             ptr.check_complete()
         if self.defaults.defs['Printer'] not in self.printers:
-            raise ConfError("Default printer " + self.defaults['Printer'] + " not set up");
+            raise ConfError("Default printer " + self.defaults['Printer'] + " not set up")
+
+    def write_config(self, fname, plist=None):
+        """Write out a config file to the specified file
+Optionally write printers out in the order given"""
+        try:
+            outfile = open(fname, "wb")
+        except IOError:
+            raise ConfError("Cannot open " + fname)
+
+        outd, filen = os.path.split(os.path.abspath(fname))
+     
+        # Write parameters
+        
+        outfile.write("# CUPSPY configuration file written on %s\n\n" % time.ctime())
+        outfile.write("# Parameters section\n\nPARAMS:\n\tLOGLEVEL=%d\n" % self.loglevel)
+
+        # Write out ppddir as relative or not at all if it's the same as outd
+
+        ppd = self.ppddir
+        if outd != ppd:
+            lout = len(outd)
+            if lout < len(ppd) and outd == ppd[0:lout]  and  ppd[lout] == '/':
+                ppd = ppd[lout+1:]
+            outfile.write("\tPPDDIR=%s\n" % ppd)
+
+        outfile.write("\n")
+        
+        # Write defaults
+        
+        self.defaults.write_defs(outfile)
+        if not plist:
+            plist = self.plist
+        for p in plist:
+            if p in self.printers:
+                self.printers[p].write_defs(outfile)
+        outfile.close()
 
     # The following things are enquiries on the config data
     # Not too many errors now
 
     def list_printers(self):
         """Get a list of printers"""
-        pl = dict.keys(self.printers)
-        pl.sort()
-        return pl
+        return self.plist
 
     def default_printer(self):
         """Get default printer name"""
         return  self.defaults.defs['Printer']
 
-    def print_command(self, pname):
+    def set_default_printer(self, pname):
+        """Set default printer"""
+        self.defaults.defs['Printer'] = pname
+
+    def print_command(self, pname, copies=1, user='root', title='No title'):
         """Get print command for printer"""
+
+        # If specific command given (not ':') use that
+
         try:
-            return self.printers[pname].defs['Command']
+            pdefs = self.printers[pname].defs
+        except (KeyError, AttributeError):
+            return None
+        
+        try:
+            cmd = pdefs['Command']
         except KeyError:
+            cmd = ':'
+
+        if cmd != ':':
+            return cmd
+
+        # Put quotes round title if needed
+
+        title = re.sub("'", "_", title)
+        if re.search("\s", title):
+            title = "'" + title + "'"
+
+        # Create copies, printer, user, title args
+
+        try:
+            cmd = self.defaults.defs['Prefix']
+            cpsarg = self.defaults.defs['Copies'] % copies
+            titlearg = self.defaults.defs['Title'] % title
+            userarg = self.defaults.defs['User'] % user
+            if len(pdefs['GSPrinter']) != 0 and  pdefs['GSPrinter'] != ':':
+                printerarg = self.defaults.defs['GSPrinter'] % pdefs['GSPrinter']
+            else:
+                printerarg = ""
+            formarg = self.defaults.defs['Form'] % pdefs['Form']
+        except (TypeError, KeyError, AttributeError):
             return None
 
-    def copies_param(self, pname=""):
-        """Get parameter for copies for printer"""
-        # Currently they're all the same so we ignore pname
-        return  self.defaults.defs['Copies']
-
-    def title_param(self, pname=""):
-        """Get parameter for title for printer"""
-        # Currently they're all the same so we ignore pname
-        return  self.defaults.defs['Title']
-
-    def user_param(self, pname=""):
-        """Get parameter for user for printer"""
-        # Currently they're all the same so we ignore pname
-        return  self.defaults.defs['User']
+        return string.join([cmd, cpsarg, titlearg, userarg, printerarg, formarg], ' ')
 
     def get_attnames(self, pname):
         """Get list of applicable attributes for specified printer
@@ -373,3 +425,102 @@ in order that they are supposed to be"""
             result.append((name, typenum, res))
 
         return result
+
+    def get_default_attribute(self, attr):
+        """Get default attribute value as a list"""
+        if attr not in self.defaults.attrs:
+            return None
+        return  re.split('\s+', self.defaults.attrs[attr][1])
+
+    def get_attribute_value(self, pname, attr):
+        """Get specified attribute value as single item"""
+        if pname not in self.printers:
+            return None
+        atts = self.get_config(pname, [attr])
+        if len(atts) == 0:
+            return None
+        atts = atts[0][2]
+        if len(atts) == 1:
+            return atts[0]
+        return atts
+
+    def set_attribute_value(self, pname, attrname, value):
+        """Set specified attribute value"""
+        if pname not in self.printers:
+            raise ConfError("No such printer - " + pname)
+        ptrdef = self.printers[pname]
+        pattrs = ptrdef.attrs
+
+        # Set value to list if it isn't
+
+        if isinstance(value, list):
+            value = string.join(map(list, str), ' ')
+        
+        # If something is already defined just update it otherwise
+        # get type from default or throw wobbly
+        
+        if attrname in pattrs:
+            ty, ev = pattrs[attrname]
+            if ty == "IPP_TAG_TEXT":
+                value = '"' + value + '"'
+            pattrs[attrname] = (ty, value)
+        else:
+            if attrname not in self.defaults.attrs:
+                raise ConfError("Unknown attribute " + attrname)
+            # Need first level copy as we're overwriting value part
+            ty, ev = self.defaults.attrs[attrname]
+            if ty == "IPP_TAG_TEXT":
+                value = '"' + value + '"'
+            newatt = (ty, value)
+            pattrs[attrname] = newatt
+            ptrdef.attrlist.append(attrname)
+
+    def get_param_value(self, pname, param):
+        """Get specified printer parameter"""
+        if pname not in self.printers:
+            raise ConfError("No such printer - " + pname)
+        pdefs = self.printers[pname].defs
+        if param not in pdefs:
+            raise ConfError("No such parameter - " + param)
+        return pdefs[param]
+        
+    def set_param_value(self, pname, param, value):
+        """Set specified printer parameter"""
+        if pname not in self.printers:
+            raise ConfError("No such printer - " + pname)
+        pdefs = self.printers[pname].defs
+        if param not in pdefs:
+            raise ConfError("No such parameter - " + param)
+        pdefs[param] = value
+        
+    def add_printer(self, pname):
+        """Add a new printer to the list"""
+        if pname in self.printers:
+            raise ConfError("Duplicate printer " + pname)
+        self.plist.append(pname)
+        pd = Confdef(pname, "GSPrinter", "Form", "Command")
+        pd.defs["Command"] = ':'
+        self.printers[pname] = pd
+
+    def rename_printer(self, pname, newpname):
+        """Rename a printer"""
+        if newpname in self.printers:
+            raise ConfError("Duplicate printer name " + newpname)
+        self.printers[newpname] = self.printers[pname]
+        del self.printers[pname]
+        self.plist[self.plist.index(pname)] = newpname
+        # If it's the default printer rename that
+        if self.defaults.defs['Printer'] == pname:
+            self.defaults.defs['Printer'] = newpname
+        
+    def del_printer(self, pname):
+        """Delete a printer from the list"""
+        if pname not in self.printers:
+            raise ConfError("Unknown printer " + pname)
+        del self.printers[pname]
+        try:
+            del self.plist[self.plist.index(pname)]
+        except:
+            pass
+        if self.defaults.defs['Printer'] == pname:
+            self.defaults.defs['Printer'] = ""

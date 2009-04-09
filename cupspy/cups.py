@@ -19,7 +19,7 @@
 
 # Originally written by John Collins <jmc@xisl.com>.
 
-import filebuf, ipp, conf, subprocess, sys, os, stat, socket, threading, re, time, signal
+import filebuf, ipp, conf, subprocess, sys, os, stat, socket, threading, re, time, signal, syslog
 
 # Get us a job id in case gspl-pr doesn't give one
 
@@ -154,6 +154,7 @@ def opgrp_hdr(req):
 def ipp_ok(req):
     """Report that everything went OK with IPP request
 (Even if nothing was done)"""
+    syslog.syslog(syslog.LOG_NOTICE, "No-op OK response to op %s" % ipp.op_to_name[req.statuscode])
     response = ipp.ipp()
     response.setrespcode(ipp.IPP_OK, req.id)
     response.pushvalue(opgrp_hdr(req))
@@ -163,6 +164,7 @@ def ipp_ok(req):
 
 def ipp_status(req, code, msg):
     """Deliver a status message back to sender"""
+    syslog.syslog(syslog.LOG_WARNING, "Op code %s returning result %s - %s" % (ipp.op_to_name[req.statuscode], code, msg))
     response = ipp.ipp()
     response.setrespcode(code, req.id)  # If code is a string it gets converted
     opgrp = opgrp_hdr(req)
@@ -452,35 +454,9 @@ def print_job(req):
 
     # We are assuming that the content-length field gave us the whole lot
 
-    command = Config_data.print_command(pname)
+    command = Config_data.print_command(pname, copies=copies, title=title, user=uname)
     if command is None:
         return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'No print command for ' + pname)
-
-    # Put quotes round title if needed
-
-    if  re.search("\s", title):
-        title = "'" + title + "'"
-
-    # Set up copies, title and user parameters
-    # If something goes wrong just obliterate them
-
-    try:
-        cpres = Config_data.copies_param(pname) % copies
-        copies = " " + cpres
-        tres = Config_data.title_param(pname) % title
-        title = " " + tres
-	ures = Config_data.user_param(pname) % uname
-	uname = " " + ures
-    except TypeError:
-        copies = ""
-        title = ""
-	uname = ""
-
-    # Append those to command
-
-    command += copies
-    command += title
-    command += uname
 
     # Now do the business
 
@@ -755,17 +731,11 @@ def cups_proc(conn, addr):
         f.close()
         return
 
-    # Get code and select function
-
-    if Config_data.loglevel > 1:
-        ipr.display()
-
     iprcode = ipr.statuscode
 
     try:
         iprname = ipp.op_to_name[iprcode]
-        if  Config_data.loglevel == 1:
-            print "Op received:", iprname
+        syslog.syslog(syslog.LOG_INFO, "Request operation %s" % iprname)
         func = functab[iprname]
     except KeyError:
         f.close()
@@ -774,13 +744,10 @@ def cups_proc(conn, addr):
     # Actually do the business and return an IPP string (filebuf is a structure member)
 
     resp = func(ipr)
-    if  Config_data.loglevel > 0:
+    if  Config_data.loglevel > 2:
         ipresp = ipp.ipp(filebuf.stringbuf(resp, 0))
         ipresp.parse()
-        if  Config_data.loglevel == 1:
-            print "Reply sent:" , ipp.resp_to_name(ipresp.statuscode)
-        else:
-            ipresp.display(1)
+        syslog.syslog(syslog.LOG_INFO, "Reply sent %s" % ipp.resp_to_name[ipresp.statuscode])
 
     # Now decorate the response
 
@@ -819,6 +786,9 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     signal.signal(signal.SIGQUIT, signal.SIG_IGN)
     signal.signal(signal.SIGHUP, signal.SIG_IGN)
+    syslog.openlog('cupspy', syslog.LOG_NDELAY|syslog.LOG_PID, syslog.LOG_LPR)
+    syslog.setlogmask(syslog.LOG_UPTO(Config_data.loglevel + syslog.LOG_ERR))
+    syslog.syslog(syslog.LOG_INFO, "Starting")
     if os.fork() != 0:
         os._exit(0)
     cups_server()
