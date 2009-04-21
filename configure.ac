@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src/spshed.c, 1.5)
+AC_INIT(src/spshed.c, 1.6)
 AC_SUBST(MAJOR_PACKAGE_VERSION)
 
 changequote(<<, >>)dnl
@@ -583,7 +583,9 @@ AC_TYPE_SIGNAL
 AC_CHECK_FUNCS(sigaction sigvector sigvec sigset waitpid)
 
 AC_CONFIG_HEADER(config.h)
-AC_CONFIG_COMMANDS([src/hdrs/files.h], [ ./Makefiles_h.sh prefix=$prefix exec_prefix=$exec_prefix], [prefix=$prefix exec_prefix=$exec_prefix])
+AC_CONFIG_COMMANDS([src/hdrs/files.h],
+	[ ./Makefiles_h.sh prefix=$prefix exec_prefix=$exec_prefix datarootdir=$datarootdir],
+	 [prefix=$prefix exec_prefix=$exec_prefix datarootdir=$datarootdir])
 
 AC_OUTPUT(Makefile util/Makefile src/Makefile src/helpmsg/Makefile src/hdrs/infiles.h
 src/lib/Makefile  src/ins/Makefile src/termserv/Makefile src/lpdint/Makefile src/gtk/Makefile
