@@ -49,7 +49,7 @@ utild:
 	cd $(UTILDIR);$(MAKE) all
 	touch $@
 
-install:	all
+install: all
 	cd $(UTILDIR);make install
 	cd $(BUILDDIR);$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	$(INSTALL) gspl-ptrinstall $(SBINDIR)
@@ -57,6 +57,13 @@ install:	all
 	cp -r -p Psetups $(DATADIR)
 	$(BINDIR)/gspl-uchange -R
 	$(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
+
+install-deb:	all
+	cd $(UTILDIR);make install-deb
+	cd $(BUILDDIR);$(MAKE) install-deb prefix="$(prefix)" exec_prefix="$(exec_prefix)"
+	$(INSTALL) gspl-ptrinstall $(SBINDIR)
+	$(INSTALL) pclbanner psbanner $(INTBINDIR)
+	cp -r -p Psetups $(DATADIR)
 
 install-strip:	all
 	cd $(UTILDIR);make install-strip
