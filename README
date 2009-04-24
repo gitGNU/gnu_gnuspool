@@ -1,7 +1,7 @@
-GNUspool Release 1.5
+GNUspool Release 1.6
 ====================
 
-  Copyright 2008 Free Software Foundation, Inc.
+  Copyright 2008,2009 Free Software Foundation, Inc.
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright
@@ -53,4 +53,6 @@ August 2008
 
 ===================================================================
 Update March 2009: Added CUPS emulation package using Python CUPSPY
+===================================================================
+Update April 2009: Add libtool and Debian directory
 ===================================================================
