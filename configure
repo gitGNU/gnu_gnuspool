@@ -659,8 +659,6 @@ sphelpdir
 spoolpt
 netsubdirs
 stdlpcmds
-main_target
-lib_pic
 build
 build_cpu
 build_vendor
@@ -689,7 +687,6 @@ OBJEXT
 LEX
 LEX_OUTPUT_ROOT
 LEXLIB
-RANLIB
 mailer
 shell
 perlbin
@@ -1301,7 +1298,6 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
 --enable-nohnonsuid	Note kernel does not honour suid as super-user
 --enable-run-as-root	Scheduler must run as root (SysIII-style kill)
---enable-sharedlibs	Build internal libraries as shared
 --enable-sco-secuirty	Turn on C2-security
 --enable-using-mmap	Use memory-mapped files rather than shared memory
 --enable-using-flock Use file locking rather than semaphores
@@ -1948,19 +1944,6 @@ _ACEOF
 *)	: ;;
 esac
 
-
-
-main_target=nonshared
-lib_pic=
-
-# Check whether --enable-sharedlibs was given.
-if test "${enable_sharedlibs+set}" = set; then
-  enableval=$enable_sharedlibs; ac_shared_libs="$enableval"
-else
-  ac_shared_libs=n
-fi
-
-
 # Check whether --enable-sco-security was given.
 if test "${enable_sco_security+set}" = set; then
   enableval=$enable_sco_security; ac_sco_security="$enableval"
@@ -2169,6 +2152,7 @@ test -n "$target_alias" &&
   test "$program_prefix$program_suffix$program_transform_name" = \
     NONENONEs,x,x, &&
   program_prefix=${target_alias}-
+
 
 { echo "$as_me:$LINENO: checking whether ${MAKE-make} sets \$(MAKE)" >&5
 echo $ECHO_N "checking whether ${MAKE-make} sets \$(MAKE)... $ECHO_C" >&6; }
@@ -3447,102 +3431,7 @@ fi
 rm -f conftest.l $LEX_OUTPUT_ROOT.c
 
 fi
-if test -n "$ac_tool_prefix"; then
-  # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
-set dummy ${ac_tool_prefix}ranlib; ac_word=$2
-{ echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
-if test "${ac_cv_prog_RANLIB+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  if test -n "$RANLIB"; then
-  ac_cv_prog_RANLIB="$RANLIB" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_prog_RANLIB="${ac_tool_prefix}ranlib"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-IFS=$as_save_IFS
-
-fi
-fi
-RANLIB=$ac_cv_prog_RANLIB
-if test -n "$RANLIB"; then
-  { echo "$as_me:$LINENO: result: $RANLIB" >&5
-echo "${ECHO_T}$RANLIB" >&6; }
-else
-  { echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-fi
-
-
-fi
-if test -z "$ac_cv_prog_RANLIB"; then
-  ac_ct_RANLIB=$RANLIB
-  # Extract the first word of "ranlib", so it can be a program name with args.
-set dummy ranlib; ac_word=$2
-{ echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
-if test "${ac_cv_prog_ac_ct_RANLIB+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  if test -n "$ac_ct_RANLIB"; then
-  ac_cv_prog_ac_ct_RANLIB="$ac_ct_RANLIB" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_prog_ac_ct_RANLIB="ranlib"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-IFS=$as_save_IFS
-
-fi
-fi
-ac_ct_RANLIB=$ac_cv_prog_ac_ct_RANLIB
-if test -n "$ac_ct_RANLIB"; then
-  { echo "$as_me:$LINENO: result: $ac_ct_RANLIB" >&5
-echo "${ECHO_T}$ac_ct_RANLIB" >&6; }
-else
-  { echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-fi
-
-  if test "x$ac_ct_RANLIB" = x; then
-    RANLIB=":"
-  else
-    case $cross_compiling:$ac_tool_warned in
-yes:)
-{ echo "$as_me:$LINENO: WARNING: In the future, Autoconf will not detect cross-tools
-whose name does not start with the host triplet.  If you think this
-configuration is useful to you, please write to autoconf@gnu.org." >&5
-echo "$as_me: WARNING: In the future, Autoconf will not detect cross-tools
-whose name does not start with the host triplet.  If you think this
-configuration is useful to you, please write to autoconf@gnu.org." >&2;}
-ac_tool_warned=yes ;;
-esac
-    RANLIB=$ac_ct_RANLIB
-  fi
-else
-  RANLIB="$ac_cv_prog_RANLIB"
-fi
-
+LT_INIT
 # Extract the first word of "mail", so it can be a program name with args.
 set dummy mail; ac_word=$2
 { echo "$as_me:$LINENO: checking for $ac_word" >&5
@@ -4293,24 +4182,11 @@ _ACEOF
 	;;
 esac
 
-# If (still) using GCC and shared libs then set -fPIC for libraries
-# Also turn on -g -Wall
+# If (still) using GCC turn on -g -Wall and -fno-stack-protector
 
 if test "$GCC" = "yes"
 then
-	gcc_useful_options='-g -Wall'
-	case "$ac_shared_libs" in
-	[yY]*)
-		cat >>confdefs.h <<\_ACEOF
-#define SHAREDLIBS 1
-_ACEOF
-
-		main_target=shared
-		lib_pic=-fPIC
-		gcc_useful_options='-g -Wall -fno-stack-protector'
-		;;
-	*)	: ;;
-	esac
+	gcc_useful_options='-g -Wall -fno-stack-protector'
 fi
 
 # Check fairly early for socket libraries because we need these for the X stuff
@@ -12643,8 +12519,6 @@ sphelpdir!$sphelpdir$ac_delim
 spoolpt!$spoolpt$ac_delim
 netsubdirs!$netsubdirs$ac_delim
 stdlpcmds!$stdlpcmds$ac_delim
-main_target!$main_target$ac_delim
-lib_pic!$lib_pic$ac_delim
 build!$build$ac_delim
 build_cpu!$build_cpu$ac_delim
 build_vendor!$build_vendor$ac_delim
@@ -12673,7 +12547,6 @@ OBJEXT!$OBJEXT$ac_delim
 LEX!$LEX$ac_delim
 LEX_OUTPUT_ROOT!$LEX_OUTPUT_ROOT$ac_delim
 LEXLIB!$LEXLIB$ac_delim
-RANLIB!$RANLIB$ac_delim
 mailer!$mailer$ac_delim
 shell!$shell$ac_delim
 perlbin!$perlbin$ac_delim
@@ -12692,7 +12565,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 94; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 91; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
@@ -13127,8 +13000,6 @@ if test "$no_create" != yes; then
   # would make configure fail if this is the last instruction.
   $ac_cs_success || { (exit 1); exit 1; }
 fi
-
-
 
 
 
