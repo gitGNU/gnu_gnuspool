@@ -93,4 +93,4 @@ distclean:	clean
 	cd $(SRCDIR);$(MAKE) distclean
 	$(RM) $(SRCDIR)/hdrs/files.h $(SRCDIR)/hdrs/infiles.h 
 	$(RM) config.cache config.h config.status config.log Makefile gspl-ptrinstall
-	$(RM) Checkuserinst Userinst Netinst
+	$(RM) Checkuserinst Userinst Netinst STARTUP/Startdirs
