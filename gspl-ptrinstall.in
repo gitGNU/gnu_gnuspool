@@ -566,10 +566,10 @@ sub parse_mconfig {
 
     # First set up defaults as per build
 
-    $Config{SPOOLDIR} = "@spooldir@";
-    $Config{SPROGDIR} = "@pkgexecdir@";
-    $Config{SDATADIR} = "@pkgdatadir@";
-    $Config{SPOOLPT} = "@spoolpt@";
+    $Config{SPOOLDIR} = eval "\"@spooldir@\"";
+    $Config{SPROGDIR} = eval "\"@pkgexecdir@\"";
+    $Config{SDATADIR} = eval "\"@pkgdatadir@\"";
+    $Config{SPOOLPT} = eval "\"@spoolpt@\"";
 
     # If there is a master config file relocating stuff read it in and
     # appropriately reset
@@ -2045,6 +2045,7 @@ if ($#ARGV >= 0) {
 
 $prefix = "@prefix@";
 $exec_prefix = "@exec_prefix@";
+$datarootdir = "@datarootdir@";
 $bindir = "@bindir@";
 $sbindir = "@sbindir@";
 
