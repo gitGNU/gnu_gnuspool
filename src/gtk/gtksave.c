@@ -24,17 +24,14 @@
 #include "incl_unix.h"
 #include "files.h"
 #include "ecodes.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #define	BUFFSIZE	256
 
-#ifdef	SHAREDLIBS
 FILE	*Cfile;
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
@@ -43,7 +40,6 @@ struct	xfershm		*Xfer_shmp;
 int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
-#endif
 DEF_DISPOPTS;
 
 void	nomem()
@@ -88,7 +84,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int	oldumask, cnt;
 	FILE	*xtfile;
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	/* If we haven't got the right arguments then just quit.
 	   This is only meant to be run by xspq.

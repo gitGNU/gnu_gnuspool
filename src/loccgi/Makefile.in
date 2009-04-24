@@ -23,6 +23,7 @@ prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
 CC		=	@CC@
 CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
+SHLIBCC		=	libtool --mode=link $(CC) $(CCFLAGS)
 LDFLAGS		=
 LIBS		=	@LIBS@
 LIBDIR		=	@libdir@
@@ -34,90 +35,56 @@ BASE		=	../..
 INLINE		=	$(PARENT)/inline
 HDRS		=	$(PARENT)/hdrs
 MYLIBDIR	=	$(PARENT)/lib
-LIB		=	$(MYLIBDIR)/libgnuspool_int.a
-SHLIB		=	$(MYLIBDIR)/libgnuspool_int.so
+SHLIB		=	$(MYLIBDIR)/libgnuspool_int.la
 CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(PARENT) -I$(BASE)
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
 SPOOLUSER	=	@SPOOLUSER@
 USERMODES	=	-o $(SPOOLUSER) -g root -m 4755
 CGIMODES	=	-o $(SPOOLUSER) -g root -m 6755
-BINDIR		=	@bindir@
-INTBINDIR	=	@pkgexecdir@
+BINDIR		=	$(DESTDIR)@bindir@
+INTBINDIR	=	$(DESTDIR)@pkgexecdir@
 CGIBINDIR	=	$(INTBINDIR)/cgi-bin
 
 PROGS=sqcgi sqvcgi sqdcgi sqccgi sqcrcgi spcgi spccgi
-SHPROGS=sqcgi_s sqvcgi_s sqdcgi_s sqccgi_s sqcrcgi_s spcgi_s spccgi_s
 
-all:	@main_target@
+all:	$(PROGS)
 
-nonshared:	$(PROGS)
+sqcgi:		sqcgi.o
+	$(SHLIBCC) -o $@ $(LDFLAGS) sqcgi.o $(SHLIB) $(LIBNET) $(LIBS)
 
-shared:	$(SHPROGS)
+sqvcgi:		sqvcgi.o
+	$(SHLIBCC) -o $@ $(LDFLAGS) sqvcgi.o $(SHLIB) $(LIBNET) $(LIBS)
 
-sqcgi:		sqcgi.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sqcgi.o $(LIB) $(LIBNET) $(LIBS)
+sqdcgi:		sqdcgi.o
+	$(SHLIBCC) -o $@ $(LDFLAGS) sqdcgi.o $(SHLIB) $(LIBNET) $(LIBS)
 
-sqcgi_s:	sqcgi.o $(LIB)
-	$(CC) -o sqcgi $(LDFLAGS) sqcgi.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+sqccgi:		sqccgi.o
+	$(SHLIBCC) -o $@ $(LDFLAGS) sqccgi.o $(SHLIB) $(LIBNET) $(LIBS)
 
-sqvcgi:		sqvcgi.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sqvcgi.o $(LIB) $(LIBNET) $(LIBS)
+sqcrcgi:	sqcrcgi.o
+	$(SHLIBCC) -o $@ $(LDFLAGS) sqcrcgi.o $(SHLIB) $(LIBNET) $(LIBS)
 
-sqvcgi_s:	sqvcgi.o $(LIB)
-	$(CC) -o sqvcgi $(LDFLAGS) sqvcgi.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+spcgi:		spcgi.o
+	$(SHLIBCC) -o $@ $(LDFLAGS) spcgi.o $(SHLIB) $(LIBNET) $(LIBS)
 
-sqdcgi:		sqdcgi.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sqdcgi.o $(LIB) $(LIBNET) $(LIBS)
-
-sqdcgi_s:	sqdcgi.o $(LIB)
-	$(CC) -o sqdcgi $(LDFLAGS) sqdcgi.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-sqccgi:		sqccgi.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sqccgi.o $(LIB) $(LIBNET) $(LIBS)
-
-sqccgi_s:	sqccgi.o $(LIB)
-	$(CC) -o sqccgi $(LDFLAGS) sqccgi.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-sqcrcgi:	sqcrcgi.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sqcrcgi.o $(LIB) $(LIBNET) $(LIBS)
-
-sqcrcgi_s:	sqcrcgi.o $(LIB)
-	$(CC) -o sqcrcgi $(LDFLAGS) sqcrcgi.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-spcgi:		spcgi.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spcgi.o $(LIB) $(LIBNET) $(LIBS)
-
-spcgi_s:	spcgi.o $(LIB)
-	$(CC) -o spcgi $(LDFLAGS) spcgi.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-spccgi:		spccgi.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spccgi.o $(LIB) $(LIBNET) $(LIBS)
-
-spccgi_s:	spccgi.o $(LIB)
-	$(CC) -o spccgi $(LDFLAGS) spccgi.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+spccgi:		spccgi.o
+	$(SHLIBCC) -o $@ $(LDFLAGS) spccgi.o $(SHLIB) $(LIBNET) $(LIBS)
 
 install:
 	$(INSTALL) -d $(CGIBINDIR)
-	$(INSTALL) $(CGIMODES) $(PROGS) $(CGIBINDIR)
+	libtool --mode=install $(INSTALL) $(CGIMODES) $(PROGS) $(CGIBINDIR)
 
 install-strip:
 	$(INSTALL) -d $(CGIBINDIR)
-	$(INSTALL) -s $(CGIMODES) $(PROGS) $(CGIBINDIR)
+	libtool --mode=install $(INSTALL) -s $(CGIMODES) $(PROGS) $(CGIBINDIR)
 
 #
 #	Clean-ups.
 #
 
 clean:
-	$(RM) *.o $(PROGS) *_s
+	$(RM) *.o $(PROGS)
 
 distclean:	clean
 	$(RM) Makefile

@@ -16,7 +16,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
+static	char	rcsid2[] = "@(#) $Revision: 1.3 $";
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -43,13 +43,11 @@ static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "xspu_ext.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 FILE	*Cfile;
 
@@ -112,7 +110,6 @@ static GtkActionEntry entries[] = {
 
 	{ "About", NULL, "About xspuser", NULL, "About xspuser", G_CALLBACK(cb_about)}  };
 
-#ifdef	SHAREDLIBS
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
@@ -121,7 +118,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 /* For when we run out of memory.....  */
 
@@ -464,7 +460,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	struct	spdet	*mypriv;
 	GtkWidget  *vbox;
 
-	versionprint(argv, "$Revision: 1.2 $", 0);
+	versionprint(argv, "$Revision: 1.3 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

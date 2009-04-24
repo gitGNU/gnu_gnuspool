@@ -43,9 +43,7 @@
 #include "cgiuser.h"
 #include "listperms.h"
 #include "cgifndjb.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
-#endif
 
 DEF_DISPOPTS;
 
@@ -80,9 +78,7 @@ char	*Realuname;
 
 char	*statenames[SPP_NSTATES];
 
-#ifdef	SHAREDLIBS
 struct	xfershm		*Xfer_shmp;
-#endif
 
 /* For when we run out of memory.....  */
 
@@ -583,7 +579,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

@@ -51,9 +51,7 @@
 #include "cgiuser.h"
 #include "cgifndjb.h"
 #include "listperms.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
-#endif
 
 #ifndef	PATH_MAX
 #define	PATH_MAX	1024
@@ -92,9 +90,7 @@ int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
-#ifdef	SHAREDLIBS
 struct	xfershm		*Xfer_shmp;
-#endif
 
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
@@ -716,7 +712,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 #if	defined(NHONSUID) || defined(DEBUG)
 	int_ugid_t	chk_uid;
 #endif
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;
