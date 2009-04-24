@@ -42,9 +42,7 @@
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "displayopt.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
-#endif
 
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
@@ -89,9 +87,7 @@ struct	spdet	*mypriv;
 
 char	*statenames[SPP_NSTATES];
 
-#ifdef	SHAREDLIBS
 struct	xfershm		*Xfer_shmp;
-#endif
 
 /* For when we run out of memory.....  */
 
@@ -443,7 +439,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

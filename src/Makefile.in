@@ -23,6 +23,7 @@ prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
 CC		=	@CC@
 CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
+SHLIBCC		=	libtool --mode=link $(CC) $(CCFLAGS)
 LIBS		=	@LIBS@
 LIBCURSES	=	@LIBCURSES@
 LIBDIR		=	@libdir@
@@ -32,9 +33,8 @@ RM		= 	rm -f
 HDRS		=	hdrs
 PARENT		=	.
 BASE		=	..
-LIB		=	lib/libgnuspool_int.a
-SHLIB		=	lib/libgnuspool_int.so
-SHLIBCURS	=	lib/libgnuspool_curs.so
+SHLIB		=	lib/libgnuspool_int.la
+SHLIBCURS	=	lib/libgnuspool_curs.la
 CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(BASE)
 LDFLAGS		=
 INSTALL		=	@INSTALL@
@@ -44,8 +44,12 @@ USERMODES	=	-o $(SPOOLUSER) -g root -m 4755
 NOSETMODES	=	-o $(SPOOLUSER) -g root
 SUIDROOT	=	-o root -g root -m 4755
 TTYGROUP	=	-o $(SPOOLUSER) -g tty -m 2755
-BINDIR		=	@bindir@
-INTBINDIR	=	@pkgexecdir@
+BINDIR		=	$(DESTDIR)@bindir@
+INTBINDIR	=	$(DESTDIR)@pkgexecdir@
+SPOOLDIR	=	$(DESTDIR)@spooldir@
+ALTSPOOL	=	$(DESTDIR)@altspool@
+SPOOLPT		=	$(DESTDIR)@spoolpt@
+SPHELPDIR	=	$(DESTDIR)@sphelpdir@
 USERBINS	=	gspl-mpr gspl-rpr gspl-pr gspl-charge gspl-pq gspl-start gspl-user \
 			gspl-ulist gspl-uchange gspl-plist gspl-qchange gspl-qlist gspl-qdel gspl-stop
 SUIDROOTBINS	=	spshed spexec spmdisp sppwchk xtnetserv
@@ -55,16 +59,12 @@ NOSETUBINS	=	spdinit
 SPSTARTLNKS	=	gspl-disconn gspl-nok gspl-ok gspl-pchange gspl-conn gspl-pdel gspl-pstat gspl-pinter gspl-padd gspl-phalt gspl-pstop
 MSPRLNKS	=	gspl-mrspr
 SSTOPLNKS	=	gspl-suspend gspl-release
+STAGED_INSTALL	=	false
 
 PROGS=gspl-pr gspl-rpr gspl-mpr spshed dosspwrite xtnetserv spd spdinit spwrite spmdisp gspl-user\
 	gspl-pq gspl-start gspl-stop gspl-charge gspl-ulist gspl-uchange spjobdump\
 	gspl-plist gspl-qlist gspl-qdel gspl-qchange spexec\
 	sppwchk loccgid insd gtkd @netsubdirs@
-
-SHPROGS=spr_s rspr_s mspr_s spshed_s dosspwrite_s xtnetserv_s spd_s spdinit_s spwrite_s spmdisp_s spuser_s\
-	spq_s spstart_s sstop_s spcharge_s spulist_s spuchange_s spjobdump_s\
-	splist_s sqlist_s sqdel_s sqchange_s spexec_s\
-	sppwchk_s loccgid insd gtkd @netsubdirs@
 
 # We only bother to list modules for multi-module progs
 
@@ -76,181 +76,79 @@ SPQ_OBJS=spq.o sq_jlist.o sq_plist.o sq_view.o qopts.o wtime.o prompt.o sq_propt
 XTNETSERV_OBJS=xtnetserv.o xtnet_ua.o xtnet_api.o
 RSPR_OBJS=rspr.o rsp_net.o
 
-all:	@main_target@
+all:	$(PROGS)
 
-nonshared:	$(PROGS)
+gspl-pr:	spr.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) spr.o $(SHLIB) $(LIBNET) $(LIBS)
 
-shared:	$(SHPROGS)
+gspl-rpr:	$(RSPR_OBJS) $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSPR_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
 
-# Each target is nonshared and shared version with _s which we create as a "touched file"
+gspl-mpr:	mspr.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) mspr.o $(SHLIB) $(LIBS)
 
-gspl-pr:	spr.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spr.o $(LIB) $(LIBNET) $(LIBS)
+spshed:	$(SPSHED_OBJS) $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(SPSHED_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
 
-spr_s:	spr.o $(LIB)
-	$(CC) -o gspl-pr $(LDFLAGS) spr.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+spd:	$(SPD_OBJS) $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(SPD_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
 
-gspl-rpr:	$(RSPR_OBJS) $(LIB)
-	$(CC) -o $@ $(LDFLAGS) $(RSPR_OBJS) $(LIB) $(LIBNET) $(LIBS)
+spdinit: $(SPDINIT_OBJS) $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(SPDINIT_OBJS) $(SHLIB) $(LIBS)
 
-rspr_s:	$(RSPR_OBJS) $(LIB)
-	$(CC) -o gspl-rpr $(LDFLAGS) $(RSPR_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+spmdisp: spmdisp.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) spmdisp.o $(SHLIB) $(LIBS)
 
-gspl-mpr:	mspr.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) mspr.o $(LIB) $(LIBS)
+spwrite: spwrite.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) spwrite.o $(SHLIB) $(LIBS)
 
-mspr_s:	mspr.o $(LIB)
-	$(CC) -o gspl-mpr $(LDFLAGS) mspr.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+dosspwrite:	dosspwrite.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) dosspwrite.o $(SHLIB) $(LIBNET) $(LIBS)
 
-spshed:	$(SPSHED_OBJS) $(LIB)
-	$(CC) -o $@ $(LDFLAGS) $(SPSHED_OBJS) $(LIB) $(LIBNET) $(LIBS)
+xtnetserv:	$(XTNETSERV_OBJS) $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(XTNETSERV_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
 
-spshed_s:	$(SPSHED_OBJS) $(LIB)
-	$(CC) -o spshed $(LDFLAGS) $(SPSHED_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+spjobdump:	spjobdump.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) spjobdump.o $(SHLIB) $(LIBNET) $(LIBS)
 
-spd:	$(SPD_OBJS) $(LIB)
-	$(CC) -o $@ $(LDFLAGS) $(SPD_OBJS) $(LIB) $(LIBNET) $(LIBS)
+gspl-user:		$(SPUSER_OBJS) $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(SPUSER_OBJS) $(SHLIBCURS) $(SHLIB) $(LIBCURSES) $(LIBNET) $(LIBS)
 
-spd_s:	$(SPD_OBJS) $(LIB)
-	$(CC) -o spd $(LDFLAGS) $(SPD_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+gspl-pq:	$(SPQ_OBJS) $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(SPQ_OBJS) $(SHLIBCURS) $(SHLIB) $(LIBCURSES) $(LIBNET) $(LIBS)
 
-spdinit: $(SPDINIT_OBJS) $(LIB)
-	$(CC) -o $@ $(LDFLAGS) $(SPDINIT_OBJS) $(LIB) $(LIBS)
+gspl-start:	spstart.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) spstart.o $(SHLIB) $(LIBNET) $(LIBS)
 
-spdinit_s: $(SPDINIT_OBJS) $(LIB)
-	$(CC) -o spdinit $(LDFLAGS) $(SPDINIT_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+gspl-stop:		sstop.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) sstop.o $(SHLIB) $(LIBS)
 
-spmdisp: spmdisp.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spmdisp.o $(LIB) $(LIBS)
+gspl-charge:	spcharge.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) spcharge.o $(SHLIB) $(LIBNET) $(LIBS)
 
-spmdisp_s: spmdisp.o $(LIB)
-	$(CC) -o spmdisp $(LDFLAGS) spmdisp.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+gspl-plist:		splist.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) splist.o $(SHLIB) $(LIBNET) $(LIBS)
 
-spwrite: spwrite.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spwrite.o $(LIB) $(LIBS)
+gspl-qlist:		sqlist.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) sqlist.o $(SHLIB) $(LIBNET) $(LIBS)
 
-spwrite_s:	spwrite.o $(LIB)
-	$(CC) -o spwrite $(LDFLAGS) spwrite.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+gspl-qdel:		sqdel.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) sqdel.o $(SHLIB) $(LIBNET) $(LIBS)
 
-dosspwrite:	dosspwrite.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) dosspwrite.o $(LIB) $(LIBNET) $(LIBS)
+gspl-qchange:	sqchange.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) sqchange.o $(SHLIB) $(LIBNET) $(LIBS)
 
-dosspwrite_s:	dosspwrite.o $(LIB)
-	$(CC) -o dosspwrite $(LDFLAGS) dosspwrite.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+gspl-ulist:	spulist.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) spulist.o $(SHLIB) $(LIBS)
 
-xtnetserv:	$(XTNETSERV_OBJS) $(LIB)
-	$(CC) -o $@ $(LDFLAGS) $(XTNETSERV_OBJS) $(LIB) $(LIBNET) $(LIBS)
-
-xtnetserv_s:	$(XTNETSERV_OBJS) $(LIB)
-	$(CC) -o xtnetserv $(LDFLAGS) $(XTNETSERV_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-spjobdump:	spjobdump.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spjobdump.o $(LIB) $(LIBNET) $(LIBS)
-
-spjobdump_s:	spjobdump.o $(LIB)
-	$(CC) -o spjobdump $(LDFLAGS) spjobdump.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-user:		$(SPUSER_OBJS) $(LIB)
-	$(CC) -o $@ $(LDFLAGS) $(SPUSER_OBJS) $(LIB) $(LIBCURSES) $(LIBNET) $(LIBS)
-
-spuser_s:	$(SPUSER_OBJS) $(LIB)
-	$(CC) -o gspl-user $(LDFLAGS) $(SPUSER_OBJS) $(SHLIBCURS) $(SHLIB) $(LIBCURSES) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-pq:	$(SPQ_OBJS) $(LIB)
-	$(CC) -o $@ $(LDFLAGS) $(SPQ_OBJS) $(LIB) $(LIBCURSES) $(LIBNET) $(LIBS)
-
-spq_s:	$(SPQ_OBJS) $(LIB)
-	$(CC) -o gspl-pq $(LDFLAGS) $(SPQ_OBJS) $(SHLIBCURS) $(SHLIB) $(LIBCURSES) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-start:	spstart.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spstart.o $(LIB) $(LIBNET) $(LIBS)
-
-spstart_s:	spstart.o $(LIB)
-	$(CC) -o gspl-start $(LDFLAGS) spstart.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-stop:		sstop.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sstop.o $(LIB) $(LIBS)
-
-sstop_s:	sstop.o $(LIB)
-	$(CC) -o gspl-stop $(LDFLAGS) sstop.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-charge:	spcharge.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spcharge.o $(LIB) $(LIBNET) $(LIBS)
-
-spcharge_s:	spcharge.o $(LIB)
-	$(CC) -o gspl-charge $(LDFLAGS) spcharge.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-plist:		splist.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) splist.o $(LIB) $(LIBNET) $(LIBS)
-
-splist_s:	splist.o $(LIB)
-	$(CC) -o gspl-plist $(LDFLAGS) splist.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-qlist:		sqlist.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sqlist.o $(LIB) $(LIBNET) $(LIBS)
-
-sqlist_s:	sqlist.o $(LIB)
-	$(CC) -o gspl-qlist $(LDFLAGS) sqlist.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-qdel:		sqdel.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sqdel.o $(LIB) $(LIBNET) $(LIBS)
-
-sqdel_s:	sqdel.o $(LIB)
-	$(CC) -o gspl-qdel $(LDFLAGS) sqdel.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-qchange:	sqchange.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) sqchange.o $(LIB) $(LIBNET) $(LIBS)
-
-sqchange_s:	sqchange.o $(LIB)
-	$(CC) -o gspl-qchange $(LDFLAGS) sqchange.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-ulist:	spulist.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spulist.o $(LIB) $(LIBS)
-
-spulist_s:	spulist.o $(LIB)
-	$(CC) -o gspl-ulist $(LDFLAGS) spulist.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
-
-gspl-uchange:	spuchange.o $(LIB)
-	$(CC) -o $@ $(LDFLAGS) spuchange.o $(LIB) $(LIBS)
-
-spuchange_s:	spuchange.o $(LIB)
-	$(CC) -o gspl-uchange $(LDFLAGS) spuchange.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+gspl-uchange:	spuchange.o $(SHLIB)
+	$(SHLIBCC) -o $@ $(LDFLAGS) spuchange.o $(SHLIB) $(LIBS)
 
 spexec:		spexec.o
-	$(CC) -o $@ $(LDFLAGS) spexec.o $(LIB) $(LIBS)
-
-spexec_s:	spexec.o
-	$(CC) -o spexec $(LDFLAGS) spexec.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) spexec.o $(SHLIB) $(LIBS)
 
 sppwchk:	sppwchk.o
-	$(CC) -o $@ $(LDFLAGS) sppwchk.o $(LIB) @LIBSHAD@ @CRYPTLIB@ $(LIBS)
-
-sppwchk_s:	sppwchk.o
-	$(CC) -o sppwchk $(LDFLAGS) sppwchk.o $(SHLIB) @LIBSHAD@ @CRYPTLIB@ $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) sppwchk.o $(SHLIB) @LIBSHAD@ @CRYPTLIB@ $(LIBS)
 
 termservd:
 	cd termserv;$(MAKE)
@@ -272,20 +170,20 @@ remcgid:
 	cd remcgi;$(MAKE)
 	touch $@
 
-insd:   $(LIB)
+insd:   $(SHLIB)
 	cd ins;$(MAKE)
 	touch $@
 
-gtkd:	$(LIB)
+gtkd:	$(SHLIB)
 	if cd gtk;$(MAKE); then echo GTK built OK; else echo "GTK build failed - not critcal but please install recent GTK (incl devel libs)"; fi
 	touch $@
 
 # Commenting out Motif stuff
 # This should work if you have a Motif Library and #includes but Motif is not supported by GNU
-#motifd:	$(LIB)
+#motifd:	$(SHLIB)
 #	-cd motif;$(MAKE)
 
-$(LIB):
+$(SHLIB):
 	cd lib;$(MAKE)
 
 ##################################################################################
@@ -298,21 +196,21 @@ $(LIB):
 ##################################################################################
 
 install: all
-	@perlbin@ $(BASE)/Checkuserinst $(SPOOLUSER) @spooldir@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @spooldir@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @altspool@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @spoolpt@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @pkgexecdir@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @sphelpdir@
+	$(STAGED_INSTALL) || @perlbin@ $(BASE)/Checkuserinst $(SPOOLUSER) $(SPOOLDIR)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLDIR)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(ALTSPOOL)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLPT)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(INTBINDIR)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPHELPDIR)
 	cd lib;$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
-	$(INSTALL) $(USERMODES) $(USERBINS) $(BINDIR)
+	libtool --mode=install $(INSTALL) $(USERMODES) $(USERBINS) $(BINDIR)
 	cd $(BINDIR);for p in $(SPSTARTLNKS); do ln -f gspl-start $$p; done
 	cd $(BINDIR);for p in $(MSPRLNKS); do ln -f gspl-mpr $$p; done
 	cd $(BINDIR);for p in $(SSTOPLNKS); do ln -f gspl-stop $$p; done
-	$(INSTALL) $(SUIDROOT) $(SUIDROOTBINS) $(INTBINDIR)
-	$(INSTALL) $(USERMODES) $(SUIDSPBINS) $(INTBINDIR)
-	$(INSTALL) $(NOSETMODES) $(NOSETUBINS) $(INTBINDIR)
-	$(INSTALL) $(TTYGROUP) $(TTYGRPBINS) $(INTBINDIR)
+	libtool --mode=install $(INSTALL) $(SUIDROOT) $(SUIDROOTBINS) $(INTBINDIR)
+	libtool --mode=install $(INSTALL) $(USERMODES) $(SUIDSPBINS) $(INTBINDIR)
+	libtool --mode=install $(INSTALL) $(NOSETMODES) $(NOSETUBINS) $(INTBINDIR)
+	libtool --mode=install $(INSTALL) $(TTYGROUP) $(TTYGRPBINS) $(INTBINDIR)
 	cd helpmsg;$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	cd loccgi;$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	cd ins;$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
@@ -322,24 +220,24 @@ install: all
 	cd lpdint;$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	-cd gtk;$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 ##	-cd motif;$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
-	@perlbin@ $(BASE)/Checknetinst
+	$(STAGED_INSTALL) || @perlbin@ $(BASE)/Checknetinst
 
 install-strip:
-	@perlbin@ $(BASE)/Checkuserinst $(SPOOLUSER) @spooldir@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @spooldir@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @altspool@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @spoolpt@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @pkgexecdir@
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @sphelpdir@
+	$(STAGED_INSTALL) || @perlbin@ $(BASE)/Checkuserinst $(SPOOLUSER) $(SPOOLDIR)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLDIR)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(ALTSPOOL)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLPT)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(INTBINDIR)
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPHELPDIR)
 	cd lib;$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
-	$(INSTALL) -s $(USERMODES) $(USERBINS) $(BINDIR)
+	libtool --mode=install $(INSTALL) -s $(USERMODES) $(USERBINS) $(BINDIR)
 	cd $(BINDIR);for p in $(SPSTARTLNKS); do ln -f gspl-start $$p; done
 	cd $(BINDIR);for p in $(MSPRLNKS); do ln -f gspl-mpr $$p; done
 	cd $(BINDIR);for p in $(SSTOPLNKS); do ln -f gspl-stop $$p; done
-	$(INSTALL) -s $(SUIDROOT) $(SUIDROOTBINS) $(INTBINDIR)
-	$(INSTALL) -s $(USERMODES) $(SUIDSPBINS) $(INTBINDIR)
-	$(INSTALL) -s $(NOSETMODES) $(NOSETUBINS) $(INTBINDIR)
-	$(INSTALL) -s $(TTYGROUP) $(TTYGRPBINS) $(INTBINDIR)
+	libtool --mode=install $(INSTALL) -s $(SUIDROOT) $(SUIDROOTBINS) $(INTBINDIR)
+	libtool --mode=install $(INSTALL) -s $(USERMODES) $(SUIDSPBINS) $(INTBINDIR)
+	libtool --mode=install $(INSTALL) -s $(NOSETMODES) $(NOSETUBINS) $(INTBINDIR)
+	libtool --mode=install $(INSTALL) -s $(TTYGROUP) $(TTYGRPBINS) $(INTBINDIR)
 	cd helpmsg;$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	cd loccgi;$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	cd ins;$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
@@ -349,7 +247,7 @@ install-strip:
 	cd lpdint;$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	-cd gtk;$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 ##	-cd motif;$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
-	@perlbin@ $(BASE)/Checknetinst
+	$(STAGED_INSTALL) || @perlbin@ $(BASE)/Checknetinst
 
 #	Clean-ups.
 

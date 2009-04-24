@@ -54,10 +54,8 @@
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "extdefs.h"
-#ifdef	SHAREDLIBS
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #ifndef	ROOTID
 #define	ROOTID	0
@@ -106,11 +104,9 @@ int	Sem_chan = -1;
 #endif
 char	*Curr_pwd, *spdir, *tmpfl, *pgfl;
 
-#ifdef	SHAREDLIBS
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 DEF_DISPOPTS;
-#endif
 
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
@@ -755,7 +751,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 		
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

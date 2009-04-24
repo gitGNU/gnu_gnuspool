@@ -44,12 +44,10 @@
 #else
 #include <time.h>
 #endif
-#ifdef	SHAREDLIBS
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 FILE	*Cfile;
 
@@ -87,7 +85,6 @@ struct	huid	{
 #define	HASHMOD	97
 static	struct	huid	*uhash[HASHMOD];
 
-#ifdef	SHAREDLIBS
 int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
@@ -96,7 +93,6 @@ struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
 DEF_DISPOPTS;
-#endif
 
 /* This is needed by the standard error handling stuff in the library */
 
@@ -591,7 +587,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 #endif
 	struct	spdet	*mypriv;
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

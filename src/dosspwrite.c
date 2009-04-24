@@ -35,19 +35,16 @@
 #include "client_if.h"
 #include "cfile.h"
 #include "services.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #define	RTIMEOUT	10	/* 10 seconds to hear back from xtnetserv */
 
 SHORT	uaportnum;
 
-#ifdef	SHAREDLIBS
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
@@ -57,7 +54,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 FILE	*Cfile;
 
 /* For benefit of library routines */
@@ -222,17 +218,15 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int	roamuser = 0, obp = 0, ch;
 	char	obuf[SV_CL_MSGBUFF];
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;
 	else
 		progname = argv[0];
 
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
 	Effuid = geteuid();
-#endif
 	init_mcfile();
 
 	/* Slurp message into buffer */

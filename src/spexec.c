@@ -24,13 +24,11 @@
 #include "defaults.h"
 #include "files.h"
 #include "ecodes.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 
 /* This is a helper program for macros in user interface stuff so
@@ -49,7 +47,6 @@
    I think this is secure but if it isn't please let me know
    ASAP!!! (and suggest how to fix) */
 
-#ifdef	SHAREDLIBS
 FILE	*Cfile;
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
@@ -65,7 +62,6 @@ void	nomem()
 {
 	exit(E_NOMEM);
 }
-#endif
 
 
 /* Rewrite the first argument of the argument list so that
@@ -128,7 +124,7 @@ MAINFN_TYPE  main(int argc, char **argv)
 	uid_t  duid = ROOTID, myuid = getuid();
 	char	**newargv;
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	/* Get spooler uid */
 

@@ -43,11 +43,11 @@ void	bodge_open(void)
 		return;
 	if  (!(hm = getenv("HOME")))
 		return;
-	(void) sprintf(Path, "%s/.xisizes", hm);
+	sprintf(Path, "%s/.xisizes", hm);
 	if  ((bodgefile = fopen(Path, "r")))
 		return;
 	hm = envprocess(CFILEDIR);
-	(void) sprintf(Path, "%sxisizes", hm);
+	sprintf(Path, "%sxisizes", hm);
 	free(hm);
 	bodgefile = fopen(Path, "r");
 }
@@ -66,14 +66,12 @@ void	bodge_size(Widget w, CONST char *dlgname)
 		if  (ch == EOF)  {
 			if  (hadeof)
 				return;
-			(void) fseek(bodgefile, 0L, 0);
+			fseek(bodgefile, 0L, 0);
 			hadeof++;
 			continue;
 		}
 
-		/*
-		 *	Expect programname:dlgname: width , height
-		 */
+		/* Expect programname:dlgname: width , height */
 
 		cp = progname;
 		if  (tolower(ch) != tolower(*cp))  {

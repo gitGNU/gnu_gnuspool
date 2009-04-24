@@ -47,11 +47,9 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 #include "cfile.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #ifndef	P_tmpdir
 #define	P_tmpdir	"/tmp/"
@@ -99,7 +97,6 @@ char	*Curr_pwd;
 
 char	tmpfl[L_tmpnam];
 
-#ifdef	SHAREDLIBS
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
@@ -108,7 +105,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
@@ -511,7 +507,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

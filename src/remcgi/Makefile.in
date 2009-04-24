@@ -23,6 +23,7 @@ prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
 CC		=	@CC@
 CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
+SHLIBCC		=	libtool --mode=link $(CC) $(CCFLAGS)
 LDFLAGS		=
 LIBS		=	@LIBS@
 LIBDIR		=	@libdir@
@@ -35,14 +36,13 @@ HDRS		=	$(PARENT)/hdrs
 MYLIBDIR	=	$(PARENT)/lib
 APILIBDIR	=	$(PARENT)/apilib
 CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(PARENT) -I$(APILIBDIR)
-LIB		=	$(MYLIBDIR)/libgnuspool_int.a
-APILIB		=	$(APILIBDIR)/libgnuspool.a
-APISHLIB	=	$(APILIBDIR)/libgnuspool.so
+LIB		=	$(MYLIBDIR)/.libs/libgnuspool_int.a
+APISHLIB	=	$(APILIBDIR)/libgnuspool.la
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
 RCGIMODES	=	-o root -g root -m 6755
-BINDIR		=	@bindir@
-INTBINDIR	=	@pkgexecdir@
+BINDIR		=	$(DESTDIR)@bindir@
+INTBINDIR	=	$(DESTDIR)@pkgexecdir@
 CGIBINDIR	=	$(INTBINDIR)/cgi-bin
 
 RSQCGIOBS	=	rsqcgi.o rcgilib.o
@@ -53,71 +53,40 @@ RSQVCGIOBS	=	rsqvcgi.o rcgilib.o
 RSPCGIOBS	=	rspcgi.o rcgilib.o
 RSPCCGIOBS	=	rspccgi.o rcgilib.o
 
-all:	@main_target@
+all:	rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi
 
-nonshared:	rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi
-
-shared:		rsqcgi_s rsqccgi_s rsqcrcgi_s rsqdcgi_s rsqvcgi_s rspcgi_s rspccgi_s
 
 rsqcgi:	$(RSQCGIOBS)
-	$(CC) -o $@ $(LDFLAGS) $(RSQCGIOBS) $(APILIB) $(LIB) $(LIBNET) $(LIBS)
-
-rsqcgi_s:	$(RSQCGIOBS)
-	$(CC) -o rsqcgi $(LDFLAGS) $(RSQCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSQCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
 
 rsqccgi:	$(RSQCCGIOBS)
-	$(CC) -o $@ $(LDFLAGS) $(RSQCCGIOBS) $(APILIB) $(LIB) $(LIBNET) $(LIBS)
-
-rsqccgi_s:	$(RSQCCGIOBS)
-	$(CC) -o rsqccgi $(LDFLAGS) $(RSQCCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSQCCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
 
 rsqcrcgi:	$(RSQCRCGIOBS)
-	$(CC) -o $@ $(LDFLAGS) $(RSQCRCGIOBS) $(APILIB) $(LIB) $(LIBNET) $(LIBS)
-
-rsqcrcgi_s:	$(RSQCRCGIOBS)
-	$(CC) -o rsqcrcgi $(LDFLAGS) $(RSQCRCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSQCRCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
 
 rsqdcgi:	$(RSQDCGIOBS)
-	$(CC) -o $@ $(LDFLAGS) $(RSQDCGIOBS) $(APILIB) $(LIB) $(LIBNET) $(LIBS)
-
-rsqdcgi_s:	$(RSQDCGIOBS)
-	$(CC) -o rsqdcgi $(LDFLAGS) $(RSQDCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSQDCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
 
 rsqvcgi:	$(RSQVCGIOBS)
-	$(CC) -o $@ $(LDFLAGS) $(RSQVCGIOBS) $(APILIB) $(LIB) $(LIBNET) $(LIBS)
-
-rsqvcgi_s:	$(RSQVCGIOBS)
-	$(CC) -o rsqvcgi $(LDFLAGS) $(RSQVCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSQVCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
 
 rspcgi:	$(RSPCGIOBS)
-	$(CC) -o $@ $(LDFLAGS) $(RSPCGIOBS) $(APILIB) $(LIB) $(LIBNET) $(LIBS)
-
-rspcgi_s:	$(RSPCGIOBS)
-	$(CC) -o rspcgi $(LDFLAGS) $(RSPCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSPCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
 
 rspccgi:	$(RSPCCGIOBS)
-	$(CC) -o $@ $(LDFLAGS) $(RSPCCGIOBS) $(APILIB) $(LIB) $(LIBNET) $(LIBS)
-
-rspccgi_s:	$(RSPCCGIOBS)
-	$(CC) -o rspccgi $(LDFLAGS) $(RSPCCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSPCCGIOBS) $(APISHLIB) $(LIB) $(LIBNET) $(LIBS)
 
 install:
 	$(INSTALL) -d $(CGIBINDIR)
-	$(INSTALL) $(RCGIMODES) rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi $(CGIBINDIR)
+	libtool --mode=install $(INSTALL) $(RCGIMODES) rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi $(CGIBINDIR)
 
 install-strip:
 	$(INSTALL) -d $(CGIBINDIR)
-	$(INSTALL) -s $(RCGIMODES) rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi $(CGIBINDIR)
+	libtool --mode=install $(INSTALL) -s $(RCGIMODES) rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi $(CGIBINDIR)
 
 clean:
-	$(RM) *.o rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi *_s
+	$(RM) *.o rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi
 
 distclean:	clean
 	$(RM) Makefile

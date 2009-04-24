@@ -46,9 +46,7 @@
 #include "displayopt.h"
 #include "cgifndjb.h"
 #include "shutilmsg.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
-#endif
 
 #define	MAXLONG	0x7fffffffL	/*  Change this?  */
 
@@ -94,9 +92,7 @@ struct	spdet	*mypriv;
 int	exit_code,
 	force;
 
-#ifdef	SHAREDLIBS
 struct	xfershm		*Xfer_shmp;
-#endif
 
 /* Keep library happy */
 
@@ -400,7 +396,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

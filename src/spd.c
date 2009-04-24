@@ -64,10 +64,8 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 #include "cfile.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
 #include "displayopt.h"
-#endif
 
 #define	INCPAGES	10	/* Incremental size */
 
@@ -108,17 +106,13 @@ LONG	Num_sent,
 	Pages_done,
 	My_msgid;
 
-#if  	defined(RUN_AS_ROOT) || defined(SHAREDLIBS)
-uid_t	Daemuid;
-#endif
-#ifdef	SHAREDLIBS
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
-uid_t	Realuid, Effuid;
+
+uid_t	Realuid, Effuid, Daemuid;
 struct	xfershm		*Xfer_shmp;
 DEF_DISPOPTS;
-#endif
 
 /* These bits all relate to shared memory ops.  */
 
@@ -1672,7 +1666,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	char	*fname;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	umask(C_MASK);
 	init_mcfile();
@@ -1722,10 +1716,8 @@ MAINFN_TYPE	main(int argc, char **argv)
 	ptdir = envprocess(PTDIR);
 	shellname = envprocess(SHELL);
 
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
 	Effuid = geteuid();
-#endif
 #ifdef	RUN_AS_ROOT
 	if  ((Daemuid = lookup_uname(SPUNAME)) == UNKNOWN_UID)
 		Daemuid = ROOTID;

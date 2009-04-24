@@ -40,13 +40,11 @@
 #include "notify.h"
 #include "cfile.h"
 #include "extdefs.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 char	configname[] = USER_CONFIG;
 char	*writer, *doswriter, *mailer, *shellname;
@@ -64,7 +62,6 @@ FILE	*Cfile;
 extern	char	*Helpfile_path;
 
 /* Keep library happy.  */
-#ifdef	SHAREDLIBS
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
@@ -74,7 +71,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 void	nomem(void)
 {
@@ -174,10 +170,8 @@ FILE  *getmsgfile(void)
 	char		*libf, *homedf, *sysf, *repl;
 	unsigned	hdlng, llng = 0, lng;
 
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
 	Effuid = geteuid();
-#endif
 
 	/* Get user name which should be passed to it in environment */
 
@@ -280,7 +274,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	extern	char	**environ;
 	static	char	lnam[] = "LOGNAME=";
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

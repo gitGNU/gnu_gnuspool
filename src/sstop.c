@@ -36,11 +36,9 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 #include "cfile.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 FILE	*Cfile;
 int	Ctrl_chan;
@@ -49,7 +47,6 @@ uid_t	Daemuid,
 	Effuid,
 	Realuid;
 
-#ifdef	SHAREDLIBS
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
@@ -57,7 +54,6 @@ struct	xfershm		*Xfer_shmp;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 #define	DEFAULT_SUSTIME	300	/* 5 minutes */
 #define	MAX_SUSTIME	7200	/* 2 hours */
@@ -96,7 +92,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

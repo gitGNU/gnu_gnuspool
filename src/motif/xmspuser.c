@@ -16,8 +16,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-static	char	rcsid1[] = "@(#) $Id: xmspuser.c,v 1.1 2008/08/18 16:25:54 jmc Exp $";		/* We use these in the about message */
-static	char	rcsid2[] = "@(#) $Revision: 1.1 $";
+static	char	rcsid1[] = "@(#) $Id: xmspuser.c,v 1.2 2009/04/24 22:06:45 toadwarble Exp $";		/* We use these in the about message */
+static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -57,13 +57,11 @@ static	char	rcsid2[] = "@(#) $Revision: 1.1 $";
 #include "cfile.h"
 #include "xmspu_ext.h"
 #include "xmmenu.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 FILE	*Cfile;
 
@@ -71,7 +69,6 @@ uid_t	Daemuid,
 	Realuid,
 	Effuid;
 
-#ifdef	SHAREDLIBS
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
@@ -80,7 +77,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 int	arr_rtime,
 	arr_rint;
@@ -632,7 +628,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

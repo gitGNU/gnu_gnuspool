@@ -35,13 +35,11 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 #include "cfile.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 unsigned Nusers;
 extern	struct	sphdr	Spuhdr;
@@ -110,7 +108,6 @@ struct	perm	{
 
 #define	MAXPERM	(sizeof (ptab)/sizeof(struct perm))
 
-#ifdef	SHAREDLIBS
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
@@ -119,7 +116,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 int	spitoption(const int, const int, FILE *, const int, const int);
@@ -603,7 +599,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

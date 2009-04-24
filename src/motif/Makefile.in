@@ -30,12 +30,12 @@ BASE		=	../..
 HDRS		=	$(PARENT)/hdrs
 CC		=	@CC@
 CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
+SHLIBCC		=	libtool --mode=link $(CC) $(CCFLAGS)
 CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(PARENT) -I$(BASE)
 LDFLAGS		=	
 PARENT		=	..
 MYLIBDIR	=	$(PARENT)/lib
-LIB		=	$(MYLIBDIR)/libgnuspool_int.a
-SHLIB		=	$(MYLIBDIR)/libgnuspool_int.so
+SHLIB		=	$(MYLIBDIR)/libgnuspool_int.la
 LIBS		=	@LIBS@
 LIBNET		=	@SOCKLIBS@
 XLIBS		=	@XWIN_LIBS@
@@ -44,49 +44,40 @@ INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
 SPOOLUSER	=	@SPOOLUSER@
 USERMODES	=	-o $(SPOOLUSER) -g root -m 4755
-BINDIR		=	@bindir@
-INTBINDIR	=	@pkgexecdir@
-HELPFILEDIR	=	@sphelpdir@
+BINDIR		=	$(DESTDIR)@bindir@
+INTBINDIR	=	$(DESTDIR)@pkgexecdir@
+HELPFILEDIR	=	$(DESTDIR)@sphelpdir@
 USERBINS	=	gspl-xmpq gspl-xmuser
-APPDEFLOC	=	`./Findappdefloc`
+# We do this here rather than in configure because Findappdefloc can take a long time
+# if it has to search the filesystem and we don't build this often enough to make it
+# worthwhile
+APPDEFLOC	=	$(DESTDIR)`./Findappdefloc`
 
 XMSPQOBS=xmspq.o xmsq_jlist.o xmsq_plist.o xmsq_cbs.o xmsq_jcall.o xmsq_pcall.o xmsq_prompt.o xmsq_view.o
 XMSPUSEROBS=xmspuser.o xmspu_cbs.o
 
-all:		@main_target@
+all:		$(USERBINS)
 
-nonshared:	$(USERBINS)
-
-shared:		xmspq_s xmspuser_s
-
-gspl-xmpq:		$(XMSPQOBS)
-		$(CC) -o $@ $(LDFLAGS) $(XMSPQOBS) $(LIB) $(XLIBS) $(LIBNET) $(LIBS)
-
-xmspq_s:	$(XMSPQOBS)
-		$(CC) -o gspl-xmpq $(LDFLAGS) $(XMSPQOBS) $(SHLIB) $(XLIBS) $(LIBNET) $(LIBS)
-		touch $@
+gspl-xmpq:	$(XMSPQOBS)
+		$(SHLIBCC) -o $@ $(LDFLAGS) $(XMSPQOBS) $(SHLIB) $(XLIBS) $(LIBNET) $(LIBS)
 
 gspl-xmuser:	$(XMSPUSEROBS)
-		$(CC) -o $@ $(LDFLAGS) $(XMSPUSEROBS) $(LIB) $(XLIBS) $(LIBNET) $(LIBS)
-
-xmspuser_s:	$(XMSPUSEROBS)
-		$(CC) -o gspl-xmuser $(LDFLAGS) $(XMSPUSEROBS) $(SHLIB) $(XLIBS) $(LIBNET) $(LIBS)
-		touch $@
+		$(SHLIBCC) -o $@ $(LDFLAGS) $(XMSPUSEROBS) $(SHLIB) $(XLIBS) $(LIBNET) $(LIBS)
 
 install:	all
-		$(INSTALL) $(USERMODES) $(USERBINS) $(BINDIR)
+		libtool --mode=install $(INSTALL) $(USERMODES) $(USERBINS) $(BINDIR)
 		(m4 xmspq.m4;m4 xmspuser.m4) >GSPOOL
 		$(INSTALL_DATA) GSPOOL $(APPDEFLOC)
 		$(RM) GSPOOL
 
 install-strip:	all
-		$(INSTALL) -s $(USERMODES) $(USERBINS) $(BINDIR)
+		libtool --mode=install $(INSTALL) -s $(USERMODES) $(USERBINS) $(BINDIR)
 		(m4 xmspq.m4;m4 xmspuser.m4) >GSPOOL
 		$(INSTALL_DATA) GSPOOL $(APPDEFLOC)
 		$(RM) GSPOOL
 
 clean:
-	$(RM) *.o gspl-xmpq gspl-xmuser *_s
+	$(RM) *.o gspl-xmpq gspl-xmuser
 
 distclean:	clean
 	$(RM) Makefile

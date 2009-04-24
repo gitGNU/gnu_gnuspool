@@ -59,9 +59,7 @@
 #include <time.h>
 #endif
 #include "services.h"
-#ifdef	SHAREDLIBS
 #include "displayopt.h"
-#endif
 
 SHORT	qsock,			/* TCP Socket for accepting queued jobs on */
 	uasock,			/* Datagram socket for user access enquiries */
@@ -116,10 +114,8 @@ FILE	*Cfile;
 
 uid_t	Daemuid,
 	Realuid;
-#ifdef	SHAREDLIBS
 uid_t	Effuid;
 DEF_DISPOPTS;
-#endif
 
 struct	hhash	*nhashtab[NETHASHMOD];
 struct	cluhash	*cluhashtab[NETHASHMOD];
@@ -1330,17 +1326,15 @@ MAINFN_TYPE	main(int argc, char **argv)
 	struct	sigstruct_name  zch;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;
 	else
 		progname = argv[0];
 
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
 	Effuid = geteuid();
-#endif
 	init_mcfile();
 
 	if  ((Cfile = open_icfile()) == (FILE *) 0)

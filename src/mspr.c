@@ -47,13 +47,11 @@
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "extdefs.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #ifndef	PATH_MAX
 #define	PATH_MAX	1024
@@ -81,7 +79,6 @@ char	*Curr_pwd;
 char	**file_list;
 int	filenums = 0;
 
-#ifdef	SHAREDLIBS
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
@@ -90,7 +87,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 char    *spath(const char *, const char *);
 int	spitoption(const int, const int, FILE *, const int, const int);
@@ -124,7 +120,10 @@ static int	getseq(char * spdir)
 		lseek(fd, 0L, 0);
 	}
 	sprintf(buf, "%d\n", result);
-	write(fd, buf, strlen(buf));
+	if  (write(fd, buf, strlen(buf)) < 0)  {
+		print_error($E{Cannot create sequence file});
+		exit(E_SETUP);
+	}
 	close(fd);
 	return  result;
 }
@@ -570,7 +569,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

@@ -52,10 +52,8 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 #include "cfile.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
 #include "displayopt.h"
-#endif
 
 #define	IPC_MODE	0
 
@@ -67,11 +65,9 @@ int	Sem_chan;
 #endif
 
 struct	jshm_info	Job_seg;
-#ifdef	SHAREDLIBS
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
 DEF_DISPOPTS;
-#endif
 
 char		nodelete;
 LONG		Jobnum;
@@ -385,7 +381,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

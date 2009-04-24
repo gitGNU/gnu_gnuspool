@@ -24,16 +24,13 @@
 #include "defaults.h"
 #include "incl_unix.h"
 #include "files.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 FILE	*Cfile;
-#ifdef	SHAREDLIBS
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
@@ -43,7 +40,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 /* I don't know where to find this routine in the general case but I
    hope that this will work instead of groping around zillions of
@@ -99,7 +95,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	struct	passwd	*pwe;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	init_mcfile();
 

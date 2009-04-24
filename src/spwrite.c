@@ -33,13 +33,11 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 #include "cfile.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #ifdef	UTMP_FILE
 #define	ACTUAL_UTMP_FILE	UTMP_FILE
@@ -49,7 +47,6 @@
 
 #define	INCFILES	10
 
-#ifdef	SHAREDLIBS
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
@@ -59,7 +56,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 FILE	*Cfile;
 char	*dispatch;
 
@@ -182,17 +178,15 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int	i;
 	char	**hv, *inb;
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;
 	else
 		progname = argv[0];
 
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
 	Effuid = geteuid();
-#endif
 	init_mcfile();
 
 	if  ((Cfile = open_icfile()) == (FILE *) 0)

@@ -418,7 +418,12 @@ static	int	savefeedback(void)
 	}
 	if  (fpid != 0)  {	/* Main path - net filter process */
 		close(2);
-		dup(pfs[1]);
+		if  (dup(pfs[1]) < 0)  {
+			kill(fpid, SIGKILL);
+			close(pfs[0]);
+			close(pfs[1]);
+			return  0;
+		}
 		fclose(infile);
 		close(pfs[1]);
 		return  1;

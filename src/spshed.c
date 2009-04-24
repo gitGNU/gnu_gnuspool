@@ -56,9 +56,7 @@
 #else
 #include <time.h>
 #endif
-#ifdef	SHAREDLIBS
 #include "displayopt.h"
-#endif
 
 #ifdef	OS_FREEBSD
 #define _SC_PAGE_SIZE _SC_PAGESIZE
@@ -158,10 +156,8 @@ struct remote	*	find_probe(const netid_t);
 #endif
 
 uid_t	Daemuid;
-#ifdef	SHAREDLIBS
 uid_t	Realuid, Effuid;
 DEF_DISPOPTS;
-#endif
 
 float	pri_decrement = 1.0;	/* Decrement in priority assignment */
 
@@ -1082,7 +1078,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	struct	sigstruct_name	zign;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;
@@ -1120,10 +1116,8 @@ MAINFN_TYPE	main(int argc, char **argv)
 
 	rpwfile();		/* Insist on this in any case */
 
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
 	Effuid = geteuid();
-#endif
 	if  ((chku = lookup_uname(SPUNAME)) == UNKNOWN_UID)
 		Daemuid = ROOTID;
 	else

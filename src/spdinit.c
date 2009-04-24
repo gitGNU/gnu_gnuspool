@@ -47,13 +47,11 @@
 #include "ecodes.h"
 #include "incl_unix.h"
 #include "cfile.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #ifdef	HAVE_TERMIO_H
 #ifndef	CINTR
@@ -202,7 +200,6 @@ FILE	*Cfile;
 
 /* Keep library happy (applies to both defs below).  */
 
-#ifdef	SHAREDLIBS
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
@@ -212,7 +209,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 /* Open report file if possible write message to it.  */
 
@@ -839,7 +835,7 @@ void	dumpstr(struct string *str)
 	if  (!str)
 		return;
 
-	do  fwrite(str->s_str, 1, (int) str->s_length, stdout);
+	do  (void) fwrite(str->s_str, 1, (int) str->s_length, stdout);
 	while  ((str = str->s_next));
 
 	/* And a final null.  */
@@ -948,7 +944,7 @@ void	makeoutput(void)
 
 MAINFN_TYPE	main(int argc, char **argv)
 {
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;
@@ -956,10 +952,8 @@ MAINFN_TYPE	main(int argc, char **argv)
 		progname = argv[0];
 
 	init_mcfile();
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
 	Effuid = geteuid();
-#endif
 
 	if  ((Cfile = open_icfile()) == (FILE *) 0)
 		exit(E_NOCONFIG);
