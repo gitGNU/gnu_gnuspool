@@ -23,15 +23,15 @@ SHELL		=	/bin/sh
 PARENT		=	..
 BASE		=	../..
 AR		=	ar
-CC		=	@CC@
+CC		=	libtool --mode=compile @CC@
 RM		=	rm -f
 HDRS		=	$(PARENT)/hdrs
-CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@ @lib_pic@
+CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
 CFLAGS		=	$(CCFLAGS) -I$(HDRS)
-LIBDIR		=	@libdir@
+LIBDIR		=	$(DESTDIR)@libdir@
+INCLUDEDIR	=	$(DESTDIR)@includedir@
 LDSHARED	=	ld -shared -o
-APILIB		=	libgnuspool.a
-APISHLIB	=	libgnuspool.so
+APILIB		=	libgnuspool.la
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
 
@@ -55,44 +55,10 @@ OBJECTS=gspool_getspd.o\
 	gspool_putspu.o\
 	gspool_open.o
 
-all:	@main_target@
+LIBOBJECTS=$(OBJECTS:.o=.lo)
 
-nonshared:	$(APILIB)
-	$(AR) crv $(APILIB) $(OBJECTS)
-	@RANLIB@ $(APILIB)
-	$(RM) $(OBJECTS)
-
-shared:		$(APISHLIB)
-
-$(APILIB):	gspool.h \
-		$(APILIB)(gspool_getspd.o)\
-		$(APILIB)(gspool_getspu.o)\
-		$(APILIB)(gspool_jobadd.o)\
-		$(APILIB)(gspool_jobdata.o)\
-		$(APILIB)(gspool_jobdel.o)\
-		$(APILIB)(gspool_joblist.o)\
-		$(APILIB)(gspool_jobread.o)\
-		$(APILIB)(gspool_jobupd.o)\
-		$(APILIB)(gspool_jobswap.o)\
-		$(APILIB)(gspool_ptradd.o)\
-		$(APILIB)(gspool_ptrdel.o)\
-		$(APILIB)(gspool_ptrlist.o)\
-		$(APILIB)(gspool_ptrop.o)\
-		$(APILIB)(gspool_ptrread.o)\
-		$(APILIB)(gspool_ptrupd.o)\
-		$(APILIB)(gspool_ptrswap.o)\
-		$(APILIB)(gspool_putspd.o)\
-		$(APILIB)(gspool_putspu.o)\
-		$(APILIB)(gspool_open.o)
-
-# Build shared and non-shared version.
-# TODO - build alternative 32-bit and 64-bit versions on some machines
-
-$(APISHLIB):	gspool.h $(OBJECTS)
-	$(LDSHARED) $(APISHLIB) -h $(APISHLIB) $(OBJECTS)
-	$(AR) crv $(APILIB) $(OBJECTS)
-	@RANLIB@ $(APILIB)
-	$(RM) $(OBJECTS)
+all:	gspool.h $(OBJECTS)
+	libtool --mode=link @CC@ $(CCFLAGS) -o $(APILIB) $(LIBOBJECTS) -rpath $(LIBDIR) -version-info 1:6:0 -release 1
 
 # Build header out of the bits
 
@@ -106,18 +72,19 @@ gspool.h:	gspool.pre\
 		$(HDRS)/spuser.h
 	sh ./Hdrmake.sh $(BASE)/config.h $(HDRS)
 
-install:
-	$(INSTALL) -d $(LIBDIR)
+install: all
+	libtool --mode=install $(INSTALL) $(APILIB) $(LIBDIR)
+	$(INSTALL_DATA) gspool.h $(INCLUDEDIR)
 	$(INSTALL_DATA) $(APILIB) $(LIBDIR)
-	if test -f $(APISHLIB); then $(INSTALL) $(APISHLIB) $(LIBDIR); fi
 
-install_strip:
-	$(INSTALL) -d $(LIBDIR)
+install-strip: all
+	libtool --mode=install $(INSTALL) -s $(APILIB) $(LIBDIR)/$(APILIB)
+	$(INSTALL_DATA) gspool.h $(INCLUDEDIR)
 	$(INSTALL_DATA) $(APILIB) $(LIBDIR)
-	if test -f $(APISHLIB); then $(INSTALL) $(APISHLIB) $(LIBDIR); fi
 
 clean:
-	$(RM) gspool.h *.[oa] *.ln *.so
+	$(RM) gspool.h *.[oa] *.ln *.so *.la *.lo
+	$(RM) -r .libs
 
 distclean:	clean
 	$(RM) Makefile
