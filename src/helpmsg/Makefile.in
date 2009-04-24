@@ -22,7 +22,7 @@
 SHELL		=	/bin/sh
 prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
-HELPFILEDIR	=	@sphelpdir@
+SPHELPDIR	=	$(DESTDIR)@sphelpdir@
 RM		=	rm -f
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
@@ -37,12 +37,12 @@ all:
 	./Maketerms.sh
 
 install:	all
-	$(INSTALL_DATA) $(HELPFILES) $(SCREENHELP) $(HELPFILEDIR)
-	cd $(HELPFILEDIR); ln -f spq.xterm spq.help; ln -f spuser.xterm spuser.help
+	$(INSTALL_DATA) $(HELPFILES) $(SCREENHELP) $(SPHELPDIR)
+	cd $(SPHELPDIR); ln -f spq.xterm spq.help; ln -f spuser.xterm spuser.help
 
 install-strip:	all
-	$(INSTALL_DATA) $(HELPFILES) $(SCREENHELP) $(HELPFILEDIR)
-	cd $(HELPFILEDIR); ln -f spq.xterm spq.help; ln -f spuser.xterm spuser.help
+	$(INSTALL_DATA) $(HELPFILES) $(SCREENHELP) $(SPHELPDIR)
+	cd $(SPHELPDIR); ln -f spq.xterm spq.help; ln -f spuser.xterm spuser.help
 	
 clean:
 	$(RM) *.xterm *.nxterm *.vt100 *.vt220 *.vt320 *.wy60
