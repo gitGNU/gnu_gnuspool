@@ -30,7 +30,7 @@ LDFLAGS		=
 LIBNET		=	@SOCKLIBS@
 LIBS		=	@LIBS@
 MYLIBDIR	=	$(PARENT)/lib
-LIB		=	$(MYLIBDIR)/libgnuspool_int.a
+LIB		=	$(MYLIBDIR)/.libs/libgnuspool_int.a
 RM		=	rm -f
 YACC		=	@YACC@
 YFLAGS		=	-d
@@ -43,21 +43,17 @@ SPOOLUSER	=	@SPOOLUSER@
 USERMODES	=	-o $(SPOOLUSER) -g root -m 4755
 NOSETMODES	=	-o $(SPOOLUSER) -g root
 ROOTMODES	=	-o root -g root -m 4755
-BINDIR		=	@bindir@
-SBINDIR		=	@sbindir@
-INTBINDIR	=	@pkgexecdir@
-DATADIR		=	@pkgdatadir@
-HELPFILEDIR	=	@sphelpdir@
+BINDIR		=	$(DESTDIR)@bindir@
+SBINDIR		=	$(DESTDIR)@sbindir@
+INTBINDIR	=	$(DESTDIR)@pkgexecdir@
+DATADIR		=	$(DESTDIR)@pkgdatadir@
+HELPFILEDIR	=	$(DESTDIR)@sphelpdir@
 PROGS		=	sendudp xilp xtelnet xtlhp gspl-getsnmp xtftp
 
 # We don't make a distinction between shared and unshared in this case
 # as it doesn't seem worth it.
 
-all:	@main_target@
-
-nonshared:	$(PROGS)
-
-shared:		$(PROGS)
+all:	$(PROGS)
 
 sendudp:	sendudp.o
 	$(CC) $(LDFLAGS) -o $@ $? $(LIB) $(LIBNET) $(LIBS)

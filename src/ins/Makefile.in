@@ -30,7 +30,7 @@ LDFLAGS		=
 LIBS		=	@LIBS@
 LIBNET		=	@SOCKLIBS@
 MYLIBDIR	=	$(PARENT)/lib
-LIB		=	$(MYLIBDIR)/libgnuspool_int.a
+LIB		=	$(MYLIBDIR)/.libs/libgnuspool_int.a
 HDRS		=	$(PARENT)/hdrs
 CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(BASE)
 RM		=	rm -f
@@ -38,17 +38,13 @@ INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
 SPOOLUSER	=	@SPOOLUSER@
 USERMODES	=	-o $(SPOOLUSER) -g root -m 4755
-BINDIR		=	@bindir@
-SBINDIR		=	@sbindir@
-INTBINDIR	=	@pkgexecdir@
+BINDIR		=	$(DESTDIR)@bindir@
+SBINDIR		=	$(DESTDIR)@sbindir@
 USERPROGS	=	gspl-lpcover gspl-lpstatc
 PROGS		=	gspl-cjlist gspl-cplist gspl-spuconv gspl-ripc gspl-setspdir gspl-netwcmd
+STAGED_INSTALL	=	false
 
-all:	@main_target@
-
-nonshared:	$(USERPROGS) $(PROGS)
-
-shared:		$(USERPROGS) $(PROGS)
+all:	$(USERPROGS) $(PROGS)
 
 gspl-cjlist:		cjlist.o convcomm.o
 	$(CC) $(LDFLAGS) -o $@ cjlist.o convcomm.o $(LIB)
@@ -77,12 +73,12 @@ gspl-setspdir:	setspdir.o
 install:	all
 	$(INSTALL) $(PROGS) $(SBINDIR)
 	$(INSTALL) $(USERMODES) $(USERPROGS) $(SBINDIR)
-	@stdlpcmds@
+	$(STAGED_INSTALL) || @stdlpcmds@
 
 install-strip:	all
 	$(INSTALL) -s $(PROGS) $(SBINDIR)
 	$(INSTALL) -s $(USERMODES) $(USERPROGS) $(SBINDIR)
-	@stdlpcmds@
+	$(STAGED_INSTALL) || @stdlpcmds@
 
 clean:
 	$(RM) *.o gspl-*

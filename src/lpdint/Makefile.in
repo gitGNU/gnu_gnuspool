@@ -26,71 +26,45 @@ BASE		=	../..
 HDRS		=	$(PARENT)/hdrs
 CC		=	@CC@
 CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
+SHLIBCC		=	libtool --mode=link $(CC) $(CCFLAGS)
 LDFLAGS		=
 LIBNET		=	@SOCKLIBS@
 LIBS		=	@LIBS@
 CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(BASE) -I$(PARENT)
 MYLIBDIR	=	$(PARENT)/lib
-LIB		=	$(MYLIBDIR)/libgnuspool_int.a
-SHLIB		=	$(MYLIBDIR)/libgnuspool_int.so
+SHLIB		=	$(MYLIBDIR)/libgnuspool_int.la
 RM		=	rm -f
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
 SPOOLUSER	=	@SPOOLUSER@
 USERMODES	=	-o $(SPOOLUSER) -g root -m 4755
 ROOTMODES	=	-o root -g root -m 4755
-BINDIR		=	@bindir@
-INTBINDIR	=	@pkgexecdir@
-DATADIR		=	@pkgdatadir@
-HELPFILEDIR	=	@sphelpdir@
+BINDIR		=	$(DESTDIR)@bindir@
+INTBINDIR	=	$(DESTDIR)@pkgexecdir@
+DATADIR		=	$(DESTDIR)@pkgdatadir@
+HELPFILEDIR	=	$(DESTDIR)@sphelpdir@
+SYSCONFDIR	=	$(DESTDIR)@sysconfdir@
+SPOOLDIR	=	$(DESTDIR)@spooldir@
 
-all:	@main_target@
-
-nonshared:	xtlpd xtlpc xtlpq xtlprm gspl-lpq gspl-lprm
-
-shared:	xtlpd_s xtlpc_s xtlpq_s xtlprm_s sp.lpq_s sp.lprm_s
+all:	xtlpd xtlpc xtlpq xtlprm gspl-lpq gspl-lprm
 
 xtlpd:	xtlpd.o lpdparse.o proccmd.o lpdproto.o
-	$(CC) $(LDFLAGS) -o $@ xtlpd.o lpdparse.o proccmd.o lpdproto.o $(LIB) $(LIBNET) $(LIBS)
-
-xtlpd_s:xtlpd.o lpdparse.o proccmd.o lpdproto.o
-	$(CC) $(LDFLAGS) -o xtlpd xtlpd.o lpdparse.o proccmd.o lpdproto.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) $(LDFLAGS) -o $@ xtlpd.o lpdparse.o proccmd.o lpdproto.o $(SHLIB) $(LIBNET) $(LIBS)
 
 xtlpc:	xtlpc.o lpcparse.o
-	$(CC) $(LDFLAGS) -o $@ xtlpc.o lpcparse.o $(LIB) $(LIBNET) $(LIBS)
-
-xtlpc_s:xtlpc.o lpcparse.o
-	$(CC) $(LDFLAGS) -o xtlpc xtlpc.o lpcparse.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) $(LDFLAGS) -o $@ xtlpc.o lpcparse.o $(SHLIB) $(LIBNET) $(LIBS)
 
 xtlpq:	xtlpq.o
-	$(CC) $(LDFLAGS) -o xtlpq xtlpq.o $(LIB) $(LIBNET) $(LIBS)
-
-xtlpq_s:xtlpq.o
-	$(CC) $(LDFLAGS) -o xtlpq xtlpq.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) $(LDFLAGS) -o xtlpq xtlpq.o $(SHLIB) $(LIBNET) $(LIBS)
 
 xtlprm:	xtlprm.o
-	$(CC) $(LDFLAGS) -o xtlprm xtlprm.o $(LIB) $(LIBNET) $(LIBS)
-
-xtlprm_s:xtlprm.o
-	$(CC) $(LDFLAGS) -o xtlprm xtlprm.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) $(LDFLAGS) -o xtlprm xtlprm.o $(SHLIB) $(LIBNET) $(LIBS)
 
 gspl-lpq:	sp.lpq.o
-	$(CC) $(LDFLAGS) -o $@ sp.lpq.o $(LIB) $(LIBS)
-
-sp.lpq_s:sp.lpq.o
-	$(CC) $(LDFLAGS) -o gspl-lpq sp.lpq.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) $(LDFLAGS) -o $@ sp.lpq.o $(SHLIB) $(LIBS)
 
 gspl-lprm:	sp.lprm.o
-	$(CC) $(LDFLAGS) -o $@ sp.lprm.o $(LIB) $(LIBS)
-
-sp.lprm_s:	sp.lprm.o
-	$(CC) $(LDFLAGS) -o gspl-lprm sp.lprm.o $(SHLIB) $(LIBNET) $(LIBS)
-	touch $@
+	$(SHLIBCC) $(LDFLAGS) -o $@ sp.lprm.o $(SHLIB) $(LIBS)
 
 xtlprm.o:	xtlpq.c
 	ln xtlpq.c xtlprm.c
@@ -103,29 +77,29 @@ sp.lprm.o:	sp.lpq.c
 	rm -f sp.lprm.c
 
 install:	all
-	$(INSTALL) $(ROOTMODES) xtlprm xtlpd xtlpq xtlpc $(INTBINDIR)
-	$(INSTALL) $(USERMODES) gspl-lpq gspl-lprm $(BINDIR)
+	libtool --mode=install $(INSTALL) $(ROOTMODES) xtlprm xtlpd xtlpq xtlpc $(INTBINDIR)
+	libtool --mode=install $(INSTALL) $(USERMODES) gspl-lpq gspl-lprm $(BINDIR)
 	$(INSTALL) -d $(DATADIR)
 	$(INSTALL) remove longlist shortlist $(DATADIR)
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @spooldir@/xtlpc @spooldir@/xtlpd
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLDIR)/xtlpc $(SPOOLDIR)/xtlpd
 	sed -e 's|SPOOLDIR|@spooldir@|' -e 's|DATADIR|@pkgdatadir@|' xtlpc-ctrl >$(DATADIR)/xtlpc-ctrl
 	sed -e 's|SPOOLDIR|@spooldir@|' -e 's|DATADIR|@pkgdatadir@|' xtlpd-ctrl >$(DATADIR)/xtlpd-ctrl
 	chown $(SPOOLUSER) $(DATADIR)/xtlpc-ctrl $(DATADIR)/xtlpd-ctrl
-	echo '1  BSD  -  -' >/etc/gnuspool.ext
+	echo '1  BSD  -  -' >$(SYSCONFDIR)/gnuspool.ext
 
 install-strip:	all
-	$(INSTALL) -s $(ROOTMODES) xtlprm xtlpd xtlpq xtlpc $(INTBINDIR)
-	$(INSTALL) -s $(USERMODES) gspl-lpq gspl-lprm $(BINDIR)
+	libtool --mode=install $(INSTALL) -s $(ROOTMODES) xtlprm xtlpd xtlpq xtlpc $(INTBINDIR)
+	libtool --mode=install $(INSTALL) -s $(USERMODES) gspl-lpq gspl-lprm $(BINDIR)
 	$(INSTALL) -d $(DATADIR)
 	$(INSTALL) remove longlist shortlist $(DATADIR)
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 @spooldir@/xtlpc @spooldir@/xtlpd
+	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLDIR)/xtlpc $(SPOOLDIR)/xtlpd
 	sed -e 's|SPOOLDIR|@spooldir@|' -e 's|DATADIR|@pkgdatadir@|' xtlpc-ctrl >$(DATADIR)/xtlpc-ctrl
 	sed -e 's|SPOOLDIR|@spooldir@|' -e 's|DATADIR|@pkgdatadir@|' xtlpd-ctrl >$(DATADIR)/xtlpd-ctrl
 	chown $(SPOOLUSER) $(DATADIR)/xtlpc-ctrl $(DATADIR)/xtlpd-ctrl
-	echo '1  BSD  -  -' >/etc/gnuspool.ext
+	echo '1  BSD  -  -' >$(SYSCONFDIR)/gnuspool.ext
 
 clean:
-	$(RM) *.o xtlpd xtlpc xtlpq xtlprm gspl-lpq gspl-lprm *_s
+	$(RM) *.o xtlpd xtlpc xtlpq xtlprm gspl-lpq gspl-lprm
 
 distclean:	clean
 	$(RM) Makefile
