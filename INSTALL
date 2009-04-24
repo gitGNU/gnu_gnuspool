@@ -96,9 +96,10 @@ memory-mapped file or a separate lock file if shared-memory is used.
 Shared libraries
 ================
 
-The option --enable-sharedlibs will build GNUspool to use shared
-libraries for the internal library rather than statically
-linking. Curses-based routines go into a separate library to avoid
+Libtool is now used to build shared libraries portably so this is
+turned on for most programs.
+
+Curses-based routines go into a separate library to avoid
 cluttering various software that doesn't use it.
 
 Executive summary
@@ -307,4 +308,4 @@ To emulate CUPS printers for software which requires them, see the
 "cupspy" subdirectory. You will need Python for this.
 
 John Collins
-July 2008 with updates March 2009
+July 2008 with updates March 2009 more updates April 2009
