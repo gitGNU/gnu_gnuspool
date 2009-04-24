@@ -23,21 +23,20 @@ SHELL		=	/bin/sh
 @SET_MAKE@
 prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
-AR		=	ar
-CC		=	@CC@
+CC		=	libtool --mode=compile @CC@
 PARENT		=	..
 BASE		=	../..
 HDRS		=	$(PARENT)/hdrs
-CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@ @lib_pic@
+CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
 CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(BASE)
-LIBDIR		=	@libdir@
-LDSHARED	=	ld -shared -o
-LIB		=	libgnuspool_int.a
-SHLIB		=	libgnuspool_int.so
-SHLIBCURS	=	libgnuspool_curs.so
+LIBDIR		=	$(DESTDIR)@libdir@
+LIB		=	libgnuspool_int.la
+LIBCURS		=	libgnuspool_curs.la
 RM		=	rm -f
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
+
+# These are lorder|tsort-ified which some systems need
 
 OBJECTS=xfershm.o 	spath.o 	shutilmsg.o	saveopts.o \
  	runpwd.o	rptrlist.o	rjoblist.o	rdpgfile.o \
@@ -60,97 +59,26 @@ CURSOBJS=wnum.o\
 	 setkey.o\
 	 getkey.o
 
-all:	@main_target@
+LIBOBJECTS=$(OBJECTS:.o=.lo)
+LIBCURSOBJS=$(CURSOBJS:.o=.lo)
 
-nonshared:	$(LIB)
-	@RANLIB@ $(LIB)
+all:	$(OBJECTS) $(CURSOBJS)
+	libtool --mode=link @CC@ $(CCFLAGS) -o $(LIB) $(LIBOBJECTS) -rpath $(LIBDIR) -version-info 1:6:0 -release 1
+	libtool --mode=link @CC@ $(CCFLAGS) -o $(LIBCURS) $(LIBCURSOBJS) -rpath $(LIBDIR) -version-info 1:6:0 -release 1
 
-shared: $(SHLIB) $(SHLIBCURS)
-	$(AR) crv $(LIB) $(CURSOBJS) $(OBJECTS)
-	@RANLIB@ $(LIB)
-	$(RM) $(OBJECTS) $(CURSOBJS)
+install: all
+	libtool --mode=install $(INSTALL) $(LIB) $(LIBDIR)
+	libtool --mode=install $(INSTALL) $(LIBCURS) $(LIBDIR)
+	$(INSTALL_DATA) $(LIB) $(LIBCURS) $(LIBDIR)
 
-$(LIB):	$(LIB)(xfershm.o)\
-	$(LIB)(wnum.o)\
-	$(LIB)(whexnum.o)\
-	$(LIB)(whdrstr.o)\
-	$(LIB)(wgets.o)\
-	$(LIB)(spath.o)\
-	$(LIB)(shutilmsg.o)\
-	$(LIB)(setkey.o)\
-	$(LIB)(saveopts.o)\
-	$(LIB)(runpwd.o)\
-	$(LIB)(rptrlist.o)\
-	$(LIB)(rjoblist.o)\
-	$(LIB)(rdpgfile.o)\
-	$(LIB)(qmatch.o)\
-	$(LIB)(ptrshm.o)\
-	$(LIB)(produser.o)\
-	$(LIB)(prin_size.o)\
-	$(LIB)(optprocess.o)\
-	$(LIB)(open_cfile.o)\
-	$(LIB)(op_icf.o)\
-	$(LIB)(net_feed.o)\
-	$(LIB)(mkspid.o)\
-	$(LIB)(makeovec.o)\
-	$(LIB)(make_km.o)\
-	$(LIB)(jobshm.o)\
-	$(LIB)(issubset.o)\
-	$(LIB)(hextoi.o)\
-	$(LIB)(hex_disp.o)\
-	$(LIB)(helpnstate.o)\
-	$(LIB)(helphdr.o)\
-	$(LIB)(helpargs.o)\
-	$(LIB)(gprompt.o)\
-	$(LIB)(getspuser.o)\
-	$(LIB)(getkey.o)\
-	$(LIB)(extdefs.o)\
-	$(LIB)(doenv.o)\
-	$(LIB)(cgiuser.o)\
-	$(LIB)(cgifndjb.o)\
-	$(LIB)(calccharge.o)\
-	$(LIB)(sortp.o)\
-	$(LIB)(readu.o)\
-	$(LIB)(rdoptfile.o)\
-	$(LIB)(matchrouts.o)\
-	$(LIB)(makevec.o)\
-	$(LIB)(look_host.o)\
-	$(LIB)(insertu.o)\
-	$(LIB)(htmllib.o)\
-	$(LIB)(helpprmpt.o)\
-	$(LIB)(doopts.o)\
-	$(LIB)(disperror.o)\
-	$(LIB)(ncstrncmp.o)\
-	$(LIB)(helpvec.o)\
-	$(LIB)(helprdn.o)\
-	$(LIB)(help_readl.o)\
-	$(LIB)(mmangle.o)\
-	$(LIB)(prin_uname.o)\
-	$(LIB)(prin_gname.o)\
-	$(LIB)(envprocess.o)\
-	$(LIB)(strread.o)\
-	$(LIB)(stringvec.o)\
-	$(LIB)(stracpy.o)\
-	$(LIB)(versionprint.o)
-
-$(SHLIB):	$(OBJECTS)
-	$(LDSHARED) $(SHLIB) -h $(SHLIB) $(OBJECTS)
-
-$(SHLIBCURS):	$(CURSOBJS)
-	$(LDSHARED) $(SHLIBCURS) -h $(SHLIBCURS) $(CURSOBJS)
-
-install:
-	$(INSTALL) -d $(LIBDIR)
-	$(INSTALL_DATA) $(LIB) $(LIBDIR)
-	if test -f $(SHLIB); then $(INSTALL) $(SHLIB) $(SHLIBCURS) $(LIBDIR); fi
-
-install_strip:
-	$(INSTALL) -d $(LIBDIR)
-	$(INSTALL_DATA) $(LIB) $(LIBDIR)
-	if test -f $(SHLIB); then $(INSTALL) $(SHLIB) $(SHLIBCURS) $(LIBDIR); fi
+install-strip: all
+	libtool --mode=install $(INSTALL) -s $(LIB) $(LIBDIR)/$(LIB)
+	libtool --mode=install $(INSTALL) -s $(LIBCURS) $(LIBDIR)/$(LIB)
+	$(INSTALL_DATA) $(LIB) $(LIBCURS) $(LIBDIR)
 
 clean:
-	$(RM) *.[oa] *.so
+	$(RM) *.[oa] *.so *.la *.lo
+	$(RM) -r .libs
 
 distclean:	clean
 	$(RM) Makefile
