@@ -28,12 +28,15 @@ MSGFILE		=	GNUSPOOL.msg
 HELPPARSE	=	$(UTILDIR)/helpparse
 prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
-BINDIR		=	@bindir@
-SBINDIR		=	@sbindir@
-INTBINDIR	=	@pkgexecdir@
-DATADIR		=	@pkgdatadir@
+BINDIR		=	$(DESTDIR)@bindir@
+SBINDIR		=	$(DESTDIR)@sbindir@
+INTBINDIR	=	$(DESTDIR)@pkgexecdir@
+DATADIR		=	$(DESTDIR)@pkgdatadir@
+MANDIR		=	$(DESTDIR)@mandir@
+PDFDIR		=	$(DESTDIR)@pdfdir@
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
+STAGED_INSTALL	=	false
 
 all:	buildd build-src
 
@@ -55,15 +58,12 @@ install: all
 	$(INSTALL) gspl-ptrinstall $(SBINDIR)
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
-	$(BINDIR)/gspl-uchange -R
-	$(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
-
-install-deb:	all
-	cd $(UTILDIR);make install-deb
-	cd $(BUILDDIR);$(MAKE) install-deb prefix="$(prefix)" exec_prefix="$(exec_prefix)"
-	$(INSTALL) gspl-ptrinstall $(SBINDIR)
-	$(INSTALL) pclbanner psbanner $(INTBINDIR)
-	cp -r -p Psetups $(DATADIR)
+	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
+	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
+	$(INSTALL) doc/poddoc/man/*.1 $(MANDIR)/man1
+	$(INSTALL) doc/poddoc/man/*.3 $(MANDIR)/man3
+	$(INSTALL) doc/poddoc/man/*.5 $(MANDIR)/man5
+	$(INSTALL) doc/poddoc/man/*.8 $(MANDIR)/man8
 
 install-strip:	all
 	cd $(UTILDIR);make install-strip
@@ -71,8 +71,12 @@ install-strip:	all
 	$(INSTALL) gspl-ptrinstall $(SBINDIR)
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
-	$(BINDIR)/gspl-uchange -R
-	$(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
+	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
+	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
+	$(INSTALL) doc/poddoc/man/*.1 $(MANDIR)/man1
+	$(INSTALL) doc/poddoc/man/*.3 $(MANDIR)/man3
+	$(INSTALL) doc/poddoc/man/*.5 $(MANDIR)/man5
+	$(INSTALL) doc/poddoc/man/*.8 $(MANDIR)/man8
 
 install-user user-install:
 	@perlbin@ $(BASE)/Userinst
