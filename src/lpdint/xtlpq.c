@@ -34,13 +34,11 @@
 #include "ecodes.h"
 #include "incl_unix.h"
 #include "incl_net.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #define	DEFAULT_PORTNAME	"printer"
 #define	PR_SHORTDISP	'\3'
@@ -49,7 +47,6 @@
 
 netid_t	myhostid;
 
-#ifdef	SHAREDLIBS
 FILE	*Cfile;
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
@@ -60,7 +57,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 void	nomem(void)
 {
@@ -211,11 +207,9 @@ MAINFN_TYPE	main(int argc, char **argv)
 	extern	char	*optarg;
 	char	outline[300];
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
-#endif
 
 #ifdef XTLPRM
 	while  ((ch = getopt(argc, argv, "p:P:H:S:u:")) != EOF)

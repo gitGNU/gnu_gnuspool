@@ -34,13 +34,11 @@
 #include "incl_net.h"
 #include "incl_sig.h"
 #include "lpctypes.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 #define	PIDFILE	".xtlpcpid"
 
@@ -54,7 +52,6 @@ unsigned	loopwait = 1;
 float		lingertime = 0;
 unsigned	input_timeout = 5, output_timeout = 5, send_retries = 0;
 
-#ifdef	SHAREDLIBS
 FILE	*Cfile;
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
@@ -65,7 +62,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 extern int	parsecf(FILE *);
 extern int	evalcond(struct condition *);
@@ -499,11 +495,9 @@ MAINFN_TYPE	main(int argc, char **argv)
 #ifdef	STRUCT_SIG
 	struct	sigstruct_name  zc;
 #endif
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
-#endif
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
 	while  ((ch = getopt(argc, argv, "f:H:S:NF:P:l:L:s:UI:O:R:")) != EOF)
 		switch  (ch)  {

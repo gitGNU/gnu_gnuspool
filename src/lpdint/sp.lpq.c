@@ -49,14 +49,10 @@
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "displayopt.h"
-#ifdef	SHAREDLIBS
 #include "xfershm.h"
-#endif
 
 DEF_DISPOPTS;
-#ifdef	SHAREDLIBS
 struct	xfershm		*Xfer_shmp;
-#endif
 
 #define	LOCALHOST_NAME	"localhost"
 
@@ -782,7 +778,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.1 $", 0);
+	versionprint(argv, "$Revision: 1.2 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

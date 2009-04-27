@@ -31,19 +31,16 @@
 #include "incl_net.h"
 #include "incl_unix.h"
 #include "lpdtypes.h"
-#ifdef	SHAREDLIBS
 #include "network.h"
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
 #include "displayopt.h"
-#endif
 
 short	qsock;			/* TCP Socket for accepting queued jobs on */
 
 int	debug_level = 0;
 
-#ifdef	SHAREDLIBS
 FILE	*Cfile;
 uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
@@ -54,7 +51,6 @@ int	Ctrl_chan;
 int	Sem_chan;
 #endif
 DEF_DISPOPTS;
-#endif
 
 extern int	parsecf(FILE *);
 extern void	lassign(struct varname *, const char *);
@@ -141,11 +137,9 @@ MAINFN_TYPE	main(int argc, char **argv)
 	struct	varname	*vp, *vhost;
 	struct	hostent	*hp;
 
-	versionprint(argv, "$Revision: 1.1 $", 1);
+	versionprint(argv, "$Revision: 1.2 $", 1);
 
-#ifdef	SHAREDLIBS
 	Realuid = getuid();
-#endif
 	setuid(ROOTID);	/* Should be set-uid root, need this for su commands in scripts */
 
 	if  (argc != 2)  {
