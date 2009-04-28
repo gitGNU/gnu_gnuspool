@@ -657,6 +657,7 @@ pkgexecdir
 pkgdatadir
 sphelpdir
 spoolpt
+cupspydir
 netsubdirs
 stdlpcmds
 build
@@ -1311,6 +1312,7 @@ Optional Packages:
 --with-pkgdatadir=/new/dir	Default location of data files other than help
 --with-helpfiles=/new/dir	Default location of help files
 --with-printers-directory=/new/dir	Default location of printer setup files
+--with-cupspy-directory=/new/dir	Default location of directory for CUPS emulation
 --without-network	Exclude network code
 --with(out)-std-lp-commands Install emulations of lp/lpr/lpq
   --with-x                use the X Window System
@@ -1865,6 +1867,22 @@ fi
 case "$spoolpt" in
 /*)	: ;;
 *)	spoolpt=$pkgdatadir/ptrs
+	;;
+esac
+
+
+# Check whether --with-cupspy-directory was given.
+if test "${with_cupspy_directory+set}" = set; then
+  withval=$with_cupspy_directory; cupspydir="$withval"
+else
+  cupspydir=$sysconfdir/cups/cupspy
+fi
+
+
+
+case "$cupspydir" in
+/*)	: ;;
+*)	cupspydir=$sysconfdir/cups/cupspy
 	;;
 esac
 
@@ -11824,7 +11842,7 @@ ac_config_headers="$ac_config_headers config.h"
 ac_config_commands="$ac_config_commands src/hdrs/files.h"
 
 
-ac_config_files="$ac_config_files Makefile util/Makefile src/Makefile src/helpmsg/Makefile src/hdrs/infiles.h src/lib/Makefile src/ins/Makefile src/termserv/Makefile src/lpdint/Makefile src/gtk/Makefile src/motif/Makefile src/apilib/Makefile src/loccgi/Makefile src/remcgi/Makefile gspl-ptrinstall Netinst Checkuserinst Userinst src/ins/installlpcmds STARTUP/Startdirs"
+ac_config_files="$ac_config_files Makefile util/Makefile src/Makefile src/helpmsg/Makefile src/hdrs/infiles.h src/lib/Makefile src/ins/Makefile src/termserv/Makefile src/lpdint/Makefile src/gtk/Makefile src/motif/Makefile src/apilib/Makefile src/loccgi/Makefile src/remcgi/Makefile gspl-ptrinstall Netinst Checkuserinst Userinst src/ins/installlpcmds STARTUP/Startdirs cupspy/Makefile doc/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -12410,6 +12428,8 @@ do
     "Userinst") CONFIG_FILES="$CONFIG_FILES Userinst" ;;
     "src/ins/installlpcmds") CONFIG_FILES="$CONFIG_FILES src/ins/installlpcmds" ;;
     "STARTUP/Startdirs") CONFIG_FILES="$CONFIG_FILES STARTUP/Startdirs" ;;
+    "cupspy/Makefile") CONFIG_FILES="$CONFIG_FILES cupspy/Makefile" ;;
+    "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
@@ -12517,6 +12537,7 @@ pkgexecdir!$pkgexecdir$ac_delim
 pkgdatadir!$pkgdatadir$ac_delim
 sphelpdir!$sphelpdir$ac_delim
 spoolpt!$spoolpt$ac_delim
+cupspydir!$cupspydir$ac_delim
 netsubdirs!$netsubdirs$ac_delim
 stdlpcmds!$stdlpcmds$ac_delim
 build!$build$ac_delim
@@ -12565,7 +12586,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 91; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 92; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
