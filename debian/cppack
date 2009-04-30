@@ -16,10 +16,10 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-cd debian
+cd debian/gnuspool
 destdir=${1?'No dest dir'}
 while read fil
 do
-    ls gnuspool/$fil|cpio -pdm $destdir
-    rm -f gnuspool/$fil
-done <$destdir.install
+    ls $fil|cpio -pdm ../$destdir
+    rm -f $fil
+done <../$destdir.install
