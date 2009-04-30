@@ -84,6 +84,8 @@ install-net:
 clean:
 	cd $(UTILDIR);$(MAKE) clean
 	rm -fr $(BUILDDIR) buildd utild build-src
+	cd doc;$(MAKE) clean
+	cd cupspy;$(MAKE) clean
 
 distclean:	clean
 	cd $(UTILDIR);$(MAKE) distclean
@@ -91,3 +93,5 @@ distclean:	clean
 	$(RM) $(SRCDIR)/hdrs/files.h $(SRCDIR)/hdrs/infiles.h 
 	$(RM) config.cache config.h config.status config.log Makefile gspl-ptrinstall
 	$(RM) Checkuserinst Userinst Netinst STARTUP/Startdirs
+	cd doc;$(MAKE) distclean
+	cd cupspy;$(MAKE) distclean
