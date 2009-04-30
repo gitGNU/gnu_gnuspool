@@ -1,0 +1,8 @@
+etc/cups/cupspy/confdefault.py
+etc/cups/cupspy/conf.py
+etc/cups/cupspy/cups.py
+etc/cups/cupspy/cupspy.conf
+etc/cups/cupspy/cupspy-setup.py
+etc/cups/cupspy/Default.ppd
+etc/cups/cupspy/filebuf.py
+etc/cups/cupspy/ipp.py

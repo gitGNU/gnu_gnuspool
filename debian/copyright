@@ -1,0 +1,15 @@
+This package was debianized by John M Collins <jmc@xisl.com> on
+Fri, 10 Apr 2009 22:01:37 +0100.
+
+Upstream Authors: John M Collins, Xi Software Ltd jmc@xisl.com
+
+Copyright:
+
+    Copyright (C) 2009 Free Software Foundation
+
+License:
+
+    GPL vn 3
+
+The Debian packaging is (C) 2009, John M Collins <jmc@xisl.com> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.

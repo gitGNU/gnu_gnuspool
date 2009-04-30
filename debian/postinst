@@ -1,0 +1,323 @@
+#!/bin/sh
+# postinst script for gnuspool
+#
+#   Copyright 2009 Free Software Foundation, Inc.
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# see: dh_installdeb(1)
+
+set -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <postinst> `abort-remove'
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+perm_gnuspool() {
+    chown gnuspool:daemon $*
+    chmod 755 $*
+}
+
+perm_suid_gnuspool() {
+    chown gnuspool:daemon $*
+    chmod 4755 $*
+}
+
+perm_suid_root() {
+    chown root:root $*
+    chmod 4755 $*
+}
+
+perm_sgid_tty() {
+    chown gnuspool:tty $*
+    chmod 2755 $*
+}
+
+perm_sugid_gnuspool() {
+    chown gnuspool:daemon $*
+    chmod 6755 $*
+}
+
+perm_sugid_root() {
+    chown root:daemon $*
+    chmod 6755 $*
+}
+
+fixperms() {
+    origdir=`pwd`
+
+    cd /var/spool
+    perm_gnuspool gnuspool gnuspool_alt
+
+    cd /usr/bin
+    perm_suid_gnuspool gspl-mpr gspl-rpr gspl-pr gspl-charge gspl-pq gspl-start gspl-user gspl-ulist \
+		       gspl-uchange gspl-plist gspl-qchange gspl-qlist gspl-qdel gspl-stop
+    perm_suid_gnuspool gspl-xpq gspl-xuser
+    perm_suid_gnuspool gspl-lpq gspl-lprm
+
+    cd /usr/sbin
+    perm_gnuspool gspl-ptrinstall gspl-pmenu gspl-hostedit gspl-passwd
+    perm_suid_gnuspool gspl-lpcover gspl-lpstatc
+    perm_gnuspool gspl-cjlist gspl-cplist gspl-spuconv gspl-ripc gspl-setspdir gspl-netwcmd
+    perm_gnuspool gspl-getsnmp
+
+    cd /usr/lib/gnuspool
+    perm_gnuspool .
+    perm_suid_root spshed spexec spmdisp sppwchk xtnetserv
+    perm_suid_gnuspool spd
+    perm_gnuspool spdinit
+    perm_sgid_tty spwrite dosspwrite
+    perm_gnuspool pclbanner psbanner
+    perm_gnuspool gtksave
+    perm_suid_root xtlprm xtlpd xtlpq xtlpc
+    perm_gnuspool xtlhp xtftp xtelnet
+    perm_suid_root xilp
+
+    cd /usr/lib/gnuspool/cgi-bin
+    perm_gnuspool .
+    perm_sugid_gnuspool sqcgi sqvcgi sqdcgi sqccgi sqcrcgi spcgi spccgi
+    #perm_sugid_root rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi
+    
+    cd /usr/share/gnuspool
+    chown -R gnuspool:daemon .
+
+    cd $origdir
+}
+
+installnet() {
+perl <<'EOF'
+use Socket;
+
+$prefix = "/usr";
+$exec_prefix = "${prefix}";
+$bindir = "${exec_prefix}/bin";
+$sbindir = "${exec_prefix}/sbin";
+
+# Initialise network setup for GNUspool
+# This assumes that network code is compiled in which it usually is
+
+# First set up services (see services.h)
+
+# Services for GNUspool
+
+#gnuspool		48100/tcp        # Connection port
+#gnuspool		48100/udp        # Probe port
+#gnuspool-feeder        48101/tcp        # Feeder port for GNUspool
+#gnuspool-netsrv	48102/tcp        # External job submission
+#gnuspool-netsrv	48102/udp        # Client access
+#gnuspool-api		48103/tcp        # API
+#gnuspool-api		48103/udp        # API (for wakeup messages)
+
+#            Name                pnum  t/u    comment                     alternative names
+
+@Portlist = ([gnuspool		=>	[48100, 'tcp', 'GNUspool connection port', [qw/xitext spshed spooler/]]],
+	     [gnuspool		=>	[48100, 'udp', 'GNUspool probe port', [qw/xitext spshed spooler/]]],
+	     ["gnuspool-feeder"	=>	[48101, 'tcp', 'GNUspool feeder port', [qw/spq/]]],
+	     ["gnuspool-netsrv"	=>	[48102, 'tcp', 'GNUspool external job submission', [qw/xtnetsrv/]]],
+	     ["gnuspool-netsrv"	=>	[48102, 'udp', 'GNUspool client access', [qw/xtnetsrv/]]],
+	     ["gnuspool-api"	=>	[48103, 'tcp', 'GNUspool API', [qw/xtapi/]]],
+	     ["gnuspool-api"	=>	[48103, 'udp', 'GNUspool API wakeup', [qw/xtapi/]]]);
+
+# Make lookup for that lot
+
+for my $p (@Portlist)  {
+    my $name = $p->[0];
+    my $dets = $p->[1];
+    my $pnum = $dets->[0];
+    my $istcp = $dets->[1] eq 'tcp';
+    my @altnames = @{$dets->[3]};
+
+    my $v = { NAME => $name, PORT => $pnum, LIST => $p, COMMENT => $dets->[2], ALIAS => \@altnames };
+
+    if  ($istcp)  {
+	$mtcpnames{$name} = $v;
+	$mtcpports{$pnum} = $v;
+	for my $a (@altnames) {
+	    $mtcpnames{$a} = $v;
+	}
+    }
+    else  {
+	$mudpnames{$name} = $v;
+	$mudpports{$pnum} = $v;
+	for my $a (@altnames) {
+	    $mudpnames{$a} = $v;
+	}
+    }
+}
+
+# Read in the services file
+
+while (my ($name,$aliases,$port,$proto) = getservent)  {
+    if  ((lc $proto) eq 'tcp')  {
+	my $mp = $mtcpnames{$name};
+	if  ($mp)  {
+	    $mp->{HAD} = 1;
+	    $had++;
+	    push @tcpnconflict, {EXP => $mp, READ => $port} if $port != $mp->{PORT};
+	}
+	else  {
+	    $mp = $mtcpports{$port};
+	    push @tcppconflict, {EXP => $mp, READ => $name} if $mp;
+	}
+    }
+    else  {
+	my $mp = $mudpnames{$name};
+	if  ($mp)  {
+	    $mp->{HAD} = 1;
+	    $had++;
+	    push @udpnconflict, {EXP => $mp, READ => $port} if $port != $mp->{PORT};
+	}
+	else  {
+	    $mp = $mudpports{$port};
+	    push @udppconflict, {EXP => $mp, READ => $name} if $mp;
+	}
+    }
+}
+endservent;
+
+# If we had any check we had all of them
+
+if  ($had != 0)  {
+    if  ($had != $#Portlist + 1)  {
+	$errors++;
+	print "Warning - service(s) are missing\n";
+	for my $p (@Portlist)  {
+	    my $name = $p->[0];
+	    my $dets = $p->[1];
+	    my $pnum = $dets->[0];
+	    my $istcp = $dets->[1] eq 'tcp';
+	    if  ($istcp)  {
+		my $mp = $mtcpnames{$name};
+		print "Tcp port $name\n" unless $mp->{HAD};
+	    }
+	    else  {
+		my $mp = $mudpnames{$name};
+		print "Udp port $name\n" unless $mp->{HAD};
+	    }
+	}
+    }
+}
+
+if  (@tcpnconflict || @tcppconflict || @udpnconflict || @udppconflict)  {
+    for my $c (@tcpnconflict)  {
+	my $name = $c->{EXP}->{NAME};
+	my $eport = $c->{EXP}->{PORT};
+	my $rport = $c->{READ};
+	print "Unexpected TCP port number $rport for $name expecting $eport\n";
+	$warnings++;
+    }
+    for my $c (@tcppconflict)  {
+	my $name = $c->{EXP}->{NAME};
+	my $eport = $c->{EXP}->{PORT};
+	my $rname = $c->{READ};
+	print "TCP port $eport in use by $rname expecting to use it for $name\n";
+	$warnings++;
+    }
+    for my $c (@udpnconflict)  {
+	my $name = $c->{EXP}->{NAME};
+	my $eport = $c->{EXP}->{PORT};
+	my $rport = $c->{READ};
+	print "Unexpected UDP port number $rport for $name expecting $eport\n";
+	$warnings++;
+    }
+    for my $c (@udppconflict)  {
+	my $name = $c->{EXP}->{NAME};
+	my $eport = $c->{EXP}->{PORT};
+	my $rname = $c->{READ};
+	print "UDP port $eport in use by $rname expecting to use it for $name\n";
+	$warnings++;
+    }
+}
+
+if ($errors)  {
+    print "Aborting due to $errors error(s)\n";
+    exit 10;
+}
+
+unless  ($had)  {
+    open(SRV, ">>/etc/services") or die "Cannot open services file\n";
+    print SRV "# GNUspool services\n";
+    for my $p (@Portlist)  {
+	my $name = $p->[0];
+	my $dets = $p->[1];
+	my $pnum = $dets->[0];
+	my $proto = $dets->[1];
+	my $comment = $dets->[2];
+	my @altnames = @{$dets->[3]};
+	print SRV "$name\t$pnum/$proto ", join(' ', @altnames), " #$comment\n";
+    }
+    close SRV;
+}
+
+unless (-f "/etc/gnuspool-hosts")  {
+    my $hn = `hostname`;
+    chop($hn);
+    my $he = gethostbyname($hn);
+    my $ha = inet_ntoa($he);
+    unless ($ha =~ /^127\./)  {
+	if  (open(HF, ">//etc/gnuspool-hosts"))  {
+	    my $lt = localtime;
+	    print HF "# Host file created on $lt\n\n";
+	    print HF "localaddress\t$ha\n";
+	    close HF;
+	}
+    }
+}
+
+system("/usr/bin/gspl-uchange -R");
+$wai=`who am i`;
+chop $wai;
+$wai =~ s/ .*//;
+system("/usr/bin/gspl-uchange -p ALL $wai");
+
+EOF
+if [ $? -ne 0 ]
+then
+    ec=$?
+    echo Exiting as perl script failed.
+    exit $ec
+fi
+}
+
+
+case "$1" in
+    configure)
+	fixperms
+	installnet
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+	:
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+# dh_installdeb will replace this with shell code automatically
+# generated by other debhelper scripts.
+
+#DEBHELPER#
+
+exit 0
