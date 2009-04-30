@@ -1,0 +1,10 @@
+# Defaults for gnuspool initscript
+# sourced by /etc/init.d/gnuspool
+# installed at /etc/default/gnuspool by the maintainer scripts
+
+#
+# This is a POSIX shell fragment
+#
+
+# Additional options that are passed to the Daemon.
+DAEMON_OPTS="2000 20"
