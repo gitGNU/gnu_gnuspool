@@ -1,7 +1,7 @@
 #
 #	Top-level Makefile
 #
-#   Copyright 2008 Free Software Foundation, Inc.
+#   Copyright 2008,2009 Free Software Foundation, Inc.
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ INTBINDIR	=	$(DESTDIR)@pkgexecdir@
 DATADIR		=	$(DESTDIR)@pkgdatadir@
 MANDIR		=	$(DESTDIR)@mandir@
 PDFDIR		=	$(DESTDIR)@pdfdir@
+CUPSPYDIR	=	$(DESTDIR)@cupspydir@
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
 STAGED_INSTALL	=	false
@@ -53,17 +54,15 @@ utild:
 	touch $@
 
 install: all
-	cd $(UTILDIR);make install
+	cd $(UTILDIR);$(MAKE) install
 	cd $(BUILDDIR);$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	$(INSTALL) gspl-ptrinstall $(SBINDIR)
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
+	cd doc;$(MAKE) install
+	cd cupspy;$(MAKE) install
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
-	$(INSTALL) doc/poddoc/man/*.1 $(MANDIR)/man1
-	$(INSTALL) doc/poddoc/man/*.3 $(MANDIR)/man3
-	$(INSTALL) doc/poddoc/man/*.5 $(MANDIR)/man5
-	$(INSTALL) doc/poddoc/man/*.8 $(MANDIR)/man8
 
 install-strip:	all
 	cd $(UTILDIR);make install-strip
@@ -71,12 +70,10 @@ install-strip:	all
 	$(INSTALL) gspl-ptrinstall $(SBINDIR)
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
+	cd doc;$(MAKE) install-strip
+	cd cupspy;$(MAKE) install-strip
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
-	$(INSTALL) doc/poddoc/man/*.1 $(MANDIR)/man1
-	$(INSTALL) doc/poddoc/man/*.3 $(MANDIR)/man3
-	$(INSTALL) doc/poddoc/man/*.5 $(MANDIR)/man5
-	$(INSTALL) doc/poddoc/man/*.8 $(MANDIR)/man8
 
 install-user user-install:
 	@perlbin@ $(BASE)/Userinst
