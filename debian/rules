@@ -68,7 +68,9 @@ binary-indep: build install
 # Build architecture-dependent files here.
 binary-arch: build install
 	$(CURDIR)/debian/cppack gnuspool-dev
-	rmdir $(CURDIR)/debian/gnuspool/usr/include
+# Remove directories now empty and keep lintian quiet about printers directory
+	rmdir $(CURDIR)/debian/gnuspool/usr/include $(CURDIR)/debian/gnuspool/usr/share/man/man3
+	echo 'This directory is for printer setup files' >$(CURDIR)/debian/gnuspool/usr/share/gnuspool/ptrs/README
 # Get rid of remote CGI bins for now as they depend on separated API library.
 	rm -f $(CURDIR)/debian/gnuspool/usr/lib/gnuspool/cgi-bin/r*
 	dh_testdir
@@ -96,6 +98,8 @@ binary-arch: build install
 #	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps
+	install -m 644 $(CURDIR)/debian/shlibs.gnuspool $(CURDIR)/debian/gnuspool/DEBIAN/shlibs
+	install -m 644 $(CURDIR)/debian/shlibs.gnuspool-dev $(CURDIR)/debian/gnuspool-dev/DEBIAN/shlibs
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb

@@ -26,6 +26,9 @@ exec_prefix	=	@exec_prefix@
 CUPSPYDIR	=	$(DESTDIR)@cupspydir@
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
+MAINPROGS	=	cups.py cupspy-setup.py
+PYMODS		=	confdefault.py conf.py filebuf.py ipp.py
+CONFIGDATA	=	Default.ppd cupspy.conf
 STAGED_INSTALL	=	false
 
 all:	cupspy
@@ -34,8 +37,8 @@ cupspy:
 	# Currently don't do anything
 
 install install-strip: all
-	$(INSTALL) *.py $(CUPSPYDIR)
-	$(INSTALL_DATA) Default.ppd cupspy.conf $(CUPSPYDIR)
+	$(INSTALL) $(MAINPROGS) $(CUPSPYDIR)
+	$(INSTALL_DATA) $(PYMODS) $(CONFIGDATA) $(CUPSPYDIR)
 
 clean:
 	# Currently don't do anything

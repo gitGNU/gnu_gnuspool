@@ -57,7 +57,7 @@ SUIDSPBINS	=	spd
 TTYGRPBINS	=	spwrite dosspwrite
 NOSETUBINS	=	spdinit
 SPSTARTLNKS	=	gspl-disconn gspl-nok gspl-ok gspl-pchange gspl-conn gspl-pdel gspl-pstat gspl-pinter gspl-padd gspl-phalt gspl-pstop
-MSPRLNKS	=	gspl-mrspr
+MSPRLNKS	=	gspl-mrpr
 SSTOPLNKS	=	gspl-suspend gspl-release
 STAGED_INSTALL	=	false
 

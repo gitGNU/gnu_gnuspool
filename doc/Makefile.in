@@ -48,7 +48,7 @@ install install-strip: all
 	cd $(MANDIR)/man1; ln -s gspl-pr.1 gspl-rpr.1
 	cd $(MANDIR)/man1; for p in $(STARTLINKS); do ln -s gspl-start.1 gspl-$$p.1; done
 	cd $(MANDIR)/man1; for p in $(STOPLINKS); do ln -s gspl-stop.1 gspl-$$p.1; done
-	cd $(MANDIR)/man3; ln -s gspool-jobfind.3 gspool_jobfindslot.3
+	cd $(MANDIR)/man3; ln -s gspool_jobfind.3 gspool_jobfindslot.3
 	$(INSTALL_DATA) pdf/*.pdf $(PDFDIR)
 
 clean:
