@@ -391,6 +391,8 @@ AC_TRY_RUN([#include <curses.h>
 main()
 {
 	int	ch, r, c;
+	r = open("/dev/null", 1);
+	dup2(r, 1);
 	initscr();
 	for  (r = 0;  r < LINES;  r++)
 		for  (c = 0;  c < COLS;  c++)
