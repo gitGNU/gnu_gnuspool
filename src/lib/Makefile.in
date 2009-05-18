@@ -72,8 +72,8 @@ install: all
 	$(INSTALL_DATA) $(LIB) $(LIBCURS) $(LIBDIR)
 
 install-strip: all
-	libtool --mode=install $(INSTALL) -s $(LIB) $(LIBDIR)/$(LIB)
-	libtool --mode=install $(INSTALL) -s $(LIBCURS) $(LIBDIR)/$(LIB)
+	libtool --mode=install $(INSTALL) -s $(LIB) $(LIBDIR)
+	libtool --mode=install $(INSTALL) -s $(LIBCURS) $(LIBDIR)
 	$(INSTALL_DATA) $(LIB) $(LIBCURS) $(LIBDIR)
 
 clean:

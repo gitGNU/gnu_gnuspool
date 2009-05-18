@@ -30,7 +30,6 @@ CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
 CFLAGS		=	$(CCFLAGS) -I$(HDRS)
 LIBDIR		=	$(DESTDIR)@libdir@
 INCLUDEDIR	=	$(DESTDIR)@includedir@
-LDSHARED	=	ld -shared -o
 APILIB		=	libgnuspool.la
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
