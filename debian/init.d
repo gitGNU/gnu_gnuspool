@@ -6,6 +6,7 @@ DAEMON=/usr/bin/gspl-start
 NAME=GNUspool
 DESC="GNUspool print spooler"
 LABEL=GNUspool
+SPOOLDIR=/var/spool/gnuspool
 
 test -x $DAEMON || exit 0
 

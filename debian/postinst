@@ -83,7 +83,7 @@ fixperms() {
     cd /usr/lib/gnuspool
     perm_gnuspool .
     perm_suid_root spshed spexec spmdisp sppwchk xtnetserv
-    perm_suid_gnuspool spd
+    perm_suid_gnuspool spd spjobdump
     perm_gnuspool spdinit
     perm_sgid_tty spwrite dosspwrite
     perm_gnuspool pclbanner psbanner

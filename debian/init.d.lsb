@@ -42,6 +42,7 @@ DAEMON=/usr/sbin/gspl-start # Introduce the server's location here
 NAME=gnuspool               # Introduce the short server's name here
 DESC="Scheduler process"    # Introduce a short description here
 
+SPOOLDIR=/var/spool/gnuspool
 
 test -x $DAEMON || exit 0
 
@@ -69,9 +70,6 @@ STARTTIME=2             # Time to wait for the server to start, in seconds
 if [ -f /etc/default/$NAME ] ; then
 	. /etc/default/$NAME
 fi
-
-
-set -e
 
 running()
 {
@@ -106,13 +104,15 @@ force_stop() {
 # Force the process to die killing it manually
 	if running ; then
 		pkill -15 spshed
+		pkill -15 xtnetserv
 	# Is it really dead?
 		sleep "$DIETIME"
 		if running ; then
 			pkill -9 spshed
+			pkill -9 xtnetserv
 			sleep "$DIETIME"
 			if running ; then
-				echo "Cannot kill $NAME (pid=$pid)!"
+				echo "Cannot kill $NAME!"
 				exit 1
 			fi
 		fi
@@ -123,12 +123,15 @@ force_stop() {
 case "$1" in
   start)
 	log_daemon_msg "Starting $DESC " "$NAME"
+
         # Check if it's running first
+
         if running ;  then
             log_progress_msg "apparently already running"
             log_end_msg 0
             exit 0
         fi
+
         if start_server ; then
             [ -n "$STARTTIME" ] && sleep $STARTTIME # Wait some time 
             if  running ;  then
@@ -143,8 +146,10 @@ case "$1" in
             log_end_msg 1
         fi
 	;;
+
   stop)
         log_daemon_msg "Stopping $DESC" "$NAME"
+
         if running ; then
             stop_server
             log_end_msg 0
@@ -155,20 +160,22 @@ case "$1" in
             exit 0
         fi
         ;;
+
   force-stop)
-        # First try to stop gracefully the program
+        # First try to stop the program gracefully
         $0 stop
         if running; then
             # If it's still running try to kill it more forcefully
             log_daemon_msg "Stopping (force) $DESC" "$NAME"
-			errcode=0
+	    errcode=0
             force_stop || errcode=$?
             log_end_msg $errcode
         fi
 	;;
+
   restart|force-reload)
         log_daemon_msg "Restarting $DESC" "$NAME"
-		errcode=0
+	errcode=0
         stop_server
         # Wait some sensible amount, some server need this
         [ -n "$DIETIME" ] && sleep $DIETIME
@@ -177,8 +184,8 @@ case "$1" in
         running || errcode=$?
         log_end_msg $errcode
 	;;
-  status)
 
+  status)
         log_daemon_msg "Checking status of $DESC" "$NAME"
         if running ;  then
             log_progress_msg "running"
@@ -189,12 +196,13 @@ case "$1" in
             exit 1
         fi
         ;;
+
   # Use this if the daemon cannot reload
   reload)
         log_warning_msg "Reloading $NAME daemon: not implemented, as the daemon"
         log_warning_msg "cannot re-read the config file (use restart)."
         ;;
-                                                                                    #;;
+
   *)
 	N=/etc/init.d/$NAME
 	echo "Usage: $N {start|stop|force-stop|restart|force-reload|status}" >&2

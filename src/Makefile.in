@@ -53,7 +53,7 @@ SPHELPDIR	=	$(DESTDIR)@sphelpdir@
 USERBINS	=	gspl-mpr gspl-rpr gspl-pr gspl-charge gspl-pq gspl-start gspl-user \
 			gspl-ulist gspl-uchange gspl-plist gspl-qchange gspl-qlist gspl-qdel gspl-stop
 SUIDROOTBINS	=	spshed spexec spmdisp sppwchk xtnetserv
-SUIDSPBINS	=	spd
+SUIDSPBINS	=	spd spjobdump
 TTYGRPBINS	=	spwrite dosspwrite
 NOSETUBINS	=	spdinit
 SPSTARTLNKS	=	gspl-disconn gspl-nok gspl-ok gspl-pchange gspl-conn gspl-pdel gspl-pstat gspl-pinter gspl-padd gspl-phalt gspl-pstop
