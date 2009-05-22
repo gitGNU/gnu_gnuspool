@@ -39,7 +39,7 @@ force_stop() {
         # Is it really dead?
         [ -n "$DODTIME" ] && sleep "$DODTIME"
         if running ; then
-            pkill -9 spshed xnetserv
+            pkill -9 spshed xtnetserv
             [ -n "$DODTIME" ] && sleep "$DODTIME"
             if running ; then
                 echo "Cannot kill $LABEL!"
@@ -109,6 +109,7 @@ case "$1" in
     ;;
   *)
 	N=/etc/init.d/$NAME
+	# echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
 	echo "Usage: $N {start|stop|restart|force-reload|status|force-stop}" >&2
 	exit 1
 	;;

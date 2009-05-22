@@ -20,7 +20,7 @@ Description: Documentation for GNUspool
 
 Package: gnuspool-dev
 Architecture: any
-Description: API development library for GNUsppool
+Description: API development library for GNUspool
  Consists of API library and include
 
 Package: gnuspool-cupspy

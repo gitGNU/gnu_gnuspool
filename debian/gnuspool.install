@@ -1,4 +1,4 @@
-etc/default/gnuspool.ext
+etc/default/gnuspool
 etc/init.d/gnuspool
 etc/gnuspool.ext
 usr/bin/gspl-charge
