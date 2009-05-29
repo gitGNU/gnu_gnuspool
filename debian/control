@@ -2,7 +2,7 @@ Source: gnuspool
 Section: net
 Priority: optional
 Maintainer: John M Collins <jmc@xisl.com>
-Build-Depends: debhelper (>= 7), autotools-dev
+Build-Depends: debhelper (>= 7), autotools-dev, libtool
 Standards-Version: 3.7.3
 Homepage: http://www.gnu.org/software/gnuspool
 
@@ -15,11 +15,13 @@ Description: A network-based print spooler
 
 Package: gnuspool-doc
 Architecture: all
+Section: doc
 Description: Documentation for GNUspool
  PDF documentation for GNUspool
 
 Package: gnuspool-dev
 Architecture: any
+Depends: gnuspool (= ${binary:Version})
 Description: API development library for GNUspool
  Consists of API library and include
 
