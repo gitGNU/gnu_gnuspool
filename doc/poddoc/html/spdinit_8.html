@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -25,7 +27,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -45,7 +51,7 @@
 <h1><a name="description">DESCRIPTION</a></h1>
 <p><strong>spdinit</strong> is an internal program used by <code>spd(8)</code> to decode printer
 setup files for the <strong>GNUspool</strong> spooler and document management system.</p>
-<p>It is only ever intended to be invoked by the despooler process spd(8),
+<p>It is only ever intended to be invoked by the despooler process <code>spd(8)</code>,
 and the interface is not in any way guaranteed in future releases.</p>
 <p>Output is to standard output, and it may be useful to run <code>strings(1)</code>
 on the result to see whether setup files have produced the expected
@@ -54,29 +60,29 @@ result.</p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>gnuspool.conf</em>
+<p><em class="file">gnuspool.conf</em>
 master configuration file</p>
-<p><em>int-config</em>
+<p><em class="file">int-config</em>
 message file</p>
-<p><em>/var/spool/gnuspool</em>
+<p><em class="file">/var/spool/gnuspool</em>
 spool directory</p>
-<p><em>gnuspoolptrs</em>
+<p><em class="file">gnuspoolptrs</em>
 printer setup file directory</p>
-<p><em>spshed_reps</em>
+<p><em class="file">spshed_reps</em>
 error log file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_spooldir_alternative_location_for_spool_directory">SPOOLDIR
-alternative location for spool directory</a></strong>
+<dt><strong><a name="spooldir_alternative_location_for_spool_directory" class="item">SPOOLDIR
+alternative location for spool directory</a></strong></dt>
 
-<dt><strong><a name="item_sprogdir_alternative_location_for_spool_programs">SPROGDIR
-alternative location for spool programs</a></strong>
+<dt><strong><a name="sprogdir_alternative_location_for_spool_programs" class="item">SPROGDIR
+alternative location for spool programs</a></strong></dt>
 
-<dt><strong><a name="item_spoolpt_alternative_location_for_printer_descripti">SPOOLPT
-alternative location for printer descriptions</a></strong>
+<dt><strong><a name="spoolpt_alternative_location_for_printer_descriptions" class="item">SPOOLPT
+alternative location for printer descriptions</a></strong></dt>
 
 </dl>
 <p>
@@ -86,8 +92,8 @@ alternative location for printer descriptions</a></strong>
 <p>gspl-start(1),
 gnuspool.conf(5),
 gnuspool.hosts(5),
-spd(8),
-spshed(8).</p>
+<code>spd(8)</code>,
+<code>spshed(8)</code>.</p>
 <p>
 </p>
 <hr />
@@ -95,7 +101,7 @@ spshed(8).</p>
 <p><strong>spdinit</strong> is usually invoked indirectly, via <code>spd(8)</code> and <code>spshed(8)</code>
 from system startup procedures or other programs such as gspl-start(1).</p>
 <p>Diagnostics are not written to any terminal but to the file
-<em>spshed_reps</em>.</p>
+<em class="file">spshed_reps</em>.</p>
 <p>In the event of any problems (typically syntax errors) this file
 should be examined.</p>
 <p>

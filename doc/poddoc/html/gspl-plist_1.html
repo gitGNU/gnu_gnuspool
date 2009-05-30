@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -31,7 +33,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -73,17 +79,16 @@ using the <strong>-F</strong> option.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_gspl_plist"><code>GSPL_PLIST</code></a> and the
-environment variable to specify the help file is <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
+<p>The environment variable on which options are supplied is <a href="#gspl_plist"><code>GSPL_PLIST</code></a> and the
+environment variable to specify the help file is <a href="#sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain_or__2bhelp">-? or +explain or +help</a></strong>
+<dt><strong><a name="or_explain_or_help" class="item">-? or +explain or +help</a></strong></dt>
 
 <dd>
 <p>causes a summary of the other options to be displayed without taking
 further action.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_classcode_or__2bclasscode_classcode">-C <em>classcode</em> or +classcode <em>classcode</em></a></strong>
+<dt><strong><a name="c_classcode_or_classcode_classcode" class="item">-C <em>classcode</em> or +classcode <em>classcode</em></a></strong></dt>
 
 <dd>
 <p>list only printers which match (have at least one bit in common with)
@@ -91,108 +96,80 @@ the specified <em>classcode</em>. This is reduced (<em>and</em>ed) with) to a
 subset of the user's default classcode unless the user has <em>override
 class</em> privilege).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_or__2bdefault_2dformat">-D or +default-format</a></strong>
+<dt><strong><a name="d_or_default_format" class="item">-D or +default-format</a></strong></dt>
 
 <dd>
 <p>revert to default format. This overrides any preceding <strong>-F</strong> option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_string_or__2bformat_string">-F <em>string</em> or +format <em>string</em></a></strong>
+<dt><strong><a name="f_string_or_format_string" class="item">-F <em>string</em> or +format <em>string</em></a></strong></dt>
 
 <dd>
 <p>Specify user defined output format. The	<em>string</em> argument contains
 characters to be printed and symbols representing the required data
 fields. This option overrides and preceding <strong>-D</strong> option, and is
 itself overridden by a following <strong>-D</strong> option.</p>
-</dd>
 <P>See <a href="#Gspl-Plist_format">the section on format codes</a> for
-details of the format code sequences.</P></li>
-<dt><strong><a name="item__2dh_or__2bheader">-H or +header</a></strong>
+details of the format code sequences.</P></dd>
+<dt><strong><a name="h_or_header" class="item">-H or +header</a></strong></dt>
 
 <dd>
 <p>generate a header for each column of the output according to the field
 displayed there. The headers are taken from the message file, by
-default <em>rest.help</em>, which may be adjusted as
-required.
-</p>
-</dd>
-<dd>
+default <em class="file">rest.help</em>, which may be adjusted as
+required.</p>
 <pre>
 
 =item -l or +local-only</pre>
-</dd>
-<dd>
 <p>include only printers local to the host on which the <strong>gspl-plist</strong> command
 is run.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_or__2bno_2dheader">-N or +no-header</a></strong>
+<dt><strong><a name="n_or_no_header" class="item">-N or +no-header</a></strong></dt>
 
 <dd>
 <p>cancel the <strong>-H</strong> option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dq_name_or__2blist_2donly_name">-q <em>name</em> or +list-only <em>name</em></a></strong>
+<dt><strong><a name="q_name_or_list_only_name" class="item">-q <em>name</em> or +list-only <em>name</em></a></strong></dt>
 
 <dd>
 <p>list only printers whose name matches <em>name</em>.</p>
-</dd>
-<dd>
 <p><em>name</em> may be a pattern with wild cards matched in a similar fashion
 to the shell, or a list of comma-separated alternatives.</p>
-</dd>
-<dd>
 <pre>
         -q 'a*'</pre>
-</dd>
-<dd>
 <p>displays printers whose names start with <code>a</code></p>
-</dd>
-<dd>
 <pre>
         -q '[p-t]*,*[!h-m]'</pre>
-</dd>
-<dd>
 <p>displays printers whose names start with <code>p</code> to <code>t</code> or end with
 anything other than <code>h</code> to <code>m</code>.</p>
-</dd>
-<dd>
 <p>To cancel this argument, give a single <strong>-</strong> sign as <em>name</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dr_or__2bremotes">-r or +remotes</a></strong>
+<dt><strong><a name="r_or_remotes" class="item">-r or +remotes</a></strong></dt>
 
 <dd>
 <p>include printers on the local and connected hosts, canceling <strong>-l</strong></p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_or__2bsort_2dptrs">-S or +sort-ptrs</a></strong>
+<dt><strong><a name="s_or_sort_ptrs" class="item">-S or +sort-ptrs</a></strong></dt>
 
 <dd>
 <p>sort printers into order by host identifier and name.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du_or__2bno_2dsort_2dptrs">-U or +no-sort-ptrs</a></strong>
+<dt><strong><a name="u_or_no_sort_ptrs" class="item">-U or +no-sort-ptrs</a></strong></dt>
 
 <dd>
 <p>display printers in the order encountered (default).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
+<dt><strong><a name="freeze_current" class="item">+freeze-current</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the current
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the current
 directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dhome">+freeze-home</a></strong>
+<dt><strong><a name="freeze_home" class="item">+freeze-home</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the user's home
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the user's home
 directory.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -206,116 +183,98 @@ entry.</p>
 <p>If a header is requested, the appropriate abbreviation is obtained
 from the message file and inserted.</p>
 <dl>
-<dt><strong><a name="item___">%%</a></strong>
+<dt><strong><a name="__" class="item">%%</a></strong></dt>
 
 <dd>
 <p>insert a single <code>%</code> sign</p>
 </dd>
-</li>
-<dt><strong><a name="item__a">%a</a></strong>
+<dt><strong><a name="_a" class="item">%a</a></strong></dt>
 
 <dd>
 <p>display <code>AB!!</code> if printer has received an interrupt (abort print or
 interrupt print) message.</p>
 </dd>
-</li>
-<dt><strong><a name="item__c">%c</a></strong>
+<dt><strong><a name="_c" class="item">%c</a></strong></dt>
 
 <dd>
 <p>display class code.</p>
 </dd>
-</li>
-<dt><strong><a name="item__d">%d</a></strong>
+<dt><strong><a name="_d" class="item">%d</a></strong></dt>
 
 <dd>
 <p>display device name, with angle brackets for network devices.</p>
 </dd>
-</li>
-<dt><strong><a name="item__e">%e</a></strong>
+<dt><strong><a name="_e" class="item">%e</a></strong></dt>
 
 <dd>
 <p>display comment field.</p>
 </dd>
-</li>
-<dt><strong><a name="item__f">%f</a></strong>
+<dt><strong><a name="_f" class="item">%f</a></strong></dt>
 
 <dd>
 <p>form type</p>
 </dd>
-</li>
-<dt><strong><a name="item__h">%h</a></strong>
+<dt><strong><a name="_h" class="item">%h</a></strong></dt>
 
 <dd>
 <p>display <code>heoj</code> if printer marked to halt at end of current job.</p>
 </dd>
-</li>
-<dt><strong><a name="item__i">%i</a></strong>
+<dt><strong><a name="_i" class="item">%i</a></strong></dt>
 
 <dd>
 <p>process id of <code>spd(8)</code> process.</p>
 </dd>
-</li>
-<dt><strong><a name="item__j">%j</a></strong>
+<dt><strong><a name="_j" class="item">%j</a></strong></dt>
 
 <dd>
 <p>job number being printed (preceded by host name if not a local job).</p>
 </dd>
-</li>
-<dt><strong><a name="item__l">%l</a></strong>
+<dt><strong><a name="_l" class="item">%l</a></strong></dt>
 
 <dd>
 <p>display <code>localonly</code> if printer is marked for local jobs only.</p>
 </dd>
-</li>
-<dt><strong><a name="item__m">%m</a></strong>
+<dt><strong><a name="_m" class="item">%m</a></strong></dt>
 
 <dd>
 <p>feedback message on standard error from network filter process.</p>
 </dd>
-</li>
-<dt><strong><a name="item__n">%n</a></strong>
+<dt><strong><a name="_n" class="item">%n</a></strong></dt>
 
 <dd>
 <p><code>N/A</code> if printer is marked in need of running alignment routine.</p>
 </dd>
-</li>
-<dt><strong><a name="item__p">%p</a></strong>
+<dt><strong><a name="_p" class="item">%p</a></strong></dt>
 
 <dd>
 <p>printer name.</p>
 </dd>
-</li>
-<dt><strong><a name="item__s">%s</a></strong>
+<dt><strong><a name="_s" class="item">%s</a></strong></dt>
 
 <dd>
 <p>printer state, followed by a colon and the feedback message if
 applicable.</p>
 </dd>
-</li>
-<dt><strong><a name="item__t">%t</a></strong>
+<dt><strong><a name="_t" class="item">%t</a></strong></dt>
 
 <dd>
 <p>printer state only, no feedback message.</p>
 </dd>
-</li>
-<dt><strong><a name="item__u">%u</a></strong>
+<dt><strong><a name="_u" class="item">%u</a></strong></dt>
 
 <dd>
 <p>user name of owner of printing job.</p>
 </dd>
-</li>
-<dt><strong><a name="item__y">%y</a></strong>
+<dt><strong><a name="_y" class="item">%y</a></strong></dt>
 
 <dd>
 <p>minimum job size if applicable.</p>
 </dd>
-</li>
-<dt><strong><a name="item__z">%z</a></strong>
+<dt><strong><a name="_z" class="item">%z</a></strong></dt>
 
 <dd>
 <p>maximum job size if applicable.</p>
 </dd>
-</li>
 </dl>
 <p>Note that the various strings such as <strong>localonly</strong> etc are read from the
 message file also, so it is possible to modify them as required by the
@@ -327,29 +286,27 @@ user.</p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>rest.help</em>
+<p><em class="file">rest.help</em>
 message file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_gspl_plist">GSPL_PLIST</a></strong>
+<dt><strong><a name="gspl_plist" class="item">GSPL_PLIST</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults.</p>
 </dd>
-</li>
-<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+<dt><strong><a name="sprestconf" class="item">SPRESTCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -358,7 +315,7 @@ message file</p>
 <p>gspl-start(1),
 gspl-pq(1),
 gspl-qlist(1),
-spsyntax(5),
+<code>spsyntax(5)</code>,
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
 <p>
@@ -366,7 +323,7 @@ gnuspool.hosts(5).</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>rest.help</em>.</p>
+file, by default <em class="file">rest.help</em>.</p>
 <p>
 </p>
 <hr />

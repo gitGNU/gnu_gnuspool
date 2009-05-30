@@ -155,13 +155,9 @@ struct remote	*	find_connected(const netid_t);
 struct remote	*	find_probe(const netid_t);
 #endif
 
-uid_t	Daemuid;
-uid_t	Realuid, Effuid;
 DEF_DISPOPTS;
 
 float	pri_decrement = 1.0;	/* Decrement in priority assignment */
-
-int	Ctrl_chan;
 
 /* If we are using memory-mapped files, we use the memory-map file id
    Xfermmfd as the file id to do locking if we're using file locking.

@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -27,7 +29,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -52,23 +58,22 @@ first column of the default output, or by gspl-pr(1) or gspl-rpr(1) when the
 job is queued with the <em>verbose</em> option. Remote jobs are specified by
 prefixing the job number by the host name and a colon, thus
 <code>host:1234</code>. Leading zeroes in the job number may be omitted.</p>
-<p><strong>Gspl-qdel</strong> will not delete jobs not marked as ``printed'' unless the <strong>-y</strong>
+<p><strong>Gspl-qdel</strong> will not delete jobs not marked as &quot;printed&quot; unless the <strong>-y</strong>
 option is given.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_gspl_qdel"><code>GSPL_QDEL</code></a> and the
-environment variable to specify the help file is <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
+<p>The environment variable on which options are supplied is <a href="#gspl_qdel"><code>GSPL_QDEL</code></a> and the
+environment variable to specify the help file is <a href="#sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+<dt><strong><a name="or_explain" class="item">-? or +explain</a></strong></dt>
 
 <dd>
 <p>causes a summary of the other options to be displayed without taking
 further action.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_nnnn_or__2bclasscode_nnnn">-C <em>nnnn</em> or +classcode <em>nnnn</em></a></strong>
+<dt><strong><a name="c_nnnn_or_classcode_nnnn" class="item">-C <em>nnnn</em> or +classcode <em>nnnn</em></a></strong></dt>
 
 <dd>
 <p>may be used to set a class code to narrow or expand the range of jobs
@@ -76,27 +81,23 @@ from which jobs are selected. It is probably only relevant where the
 user has <em>override class</em> privilege and it is required to expand the
 default class code to select additional jobs.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_or__2bdelete">-d or +delete</a></strong>
+<dt><strong><a name="d_or_delete" class="item">-d or +delete</a></strong></dt>
 
 <dd>
 <p>cancel a previously-specified <strong>-k</strong> option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_name_or__2bdirectory_name">-D <em>name</em> or +directory <em>name</em></a></strong>
+<dt><strong><a name="d_name_or_directory_name" class="item">-D <em>name</em> or +directory <em>name</em></a></strong></dt>
 
 <dd>
 <p>Save unqueued jobs to <em>name</em> rather than the current directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2de_or__2bdo_2dnot_2dunqueue">-e or +do-not-unqueue</a></strong>
+<dt><strong><a name="e_or_do_not_unqueue" class="item">-e or +do-not-unqueue</a></strong></dt>
 
 <dd>
 <p>cancel a previously-specified <strong>-u</strong> option. The jobs will just be
 deleted, not unqueued.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dj_name_or__2bjob_2dprefix_name">-J <em>name</em> or +job-prefix <em>name</em></a></strong>
+<dt><strong><a name="j_name_or_job_prefix_name" class="item">-J <em>name</em> or +job-prefix <em>name</em></a></strong></dt>
 
 <dd>
 <p>specify the given <em>name</em> as the prefix for the job file, followed
@@ -104,22 +105,19 @@ by the job number, to be used by the <strong>-u</strong> option rather than the
 default of <strong>J</strong> (which in turn may be changed by editing the
 message file).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dk_or__2bdo_2dnot_2ddelete">-k or +do-not-delete</a></strong>
+<dt><strong><a name="k_or_do_not_delete" class="item">-k or +do-not-delete</a></strong></dt>
 
 <dd>
 <p>when performing an unqueue as specified with the <strong>-u</strong> option, do not
 delete the job at the end.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_or__2bkeep_2dunprinted">-n or +keep-unprinted</a></strong>
+<dt><strong><a name="n_or_keep_unprinted" class="item">-n or +keep-unprinted</a></strong></dt>
 
 <dd>
 <p>is the default case. Jobs which have not yet been printed are not
 deleted.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_name_or__2bcommand_2dprefix_name">-S <em>name</em> or +command-prefix <em>name</em></a></strong>
+<dt><strong><a name="s_name_or_command_prefix_name" class="item">-S <em>name</em> or +command-prefix <em>name</em></a></strong></dt>
 
 <dd>
 <p>specify the given <em>name</em> as the prefix for the command file, followed
@@ -127,8 +125,7 @@ by the job number, to be used by the <strong>-u</strong> option rather than the
 default of <strong>C</strong> (which in turn may be changed by editing the
 message file).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du_or__2bunqueue">-u or +unqueue</a></strong>
+<dt><strong><a name="u_or_unqueue" class="item">-u or +unqueue</a></strong></dt>
 
 <dd>
 <p>unqueue jobs, i.e. copy to current directory or directory selected
@@ -137,61 +134,55 @@ containing the text of the job and a <em>command file</em> containing an
 <strong>gspl-pr</strong> command. The command file may be run as a shell script to
 re-queue the job with the same options.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dy_or__2bdelete_2dunprinted">-y or +delete-unprinted</a></strong>
+<dt><strong><a name="y_or_delete_unprinted" class="item">-y or +delete-unprinted</a></strong></dt>
 
 <dd>
 <p>cancels all jobs, whether printed or not.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
+<dt><strong><a name="freeze_current" class="item">+freeze-current</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the current
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the current
 directory. If there are no jobs given to operate on and this is
 specified, then <strong>gspl-qdel</strong> will quit without error. If it is unable
 to save the options and jobs are specified, then <strong>gspl-qdel</strong> will
 continue.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dhome">+freeze-home</a></strong>
+<dt><strong><a name="freeze_home" class="item">+freeze-home</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the user's home
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the user's home
 directory. If there are no jobs given to operate on and this is
 specified, then <strong>gspl-qdel</strong> will quit without error. If it is unable
 to save the options and jobs are specified, then <strong>gspl-qdel</strong> will
 continue.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>rest.help</em>
+<p><em class="file">rest.help</em>
 message file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_gspl_qdel">GSPL_QDEL</a></strong>
+<dt><strong><a name="gspl_qdel" class="item">GSPL_QDEL</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults.</p>
 </dd>
-</li>
-<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+<dt><strong><a name="sprestconf" class="item">SPRESTCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -202,7 +193,7 @@ gspl-pr(1),
 gspl-pq(1),
 gspl-qchange(1),
 gspl-qlist(1),
-spsyntax(5),
+<code>spsyntax(5)</code>,
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
 <p>
@@ -210,14 +201,14 @@ gnuspool.hosts(5).</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>rest.help</em>.</p>
+file, by default <em class="file">rest.help</em>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="notes">NOTES</a></h1>
 <p>The <strong>-C</strong> option selects the class code for finding the jobs; if you
 have <em>override class</em> privilege, but your default class code does not
-allow the jobs ``to be seen'' in the output of gspl-qlist(1), then you may
+allow the jobs &quot;to be seen&quot; in the output of gspl-qlist(1), then you may
 need to specify this.</p>
 <p>Any errors are reported with appropriate messages on standard
 error. If any errors are detected operating on several jobs, the exit

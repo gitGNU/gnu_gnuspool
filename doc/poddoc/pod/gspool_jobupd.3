@@ -53,28 +53,28 @@ approach will cover any future extensions with additional fields.
 =for man
 The function \fBgspool_jobupd()\fR returns 0 if successful, otherwise one
 of the following codes:
-.Ip "GSPOOL_BAD_PRIORITY" 8
+.IP "GSPOOL_BAD_PRIORITY" 8
 The job's priority is outside the range for the user, or it cannot be
 changed by the user.
-.Ip "GSPOOL_INVALID_FD" 8
+.IP "GSPOOL_INVALID_FD" 8
 Invalid File descriptor
-.Ip "GSPOOL_BADWRITE" 8
+.IP "GSPOOL_BADWRITE" 8
 failure writing to the network
-.Ip "GSPOOL_BADREAD" 8
+.IP "GSPOOL_BADREAD" 8
 failure reading from the network
-.Ip "GSPOOL_NOPERM" 8
+.IP "GSPOOL_NOPERM" 8
 The user does not have permission
-.Ip "GSPOOL_ZERO_CLASS" 8
+.IP "GSPOOL_ZERO_CLASS" 8
 A class code of zero is illegal
-.Ip "GSPOOL_BAD_COPIES" 8
+.IP "GSPOOL_BAD_COPIES" 8
 The copies field is outside the limit for the user
-.Ip "GSPOOL_BAD_FORM" 8
+.IP "GSPOOL_BAD_FORM" 8
 The form type filed has been left empty
-.Ip "GSPOOL_SEQUENCE" 8
+.IP "GSPOOL_SEQUENCE" 8
 Sequence error, slot may be out of date
-.Ip "GSPOOL_UNKNOWN_JOB" 8
+.IP "GSPOOL_UNKNOWN_JOB" 8
 Job not found
-.Ip "GSPOOL_INVALIDSLOT" 8
+.IP "GSPOOL_INVALIDSLOT" 8
 Invalid slot number
 
 =head1 EXAMPLE

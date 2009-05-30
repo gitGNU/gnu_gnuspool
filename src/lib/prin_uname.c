@@ -34,6 +34,12 @@
 #define	PATH_MAX	1024
 #endif
 
+/* Define these here */
+
+uid_t	Daemuid,
+	Realuid,
+	Effuid;
+
 /* Structure used to hash user ids.  */
 
 struct	uhash	{

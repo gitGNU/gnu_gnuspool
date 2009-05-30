@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -23,7 +25,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -57,27 +63,24 @@ directory.</p>
 <p>In addition to options, three arguments are always supplied to
 <strong>gspl-cjlist</strong>.</p>
 <dl>
-<dt><strong><a name="item_job_list_file">Job list file</a></strong>
+<dt><strong><a name="job_list_file" class="item">Job list file</a></strong></dt>
 
 <dd>
 <p>This is the file containing the attributes of the jobs,
-<em>spshed_jfile</em> in the spool directory, by default,
+<em class="file">spshed_jfile</em> in the spool directory, by default,
 or as relocated by re-specifying <code>SPOOLDIR</code>.</p>
 </dd>
-</li>
-<dt><strong><a name="item_output_file">Output file</a></strong>
+<dt><strong><a name="output_file" class="item">Output file</a></strong></dt>
 
 <dd>
 <p>This file is created by <strong>gspl-cjlist</strong> to contain the executable shell
 script which may be used to create the jobs.</p>
 </dd>
-</li>
-<dt><strong><a name="item_backup_directory">Backup directory</a></strong>
+<dt><strong><a name="backup_directory" class="item">Backup directory</a></strong></dt>
 
 <dd>
 <p>This directory is used to hold the job data.</p>
 </dd>
-</li>
 </dl>
 <p>Note that saved jobs make use of the <strong>-U</strong> option to gspl-pr(1) to set the
 ownership correctly but do not attempt to use the <strong>-E</strong> and <strong>-o</strong>
@@ -87,65 +90,51 @@ options to set external queue or originating hosts.</p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
 <dl>
-<dt><strong><a name="item__2dd_directory">-D <em>directory</em></a></strong>
+<dt><strong><a name="d_directory" class="item">-D <em>directory</em></a></strong></dt>
 
 <dd>
 <p>specifies the source directory for the jobs and <em>job file</em> rather
 than the current directory. It can be specified as <code>$SPOOLDIR</code> or
 <code>${SPOOLDIR-/var/spool/gnuspool}</code> etc and the environment and/or
-<em>gnuspool.conf</em> will be interrogated to interpolate the value of
+<em class="file">gnuspool.conf</em> will be interrogated to interpolate the value of
 the environment variable given.</p>
-</dd>
-<dd>
 <p>If you use this, don't forget to put single quotes around it thus:</p>
-</dd>
-<dd>
 <pre>
  gspl-cjlist -D '${SPOOLDIR-/var/spool/gnuspool}' ...</pre>
-</dd>
-<dd>
 <p>otherwise the shell will try to interpret the <code>$</code> constructs and not
 <strong>gspl-cjlist</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2de_n">-e <em>n</em></a></strong>
+<dt><strong><a name="e_n" class="item">-e <em>n</em></a></strong></dt>
 
 <dd>
 <p>Tolerate <em>n</em> errors of the kinds denoted by the other options before
 giving up trying to convert the file.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df">-f</a></strong>
+<dt><strong><a name="f" class="item">-f</a></strong></dt>
 
 <dd>
 <p>Ignore format errors (invalid form types etc) in the saved job file up
 to the limit of errors given by the <strong>-e</strong> option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dm">-m</a></strong>
+<dt><strong><a name="m" class="item">-m</a></strong></dt>
 
 <dd>
-<p>Create ``missing'' dummy jobs where the <em>job file</em> refers to jobs not in the
+<p>Create &quot;missing&quot; dummy jobs where the <em>job file</em> refers to jobs not in the
 saved directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds">-s</a></strong>
+<dt><strong><a name="s" class="item">-s</a></strong></dt>
 
 <dd>
 <p>Ignore file size errors in the saved job file (up to the number of
 total errors given by the <strong>-e</strong> option).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du">-u</a></strong>
+<dt><strong><a name="u" class="item">-u</a></strong></dt>
 
 <dd>
 <p>Do not reject the save job file if it contains invalid  user names.</p>
-</dd>
-<dd>
 <p>This may be necessary where the job file is corrupted and <strong>gspl-cjlist</strong>
 cannot work out which version it is.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>

@@ -102,7 +102,6 @@ char	Win_setup, jset;
 static	jmp_buf	Mj;
 
 #define	IPC_MODE	0600
-int	Ctrl_chan = -1;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
@@ -115,10 +114,6 @@ unsigned	Pollinit,	/* Initial polling */
 
 time_t	hadalarm,
 	lastalarm;
-
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
 
 int	hadrfresh,
 	wh_jtitline,

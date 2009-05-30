@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -27,7 +29,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -77,45 +83,41 @@ displayed if the files cannot be opened or saved.</p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>rest.help</em>
+<p><em class="file">rest.help</em>
 message file</p>
-<p><em>gnuspool_alt/CMDF*</em>
+<p><em class="file">gnuspool_alt/CMDF*</em>
 command file (shell script)</p>
-<p><em>gnuspool_alt/ASPF*</em>
+<p><em class="file">gnuspool_alt/ASPF*</em>
 data file (contents of job)</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_gspl_pr">GSPL_PR</a></strong>
+<dt><strong><a name="gspl_pr" class="item">GSPL_PR</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults for <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item_gspl_rpr">GSPL_RPR</a></strong>
+<dt><strong><a name="gspl_rpr" class="item">GSPL_RPR</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults for <strong>gspl-mrpr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+<dt><strong><a name="sprestconf" class="item">SPRESTCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
-<dt><strong><a name="item_altspd">ALTSPD</a></strong>
+<dt><strong><a name="altspd" class="item">ALTSPD</a></strong></dt>
 
 <dd>
 <p>location of alternate spool directory.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -125,15 +127,15 @@ data file (contents of job)</p>
 gnuspool.hosts(5),
 gspl-rpr(1)
 gspl-pr(1),
-spsyntax(5),
-spshed(8),
-xtnetserv(8).</p>
+<code>spsyntax(5)</code>,
+<code>spshed(8)</code>,
+<code>xtnetserv(8)</code>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>rest.help</em>.</p>
+file, by default <em class="file">rest.help</em>.</p>
 <p>
 </p>
 <hr />

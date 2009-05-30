@@ -19,13 +19,15 @@ endif
 
 config.status: configure
 	dh_testdir
+# Commented this out as the config.sub and config.guess copied are older
+# than the ones we have
 	# Add here commands to configure the package.
-ifneq "$(wildcard /usr/share/misc/config.sub)" ""
-	cp -f /usr/share/misc/config.sub config.sub
-endif
-ifneq "$(wildcard /usr/share/misc/config.guess)" ""
-	cp -f /usr/share/misc/config.guess config.guess
-endif
+#ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+#	cp -f /usr/share/misc/config.sub config.sub
+#endif
+#ifneq "$(wildcard /usr/share/misc/config.guess)" ""
+#	cp -f /usr/share/misc/config.guess config.guess
+#endif
 	./configure $(CROSS) --prefix=/usr --enable-sharedlibs --sysconfdir=/etc --localstatedir=/var/spool \
 	--libexecdir='$${exec_prefix}/lib' --datarootdir=/usr/share --pdfdir=/usr/share/doc/gnuspool CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs"
 
@@ -47,7 +49,8 @@ clean:
 
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) distclean
-	rm -f config.sub config.guess
+	# Remove this
+	# rm -f config.sub config.guess
 
 	dh_clean 
 
@@ -67,7 +70,7 @@ binary-indep: build install
 
 # Build architecture-dependent files here.
 binary-arch: build install
-	$(CURDIR)/debian/cppack gnuspool-dev
+	$(CURDIR)/debian/cppack libgnuspool
 # Remove directories now empty and keep lintian quiet about printers directory
 	rmdir $(CURDIR)/debian/gnuspool/usr/include $(CURDIR)/debian/gnuspool/usr/share/man/man3
 	echo 'This directory is for printer setup files' >$(CURDIR)/debian/gnuspool/usr/share/gnuspool/ptrs/README
@@ -99,7 +102,7 @@ binary-arch: build install
 	dh_installdeb
 	dh_shlibdeps
 	install -m 644 $(CURDIR)/debian/shlibs.gnuspool $(CURDIR)/debian/gnuspool/DEBIAN/shlibs
-	install -m 644 $(CURDIR)/debian/shlibs.gnuspool-dev $(CURDIR)/debian/gnuspool-dev/DEBIAN/shlibs
+	install -m 644 $(CURDIR)/debian/shlibs.libgnuspool $(CURDIR)/debian/libgnuspool/DEBIAN/shlibs
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb

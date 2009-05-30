@@ -72,7 +72,6 @@ extern	netid_t	myhostid, localhostid;
 extern	SHORT	qsock, uasock, apirsock;
 extern	SHORT	qportnum, uaportnum, apirport, apipport;
 extern	SHORT	tcpproto, udpproto;
-extern	int	Ctrl_chan;
 #ifndef	USING_FLOCK
 extern	int	Sem_chan;
 extern	struct	sembuf	jr[], ju[], pr[], pu[];

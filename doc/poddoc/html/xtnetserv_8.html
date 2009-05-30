@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -26,7 +28,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -49,38 +55,36 @@ accepts jobs and administration requests from DOS and Windows
 machines, and finally it supports API operations.</p>
 <p>It is normally invoked by gspl-start(1).</p>
 <p>Information, in respect of other machines to connect to is read from
-the file <em>gnuspool.hosts</em>.</p>
+the file <em class="file">gnuspool.hosts</em>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>gnuspool.hosts</em>
+<p><em class="file">gnuspool.hosts</em>
 host/client names and descriptions</p>
-<p><em>gnuspool.conf</em>
+<p><em class="file">gnuspool.conf</em>
 master configuration file</p>
-<p><em>int-config</em>
+<p><em class="file">int-config</em>
 message file</p>
-<p><em>spshed_reps</em>
+<p><em class="file">spshed_reps</em>
 error log file</p>
-<p><em>spufile0</em>
+<p><em class="file">spufile0</em>
 user data</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_spooldir">SPOOLDIR</a></strong>
+<dt><strong><a name="spooldir" class="item">SPOOLDIR</a></strong></dt>
 
 <dd>
 <p>alternative location for spool directory</p>
 </dd>
-</li>
-<dt><strong><a name="item_sphelpdir">SPHELPDIR</a></strong>
+<dt><strong><a name="sphelpdir" class="item">SPHELPDIR</a></strong></dt>
 
 <dd>
 <p>help files directory</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -89,12 +93,12 @@ user data</p>
 <p><strong>xtnetserv</strong> uses 2 ports:</p>
 <pre>
         gsnetsrv</pre>
-<p>(<strong>N.B.</strong> no second ``e'') to accept incoming jobs on TCP from gspl-rpr(1), and on
+<p>(<strong>N.B.</strong> no second &quot;e&quot;) to accept incoming jobs on TCP from gspl-rpr(1), and on
 UDP from the DOS/Windows interface, and 2 further ports</p>
 <pre>
         gspoolapi</pre>
 <p>to communicate with the API library.</p>
-<p>The port numbers are set up in the <em>/etc/services</em> file when
+<p>The port numbers are set up in the <em class="file">/etc/services</em> file when
 <strong>GNUspool</strong> is first installed.</p>
 <p>
 </p>
@@ -105,14 +109,14 @@ gspl-start(1),
 gspl-stop(1),
 gnuspool.conf(5),
 gnuspool.hosts(5),
-spshed(8).</p>
+<code>spshed(8)</code>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
-<p><strong>xtnetserv</strong> runs as a ``daemon process'' and diagnostics, apart from
+<p><strong>xtnetserv</strong> runs as a &quot;daemon process&quot; and diagnostics, apart from
 those detected when it is first started, are not usually written to
-any terminal but to the file <em>spshed_reps</em> in the spool directory.</p>
+any terminal but to the file <em class="file">spshed_reps</em> in the spool directory.</p>
 <p>In the event of any problems this file should be examined.</p>
 <p>
 </p>

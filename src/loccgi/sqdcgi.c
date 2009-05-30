@@ -56,10 +56,6 @@
 #include "shutilmsg.h"
 #include "xfershm.h"
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 DEF_DISPOPTS;
 
 struct	spdet	*mypriv;
@@ -70,7 +66,6 @@ FILE	*Cfile;
 
 #define	IPC_MODE	0600
 
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

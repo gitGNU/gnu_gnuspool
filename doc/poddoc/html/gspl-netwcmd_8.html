@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -23,7 +25,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -46,13 +52,13 @@
 printing command for a given printer and output it on standard
 output. This is often useful for testing terminal server commands from
 the command prompt in the event that error conditions arise and
-enquiring what a given command ``would have been''.</p>
+enquiring what a given command &quot;would have been&quot;.</p>
 <p>The current form type is used unless the <em>form</em> argument is given,
 but this generally should not make any difference.</p>
 <p>A shell script is output to standard output containing the command. By
 default, all the <code>$SPOOLDEV</code> etc printer environment variables are
-expanded in the output where appropriate as the printer ``would see
-it'', however this may be suppressed by means of the <strong>-n</strong> option.</p>
+expanded in the output where appropriate as the printer &quot;would see
+it&quot;, however this may be suppressed by means of the <strong>-n</strong> option.</p>
 <p>There is a very subtle difference if the <code>network</code> keyword is given
 with</p>
 <pre>
@@ -70,12 +76,11 @@ generated if the printer is directly connected.</p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
 <dl>
-<dt><strong><a name="item__2dn">-n</a></strong>
+<dt><strong><a name="n" class="item">-n</a></strong></dt>
 
 <dd>
 <p>suppress the expansion of environment variables.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>

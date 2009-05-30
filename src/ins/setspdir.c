@@ -80,7 +80,6 @@ int	existing_subds,		/* Existing sub directories */
 	deadwood;		/* Number of jobs not in job list */
 
 char	*spdir;			/* Spool directory */
-uid_t	Daemuid;		/* User name */
 
 #define	SLURPSIZE	80
 #define	REBUILDJNAM	"Rebuild_jfile"

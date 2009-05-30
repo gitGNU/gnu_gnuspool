@@ -82,7 +82,6 @@ int	had_alarm, hadrfresh;
 
 #define	IPC_MODE	0600
 
-int	Ctrl_chan = -1;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 
@@ -112,9 +111,6 @@ char	tmpfl[NAMESIZE + 1], pgfl[NAMESIZE + 1];
 
 FILE	*Cfile;
 
-uid_t	Daemuid,
-	Realuid;
-uid_t	Effuid;
 DEF_DISPOPTS;
 
 struct	hhash	*nhashtab[NETHASHMOD];

@@ -56,7 +56,6 @@ FILE	*Cfile;
 
 #define	IPC_MODE	0600
 
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
@@ -67,10 +66,6 @@ struct	pshm_info	Ptr_seg;
 char		*formatstring;
 
 char	sdefaultfmt[] = "%p %d %f %s %j %u";
-
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
 
 struct	ptrswanted	{
 	netid_t		host;

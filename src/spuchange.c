@@ -45,10 +45,6 @@ unsigned Nusers;
 extern	struct	sphdr	Spuhdr;
 struct	spdet	*ulist;
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 char	*Curr_pwd;
 FILE	*Cfile;
 
@@ -111,7 +107,6 @@ struct	perm	{
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

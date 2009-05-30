@@ -31,11 +31,9 @@
 #include "displayopt.h"
 
 FILE	*Cfile;
-uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

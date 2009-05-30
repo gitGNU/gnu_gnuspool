@@ -33,11 +33,10 @@
 #define	BUFFSIZE	256
 
 FILE	*Cfile;
-uid_t	Realuid, Effuid, Daemuid;
+extern	uid_t	Realuid, Effuid, Daemuid;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 DEF_DISPOPTS;

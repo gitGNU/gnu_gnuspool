@@ -41,9 +41,6 @@
 FILE	*Cfile;
 
 char	*Curr_pwd;
-uid_t	Realuid,
-	Effuid,
-	Daemuid;
 
 #define	SORT_NONE	0
 #define	SORT_USER	1
@@ -72,7 +69,6 @@ char	bigbuff[80];
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

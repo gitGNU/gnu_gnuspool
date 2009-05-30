@@ -73,8 +73,11 @@ case "$1" in
 
   stop)
 	echo -n "Stopping $DESC: "
-	/usr/bin/gspl-stop -y 2>/dev/null
-	echo "$NAME."
+	if /usr/bin/gspl-stop -y 2>/dev/null; then
+	    echo "$NAME."
+	else
+	    echo " ERROR."
+	fi
 	;;
 
   force-stop)

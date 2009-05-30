@@ -42,7 +42,6 @@
 #include "errnums.h"
 #include "files.h"
 
-extern	int	Ctrl_chan;
 extern	struct	xfershm	*Xfer_shmp;
 
 #ifdef	USING_MMAP

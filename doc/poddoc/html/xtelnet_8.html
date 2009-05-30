@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -25,7 +27,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -49,44 +55,40 @@
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
 <p><strong>xtelnet</strong> is a terminal server program for use by <strong>GNUspool</strong> where
-the destination is a server which accepts ``reverse telnet''
+the destination is a server which accepts &quot;reverse telnet&quot;
 protocol. Data is accepted on standard input.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
 <dl>
-<dt><strong><a name="item__2dh_hostname">-h <em>hostname</em></a></strong>
+<dt><strong><a name="h_hostname" class="item">-h <em>hostname</em></a></strong></dt>
 
 <dd>
 <p>This is the host name or IP address to be used to access the
 printer. In <strong>GNUspool</strong> setup files, it may be appropriate to
 substitute <code>$SPOOLDEV</code> or <code>$SPOOLPTR</code> here.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_port_number">-p <em>port number</em></a></strong>
+<dt><strong><a name="p_port_number" class="item">-p <em>port number</em></a></strong></dt>
 
 <dd>
-<p>This is the port number (or name in <em>/etc/services</em> to be used. In
+<p>This is the port number (or name in <em class="file">/etc/services</em> to be used. In
 <strong>GNUspool</strong> setup files, it may sometimes be appropriate to substitute
 <code>$SPOOLDEV</code> here, but this is unlikely.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dl_n">-l <em>n</em></a></strong>
+<dt><strong><a name="l_n" class="item">-l <em>n</em></a></strong></dt>
 
 <dd>
 <p>Make <em>n</em> connection attempts before giving up trying to connect to
 the server.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dl_n">-L <em>n</em></a></strong>
+<dt><strong><a name="l_n" class="item">-L <em>n</em></a></strong></dt>
 
 <dd>
 <p>In conjunction with <strong>-l</strong> option, sleep <em>n</em> seconds between attempts
 to connect to the server.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dt_n">-t <em>n</em></a></strong>
+<dt><strong><a name="t_n" class="item">-t <em>n</em></a></strong></dt>
 
 <dd>
 <p>Sleep <em>n</em> seconds before exiting, after closing the connection to the
@@ -94,20 +96,17 @@ server. This is sometimes necessary with some servers, as <strong>GNUspool</stro
 operates too fast for them. However you may prefer to use the
 <code>closewait</code> option in the <em>setup file</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_n">-s <em>n</em></a></strong>
+<dt><strong><a name="s_n" class="item">-s <em>n</em></a></strong></dt>
 
 <dd>
-<p>Specify ``linger time'' in seconds (which may be fractional) for the
+<p>Specify &quot;linger time&quot; in seconds (which may be fractional) for the
 connection. This is likewise necessary with some servers.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd">-d</a></strong>
+<dt><strong><a name="d" class="item">-d</a></strong></dt>
 
 <dd>
 <p>Debug. Displays activities on standard error.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -139,10 +138,10 @@ file</em> to record such errors.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>xilp(8),
-xtftp(8),
-xtlpc(8),
-xtlhp(8).</p>
+<p><code>xilp(8)</code>,
+<code>xtftp(8)</code>,
+<code>xtlpc(8)</code>,
+<code>xtlhp(8)</code>.</p>
 <p>
 </p>
 <hr />

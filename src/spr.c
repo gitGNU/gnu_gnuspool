@@ -74,7 +74,7 @@ jmp_buf	ajb;
 #ifndef	ID_SWAP
 PIDTYPE	lastpid = -1;
 #endif
-uid_t	Realuid, Daemuid, Effuid;
+
 struct	spdet	*mypriv;
 struct	spr_req	sp_req;
 struct	spq	SPQ;
@@ -98,7 +98,6 @@ char	Sufchars[] = DEF_SUFCHARS;
 char	wotform[MAXFORM+1];
 int	wotl;
 
-int	Ctrl_chan = -1;
 #ifndef	USING_FLOCK
 int	Sem_chan = -1;
 #endif

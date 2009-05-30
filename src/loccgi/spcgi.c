@@ -54,7 +54,6 @@ FILE	*Cfile;
 
 #define	IPC_MODE	0600
 
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
@@ -64,10 +63,6 @@ struct	pshm_info	Ptr_seg;
 
 char	*formatstring;
 char	sdefaultfmt[] = "Lp Ld Lf Ls Lj Lu";
-
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
 
 char	bigbuff[200];
 

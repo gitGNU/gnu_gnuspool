@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -32,7 +34,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -70,110 +76,92 @@ placed on the command line.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_gspl_qlist"><code>GSPL_QLIST</code></a>
+<p>The environment variable on which options are supplied is <a href="#gspl_qlist"><code>GSPL_QLIST</code></a>
 and the environment variable to specify the help file is
-<a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
+<a href="#sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+<dt><strong><a name="or_explain" class="item">-? or +explain</a></strong></dt>
 
 <dd>
 <p>causes a summary of the other options to be displayed without taking
 further action.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_nnnn_or__2bclasscode_nnnn">-C <em>nnnn</em> or +classcode <em>nnnn</em></a></strong>
+<dt><strong><a name="c_nnnn_or_classcode_nnnn" class="item">-C <em>nnnn</em> or +classcode <em>nnnn</em></a></strong></dt>
 
 <dd>
 <p>restricts attention to jobs matching the class code given. This may be
 reduced further by the user's class code unless he/she has <em>override
 class</em> privilege.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_or__2bdefault_2dformat">-D or +default-format</a></strong>
+<dt><strong><a name="d_or_default_format" class="item">-D or +default-format</a></strong></dt>
 
 <dd>
 <p>cancel a <strong>-F</strong> option and restore the default format.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2de_or__2bno_2dpage_2dcounts">-e or +no-page-counts</a></strong>
+<dt><strong><a name="e_or_no_page_counts" class="item">-e or +no-page-counts</a></strong></dt>
 
 <dd>
 <p>do not try to represent page numbers and counts on the output (this
 only affects the default format).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2de_or__2bpage_2dcounts">-E or +page-counts</a></strong>
+<dt><strong><a name="e_or_page_counts" class="item">-E or +page-counts</a></strong></dt>
 
 <dd>
 <p>do try to represent page numbers and counts on the output (this only
 affects the default format).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_string_or__2bformat_string">-F <em>string</em> or +format <em>string</em></a></strong>
+<dt><strong><a name="f_string_or_format_string" class="item">-F <em>string</em> or +format <em>string</em></a></strong></dt>
 
 <dd>
 <p>Specify user defined output format. The	<em>string</em> argument contains
 characters to be printed and symbols representing the required data
 fields. This option overrides and preceding <strong>-D</strong> option, and is
 itself overridden by a following <strong>-D</strong> option.</p>
-</dd>
 <P>See <a href="#Gspl-Qlist_format">the section on format codes</a> for
-details of the format code sequences.</P></li>
-<dt><strong><a name="item__2dh_or__2bheader">-H or +header</a></strong>
+details of the format code sequences.</P></dd>
+<dt><strong><a name="h_or_header" class="item">-H or +header</a></strong></dt>
 
 <dd>
 <p>generate a header for each column of the output according to the field
 displayed there. The headers are taken from the message file, by
-default <em>rest.help</em>, which may be adjusted as
+default <em class="file">rest.help</em>, which may be adjusted as
 required.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dl_or__2blocal_2donly">-l or +local-only</a></strong>
+<dt><strong><a name="l_or_local_only" class="item">-l or +local-only</a></strong></dt>
 
 <dd>
 <p>display only jobs local to the current host.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_or__2bno_2dheader">-N or +no-header</a></strong>
+<dt><strong><a name="n_or_no_header" class="item">-N or +no-header</a></strong></dt>
 
 <dd>
 <p>cancel the <strong>-H</strong> option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_or__2bno_2dview_2djob">-n or +no-view-job</a></strong>
+<dt><strong><a name="n_or_no_view_job" class="item">-n or +no-view-job</a></strong></dt>
 
 <dd>
 <p>cancel the <strong>-V</strong> option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_range_or__2bview_2dpages_range">-P <em>range</em> or +view-pages <em>range</em></a></strong>
+<dt><strong><a name="p_range_or_view_pages_range" class="item">-P <em>range</em> or +view-pages <em>range</em></a></strong></dt>
 
 <dd>
 <p>with the <strong>-V</strong> option, specify a range of pages to output.</p>
-</dd>
-<dd>
 <p>A range may consist of single page numbers or subranges separated by
 commas, thus:</p>
-</dd>
-<dd>
 <pre>
         -V -P 1
         -V -P 1,3,4-9
         -V -P 2-7,12-</pre>
-</dd>
-<dd>
 <p>such arguments would respectively select page 1, pages 1, 3 and 4 to 9
 and pages 2 to 7 and 12 to the end. Omitted numbers either side of the
-<strong>-</strong> denote ``the beginning'' and ``the end''.</p>
+<strong>-</strong> denote &quot;the beginning&quot; and &quot;the end&quot;.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_or__2bprinted_2djobs">-p or +printed-jobs</a></strong>
+<dt><strong><a name="p_or_printed_jobs" class="item">-p or +printed-jobs</a></strong></dt>
 
 <dd>
 <p>restricts attention to jobs which have been printed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dq_name_or__2blist_2donly_name">-q <em>name</em> or +list-only <em>name</em></a></strong>
+<dt><strong><a name="q_name_or_list_only_name" class="item">-q <em>name</em> or +list-only <em>name</em></a></strong></dt>
 
 <dd>
 <p>List only jobs for, or which could be printed on the specified subset
@@ -181,78 +169,67 @@ of printers. The set of printers may contain just one name, a list of
 names or a list of patters for matching printer names. Shell-like
 pattern matching applies to the pattern. You may well need to put
 quotes around the pattern to avoid misinterpretation by the shell.</p>
-</dd>
 <P>This is further described in the <a href="#Gspl-Qlist_pattern">pattern
 arguments</a> section.</P><p>To cancel this argument, give a single <strong>-</strong> sign as an argument.</p>
-</li>
-<dt><strong><a name="item__2dr_or__2bremotes">-r or +remotes</a></strong>
+</dd>
+<dt><strong><a name="r_or_remotes" class="item">-r or +remotes</a></strong></dt>
 
 <dd>
 <p>display jobs local to the current host and connected hosts.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dt_string_or__2bjust_2dtitle_string_2e">-t <em>string</em> or +just-title <em>string</em>.</a></strong>
+<dt><strong><a name="t_string_or_just_title_string" class="item">-t <em>string</em> or +just-title <em>string</em>.</a></strong></dt>
 
 <dd>
 <p>restricts attention to jobs whose title matches the pattern given.</p>
-</dd>
 <P>The pattern is further described in the <a href="#Gspl-Qlist_pattern">pattern
-arguments</a> section.</P></li>
-<dt><strong><a name="item__2du_user_or__2bjust_2duser_user">-u <em>user</em> or +just-user <em>user</em></a></strong>
+arguments</a> section.</P></dd>
+<dt><strong><a name="u_user_or_just_user_user" class="item">-u <em>user</em> or +just-user <em>user</em></a></strong></dt>
 
 <dd>
 <p>restricts attention to jobs owned by the given user or list of users
 given by a pattern.</p>
-</dd>
 <P>The pattern is further described in the <a href="#Gspl-Qlist_pattern">pattern
-arguments</a> section.</P></li>
-<dt><strong><a name="item__2dv_or__2bview_2djob">-V or +view-job</a></strong>
+arguments</a> section.</P></dd>
+<dt><strong><a name="v_or_view_job" class="item">-V or +view-job</a></strong></dt>
 
 <dd>
 <p>cancel the job listing output and send the text of the job or jobs to
 standard output.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dy_or__2ball_2djobs">-Y or +all-jobs</a></strong>
+<dt><strong><a name="y_or_all_jobs" class="item">-Y or +all-jobs</a></strong></dt>
 
 <dd>
 <p>displays all jobs, canceling <strong>-y</strong> or <strong>-p</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dy_or__2bunprinted_2djobs">-y or +unprinted-jobs</a></strong>
+<dt><strong><a name="y_or_unprinted_jobs" class="item">-y or +unprinted-jobs</a></strong></dt>
 
 <dd>
 <p>restricts attention to jobs which have not been printed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dz_or__2binclude_2dnull">-z or +include-null</a></strong>
+<dt><strong><a name="z_or_include_null" class="item">-z or +include-null</a></strong></dt>
 
 <dd>
 <p>when listing jobs restricted by a <strong>-q</strong> argument, include jobs with no
 destination printer.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dz_or__2bno_2dinclude_2dnull">-Z or +no-include-null</a></strong>
+<dt><strong><a name="z_or_no_include_null" class="item">-Z or +no-include-null</a></strong></dt>
 
 <dd>
 <p>when listing jobs and printers restricted by a <strong>-q</strong> argument, do not
 include jobs without a destination printer.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
+<dt><strong><a name="freeze_current" class="item">+freeze-current</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the current
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the current
 directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dhome">+freeze-home</a></strong>
+<dt><strong><a name="freeze_home" class="item">+freeze-home</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the user's home
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the user's home
 directory.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -299,198 +276,166 @@ or spaces as required.</p>
 longest entry. If a header is requested, the appropriate abbreviation
 is obtained from the message file and inserted.</p>
 <dl>
-<dt><strong><a name="item___">%%</a></strong>
+<dt><strong><a name="__" class="item">%%</a></strong></dt>
 
 <dd>
 <p>insert a single <code>%</code> sign</p>
 </dd>
-</li>
-<dt><strong><a name="item__a">%A</a></strong>
+<dt><strong><a name="_a" class="item">%A</a></strong></dt>
 
 <dd>
 <p><code>wattn</code> if the write attention message flag is set.</p>
 </dd>
-</li>
-<dt><strong><a name="item__a">%a</a></strong>
+<dt><strong><a name="_a" class="item">%a</a></strong></dt>
 
 <dd>
 <p><code>mattn</code> if the mail attention message flag is set.</p>
 </dd>
-</li>
-<dt><strong><a name="item__c">%C</a></strong>
+<dt><strong><a name="_c" class="item">%C</a></strong></dt>
 
 <dd>
 <p>class code</p>
 </dd>
-</li>
-<dt><strong><a name="item__c">%c</a></strong>
+<dt><strong><a name="_c" class="item">%c</a></strong></dt>
 
 <dd>
 <p>copies (right-justified)</p>
 </dd>
-</li>
-<dt><strong><a name="item__d">%D</a></strong>
+<dt><strong><a name="_d" class="item">%D</a></strong></dt>
 
 <dd>
 <p>page delimiter</p>
 </dd>
-</li>
-<dt><strong><a name="item__d">%d</a></strong>
+<dt><strong><a name="_d" class="item">%d</a></strong></dt>
 
 <dd>
 <p>delimiter number</p>
 </dd>
-</li>
-<dt><strong><a name="item__f">%F</a></strong>
+<dt><strong><a name="_f" class="item">%F</a></strong></dt>
 
 <dd>
 <p>post-processing flags</p>
 </dd>
-</li>
-<dt><strong><a name="item__f">%f</a></strong>
+<dt><strong><a name="_f" class="item">%f</a></strong></dt>
 
 <dd>
 <p>form type</p>
 </dd>
-</li>
-<dt><strong><a name="item__g">%G</a></strong>
+<dt><strong><a name="_g" class="item">%G</a></strong></dt>
 
 <dd>
-<p>``halted at'' page number.</p>
+<p>&quot;halted at&quot; page number.</p>
 </dd>
-</li>
-<dt><strong><a name="item__h">%H</a></strong>
+<dt><strong><a name="_h" class="item">%H</a></strong></dt>
 
 <dd>
 <p>hold time</p>
 </dd>
-</li>
-<dt><strong><a name="item__h">%h</a></strong>
+<dt><strong><a name="_h" class="item">%h</a></strong></dt>
 
 <dd>
 <p>job title.</p>
 </dd>
-</li>
-<dt><strong><a name="item__k">%K</a></strong>
+<dt><strong><a name="_k" class="item">%K</a></strong></dt>
 
 <dd>
 <p>size of job in bytes</p>
 </dd>
-</li>
-<dt><strong><a name="item__l">%L</a></strong>
+<dt><strong><a name="_l" class="item">%L</a></strong></dt>
 
 <dd>
 <p>position reached in bytes.</p>
 </dd>
-</li>
-<dt><strong><a name="item__l">%l</a></strong>
+<dt><strong><a name="_l" class="item">%l</a></strong></dt>
 
 <dd>
 <p><code>local</code> if local job only</p>
 </dd>
-</li>
-<dt><strong><a name="item__m">%m</a></strong>
+<dt><strong><a name="_m" class="item">%m</a></strong></dt>
 
 <dd>
 <p><code>mail</code> if mail completion flag set.</p>
 </dd>
-</li>
-<dt><strong><a name="item__n">%N</a></strong>
+<dt><strong><a name="_n" class="item">%N</a></strong></dt>
 
 <dd>
 <p>job number, prefixed by host name if remote.</p>
 </dd>
-</li>
-<dt><strong><a name="item__o">%O</a></strong>
+<dt><strong><a name="_o" class="item">%O</a></strong></dt>
 
 <dd>
 <p>odd/even/swap flags.</p>
 </dd>
-</li>
-<dt><strong><a name="item__o">%o</a></strong>
+<dt><strong><a name="_o" class="item">%o</a></strong></dt>
 
 <dd>
 <p>originating host (might be different if via gspl-rpr(1)).</p>
 </dd>
-</li>
-<dt><strong><a name="item__p">%P</a></strong>
+<dt><strong><a name="_p" class="item">%P</a></strong></dt>
 
 <dd>
 <p>printer destination</p>
 </dd>
-</li>
-<dt><strong><a name="item__p">%p</a></strong>
+<dt><strong><a name="_p" class="item">%p</a></strong></dt>
 
 <dd>
 <p>priority.</p>
 </dd>
-</li>
-<dt><strong><a name="item__q">%Q</a></strong>
+<dt><strong><a name="_q" class="item">%Q</a></strong></dt>
 
 <dd>
 <p>page reached.</p>
 </dd>
-</li>
-<dt><strong><a name="item__q">%q</a></strong>
+<dt><strong><a name="_q" class="item">%q</a></strong></dt>
 
 <dd>
 <p><code>retain</code> if retained on queue.</p>
 </dd>
-</li>
-<dt><strong><a name="item__r">%R</a></strong>
+<dt><strong><a name="_r" class="item">%R</a></strong></dt>
 
 <dd>
 <p>page range.</p>
 </dd>
-</li>
-<dt><strong><a name="item__s">%S</a></strong>
+<dt><strong><a name="_s" class="item">%S</a></strong></dt>
 
 <dd>
 <p>size in pages.</p>
 </dd>
-</li>
-<dt><strong><a name="item__s">%s</a></strong>
+<dt><strong><a name="_s" class="item">%s</a></strong></dt>
 
 <dd>
 <p><code>nohdr</code> if header suppressed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__t">%T</a></strong>
+<dt><strong><a name="_t" class="item">%T</a></strong></dt>
 
 <dd>
 <p>delete time if not printed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__t">%t</a></strong>
+<dt><strong><a name="_t" class="item">%t</a></strong></dt>
 
 <dd>
 <p>delete time if printed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__u">%U</a></strong>
+<dt><strong><a name="_u" class="item">%U</a></strong></dt>
 
 <dd>
 <p>user name to be posted to.</p>
 </dd>
-</li>
-<dt><strong><a name="item__u">%u</a></strong>
+<dt><strong><a name="_u" class="item">%u</a></strong></dt>
 
 <dd>
 <p>user name owned by</p>
 </dd>
-</li>
-<dt><strong><a name="item__w">%W</a></strong>
+<dt><strong><a name="_w" class="item">%W</a></strong></dt>
 
 <dd>
 <p>submission or start time.</p>
 </dd>
-</li>
-<dt><strong><a name="item__w">%w</a></strong>
+<dt><strong><a name="_w" class="item">%w</a></strong></dt>
 
 <dd>
 <p><code>write</code> if write completion message flag set.</p>
 </dd>
-</li>
 </dl>
 <p>Note that the various strings such as <strong>nohdr</strong> etc are read from the
 message file also, so it is possible to modify them as required by the
@@ -506,29 +451,27 @@ user.</p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>rest.help</em>
+<p><em class="file">rest.help</em>
 message file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_gspl_qlist">GSPL_QLIST</a></strong>
+<dt><strong><a name="gspl_qlist" class="item">GSPL_QLIST</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults.</p>
 </dd>
-</li>
-<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+<dt><strong><a name="sprestconf" class="item">SPRESTCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -538,7 +481,7 @@ message file</p>
 gspl-pq(1),
 gspl-qchange(1),
 gspl-qdel(1),
-spsyntax(5),
+<code>spsyntax(5)</code>,
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
 <p>
@@ -546,7 +489,7 @@ gnuspool.hosts(5).</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>rest.help</em>.</p>
+file, by default <em class="file">rest.help</em>.</p>
 <p>
 </p>
 <hr />

@@ -59,7 +59,6 @@
 
 FILE	*Cfile;
 
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
@@ -74,8 +73,6 @@ LONG		Jobnum;
 netid_t	netid;
 char		*Dirname;
 char		*Xfile, *Jfile;
-
-uid_t	Realuid, Effuid, Daemuid;
 
 int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
 FILE 	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);

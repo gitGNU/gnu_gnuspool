@@ -38,21 +38,21 @@ returned by B<gspool_ptrlist>, or B<gspool_ptrfindslot>.
 =for man
 The function \fBgspool_ptrdel()\fR returns 0 if successful, otherwise one
 of the following codes:
-.Ip "GSPOOL_INVALID_FD" 8
+.IP "GSPOOL_INVALID_FD" 8
 Invalid File descriptor
-.Ip "GSPOOL_BADWRITE" 8
+.IP "GSPOOL_BADWRITE" 8
 failure writing to the network
-.Ip "GSPOOL_BADREAD" 8
+.IP "GSPOOL_BADREAD" 8
 failure reading from the network
-.Ip "GSPOOL_SEQUENCE" 8
+.IP "GSPOOL_SEQUENCE" 8
 Sequence error, slot may be out of date
-.Ip "GSPOOL_UNKNOWN_PTR" 8
+.IP "GSPOOL_UNKNOWN_PTR" 8
 Printer not found
-.Ip "GSPOOL_INVALIDSLOT" 8
+.IP "GSPOOL_INVALIDSLOT" 8
 Invalid slot number
-.Ip "GSPOOL_PTR_RUNNING" 8
+.IP "GSPOOL_PTR_RUNNING" 8
 The printer is running.
-.Ip "GSPOOL_NOPERM" 8
+.IP "GSPOOL_NOPERM" 8
 The user does not have permission to delete printers.
 
 =head1 EXAMPLE

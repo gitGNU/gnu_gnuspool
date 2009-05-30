@@ -65,14 +65,9 @@ static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
 
 FILE	*Cfile;
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

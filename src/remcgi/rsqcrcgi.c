@@ -44,10 +44,6 @@
 #define	QPTIMEOUT	24		/* One day if printed */
 #define	DEF_SUFCHARS	".-"		/* Default suffix chars */
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 FILE	*Cfile;
 
 int	gspool_fd;

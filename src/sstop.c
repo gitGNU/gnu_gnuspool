@@ -41,11 +41,6 @@
 #include "displayopt.h"
 
 FILE	*Cfile;
-int	Ctrl_chan;
-
-uid_t	Daemuid,
-	Effuid,
-	Realuid;
 
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;

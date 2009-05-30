@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -34,7 +36,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -63,7 +69,7 @@
 <h1><a name="description">DESCRIPTION</a></h1>
 <p><strong>xtlhp</strong> is a terminal server program for use by <strong>GNUspool</strong> where
 the destination is an HPNPF server. Alternatively other printer
-devices which accept input using ``reverse telnet'' and allow status to
+devices which accept input using &quot;reverse telnet&quot; and allow status to
 be interrogated via SNMP (or other means) may be driven.</p>
 <p>After each block is transmitted, the status of the printer is
 interrogated using a supplied control script.</p>
@@ -74,99 +80,85 @@ than relying on an external program being available.</p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
 <dl>
-<dt><strong><a name="item__2dh_hostname">-h <em>hostname</em></a></strong>
+<dt><strong><a name="h_hostname" class="item">-h <em>hostname</em></a></strong></dt>
 
 <dd>
 <p>This is the host name or IP address to be used to access the
 printer. In <strong>GNUspool</strong> setup files, it may be appropriate to
 substitute <code>$SPOOLDEV</code> or <code>$SPOOLPTR</code> here.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_port_number">-p <em>port number</em></a></strong>
+<dt><strong><a name="p_port_number" class="item">-p <em>port number</em></a></strong></dt>
 
 <dd>
 <p>This is the port number or service port name to be used.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_configname">-f <em>configname</em></a></strong>
+<dt><strong><a name="f_configname" class="item">-f <em>configname</em></a></strong></dt>
 
 <dd>
-<p>This is the location of the definitions file, if not <em>xtsnmpdef</em> in
+<p>This is the location of the definitions file, if not <em class="file">xtsnmpdef</em> in
 the <strong>GNUspool</strong> internal programs directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_file">-c <em>file</em></a></strong>
+<dt><strong><a name="c_file" class="item">-c <em>file</em></a></strong></dt>
 
 <dd>
 <p>Specifies a control file for obtaining the printer status. See the
 CONTROL FILE section below.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dl_logfile">-l <em>logfile</em></a></strong>
+<dt><strong><a name="l_logfile" class="item">-l <em>logfile</em></a></strong></dt>
 
 <dd>
 <p>Specify error message destination if not standard error.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2db_n">-b <em>n</em></a></strong>
+<dt><strong><a name="b_n" class="item">-b <em>n</em></a></strong></dt>
 
 <dd>
 <p>Specify output block size. <em>n</em> may be a number, or followed by <strong>b</strong>,
 <strong>k</strong>, <strong>m</strong> or <strong>g</strong> to denote blocks, kilobytes, megabytes or
 gigabytes.</p>
-</dd>
-<dd>
 <p>Otherwise a default block size of 10K is assumed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_n">-d <em>n</em></a></strong>
+<dt><strong><a name="d_n" class="item">-d <em>n</em></a></strong></dt>
 
 <dd>
 <p>Debug. Displays activities on standard error, if <em>n</em> is greater than
 zero. Higher values of <em>n</em> will give more output, including tracing
 of SNMP operations.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_n">-D <em>n</em></a></strong>
+<dt><strong><a name="d_n" class="item">-D <em>n</em></a></strong></dt>
 
 <dd>
 <p>As for <strong>-d</strong>, except that no output is attempted, the control script is
 executed once only and the appropriate exit code returned. Use an
 argument of zero to just invoke the script and exit.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_name">-c <em>name</em></a></strong>
+<dt><strong><a name="c_name" class="item">-c <em>name</em></a></strong></dt>
 
 <dd>
 <p>Specify the community in SNMP operations. The default is <strong>public</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dt_timeout">-T <em>timeout</em></a></strong>
+<dt><strong><a name="t_timeout" class="item">-T <em>timeout</em></a></strong></dt>
 
 <dd>
 <p>Specify the timeout to wait for SNMP replies. The default is 1
 second, but the value given may be fractional.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_snmp">-S <em>snmp</em></a></strong>
+<dt><strong><a name="s_snmp" class="item">-S <em>snmp</em></a></strong></dt>
 
 <dd>
 <p>Specify the SNMP port name to use, if not <code>snmp</code>.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="configuration_file">CONFIGURATION FILE</a></h1>
-<p>The configuration file <em>xtsmnpdef</em> provides a series of mnemonics for
+<p>The configuration file <em class="file">xtsmnpdef</em> provides a series of mnemonics for
 the SNMP definition of the form:</p>
 <pre>
  system 1.3.6.1.4.1.11.2
  gdStatusBytes system.3.9.1.1.1</pre>
-<p>The function of these definitions is to ``macrogenerate'' constructs
-which appear in the control file, for example (with appropriate definitions)
-</p>
+<p>The function of these definitions is to &quot;macrogenerate&quot; constructs
+which appear in the control file, for example (with appropriate definitions)</p>
 <pre>
 
  gdStatusPaperOut.0</pre>
@@ -191,42 +183,37 @@ upper case.</p>
 </p>
 <h2><a name="expressions">Expressions</a></h2>
 <dl>
-<dt><strong><a name="item__27string_27">'string'</a></strong>
+<dt><strong><a name="string" class="item">'string'</a></strong></dt>
 
 <dd>
 <p>A single-quoted string is taken literally, as per the shell.</p>
 </dd>
-</li>
-<dt><strong><a name="item__27_27string_27_27">''string''</a></strong>
+<dt><strong><a name="string2" class="item">''string''</a></strong></dt>
 
 <dd>
 <p>A string enclosed in double-quote characters is subject to name
 expansions of macros defined in the configuration file and variables
 assigned in the script.</p>
 </dd>
-</li>
-<dt><strong><a name="item_snmpvar"><code>SNMPVAR(objid)</code></a></strong>
+<dt><strong><a name="snmpvar" class="item">SNMPVAR(objid)</a></strong></dt>
 
 <dd>
 <p>The specified <em>objid</em>, which may be specified using macros, is
 returned, treated as a numeric value.</p>
 </dd>
-</li>
-<dt><strong><a name="item_snmpstr"><code>SNMPSTR(objid)</code></a></strong>
+<dt><strong><a name="snmpstr" class="item">SNMPSTR(objid)</a></strong></dt>
 
 <dd>
 <p>The specified <em>objid</em>, which may be specified using macros, is
 returned, treated as a string value.</p>
 </dd>
-</li>
-<dt><strong><a name="item__60string_60">`string`</a></strong>
+<dt><strong><a name="string3" class="item">`string`</a></strong></dt>
 
 <dd>
 <p>A back-quoted string is a shell command to execute and the output taken as a
 string. Variable names are expanded within the string before execution.</p>
 </dd>
-</li>
-<dt><strong><a name="item__5bstring_5d">[string]</a></strong>
+<dt><strong><a name="string4" class="item">[string]</a></strong></dt>
 
 <dd>
 <p>A string enclosed in square brackets is a shell command to execute,
@@ -234,8 +221,7 @@ with the output taken to be a decimal numeric value, the whole
 returning a numeric value. Variable names are expanded within the
 string before execution.</p>
 </dd>
-</li>
-<dt><strong><a name="item__7bstring_7d">{string}</a></strong>
+<dt><strong><a name="string5" class="item">{string}</a></strong></dt>
 
 <dd>
 <p>A string enclosed in braces is a shell command to execute, with the
@@ -243,138 +229,108 @@ output assumed to be a hexadecimal value. (This is required for
 <code>snmpinfo(8)</code> on AIX systems, which returns hexadecimal values).
 Variable names are expanded within the string before execution.</p>
 </dd>
-</li>
-<dt><strong><a name="item_number"><em>number</em></a></strong>
+<dt><strong><a name="number" class="item"><em>number</em></a></strong></dt>
 
 <dd>
 <p>a numeric value.</p>
 </dd>
-</li>
-<dt><strong><a name="item_name"><em>name</em></a></strong>
+<dt><strong><a name="name" class="item"><em>name</em></a></strong></dt>
 
 <dd>
 <p>The value currently assigned to <em>name</em>, if any, is the value of the
 expression.</p>
 </dd>
-</li>
-<dt><strong><a name="item_lastval">LASTVAL</a></strong>
+<dt><strong><a name="lastval" class="item">LASTVAL</a></strong></dt>
 
 <dd>
-<p>The last SNMP value obtained (possibly using <a href="#item_defined"><code>DEFINED</code></a> or
-<a href="#item_undefined"><code>UNDEFINED</code></a>) as a numeric or string value.</p>
+<p>The last SNMP value obtained (possibly using <a href="#defined"><code>DEFINED</code></a> or
+<a href="#undefined"><code>UNDEFINED</code></a>) as a numeric or string value.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <h2><a name="constructs">Constructs</a></h2>
-<p>The following constructs or ``statements'' are used in the control file.</p>
+<p>The following constructs or &quot;statements&quot; are used in the control file.</p>
 <dl>
-<dt><strong><a name="item__3d">=</a></strong>
+<dt><strong><a name="_" class="item">=</a></strong></dt>
 
 <dd>
 <p>Assignment, as in</p>
-</dd>
-<dd>
 <pre>
  X = &quot;ABC&quot;</pre>
-</dd>
-<dd>
 <p>The value on the right is assigned to the name on the left.</p>
 </dd>
-</li>
-<dt><strong><a name="item__3a_3d">:=</a></strong>
+<dt><strong><a name="__" class="item">:=</a></strong></dt>
 
 <dd>
 <p>One time assignment. As per assignment, but the operation is turned into a no-op after the
 first execution.</p>
-</dd>
-<dd>
 <p>For example</p>
-</dd>
-<dd>
 <pre>
  Host = `hostname`</pre>
-</dd>
-<dd>
 <p>would be evaluated each time the script is run (after every block),
 but</p>
-</dd>
-<dd>
 <pre>
  Host := `hostname`</pre>
-</dd>
-<dd>
 <p>would only be evaluated the first time.</p>
 </dd>
-</li>
-<dt><strong><a name="item_comparison"><em>comparison</em></a></strong>
+<dt><strong><a name="comparison" class="item"><em>comparison</em></a></strong></dt>
 
 <dd>
 <p>Comparison of strings is performed with alphabetic operators <strong>LT</strong>,
 <strong>LE</strong>, <strong>EQ</strong>, <strong>NE</strong>, <strong>GE</strong> and <strong>GT</strong>, and numerics with symbolic
 operators <strong>&lt;</strong> etc.</p>
 </dd>
-</li>
-<dt><strong><a name="item_defined"><code>DEFINED(objid)</code></a></strong>
+<dt><strong><a name="defined" class="item">DEFINED(objid)</a></strong></dt>
 
 <dd>
 <p>Return a true value if the given object id (which may be specified
 using macros) is defined, otherwise false. If the value is defined,
 <strong>LASTVAL</strong> is set to whatever value that was to save further fetches.</p>
 </dd>
-</li>
-<dt><strong><a name="item_undefined"><code>UNDEFINED(objid)</code></a></strong>
+<dt><strong><a name="undefined" class="item">UNDEFINED(objid)</a></strong></dt>
 
 <dd>
 <p>As for <strong>DEFINED</strong> but the other truth value is returned. <strong>LASTVAL</strong> is
 still set if the value is defined.</p>
 </dd>
-</li>
-<dt><strong><a name="item_isnum_value">ISNUM <em>value</em></a></strong>
+<dt><strong><a name="isnum_value" class="item">ISNUM <em>value</em></a></strong></dt>
 
 <dd>
 <p>Return a true value if the value is a number.</p>
 </dd>
-</li>
-<dt><strong><a name="item_isstring_value">ISSTRING <em>value</em></a></strong>
+<dt><strong><a name="isstring_value" class="item">ISSTRING <em>value</em></a></strong></dt>
 
 <dd>
 <p>Return a true value if the value is a string.</p>
 </dd>
-</li>
-<dt><strong><a name="item_and_or__22_26_26_22__22_7c_7c_22">AND OR ``&amp;&amp;'' ``||''</a></strong>
+<dt><strong><a name="and_or" class="item">AND OR &quot;&amp;&amp;&quot; &quot;||&quot;</a></strong></dt>
 
 <dd>
 <p>Combine boolean operations in tests. <strong>AND</strong> is more binding than
-<strong>OR</strong>. ``Short circuit'' evaluation is performed, so beware of relying
+<strong>OR</strong>. &quot;Short circuit&quot; evaluation is performed, so beware of relying
 on <strong>LASTVAL</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item_if__2e_2e_then__2e_2e__5belif__2e_2e_then__5d__5be">IF .. THEN .. [ELIF .. THEN ] [ELSE .. ] FI</a></strong>
+<dt><strong><a name="if_then_elif_then_else_fi" class="item">IF .. THEN .. [ELIF .. THEN ] [ELSE .. ] FI</a></strong></dt>
 
 <dd>
 <p>Conditional construct with optional <strong>ELIF</strong> and <strong>ELSE</strong> parts.</p>
 </dd>
-</li>
-<dt><strong><a name="item_msg_string">MSG <em>STRING</em></a></strong>
+<dt><strong><a name="msg_string" class="item">MSG <em>STRING</em></a></strong></dt>
 
 <dd>
 <p>Display message on standard error.</p>
 </dd>
-</li>
-<dt><strong><a name="item_exit_number">EXIT <em>number</em></a></strong>
+<dt><strong><a name="exit_number" class="item">EXIT <em>number</em></a></strong></dt>
 
 <dd>
 <p>Exit <strong>xtlhp</strong> with specified exit code (from 0 to 255).</p>
 </dd>
-</li>
-<dt><strong><a name="item_flush">FLUSH</a></strong>
+<dt><strong><a name="flush" class="item">FLUSH</a></strong></dt>
 
 <dd>
 <p>Send flush command (ESC-E) to socket.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -382,7 +338,7 @@ on <strong>LASTVAL</strong>.</p>
 <p>This is the control file supplied by default, with definitions for
 <code>gdStatusLineState</code> etc being provided in the definitions file
 supplied.</p>
-<p>Note that if no <strong>EXIT</strong> appears, then script file has ``succeeded'' and
+<p>Note that if no <strong>EXIT</strong> appears, then script file has &quot;succeeded&quot; and
 output continues.</p>
 <pre>
  # Test the status to see if there are problems</pre>
@@ -448,10 +404,10 @@ can be adjusted by the user as required.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>xilp(8),
-xtelnet(8),
-xtftp(8),
-xtlpc(8).</p>
+<p><code>xilp(8)</code>,
+<code>xtelnet(8)</code>,
+<code>xtftp(8)</code>,
+<code>xtlpc(8)</code>.</p>
 <p>
 </p>
 <hr />

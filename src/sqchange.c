@@ -69,7 +69,6 @@ FILE	*Cfile;
 
 #define	IPC_MODE	0600
 
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
@@ -79,10 +78,6 @@ struct	pshm_info	Ptr_seg;
 
 struct	spq	SPQ;
 struct	xfershm		*Xfer_shmp;
-
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
 
 DEF_DISPOPTS;
 

@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -25,7 +27,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -50,12 +56,12 @@
 <p><strong>gspl-stop</strong> is a program which should be invoked to bring the <strong>GNUspool</strong>
 spooler system to an orderly halt prior to system shutdown. Any jobs
 in progress will be saved, and the current page noted for resumption
-when the spooler is restarted. Confirmation is requested (reply <code>y</code>
-or <code>n</code>) unless the <a href="#item__2dy"><code>-y</code></a> option is specified.</p>
+when the spooler is restarted. Confirmation is requested (reply <a href="#y"><code>y</code></a>
+or <code>n</code>) unless the <a href="#y"><code>-y</code></a> option is specified.</p>
 <p><strong>gspl-suspend</strong> halts the assignment of jobs to printers for a short time,
 which defaults to 5 minutes or as given as a time in seconds last
 argument to the command, or until released by <strong>gspl-release</strong>. Again
-confirmation is requested unless the <a href="#item__2dy"><code>-y</code></a> option is given.</p>
+confirmation is requested unless the <a href="#y"><code>-y</code></a> option is given.</p>
 <p>Only a user with the <em>Stop spooler</em> privilege may successfully invoke
 any of these commands.</p>
 <p>The reason why <strong>gspl-suspend</strong> this may be useful is that in a network
@@ -67,28 +73,26 @@ network to an unacceptable degree.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>Note that there is no means of saving the <a href="#item__2dy"><code>-y</code></a> option in a <em>.gnuspool</em>
+<p>Note that there is no means of saving the <a href="#y"><code>-y</code></a> option in a <em class="file">.gnuspool</em>
 file as this is not considered to be sensible. If you have to do this,
-put the command in a shell ``wrapper''.</p>
+put the command in a shell &quot;wrapper&quot;.</p>
 <dl>
-<dt><strong><a name="item__2dy">-y</a></strong>
+<dt><strong><a name="y" class="item">-y</a></strong></dt>
 
 <dd>
 <p>Do not ask for confirmation.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+<dt><strong><a name="sprestconf" class="item">SPRESTCONF</a></strong></dt>
 
 <dd>
 <p>path name of alternative message file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -97,15 +101,15 @@ put the command in a shell ``wrapper''.</p>
 <p>gspl-start(1),
 gnuspool.conf(5),
 gnuspool.hosts(5),
-spd(8),
-spdinit(8),
-spshed(8).</p>
+<code>spd(8)</code>,
+<code>spdinit(8)</code>,
+<code>spshed(8)</code>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics may be issued, read as required from the message
-file <em>rest.help</em>.</p>
+file <em class="file">rest.help</em>.</p>
 <p>The most important ones are that it is not running and that the user
 is not permitted to invoke the command.</p>
 <p>

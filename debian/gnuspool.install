@@ -33,8 +33,10 @@ usr/bin/gspl-ulist
 usr/bin/gspl-user
 usr/bin/gspl-xpq
 usr/bin/gspl-xuser
-usr/lib/libgnuspool_curs*
-usr/lib/libgnuspool_int*
+usr/lib/libgnuspool_curs*.so*
+usr/lib/libgnuspool_curs.la
+usr/lib/libgnuspool_int*.so*
+usr/lib/libgnuspool_int.la
 usr/lib/gnuspool/dosspwrite
 usr/lib/gnuspool/gtksave
 usr/lib/gnuspool/pclbanner

@@ -68,7 +68,6 @@ void	ptr_redisplay(void);
 FILE	*Cfile;
 
 #define	IPC_MODE	0600
-int	Ctrl_chan = -1;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
@@ -83,10 +82,6 @@ DEF_DISPOPTS;
 
 unsigned	Pollinit,	/* Initial polling */
 		Pollfreq;	/* Current polling frequency */
-
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
 
 char	confabort = 1;
 char	*Realuname;

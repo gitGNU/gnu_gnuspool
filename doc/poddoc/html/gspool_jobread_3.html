@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -24,7 +26,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -49,30 +55,27 @@ from a given slot number.</p>
 <p><em>fd</em> is a file descriptor previously returned by <strong>gspool_open</strong></p>
 <p><em>flags</em> is zero, or a logical OR of one or more of the following values</p>
 <dl>
-<dt><strong><a name="item_gspool_flag_localonly">GSPOOL_FLAG_LOCALONLY</a></strong>
+<dt><strong><a name="gspool_flag_localonly" class="item">GSPOOL_FLAG_LOCALONLY</a></strong></dt>
 
 <dd>
 <p>Ignore remote printers/hosts, i.e. not local to the server, not the
 client.</p>
 </dd>
-</li>
-<dt><strong><a name="item_gspool_flag_useronly">GSPOOL_FLAG_USERONLY</a></strong>
+<dt><strong><a name="gspool_flag_useronly" class="item">GSPOOL_FLAG_USERONLY</a></strong></dt>
 
 <dd>
 <p>Ignore other users jobs</p>
 </dd>
-</li>
-<dt><strong><a name="item_gspool_flag_ignoreseq">GSPOOL_FLAG_IGNORESEQ</a></strong>
+<dt><strong><a name="gspool_flag_ignoreseq" class="item">GSPOOL_FLAG_IGNORESEQ</a></strong></dt>
 
 <dd>
 <p>Ignore changes since the list was last read</p>
 </dd>
-</li>
 </dl>
 <p><em>slot</em> is the slot number corresponding to the job as returned by
 <strong>gspool_joblist</strong> or <strong>gspool_jobfindslot</strong>.</p>
 <p><em>jobd</em> is a descriptor, which on return will contain the details of
-the job in a <code>struct apispq</code> as defined in <em>gspool.h</em> and containing
+the job in a <code>struct apispq</code> as defined in <em class="file">gspool.h</em> and containing
 the following elements:</p>
 <A NAME="Apispq_def"></a>
 <div class=indtab>
@@ -363,15 +366,15 @@ completeness. The fields are only used when creating jobs.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>gspool_jobfind(3),
-gspool_jobfindslot(3),
-gspool_joblist(3),
-gspool_jobdata(3),
-gspool_jobadd(3),
-gspool_jobdel(3),
-gspool_jobupd(3),
-gspool_jobmon(3),
-gspool_jobpbrk(3).</p>
+<p><code>gspool_jobfind(3)</code>,
+<code>gspool_jobfindslot(3)</code>,
+<code>gspool_joblist(3)</code>,
+<code>gspool_jobdata(3)</code>,
+<code>gspool_jobadd(3)</code>,
+<code>gspool_jobdel(3)</code>,
+<code>gspool_jobupd(3)</code>,
+<code>gspool_jobmon(3)</code>,
+<code>gspool_jobpbrk(3)</code>.</p>
 <p>
 </p>
 <hr />

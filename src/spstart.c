@@ -54,7 +54,6 @@ int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
 FILE	*Cfile;
 char	*Curr_pwd;
-uid_t	Realuid, Daemuid, Effuid;
 
 DEF_DISPOPTS;
 int	network;
@@ -62,7 +61,6 @@ extern	char	freeze_wanted;
 char	freeze_cd, freeze_hd;
 
 #define	IPC_MODE	0600
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

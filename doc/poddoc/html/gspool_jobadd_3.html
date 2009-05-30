@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -30,7 +32,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -66,7 +72,7 @@ struct apispq *</strong><em>jobd</em><strong>, const char *</strong><em>delim</e
 <p>The functions <strong>gspool_jobadd()</strong> (the first form) and <strong>gspool_jobres</strong> are used to add a job
 under Unix and GNU/Linux.</p>
 <p><em>fd</em> is a file descriptor previously returned by <strong>gspool_open</strong></p>
-<p><em>jobd</em> is a pointer to a <code>struct apispq</code>, as defined in <em>gsapi.h</em>,
+<p><em>jobd</em> is a pointer to a <code>struct apispq</code>, as defined in <em class="file">gsapi.h</em>,
 containing all the details of the job.</p>
 <P>The fields in <CODE>struct apispq</CODE> are defined in the
 gspool_jobread(3) <A HREF="#Apispq_def">documentation</A>.</P><p>Note that we recommend that the whole structure be cleared to zeroes
@@ -92,9 +98,9 @@ null-terminated.</p>
 <p><em>delimnum</em> in the number of instances of the delimiter
 string/character to be counted to make up a page.</p>
 <p>The result is either a standard I/O stream, which can be used as
-output for putc(3), fprintf(3), <code>fwrite(3)</code> etc, or <code>NULL</code> to indicate
+output for <code>putc(3)</code>, <code>fprintf(3)</code>, <code>fwrite(3)</code> etc, or <code>NULL</code> to indicate
 an error has been detected. The I/O stream connection should be
-closed, when complete, with fclose(3). Finally a call should be made
+closed, when complete, with <code>fclose(3)</code>. Finally a call should be made
 to <strong>gspool_jobres</strong>.</p>
 <p>For reasons of synchronisation you <em>must</em> call <strong>gspool_jobres</strong>
 immediately after <code>fclose(3)</code> even if you are not interested in the
@@ -201,15 +207,15 @@ be set to the error code.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>gspool_joblist(3),
-gspool_jobread(3),
-gspool_jobdata(3),
-gspool_jobdel(3),
-gspool_jobfind(3),
-gspool_jobfindslot(3),
-gspool_jobupd(3),
-gspool_jobmon(3),
-gspool_jobpbrk(3).</p>
+<p><code>gspool_joblist(3)</code>,
+<code>gspool_jobread(3)</code>,
+<code>gspool_jobdata(3)</code>,
+<code>gspool_jobdel(3)</code>,
+<code>gspool_jobfind(3)</code>,
+<code>gspool_jobfindslot(3)</code>,
+<code>gspool_jobupd(3)</code>,
+<code>gspool_jobmon(3)</code>,
+<code>gspool_jobpbrk(3)</code>.</p>
 <p>
 </p>
 <hr />

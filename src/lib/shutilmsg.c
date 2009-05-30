@@ -46,7 +46,7 @@ char	jset;
 static	jmp_buf	Mj;
 #endif
 
-extern	int	Ctrl_chan;
+int	Ctrl_chan;
 
 /* This notes signals from (presumably) the scheduler.  */
 

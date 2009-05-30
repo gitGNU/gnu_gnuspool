@@ -100,8 +100,6 @@ extern	int	pfile,
 		lfid,
 		outb_ptr;
 
-int	Ctrl_chan;
-
 LONG	Num_sent,
 	Pages_done,
 	My_msgid;
@@ -110,7 +108,6 @@ LONG	Num_sent,
 int	Sem_chan;
 #endif
 
-uid_t	Realuid, Effuid, Daemuid;
 struct	xfershm		*Xfer_shmp;
 DEF_DISPOPTS;
 

@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -26,7 +28,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -51,74 +57,69 @@ print server supporting the LPD protocol.</p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
 <p>Note that the order of treatment, letters and keywords described below
-may be modified by editing the file <em>splpd.help</em> -
-see spsyntax(5).</p>
+may be modified by editing the file <em class="file">splpd.help</em> -
+see <code>spsyntax(5)</code>.</p>
 <p>The environment variable on which options are supplied is <code>GSPL_LPRM</code> and the
-environment variable to specify the help file is <a href="#item_lpdintconf"><code>LPDINTCONF</code></a>.</p>
+environment variable to specify the help file is <a href="#lpdintconf"><code>LPDINTCONF</code></a>.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+<dt><strong><a name="or_explain" class="item">-? or +explain</a></strong></dt>
 
 <dd>
 <p>Causes a summary of the other options to be displayed without taking
 further action.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
+<dt><strong><a name="freeze_current" class="item">+freeze-current</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the current
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the current
 directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dhome">+freeze-home</a></strong>
+<dt><strong><a name="freeze_home" class="item">+freeze-home</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the user's home
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the user's home
 directory.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>splpd.help</em>
+<p><em class="file">splpd.help</em>
 message file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_splprm">SPLPRM</a></strong>
+<dt><strong><a name="splprm" class="item">SPLPRM</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults.</p>
 </dd>
-</li>
-<dt><strong><a name="item_lpdintconf">LPDINTCONF</a></strong>
+<dt><strong><a name="lpdintconf" class="item">LPDINTCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
 <p>gspl-lpq(1),
-spsyntax(5),
-xtlpc(8).</p>
+<code>spsyntax(5)</code>,
+<code>xtlpc(8)</code>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>splpd.help</em>.</p>
+file, by default <em class="file">splpd.help</em>.</p>
 <p>
 </p>
 <hr />

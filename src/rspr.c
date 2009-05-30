@@ -74,7 +74,6 @@ jmp_buf	ajb;
 #ifndef	ID_SWAP
 PIDTYPE	lastpid = -1;
 #endif
-uid_t	Realuid, Daemuid, Effuid;
 struct	spdet	*mypriv;
 jobno_t	jobn;
 netid_t		Out_host;
@@ -100,7 +99,6 @@ char	tmpfl[L_tmpnam];
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

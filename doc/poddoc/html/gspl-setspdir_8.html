@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -24,7 +26,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -60,74 +66,63 @@ spooler shut down.</p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
 <dl>
-<dt><strong><a name="item__2dd">-d</a></strong>
+<dt><strong><a name="d" class="item">-d</a></strong></dt>
 
 <dd>
 <p>Clear (delete) any orphaned job files found in the directory or directories.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_form">-f <em>form</em></a></strong>
+<dt><strong><a name="f_form" class="item">-f <em>form</em></a></strong></dt>
 
 <dd>
 <p>Requeue any orphaned job files with the form type <em>form</em> rather than
 deleting them.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dr">-r</a></strong>
+<dt><strong><a name="r" class="item">-r</a></strong></dt>
 
 <dd>
 <p>Instead of moving jobs between subdirectories, renumber the jobs
 instead. This should only apply when there were existing
 subdirectories, and the number is being increased.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_n">-s <em>n</em></a></strong>
+<dt><strong><a name="s_n" class="item">-s <em>n</em></a></strong></dt>
 
 <dd>
 <p>Split the spool directory into <em>n</em> subdirectories, or change the
 number of subdirectories to <em>n</em>, where <em>n</em> may be 0 (to convert back
 to a single spool directory), or a number up to 999.</p>
-</dd>
-<dd>
 <p>We recommend that <em>n</em> be a prime number, as this minimises the chance
 of a cycle of operations which is a factor of the number of
 subdirectories causing just a small number of subdirectories to be
 filled more or less exclusively. Confirmation will be requested if
 <em>n</em> is not prime.</p>
-</dd>
-<dd>
 <p>The subdirectories are given the names <code>000</code> to <code>999</code>, and each job
 will be moved to a subdirectory given by the remainder when its job
 number (the number after the <code>SP</code>) is divided by the number of
 subdirectories.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dy">-y</a></strong>
+<dt><strong><a name="y" class="item">-y</a></strong></dt>
 
 <dd>
-<p>Answer ``yes'' to any questions which <strong>gspl-setspdir</strong> asks.</p>
+<p>Answer &quot;yes&quot; to any questions which <strong>gspl-setspdir</strong> asks.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
-<p><strong>gspl-setspdir</strong> creates or updates the environment variable <a href="#item_spoolsubds"><code>SPOOLSUBDS</code></a>
-in <em>gnuspool.conf</em>.</p>
+<p><strong>gspl-setspdir</strong> creates or updates the environment variable <a href="#spoolsubds"><code>SPOOLSUBDS</code></a>
+in <em class="file">gnuspool.conf</em>.</p>
 <dl>
-<dt><strong><a name="item_spooldir">SPOOLDIR</a></strong>
+<dt><strong><a name="spooldir" class="item">SPOOLDIR</a></strong></dt>
 
 <dd>
 <p>location of spool directory</p>
 </dd>
-</li>
-<dt><strong><a name="item_spoolsubds">SPOOLSUBDS</a></strong>
+<dt><strong><a name="spoolsubds" class="item">SPOOLSUBDS</a></strong></dt>
 
 <dd>
 <p>number of subdirectories</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>

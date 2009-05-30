@@ -71,17 +71,17 @@ as <A HREF="TxtAPI-3.html#Error_codes">listed in Chapter 3</A>.</P>
 
 =for man
 If an error occurs, one of the following (negative) error codes will be returned.
-.Ip "GSPOOL_BADWRITE" 8
+.IP "GSPOOL_BADWRITE" 8
 failure writing to the network
-.Ip "GSPOOL_BADREAD" 8
+.IP "GSPOOL_BADREAD" 8
 failure reading from the network
-.Ip "GSPOOL_NOMEM" 8
+.IP "GSPOOL_NOMEM" 8
 out of memory accessing network
-.Ip "GSPOOL_UNKNOWN_USER" 8
+.IP "GSPOOL_UNKNOWN_USER" 8
 user name not known
-.Ip "GSPOOL_NO_PASSWD" 8
+.IP "GSPOOL_NO_PASSWD" 8
 password must be specified
-.Ip "GSPOOL_PASSWD_INVALID" 8
+.IP "GSPOOL_PASSWD_INVALID" 8
 invalid password
 
 Each connection should also be terminated by a call to B<gspool_close> or

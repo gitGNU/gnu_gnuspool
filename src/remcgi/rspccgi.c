@@ -39,10 +39,6 @@
 #include "cgiuser.h"
 #include "rcgilib.h"
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 char	*realuname;
 int			gspool_fd;
 struct	apispdet	mypriv;

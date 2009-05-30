@@ -75,21 +75,21 @@ I<op> is one of the following values:
 </div>
 
 =for man
-.Ip "PRINOP_RSP" 8
+.IP "PRINOP_RSP" 8
 Restart printer
-.Ip "PRINOP_PHLT" 8
+.IP "PRINOP_PHLT" 8
 Halt printer at the end of the current job
-.Ip "PRINOP_PSTP" 8
+.IP "PRINOP_PSTP" 8
 Halt printer at once
-.Ip "PRINOP_PGO" 8
+.IP "PRINOP_PGO" 8
 Start printer
-.Ip "PRINOP_OYES" 8
+.IP "PRINOP_OYES" 8
 Approve alignment page
-.Ip "PRINOP_ONO" 8
+.IP "PRINOP_ONO" 8
 Disapprove alignment page
-.Ip "PRINOP_INTER" 8
+.IP "PRINOP_INTER" 8
 Interrupt printer
-.Ip "PRINOP_PJAB" 8
+.IP "PRINOP_PJAB" 8
 Abort current job on printer
 
 =head1 RETURN VALUES
@@ -101,19 +101,19 @@ Abort current job on printer
 =for man
 The function \fBgspool_ptrop()\fR returns 0 if successful, otherwise one
 of the following codes:
-.Ip "GSPOOL_INVALID_FD" 8
+.IP "GSPOOL_INVALID_FD" 8
 Invalid File descriptor
-.Ip "GSPOOL_BADWRITE" 8
+.IP "GSPOOL_BADWRITE" 8
 failure writing to the network
-.Ip "GSPOOL_BADREAD" 8
+.IP "GSPOOL_BADREAD" 8
 failure reading from the network
-.Ip "GSPOOL_NOPERM" 8
+.IP "GSPOOL_NOPERM" 8
 The user does not have permission
-.Ip "GSPOOL_SEQUENCE" 8
+.IP "GSPOOL_SEQUENCE" 8
 Sequence error, slot may be out of date
-.Ip "GSPOOL_PTR_RUNNING" 8
+.IP "GSPOOL_PTR_RUNNING" 8
 Printer is running
-.Ip "GSPOOL_PTR_NOTRUNNING" 8
+.IP "GSPOOL_PTR_NOTRUNNING" 8
 Printer is not running
 
 =head1 EXAMPLE

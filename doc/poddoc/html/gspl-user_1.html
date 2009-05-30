@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -26,7 +28,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -58,44 +64,38 @@ command-line options which may be used to control the initial display.</P><p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_gspl_user"><code>GSPL_USER</code></a> and the
-environment variable to specify the help file is <a href="#item_spuserconf"><code>SPUSERCONF</code></a>.</p>
+<p>The environment variable on which options are supplied is <a href="#gspl_user"><code>GSPL_USER</code></a> and the
+environment variable to specify the help file is <a href="#spuserconf"><code>SPUSERCONF</code></a>.</p>
 <p>Certain commands available on-screen enable many of these options to
 be changed and saved in configuration files.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+<dt><strong><a name="or_explain" class="item">-? or +explain</a></strong></dt>
 
 <dd>
 <p>causes a summary of the other options to be displayed without taking
 further action.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2db_or__2bno_2dhelp_2dbox">-B or +no-help-box</a></strong>
+<dt><strong><a name="b_or_no_help_box" class="item">-B or +no-help-box</a></strong></dt>
 
 <dd>
 <p>put help messages in inverse video rather than in a box.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2db_or__2bhelp_2dbox">-b or +help-box</a></strong>
+<dt><strong><a name="b_or_help_box" class="item">-b or +help-box</a></strong></dt>
 
 <dd>
 <p>put help messages in a box rather than displaying inverse video.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_or__2bform_2dand_2dprio">-c or +form-and-prio</a></strong>
+<dt><strong><a name="c_or_form_and_prio" class="item">-c or +form-and-prio</a></strong></dt>
 
 <dd>
 <p>interactively set default priority, form type and printer for the
 invoking user.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_or__2bdisplay">-d or +display</a></strong>
+<dt><strong><a name="d_or_display" class="item">-d or +display</a></strong></dt>
 
 <dd>
 <p>is the default. A list of permissions is output to the standard
 output, for example.</p>
-</dd>
-<dd>
 <pre>
         Default form a4 form types a4*
         Maximum copies 10
@@ -107,80 +107,70 @@ output, for example.</p>
         You may Access queue options.
         You may Save new default options.</pre>
 </dd>
-</li>
-<dt><strong><a name="item__2dh_or__2bkeep_2dchar_2dhelp">-H or +keep-char-help</a></strong>
+<dt><strong><a name="h_or_keep_char_help" class="item">-H or +keep-char-help</a></strong></dt>
 
 <dd>
 <p>when displaying a help screen, interpret the next key press as a
 command as well as clearing the help screen.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dh_or__2blose_2dchar_2dhelp">-h or +lose-char-help</a></strong>
+<dt><strong><a name="h_or_lose_char_help" class="item">-h or +lose-char-help</a></strong></dt>
 
 <dd>
 <p>discard whatever key press is made to clear a help screen.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2di_or__2badminister">-i or +administer</a></strong>
+<dt><strong><a name="i_or_administer" class="item">-i or +administer</a></strong></dt>
 
 <dd>
 <p>view and update the list of users</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dm_or__2bno_2derror_2dbox">-M or +no-error-box</a></strong>
+<dt><strong><a name="m_or_no_error_box" class="item">-M or +no-error-box</a></strong></dt>
 
 <dd>
 <p>put error messages in inverse video rather than in a box.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dm_or__2berror_2dbox">-m or +error-box</a></strong>
+<dt><strong><a name="m_or_error_box" class="item">-m or +error-box</a></strong></dt>
 
 <dd>
 <p>put error messages in a box rather than displaying inverse video.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_or__2bnumeric_2dsort">-n or +numeric-sort</a></strong>
+<dt><strong><a name="n_or_numeric_sort" class="item">-n or +numeric-sort</a></strong></dt>
 
 <dd>
 <p>sort users by numeric userid (default).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du_or__2buser_2dsort">-u or +user-sort</a></strong>
+<dt><strong><a name="u_or_user_sort" class="item">-u or +user-sort</a></strong></dt>
 
 <dd>
 <p>sort users by user name</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>gspl-user.help</em>
+<p><em class="file">gspl-user.help</em>
 message file</p>
-<p><em>spufile0</em>
+<p><em class="file">spufile0</em>
 User control file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_gspl_user">GSPL_USER</a></strong>
+<dt><strong><a name="gspl_user" class="item">GSPL_USER</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults.</p>
 </dd>
-</li>
-<dt><strong><a name="item_spuserconf">SPUSERCONF</a></strong>
+<dt><strong><a name="spuserconf" class="item">SPUSERCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -189,7 +179,7 @@ User control file</p>
 <p>gspl-charge(1),
 gspl-uchange(1),
 gspl-ulist(1),
-spsyntax(5),
+<code>spsyntax(5)</code>,
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
 <p>
@@ -197,7 +187,7 @@ gnuspool.hosts(5).</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>gspl-user.help</em>.</p>
+file, by default <em class="file">gspl-user.help</em>.</p>
 <p>
 </p>
 <hr />

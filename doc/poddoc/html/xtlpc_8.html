@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -26,7 +28,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -57,29 +63,26 @@ standard input, or from the supplied file name.</p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
 <dl>
-<dt><strong><a name="item__2dh_hostname">-H <em>hostname</em></a></strong>
+<dt><strong><a name="h_hostname" class="item">-H <em>hostname</em></a></strong></dt>
 
 <dd>
 <p>This is the host name or IP address to be used to access the
 printer. In <strong>GNUspool</strong> setup files, it may be appropriate to
 substitute <code>$SPOOLDEV</code> or <code>$SPOOLPTR</code> here.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_ctrlfile">-f <em>ctrlfile</em></a></strong>
+<dt><strong><a name="f_ctrlfile" class="item">-f <em>ctrlfile</em></a></strong></dt>
 
 <dd>
 <p>This specifies the location of the control file, typically
-<em>xtlpc-ctrl</em> in the internal programs directory.</p>
+<em class="file">xtlpc-ctrl</em> in the internal programs directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_hostname">-S <em>hostname</em></a></strong>
+<dt><strong><a name="s_hostname" class="item">-S <em>hostname</em></a></strong></dt>
 
 <dd>
 <p>This is the host name or IP address of the sending host, in the cases
 where <code>gethostname(3)</code> does not yield an appropriate answer.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_ptrname">-P <em>ptrname</em></a></strong>
+<dt><strong><a name="p_ptrname" class="item">-P <em>ptrname</em></a></strong></dt>
 
 <dd>
 <p>The LPD protocol supplies a name to the printer. By default, this is
@@ -89,25 +92,20 @@ given to the printer, perhaps to select which printer, or printer
 option of several is to be specified. This option overrides this
 printer name in the protocol.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_fifo">-F <em>fifo</em></a></strong>
+<dt><strong><a name="f_fifo" class="item">-F <em>fifo</em></a></strong></dt>
 
 <dd>
 <p>Take input from the named <em>fifo</em> rather than standard input or the
 supplied file.</p>
-</dd>
-<dd>
 <p>This is useful in situations where the LPD protocol has to be run from
 a command line, i.e. a console session, and files sent to it by having
 <strong>GNUspool</strong> write to the fifo.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn">-N</a></strong>
+<dt><strong><a name="n" class="item">-N</a></strong></dt>
 
 <dd>
 <p>Avoid sending zero length files, which confuse some servers.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -224,18 +222,18 @@ a command line, i.e. a console session, and files sent to it by having
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>xtlpc-ctrl</em>
+<p><em class="file">xtlpc-ctrl</em>
 control file</p>
-<p><em>/var/spool/gnuspool/xtlpc</em>
-spool directory (may be changed in <em>xtlpc-ctrl</em>)</p>
+<p><em class="file">/var/spool/gnuspool/xtlpc</em>
+spool directory (may be changed in <em class="file">xtlpc-ctrl</em>)</p>
 <p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>xilp(8),
-xtelnet(8),
-xtftp(8),
-xtlhp(8).</p>
+<p><code>xilp(8)</code>,
+<code>xtelnet(8)</code>,
+<code>xtftp(8)</code>,
+<code>xtlhp(8)</code>.</p>
 <p>
 </p>
 <hr />

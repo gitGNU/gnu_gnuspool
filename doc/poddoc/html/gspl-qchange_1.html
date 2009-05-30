@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -28,7 +30,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -64,18 +70,17 @@ least one option.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <a href="#item_gspl_qchange"><code>GSPL_QCHANGE</code></a>
+<p>The environment variable on which options are supplied is <a href="#gspl_qchange"><code>GSPL_QCHANGE</code></a>
 and the environment variable to specify the help file is
-<a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
+<a href="#sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+<dt><strong><a name="or_explain" class="item">-? or +explain</a></strong></dt>
 
 <dd>
 <p>causes a summary of the other options to be displayed without taking
 further action.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2da_or__2bmail_2dattention">-a or +mail-attention</a></strong>
+<dt><strong><a name="a_or_mail_attention" class="item">-a or +mail-attention</a></strong></dt>
 
 <dd>
 <p>requests that a message be sent in the mail to the user if a job is
@@ -83,8 +88,7 @@ awaiting attention, either because it reaches the top of the queue and
 the required form type is currently unavailable or because the form
 requires alignment.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2da_or__2bwrite_2dattention">-A or +write-attention</a></strong>
+<dt><strong><a name="a_or_write_attention" class="item">-A or +write-attention</a></strong></dt>
 
 <dd>
 <p>requests that a message be sent to every terminal at which the user is
@@ -93,26 +97,21 @@ awaiting attention, either because it reaches the top of the queue and
 the required form type is currently unavailable or because the form
 requires alignment.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2db_or__2bnoatt_2dmessage">-b or +noatt-message</a></strong>
+<dt><strong><a name="b_or_noatt_message" class="item">-b or +noatt-message</a></strong></dt>
 
 <dd>
 <p>turns off any job attention messages previously requested.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_n_or__2bcopies_n">-c <em>n</em> or +copies <em>n</em></a></strong>
+<dt><strong><a name="c_n_or_copies_n" class="item">-c <em>n</em> or +copies <em>n</em></a></strong></dt>
 
 <dd>
 <p>sets the number of copies to be printed to <em>n</em>.</p>
-</dd>
-<dd>
 <p>The maximum number of copies at a time may be restricted to a number
 for each user such as 10. See the output from gspl-user(1) for
 information on the maximum number of copies. If the user has <em>set any
 priority on queue</em> privilege, this limit is removed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_nnnn_or__2bclasscode_nnnn">-C <em>nnnn</em> or +classcode <em>nnnn</em></a></strong>
+<dt><strong><a name="c_nnnn_or_classcode_nnnn" class="item">-C <em>nnnn</em> or +classcode <em>nnnn</em></a></strong></dt>
 
 <dd>
 <p>may be used to set a class code narrow or expand the range of jobs
@@ -121,20 +120,18 @@ user has <em>override class</em> privilege and it is required to expand the
 default class code to select additional jobs. <strong>N.B.</strong> This does not
 <em>set</em> the classcode. Use <strong>-S</strong> to set the classcode.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_string_or__2bformtype_string">-f <em>string</em> or +formtype <em>string</em></a></strong>
+<dt><strong><a name="f_string_or_formtype_string" class="item">-f <em>string</em> or +formtype <em>string</em></a></strong></dt>
 
 <dd>
 <p>specifies that the supplied form type (with optional suffix introduced
-by ``<code>.</code>'' or ``<code>-</code>'') is used. Note that not all users may be allowed to
-select form types other some pattern, however only the ``paper type'',
+by &quot;<code>.</code>&quot; or &quot;<code>-</code>&quot;) is used. Note that not all users may be allowed to
+select form types other some pattern, however only the &quot;paper type&quot;,
 i.e. the form type up to the suffix is considered when this
 restriction is active, so the user can still change the form type
 suffix if required. Note that there is no equivalent of the <strong>-i</strong>
 (interpolate) option to gspl-pr(1).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_string_or__2bpost_2dproc_2dflags_string">-F <em>string</em> or +post-proc-flags <em>string</em></a></strong>
+<dt><strong><a name="f_string_or_post_proc_flags_string" class="item">-F <em>string</em> or +post-proc-flags <em>string</em></a></strong></dt>
 
 <dd>
 <p>changes to the specified <em>string</em>, the data to be passed as the value
@@ -143,36 +140,31 @@ the time the job is printed. This might be as a post-processing filter
 command, or alternatively some shell command invoked as (for example)
 a <code>docstart</code> string.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dh_string_or__2bheader_string">-h <em>string</em> or +header <em>string</em></a></strong>
+<dt><strong><a name="h_string_or_header_string" class="item">-h <em>string</em> or +header <em>string</em></a></strong></dt>
 
 <dd>
 <p>replace the title for each job with <em>string</em>. The title appears on
 the banner page, if this is printed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dl_or__2blocal_2donly">-l or +local-only</a></strong>
+<dt><strong><a name="l_or_local_only" class="item">-l or +local-only</a></strong></dt>
 
 <dd>
 <p>in a networked environment requests that the job be printed only on
 the printers local to the machine at which the job is submitted.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dl_or__2bnetwork_2dwide">-L or +network-wide</a></strong>
+<dt><strong><a name="l_or_network_wide" class="item">-L or +network-wide</a></strong></dt>
 
 <dd>
 <p>cancels the request that the job or jobs be printed only on printers
 local to the machine at which the job is submitted.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dm_or__2bmail_2dmessage">-m or +mail-message</a></strong>
+<dt><strong><a name="m_or_mail_message" class="item">-m or +mail-message</a></strong></dt>
 
 <dd>
 <p>requests a message to be sent in the mail to the user on completion or
 termination of the job.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_nn_or__2bdelay_2dfor_nn">-n <em>nn</em> or +delay-for <em>nn</em></a></strong>
+<dt><strong><a name="n_nn_or_delay_for_nn" class="item">-n <em>nn</em> or +delay-for <em>nn</em></a></strong></dt>
 
 <dd>
 <p>specifies that the job should be held on the queue for at least <em>nn</em>
@@ -181,238 +173,184 @@ alternatively be specified as <em>hh:mm</em> or as <em>hh:mm:ss</em>, specifying
 delay in hours and minutes, or hours, minutes and seconds. Specify
 zero to cancel this.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_time_or__2bdelay_2duntil_time">-N <em>time</em> or +delay-until <em>time</em></a></strong>
+<dt><strong><a name="n_time_or_delay_until_time" class="item">-N <em>time</em> or +delay-until <em>time</em></a></strong></dt>
 
 <dd>
 <p>is an alternative to the <strong>-n</strong><em>nn</em> option to specify the earliest
 time at which the job is to be printed. The argument may be <em>hh:mm</em>
 or <em>hh:mm:ss</em> to give the time of day in 24-hour clock notation. If
 the time has passed, then tomorrow is assumed.</p>
-</dd>
-<dd>
 <p>Alternatively a date and a comma may be prefixed to the time in the
 form <em>mm/dd</em> or <em>dd/mm</em> depending upon the local convention for date
 format used. Thus the resulting argument might be</p>
-</dd>
-<dd>
 <pre>
         10/11,12:30</pre>
 </dd>
-</li>
-<dt><strong><a name="item__2do_flag_or__2bodd_2deven_2dflags_flag">-O <em>flag</em> or +odd-even-flags <em>flag</em></a></strong>
+<dt><strong><a name="o_flag_or_odd_even_flags_flag" class="item">-O <em>flag</em> or +odd-even-flags <em>flag</em></a></strong></dt>
 
 <dd>
 <p>where <em>flag</em> is one of <strong>O</strong>, <strong>E</strong>, <strong>A</strong>, <strong>B</strong> or <strong>-</strong> cause odd or even-numbered pages to be
 skipped.</p>
-</dd>
-<dd>
 <p><strong>O</strong> causes odd-numbered pages not to be printed.</p>
-</dd>
-<dd>
 <p><strong>E</strong> causes even-numbered pages not to be printed.</p>
-</dd>
-<dd>
 <p><strong>A</strong> and <strong>B</strong> are useful if more than one copy is to be printed.</p>
-</dd>
-<dd>
 <p><strong>A</strong> causes even-numbered pages not to be printed on odd-numbered
 copies, and odd-numbered pages not to be printed on even-numbered
 copies.</p>
-</dd>
-<dd>
 <p><strong>B</strong> is the other way around.</p>
-</dd>
-<dd>
 <p>If you do not understand this, all you have to do is remember that</p>
-</dd>
-<dd>
 <pre>
         gspl-qchange -c2 -OA ....</pre>
-</dd>
-<dd>
 <p>prints all the odd-numbered pages followed by all the even-numbered
 ones.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_n_or__2bpriority_n">-p <em>n</em> or +priority <em>n</em></a></strong>
+<dt><strong><a name="p_n_or_priority_n" class="item">-p <em>n</em> or +priority <em>n</em></a></strong></dt>
 
 <dd>
 <p>specifies the priority of the job, between 1 (lowest) and 255
 (highest) or some narrower range to which the user is limited, unless
 he or she has the <em>any priority on queue</em> privilege.</p>
-</dd>
-<dd>
 <p>A user must have the <em>change priority on queue</em> privilege to invoke
 this option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_name_or__2bprinter_name">-P <em>name</em> or +printer <em>name</em></a></strong>
+<dt><strong><a name="p_name_or_printer_name" class="item">-P <em>name</em> or +printer <em>name</em></a></strong></dt>
 
 <dd>
 <p>specify <em>name</em> as the destination printer for the job. <em>name</em> may be
 a pattern to select any printer matching the pattern, or <strong>-</strong> to
 cancel the selection and make it the first available printer.</p>
-</dd>
-<dd>
 <p>A user may be limited to a range of printers which must be a superset
 of <em>name</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dq_or__2bretain">-q or +retain</a></strong>
+<dt><strong><a name="q_or_retain" class="item">-q or +retain</a></strong></dt>
 
 <dd>
 <p>requests that the job or jobs be retained on the queue with copies set
 to zero after printing, for explicit deletion, or automatically at the
 expiry of the timeout (as set by the <strong>-t</strong><em>n</em> option).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dr_or__2bbanner">-r or +banner</a></strong>
+<dt><strong><a name="r_or_banner" class="item">-r or +banner</a></strong></dt>
 
 <dd>
 <p>restores banner pages previously suppressed using <strong>-s</strong>.</p>
-</dd>
-<dd>
 <p>Note that some form types may be set up never to use banners
 regardless of this option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dr_m_2dnor__2bpage_2drange_m_2dn">-R <em>m-n</em>or +page-range <em>m-n</em></a></strong>
+<dt><strong><a name="r_m_nor_page_range_m_n" class="item">-R <em>m-n</em>or +page-range <em>m-n</em></a></strong></dt>
 
 <dd>
 <p>specifies that pages <em>m</em> through to <em>n</em> inclusive are to be
 printed. This does of course assume that the job has recognisable
-pages. If <em>m</em> or <em>n</em> are omitted, then ``the beginning'' or ``the end''
+pages. If <em>m</em> or <em>n</em> are omitted, then &quot;the beginning&quot; or &quot;the end&quot;
 respectively is assumed.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_or__2bno_2dbanner">-s or +no-banner</a></strong>
+<dt><strong><a name="s_or_no_banner" class="item">-s or +no-banner</a></strong></dt>
 
 <dd>
 <p>suppresses any banner page (large letter user name etc) which is
 printed before the job itself.</p>
-</dd>
-<dd>
 <p>Note that some form types may be set up always to print banners
 regardless of this option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_nnnn_or__2bset_2dclasscode_nnnn">-S <em>nnnn</em> or +set-classcode <em>nnnn</em></a></strong>
+<dt><strong><a name="s_nnnn_or_set_classcode_nnnn" class="item">-S <em>nnnn</em> or +set-classcode <em>nnnn</em></a></strong></dt>
 
 <dd>
 <p>where <em>nnnn</em> is some collection of the letters <strong>A</strong> through to <strong>P</strong>
 inclusive (upper or lower case) with <strong>-</strong> to indicate ranges, requests
 that the job be given the specified <em>class code</em>.</p>
-</dd>
-<dd>
 <p>The class code of a job may restrict which printers the job may be
 printed on, or which other users can display details of the job.</p>
-</dd>
-<dd>
 <p>In normal circumstances (except where the user has <em>override class</em>
 privilege as displayed by gspl-user(1)), the specified class code is
 reduced to the intersection of (i.e. <em>and</em>ed with) the specified
 class code and the user's own class code.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dt_n_or__2bprinted_2dtimeout_n">-t <em>n</em> or +printed-timeout <em>n</em></a></strong>
+<dt><strong><a name="t_n_or_printed_timeout_n" class="item">-t <em>n</em> or +printed-timeout <em>n</em></a></strong></dt>
 
 <dd>
 <p>specifies that if retained on the queue the job will be deleted
 automatically after <em>n</em> hours. The default value is 24 hours, and the
 maximum value is 32767 hours (nearly 4 years).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dt_n_or__2bnot_2dprinted_2dtimeout_n">-T <em>n</em> or +not-printed-timeout <em>n</em></a></strong>
+<dt><strong><a name="t_n_or_not_printed_timeout_n" class="item">-T <em>n</em> or +not-printed-timeout <em>n</em></a></strong></dt>
 
 <dd>
 <p>specifies that if held on the queue without being printed, the job will
 be deleted automatically after <em>n</em> hours. The default value is 168
 hours (1 week), and the maximum value is 32767 hours (nearly 4 years).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du_name_or__2bpost_2duser_name">-u <em>name</em> or +post-user <em>name</em></a></strong>
+<dt><strong><a name="u_name_or_post_user_name" class="item">-u <em>name</em> or +post-user <em>name</em></a></strong></dt>
 
 <dd>
 <p>requests that the specified user name be substituted for the
 submitting user on the banner page optionally printed at the start of
 the job. The job still remains the responsibility of the submitting
 user.</p>
-</dd>
-<dd>
-<p>To ``turn off'' a user name specified in a previous <strong>-u</strong><em>name</em> option,
+<p>To &quot;turn off&quot; a user name specified in a previous <strong>-u</strong><em>name</em> option,
 put a single <strong>-</strong> sign as the user name.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dw_or__2bwrite_2dmessage">-w or +write-message</a></strong>
+<dt><strong><a name="w_or_write_message" class="item">-w or +write-message</a></strong></dt>
 
 <dd>
 <p>requests a message to be sent to every terminal at which the user is
 logged in, or by mail otherwise if the user is not logged in, when the
 job is completed or terminated.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dx_or__2bno_2dmessage">-x or +no-message</a></strong>
+<dt><strong><a name="x_or_no_message" class="item">-x or +no-message</a></strong></dt>
 
 <dd>
 <p>turns off any job completion messages (<strong>-m</strong> or <strong>-w</strong> previously requested.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dz_or__2bno_2dretain">-z or +no-retain</a></strong>
+<dt><strong><a name="z_or_no_retain" class="item">-z or +no-retain</a></strong></dt>
 
 <dd>
 <p>cancels a request that the job or jobs be retained on the queue after
 printing.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
+<dt><strong><a name="freeze_current" class="item">+freeze-current</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the current
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the current
 directory. If there are no jobs given to operate on and this is
 specified, then <strong>gspl-qchange</strong> will quit without error. If it is unable
 to save the options and jobs are specified, then <strong>gspl-qchange</strong> will
 continue.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dhome">+freeze-home</a></strong>
+<dt><strong><a name="freeze_home" class="item">+freeze-home</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the user's home
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the user's home
 directory. If there are no jobs given to operate on and this is
 specified, then <strong>gspl-qchange</strong> will quit without error. If it is unable
 to save the options and jobs are specified, then <strong>gspl-qchange</strong> will
 continue.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>rest.help</em>
+<p><em class="file">rest.help</em>
 message file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_gspl_qchange">GSPL_QCHANGE</a></strong>
+<dt><strong><a name="gspl_qchange" class="item">GSPL_QCHANGE</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults.</p>
 </dd>
-</li>
-<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+<dt><strong><a name="sprestconf" class="item">SPRESTCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -423,7 +361,7 @@ gspl-pr(1),
 gspl-pq(1),
 gspl-qdel(1),
 gspl-qlist(1),
-spsyntax(5),
+<code>spsyntax(5)</code>,
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
 <p>
@@ -431,14 +369,14 @@ gnuspool.hosts(5).</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>rest.help</em>.</p>
+file, by default <em class="file">rest.help</em>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="notes">NOTES</a></h1>
 <p>The <strong>-C</strong> option selects the class code for finding the jobs; if you
 have <em>override class</em> privilege, but your default class code does not
-allow the jobs ``to be seen'' in the output of gspl-qlist(1), then you may
+allow the jobs &quot;to be seen&quot; in the output of gspl-qlist(1), then you may
 need to specify this. The <strong>-S</strong> option sets a new classcode, which may
 be <em>and</em>ed with your default class if you do not have <em>override
 class</em> privilege.</p>
@@ -463,7 +401,7 @@ printer <code>ljet</code> may be done with a shell script like this:</p>
         do
                 gspl-qchange -P ljet $JOB
         done</pre>
-<p>Or you can do it in one operation with this ``one-liner'':</p>
+<p>Or you can do it in one operation with this &quot;one-liner&quot;:</p>
 <pre>
         gspl-qchange -Pljet `gspl-qlist -F&quot;%N %P&quot;|grep laser|sed 's/\(.*\) .*/\1/'`</pre>
 <p>

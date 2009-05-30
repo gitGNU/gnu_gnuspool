@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -25,7 +27,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -53,74 +59,64 @@
 <h1><a name="description">DESCRIPTION</a></h1>
 <p><strong>xilp</strong> is a terminal server program for use by <strong>GNUspool</strong> where
 the destination is an LPD server.</p>
-<p>It has been largely superseded by xtlpc(8).</p>
+<p>It has been largely superseded by <code>xtlpc(8)</code>.</p>
 <p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
 <dl>
-<dt><strong><a name="item__2dh_hostname">-H <em>hostname</em></a></strong>
+<dt><strong><a name="h_hostname" class="item">-H <em>hostname</em></a></strong></dt>
 
 <dd>
 <p>This is the host name or IP address to be used to access the
 printer. In <strong>GNUspool</strong> setup files, it may be appropriate to
 substitute $SPOOLDEV or $SPOOLPTR here.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_port_number">-p <em>port number</em></a></strong>
+<dt><strong><a name="p_port_number" class="item">-p <em>port number</em></a></strong></dt>
 
 <dd>
 <p>This is the port number or service port name to be used.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dh">-h</a></strong>
+<dt><strong><a name="h" class="item">-h</a></strong></dt>
 
 <dd>
 <p>Enable banner page</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dr">-r</a></strong>
+<dt><strong><a name="r" class="item">-r</a></strong></dt>
 
 <dd>
 <p>Remove file on completeion</p>
 </dd>
-</li>
-<dt><strong><a name="item__2d_23_n">-# <em>n</em></a></strong>
+<dt><strong><a name="n" class="item">-# <em>n</em></a></strong></dt>
 
 <dd>
 <p>Set number of copies to <em>n</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du_user">-U <em>user</em></a></strong>
+<dt><strong><a name="u_user" class="item">-U <em>user</em></a></strong></dt>
 
 <dd>
 <p>Set user name to <em>user</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_ptr">-P <em>ptr</em></a></strong>
+<dt><strong><a name="p_ptr" class="item">-P <em>ptr</em></a></strong></dt>
 
 <dd>
 <p>Set printer name to <em>ptr</em></p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_class">-C <em>class</em></a></strong>
+<dt><strong><a name="c_class" class="item">-C <em>class</em></a></strong></dt>
 
 <dd>
 <p>Set printer name to <em>class</em></p>
 </dd>
-</li>
-<dt><strong><a name="item__2dj_file">-J <em>file</em></a></strong>
+<dt><strong><a name="j_file" class="item">-J <em>file</em></a></strong></dt>
 
 <dd>
 <p>Synonym for <strong>-F</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_file">-F <em>file</em></a></strong>
+<dt><strong><a name="f_file" class="item">-F <em>file</em></a></strong></dt>
 
 <dd>
 <p>Set file name to <em>file</em>.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -152,10 +148,10 @@ can be adjusted by the user as required.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>xtelnet(8),
-xtlhp(8),
-xtftp(8),
-xtlpc(8).</p>
+<p><code>xtelnet(8)</code>,
+<code>xtlhp(8)</code>,
+<code>xtftp(8)</code>,
+<code>xtlpc(8)</code>.</p>
 <p>
 </p>
 <hr />

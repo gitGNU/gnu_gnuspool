@@ -41,10 +41,6 @@
 
 #define	LOTSANDLOTS	99999999L	/* Maximum page number */
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 FILE	*Cfile;
 
 int	gspool_fd;

@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -24,7 +26,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -51,7 +57,7 @@
 <p><em>slot</em> is the slot number corresponding to the job as previously
 returned by <strong>gspool_joblist</strong> or <strong>gspool_jobfindslot</strong>.</p>
 <p><em>jobd</em> is a descriptor containing the job descriptor as defined in
-<em>gspool.h</em>.</p>
+<em class="file">gspool.h</em>.</p>
 <p>The fields in <CODE>struct apispq</CODE> are defined in the
 gspool_jobread(3) <a href="#Apispq_def">documentation</a>.</p><p>Note that we recommend that the whole structure be first read in with
 <strong>gspool_jobread</strong> or <strong>gspool_jobfind</strong> and then required fields updaated; this
@@ -65,7 +71,7 @@ approach will cover any future extensions with additional fields.</p>
 </p>
 <hr />
 <h1><a name="example">EXAMPLE</a></h1>
-<p>An example to change the name of job ``readme.txt'' to ``myfile''</p>
+<p>An example to change the name of job &quot;readme.txt&quot; to &quot;myfile&quot;</p>
 <pre>
  int fd, ret, nj, i;
  struct apispq job;
@@ -103,15 +109,15 @@ approach will cover any future extensions with additional fields.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>gspool_joblist(3),
-gspool_jobread(3),
-gspool_jobdata(3),
-gspool_jobadd(3),
-gspool_jobdel(3),
-gspool_jobfind(3),
-gspool_jobfindslot(3),
-gspool_jobmon(3),
-gspool_jobpbrk(3).</p>
+<p><code>gspool_joblist(3)</code>,
+<code>gspool_jobread(3)</code>,
+<code>gspool_jobdata(3)</code>,
+<code>gspool_jobadd(3)</code>,
+<code>gspool_jobdel(3)</code>,
+<code>gspool_jobfind(3)</code>,
+<code>gspool_jobfindslot(3)</code>,
+<code>gspool_jobmon(3)</code>,
+<code>gspool_jobpbrk(3)</code>.</p>
 <p>
 </p>
 <hr />

@@ -41,10 +41,6 @@
 #include "listperms.h"
 #include "rcgilib.h"
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 DEF_DISPOPTS;
 
 int	headerflag = -1;

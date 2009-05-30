@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -34,7 +36,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -57,7 +63,7 @@ the user profiles of various users and the operations which they may
 be permitted to perform within the <strong>GNUspool</strong> system, together with
 the default permissions which are assigned by default to new
 <strong>GNUspool</strong> users.</p>
-<p>Further options allow for a ``password dump'' file to be
+<p>Further options allow for a &quot;password dump&quot; file to be
 maintained. This is for the benefit of NIS-type environments where
 reading through most of the password database can take an unacceptably
 long time, the user name and userid hash table is maintained in a file
@@ -67,154 +73,130 @@ and updated as necessary.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <code>GSPL-UCHANGE</code> and the
-environment variable to specify the help file is <a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
+<p>The environment variable on which options are supplied is <a href="#gspl_uchange"><code>GSPL-UCHANGE</code></a> and the
+environment variable to specify the help file is <a href="#sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+<dt><strong><a name="or_explain" class="item">-? or +explain</a></strong></dt>
 
 <dd>
 <p>causes a summary of the other options to be displayed without taking
 further action.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2da_or__2bcopy_2ddefaults">-A or +copy-defaults</a></strong>
+<dt><strong><a name="a_or_copy_defaults" class="item">-A or +copy-defaults</a></strong></dt>
 
 <dd>
 <p>copy the default profile to all users <em>before</em> setting other
 permissions on the named users (with the <strong>-u</strong> option) or after
 setting the defaults (with the <strong>-D</strong> option).</p>
-</dd>
-<dd>
 <p>The privileges of the invoking user are not changed by this operation.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dc_classcode_or__2bclass_classcode">-c <em>classcode</em> or +class <em>classcode</em></a></strong>
+<dt><strong><a name="c_classcode_or_class_classcode" class="item">-c <em>classcode</em> or +class <em>classcode</em></a></strong></dt>
 
 <dd>
-<p>set the class code of the <code>user(s)</code> as specified by the argument.</p>
+<p>set the class code of the user(s) as specified by the argument.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_or__2bset_2ddefaults">-D or +set-defaults</a></strong>
+<dt><strong><a name="d_or_set_defaults" class="item">-D or +set-defaults</a></strong></dt>
 
 <dd>
 <p>indicate that the other options are to apply to the default
 profile for new users.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_num_or__2bdefault_2dpriority_num">-d <em>num</em> or +default-priority <em>num</em></a></strong>
+<dt><strong><a name="d_num_or_default_priority_num" class="item">-d <em>num</em> or +default-priority <em>num</em></a></strong></dt>
 
 <dd>
 <p>set the default job priority to <em>num</em>, which must be between 1 and 255.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_pattern_or__2bform_2dallowed_pattern">-F <em>pattern</em> or +form-allowed <em>pattern</em></a></strong>
+<dt><strong><a name="f_pattern_or_form_allowed_pattern" class="item">-F <em>pattern</em> or +form-allowed <em>pattern</em></a></strong></dt>
 
 <dd>
 <p>set the permitted form types to match <em>pattern</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_formtype_or__2bdefault_2dform_formtype">-f <em>formtype</em> or +default-form <em>formtype</em></a></strong>
+<dt><strong><a name="f_formtype_or_default_form_formtype" class="item">-f <em>formtype</em> or +default-form <em>formtype</em></a></strong></dt>
 
 <dd>
 <p>set the default form type to <em>formtype</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dl_num_or__2bmin_2dpriority_num">-l <em>num</em> or +min-priority <em>num</em></a></strong>
+<dt><strong><a name="l_num_or_min_priority_num" class="item">-l <em>num</em> or +min-priority <em>num</em></a></strong></dt>
 
 <dd>
 <p>set the minimum job priority to <em>num</em>, which must be between 1 and 255.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dm_num_or__2bmax_2dpriority_num">-m <em>num</em> or +max-priority <em>num</em></a></strong>
+<dt><strong><a name="m_num_or_max_priority_num" class="item">-m <em>num</em> or +max-priority <em>num</em></a></strong></dt>
 
 <dd>
 <p>set the maximum job priority to <em>num</em>, which must be between 1 and 255.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_or__2bno_2drebuild">-N or +no-rebuild</a></strong>
+<dt><strong><a name="n_or_no_rebuild" class="item">-N or +no-rebuild</a></strong></dt>
 
 <dd>
 <p>cancel the <strong>-R</strong> option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_num_or__2bmax_2dcopies_num">-n <em>num</em> or +max-copies <em>num</em></a></strong>
+<dt><strong><a name="n_num_or_max_copies_num" class="item">-n <em>num</em> or +max-copies <em>num</em></a></strong></dt>
 
 <dd>
 <p>set the maximum number of copies to <em>num</em>, which must be between 1 and 255.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2do_pattern_or__2bptr_2dallowed_pattern">-O <em>pattern</em> or +ptr-allowed <em>pattern</em></a></strong>
+<dt><strong><a name="o_pattern_or_ptr_allowed_pattern" class="item">-O <em>pattern</em> or +ptr-allowed <em>pattern</em></a></strong></dt>
 
 <dd>
 <p>set the permitted printers to match <em>pattern</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2do_printer_or__2bdefault_2dptr_printer">-o <em>printer</em> or +default-ptr <em>printer</em></a></strong>
+<dt><strong><a name="o_printer_or_default_ptr_printer" class="item">-o <em>printer</em> or +default-ptr <em>printer</em></a></strong></dt>
 
 <dd>
 <p>set the default printer to <em>printer</em>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_privileges_or__2bprivileges_privileges">-p <em>privileges</em> or +privileges <em>privileges</em></a></strong>
+<dt><strong><a name="p_privileges_or_privileges_privileges" class="item">-p <em>privileges</em> or +privileges <em>privileges</em></a></strong></dt>
 
 <dd>
-<p>set the privileges of the <code>user(s)</code> as specified by the argument.</p>
+<p>set the privileges of the user(s) as specified by the argument.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dr_or__2brebuild_2dfile">-R or +rebuild-file</a></strong>
+<dt><strong><a name="r_or_rebuild_file" class="item">-R or +rebuild-file</a></strong></dt>
 
 <dd>
-<p>rebuild the user permissions file <em>spufile0</em>
+<p>rebuild the user permissions file <em class="file">spufile0</em>
 incorporating any changes in the password list.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_or__2bno_2dcopy_2ddefaults">-s or +no-copy-defaults</a></strong>
+<dt><strong><a name="s_or_no_copy_defaults" class="item">-s or +no-copy-defaults</a></strong></dt>
 
 <dd>
 <p>cancel the effect of the <strong>-A</strong> option</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du_or__2bset_2dusers">-u or +set-users</a></strong>
+<dt><strong><a name="u_or_set_users" class="item">-u or +set-users</a></strong></dt>
 
 <dd>
 <p>indicate that the other options are to apply to the users specified on
 the rest of the command line.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dx_or__2bdump_2dpasswd">-X or +dump-passwd</a></strong>
+<dt><strong><a name="x_or_dump_passwd" class="item">-X or +dump-passwd</a></strong></dt>
 
 <dd>
 <p>dump out the hash table of the password file to avoid re-reading the
 password file within the other programs.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dy_or__2bdefault_2dpasswd">-Y or +default-passwd</a></strong>
+<dt><strong><a name="y_or_default_passwd" class="item">-Y or +default-passwd</a></strong></dt>
 
 <dd>
 <p>default handling of password hash file dump - rebuild if it is already
 present and <strong>-R</strong> specified, otherwise not.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dz_or__2bkill_2ddump_2dpasswd">-Z or +kill-dump-passwd</a></strong>
+<dt><strong><a name="z_or_kill_dump_passwd" class="item">-Z or +kill-dump-passwd</a></strong></dt>
 
 <dd>
 <p>delete any existing dumped password hash file.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
+<dt><strong><a name="freeze_current" class="item">+freeze-current</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the current
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the current
 directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dhome">+freeze-home</a></strong>
+<dt><strong><a name="freeze_home" class="item">+freeze-home</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the user's home
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the user's home
 directory.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -239,9 +221,9 @@ control file by running</p>
 <p>On a system with a large number of users, this can take a long time,
 so the previous method of adding new users as they were encountered
 meant that various hold-ups occurred in standard utilities or the
-scheduler, whichever was the first to ``notice'' the changes, which
+scheduler, whichever was the first to &quot;notice&quot; the changes, which
 might, in the event, be half-complete.</p>
-<p>We suggest that this command be added to the ``add new user'' procedure
+<p>We suggest that this command be added to the &quot;add new user&quot; procedure
 for your installation.</p>
 <p>
 </p>
@@ -253,7 +235,7 @@ to build the appropriate hash tables. This may take some time if there
 are a large number of user names, especially if NIS (a.k.a. <em>yellow
 pages</em>) is in use.</p>
 <p>A short cut is to dump out the password file into a hash table file,
-by default <em>pwdump0</em>, which may be quickly read in by
+by default <em class="file">pwdump0</em>, which may be quickly read in by
 the relevant programs instead of rebuilding the hash table each time.</p>
 <p>You may opt to create the dumped password file by running</p>
 <pre>
@@ -265,7 +247,7 @@ will also be rebuilt. <strong>-X</strong> does not have to be specified again.</
 <p>If you ever decide you want to dispense with this file, run
 <strong>gspl-uchange</strong> with the <strong>-Z</strong> option.</p>
 <p>For completeness, the <strong>-Y</strong> option is provided to cancel <strong>-X</strong> or
-<strong>-Z</strong> in case they are provided in the environment or a <em>.gnuspool</em>
+<strong>-Z</strong> in case they are provided in the environment or a <em class="file">.gnuspool</em>
 file, an extremely bad idea.</p>
 <p>
 </p>
@@ -276,120 +258,102 @@ a minus to turn off the corresponding privilege. These codes are the
 same as those displayed by gspl-ulist(1).</p>
 <p><strong>Gspl-uchange</strong> disregards the case of the codes entered.</p>
 <dl>
-<dt><strong><a name="item_adm">Adm</a></strong>
+<dt><strong><a name="adm" class="item">Adm</a></strong></dt>
 
 <dd>
 <p>edit admin file</p>
 </dd>
-</li>
-<dt><strong><a name="item_stp">Stp</a></strong>
+<dt><strong><a name="stp" class="item">Stp</a></strong></dt>
 
 <dd>
 <p>stop scheduler</p>
 </dd>
-</li>
-<dt><strong><a name="item_form">Form</a></strong>
+<dt><strong><a name="form" class="item">Form</a></strong></dt>
 
 <dd>
 <p>select forms other than restriction pattern</p>
 </dd>
-</li>
-<dt><strong><a name="item_otherp">Otherp</a></strong>
+<dt><strong><a name="otherp" class="item">Otherp</a></strong></dt>
 
 <dd>
 <p>select printers other than restriction pattern</p>
 </dd>
-</li>
-<dt><strong><a name="item_cpri">Cpri</a></strong>
+<dt><strong><a name="cpri" class="item">Cpri</a></strong></dt>
 
 <dd>
 <p>change priority once queued</p>
 </dd>
-</li>
-<dt><strong><a name="item_otherj">Otherj</a></strong>
+<dt><strong><a name="otherj" class="item">Otherj</a></strong></dt>
 
 <dd>
 <p>edit other users' jobs.</p>
 </dd>
-</li>
-<dt><strong><a name="item_prinq">Prinq</a></strong>
+<dt><strong><a name="prinq" class="item">Prinq</a></strong></dt>
 
 <dd>
 <p>select printer list</p>
 </dd>
-</li>
-<dt><strong><a name="item_hgo">Hgo</a></strong>
+<dt><strong><a name="hgo" class="item">Hgo</a></strong></dt>
 
 <dd>
 <p>stop and start printers</p>
 </dd>
-</li>
-<dt><strong><a name="item_anyp">Anyp</a></strong>
+<dt><strong><a name="anyp" class="item">Anyp</a></strong></dt>
 
 <dd>
 <p>select any priority once queued</p>
 </dd>
-</li>
-<dt><strong><a name="item_cdef">Cdef</a></strong>
+<dt><strong><a name="cdef" class="item">Cdef</a></strong></dt>
 
 <dd>
 <p>change own default priority within range</p>
 </dd>
-</li>
-<dt><strong><a name="item_addp">Addp</a></strong>
+<dt><strong><a name="addp" class="item">Addp</a></strong></dt>
 
 <dd>
 <p>add and delete printers</p>
 </dd>
-</li>
-<dt><strong><a name="item_cover">Cover</a></strong>
+<dt><strong><a name="cover" class="item">Cover</a></strong></dt>
 
 <dd>
 <p>override class</p>
 </dd>
-</li>
-<dt><strong><a name="item_unq">Unq</a></strong>
+<dt><strong><a name="unq" class="item">Unq</a></strong></dt>
 
 <dd>
 <p>unqueue jobs</p>
 </dd>
-</li>
-<dt><strong><a name="item_votj">Votj</a></strong>
+<dt><strong><a name="votj" class="item">Votj</a></strong></dt>
 
 <dd>
 <p>view (but not change) other users' jobs</p>
 </dd>
-</li>
-<dt><strong><a name="item_remj">Remj</a></strong>
+<dt><strong><a name="remj" class="item">Remj</a></strong></dt>
 
 <dd>
 <p>access remote jobs</p>
 </dd>
-</li>
-<dt><strong><a name="item_remp">Remp</a></strong>
+<dt><strong><a name="remp" class="item">Remp</a></strong></dt>
 
 <dd>
 <p>access remote printers</p>
 </dd>
-</li>
-<dt><strong><a name="item_accessj">Accessj</a></strong>
+<dt><strong><a name="accessj" class="item">Accessj</a></strong></dt>
 
 <dd>
 <p>access non-displayed job attributes</p>
 </dd>
-</li>
-<dt><strong><a name="item_freeze">Freeze</a></strong>
+<dt><strong><a name="freeze" class="item">Freeze</a></strong></dt>
 
 <dd>
 <p>freeze parameters from display</p>
 </dd>
-</li>
 </dl>
 <p><code>ALL</code> may be used to denote all of the permissions. For example:</p>
 <pre>
         -p Otherj,Otherp
         -p ALL,-Adm</pre>
-<p>Notice how <code>ALL</code> is set first and then <a href="#item_adm"><code>Adm</code></a> taken away in the
+<p>Notice how <code>ALL</code> is set first and then <a href="#adm"><code>Adm</code></a> taken away in the
 second example.</p>
 <p>A hexadecimal value is also accepted, but this is intended only for
 the benefit of the installation routines.</p>
@@ -397,33 +361,31 @@ the benefit of the installation routines.</p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>rest.help</em>
+<p><em class="file">rest.help</em>
 message file</p>
-<p><em>pwdump0</em>
+<p><em class="file">pwdump0</em>
 dumped password hash file</p>
-<p><em>spufile0</em>
+<p><em class="file">spufile0</em>
 user permissions file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_gspl_uchange">GSPL_UCHANGE</a></strong>
+<dt><strong><a name="gspl_uchange" class="item">GSPL_UCHANGE</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults.</p>
 </dd>
-</li>
-<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+<dt><strong><a name="sprestconf" class="item">SPRESTCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -431,7 +393,7 @@ user permissions file</p>
 <h1><a name="see_also">SEE ALSO</a></h1>
 <p>gspl-ulist(1),
 gspl-user(1),
-spsyntax(5),
+<code>spsyntax(5)</code>,
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
 <p>
@@ -439,7 +401,7 @@ gnuspool.hosts(5).</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>rest.help</em>.</p>
+file, by default <em class="file">rest.help</em>.</p>
 <p>
 </p>
 <hr />

@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -25,7 +27,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -62,7 +68,7 @@ be set up correctly).</p>
 is the password. Note that this is not <code>const</code>, and the passed field
 will be deliberately overwritten as soon as possible within
 <strong>gspool_login</strong>. Also note that the password may not be the Unix password,
-it may be an <em>interface password</em> set up by xipasswd(8).</p>
+it may be an <em>interface password</em> set up by <code>xipasswd(8)</code>.</p>
 <p><em>cl</em> is the classcode to be used for access to all printer and job
 operations. If 0 is used the user's default class code will be
 used. Note that the class code bits are assigned starting at the least
@@ -100,7 +106,7 @@ system allows.</p>
 </p>
 <hr />
 <h1><a name="example">EXAMPLE</a></h1>
-<p>An example to open a connection to host ``xisl'':</p>
+<p>An example to open a connection to host &quot;xisl&quot;:</p>
 <pre>
  int fd, ret;
  fd = gspool_open(&quot;xisl&quot;, (char *) 0, 0);
@@ -115,9 +121,9 @@ system allows.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>gspool_close(3),
-gspool_jobmon(3),
-gspool_ptrmon(3).</p>
+<p><code>gspool_close(3)</code>,
+<code>gspool_jobmon(3)</code>,
+<code>gspool_ptrmon(3)</code>.</p>
 <p>
 </p>
 <hr />

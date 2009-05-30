@@ -65,10 +65,6 @@
 #define	SUBTRIES	10
 #define	JN_INC	80000		/*  Add this to job no if clashes */
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 struct	spdet	*mypriv;
 char	*Realuname;
 
@@ -77,7 +73,6 @@ FILE	*Cfile;
 
 #define	IPC_MODE	0600
 
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

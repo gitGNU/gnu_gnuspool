@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -32,7 +34,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -57,92 +63,79 @@ print spooler system.</p>
 </p>
 <hr />
 <h1><a name="options">OPTIONS</a></h1>
-<p>The environment variable on which options are supplied is <code>GSPL-ULIST</code>
+<p>The environment variable on which options are supplied is <a href="#gspl_ulist"><code>GSPL-ULIST</code></a>
 and the environment variable to specify the help file is
-<a href="#item_sprestconf"><code>SPRESTCONF</code></a>.</p>
+<a href="#sprestconf"><code>SPRESTCONF</code></a>.</p>
 <dl>
-<dt><strong><a name="item__2d_3f_or__2bexplain">-? or +explain</a></strong>
+<dt><strong><a name="or_explain" class="item">-? or +explain</a></strong></dt>
 
 <dd>
 <p>causes a summary of the other options to be displayed without taking
 further action.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_or__2bdefault_2dformat">-D or +default-format</a></strong>
+<dt><strong><a name="d_or_default_format" class="item">-D or +default-format</a></strong></dt>
 
 <dd>
 <p>cancel the <strong>-F</strong> option and revert to the default format.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_or__2bdefault_2dline">-d or +default-line</a></strong>
+<dt><strong><a name="d_or_default_line" class="item">-d or +default-line</a></strong></dt>
 
 <dd>
 <p>display an initial line giving the default options (default).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_or__2bformat">-F or +format</a></strong>
+<dt><strong><a name="f_or_format" class="item">-F or +format</a></strong></dt>
 
 <dd>
 <p>format the output according to the <em>format</em> string given.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dh_or__2bheader">-H or +header</a></strong>
+<dt><strong><a name="h_or_header" class="item">-H or +header</a></strong></dt>
 
 <dd>
 <p>generate a header for each column of the output appropriate for the format.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_or__2bno_2dheader">-N or +no-header</a></strong>
+<dt><strong><a name="n_or_no_header" class="item">-N or +no-header</a></strong></dt>
 
 <dd>
 <p>cancel the <strong>-H</strong> option.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_or__2bnumeric_2dsort">-n or +numeric-sort</a></strong>
+<dt><strong><a name="n_or_numeric_sort" class="item">-n or +numeric-sort</a></strong></dt>
 
 <dd>
 <p>sort the list of users by the numeric user id (default).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_or__2bno_2duser_2dlines">-S or +no-user-lines</a></strong>
+<dt><strong><a name="s_or_no_user_lines" class="item">-S or +no-user-lines</a></strong></dt>
 
 <dd>
 <p>suppress the user lines. It is an error to invoke this and the <strong>-s</strong>
 option as well.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds_or__2bno_2ddefault_2dline">-s or +no-default-line</a></strong>
+<dt><strong><a name="s_or_no_default_line" class="item">-s or +no-default-line</a></strong></dt>
 
 <dd>
 <p>suppress the initial line giving the default options.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du_or__2buser_2dlines">-U or +user-lines</a></strong>
+<dt><strong><a name="u_or_user_lines" class="item">-U or +user-lines</a></strong></dt>
 
 <dd>
 <p>display the user lines (default).</p>
 </dd>
-</li>
-<dt><strong><a name="item__2du_or__2buser_2dsort">-u or +user-sort</a></strong>
+<dt><strong><a name="u_or_user_sort" class="item">-u or +user-sort</a></strong></dt>
 
 <dd>
 <p>sort the list of users by the user name.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dcurrent">+freeze-current</a></strong>
+<dt><strong><a name="freeze_current" class="item">+freeze-current</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the current
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the current
 directory.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2bfreeze_2dhome">+freeze-home</a></strong>
+<dt><strong><a name="freeze_home" class="item">+freeze-home</a></strong></dt>
 
 <dd>
-<p>Save all the current options in a <em>.gnuspool</em> file in the user's home
+<p>Save all the current options in a <em class="file">.gnuspool</em> file in the user's home
 directory.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -156,78 +149,66 @@ entry.</p>
 <p>If a header is requested, the appropriate abbreviation is obtained
 from the message file and inserted.</p>
 <dl>
-<dt><strong><a name="item__a"><code>%a</code></a></strong>
+<dt><strong><a name="_a" class="item"><code>%a</code></a></strong></dt>
 
 <dd>
 <p>allowed form types</p>
 </dd>
-</li>
-<dt><strong><a name="item__b"><code>%b</code></a></strong>
+<dt><strong><a name="_b" class="item"><code>%b</code></a></strong></dt>
 
 <dd>
 <p>allowed printer types</p>
 </dd>
-</li>
-<dt><strong><a name="item__c"><code>%c</code></a></strong>
+<dt><strong><a name="_c" class="item"><code>%c</code></a></strong></dt>
 
 <dd>
 <p>allowed class code</p>
 </dd>
-</li>
-<dt><strong><a name="item__d"><code>%d</code></a></strong>
+<dt><strong><a name="_d" class="item"><code>%d</code></a></strong></dt>
 
 <dd>
 <p>default priority</p>
 </dd>
-</li>
-<dt><strong><a name="item__f"><code>%f</code></a></strong>
+<dt><strong><a name="_f" class="item"><code>%f</code></a></strong></dt>
 
 <dd>
 <p>default form type</p>
 </dd>
-</li>
-<dt><strong><a name="item__l"><code>%l</code></a></strong>
+<dt><strong><a name="_l" class="item"><code>%l</code></a></strong></dt>
 
 <dd>
 <p>minimum priority</p>
 </dd>
-</li>
-<dt><strong><a name="item__m"><code>%m</code></a></strong>
+<dt><strong><a name="_m" class="item"><code>%m</code></a></strong></dt>
 
 <dd>
 <p>maximum priority</p>
 </dd>
-</li>
-<dt><strong><a name="item__n"><code>%n</code></a></strong>
+<dt><strong><a name="_n" class="item"><code>%n</code></a></strong></dt>
 
 <dd>
 <p>maximum copies</p>
 </dd>
-</li>
-<dt><strong><a name="item__o"><code>%o</code></a></strong>
+<dt><strong><a name="_o" class="item"><code>%o</code></a></strong></dt>
 
 <dd>
 <p>default printer</p>
 </dd>
-</li>
-<dt><strong><a name="item__p"><code>%p</code></a></strong>
+<dt><strong><a name="_p" class="item"><code>%p</code></a></strong></dt>
 
 <dd>
 <p>privileges</p>
 </dd>
-</li>
-<dt><strong><a name="item__u"><code>%u</code></a></strong>
+<dt><strong><a name="_u" class="item"><code>%u</code></a></strong></dt>
 
 <dd>
 <p>user name.</p>
 </dd>
-</li>
-<dt><strong><a name="item__v"><code>%v</code></a></strong>
+<dt><strong><a name="_v" class="item"><code>%v</code></a></strong></dt>
 
 <dd>
 <p><code>L</code> if the user is a valid user</p>
 </dd>
-</li>
 </dl>
 <p>The string <code>DEFAULT</code> replaces the user name in the default values
 line.</p>
@@ -239,146 +220,126 @@ possible to modify them as required by the user.</p>
 <p>
 </p>
 <h2><a name="privileges_format">Privileges format</a></h2>
-<p>The following are output via the <a href="#item__p"><code>%p</code></a> format. Note that the actual
+<p>The following are output via the <a href="#_p"><code>%p</code></a> format. Note that the actual
 strings are read from the message file, and are the same ones as are
 used by gspl-uchange(1). <code>ALL</code> is displayed if all privileges are set.</p>
 <dl>
-<dt><strong><a name="item_adm">Adm</a></strong>
+<dt><strong><a name="adm" class="item">Adm</a></strong></dt>
 
 <dd>
 <p>edit admin file</p>
 </dd>
-</li>
-<dt><strong><a name="item_stp">Stp</a></strong>
+<dt><strong><a name="stp" class="item">Stp</a></strong></dt>
 
 <dd>
 <p>stop scheduler</p>
 </dd>
-</li>
-<dt><strong><a name="item_form">Form</a></strong>
+<dt><strong><a name="form" class="item">Form</a></strong></dt>
 
 <dd>
 <p>select forms other than restriction pattern</p>
 </dd>
-</li>
-<dt><strong><a name="item_otherp">Otherp</a></strong>
+<dt><strong><a name="otherp" class="item">Otherp</a></strong></dt>
 
 <dd>
 <p>select printers other than restriction pattern</p>
 </dd>
-</li>
-<dt><strong><a name="item_cpri">Cpri</a></strong>
+<dt><strong><a name="cpri" class="item">Cpri</a></strong></dt>
 
 <dd>
 <p>change priority once queued</p>
 </dd>
-</li>
-<dt><strong><a name="item_otherj">Otherj</a></strong>
+<dt><strong><a name="otherj" class="item">Otherj</a></strong></dt>
 
 <dd>
 <p>edit other users' jobs.</p>
 </dd>
-</li>
-<dt><strong><a name="item_prinq">Prinq</a></strong>
+<dt><strong><a name="prinq" class="item">Prinq</a></strong></dt>
 
 <dd>
 <p>select printer list</p>
 </dd>
-</li>
-<dt><strong><a name="item_hgo">Hgo</a></strong>
+<dt><strong><a name="hgo" class="item">Hgo</a></strong></dt>
 
 <dd>
 <p>stop and start printers</p>
 </dd>
-</li>
-<dt><strong><a name="item_anyp">Anyp</a></strong>
+<dt><strong><a name="anyp" class="item">Anyp</a></strong></dt>
 
 <dd>
 <p>select any priority once queued</p>
 </dd>
-</li>
-<dt><strong><a name="item_cdef">Cdef</a></strong>
+<dt><strong><a name="cdef" class="item">Cdef</a></strong></dt>
 
 <dd>
 <p>change own default priority within range</p>
 </dd>
-</li>
-<dt><strong><a name="item_addp">Addp</a></strong>
+<dt><strong><a name="addp" class="item">Addp</a></strong></dt>
 
 <dd>
 <p>add and delete printers</p>
 </dd>
-</li>
-<dt><strong><a name="item_cover">Cover</a></strong>
+<dt><strong><a name="cover" class="item">Cover</a></strong></dt>
 
 <dd>
 <p>override class</p>
 </dd>
-</li>
-<dt><strong><a name="item_unq">Unq</a></strong>
+<dt><strong><a name="unq" class="item">Unq</a></strong></dt>
 
 <dd>
 <p>unqueue jobs</p>
 </dd>
-</li>
-<dt><strong><a name="item_votj">Votj</a></strong>
+<dt><strong><a name="votj" class="item">Votj</a></strong></dt>
 
 <dd>
 <p>view (but not change) other users' jobs</p>
 </dd>
-</li>
-<dt><strong><a name="item_remj">Remj</a></strong>
+<dt><strong><a name="remj" class="item">Remj</a></strong></dt>
 
 <dd>
 <p>access remote jobs</p>
 </dd>
-</li>
-<dt><strong><a name="item_remp">Remp</a></strong>
+<dt><strong><a name="remp" class="item">Remp</a></strong></dt>
 
 <dd>
 <p>access remote printers</p>
 </dd>
-</li>
-<dt><strong><a name="item_accessj">Accessj</a></strong>
+<dt><strong><a name="accessj" class="item">Accessj</a></strong></dt>
 
 <dd>
 <p>access non-displayed job attributes</p>
 </dd>
-</li>
-<dt><strong><a name="item_freeze">Freeze</a></strong>
+<dt><strong><a name="freeze" class="item">Freeze</a></strong></dt>
 
 <dd>
 <p>freeze parameters from display</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
-<p><em>~/.gnuspool</em>
+<p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em> .gnuspool</em>
+<p><em class="file"> .gnuspool</em>
 configuration file (current directory)</p>
-<p><em>rest.help</em>
+<p><em class="file">rest.help</em>
 message file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_gspl_ulist">GSPL_ULIST</a></strong>
+<dt><strong><a name="gspl_ulist" class="item">GSPL_ULIST</a></strong></dt>
 
 <dd>
 <p>space-separated options to override defaults.</p>
 </dd>
-</li>
-<dt><strong><a name="item_sprestconf">SPRESTCONF</a></strong>
+<dt><strong><a name="sprestconf" class="item">SPRESTCONF</a></strong></dt>
 
 <dd>
 <p>location of alternative help file.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
@@ -386,7 +347,7 @@ message file</p>
 <h1><a name="see_also">SEE ALSO</a></h1>
 <p>gspl-uchange(1),
 gspl-user(1),
-spsyntax(5),
+<code>spsyntax(5)</code>,
 gnuspool.conf(5),
 gnuspool.hosts(5).</p>
 <p>
@@ -394,7 +355,7 @@ gnuspool.hosts(5).</p>
 <hr />
 <h1><a name="diagnostics">DIAGNOSTICS</a></h1>
 <p>Various diagnostics are read and printed as required from the message
-file, by default <em>rest.help</em>.</p>
+file, by default <em class="file">rest.help</em>.</p>
 <p>
 </p>
 <hr />

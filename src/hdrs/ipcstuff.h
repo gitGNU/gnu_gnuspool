@@ -41,3 +41,5 @@
 #ifndef	MAP_FAILED
 #define	MAP_FAILED ((void *) -1)
 #endif
+
+extern	int	Ctrl_chan;

@@ -153,41 +153,41 @@ the following elements:
 </div>
 
 =for man
-.Ip "jobno_t apispp_job" 8
+.IP "jobno_t apispp_job" 8
 Job number being printed
-.Ip "slotno_t apispp_jslot" 8
+.IP "slotno_t apispp_jslot" 8
 Slot number of job being printed
-.Ip "char apispp_state" 8
+.IP "char apispp_state" 8
 State of printer
-.Ip "char apispp_sflags" 8
+.IP "char apispp_sflags" 8
 Scheduler flags
-.Ip "unsigned char apispp_dflags" 8
+.IP "unsigned char apispp_dflags" 8
 Despooler flags
-.Ip "unsigned char apispp_netflags" 8
+.IP "unsigned char apispp_netflags" 8
 Network flags
-.Ip "unsigned short apispp_extrn" 8
+.IP "unsigned short apispp_extrn" 8
 External printer type 0=standard
-.Ip "classcode_t apispp_class" 8
+.IP "classcode_t apispp_class" 8
 Class code bits 1=A 2=B 4=C etc
-.Ip "int_pid_t apispp_pid" 8
+.IP "int_pid_t apispp_pid" 8
 Process id of despooler process
-.Ip "netid_t apispp_netid" 8
+.IP "netid_t apispp_netid" 8
 Host id of printer network byte order
-.Ip "slotno_t apispp_rslot" 8
+.IP "slotno_t apispp_rslot" 8
 Slot number on remote machine
-.Ip "unsigned long apispp_minsize" 8
+.IP "unsigned long apispp_minsize" 8
 Minimum size of acceptable job
-.Ip "unsigned long apispp_maxsize" 8
+.IP "unsigned long apispp_maxsize" 8
 Maximum size of acceptable job
-.Ip "char apispp_dev[]" 8
+.IP "char apispp_dev[]" 8
 Device name
-.Ip "char apispp_form[]" 8
+.IP "char apispp_form[]" 8
 Form type
-.Ip "char apispp_ptr[]" 8
+.IP "char apispp_ptr[]" 8
 Printer name
-.Ip "char apispp_feedback[]" 8
+.IP "char apispp_feedback[]" 8
 Feedback message
-.Ip "char apispp_comment[]" 8
+.IP "char apispp_comment[]" 8
 Printer description
 
 The following bits are set in the C<apispp_sflags> field to indicate
@@ -211,9 +211,9 @@ printer flags:
 </div>
 
 =for man
-.Ip "APISPP_INTER" 8
+.IP "APISPP_INTER" 8
 Had interrupt message, not yet acted on it.
-.Ip "APISPP_HEOJ" 8
+.IP "APISPP_HEOJ" 8
 Had halt at end of job
 
 The following bits are set in the C<apispp_dflags> field to indicate
@@ -238,9 +238,9 @@ printer flags:
 </div>
 
 =for man
-.Ip "APISPP_HADAB" 8
+.IP "APISPP_HADAB" 8
 Had "Abort" message
-.Ip "APISPP_REQALIGN" 8
+.IP "APISPP_REQALIGN" 8
 Alignment required
 
 The C<apispp_netflags> field contains the following bits:
@@ -264,9 +264,9 @@ The C<apispp_netflags> field contains the following bits:
 </div>
 
 =for man
-.Ip "APISPP_LOCALONLY" 8
+.IP "APISPP_LOCALONLY" 8
 Printer is local only to host.
-.Ip "APISPP_LOCALHOST" 8
+.IP "APISPP_LOCALHOST" 8
 Printer uses network filter
 
 =head1 RETURN VALUES
@@ -278,19 +278,19 @@ Printer uses network filter
 =for man
 The function \fBgspool_ptrread()\fR returns 0 if successful, otherwise one
 of the following codes:
-.Ip "GSPOOL_UNKNOWN_PTR" 8
+.IP "GSPOOL_UNKNOWN_PTR" 8
 Printer not found
-.Ip "GSPOOL_INVALID_FD" 8
+.IP "GSPOOL_INVALID_FD" 8
 Invalid File descriptor
-.Ip "GSPOOL_BADWRITE" 8
+.IP "GSPOOL_BADWRITE" 8
 failure writing to the network
-.Ip "GSPOOL_BADREAD" 8
+.IP "GSPOOL_BADREAD" 8
 failure reading from the network
-.Ip "GSPOOL_NOPERM" 8
+.IP "GSPOOL_NOPERM" 8
 The user does not have permission
-.Ip "GSPOOL_SEQUENCE" 8
+.IP "GSPOOL_SEQUENCE" 8
 Printer sequence error, slot may be out of date
-.Ip "GSPOOL_INVALIDSLOT" 8
+.IP "GSPOOL_INVALIDSLOT" 8
 Invalid slot number
 
 =head1 EXAMPLE

@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -24,7 +26,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -49,23 +55,21 @@ is currently printing.</p>
 <p><em>fd</em> is a file descriptor previously returned by <strong>gspool_open</strong></p>
 <p><em>flags</em> is zero, or the logical OR of one or both of the following:</p>
 <dl>
-<dt><strong><a name="item_gspool_flag_ignoreseq">GSPOOL_FLAG_IGNORESEQ</a></strong>
+<dt><strong><a name="gspool_flag_ignoreseq" class="item">GSPOOL_FLAG_IGNORESEQ</a></strong></dt>
 
 <dd>
 <p>Ignore changes since the list was last read</p>
 </dd>
-</li>
-<dt><strong><a name="item_gspool_flag_force">GSPOOL_FLAG_FORCE</a></strong>
+<dt><strong><a name="gspool_flag_force" class="item">GSPOOL_FLAG_FORCE</a></strong></dt>
 
 <dd>
-<p>Ignore ``not printed'' flag</p>
+<p>Ignore &quot;not printed&quot; flag</p>
 </dd>
-</li>
 </dl>
 <p><em>slot</em> is the slot number corresponding to the job as previously
 returned by <strong>gspool_joblist</strong>, or <strong>gspool_jobfindslot</strong>.</p>
 <p>If the job has not been printed, and <em>flags</em> does not contain
-<a href="#item_gspool_flag_force"><code>GSPOOL_FLAG_FORCE</code></a>, then the job will not be deleted, but the error
+<a href="#gspool_flag_force"><code>GSPOOL_FLAG_FORCE</code></a>, then the job will not be deleted, but the error
 <code>GSPOOL_NOT_PRINTED</code> will be reported. You can tell whether the job
 has been printed from the <code>struct apispq</code> job structure returned by <strong>xb_jobread</strong>
 or <strong>xb_jobfind</strong>. The field <code>apispq_dflags</code> has the bit designated by
@@ -105,15 +109,15 @@ or <strong>xb_jobfind</strong>. The field <code>apispq_dflags</code> has the bit
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>gspool_joblist(3),
-gspool_jobread(3),
-gspool_jobdata(3),
-gspool_jobadd(3),
-gspool_jobfind(3),
-gspool_jobfindslot(3),
-gspool_jobupd(3),
-gspool_jobmon(3),
-gspool_jobpbrk(3).</p>
+<p><code>gspool_joblist(3)</code>,
+<code>gspool_jobread(3)</code>,
+<code>gspool_jobdata(3)</code>,
+<code>gspool_jobadd(3)</code>,
+<code>gspool_jobfind(3)</code>,
+<code>gspool_jobfindslot(3)</code>,
+<code>gspool_jobupd(3)</code>,
+<code>gspool_jobmon(3)</code>,
+<code>gspool_jobpbrk(3)</code>.</p>
 <p>
 </p>
 <hr />

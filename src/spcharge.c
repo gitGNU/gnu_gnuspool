@@ -54,7 +54,6 @@ FILE	*Cfile;
 extern	char	freeze_wanted;
 char	freeze_cd, freeze_hd;
 char	*Curr_pwd;
-uid_t	Realuid, Effuid, Daemuid;
 
 /* Standard Xi-Text stuff */
 
@@ -85,7 +84,6 @@ struct	huid	{
 #define	HASHMOD	97
 static	struct	huid	*uhash[HASHMOD];
 
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

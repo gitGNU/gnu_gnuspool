@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -24,7 +26,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -56,8 +62,8 @@ gspl-pr(1) commandds and then invokes gspl-pr(1) to submit the print jobs.</p>
 command to take advantage of these, they can be made available to
 users of our <strong>gspl-lpcover</strong> command. This is done by setting up
 <code>GSPL_PR</code> in the application or user environment.</p>
-<p><strong>Gspl-lpcover</strong> is usually installed in place of <strong>lp</strong> in <em>/usr/bin</em>, with
-the original binary moved to something like <em>old.lp</em> in the same
+<p><strong>Gspl-lpcover</strong> is usually installed in place of <strong>lp</strong> in <em class="file">/usr/bin</em>, with
+the original binary moved to something like <em class="file">old.lp</em> in the same
 directory.</p>
 <p><strong>Gspl-lpstatc</strong> emulates <strong>lpstat</strong> as far as is practicable, generating a
 report of outstanding print jobs from the print queue in a format
@@ -71,128 +77,109 @@ similar to the original <strong>lpstat</strong>.</p>
 generate a warning message on standard error and are otherwise
 ignored. Options to <strong>gspl-lpcover</strong> which are not documented here are ignored.</p>
 <dl>
-<dt><strong><a name="item__2dc">-c</a></strong>
+<dt><strong><a name="c" class="item">-c</a></strong></dt>
 
 <dd>
 <p>This has no effect, but generates a warning message on standard error,
 as with <strong>GNUspool</strong> spool files are always copied.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dd_name">-d <em>name</em></a></strong>
+<dt><strong><a name="d_name" class="item">-d <em>name</em></a></strong></dt>
 
 <dd>
 <p>Specify printer destination as <em>name</em>. The destination may also be
-specified in the environment variable <a href="#item_lpdest"><code>LPDEST</code></a>, which this option
+specified in the environment variable <a href="#lpdest"><code>LPDEST</code></a>, which this option
 overrides. An argument of <code>any</code> to <strong>-d</strong> cancels any existing
-<a href="#item_lpdest"><code>LPDEST</code></a> environment variable.</p>
-</dd>
-<dd>
+<a href="#lpdest"><code>LPDEST</code></a> environment variable.</p>
 <p>This is translated directly into a <strong>-P</strong> option to <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2df_form">-f <em>form</em></a></strong>
+<dt><strong><a name="f_form" class="item">-f <em>form</em></a></strong></dt>
 
 <dd>
 <p>specifies the supplied form type. This is translated directly into an
 <strong>-f</strong> option to <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dh_arg">-H <em>arg</em></a></strong>
+<dt><strong><a name="h_arg" class="item">-H <em>arg</em></a></strong></dt>
 
 <dd>
 <p>There is no direct mapping for the <strong>-H</strong> argument.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dm">-m</a></strong>
+<dt><strong><a name="m" class="item">-m</a></strong></dt>
 
 <dd>
 <p>Mail user. This is translated directly into an <strong>-m</strong> option to <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dn_n">-n <em>n</em></a></strong>
+<dt><strong><a name="n_n" class="item">-n <em>n</em></a></strong></dt>
 
 <dd>
 <p>Specify the number of copies. This is translated directly into a <strong>-c</strong>
 option to <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2do_arg">-o <em>arg</em></a></strong>
+<dt><strong><a name="o_arg" class="item">-o <em>arg</em></a></strong></dt>
 
 <dd>
 <p>Only <strong>-o</strong> <code>nobanner</code>, to suppress the header page, is interpreted
 and translated to the <strong>-s</strong> option to <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dp_arg">-P <em>arg</em></a></strong>
+<dt><strong><a name="p_arg" class="item">-P <em>arg</em></a></strong></dt>
 
 <dd>
 <p>This is translated into <strong>-R</strong> page range arguments for <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dq_n">-q <em>n</em></a></strong>
+<dt><strong><a name="q_n" class="item">-q <em>n</em></a></strong></dt>
 
 <dd>
 <p>This is translated into a <strong>-p</strong> argument for <strong>gspl-pr</strong> scaled
 appropriately, taking into account the user's maximum, minimum and
 default priorities.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds">-S</a></strong>
+<dt><strong><a name="s" class="item">-S</a></strong></dt>
 
 <dd>
 <p>This option is ignored.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2ds">-s</a></strong>
+<dt><strong><a name="s" class="item">-s</a></strong></dt>
 
 <dd>
 <p>This turns off the <strong>-v</strong> argument for <strong>gspl-pr</strong> which is normally
 included.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dt">-T</a></strong>
+<dt><strong><a name="t" class="item">-T</a></strong></dt>
 
 <dd>
 <p>This option is ignored.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dt__3carg_3e">-t &lt;arg&gt;</a></strong>
+<dt><strong><a name="t_arg" class="item">-t &lt;arg&gt;</a></strong></dt>
 
 <dd>
 <p>This is translated to a <strong>-h</strong> (title) argument to <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dw">-w</a></strong>
+<dt><strong><a name="w" class="item">-w</a></strong></dt>
 
 <dd>
 <p>This is translated directly to the <strong>-w</strong> (write message) option to
 <strong>gspl-pr</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item__2dy">-y</a></strong>
+<dt><strong><a name="y" class="item">-y</a></strong></dt>
 
 <dd>
 <p>This option is ignored.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="item_lpdest">LPDEST</a></strong>
+<dt><strong><a name="lpdest" class="item">LPDEST</a></strong></dt>
 
 <dd>
 <p>Specify destination for <strong>gspl-lpcover</strong>.</p>
 </dd>
-</li>
-<dt><strong><a name="item_lpstatfmt">LPSTATFMT</a></strong>
+<dt><strong><a name="lpstatfmt" class="item">LPSTATFMT</a></strong></dt>
 
 <dd>
 <p>Specify alternate format for <strong>gspl-lpstatc</strong>.</p>
 </dd>
-</li>
 </dl>
 <p>
 </p>

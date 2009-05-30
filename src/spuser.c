@@ -79,10 +79,6 @@ struct	spdet	*ulist;
 #define	SORT_NONE	0
 #define	SORT_USER	1
 
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
-
 char	iflag,
 	cflag,
 	alphsort = SORT_NONE,
@@ -210,7 +206,6 @@ struct	termio	orig_term;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif

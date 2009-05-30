@@ -54,17 +54,12 @@ FILE	*Cfile;
 
 #define	IPC_MODE	0600
 
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
 
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
-
-uid_t	Daemuid,
-	Realuid,
-	Effuid;
 
 int	expandem = 1;
 char	*progname;

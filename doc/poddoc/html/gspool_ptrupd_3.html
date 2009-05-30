@@ -9,8 +9,10 @@
 
 <body style="background-color: white">
 
-<p><a name="__index__"></a></p>
+
 <!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
 <!--
 
 <ul>
@@ -24,7 +26,11 @@
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 </ul>
+
 -->
+
+
+</div>
 <!-- INDEX END -->
 
 <p>
@@ -51,7 +57,7 @@
 <p><em>slot</em> is the slot number corresponding to the printer as previously
 returned by <strong>gspool_ptrlist</strong> or <strong>gspool_ptrfindslot</strong>.</p>
 <p><em>ptrd</em> is a descriptor containing the printer descriptor as defined
-in <em>gspool.h</em>.</p>
+in <em class="file">gspool.h</em>.</p>
 <P>The fields in <CODE>struct apispptr</CODE> are defined in the
 gspool_ptrread(3) <a href="#Apispptr_def">documentation</a>.</p><p>Note that we recommend that the whole structure be first read in with
 <strong>gspool_ptrread</strong> or <strong>gspool_ptrfind</strong> and then required fields updaated; this
@@ -95,14 +101,14 @@ class code are accepted, and none at all if the printer is running.</p>
 </p>
 <hr />
 <h1><a name="see_also">SEE ALSO</a></h1>
-<p>gspool_ptrlist(3),
-gspool_ptrread(3),
-gspool_ptradd(3),
-gspool_ptrdel(3),
-gspool_ptrfind(3),
-gspool_ptrfindslot(3),
-gspool_ptrmon(3),
-gspool_ptrop(3).</p>
+<p><code>gspool_ptrlist(3)</code>,
+<code>gspool_ptrread(3)</code>,
+<code>gspool_ptradd(3)</code>,
+<code>gspool_ptrdel(3)</code>,
+<code>gspool_ptrfind(3)</code>,
+<code>gspool_ptrfindslot(3)</code>,
+<code>gspool_ptrmon(3)</code>,
+<code>gspool_ptrop(3)</code>.</p>
 <p>
 </p>
 <hr />

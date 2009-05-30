@@ -68,7 +68,6 @@ jmp_buf	ajb;
 #ifndef	ID_SWAP
 PIDTYPE	lastpid = -1;
 #endif
-uid_t	Realuid, Daemuid, Effuid;
 
 int	jobtimeout = 0;
 long	count_chars;
@@ -82,7 +81,6 @@ int	filenums = 0;
 struct	jshm_info	Job_seg;
 struct	pshm_info	Ptr_seg;
 struct	xfershm		*Xfer_shmp;
-int	Ctrl_chan;
 #ifndef	USING_FLOCK
 int	Sem_chan;
 #endif
