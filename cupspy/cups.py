@@ -19,7 +19,7 @@
 
 # Originally written by John Collins <jmc@xisl.com>.
 
-import filebuf, ipp, conf, subprocess, sys, os, stat, socket, threading, re, time, signal, syslog
+import filebuf, ipp, conf, subprocess, sys, os, stat, socket, threading, re, time, signal, syslog, errno
 
 # Get us a job id in case gspl-pr doesn't give one
 
@@ -115,14 +115,14 @@ try:
         Cfile = sys.argv[1]
     Config_data.parse_conf_file(Cfile)
 except conf.ConfError, msg:
-    sys.exit(msg.message)
+    sys.exit(msg.args[0])
 
 # Now for the meat of the stuff
 
 class CupsError(Exception):
     def __init__(self, code, msg):
+        Exception.__init__(self, msg)
         self.codename = code
-        self.message = msg
 
 # Util routines
 
@@ -292,6 +292,8 @@ def move_job(req):
     return ipp_ok(req)
 def authenticate_job(req):
     return ipp_ok(req)
+def get_notifications(req):
+    return ipp_ok(req)
 
 # The next operations we return some kind of error message
 # to tell the client we didn't do it.
@@ -306,8 +308,6 @@ def get_subscription_attributes(req):
     return  ipp_status(req, 'IPP_NOT_FOUND', 'Invalid notify-subscription-id')
 def get_subscriptions(req):
     return  ipp_status(req, 'IPP_NOT_FOUND', 'No subscriptions found')
-def get_notifications(req):
-    return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'get notifications not implemented')
 def send_notifications(req):
     return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'send notifications not implemented')
 def get_print_support_files(req):
@@ -411,7 +411,7 @@ def get_printer_attributes(req):
     try:
         pname = get_pname_from_uri(req)
     except CupsError, err:
-        return  ipp_status(req, err.codename, err.message)
+        return  ipp_status(req, err.codename, err.args[0])
 
     # Get the list of requested attributes from the request
     req_al = req.find_attribute('requested-attributes')
@@ -447,7 +447,7 @@ def print_job(req):
         pname = get_pname_from_uri(req)
 	uname = get_req_user_name(req)
     except CupsError, err:
-        return  ipp_status(req, err.codename, err.message)
+        return  ipp_status(req, err.codename, err.args[0])
 
     title = copy_or_default(req, 'job-name')
     copies = copy_or_default(req, 'copies')
@@ -486,7 +486,14 @@ def print_job(req):
 
         if  len(b) == 0:
             break
-        sti.write(b)
+        try:
+            sti.write(b)
+        except IOError, err:
+            if err.args[0] == errno.EPIPE:
+                return ipp_status(req, "IPP_NOT_POSSIBLE", "Is GNUspool running")
+            else:
+                msg = "Pipe IO Error: " + err.args[1] + "(" + err.args[0] + ")"
+                return ipp_status(req, "IPP_NOT_POSSIBLE", msg)
 
         # Check it's still running
 
@@ -621,16 +628,21 @@ def process_get(f, l):
     """Process a http get request"""
     m = re.match("GET\s+/printers/(.+)\s+HTTP", l)
     if not m:
+        syslog.syslog(syslog.LOG_ERR, "Get request no match in %s" % l)
         return
     pf = None
     for ptr in (m.group(1), Config_data.default_printer() + ".ppd", "Default.ppd"):
         try:
-            pf = open(os.path.join(Config_data.ppddir, ptr), "rb")
+            fn = os.path.join(Config_data.ppddir, ptr)
+            pf = open(fn, "rb")
+            if Config_data.loglevel > 2:
+                syslog.syslog(syslog.LOG_INFO, "Opened .ppd file %s" % fn)
             break
         except:
             pass
 
     if not pf:
+        syslog.syslog(syslog.LOG_ERR, "Get request file not found for %s" % m.group(1))
         return
 
     st = os.fstat(pf.fileno())
@@ -645,11 +657,13 @@ def process_get(f, l):
     f.write("Content-Length: %d\n\n" % st[stat.ST_SIZE])
     f.flush()
     ffno = f.fileno()
+    fsize = 0
     while 1:
         buf = pf.read(1024)
         lb = len(buf)
         if lb == 0:
             break
+        fsize = fsize + lb
         # Do write taking into account everything doesn't get
         # written at once
         while lb > 0:
@@ -657,6 +671,9 @@ def process_get(f, l):
             buf = buf[lw:]
             lb -= lw
     pf.close()
+    if Config_data.loglevel > 2:
+        syslog.syslog(syslog.LOG_INFO, ".ppd file was %d bytes long" % fsize)
+    
 
 def process_post(f):
     """Process an HTTP POST request"""
@@ -694,7 +711,7 @@ def parsefd(f):
                 print "Dont know how to handle " + op + " http ops"
         else:
             print "No match for HTTP op"
-    except socket.error, filebuf.filebufEOF:
+    except (socket.error, filebuf.filebufEOF):
         return None
     return None
 
@@ -766,19 +783,70 @@ def cups_proc(conn, addr):
 
 def cups_server():
     """Accept connections on socket from people wanting to print stuff"""
-    try:
-        port = socket.getservbyname('ipp', 'tcp')
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        s.bind(('', port))
-        s.listen(5)
-    except socket.error:
-        sys.exit("Socket errors - is CUPS running?")
+    s = None
+    port = socket.getservbyname('ipp', 'tcp')
+
+    # Try to support ipv6 and ipv4
+
+    for res in socket.getaddrinfo(None, port, socket.AF_UNSPEC, socket.SOCK_STREAM, 0, socket.AI_PASSIVE):
+        af, socktype, proto, canonname, sa = res
+        try:
+            s = socket.socket(af, socktype, proto)
+        except socket.error, msg:
+            s = None
+            continue
+        try:
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            s.bind(sa)
+            s.listen(5)
+        except socket.error, msg:
+            if msg.args[0] == errno.EACCES:
+                sys.exit("Cannot access socket - no permission")
+            if msg.args[0] == errno.EADDRINUSE:
+                sys.exit("Socket in use - is CUPS running?")
+            s.close()
+            s = None
+            continue
+        break
+    if s is None:
+        sys.exit("Sorry cannot start - unable to allocate socket?")
     while 1:
         connaddr = s.accept()
         th = threading.Thread(target=cups_proc, args=connaddr)
         th.daemon = True
         th.start()
+
+def setup_pid():
+    """Setup pid entry in /var/run/cups/cupsd.pid
+
+Kill anything that's there already"""
+    dirname = "/var/run/cups"
+    file = dirname + "/cupsd.pid"
+    try:
+        st = os.stat(file)
+        if not stat.S_ISREG(st[stat.ST_MODE]):
+            sys.exit("Unknown type file " + file)
+        f = open(file, "rb")
+        pidstr = f.read(100)
+        f.close()
+        os.kill(int(pidstr), signal.SIGTERM)
+        time.sleep(5)
+        os.remove(file)
+    except (OSError, IOError, ValueError):
+        pass
+
+    # Create directory if needed
+    try:
+        os.mkdir(dirname, 0755)
+    except OSError, err:
+        if err.args[0] != errno.EEXIST:
+            sys.exit("Cannot create " + dirname + " " + err.args[1])
+    try:
+        f = open(file, "wb")
+        f.write(str(os.getpid()) + "\n")
+        f.close()
+    except IOError, err:
+        sys.exit("Cannot create " + file + " - " + err.args[1])
 
 # Run the stuff
 
@@ -791,4 +859,5 @@ if __name__ == "__main__":
     syslog.syslog(syslog.LOG_INFO, "Starting")
     if os.fork() != 0:
         os._exit(0)
+    setup_pid()
     cups_server()

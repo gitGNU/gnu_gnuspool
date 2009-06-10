@@ -21,8 +21,7 @@ import re, socket, string, copy, time, ipp, sys, os, stat
 
 class ConfError(Exception):
     """Error report in config file"""
-    def __init__(self, msg):
-        self.message = msg
+    pass
 
 class ConfEOF(Exception):
     """Just exception to raise when we read EOF"""
@@ -124,7 +123,7 @@ def parse_loop(f, cdef):
             else:
                 procparam(line, cdef)
         except ConfError, Err:
-            raise ConfError(Err.message + " in " + line)
+            raise ConfError(Err.args[0] + " in " + line)
 
 class Conf:
     """Content of config file"""
@@ -158,7 +157,7 @@ class Conf:
                 try:
                     self.loglevel = int(arg)
                     if self.loglevel < 0 or self.loglevel > 4:
-                        raise ValueErroe
+                        raise ValueError
                 except ValueError:
                     raise ConfError("Invalid LOGLEVEL " + arg + " (should be int < 5)")
             elif opt == "PPDDIR":

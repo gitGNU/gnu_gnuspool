@@ -244,7 +244,7 @@ class Window(gtk.Window):
             self.dirty = False
             self.has_data = True
         except conf.ConfError, msg:
-            error_dlg(msg.message)
+            error_dlg(msg.args[0])
             self.filename = ""
             self.config_data = conf.Conf()
             confdefault.init_defaults(self.config_data)
@@ -346,7 +346,7 @@ class Window(gtk.Window):
                 self.dirty = False
                 break
             except conf.ConfError, msg:
-                error_dlg(msg.message)
+                error_dlg(msg.args[0])
         dlg.destroy()
 
     def file_saveas_cb(self, action):
@@ -375,7 +375,7 @@ class Window(gtk.Window):
                 self.dirty = False
                 break
             except conf.ConfError, msg:
-                error_dlg(msg.message)
+                error_dlg(msg.args[0])
         dlg.destroy()
 
     def file_newptr_cb(self, action):
@@ -407,7 +407,7 @@ class Window(gtk.Window):
                     self.has_data = True
                     break
                 except conf.ConfError, msg:
-                    error_dlg(msg.message)
+                    error_dlg(msg.args[0])
                     continue
         dlg.destroy()
 
@@ -445,7 +445,7 @@ class Window(gtk.Window):
                         self.config_data.rename_printer(pname, newpname)
                         self.tree_model.set_value(sel, 1, newpname)
                 except conf.ConfError, msg:
-                    error_dlg(msg.message)
+                    error_dlg(msg.args[0])
                 self.tree_model.set_value(sel, 2, inf)
                 self.dirty = True
                 break

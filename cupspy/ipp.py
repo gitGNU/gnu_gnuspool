@@ -279,8 +279,7 @@ IPP_TAG_JOB=2
 IPP_TAG_PRINTER=4
 
 class IppError(Exception):
-    def __init__(self, msg):
-        self.message = msg
+    pass
 
 def generate_value(name, valuetup):
     """Generate value length field and value"""
