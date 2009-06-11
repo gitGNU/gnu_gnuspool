@@ -26,6 +26,9 @@ import filebuf, ipp, conf, subprocess, sys, os, stat, socket, threading, re, tim
 Next_jobid = os.getpid()
 Jobid_lock = threading.Lock()
 
+Var_run = "/var/run/cups"
+Procid_file = "cupsd.pid"
+
 # Thread-safe get job ID
 
 def get_next_jobid():
@@ -820,8 +823,7 @@ def setup_pid():
     """Setup pid entry in /var/run/cups/cupsd.pid
 
 Kill anything that's there already"""
-    dirname = "/var/run/cups"
-    file = dirname + "/cupsd.pid"
+    file = Var_run + "/" + Procid_file
     try:
         st = os.stat(file)
         if not stat.S_ISREG(st[stat.ST_MODE]):
@@ -829,24 +831,38 @@ Kill anything that's there already"""
         f = open(file, "rb")
         pidstr = f.read(100)
         f.close()
-        os.kill(int(pidstr), signal.SIGTERM)
+        pid = int(pidstr)
+        os.kill(pid, signal.SIGTERM)
         time.sleep(5)
+        try:
+            os.kill(pid, signal.SIGKILL)
+        except OSError:
+            pass
         os.remove(file)
     except (OSError, IOError, ValueError):
         pass
 
     # Create directory if needed
     try:
-        os.mkdir(dirname, 0755)
+        os.mkdir(Var_run, 0755)
     except OSError, err:
         if err.args[0] != errno.EEXIST:
-            sys.exit("Cannot create " + dirname + " " + err.args[1])
+            sys.exit("Cannot create " + Var_run + " " + err.args[1])
     try:
         f = open(file, "wb")
         f.write(str(os.getpid()) + "\n")
         f.close()
     except IOError, err:
         sys.exit("Cannot create " + file + " - " + err.args[1])
+
+def remove_pid(signum, frame):
+    """Remove pid entry in /var/run/cups/cupsd.pid"""
+    try:
+        os.remove(Var_run + '/' + Procid_file)
+    except OSError:
+        # Ignore errors
+        pass
+    sys.exit("CUPSPY terminated by signal")
 
 # Run the stuff
 
@@ -860,4 +876,5 @@ if __name__ == "__main__":
     if os.fork() != 0:
         os._exit(0)
     setup_pid()
+    signal.signal(signal.SIGTERM, remove_pid)
     cups_server()
