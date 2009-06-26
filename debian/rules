@@ -35,53 +35,51 @@ build: build-stamp
 
 build-stamp:  config.status 
 	dh_testdir
-
+	
 	# Add here commands to compile the package.
 	$(MAKE)
 	#docbook-to-man debian/gnuspool.sgml > gnuspool.1
-
+	
 	touch $@
 
 clean: 
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp 
-
+	
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) distclean
 	# Remove this
 	# rm -f config.sub config.guess
-
+	
 	dh_clean 
 
 install: build
 	dh_testdir
 	dh_testroot
 	dh_clean -k 
-	dh_installdirs
-
-	# Add here commands to install the package into debian/gnuspool.
-	$(MAKE) DESTDIR=$(CURDIR)/debian/gnuspool SPOOLUSER=root datarootdir=/usr/share STAGED_INSTALL=true install
+	dh_installdirs -Pdebian/tmp -pgnuspool
+	
+	# Add here commands to install the package into debian/tmp.
+	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp SPOOLUSER=root datarootdir=/usr/share STAGED_INSTALL=true install
+	
+	# keep lintian quiet about printers directory
+	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/usr/share/gnuspool/ptrs/README
+	# Get rid of remote CGI bins for now as they depend on separated API library.
+	rm -f $(CURDIR)/debian/tmp/usr/lib/gnuspool/cgi-bin/r*
 
 # Build architecture-independent files here.
 binary-indep: build install
-	$(CURDIR)/debian/cppack gnuspool-doc
-	$(CURDIR)/debian/cppack gnuspool-cupspy
+	:
 
 # Build architecture-dependent files here.
 binary-arch: build install
-	$(CURDIR)/debian/cppack libgnuspool
-# Remove directories now empty and keep lintian quiet about printers directory
-	rmdir $(CURDIR)/debian/gnuspool/usr/include $(CURDIR)/debian/gnuspool/usr/share/man/man3
-	echo 'This directory is for printer setup files' >$(CURDIR)/debian/gnuspool/usr/share/gnuspool/ptrs/README
-# Get rid of remote CGI bins for now as they depend on separated API library.
-	rm -f $(CURDIR)/debian/gnuspool/usr/lib/gnuspool/cgi-bin/r*
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs 
 	dh_installdocs
 	dh_installexamples
-#	dh_install
+	dh_install --fail-missing
 #	dh_installmenu
 #	dh_installdebconf	
 #	dh_installlogrotate
@@ -98,11 +96,9 @@ binary-arch: build install
 	dh_compress
 	dh_fixperms
 #	dh_perl
-#	dh_makeshlibs
+	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps
-	install -m 644 $(CURDIR)/debian/shlibs.gnuspool $(CURDIR)/debian/gnuspool/DEBIAN/shlibs
-	install -m 644 $(CURDIR)/debian/shlibs.libgnuspool $(CURDIR)/debian/libgnuspool/DEBIAN/shlibs
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb

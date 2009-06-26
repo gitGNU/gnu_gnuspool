@@ -19,11 +19,17 @@ Section: doc
 Description: Documentation for GNUspool
  PDF documentation for GNUspool
 
-Package: libgnuspool
+Package: libgnuspool-1-1
 Architecture: any
-Depends: gnuspool (= ${binary:Version})
+Depends: ${shlibs:Depends}, gnuspool (= ${binary:Version})
 Description: API development library for GNUspool
- Consists of API library and include
+ Consists of the shared API library
+
+Package: libgnuspool-dev
+Section: libdevel
+Architecture: any
+Description: API development library for GNUspool
+ Consists of static API library and include files
 
 Package: gnuspool-cupspy
 Architecture: all

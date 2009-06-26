@@ -301,7 +301,6 @@ fi
 
 case "$1" in
     configure)
-	ldconfig
 	fixperms
 	installnet
     ;;
