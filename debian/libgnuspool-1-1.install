@@ -1,2 +1,6 @@
-usr/lib/libgnuspool*.so.*
-usr/lib/libgnuspool*.so
+usr/include/gspool.h
+usr/lib/libgnuspool.a
+usr/lib/libgnuspool-*.so.*
+usr/lib/libgnuspool.la
+usr/lib/libgnuspool.so
+usr/share/man/man3/*
