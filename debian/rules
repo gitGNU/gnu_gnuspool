@@ -67,6 +67,10 @@ install: build
 	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/usr/share/gnuspool/ptrs/README
 	# Get rid of remote CGI bins for now as they depend on separated API library.
 	rm -f $(CURDIR)/debian/tmp/usr/lib/gnuspool/cgi-bin/r*
+	# FIXME: if these libraries are really inmternal only, why is the make install publishing their .la files
+	rm -f $(CURDIR)/debian/tmp/usr/lib/libgnuspool_int.la
+	rm -f $(CURDIR)/debian/tmp/usr/lib/libgnuspool_curs.la
+
 
 # Build architecture-independent files here.
 binary-indep: build install
