@@ -19,7 +19,7 @@ Section: doc
 Description: Documentation for GNUspool
  PDF documentation for GNUspool
 
-Package: libgnuspool-1-1
+Package: libgnuspool0
 Architecture: any
 Depends: ${shlibs:Depends}, gnuspool (= ${binary:Version})
 Description: API development library for GNUspool
