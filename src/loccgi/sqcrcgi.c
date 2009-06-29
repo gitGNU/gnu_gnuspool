@@ -68,18 +68,8 @@
 struct	spdet	*mypriv;
 char	*Realuname;
 
-DEF_DISPOPTS;
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
 
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
 struct	spq	SPQ;
 char	Sufchars[] = DEF_SUFCHARS;
 char	wotform[MAXFORM+1];

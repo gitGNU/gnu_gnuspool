@@ -71,10 +71,6 @@ void	exit_cleanup(void);
 
 extern	struct	spdet	*mypriv;
 
-extern	WINDOW	*escr,
-		*hlpscr,
-		*Ew;
-
 #define	P_DONT_CARE	100	/* Must move this!!! */
 
 extern	char	scrkeep,

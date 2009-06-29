@@ -47,9 +47,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
-
-FILE	*Cfile;
 
 extern	char	freeze_wanted;
 char	freeze_cd, freeze_hd;
@@ -83,14 +80,6 @@ struct	huid	{
 
 #define	HASHMOD	97
 static	struct	huid	*uhash[HASHMOD];
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-DEF_DISPOPTS;
 
 /* This is needed by the standard error handling stuff in the library */
 

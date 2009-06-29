@@ -62,9 +62,6 @@ void	exit_cleanup(void);
 #endif
 
 extern	struct	spdet	*mypriv;
-extern	WINDOW	*escr,
-		*hlpscr,
-		*Ew;
 
 extern	char	helpclr;
 extern	int	hadrfresh;

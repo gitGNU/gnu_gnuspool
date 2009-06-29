@@ -45,21 +45,10 @@
 #include "cgifndjb.h"
 #include "xfershm.h"
 
-DEF_DISPOPTS;
-
 int	headerflag = -1;
 char	*Curr_pwd;
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 char	*formatstring;
 char	sdefaultfmt[] = "Lp Ld Lf Ls Lj Lu";
@@ -72,8 +61,6 @@ char	*Realuname;
 /* Vector of states - assumed given prompt codes consecutively */
 
 char	*statenames[SPP_NSTATES];
-
-struct	xfershm		*Xfer_shmp;
 
 /* For when we run out of memory.....  */
 

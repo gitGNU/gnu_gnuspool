@@ -32,8 +32,6 @@ double	udptimeout = 1.0;
 int	snmpsock;
 struct	sockaddr_in  snmp_serv, snmp_cli;
 
-FILE	*Cfile;			/* Not used but lib routines refer */
-
 extern void	snmp_xmit(char *, int);
 extern unsigned	snmp_recv(char *, int);
 extern int	snmp_wait(void);

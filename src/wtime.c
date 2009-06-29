@@ -35,6 +35,7 @@
 #include "magic_ch.h"
 #include "keynames.h"
 #include "incl_unix.h"
+#include "sctrl.h"
 
 #define	SECSPERDAY	(24 * 60 * 60L)
 
@@ -52,9 +53,6 @@ static	struct	colmarks  tcp;	/* Someone will object to that name */
 
 extern	struct	spr_req	jreq;
 extern	struct	spq	JREQ;
-
-extern	WINDOW	*escr,
-		*hlpscr;
 
 extern	char	helpclr;
 

@@ -73,7 +73,6 @@ extern	SHORT	qsock, uasock, apirsock;
 extern	SHORT	qportnum, uaportnum, apirport, apipport;
 extern	SHORT	tcpproto, udpproto;
 #ifndef	USING_FLOCK
-extern	int	Sem_chan;
 extern	struct	sembuf	jr[], ju[], pr[], pu[];
 #endif
 extern	struct	spr_req	sp_req;

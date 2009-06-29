@@ -51,7 +51,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #ifndef	PATH_MAX
 #define	PATH_MAX	1024
@@ -72,19 +71,10 @@ PIDTYPE	lastpid = -1;
 int	jobtimeout = 0;
 long	count_chars;
 
-FILE	*Cfile;
 char	*Curr_pwd;
 
 char	**file_list;
 int	filenums = 0;
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 char    *spath(const char *, const char *);
 int	spitoption(const int, const int, FILE *, const int, const int);

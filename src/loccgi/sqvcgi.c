@@ -57,22 +57,10 @@
 #define	PATH_MAX	1024
 #endif
 
-DEF_DISPOPTS;
-
 struct	spdet	*mypriv;
 char	*Realuname;
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-struct	xfershm		*Xfer_shmp;
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
 FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);

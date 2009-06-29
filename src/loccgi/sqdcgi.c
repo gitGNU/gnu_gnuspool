@@ -56,24 +56,11 @@
 #include "shutilmsg.h"
 #include "xfershm.h"
 
-DEF_DISPOPTS;
-
 struct	spdet	*mypriv;
 
 char	*Realuname;
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	xfershm		*Xfer_shmp;
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 /* For when we run out of memory.....  */
 

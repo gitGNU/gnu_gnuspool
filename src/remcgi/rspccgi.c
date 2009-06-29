@@ -43,8 +43,6 @@ char	*realuname;
 int			gspool_fd;
 struct	apispdet	mypriv;
 
-FILE	*Cfile;
-
 int			Njobs, Nptrs;
 struct	apispq		*job_list;
 slotno_t		*jslot_list;

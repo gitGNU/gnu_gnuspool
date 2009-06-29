@@ -65,21 +65,9 @@
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
 
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-
 struct	spq	SPQ;
-struct	xfershm		*Xfer_shmp;
-
-DEF_DISPOPTS;
 
 char	*Realuname,
 	*Curr_pwd;

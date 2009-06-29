@@ -28,25 +28,16 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #define	BUFFSIZE	256
 
-FILE	*Cfile;
 extern	uid_t	Realuid, Effuid, Daemuid;
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-DEF_DISPOPTS;
 
 void	nomem()
 {
 	fprintf(stderr, "Out of memory\n");
 	exit(E_NOMEM);
 }
-#endif
 
 /* Field names are alternate arguments */
 

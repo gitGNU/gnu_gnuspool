@@ -112,7 +112,7 @@ extern	struct	spptr	PREQ;
 
 char	*current_prin;
 int	Phline, Peline;
-extern	WINDOW	*hjscr, *hpscr, *tpscr, *jscr, *pscr, *escr, *hlpscr, *Ew;
+extern	WINDOW	*hjscr, *hpscr, *tpscr, *jscr, *pscr;
 
 static	int	more_above,
 		more_below,

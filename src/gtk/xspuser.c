@@ -47,9 +47,6 @@ static	char	rcsid2[] = "@(#) $Revision: 1.3 $";
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
-
-FILE	*Cfile;
 
 int	hchanges,	/* Had changes to default */
 	uchanges;	/* Had changes to user(s) */
@@ -105,14 +102,6 @@ static GtkActionEntry entries[] = {
 	{ "impose", NULL, "Impose fee", NULL, "Impose fee on selected users", G_CALLBACK(cb_impose)},
 
 	{ "About", NULL, "About xspuser", NULL, "About xspuser", G_CALLBACK(cb_about)}  };
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 /* For when we run out of memory.....  */
 

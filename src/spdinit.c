@@ -51,7 +51,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #ifdef	HAVE_TERMIO_H
 #ifndef	CINTR
@@ -196,19 +195,7 @@ struct	string	*out_record,
 static	char	*pname = "";
 static	int	setuperrs = 0;
 
-FILE	*Cfile;
-
 extern	uid_t	Realuid, Effuid, Daemuid;
-
-/* Keep library happy (applies to both defs below).  */
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 /* Open report file if possible write message to it.  */
 

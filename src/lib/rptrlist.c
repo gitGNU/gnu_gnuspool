@@ -28,10 +28,6 @@
 #include "displayopt.h"
 #include "incl_unix.h"
 
-#ifndef	USING_FLOCK
-extern	int	Sem_chan;
-#endif
-
 int	qsort_ptrs(const Hashspptr **, const Hashspptr **);
 
 /* Read through ptrs list and prune according to the options */

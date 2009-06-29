@@ -97,17 +97,10 @@ int	j_process(void);
 char *	get_jobtitle(int);
 char *	get_ptrtitle(void);
 
-FILE	*Cfile;
 char	Win_setup, jset;
 static	jmp_buf	Mj;
 
 #define	IPC_MODE	0600
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
 
 unsigned	Pollinit,	/* Initial polling */
 		Pollfreq;	/* Current polling frequency */
@@ -126,8 +119,6 @@ char	scrkeep,
 	nopage,
 	pfirst = P_DONT_CARE,
 	confabort = 1;
-
-DEF_DISPOPTS;
 
 char	*Realuname;
 
@@ -149,9 +140,7 @@ WINDOW	*hjscr,
 	*hpscr,
 	*tpscr,
 	*jscr,
-	*pscr,
-	*hlpscr,
-	*escr;
+	*pscr;
 
 char	*ptdir,
 	*spdir,

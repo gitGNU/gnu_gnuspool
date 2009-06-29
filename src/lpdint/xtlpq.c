@@ -38,7 +38,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #define	DEFAULT_PORTNAME	"printer"
 #define	PR_SHORTDISP	'\3'
@@ -47,15 +46,7 @@
 
 netid_t	myhostid;
 
-FILE	*Cfile;
 extern	uid_t	Realuid, Effuid, Daemuid;
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 void	nomem(void)
 {

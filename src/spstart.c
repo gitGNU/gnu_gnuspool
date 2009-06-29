@@ -52,22 +52,13 @@ typedef	enum	{ START, HALT, STOP, INTER, OK, NOK, ADD, CHANGE, DEL, STAT_ENQ, CO
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
-FILE	*Cfile;
 char	*Curr_pwd;
 
-DEF_DISPOPTS;
 int	network;
 extern	char	freeze_wanted;
 char	freeze_cd, freeze_hd;
 
 #define	IPC_MODE	0600
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	xfershm		*Xfer_shmp;
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 #define	START_COUNT	12
 #define	SLEEP_TIME	10

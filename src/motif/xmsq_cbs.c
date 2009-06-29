@@ -1524,10 +1524,7 @@ void	cb_srchfor(Widget parent)
 	CreateActionEndDlg(s_shell, panew, (XtCallbackProc) endsdlg, $H{xmspq search menu help});
 }
 
-void	cb_chelp(
-	 Widget w, 
-	 int data, 
-	 XmAnyCallbackStruct * cbs)
+void	cb_chelp(Widget w, int data, XmAnyCallbackStruct *cbs)
 {
 	Widget	help_w;
 	Cursor	cursor;

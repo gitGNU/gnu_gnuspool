@@ -79,4 +79,4 @@ typedef	LONG	slotno_t;		/* May be -ve	*/
 
 typedef	LONG		int_ugid_t;
 typedef	LONG		int_pid_t;
-typedef	ULONG	classcode_t;
+typedef	ULONG		classcode_t;

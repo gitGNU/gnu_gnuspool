@@ -62,23 +62,12 @@ char	freeze_cd,
 	unqueue,		/* Unqueue job */
 	nodel;			/* Do not delete */
 
-DEF_DISPOPTS;
-
 char	*Curr_pwd,		/* PWD on entry */
 	*Olddir,		/* Directory to send to */
 	*jobprefix,		/* Prefix for job file */
 	*cmdprefix;		/* Prefix for command file */
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 char	*Realuname;
 
@@ -86,10 +75,6 @@ struct	spdet	*mypriv;
 
 int	exit_code,
 	force;
-
-struct	xfershm		*Xfer_shmp;
-
-/* Keep library happy */
 
 void	nomem(void)
 {

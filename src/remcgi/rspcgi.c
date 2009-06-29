@@ -41,8 +41,6 @@
 #include "listperms.h"
 #include "rcgilib.h"
 
-DEF_DISPOPTS;
-
 int	headerflag = -1;
 
 char	*formatstring;
@@ -53,8 +51,6 @@ int			gspool_fd;
 struct	apispdet	mypriv;
 
 char	bigbuff[200];
-
-FILE	*Cfile;
 
 int			Njobs, Nptrs;
 struct	apispq		*job_list;

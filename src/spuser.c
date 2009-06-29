@@ -50,7 +50,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #ifdef	OS_BSDI
 #define	_begy	begy
@@ -87,7 +86,6 @@ char	iflag,
 	errbox;
 
 char	*Curr_pwd;
-FILE	*Cfile;
 
 int	Current_user,
 	Top_user,
@@ -99,10 +97,7 @@ int	Current_user,
 
 WINDOW	*hscr,
 	*dscr,
-	*tpscr,
-	*hlpscr,
-	*escr,
-	*Ew;
+	*tpscr;
 
 int	DLINES,
 	HLINES,
@@ -202,14 +197,6 @@ struct	termios	orig_term;
 #else
 struct	termio	orig_term;
 #endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 void	exit_cleanup(void)
 {

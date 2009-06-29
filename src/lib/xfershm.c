@@ -42,7 +42,10 @@
 #include "errnums.h"
 #include "files.h"
 
-extern	struct	xfershm	*Xfer_shmp;
+/* Note that we define this here and not in any of the main programs any more
+   to minimise unresolved externals in the shared libraries */
+
+struct	xfershm	*Xfer_shmp;
 
 #ifdef	USING_MMAP
 int	Xfermmfd;
@@ -91,7 +94,10 @@ void	unlockxbuf(void)
 }
 
 #else
-extern	int	Sem_chan;
+
+/* Likewise define this here */
+
+int	Sem_chan = -1;
 
 static	struct	sembuf	xlw = { XT_LOCK, -1, SEM_UNDO },
 			xulw ={ XT_LOCK, 1, SEM_UNDO };

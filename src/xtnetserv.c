@@ -59,7 +59,6 @@
 #include <time.h>
 #endif
 #include "services.h"
-#include "displayopt.h"
 
 SHORT	qsock,			/* TCP Socket for accepting queued jobs on */
 	uasock,			/* Datagram socket for user access enquiries */
@@ -83,8 +82,6 @@ int	had_alarm, hadrfresh;
 #define	IPC_MODE	0600
 
 #ifndef	USING_FLOCK
-int	Sem_chan;
-
 /* These don't have SEM_UNDO in any more */
 
 struct	sembuf	jr[2] = {	{ JQ_FIDDLE,	0,	0 },
@@ -95,10 +92,6 @@ struct	sembuf	jr[2] = {	{ JQ_FIDDLE,	0,	0 },
 		pu[1] = {	{ PQ_READING,	-1,	0 }};
 #endif
 
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-
 struct	spr_req	sp_req;
 struct	spq	SPQ;
 
@@ -108,10 +101,6 @@ struct	spq	SPQ;
 struct	pages	pfe = { 1, 1, 0 };
 char	*spdir;
 char	tmpfl[NAMESIZE + 1], pgfl[NAMESIZE + 1];
-
-FILE	*Cfile;
-
-DEF_DISPOPTS;
 
 struct	hhash	*nhashtab[NETHASHMOD];
 struct	cluhash	*cluhashtab[NETHASHMOD];

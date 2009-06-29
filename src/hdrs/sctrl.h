@@ -68,3 +68,6 @@ extern LONG	wnum(WINDOW *, const int, struct sctrl *, const LONG);
 extern LONG	chk_wnum(WINDOW *, const int, struct sctrl *, const LONG, const int);
 extern char	*wgets(WINDOW *, const int, struct sctrl *, const char *);
 extern char	*chk_wgets(WINDOW *, const int, struct sctrl *, const char *, const int);
+
+extern	WINDOW	*hlpscr, *escr, *Ew;
+

@@ -40,10 +40,6 @@ extern	struct	spptr	PREQ;
 #define	OREQ	oreq.spr_un.o.spr_jpslot
 #define	PREQS	preq.spr_un.p.spr_pslot
 
-#ifndef	USING_FLOCK
-extern	int	Sem_chan;
-#endif
-
 /* X stuff */
 
 extern	XtAppContext	app;

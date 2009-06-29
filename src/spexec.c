@@ -28,7 +28,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 
 /* This is a helper program for macros in user interface stuff so
@@ -46,15 +45,6 @@
 
    I think this is secure but if it isn't please let me know
    ASAP!!! (and suggest how to fix) */
-
-FILE	*Cfile;
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 void	nomem()
 {

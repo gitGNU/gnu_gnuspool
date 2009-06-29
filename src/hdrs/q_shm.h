@@ -102,12 +102,15 @@ struct	pshm_info  {
 	ULONG		Last_ser;	/* Serial of last version/changes */
 };
 
-#define	SHM_JHASHMOD	397		/* Prime number extracted from atmosphere */
-#define	SHM_PHASHMOD	59		/* Prime number extracted from atmosphere */
+#define	SHM_JHASHMOD	5197		/* Prime number extracted from atmosphere */
+#define	SHM_PHASHMOD	503		/* Prime number extracted from atmosphere */
 #define	SHM_HASHEND	(-1L)		/* Denotes end of hash */
 
 extern	struct	jshm_info	Job_seg;
 extern	struct	pshm_info	Ptr_seg;
+#ifndef	USING_FLOCK
+extern	int	Sem_chan;
+#endif
 
 #define	jno_jhash(jno)	(((unsigned) (jno)) % SHM_JHASHMOD)
 #define	jid_hash(nid,slot)	(((((unsigned) (nid)) >> 16) ^ ((unsigned) (nid)) ^ (((unsigned) (slot)) >> 4) ^ ((unsigned) (slot))) % SHM_JHASHMOD)

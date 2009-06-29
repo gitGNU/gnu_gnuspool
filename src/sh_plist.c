@@ -82,12 +82,7 @@ struct spptr	*	printing(struct spq *);
 void	ptrnotify(struct spptr *);
 
 extern	uid_t	Daemuid;
-
 extern	int	Ctrl_chan;
-#ifndef	USING_FLOCK
-extern	int	Sem_chan;
-#endif
-
 extern	int	Network_ok;
 
 #ifdef	NETWORK_VERSION

@@ -39,14 +39,12 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 unsigned Nusers;
 extern	struct	sphdr	Spuhdr;
 struct	spdet	*ulist;
 
 char	*Curr_pwd;
-FILE	*Cfile;
 
 static	char	set_default,
 		copyall,
@@ -103,14 +101,6 @@ struct	perm	{
 };
 
 #define	MAXPERM	(sizeof (ptab)/sizeof(struct perm))
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 int	spitoption(const int, const int, FILE *, const int, const int);

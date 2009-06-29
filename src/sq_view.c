@@ -46,8 +46,6 @@ extern	char	helpclr;
 extern	char	*Realuname;
 extern	struct	spdet	*mypriv;
 
-extern	WINDOW	*escr, *hlpscr, *Ew;
-
 #define	FIRSTROW	2
 #define	INITPAGES	20	/* Initial size to allocate vector for */
 #define	INCPAGES	10	/* Incremental size page offsets vector */

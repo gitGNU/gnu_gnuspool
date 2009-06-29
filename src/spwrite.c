@@ -37,7 +37,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #ifdef	UTMP_FILE
 #define	ACTUAL_UTMP_FILE	UTMP_FILE
@@ -47,14 +46,6 @@
 
 #define	INCFILES	10
 
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
-FILE	*Cfile;
 char	*dispatch;
 
 struct	ostr	{

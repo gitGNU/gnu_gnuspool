@@ -27,6 +27,10 @@
 #include "displayopt.h"
 #include "incl_unix.h"
 
+/* Include this here to resolve library undefined symbol */
+
+dispopt_t	Displayopts =  { JINCL_NULL, JRESTR_ALL, NRESTR_NONE, SORTP_NONE };
+
 /* Read through job queue and prune according to the options */
 
 void	readjoblist(const int andunlock)

@@ -33,7 +33,6 @@
 #include "errnums.h"
 #include "incl_unix.h"
 #include "incl_ugid.h"
-#include "displayopt.h"
 #include "xihtmllib.h"
 #include "cgiuser.h"
 #include "rcgilib.h"

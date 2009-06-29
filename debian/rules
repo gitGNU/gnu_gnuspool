@@ -33,36 +33,36 @@ config.status: configure
 
 build: build-stamp
 
-build-stamp:  config.status 
+build-stamp:  config.status
 	dh_testdir
-	
+
 	# Add here commands to compile the package.
 	$(MAKE)
 	#docbook-to-man debian/gnuspool.sgml > gnuspool.1
-	
+
 	touch $@
 
-clean: 
+clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp 
-	
+	rm -f build-stamp
+
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) distclean
 	# Remove this
 	# rm -f config.sub config.guess
-	
-	dh_clean 
+
+	dh_clean
 
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
+	dh_clean -k
 	dh_installdirs -Pdebian/tmp -pgnuspool
-	
+
 	# Add here commands to install the package into debian/tmp.
 	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp SPOOLUSER=root datarootdir=/usr/share STAGED_INSTALL=true install
-	
+
 	# keep lintian quiet about printers directory
 	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/usr/share/gnuspool/ptrs/README
 	# Get rid of remote CGI bins for now as they depend on separated API library.
@@ -76,12 +76,12 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs 
+	dh_installchangelogs
 	dh_installdocs
 	dh_installexamples
 	dh_install --fail-missing
 #	dh_installmenu
-#	dh_installdebconf	
+#	dh_installdebconf
 #	dh_installlogrotate
 #	dh_installemacsen
 #	dh_installpam
@@ -104,4 +104,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+.PHONY: build clean binary-indep binary-arch binary install

@@ -32,10 +32,6 @@ void	doerror(WINDOW *, const int);
 void	dohelp(WINDOW *, struct sctrl *, const char *);
 void	endhe(WINDOW *, WINDOW **);
 
-extern	WINDOW	*escr,
-		*hlpscr,
-		*Ew;
-
 extern	char	helpclr;
 
 void  wh_fill(WINDOW *wp, const int row, const struct sctrl *scp, const classcode_t value)

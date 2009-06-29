@@ -122,8 +122,7 @@ int	Jhline, Jeline;
 static	int	more_above, more_below;
 static	char	*more_amsg, *more_bmsg, *localptr, *yesmsg, *nomsg;
 
-extern	WINDOW	*hjscr, *hpscr, *tpscr, *jscr, *pscr, *escr, *hlpscr;
-WINDOW	*Ew;
+extern	WINDOW	*hjscr, *hpscr, *tpscr, *jscr, *pscr;
 
 /* Open job file. Allocate memory for it as well.  */
 

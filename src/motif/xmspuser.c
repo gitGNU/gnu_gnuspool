@@ -61,17 +61,6 @@ static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
-
-FILE	*Cfile;
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 int	arr_rtime,
 	arr_rint;

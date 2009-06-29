@@ -41,6 +41,11 @@
 #include "ecodes.h"
 #include "errnums.h"
 
+/* Note that we define this here and not in any of the main programs any more
+   to minimise unresolved externals in the shared libraries */
+
+struct	jshm_info	Job_seg;
+
 /* All this code attempts to cope with 4 cases depending on whether we
    are using file locking for locking or semaphores (USING_FLOCK) and
    whether we are using memory-mapped files or shared memory (USING_MMAP) */
@@ -77,8 +82,6 @@ void	jobshm_unlock(void)
 }
 
 #else
-extern	int	Sem_chan;
-
 static	struct	sembuf	jr[2] =	{{	JQ_FIDDLE,	0,	0	},
 				{	JQ_READING,	1,	SEM_UNDO}},
 			ju[1] = {{	JQ_READING,	-1,	SEM_UNDO}};

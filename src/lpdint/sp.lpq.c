@@ -51,9 +51,6 @@
 #include "displayopt.h"
 #include "xfershm.h"
 
-DEF_DISPOPTS;
-struct	xfershm		*Xfer_shmp;
-
 #define	LOCALHOST_NAME	"localhost"
 
 int	spitoption(const int, const int, FILE *, const int, const int);
@@ -67,16 +64,7 @@ int	longlist = 0;
 char	*spechost;
 char	*Curr_pwd;
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 struct	spdet	*mypriv;
 

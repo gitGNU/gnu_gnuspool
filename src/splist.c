@@ -47,21 +47,11 @@
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
-DEF_DISPOPTS;
 extern	char	freeze_wanted;
 char	freeze_cd, freeze_hd, headerflag;
 char	*Curr_pwd;
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 char		*formatstring;
 
@@ -81,8 +71,6 @@ struct	spdet	*mypriv;
 /* Vector of states - assumed given prompt codes consecutively */
 
 char	*statenames[SPP_NSTATES];
-
-struct	xfershm		*Xfer_shmp;
 
 /* For when we run out of memory.....  */
 

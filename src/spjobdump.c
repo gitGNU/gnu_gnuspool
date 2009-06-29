@@ -53,20 +53,8 @@
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "xfershm.h"
-#include "displayopt.h"
 
 #define	IPC_MODE	0
-
-FILE	*Cfile;
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-DEF_DISPOPTS;
 
 char		nodelete;
 LONG		Jobnum;

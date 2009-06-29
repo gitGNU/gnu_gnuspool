@@ -58,8 +58,6 @@
 #define	PATH_MAX	1024
 #endif
 
-DEF_DISPOPTS;
-
 int		nopage,
 		headerflag;
 
@@ -88,18 +86,7 @@ char	*Curr_pwd;
 
 static	char	*localptr;
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-
-struct	xfershm		*Xfer_shmp;
 
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));

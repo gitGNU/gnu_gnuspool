@@ -49,7 +49,6 @@
 #include "cfile.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #ifndef	P_tmpdir
 #define	P_tmpdir	"/tmp/"
@@ -86,8 +85,6 @@ int	jobtimeout = 0;
 
 #define	JN_INC	80000		/*  Add this to job no if clashes */
 
-FILE	*Cfile;
-
 char	Sufchars[] = DEF_SUFCHARS;
 char	wotform[MAXFORM+1];
 int	wotl;
@@ -95,14 +92,6 @@ int	wotl;
 char	*Curr_pwd;
 
 char	tmpfl[L_tmpnam];
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));

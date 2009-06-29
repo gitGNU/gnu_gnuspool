@@ -50,7 +50,5 @@ typedef	 struct  {
 }  dispopt_t;
 
 extern	dispopt_t	Displayopts;
-#define	DEF_DISPOPTS	dispopt_t	Displayopts =  { JINCL_NULL, JRESTR_ALL, NRESTR_NONE, SORTP_NONE }
-
 extern void	readjoblist(const int);
 extern void	readptrlist(const int);

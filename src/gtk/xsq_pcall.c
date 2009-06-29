@@ -31,7 +31,6 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 #include "xsq_ext.h"
-#include "displayopt.h"
 #include "gtk_lib.h"
 #include "stringvec.h"
 

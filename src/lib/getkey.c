@@ -42,15 +42,16 @@
 #if defined(HAVE_SYS_SELECT_H) && defined(BROKEN_TERM_READ)
 #include <sys/select.h>
 #endif
+#include "defaults.h"
 #include "incl_sig.h"
 #include <errno.h>
 #include "ecodes.h"
 #include "keymap.h"
 #include "magic_ch.h"
 #include "incl_unix.h"
+#include "sctrl.h"
 
 extern	unsigned  char	Key_delay;
-extern	WINDOW	*Ew;
 
 extern	void	doerror();
 

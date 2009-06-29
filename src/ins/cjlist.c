@@ -42,8 +42,6 @@
 #define	PATH_MAX	1024
 #endif
 
-FILE	*Cfile;
-
 struct  {
 	char	*srcdir;	/* Directory we read from if not pwd */
 	char	*outdir;	/* Directory we write to */

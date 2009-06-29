@@ -38,17 +38,6 @@
 #include "cfile.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
-
-FILE	*Cfile;
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 #define	DEFAULT_SUSTIME	300	/* 5 minutes */
 #define	MAX_SUSTIME	7200	/* 2 hours */

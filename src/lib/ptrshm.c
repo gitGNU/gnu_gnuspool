@@ -41,6 +41,11 @@
 #include "errnums.h"
 #include "files.h"
 
+/* Note that we define this here and not in any of the main programs any more
+   to minimise unresolved externals in the shared libraries */
+
+struct	pshm_info	Ptr_seg;
+
 /* All this code attempts to cope with 4 cases depending on whether we
    are using file locking for locking or semaphores (USING_FLOCK) and
    whether we are using memory-mapped files or shared memory (USING_MMAP) */
@@ -76,8 +81,6 @@ void	ptrshm_unlock(void)
 	setphold(F_UNLCK);
 }
 #else
-extern	int	Sem_chan;
-
 static	struct	sembuf	pr[2] = {{	PQ_FIDDLE,	0,	0	},
 				 {	PQ_READING,	1,	SEM_UNDO}},
 			pu[1] = {{	PQ_READING,	-1,	SEM_UNDO}};

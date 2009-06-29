@@ -40,10 +40,6 @@ int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 void	exit_cleanup(void);
 #endif
 
-extern	WINDOW	*escr,
-		*hlpscr,
-		*Ew;
-
 extern	char	iflag,
 		cflag,
 		alphsort,

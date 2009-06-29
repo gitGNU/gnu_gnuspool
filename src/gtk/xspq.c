@@ -65,20 +65,9 @@ void	openjfile(void);
 void	openpfile(void);
 void	ptr_redisplay(void);
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
 
 extern	struct	macromenitem	jobmacs[], ptrmacs[];
-
-DEF_DISPOPTS;
 
 unsigned	Pollinit,	/* Initial polling */
 		Pollfreq;	/* Current polling frequency */

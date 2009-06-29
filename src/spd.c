@@ -65,7 +65,6 @@
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "xfershm.h"
-#include "displayopt.h"
 
 #define	INCPAGES	10	/* Incremental size */
 
@@ -104,13 +103,6 @@ LONG	Num_sent,
 	Pages_done,
 	My_msgid;
 
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	xfershm		*Xfer_shmp;
-DEF_DISPOPTS;
-
 /* These bits all relate to shared memory ops.  */
 
 int	Ptrslot;		/*  This is index of Pptr in Job_seg.plist  */
@@ -122,8 +114,6 @@ union	{			/*  Dummy ones to save testing  */
 }  dummy;
 struct	spq	*Cjob = &dummy.jq;	/*  Current job */
 struct	spptr	*Pptr = &dummy.pq;	/*  Current ptr descr */
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 char	*formp, *prtp;
 extern	PIDTYPE	childproc;
 extern	struct	initpkt	in_params;
@@ -176,7 +166,7 @@ char	*Ep_spfl = Ev_spfl+11, *Ep_sppg = Ev_sppg+10;
 char	*Ep_spjob = Ev_spjob + 9, *Ep_sphost = Ev_sphost + 10;
 char	*Ep_range = Ev_sprange+11, *Ep_spoe = Ev_spoe+8, *Ep_spcps = Ev_spcps + 9;
 
-FILE	*Cfile, *ffile;
+FILE	*ffile;
 struct	pages	pfe;
 
 char	*ptdir,

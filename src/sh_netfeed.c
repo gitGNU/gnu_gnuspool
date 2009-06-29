@@ -64,7 +64,6 @@ extern void	setphold(const int);
 #define	PTRS_UNLOCK	setphold(F_UNLCK)
 
 #else
-extern	int	Sem_chan;
 static	struct	sembuf	rjr[2]	= {{ JQ_FIDDLE,		0,	0 },
 				   { JQ_READING,	1,	0 }},
 			rju[1]  = {{ JQ_READING,	-1,	0 }},

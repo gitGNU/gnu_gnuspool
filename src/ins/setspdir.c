@@ -89,8 +89,6 @@ char	*spdir;			/* Spool directory */
 
 /*	This are just to keep the library happy....*/
 
-FILE	*Cfile;
-
 void	nomem(void)
 {
 	fprintf(stderr, "Run out of memory\n");

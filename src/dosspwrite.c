@@ -39,21 +39,12 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #define	RTIMEOUT	10	/* 10 seconds to hear back from xtnetserv */
 
 SHORT	uaportnum;
 
 extern	uid_t	Realuid, Effuid, Daemuid;
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
-FILE	*Cfile;
 
 /* For benefit of library routines */
 

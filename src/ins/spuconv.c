@@ -48,7 +48,6 @@ extern char  *expand_srcdir(char *);
 extern char  *make_absolute(char *);
 
 const	char	*progname;
-FILE	*Cfile;
 
 /* For when we run out of memory.....  */
 

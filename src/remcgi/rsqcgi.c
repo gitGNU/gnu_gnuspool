@@ -41,8 +41,6 @@
 #include "listperms.h"
 #include "rcgilib.h"
 
-DEF_DISPOPTS;
-
 int	nopage = -1,
 	headerflag = -1;
 
@@ -55,8 +53,6 @@ int			gspool_fd;
 struct	apispdet	mypriv;
 
 char	bigbuff[200];
-
-FILE	*Cfile;
 
 static	char	*localptr;
 

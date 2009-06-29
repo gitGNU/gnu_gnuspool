@@ -39,7 +39,6 @@ extern int	yyparse(void);
 
 struct	command	*Control_list;
 int	debug;
-FILE	*Cfile;
 
 char	*community = "public";
 double	udptimeout = 1.0;

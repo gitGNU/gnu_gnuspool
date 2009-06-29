@@ -57,8 +57,6 @@
 #define	PATH_MAX	1024
 #endif
 
-DEF_DISPOPTS;
-
 int	nopage = -1,
 	headerflag = -1;
 
@@ -76,19 +74,9 @@ char	bigbuff[200];
 
 char	*Curr_pwd;
 
-FILE	*Cfile;
-
 static	char	*localptr;
 
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-struct	xfershm		*Xfer_shmp;
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
 

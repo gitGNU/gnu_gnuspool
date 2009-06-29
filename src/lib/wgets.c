@@ -31,9 +31,9 @@ void	dohelp(WINDOW *, struct sctrl *, const char *);
 
 extern	char	helpclr;
 
-extern	WINDOW	*escr,
-		*hlpscr,
-		*Ew;
+/* Define these here to reduce dependencies on external libraries */
+
+WINDOW	*escr, *hlpscr, *Ew;
 
 #define	MAXSTR	80
 

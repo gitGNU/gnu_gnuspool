@@ -44,8 +44,6 @@
 #define	QPTIMEOUT	24		/* One day if printed */
 #define	DEF_SUFCHARS	".-"		/* Default suffix chars */
 
-FILE	*Cfile;
-
 int	gspool_fd;
 char	*realuname;
 struct	apispdet	mypriv;

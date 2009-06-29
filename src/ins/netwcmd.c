@@ -47,22 +47,11 @@
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "displayopt.h"
-
-DEF_DISPOPTS;
-
-FILE	*Cfile;
+#include "errnums.h"
 
 #define	IPC_MODE	0600
 
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-
 int	expandem = 1;
-char	*progname;
 struct	spdet	*mypriv;
 
 /* For when we run out of memory.....  */

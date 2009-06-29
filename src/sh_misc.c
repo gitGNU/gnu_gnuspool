@@ -59,9 +59,6 @@ extern	char	*msgdisp, *ptrmsg;
 extern	uid_t	Daemuid;
 
 extern	int	Ctrl_chan;
-#ifndef	USING_FLOCK
-extern	int	Sem_chan;
-#endif
 
 #ifdef	BUGGY_SIGCLD
 int	nchild;

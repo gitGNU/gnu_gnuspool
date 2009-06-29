@@ -47,7 +47,7 @@
 #include "inline/owndirops.c"
 #endif
 
-static char *	pathjoin(const char *d1, const char *d2, const char *f)
+static char *pathjoin(const char *d1, const char *d2, const char *f)
 {
 	char	*d;
 	static	char	slash[] = "/";

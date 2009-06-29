@@ -50,21 +50,11 @@
 
 /* Semaphore structures.  */
 
-DEF_DISPOPTS;
-
 struct	spdet	*mypriv;
 
 char	*format;
 
-FILE	*Cfile;
-
 #define	IPC_MODE	0600
-
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-
-struct	jshm_info	Job_seg;
 
 /* For when we run out of memory.....  */
 

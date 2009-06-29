@@ -35,21 +35,12 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 short	qsock;			/* TCP Socket for accepting queued jobs on */
 
 int	debug_level = 0;
 
-FILE	*Cfile;
 extern	uid_t	Realuid, Effuid, Daemuid;
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 extern int	parsecf(FILE *);
 extern void	lassign(struct varname *, const char *);

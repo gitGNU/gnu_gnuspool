@@ -56,7 +56,6 @@
 #else
 #include <time.h>
 #endif
-#include "displayopt.h"
 
 #ifdef	OS_FREEBSD
 #define _SC_PAGE_SIZE _SC_PAGESIZE
@@ -155,8 +154,6 @@ struct remote	*	find_connected(const netid_t);
 struct remote	*	find_probe(const netid_t);
 #endif
 
-DEF_DISPOPTS;
-
 float	pri_decrement = 1.0;	/* Decrement in priority assignment */
 
 /* If we are using memory-mapped files, we use the memory-map file id
@@ -172,19 +169,14 @@ int	Xfershmchan;		/* ID of shared memory segment */
 #endif
 #ifdef	USING_FLOCK
 extern	int	Xfershm_lockfd;	/* Declared properly in xfershm.c */
-#else
-int	Sem_chan;		/* Semid */
 #endif /* Using flock */
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 #ifdef	NETWORK_VERSION
 extern	PIDTYPE	Netm_pid;
 PIDTYPE	Xtns_pid;
 #endif
 
-struct	xfershm		*Xfer_shmp;
+extern	struct	xfershm		*Xfer_shmp;
 
 /* Semaphore structures.  */
 
@@ -194,8 +186,6 @@ time_t	suspend_sched;
 extern	int	Netsync_req;
 
 #define	INITJBUF	50
-
-FILE	*Cfile;
 
 char	*daem,
 	*msgdisp,

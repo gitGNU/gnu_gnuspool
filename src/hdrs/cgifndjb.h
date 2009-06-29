@@ -28,9 +28,5 @@ struct	ptrswanted	{
 
 int	decode_jnum(char *, struct jobswanted *);
 int	decode_pname(char *, struct ptrswanted *);
-const Hashspq *	find_job(struct jobswanted *);
-const Hashspptr *	find_ptr(struct ptrswanted *);
-
-#ifndef	USING_FLOCK
-extern	int	Sem_chan;
-#endif
+extern	const Hashspq *find_job(struct jobswanted *);
+extern	const Hashspptr *find_ptr(struct ptrswanted *);

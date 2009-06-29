@@ -60,6 +60,7 @@
 #include "q_shm.h"
 #include "xfershm.h"
 #include "incl_unix.h"
+#include "ecodes.h"
 
 #define	DEFAULT_NWORDS	4
 #define	MAX_NWORDS	8
@@ -73,9 +74,6 @@ char			*spooldir = "/usr/spool/spd";
 #ifndef	PATH_MAX
 #define	PATH_MAX	1024
 #endif
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
 
 #if	(defined(OS_LINUX) || defined(OS_BSDI)) && !defined(_SEM_SEMUN_UNDEFINED)
 #define	my_semun	semun
@@ -93,8 +91,14 @@ union	my_semun	{
 };
 #endif
 
+void	nomem()
+{
+	fprintf(stderr, "Out of memory\n");
+	exit(E_NOMEM);
+}
+
 #ifdef	HAVE_SYS_MMAN_H
-char *	mmfile_name(const char * name)
+char *mmfile_name(const char * name)
 {
 	static	char	fname[PATH_MAX];
 

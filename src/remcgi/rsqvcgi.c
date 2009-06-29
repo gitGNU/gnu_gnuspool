@@ -41,8 +41,6 @@
 
 #define	LOTSANDLOTS	99999999L	/* Maximum page number */
 
-FILE	*Cfile;
-
 int	gspool_fd;
 char	*realuname;
 struct	apispdet	mypriv;

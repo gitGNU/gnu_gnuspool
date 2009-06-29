@@ -88,8 +88,6 @@ char	jfile[] = JFILE;
 #define	INCNJOBS	(INITJALLOC/2)
 
 #ifndef	USING_FLOCK
-extern	int	Sem_chan;
-
 static	struct	sembuf	jw[2] = {{	JQ_READING,	0,	0 },
 				 {	JQ_FIDDLE,	1,	0 }},
 			ju[1] = {{	JQ_FIDDLE,	-1,	0 }};

@@ -37,6 +37,10 @@
 
 extern	char	*Helpfile_path;
 
+/* Define this here */
+
+FILE	*Cfile;
+
 FILE  *getcfilefrom(char *filename, const char *keyword, const char *deft_file, const char *defdir)
 {
 	char	*resf;

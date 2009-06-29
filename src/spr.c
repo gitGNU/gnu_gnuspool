@@ -55,7 +55,6 @@
 #include "cfile.h"
 #include "extdefs.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #ifndef	ROOTID
 #define	ROOTID	0
@@ -80,7 +79,6 @@ struct	spr_req	sp_req;
 struct	spq	SPQ;
 jobno_t	jobn;
 netid_t		Out_host;	/* For re-routing to rspr */
-struct	xfershm		*Xfer_shmp;
 
 /* Default delimiter and length
    If these are unchanged we don't create a page file */
@@ -92,20 +90,11 @@ int	jobtimeout = 0;
 
 #define	JN_INC	80000		/*  Add this to job no if clashes */
 
-FILE	*Cfile;
-
 char	Sufchars[] = DEF_SUFCHARS;
 char	wotform[MAXFORM+1];
 int	wotl;
 
-#ifndef	USING_FLOCK
-int	Sem_chan = -1;
-#endif
 char	*Curr_pwd, *spdir, *tmpfl, *pgfl;
-
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-DEF_DISPOPTS;
 
 int	spitoption(const int, const int, FILE *, const int, const int);
 int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));

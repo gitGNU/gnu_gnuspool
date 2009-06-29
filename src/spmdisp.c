@@ -44,7 +44,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 char	configname[] = USER_CONFIG;
 char	*writer, *doswriter, *mailer, *shellname;
@@ -57,18 +56,7 @@ int	repl_mail = 0, repl_write = 0, repl_doswrite = 0;
 int	msg_code = $E{Job errors msg};
 char	*orig_host;
 
-FILE	*Cfile;
-
 extern	char	*Helpfile_path;
-
-/* Keep library happy.  */
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 void	nomem(void)
 {

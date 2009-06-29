@@ -38,7 +38,6 @@
 #include "spq.h"
 #include "xfershm.h"
 #include "q_shm.h"
-#include "displayopt.h"
 
 #define	PIDFILE	".xtlpcpid"
 
@@ -52,16 +51,7 @@ unsigned	loopwait = 1;
 float		lingertime = 0;
 unsigned	input_timeout = 5, output_timeout = 5, send_retries = 0;
 
-FILE	*Cfile;
 extern	uid_t	Realuid, Effuid, Daemuid;
-struct	jshm_info	Job_seg;
-struct	pshm_info	Ptr_seg;
-struct	xfershm		*Xfer_shmp;
-extern	int	Ctrl_chan;
-#ifndef	USING_FLOCK
-int	Sem_chan;
-#endif
-DEF_DISPOPTS;
 
 extern int	parsecf(FILE *);
 extern int	evalcond(struct condition *);
