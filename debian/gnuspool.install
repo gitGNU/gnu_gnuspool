@@ -5,6 +5,8 @@ usr/lib/libgnuspool_curs.la
 usr/lib/libgnuspool_int*.so*
 usr/lib/libgnuspool_int.la
 usr/lib/gnuspool
+usr/lib/libgnuspool_curs*.so*
+usr/lib/libgnuspool_int*.so*
 usr/sbin
 usr/share/gnuspool
 usr/share/man/man1
