@@ -28,7 +28,7 @@ Description: API development library for GNUspool
 Package: libgnuspool-dev
 Section: libdevel
 Architecture: any
-Depends: libgnuspool-1-1 (= ${binary:Version})
+Depends: libgnuspool0 (= ${binary:Version})
 Description: API development library for GNUspool
  Consists of static API library and include files
 
