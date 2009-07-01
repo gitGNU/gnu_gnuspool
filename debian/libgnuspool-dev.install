@@ -1,3 +1,4 @@
 usr/include
 usr/lib/libgnuspool.*a
+usr/lib/libgnuspool.*o
 usr/share/man/man3
