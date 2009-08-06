@@ -44,7 +44,7 @@ g/gnuspool/d
 w
 q
 EOF
-rm -f /etc/gnuspool-hosts
+rm -f /etc/gnuspool.hosts
 }
 
 removefiles() {
