@@ -268,18 +268,17 @@ unless  ($had)  {
     close SRV;
 }
 
-unless (-f "/etc/gnuspool-hosts")  {
+unless (-f "/etc/gnuspool.hosts")  {
     my $hn = `hostname`;
     chop($hn);
     my $he = gethostbyname($hn);
     my $ha = inet_ntoa($he);
-    unless ($ha =~ /^127\./)  {
-	if  (open(HF, ">//etc/gnuspool-hosts"))  {
-	    my $lt = localtime;
-	    print HF "# Host file created on $lt\n\n";
-	    print HF "localaddress\t$ha\n";
-	    close HF;
-	}
+    if  (open(HF, ">/etc/gnuspool.hosts"))  {
+	my $lt = localtime;
+	print HF "# Host file created on $lt\n\n";
+	print HF "# ****** FIXME need proper IP address here!!!\n" if $ha =~ /^127\./;
+	print HF "localaddress\t$ha\n";
+	close HF;
     }
 }
 
