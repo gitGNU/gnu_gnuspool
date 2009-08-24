@@ -129,7 +129,7 @@ $Options = {
 	       [ "norange", "N", "Ignore page ranges" ],
 	       [ "inclpage1", "N", "Always print page 1 when printing ranges" ],
 	       [ "single", "N", "Single-job mode" ],
-	       [ "onecopy", "Y", "Limit to one copy - handled elsewhere" ] ] } ;
+	       [ "onecopy", "N", "Limit to one copy - handled elsewhere" ] ] } ;
 
 # Change previous way of recording port types
 

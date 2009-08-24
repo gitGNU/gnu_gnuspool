@@ -58,9 +58,13 @@ Host	=	$MYHOST
 
 { Form == p }	:T$SPOOLHDR
 
-# Insert for each copy.....
+# Insert print command
+# Multiple print commands to give multiple copies are not reliable
+# If they are replace the following line with
+# ( SPOOLCPS )	:$Form$DFILE
+# and put "onecopy" in the setup file
 
-( SPOOLCPS )	:$Form$DFILE
+:$Form$DFILE
 
 # Insert delete command
 
