@@ -1,7 +1,5 @@
 etc/gnuspool.ext
 usr/bin
-usr/lib/libgnuspool_curs*.so*
-usr/lib/libgnuspool_int*.so*
 usr/lib/gnuspool
 usr/lib/libgnuspool_curs*.so*
 usr/lib/libgnuspool_int*.so*
