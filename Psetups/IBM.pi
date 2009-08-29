@@ -66,13 +66,3 @@ halt    FONTRESET
 # may have turned on.
 
 docend  '\f' FONTRESET
-
-EOF
-}
-
-sub out_other {
-    my $file = shift;
-    my $ptrdets = shift;
-    print $file <<EOF;
-
-# This file is otherwise empty - characters are sent "straight through"
