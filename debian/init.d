@@ -1,26 +1,74 @@
-#! /bin/sh
+#!/bin/sh
 #
+# Example init.d script with LSB support.
+#
+# Please read this init.d carefully and modify the sections to
+# adjust it to the program you want to run.
+#
+# Copyright (c) 2007 Javier Fernandez-Sanguino <jfs@debian.org>
+#
+# This is free software; you may redistribute it and/or modify
+# it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2,
+# or (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License with
+# the Debian operating system, in /usr/share/common-licenses/GPL;  if
+# not, write to the Free Software Foundation, Inc., 59 Temple Place,
+# Suite 330, Boston, MA 02111-1307 USA
+#
+### BEGIN INIT INFO
+# Provides:          gnuspool
+# Required-Start:    $network $local_fs
+# Required-Stop:
+# Should-Start:      $named
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: GNUspool spooler
+# Description:       GNUspool is an advanced spooling system with
+#                    support for a wide variety of network-shared
+#                    printers.
+### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
 DAEMON=/usr/bin/gspl-start
-NAME=GNUspool
-DESC="GNUspool print spooler"
-LABEL=GNUspool
+NAME=gnuspool
+DESC="Print spooler"
 SPOOLDIR=/var/spool/gnuspool
 
 test -x $DAEMON || exit 0
 
-DODTIME=10                  # Time to wait for the server to die, in seconds
-                            # If this value is set too low you might not
-                            # let some servers to die gracefully and
-                            # 'restart' will not work
+. /lib/lsb/init-functions
 
-# Include gnuspool defaults if available
-if [ -f /etc/default/gnuspool ] ; then
-	. /etc/default/gnuspool
+# Default options, these can be overriden by the information
+# at /etc/default/$NAME
+DAEMON_OPTS="2000 20"       # Additional options given to the server (jobs and printers to allocate)
+
+DIETIME=10              # Time to wait for the server to die, in seconds
+                        # If this value is set too low you might not
+                        # let some servers to die gracefully and
+                        # 'restart' will not work
+
+STARTTIME=2             # Time to wait for the server to start, in seconds
+                        # If this value is set each time the server is
+                        # started (on start or restart) the script will
+                        # stall to try to determine if it is running
+                        # If it is not set and the server takes time
+                        # to setup a pid file the log message might 
+                        # be a false positive (says it did not start
+                        # when it actually did)
+                        
+# Include defaults if available
+if [ -f /etc/default/$NAME ] ; then
+	. /etc/default/$NAME
 fi
-
-set -e
 
 running()
 {
@@ -33,28 +81,7 @@ running()
     fi
 }
 
-force_stop() {
-# Forcefully kill the thing
-    if running ; then
-        pkill -15 spshed xtnetserv
-        # Is it really dead?
-        [ -n "$DODTIME" ] && sleep "$DODTIME"
-        if running ; then
-            pkill -9 spshed xtnetserv
-            [ -n "$DODTIME" ] && sleep "$DODTIME"
-            if running ; then
-                echo "Cannot kill $LABEL!"
-                exit 1
-            fi
-        fi
-    fi
-    return 0
-}
-
-case "$1" in
-  start)
-	echo -n "Starting $DESC: "
-
+start_server() {
 	# Delete previous memory-mapped stuff which might have got left behind
 
 	rm -f $SPOOLDIR/spmm*
@@ -62,59 +89,122 @@ case "$1" in
 	# Start up with initial job and printer allocation from default
 	
 	$DAEMON $DAEMON_OPTS 2>/dev/null
-        [ -n "$DODTIME" ] && sleep "$DODTIME"
 
-        if running ; then
-            echo "$NAME."
+	# Maybe set all printers to running?
+	# [ -n "$STARTTIME" ] && sleep "$STARTTIME"
+	#$DAEMON -f '*'
+}
+
+stop_server() {
+    /usr/bin/gspl-stop -y 2>/dev/null
+}
+
+force_stop() {
+# Force the process to die killing it manually
+	if running ; then
+		pkill -15 spshed
+		pkill -15 xtnetserv
+	# Is it really dead?
+		sleep "$DIETIME"
+		if running ; then
+			pkill -9 spshed
+			pkill -9 xtnetserv
+			sleep "$DIETIME"
+			if running ; then
+				echo "Cannot kill $NAME!"
+				exit 1
+			fi
+		fi
+	fi
+}
+
+
+case "$1" in
+  start)
+	log_daemon_msg "Starting $DESC " "$NAME"
+
+        # Check if it's running first
+
+        if running ;  then
+            log_progress_msg "apparently already running"
+            log_end_msg 0
+            exit 0
+        fi
+
+        if start_server ; then
+            [ -n "$STARTTIME" ] && sleep $STARTTIME # Wait some time 
+            if  running ;  then
+                # It's ok, the server started and is running
+                log_end_msg 0
+            else
+                # It is not running after we did start
+                log_end_msg 1
+            fi
         else
-            echo " ERROR."
+            # Either we could not start it
+            log_end_msg 1
         fi
 	;;
 
   stop)
-	echo -n "Stopping $DESC: "
-	if /usr/bin/gspl-stop -y 2>/dev/null; then
-	    echo "$NAME."
-	else
-	    echo " ERROR."
-	fi
-	;;
+        log_daemon_msg "Stopping $DESC" "$NAME"
+
+        if running ; then
+            stop_server
+            log_end_msg 0
+        else
+            # If it's not running don't do anything
+            log_progress_msg "apparently not running"
+            log_end_msg 0
+            exit 0
+        fi
+        ;;
 
   force-stop)
-	echo -n "Forcefully stopping $DESC: "
-        force_stop
-        if ! running ; then
-            echo "$NAME."
-        else
-            echo " ERROR."
+        # First try to stop the program gracefully
+        $0 stop
+        if running; then
+            # If it's still running try to kill it more forcefully
+            log_daemon_msg "Stopping (force) $DESC" "$NAME"
+	    errcode=0
+            force_stop || errcode=$?
+            log_end_msg $errcode
         fi
 	;;
 
-  force-reload)
-	running && $0 restart || exit 0
-	;;
-
-  restart)
-    echo -n "Restarting $DESC: "
-	$0 stop
-	[ -n "$DODTIME" ] && sleep $DODTIME
-	$0 start
-	echo "$NAME."
+  restart|force-reload)
+        log_daemon_msg "Restarting $DESC" "$NAME"
+	errcode=0
+        stop_server
+        # Wait some sensible amount, some server need this
+        [ -n "$DIETIME" ] && sleep $DIETIME
+        start_server
+        [ -n "$STARTTIME" ] && sleep $STARTTIME
+        running || errcode=$?
+        log_end_msg $errcode
 	;;
 
   status)
-    echo -n "$LABEL is "
-    if running ;  then
-        echo "running"
-    else
-        echo " not running."
-        exit 1
-    fi
-    ;;
+        log_daemon_msg "Checking status of $DESC" "$NAME"
+        if running ;  then
+            log_progress_msg "running"
+            log_end_msg 0
+        else
+            log_progress_msg "apparently not running"
+            log_end_msg 1
+            exit 1
+        fi
+        ;;
+
+  # Use this if the daemon cannot reload
+  reload)
+        log_warning_msg "Reloading $NAME daemon: not implemented, as the daemon"
+        log_warning_msg "cannot re-read the config file (use restart)."
+        ;;
+
   *)
 	N=/etc/init.d/$NAME
-	# echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
-	echo "Usage: $N {start|stop|restart|force-reload|status|force-stop}" >&2
+	echo "Usage: $N {start|stop|force-stop|restart|force-reload|status}" >&2
 	exit 1
 	;;
 esac
