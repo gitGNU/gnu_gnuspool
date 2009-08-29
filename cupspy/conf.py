@@ -122,7 +122,7 @@ def parse_loop(f, cdef):
                 cdef.setdef(m.group(1), m.group(2))
             else:
                 procparam(line, cdef)
-        except ConfError, Err:
+        except ConfError as Err:
             raise ConfError(Err.args[0] + " in " + line)
 
 class Conf:

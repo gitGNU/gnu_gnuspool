@@ -279,6 +279,7 @@ IPP_TAG_JOB=2
 IPP_TAG_PRINTER=4
 
 class IppError(Exception):
+    """Exception class for IPP errors"""
     pass
 
 def generate_value(name, valuetup):

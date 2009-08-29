@@ -117,7 +117,7 @@ try:
     if len(sys.argv) > 1:
         Cfile = sys.argv[1]
     Config_data.parse_conf_file(Cfile)
-except conf.ConfError, msg:
+except conf.ConfError as msg:
     sys.exit(msg.args[0])
 
 # Now for the meat of the stuff
@@ -295,6 +295,7 @@ def move_job(req):
     return ipp_ok(req)
 def authenticate_job(req):
     return ipp_ok(req)
+# Get notifications seems to be required in some cases
 def get_notifications(req):
     return ipp_ok(req)
 
@@ -413,7 +414,7 @@ def get_printer_attributes(req):
     """Get_printer_attributes request"""
     try:
         pname = get_pname_from_uri(req)
-    except CupsError, err:
+    except CupsError as err:
         return  ipp_status(req, err.codename, err.args[0])
 
     # Get the list of requested attributes from the request
@@ -449,7 +450,7 @@ def print_job(req):
     try:
         pname = get_pname_from_uri(req)
 	uname = get_req_user_name(req)
-    except CupsError, err:
+    except CupsError as err:
         return  ipp_status(req, err.codename, err.args[0])
 
     title = copy_or_default(req, 'job-name')
@@ -491,7 +492,7 @@ def print_job(req):
             break
         try:
             sti.write(b)
-        except IOError, err:
+        except IOError as err:
             if err.args[0] == errno.EPIPE:
                 return ipp_status(req, "IPP_NOT_POSSIBLE", "Is GNUspool running")
             else:
@@ -747,7 +748,7 @@ def cups_proc(conn, addr):
     ipr = ipp.ipp(fb)
     try:
         ipr.parse()
-    except ipp.IppError, mm:
+    except ipp.IppError as mm:
         f.close()
         return
 
@@ -802,7 +803,7 @@ def cups_server():
             s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             s.bind(sa)
             s.listen(5)
-        except socket.error, msg:
+        except socket.error as msg:
             if msg.args[0] == errno.EACCES:
                 sys.exit("Cannot access socket - no permission")
             if msg.args[0] == errno.EADDRINUSE:
@@ -845,14 +846,14 @@ Kill anything that's there already"""
     # Create directory if needed
     try:
         os.mkdir(Var_run, 0755)
-    except OSError, err:
+    except OSError as err:
         if err.args[0] != errno.EEXIST:
             sys.exit("Cannot create " + Var_run + " " + err.args[1])
     try:
         f = open(file, "wb")
         f.write(str(os.getpid()) + "\n")
         f.close()
-    except IOError, err:
+    except IOError as err:
         sys.exit("Cannot create " + file + " - " + err.args[1])
 
 def remove_pid(signum, frame):
