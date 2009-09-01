@@ -56,9 +56,11 @@ utild:
 install: all
 	cd $(UTILDIR);$(MAKE) install
 	cd $(BUILDDIR);$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
+	cd ptrinstall;$(MAKE)
 	$(INSTALL) gspl-ptrinstall $(SBINDIR)
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
+	cp -r -p ptrinstall $(DATADIR)
 	cd doc;$(MAKE) install
 	cd cupspy;$(MAKE) install
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
@@ -67,9 +69,11 @@ install: all
 install-strip:	all
 	cd $(UTILDIR);make install-strip
 	cd $(BUILDDIR);$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
+	cd ptrinstall;$(MAKE)
 	$(INSTALL) gspl-ptrinstall $(SBINDIR)
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
+	cp -r -p ptrinstall $(DATADIR)
 	cd doc;$(MAKE) install-strip
 	cd cupspy;$(MAKE) install-strip
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
@@ -86,6 +90,7 @@ clean:
 	rm -fr $(BUILDDIR) buildd utild build-src
 	cd doc;$(MAKE) clean
 	cd cupspy;$(MAKE) clean
+	cd ptrinstall;$(MAKE) clean
 
 distclean:	clean
 	cd $(UTILDIR);$(MAKE) distclean
@@ -95,3 +100,4 @@ distclean:	clean
 	$(RM) Checkuserinst Userinst Netinst STARTUP/Startdirs
 	cd doc;$(MAKE) distclean
 	cd cupspy;$(MAKE) distclean
+	cd ptrinstall;$(MAKE) distclean
