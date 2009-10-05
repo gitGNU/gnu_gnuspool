@@ -38,12 +38,15 @@ stopdaem() {
 }
 
 removenet() {
-ed /etc/services <<'EOF' >/dev/null 2>&1
-/GNUspool/d
-g/gnuspool/d
-w
-q
-EOF
+#ed /etc/services <<'EOF' >/dev/null 2>&1
+#/GNUspool/d
+#g/gnuspool/d
+#w
+#q
+#EOF
+if grep -qs '^gnuspool' /etc/services; then
+    echo "You may want to remove gnuspool entries from /etc/services"
+fi
 rm -f /etc/gnuspool.hosts
 }
 

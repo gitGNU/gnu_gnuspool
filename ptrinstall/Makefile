@@ -102,7 +102,7 @@ ui_usbparams.py:	usbparams.ui
 
 clean:
 	#rm -f ui_*.py *.pyc
-	rm *.pyc
+	rm -f *.pyc
 
 distclean: clean
 	rm -f config.py

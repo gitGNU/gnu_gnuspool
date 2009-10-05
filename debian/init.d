@@ -131,6 +131,12 @@ case "$1" in
             exit 0
         fi
 
+	if ! grep -qs '^gnuspool' /etc/services ; then
+	    log_progress_msg "You need ports set up in /etc/services - see /usr/share/doc/gnuspool/README.Debian"
+            log_end_msg 0
+	    exit 0
+	fi
+
         if start_server ; then
             [ -n "$STARTTIME" ] && sleep $STARTTIME # Wait some time 
             if  running ;  then

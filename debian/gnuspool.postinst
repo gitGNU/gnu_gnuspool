@@ -254,18 +254,19 @@ if ($errors)  {
 }
 
 unless  ($had)  {
-    open(SRV, ">>/etc/services") or die "Cannot open services file\n";
-    print SRV "# GNUspool services\n";
-    for my $p (@Portlist)  {
-	my $name = $p->[0];
-	my $dets = $p->[1];
-	my $pnum = $dets->[0];
-	my $proto = $dets->[1];
-	my $comment = $dets->[2];
-	my @altnames = @{$dets->[3]};
-	print SRV "$name\t$pnum/$proto ", join(' ', @altnames), " #$comment\n";
-    }
-    close SRV;
+#    open(SRV, ">>/etc/services") or die "Cannot open services file\n";
+#    print SRV "# GNUspool services\n";
+#    for my $p (@Portlist)  {
+#	my $name = $p->[0];
+#	my $dets = $p->[1];
+#	my $pnum = $dets->[0];
+#	my $proto = $dets->[1];
+#	my $comment = $dets->[2];
+#	my @altnames = @{$dets->[3]};
+#	print SRV "$name\t$pnum/$proto ", join(' ', @altnames), " #$comment\n";
+#    }
+#    close SRV;
+     print "Please note that services files need to be installed - see README.debian\n";
 }
 
 unless (-f "/etc/gnuspool.hosts")  {
@@ -276,7 +277,7 @@ unless (-f "/etc/gnuspool.hosts")  {
     if  (open(HF, ">/etc/gnuspool.hosts"))  {
 	my $lt = localtime;
 	print HF "# Host file created on $lt\n\n";
-	print HF "# ****** FIXME need proper IP address here!!!\n" if $ha =~ /^127\./;
+	print HF "# ****** Please note you may need proper IP address here to share jobs/printers\n" if $ha =~ /^127\./;
 	print HF "localaddress\t$ha\n";
 	close HF;
     }
@@ -297,11 +298,42 @@ then
 fi
 }
 
+installconfig() {
+    cat <<'EOF' >/etc/gnuspool.conf
+# Uncomment and adjust the contents of this file if you need to
+# relocate standard directories. NB stop everything first and
+# make sure permissions are right!!!
+
+# Location of spool directory
+#SPOOLDIR=/var/spool/gnuspool
+
+# Location of alternative spool directory
+#ALTSPOOL=/var/spool/gnuspool_alt
+
+# Location of printer setup files
+#SPOOLPT=/usr/share/gnuspool/ptrs
+
+# Location of internal programs
+#SPROGDIR=/usr/lib/gnuspool
+
+# Location of help/message files
+#SPHELPDIR=/usr/share/gnuspool/help
+
+# Program to run to send mail
+#MAILER=/usr/bin/mail
+
+# Program/script to run if printer stops
+# Called with args: ptrname device comment
+#SPPTRMSGS=/appropriate/shell/script
+
+EOF
+}
 
 case "$1" in
     configure)
 	fixperms
 	installnet
+	installconfig
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

@@ -1,0 +1,17 @@
+Before you attempt to start GNUspool, you should include the following
+entries in /etc/services.
+
+(You can change the port numbers but all other servers/clients should
+also be changed identically).
+
+# Services for GNUspool
+
+gnuspool		48100/tcp        # Connection port
+gnuspool		48100/udp        # Probe port
+gnuspool-feeder		48101/tcp        # Feeder port for GNUspool
+gnuspool-netsrv		48102/tcp        # External job submission
+gnuspool-netsrv		48102/udp        # Client access
+gnuspool-api		48103/tcp        # API
+gnuspool-api		48103/udp        # API (for wakeup messages)
+
+Please note that the next release of GNUspool will only use 2 ports.
