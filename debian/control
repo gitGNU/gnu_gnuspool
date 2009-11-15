@@ -2,8 +2,8 @@ Source: gnuspool
 Section: net
 Priority: optional
 Maintainer: John M Collins <jmc@xisl.com>
-Build-Depends: debhelper (>= 7), autotools-dev, libtool, libgtk2.0-dev, libncurses-dev
-Standards-Version: 3.8.0
+Build-Depends: debhelper (>= 7.0.50~), autotools-dev, libtool, libgtk2.0-dev, libncurses-dev
+Standards-Version: 3.8.3
 Homepage: http://www.gnu.org/software/gnuspool
 
 Package: gnuspool
@@ -14,26 +14,27 @@ Description: A network-based print spooler
  for GNU/Linux and UNIX systems.
 
 Package: gnuspool-doc
-Architecture: all
 Section: doc
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Documentation for GNUspool
  PDF documentation for GNUspool
 
 Package: libgnuspool0
 Architecture: any
-Depends: ${shlibs:Depends}, gnuspool (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, gnuspool (= ${binary:Version})
 Description: API development library for GNUspool
  Consists of the shared API library
 
 Package: libgnuspool-dev
 Section: libdevel
 Architecture: any
-Depends: libgnuspool0 (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgnuspool0 (= ${binary:Version})
 Description: API development library for GNUspool
  Consists of static API library and include files
 
 Package: gnuspool-cupspy
 Architecture: all
-Depends: python (>= 2.5), python-gtk2
+Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.5), python-gtk2
 Description: CUPS emulation for GNUspool
  Python emulation of CUPS and setup
