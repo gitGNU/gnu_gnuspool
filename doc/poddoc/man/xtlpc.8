@@ -123,8 +123,8 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "XTLPC 8"
-.TH XTLPC 8 "2009-05-18" "GNUspool Release 1" "GNUspool Print Manager"
+.IX Title "XTLPC.8 1"
+.TH XTLPC.8 1 "2009-11-16" "perl v5.10.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -186,71 +186,104 @@ Avoid sending zero length files, which confuse some servers.
 .SH "EXIT CODES"
 .IX Header "EXIT CODES"
 Normal termination is denoted by an exit code of zero.
-.IP "1." 4
+.IP "1" 4
+.IX Item "1"
 Usage error, invalid option etc.
-.IP "2." 4
+.IP "2" 4
+.IX Item "2"
 No control file given.
-.IP "3." 4
+.IP "3" 4
+.IX Item "3"
 No destination host given.
-.IP "4." 4
+.IP "4" 4
+.IX Item "4"
 Cannot open input file.
-.IP "5." 4
+.IP "5" 4
+.IX Item "5"
 Unknown host name.
-.IP "6." 4
+.IP "6" 4
+.IX Item "6"
 Cannot open control file.
-.IP "7." 4
+.IP "7" 4
+.IX Item "7"
 Syntax errors in control file.
-.IP "8." 4
+.IP "8" 4
+.IX Item "8"
 No spool directory defined.
-.IP "9." 4
+.IP "9" 4
+.IX Item "9"
 Cannot select spool directory.
-.IP "10." 4
+.IP "10" 4
+.IX Item "10"
 Control card format not given in control file
-.IP "11." 4
+.IP "11" 4
+.IX Item "11"
 Invalid format control card in control file
-.IP "12." 4
+.IP "12" 4
+.IX Item "12"
 Cannot write to spool directory
-.IP "13." 4
+.IP "13" 4
+.IX Item "13"
 Cannot create spool file
-.IP "14." 4
+.IP "14" 4
+.IX Item "14"
 Cannot allocate file name.
-.IP "15." 4
+.IP "15" 4
+.IX Item "15"
 Cannot open \s-1FIFO\s0.
-.IP "16." 4
+.IP "16" 4
+.IX Item "16"
 Name given is not a \s-1FIFO\s0.
-.IP "17." 4
+.IP "17" 4
+.IX Item "17"
 Cannot specify input and \s-1FIFO\s0.
-.IP "18." 4
+.IP "20" 4
+.IX Item "20"
 Cannot create sequence file
-.IP "19." 4
+.IP "30" 4
+.IX Item "30"
 No port name in control file
-.IP "20." 4
+.IP "31" 4
+.IX Item "31"
 \&\s-1TCP\s0 protocol missing
-.IP "21." 4
+.IP "32" 4
+.IX Item "32"
 Cannot find named port in service file
-.IP "22." 4
+.IP "33" 4
+.IX Item "33"
 Cannot open socket.
-.IP "23." 4
+.IP "34" 4
+.IX Item "34"
 Cannot bind port
-.IP "24." 4
+.IP "35" 4
+.IX Item "35"
 Cannot allocate \s-1TCP\s0 device
-.IP "25." 4
+.IP "36" 4
+.IX Item "36"
 Cannot make connection
-.IP "26." 4
+.IP "37" 4
+.IX Item "37"
 Cannot allocate \s-1TCP\s0 space or change stream
-.IP "27." 4
+.IP "40" 4
+.IX Item "40"
 Write failure writing to socket
-.IP "28." 4
+.IP "41" 4
+.IX Item "41"
 Lost spool file
-.IP "29." 4
+.IP "42" 4
+.IX Item "42"
 Read failure ack packet.
-.IP "30." 4
+.IP "43" 4
+.IX Item "43"
 Error return from remote.
-.IP "31." 4
+.IP "50" 4
+.IX Item "50"
 Cannot determine own host name
-.IP "32." 4
+.IP "51" 4
+.IX Item "51"
 Invalid host name
-.IP "33." 4
+.IP "200" 4
+.IX Item "200"
 Exit on signal.
 .SH "FILES"
 .IX Header "FILES"
@@ -275,54 +308,3 @@ There is \s-1NO\s0 \s-1WARRANTY\s0, to the extent permitted by law.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.
-.SH "POD ERRORS"
-.IX Header "POD ERRORS"
-Hey! \fBThe above document had some coding errors, which are explained below:\fR
-.IP "Around line 144:" 4
-.IX Item "Around line 144:"
-You have '=item 20' instead of the expected '=item 18'
-.IP "Around line 148:" 4
-.IX Item "Around line 148:"
-You have '=item 30' instead of the expected '=item 19'
-.IP "Around line 152:" 4
-.IX Item "Around line 152:"
-You have '=item 31' instead of the expected '=item 20'
-.IP "Around line 156:" 4
-.IX Item "Around line 156:"
-You have '=item 32' instead of the expected '=item 21'
-.IP "Around line 160:" 4
-.IX Item "Around line 160:"
-You have '=item 33' instead of the expected '=item 22'
-.IP "Around line 164:" 4
-.IX Item "Around line 164:"
-You have '=item 34' instead of the expected '=item 23'
-.IP "Around line 168:" 4
-.IX Item "Around line 168:"
-You have '=item 35' instead of the expected '=item 24'
-.IP "Around line 172:" 4
-.IX Item "Around line 172:"
-You have '=item 36' instead of the expected '=item 25'
-.IP "Around line 176:" 4
-.IX Item "Around line 176:"
-You have '=item 37' instead of the expected '=item 26'
-.IP "Around line 180:" 4
-.IX Item "Around line 180:"
-You have '=item 40' instead of the expected '=item 27'
-.IP "Around line 184:" 4
-.IX Item "Around line 184:"
-You have '=item 41' instead of the expected '=item 28'
-.IP "Around line 188:" 4
-.IX Item "Around line 188:"
-You have '=item 42' instead of the expected '=item 29'
-.IP "Around line 192:" 4
-.IX Item "Around line 192:"
-You have '=item 43' instead of the expected '=item 30'
-.IP "Around line 197:" 4
-.IX Item "Around line 197:"
-You have '=item 50' instead of the expected '=item 31'
-.IP "Around line 201:" 4
-.IX Item "Around line 201:"
-You have '=item 51' instead of the expected '=item 32'
-.IP "Around line 205:" 4
-.IX Item "Around line 205:"
-You have '=item 200' instead of the expected '=item 33'

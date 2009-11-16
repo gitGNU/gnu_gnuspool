@@ -123,8 +123,8 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "XTFTP 8"
-.TH XTFTP 8 "2009-05-18" "GNUspool Release 1" "GNUspool Print Manager"
+.IX Title "XTFTP.8 1"
+.TH XTFTP.8 1 "2009-11-16" "perl v5.10.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -205,49 +205,71 @@ is given if more than one \fB\-d\fR option is specified.
 .SH "EXIT CODES"
 .IX Header "EXIT CODES"
 Normal termination is denoted by an exit code of zero.
-.IP "1." 4
+.IP "1" 4
+.IX Item "1"
 Usage error, invalid option etc.
-.IP "2." 4
+.IP "2" 4
+.IX Item "2"
 No host name or ip address given.
-.IP "3." 4
+.IP "3" 4
+.IX Item "3"
 Cannot open input file.
-.IP "4." 4
+.IP "4" 4
+.IX Item "4"
 Expecting password as well as user name.
-.IP "5." 4
+.IP "5" 4
+.IX Item "5"
 Incorrect password.
-.IP "6." 4
+.IP "6" 4
+.IX Item "6"
 Transmit failure \- file rejected.
-.IP "7." 4
+.IP "18" 4
+.IX Item "18"
 Data accept failed.
-.IP "8." 4
+.IP "41" 4
+.IX Item "41"
 Cannot create/bind control socket.
-.IP "9." 4
+.IP "42" 4
+.IX Item "42"
 Cannot connect control socket.
-.IP "10." 4
+.IP "44" 4
+.IX Item "44"
 Cannot create data socket.
-.IP "11." 4
+.IP "45" 4
+.IX Item "45"
 Cannot bind data socket.
-.IP "12." 4
+.IP "46" 4
+.IX Item "46"
 Cannot listen data socket.
-.IP "13." 4
+.IP "47" 4
+.IX Item "47"
 Cannot get socket name data socket.
-.IP "14." 4
+.IP "50" 4
+.IX Item "50"
 Unknown service name
-.IP "15." 4
+.IP "51" 4
+.IX Item "51"
 Invalid \s-1IP\s0 address
-.IP "16." 4
+.IP "52" 4
+.IX Item "52"
 Invalid host name
-.IP "17." 4
+.IP "60" 4
+.IX Item "60"
 Socket write error.
-.IP "18." 4
+.IP "61" 4
+.IX Item "61"
 Socket read error.
-.IP "19." 4
+.IP "62" 4
+.IX Item "62"
 No response code from server.
-.IP "20." 4
+.IP "71" 4
+.IX Item "71"
 Port or store command failed.
-.IP "21." 4
+.IP "100" 4
+.IX Item "100"
 Generated command too long (excessive length file name etc).
-.IP "22." 4
+.IP "200" 4
+.IX Item "200"
 Aborted with a signal.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
@@ -265,54 +287,3 @@ There is \s-1NO\s0 \s-1WARRANTY\s0, to the extent permitted by law.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 John M Collins, Xi Software Ltd.
-.SH "POD ERRORS"
-.IX Header "POD ERRORS"
-Hey! \fBThe above document had some coding errors, which are explained below:\fR
-.IP "Around line 125:" 4
-.IX Item "Around line 125:"
-You have '=item 18' instead of the expected '=item 7'
-.IP "Around line 129:" 4
-.IX Item "Around line 129:"
-You have '=item 41' instead of the expected '=item 8'
-.IP "Around line 133:" 4
-.IX Item "Around line 133:"
-You have '=item 42' instead of the expected '=item 9'
-.IP "Around line 137:" 4
-.IX Item "Around line 137:"
-You have '=item 44' instead of the expected '=item 10'
-.IP "Around line 141:" 4
-.IX Item "Around line 141:"
-You have '=item 45' instead of the expected '=item 11'
-.IP "Around line 145:" 4
-.IX Item "Around line 145:"
-You have '=item 46' instead of the expected '=item 12'
-.IP "Around line 149:" 4
-.IX Item "Around line 149:"
-You have '=item 47' instead of the expected '=item 13'
-.IP "Around line 153:" 4
-.IX Item "Around line 153:"
-You have '=item 50' instead of the expected '=item 14'
-.IP "Around line 157:" 4
-.IX Item "Around line 157:"
-You have '=item 51' instead of the expected '=item 15'
-.IP "Around line 161:" 4
-.IX Item "Around line 161:"
-You have '=item 52' instead of the expected '=item 16'
-.IP "Around line 165:" 4
-.IX Item "Around line 165:"
-You have '=item 60' instead of the expected '=item 17'
-.IP "Around line 169:" 4
-.IX Item "Around line 169:"
-You have '=item 61' instead of the expected '=item 18'
-.IP "Around line 173:" 4
-.IX Item "Around line 173:"
-You have '=item 62' instead of the expected '=item 19'
-.IP "Around line 177:" 4
-.IX Item "Around line 177:"
-You have '=item 71' instead of the expected '=item 20'
-.IP "Around line 181:" 4
-.IX Item "Around line 181:"
-You have '=item 100' instead of the expected '=item 21'
-.IP "Around line 185:" 4
-.IX Item "Around line 185:"
-You have '=item 200' instead of the expected '=item 22'
