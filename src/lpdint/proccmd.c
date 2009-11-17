@@ -48,7 +48,7 @@ void	tf_unlink(char *fil, const int dlev)
 		fprintf(stderr, "unlink of %s failed: %s\n", fil, errno == ENOENT? "Did not exist": "Other error");
 }
 
-static int	getline(FILE *inf, char *buf)
+static int	my_getline(FILE *inf, char *buf)
 {
 	int	cnt = 0, ch;
 
@@ -309,11 +309,11 @@ void	process_input(FILE *inf)
 	bp1 = inbuf;
 	bp2 = inbuf2;
 
-	more = getline(inf, inbuf);
+	more = my_getline(inf, inbuf);
 	while  (more)  {
 		rcnt = 1;
 		for  (;;)  {
-			if  (!(more = getline(inf, bp2)))
+			if  (!(more = my_getline(inf, bp2)))
 				break;
 			if  (strcmp(bp1, bp2) != 0)
 				break;

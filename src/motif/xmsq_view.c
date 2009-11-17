@@ -319,7 +319,7 @@ static  int  readpgfile(FILE *fp, const struct spq *jp)
 	}
 }
 
-static int	getline(LONG upto)
+static int	my_getline(LONG upto)
 {
 	int	lng = 0, ch;
 
@@ -377,7 +377,7 @@ static  int  initpage(int nline, LONG *pagec)
 		if  (ch == '\n')
 			cline++;
 	}
-	return  getline(physpages[wpage+1]);
+	return  my_getline(physpages[wpage+1]);
 }
 
 static void	redraw(Boolean doclear)
@@ -422,7 +422,7 @@ static void	redraw(Boolean doclear)
 			pageno++;
 			endofpage = physpages[pageno+1];
 		}
-		lng = getline(endofpage);
+		lng = my_getline(endofpage);
 		lstart++;
 	}
 	XClearArea(dpy, XtWindow(drawing_a), 0, yloc, view_width, endy, False);
@@ -438,7 +438,7 @@ static void	redraw(Boolean doclear)
 			lng -= xindx;
 			XDrawImageString(dpy, XtWindow(drawing_a), mygc, 0, yloc, buffer + xindx, lng);
 		}
-		lng = getline(endofpage);
+		lng = my_getline(endofpage);
 		yloc += font->descent;
 	}
 	last_top = pix_voffset;
@@ -506,7 +506,7 @@ static void	se_redraw(Boolean doclear)
 	}
  failed:
 	XClearArea(dpy, XtWindow(drawing_a), 0, yloc, view_width, endy, False);
-	lng = getline(0x7fffffff);
+	lng = my_getline(0x7fffffff);
 	while  (lng >= 0  &&  yloc < endy)  {
 		yloc += font->ascent;
 		if  (--lng < 0)
@@ -515,7 +515,7 @@ static void	se_redraw(Boolean doclear)
 			lng -= xindx;
 			XDrawImageString(dpy, XtWindow(drawing_a), mygc, 0, yloc, buffer + xindx, lng);
 		}
-		lng = getline(0x7fffffff);
+		lng = my_getline(0x7fffffff);
 		yloc += font->descent;
 	}
 	last_top = pix_voffset;
@@ -822,7 +822,7 @@ static void	execute_search(void)
 				pageno++;
 				endofpage = physpages[pageno+1];
 			}
-			if  ((lng = getline(endofpage)) > 0  &&  (mpos = foundmatch()) >= 0)
+			if  ((lng = my_getline(endofpage)) > 0  &&  (mpos = foundmatch()) >= 0)
 				goto  foundit;
 		}
 		if  (wraparound)  {
@@ -838,7 +838,7 @@ static void	execute_search(void)
 					pageno++;
 					endofpage = physpages[pageno+1];
 				}
-				lng = getline(endofpage);
+				lng = my_getline(endofpage);
 				cline++;
 			}
 		}
