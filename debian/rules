@@ -18,7 +18,7 @@ endif
 	dh  $@
 
 override_dh_auto_configure:
-	./configure $(CROSS) --prefix=/usr --sysconfdir=/etc --localstatedir=/var/spool \
+	mailer=/usr/bin/mail ./configure $(CROSS) --prefix=/usr --sysconfdir=/etc --localstatedir=/var/spool \
 	--libexecdir='$${exec_prefix}/lib' --datarootdir=/usr/share --pdfdir=/usr/share/doc/gnuspool CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs"
 
 override_dh_installdirs:
