@@ -1,4 +1,4 @@
-gnuspool (1.6) unstable; urgency=low
+gnuspool (1.6) UNRELEASED; urgency=low
 
   [ John M Collins (Xi Software Ltd) ]
   * Initial release
@@ -9,4 +9,4 @@ gnuspool (1.6) unstable; urgency=low
   * rename libgnuspool to libgnuspool-1-1, and move all .so files here
   * add libgnuspool-dev package for .a & .h files
 
- -- John M Collins (Xi Software Ltd) <jmc@xisl.com>  Fri, 10 Apr 2009 22:01:37 +0100
+ -- John M Collins (Xi Software Ltd) <jmc@xisl.com>  Tue, 17 Nov 2009 10:16:21 +0000
