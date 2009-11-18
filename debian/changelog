@@ -1,7 +1,7 @@
 gnuspool (1.6) UNRELEASED; urgency=low
 
   [ John M Collins (Xi Software Ltd) ]
-  * Initial release
+  * Initial release (Closes: #556996)
 
   [ Philip Hands ]
   * bump stabdards version
