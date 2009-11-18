@@ -53,7 +53,8 @@ OBJECTS=xfershm.o 	spath.o 	shutilmsg.o	saveopts.o \
 	ncstrncmp.o	helpvec.o	helprdn.o	help_readl.o \
 	mmangle.o	prin_uname.o	prin_gname.o	envprocess.o \
 	strread.o	stringvec.o	stracpy.o	versionprint.o
-CURSOBJS=wnum.o\
+CURSOBJS=dohe.o\
+	 wnum.o\
 	 whexnum.o\
 	 whdrstr.o\
 	 wgets.o\

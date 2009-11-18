@@ -67,7 +67,7 @@ DEFINE	LIB3 (lib) :
 		runpwd.c spath.c stracpy.c strread.c mkspid.c matchrouts.c issubset.c sortp.c;
 
 DEFINE	LIB4 (lib) :
-		getkey.c make_km.c setkey.c whdrstr.c wgets.c wnum.c whexnum.c;
+		getkey.c make_km.c setkey.c dohe.c whdrstr.c wgets.c wnum.c whexnum.c;
 
 DEFINE	LIB5 (lib) :
 		xfershm.c;

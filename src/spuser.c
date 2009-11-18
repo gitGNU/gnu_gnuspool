@@ -69,8 +69,6 @@
 int	LINES;			/* Not defined anywhere without extern */
 #endif
 
-#define	BOXWID	1
-
 unsigned Nusers;
 extern	struct	sphdr	Spuhdr;
 struct	spdet	*ulist;
@@ -80,10 +78,11 @@ struct	spdet	*ulist;
 
 char	iflag,
 	cflag,
-	alphsort = SORT_NONE,
-	helpclr,
-	helpbox,
-	errbox;
+	alphsort = SORT_NONE;
+
+extern	char	helpclr, helpbox, errbox;	/* Def moved to library wgets */
+extern	void	dohelp(WINDOW *, struct sctrl *, const char *);
+extern	void	doerror(WINDOW *, const int);
 
 char	*Curr_pwd;
 
@@ -223,7 +222,7 @@ void	nomem(void)
 
 /* Provide lists of forms */
 
-char **	uhelpform(const char *sofar, const int hf)
+char **uhelpform(const char *sofar, const int hf)
 {
 	unsigned  ucnt, sfl = 0;
 	char	**result, **rp;
@@ -336,105 +335,7 @@ RETSIGTYPE	catchit(int n)
 	exit(E_SIGNAL);
 }
 
-/* Generate help message.  */
-
-void	dohelp(WINDOW *owin, struct sctrl *scp, const char *prefix)
-{
-	char	**hv, **examples = (char **) 0;
-	int	hrows, hcols, erows, ecols, cols, rows;
-	int	begy, cy, cx, startrow, startcol, i, l;
-
-	if  (*(hv = helpvec(scp->helpcode, 'H')) == (char *) 0)  {
-		free((char *) hv);
-		disp_arg[0] = scp->helpcode;
-		hv = helpvec($E{Missing help code}, 'E');
-	}
-
-	if  (scp->helpfn)
-		examples = (*scp->helpfn)(prefix, 0);
-
-	count_hv(hv, &hrows, &hcols);
-	count_hv(examples, &erows, &ecols);
-	cols = hcols;
-
-	if  (ecols > cols)
-		cols = ecols;
-
-	rows = hrows + erows;
-	if  (helpbox)  {
-		rows += 2 * BOXWID;
-		cols += 2 * BOXWID;
-	}
-	if  (rows > LINES)
-		rows = LINES;
-	if  (cols > COLS)
-		cols = LINES;
-
-	/* Find absolute cursor position and try to create window avoiding it.  */
-
-	getyx(owin, cy, cx);
-	getbegyx(owin, begy, i);
-	cy += begy;
-	if  ((startrow = cy - rows/2) < 0)
-		startrow = 0;
-	else  if  (startrow + rows > LINES)
-		startrow = LINES - rows;
-	if  ((startcol = cx - cols/2) < 0)
-		startcol = 0;
-	else  if  (startcol + cols > COLS)
-		startcol = COLS - cols;
-
-	if  (cx + cols + 2 < COLS)
-		startcol = COLS - cols - 1;
-	else  if  (cx - cols - 1 >= 0)
-		startcol = cx - cols - 1;
-	else  if  (cy + rows + 2 < LINES)
-		startrow = cy + 2;
-	else  if  (cy - rows - 1 >= 0)
-		startrow = cy - rows - 1;
-
-	if  ((hlpscr = newwin(rows <= 0? 1: rows, cols, startrow, startcol)) == (WINDOW *) 0)
-		nomem();
-
-	if  (helpbox)  {
-#ifdef	HAVE_TERMINFO
-		box(hlpscr, 0, 0);
-#else
-		box(hlpscr, '|', '-');
-#endif
-		for  (i = 0;  i < hrows;  i++)
-			mvwaddstr(hlpscr, i + BOXWID, BOXWID, hv[i]);
-		for  (i = 0;  i < erows;  i++)
-			mvwaddstr(hlpscr, i + hrows + BOXWID, BOXWID, examples[i]);
-	}
-	else  {
-		wstandout(hlpscr);
-
-		for  (i = 0;  i < hrows;  i++)  {
-			mvwaddstr(hlpscr, i, 0, hv[i]);
-			for  (l = strlen(hv[i]);  l < cols;  l++)
-				waddch(hlpscr, ' ');
-		}
-		for  (i = 0;  i < erows;  i++)  {
-			mvwaddstr(hlpscr, i+hrows, 0, examples[i]);
-			for  (l = strlen(hv[i]);  l < cols;  l++)
-				waddch(hlpscr, ' ');
-		}
-	}
-	freehelp(hv);
-	freehelp(examples);
-
-#ifdef HAVE_TERMINFO
-	wnoutrefresh(hlpscr);
-	wnoutrefresh(owin);
-	doupdate();
-#else
-	wrefresh(hlpscr);
-	wrefresh(owin);
-#endif
-}
-
-/* Bodge the above for when we don't have a specific thing to do other
+/* Bodge dohelp for when we don't have a specific thing to do other
    than display a message code.  */
 
 static	void	dochelp(WINDOW *wp, int code)
@@ -475,83 +376,6 @@ void	endhe(WINDOW *owin, WINDOW **wpp)
 	doupdate();
 #else
 	wrefresh(owin);
-#endif
-}
-
-/* Generate error message avoiding (if possible) current cursor position.  */
-
-void	doerror(WINDOW *wp, const int Errnum)
-{
-	char	**ev;
-	int	erows, ecols, rows, cols;
-	int	begy, cy, startrow, startcol, i, l;
-
-#ifdef	HAVE_TERMINFO
-	flash();
-#else
-	putchar('\007');
-#endif
-
-	if  (*(ev = helpvec(Errnum, 'E')) == (char *) 0)  {
-		free((char *) ev);
-		disp_arg[0] = Errnum;
-		ev = helpvec($E{Missing error code}, 'E');
-	}
-
-	count_hv(ev, &erows, &ecols);
-	rows = erows;
-	cols = ecols;
-	if  (errbox)  {
-		rows += 2 * BOXWID;
-		cols += 2 * BOXWID;
-	}
-	if  (cols > COLS)  {
-		ecols -= cols - COLS;
-		cols = COLS;
-	}
-
-	/* Find absolute cursor position and try to create window
-	   avoiding it.  */
-
-	getyx(wp, cy, i);
-	getbegyx(wp, begy, i);
-	cy += begy;
-	if  (cy >= LINES/2)
-		startrow = 0;
-	else
-		startrow = LINES - rows;
-	startcol = (COLS - cols) / 2;
-
-	if  ((escr = newwin(rows <= 0? 1: rows, cols, startrow, startcol)) == (WINDOW *) 0)
-		nomem();
-
-	if  (errbox)  {
-#ifdef	HAVE_TERMINFO
-		box(escr, 0, 0);
-#else
-		box(escr, '|', '-');
-#endif
-		for  (i = 0;  i < erows;  i++)
-			mvwaddstr(escr, i + BOXWID, BOXWID, ev[i]);
-	}
-	else  {
-		wstandout(escr);
-
-		for  (i = 0;  i < erows;  i++)  {
-			mvwaddstr(escr, i, 0, ev[i]);
-			for  (l = strlen(ev[i]);  l < ecols;  l++)
-				waddch(escr, ' ');
-		}
-	}
-	freehelp(ev);
-
-#ifdef HAVE_TERMINFO
-	wnoutrefresh(escr);
-	wnoutrefresh(wp);
-	doupdate();
-#else
-	wrefresh(escr);
-	wrefresh(wp);
 #endif
 }
 

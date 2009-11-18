@@ -29,7 +29,7 @@ void	doerror(WINDOW *, const int);
 void	endhe(WINDOW *, WINDOW **);
 void	dohelp(WINDOW *, struct sctrl *, const char *);
 
-extern	char	helpclr;
+char	helpclr;	/* This now defined here */
 
 /* Define these here to reduce dependencies on external libraries */
 
