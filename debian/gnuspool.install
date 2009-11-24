@@ -1,4 +1,4 @@
-etc/gnuspool.ext
+etc/gnuspool
 usr/bin
 usr/lib/gnuspool
 usr/lib/libgnuspool_curs*.so*

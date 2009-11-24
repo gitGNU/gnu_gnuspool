@@ -47,14 +47,14 @@ removenet() {
 if grep -qs '^gnuspool' /etc/services; then
     echo "You may want to remove gnuspool entries from /etc/services"
 fi
-rm -f /etc/gnuspool.hosts
+rm -f /etc/gnuspool/gnuspool.hosts
 }
 
 removefiles() {
     (cd /var/spool/gnuspool; find . -type f -print|xargs rm -f)
     (cd /var/spool/gnuspool_alt; find . -type f -print|xargs rm -f)
-    rm -f /etc/gnuspool.conf
-    rm -rf /usr/share/gnuspool/ptrs
+    rm -f /etc/gnuspool/gnuspool.conf
+    rm -rf /etc/gnuspool/ptrconf
 }
 
 case "$1" in

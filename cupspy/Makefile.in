@@ -37,6 +37,7 @@ cupspy:
 	# Currently don't do anything
 
 install install-strip: all
+	$(INSTALL) -d $(CUPSPYDIR)
 	$(INSTALL) $(MAINPROGS) $(CUPSPYDIR)
 	$(INSTALL_DATA) $(PYMODS) $(CONFIGDATA) $(CUPSPYDIR)
 

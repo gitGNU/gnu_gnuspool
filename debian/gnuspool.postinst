@@ -269,12 +269,12 @@ unless  ($had)  {
      print "Please note that services files need to be installed - see README.debian\n";
 }
 
-unless (-f "/etc/gnuspool.hosts")  {
+unless (-f "/etc/gnuspool/gnuspool.hosts")  {
     my $hn = `hostname`;
     chop($hn);
     my $he = gethostbyname($hn);
     my $ha = inet_ntoa($he);
-    if  (open(HF, ">/etc/gnuspool.hosts"))  {
+    if  (open(HF, ">/etc/gnuspool/gnuspool.hosts"))  {
 	my $lt = localtime;
 	print HF "# Host file created on $lt\n\n";
 	print HF "# ****** Please note you may need proper IP address here to share jobs/printers\n" if $ha =~ /^127\./;
@@ -299,7 +299,7 @@ fi
 }
 
 installconfig() {
-    cat <<'EOF' >/etc/gnuspool.conf
+    cat <<'EOF' >/etc/gnuspool/gnuspool.conf
 # Uncomment and adjust the contents of this file if you need to
 # relocate standard directories. NB stop everything first and
 # make sure permissions are right!!!
@@ -311,7 +311,7 @@ installconfig() {
 #ALTSPOOL=/var/spool/gnuspool_alt
 
 # Location of printer setup files
-#SPOOLPT=/usr/share/gnuspool/ptrs
+#SPOOLPT=/etc/gnuspool/ptrconf
 
 # Location of internal programs
 #SPROGDIR=/usr/lib/gnuspool

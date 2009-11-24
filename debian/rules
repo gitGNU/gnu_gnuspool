@@ -18,7 +18,8 @@ endif
 	dh  $@
 
 override_dh_auto_configure:
-	mailer=/usr/bin/mail ./configure $(CROSS) --prefix=/usr --sysconfdir=/etc --localstatedir=/var/spool \
+	mailer=/usr/bin/mail ./configure $(CROSS) --prefix=/usr --sysconfdir=/etc/gnuspool --with-printers-directory=/etc/gnuspool/ptrconf \
+	--with-cupspy-directory=/etc/gnuspool/cupspy --localstatedir=/var/spool \
 	--libexecdir='$${exec_prefix}/lib' --datarootdir=/usr/share --pdfdir=/usr/share/doc/gnuspool CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs"
 
 override_dh_installdirs:
@@ -29,7 +30,7 @@ override_dh_auto_install:
 	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp SPOOLUSER=root datarootdir=/usr/share STAGED_INSTALL=true install
 
 	# keep lintian quiet about printers directory
-	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/usr/share/gnuspool/ptrs/README
+	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/etc/gnuspool/ptrconf/README
 	# Get rid of remote CGI bins for now as they depend on separated API library.
 	rm -f $(CURDIR)/debian/tmp/usr/lib/gnuspool/cgi-bin/r*
 	# Remove .la files for internal only

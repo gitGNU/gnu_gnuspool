@@ -1877,7 +1877,9 @@ sub proc_install {
     my $ptrdets = $Ptrdeflist{$ptr};
     my $cloned = $ptrdets;
     $cloned = $Ptrdeflist{$ptrdets->{CLONEOF}} if $ptrdets->{TYPE} eq 'Clone';
-    $ptrdets->{DESCR} = askq("pdescr", "Please give a description for this printer") unless $ptrdets->{DESCR};
+    $descr = askq("pdescr", "Please give a description for this printer") unless $ptrdets->{DESCR};
+    $descr =~ y/[a-z][A-Z] //cd;
+    $ptrdets->{DESCR} = $descr;
     my $dev;
     if ($ptrdets->{DEV})  {
 	$dev = $ptrdets->{DEV};
@@ -2029,7 +2031,7 @@ sub proc_remove {
 die "You have to be super-user to run this" unless $> == 0;
 
 if (findonpath('python')) {
-    $pyprog = $Config{SDATADIR} . "ptrinstall/ptrinstall.py";
+    $pyprog = $Config{SDATADIR} . "/ptrinstall/ptrinstall.py";
     $c = system('python $pyprog');
     exit 0 if $c == 0;
     $ec = $c >> 8;
