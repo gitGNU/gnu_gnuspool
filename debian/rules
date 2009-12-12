@@ -29,6 +29,11 @@ override_dh_installdirs:
 override_dh_auto_install:
 	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp SPOOLUSER=root datarootdir=/usr/share STAGED_INSTALL=true install
 
+	# provide lpr links
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-pr $(CURDIR)/debian/tmp/usr/bin/lpr
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpq $(CURDIR)/debian/tmp/usr/bin/lpq
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lprm $(CURDIR)/debian/tmp/usr/bin/lprm
+
 	# keep lintian quiet about printers directory
 	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/etc/gnuspool/ptrconf/README
 	# Get rid of remote CGI bins for now as they depend on separated API library.

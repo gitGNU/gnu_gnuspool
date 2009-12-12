@@ -9,6 +9,8 @@ Homepage: http://www.gnu.org/software/gnuspool
 Package: gnuspool
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Replaces: lpr
+Provides: lpr
 Description: A network-based print spooler
  This is a fast, network-enabled and reliable spooling package
  for GNU/Linux and UNIX systems.
