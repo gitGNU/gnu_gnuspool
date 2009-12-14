@@ -678,7 +678,6 @@ build_os
 build_vendor
 build_cpu
 build
-stdlpcmds
 netsubdirs
 cupspydir
 spoolpt
@@ -737,7 +736,6 @@ with_helpfiles
 with_printers_directory
 with_cupspy_directory
 with_network
-with_std_lp_commands
 enable_nohonsuid
 enable_run_as_root
 enable_sco_security
@@ -1405,7 +1403,6 @@ Optional Packages:
 --with-printers-directory=/new/dir	Default location of printer setup files
 --with-cupspy-directory=/new/dir	Default location of directory for CUPS emulation
 --without-network	Exclude network code
---with(out)-std-lp-commands Install emulations of lp/lpr/lpq
   --with-x                use the X Window System
 
 Some influential environment variables:
@@ -2018,22 +2015,6 @@ _ACEOF
 
 	netsubdirs="termservd lpdintd apilibd remcgid"
 	;;
-esac
-
-
-# Check whether --with-std-lp-commands was given.
-if test "${with_std_lp_commands+set}" = set; then
-  withval=$with_std_lp_commands; ac_stdlpcmds="$withval"
-else
-  ac_stdlpcmds=y
-fi
-
-
-stdlpcmds="sh installlpcmds"
-case "$ac_stdlpcmds" in
-[nN]*)	stdlpcmds=:
-	;;
-*)	: ;;
 esac
 
 # Check whether --enable-nohonsuid was given.

@@ -30,9 +30,12 @@ override_dh_auto_install:
 	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp SPOOLUSER=root datarootdir=/usr/share STAGED_INSTALL=true install
 
 	# provide lpr links
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-pr $(CURDIR)/debian/tmp/usr/bin/lpr
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-qlist $(CURDIR)/debian/tmp/usr/bin/lpq
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-qdel $(CURDIR)/debian/tmp/usr/bin/lprm
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpr $(CURDIR)/debian/tmp/usr/bin/lpr
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpq $(CURDIR)/debian/tmp/usr/bin/lpq
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lprm $(CURDIR)/debian/tmp/usr/bin/lprm
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpcover $(CURDIR)/debian/tmp/usr/bin/lp
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpstatc $(CURDIR)/debian/tmp/usr/bin/lpstat
+	ln $(CURDIR)/debian/tmp/usr/bin/gspl-cancel $(CURDIR)/debian/tmp/usr/bin/cancel
 
 	# keep lintian quiet about printers directory
 	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/etc/gnuspool/ptrconf/README

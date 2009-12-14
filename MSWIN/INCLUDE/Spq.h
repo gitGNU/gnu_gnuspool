@@ -22,9 +22,7 @@ struct	spq	{	/*  Entry in spool queue  */
 	netid_t		spq_orighost;	/*  Who it came from 0 if this machine */
 	slotno_t  	spq_rslot;	/*  Slot number remote machine */
 	time_t		spq_time;	/*  When submitted  */
-#if	XITEXT_VN >= 22
 	time_t		spq_proptime;	/*  Proposal (etc) time in cases messages go astray */
-#endif
 	time_t		spq_starttime;	/*  When (first) started */
 	time_t		spq_hold;	/*  Hold until ... */
 	unsigned  short	spq_nptimeout;	/*  Timeout if not printed (hours) */
@@ -33,20 +31,11 @@ struct	spq	{	/*  Entry in spool queue  */
 	long		spq_posn;	/*  Position in job in bytes  */
 	long		spq_pagec;	/*  Page count in job */
 
-#if	XITEXT_VN < 22
-	int_ugid_t	spq_uid; 	/*  Originating user (binary) */
-	char		spq_uname[UIDSIZE+1];	/*  Originating user  */
-	char		spq_puname[UIDSIZE+1];	/*  User to post output to  */
-#else
 	unsigned  long	spq_npages;	/*  Number of pages  */
-#endif
 
 	unsigned  char  spq_cps;	/*  Copies  */
 	unsigned  char  spq_pri;	/*  Priority  */
-#if	XITEXT_VN < 22
-	classcode_t		spq_class;	/*  Class */
-#endif
-	short			spq_wpri;	/*  Working priority  */
+	short		spq_wpri;	/*  Working priority  */
 
 	unsigned short	spq_jflags; /*  Job flags */
 #define	SPQ_NOH		(1 << 0)	/*  Suppress heading  */
@@ -71,43 +60,26 @@ struct	spq	{	/*  Entry in spool queue  */
 #define	SPQ_PRINTED	(1 << 1)	/*  Printed it at least once */
 #define	SPQ_STARTED	(1 << 2) 	/*  Job has been started sometime */
 #define	SPQ_PAGEFILE	(1 << 3)/*  Has a page delimiter file */
-#if	XITEXT_VN >= 23
 #define	SPQ_ERRLIMIT	(1 << 4)/*  Error if exceeds upper bound */
 #define	SPQ_PGLIMIT	(1 << 5)	/*  Limit is by pages */
-#endif
 
-#if	XITEXT_VN >= 22
 	unsigned  short	spq_extrn;	/*  External job index 0=Xi-Text */
-#if	XITEXT_VN < 23
-	unsigned  short	spq_resvd; 	/*  Reserved to pad to 4 bytes*/
-#else
 	unsigned  short	spq_pglim;	/*  K byte limit or number of pages (enqueue only) */
-#endif
-	classcode_t		spq_class;
-#endif
+	classcode_t	spq_class;
 
-	slotno_t	spq_pslot;		/*  Printer slot if printing or -1
-					    			also -1 if printing by unknown remote */
+	slotno_t	spq_pslot;	/*  Printer slot if printing or -1
+			    		    also -1 if printing by unknown remote */
 					    		
 	unsigned  long	spq_start,
-				    spq_end; 	/*  Record to start/finish at  */
+			spq_end; 	/*  Record to start/finish at  */
 
-#if	XITEXT_VN < 22
-	unsigned  long	spq_npages;	/*  Number of pages  */
-	unsigned  long	spq_haltat;	/*  Page number we were halted at */
-#else
 	unsigned  long	spq_haltat;	/*  Page number we were halted at */
 	int_ugid_t		spq_uid; 	/*  Originating user (binary) */
 	char			spq_uname[UIDSIZE+1];	/*  Originating user  */
 	char			spq_puname[UIDSIZE+1];	/*  User to post output to  */
-#endif	
 	char  			spq_file[MAXTITLE+1];	/*  File name  */
 	char  			spq_form[MAXFORM+1];	/*  Paper type  */
-#if	XITEXT_VN < 23
-	char  			spq_ptr[NAMESIZE+1];	/*  Printer type */
-#else
 	char  			spq_ptr[JPTRNAMESIZE+1];	/*  Printer type */
-#endif
 	char  			spq_flags[MAXFLAGS+1];	/*  Flags to use for filter */
 #ifdef	__cplusplus
 	char  *get_spq_uname() 	{  return  spq_uname;	}
@@ -125,11 +97,9 @@ struct	spq	{	/*  Entry in spool queue  */
 };
 
 struct	spptr	{	/*  Details of printer  */
-#if	XITEXT_VN >= 22
 	netid_t		spp_netid;	/*  Network id 0 local */
 	slotno_t  	spp_rslot;	/*  Slot number on remote machine */
 	int_pid_t	spp_pid;	/*  Process id of spd process if applicable  */
-#endif
 	jobno_t		spp_job;	/*  Current job  */
 	netid_t		spp_rjhostid; 	/*  Machine owning job being printed or 0 */
 	slotno_t	spp_rjslot; 	/*  Slot on remote of job being printed or same as spp_jslot */
@@ -147,44 +117,24 @@ struct	spptr	{	/*  Details of printer  */
 #define	SPP_LOCALNET	(1 << 0)	/*  Access by network= stuff */
 #define	SPP_LOCALONLY	(1 << 1)	/*  local printer only */
 
-#if	XITEXT_VN < 22
 	classcode_t		spp_class;		/*  Class  */
-	unsigned  short	spp_resvd;		/*  Reserved */
-	int_pid_t		spp_pid;		/*  Process id of spooler  */
-	netid_t  		spp_netid;		/*  Network id (local byte order) 0 local */
-	slotno_t  		spp_rslot;		/*  Slot number on remote machine */
-#else
-	classcode_t		spp_class;		/*  Class  */
-#endif
 
 	unsigned  long	spp_minsize; 	/*  Minimum size we'll accept */
 	unsigned  long	spp_maxsize; 	/*  Maximum size we'll accept */
 
-#if	XITEXT_VN >= 22
 	unsigned  short	spp_extrn;		/*  External printer index 0=Xi-Text */
 	unsigned  short	spp_resvd;		/*  Reserved */
-#endif
 
 	char	spp_dev[LINESIZE+1];	/*  Device  */
 	char	spp_form[MAXFORM+1];	/*  Paper type  */
-#if	XITEXT_VN < 23
-	char	spp_ptr[NAMESIZE+1];	/*  Printer type  */
-#else
 	char	spp_ptr[PTRNAMESIZE+1];	/*  Printer type  */
-#endif
-#if	XITEXT_VN >= 20
 	char	spp_feedback[PFEEDBACK+1]; /* Feedback from terminal server */
-#endif
-#if	XITEXT_VN >= 23
 	char	spp_comment[COMMENTSIZE+1];/* Description of printer */
-#endif
 #ifdef	__cplusplus
 	char	*get_spp_dev()		{  return  spp_dev;  }
 	char	*get_spp_form()		{  return  spp_form; }
 	char	*get_spp_ptr()		{  return  spp_ptr;  }
-#if	XITEXT_VN >= 23
 	char	*get_spp_comment() {  return  spp_comment;	}
-#endif
 #endif
 };
 /*APIEND - end of section copied for API */

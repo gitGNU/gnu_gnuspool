@@ -71,14 +71,16 @@ gspl-setspdir:	setspdir.o
 	$(CC) $(LDFLAGS) -o $@ setspdir.o $(LIB) $(LIBNET) $(LIBS)
 
 install:	all
+	sh installlpcmds
 	$(INSTALL) $(PROGS) $(SBINDIR)
-	$(INSTALL) $(USERMODES) $(USERPROGS) $(SBINDIR)
-	$(STAGED_INSTALL) || @stdlpcmds@
+	$(INSTALL) $(USERMODES) $(USERPROGS) $(BINDIR)
+	$(INSTALL) gspl-lpr gspl-lpq gspl-lprm gspl-cancel $(BINDIR)
 
 install-strip:	all
+	sh installlpcmds
 	$(INSTALL) -s $(PROGS) $(SBINDIR)
-	$(INSTALL) -s $(USERMODES) $(USERPROGS) $(SBINDIR)
-	$(STAGED_INSTALL) || @stdlpcmds@
+	$(INSTALL) -s $(USERMODES) $(USERPROGS) $(BINDIR)
+	$(INSTALL) gspl-lpr gspl-lpq gspl-lprm gspl-cancel $(BINDIR)
 
 clean:
 	$(RM) *.o gspl-*

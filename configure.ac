@@ -48,15 +48,6 @@ case "$ac_network" in
 	;;
 esac
 
-AC_ARG_WITH(std-lp-commands,[--with(out)-std-lp-commands Install emulations of lp/lpr/lpq],[ac_stdlpcmds="$withval"],[ac_stdlpcmds=y])
-AC_SUBST(stdlpcmds)
-stdlpcmds="sh installlpcmds"
-case "$ac_stdlpcmds" in
-[[nN]]*)	stdlpcmds=:
-	;;
-*)	: ;;
-esac
-
 AC_ARG_ENABLE(nohonsuid,[--enable-nohnonsuid	Note kernel does not honour suid as super-user],
 [ac_nhonsuid="$enableval"],
 [ac_nhonsuid=n])

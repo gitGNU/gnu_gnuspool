@@ -1708,6 +1708,14 @@ sub out_ibm {
     out_splurge($file, "IBM", $ptrdets);
 }
 
+# Output stuff for "Other"
+
+sub out_other {
+    my $file = shift;
+    my $ptrdets = shift;
+    print $file "# This is a null file for future adjustment\n";
+}
+
 # Create "default" file for form type.
 
 sub write_defaultfile {
