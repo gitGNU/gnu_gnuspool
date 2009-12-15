@@ -910,7 +910,7 @@ sub getptrs_offline {
     my %result;
     while  (<TF>)  {
 	chop;
-	next unless my ($net, $dev, $descr, $ptr) = /^spadd\s+-\w\s+-(\w)\s+-\w\s+[-A-Pa-p]+\s+-l\s+'(.*?)'\s+-D\s+'(.*?)'\s+(\w+)\s+'.*'/;
+	next unless my ($net, $dev, $descr, $ptr) = /^gspl-padd\s+-\w\s+-(\w)\s+-\w\s+[-A-Pa-p]+\s+-l\s+'(.*?)'\s+-D\s+'(.*?)'\s+(\w+)\s+'.*'/;
 	$result{$ptr} = { DEV => $dev, DESCR => $descr };
 	$result{$ptr}->{NETWORK} = 'Y' if $net eq 'N';
     }
@@ -1951,7 +1951,14 @@ sub proc_install {
 	push @args, $cloned->{GSSIZE};
     }
     else  {
-	push @args, askq('ftype', 'Form type name', 'a4', [ 'a4', 'letter', 'legal', 'standard' ]);
+	my $ftype = askq('ftype', 'Form type name', 'a4', [ 'a4', 'letter', 'legal', 'standard' ]);
+	push @args, $ftype;
+	# The first time we start up, the default form type is set to "standard"
+	# If we are setting some other form type in a printer lets set the default
+	# form type to that.
+	my $defform = `$bindir/gspl-ulist -S -F %f`;
+	chop $defform;
+	system("$bindir/gspl-uchange -D -f $defform -A") if $defform eq 'standard' && $defform ne $ftype;
     }
     if (system(join(' ', @args)) == 0)  {
 	print "$ptr added successfully\n";

@@ -1129,7 +1129,7 @@ This version is for when the scheduler is NOT running"""
     except IOError:
         QMessageBox.warning(mw, "Printer def error", "Cannot open tmp file")
         return
-    mre = re.compile("spadd\s+-\w\s+-(\w)\s+-\w\s+[-A-Pa-p]+\s+-l\s+'(.*?)'\s+-D\s+'(.*?)'\s+(\w+)\s+'.*'")
+    mre = re.compile("gspl-padd\s+-\w\s+-(\w)\s+-\w\s+[-A-Pa-p]+\s+-l\s+'(.*?)'\s+-D\s+'(.*?)'\s+(\w+)\s+'.*'")
     for line in tf:
         l = string.rstring(line)
         m = mre.match(l)
