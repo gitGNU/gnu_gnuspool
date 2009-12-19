@@ -15,3 +15,8 @@ gnuspool-api		48103/tcp        # API
 gnuspool-api		48103/udp        # API (for wakeup messages)
 
 Please note that the next release of GNUspool will only use 2 ports.
+
+The Provides: on this package are a temporary measure to allow testing.
+It seems clear that lsb-core should depend on a virtual package that
+is provided by lprng, cups-client and this package, but in the interim,
+we're providing lpr and lprng.
