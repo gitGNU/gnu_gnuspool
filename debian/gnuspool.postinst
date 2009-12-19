@@ -73,10 +73,10 @@ fixperms() {
 		       gspl-uchange gspl-plist gspl-qchange gspl-qlist gspl-qdel gspl-stop
     perm_suid_gnuspool gspl-xpq gspl-xuser
     perm_suid_gnuspool gspl-lpq gspl-lprm
+    perm_suid_gnuspool gspl-lpcover gspl-lpstatc
 
     cd /usr/sbin
     perm_gnuspool gspl-ptrinstall gspl-pmenu gspl-hostedit gspl-passwd
-    perm_suid_gnuspool gspl-lpcover gspl-lpstatc
     perm_gnuspool gspl-cjlist gspl-cplist gspl-spuconv gspl-ripc gspl-setspdir gspl-netwcmd
     perm_gnuspool gspl-getsnmp
 
