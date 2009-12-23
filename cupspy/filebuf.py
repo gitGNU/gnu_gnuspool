@@ -17,6 +17,8 @@
 
 # Originally written by John Collins <jmc@xisl.com>.
 
+import select
+
 class filebufEOF(Exception):
     """Throw me on EOF"""
     pass
@@ -24,30 +26,38 @@ class filebufEOF(Exception):
 class filebuf:
     """Buffer up file/socket for efficient reading"""
 
-    def __init__(self, f, l):
-        """Initialise with file-type argument and expected length"""
-        self.file = f
+    def __init__(self, f):
+        """Initialise with file-type argument"""
+        self.sock = f
         self.buffer = ""
         self.ptr = 0
+        self.expected = 0
+        f.setblocking(0)
+
+    def set_expected(self, l):
+        """Set expected value from HTTP header"""
         self.expected = l
+
+    def readbuf(self, length):
+        """Read a bufferful up to length
+
+We are set to non-blocking so we wait for something to arrive first"""
+        try:
+            select.select((self.sock,),(),())
+            return self.sock.recv(length)
+        except:
+            raise filebufEOF()
 
     def want(self, length):
         """Say we want a string of length given from buffer"""
         lenav = len(self.buffer) - self.ptr
-        if  lenav < length:
+        while  lenav < length:
             getl = 1024
-            if getl > self.expected:
-                getl = self.expected
             self.buffer = self.buffer[self.ptr:]
             self.ptr = 0
-            try:
-                nb = self.file.read(getl)
-            except:
-                raise filebufEOF()
+            nb = self.readbuf(getl)
             lenav += len(nb)
             self.expected -= len(nb)
-            if  lenav < length:
-                raise filebufEOF()
             self.buffer += nb
 
     def get(self, length):
@@ -85,13 +95,133 @@ class filebuf:
             return ""
         if  l > 1024:
             l = 1024
+        ret = self.readbuf(l)
+        self.expected -= len(ret)
+        return ret
+
+    def readline(self):
+        """Emulate readline function"""
+        result = ""
         try:
-            ret = self.file.read(l)
-            self.expected -= len(ret)
-            return  ret
-        except:
+            while 1:
+                ch = self.get(1)
+                result += ch
+                if ch == '\n': return result
+        except filebufEOF:
+            return None
+
+    def write(self, str):
+        """Write string to file"""
+        self.sock.sendall(str)
+
+class httpfilebuf(filebuf):
+    """Class for managing HTTP chunked mode"""
+
+    def __init__(self, f):
+        filebuf.__init__(self, f)
+        self.chunked = False
+        self.chunkbuf = ""
+        self.chunkptr = 0
+
+    def set_chunked(self):
+        """Set the buffering to be chunked"""
+        self.chunked = True
+        self.chunkbuf = ""
+        self.chunkptr = 0
+
+    def read_numline(self):
+        """Read line probably containing chunk size"""
+        result = ""
+        while 1:
+            ch = filebuf.get(self, 1)
+            result += ch
+            if ch == '\n': break
+        return result.rstrip()
+
+    def chunksize(self):
+        """Read size of next chunk"""
+        lin = self.read_numline()
+        if len(lin) == 0: return None
+        try:
+            return int(lin, 16)
+        except ValueError:
             raise filebufEOF()
 
+    def wantchunk(self, length):
+        """As for want but with chunks"""
+
+        if self.chunkptr + length < len(self.chunkbuf):
+            return
+
+        self.chunkbuf = self.chunkbuf[self.chunkptr:]
+        self.chunkptr = 0
+
+        while length > len(self.chunkbuf):
+            # Get size of next chunk
+            nxt_sz = self.chunksize()
+            # We're not expecting end of chunks at this point
+            if nxt_sz == 0:
+                raise filebufEOF()
+            self.chunkbuf += filebuf.get(self, nxt_sz)
+            # Expect chunk to be followed by empty line
+            if self.chunksize() is not None:
+                raise filebufEOF()
+    
+    def get(self, length):
+        """Get a string of given length.
+
+Possibly grab it from the chunked buffer"""
+
+        if not self.chunked:
+            return filebuf.get(self, length)
+        self.wantchunk(length)
+        result = self.chunkbuf[self.chunkptr:self.chunkptr+length]
+        self.chunkptr += length;
+        return result
+
+    def peek(self, length):
+        """Peek at the next string of length given from the file
+
+Possibly grab it from the chunked buffer"""
+
+        if not self.chunked:
+            return filebuf.peek(self, length)
+        self.wantchunk(length)
+        return self.chunkbuf[self.chunkptr:self.chunkptr+length]
+        
+    def getrem(self):
+        """Get some of the remaining stuff we are expecting
+
+Possibly grab it from the chunked buffer"""
+
+        if not self.chunked:
+            return filebuf.getrem(self)
+
+        # Get anything remaining
+        
+        if self.chunkptr < len(self.chunkbuf):
+            result = self.chunkbuf[self.chunkptr:]
+            self.chunkptr = 0
+            self.chunkbuf = ""
+            return result
+
+        # Read the next chunk
+        # If at end, turn off chunking
+
+        nxt_sz = self.chunksize()
+        if nxt_sz == 0:
+            self.chunked = False
+            return ""
+
+        result = filebuf.get(self, nxt_sz)
+        
+        # Expect chunk to be followed by empty line
+
+        if self.chunksize() is not None:
+            raise filebufEOF()
+
+        return result
+    
 # Simulate that in an string
 
 class stringbuf:
@@ -136,3 +266,14 @@ class stringbuf:
         ret = self.buffer[self.ptr:]
         self.ptr = len(self.buffer)
         return  ret;
+
+    def readline(self):
+        """Emulate readline function"""
+        result = ""
+        try:
+            while 1:
+                ch = self.getch()
+                result += ch
+                if ch == '\n': return result
+        except filebufEOF:
+            return None

@@ -19,7 +19,7 @@
 
 # Originally written by John Collins <jmc@xisl.com>.
 
-import filebuf, ipp, conf, subprocess, sys, os, stat, socket, threading, re, time, signal, syslog, errno
+import filebuf, ipp, conf, subprocess, sys, os, stat, socket, select, threading, re, time, signal, syslog, errno
 
 # Get us a job id in case gspl-pr doesn't give one
 
@@ -33,11 +33,26 @@ Procid_file = "cupsd.pid"
 
 def get_next_jobid():
     """Get next job id"""
+    global Next_jobid
     Jobid_lock.acquire()
     result = Next_jobid
     Next_jobid += 1
     Jobid_lock.release()
     return result
+
+Pending_jobs = dict()
+
+class pend_job:
+    """Hold details of pending job"""
+
+    def __init__(self, p, u, t, c):
+        global Pending_jobs
+        self.jobnum = get_next_jobid()
+        self.pname = p
+        self.uname = u
+        self.title = t
+        self.copies = c
+        Pending_jobs[self.jobnum] = self
 
 # Set up default attribute values
 
@@ -212,8 +227,6 @@ def get_req_user_name(req):
 # We might want to expand them to log that they have been attempted
 
 def validate_job(req):
-    return ipp_ok(req)
-def cancel_job(req):
     return ipp_ok(req)
 def get_jobs(req):
     return ipp_ok(req)
@@ -435,43 +448,53 @@ def get_default(req):
     except:
         return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'Error in get_default()')
 
-def print_error(req, pname, code, ste):
-    """Generate return code from print"""
+def created_job_ok(req, pname, jobnum):
+    """Return response that job was created OK"""
 
-    msg = "%s gave exit code %d" % (pname, code)
-    if len(ste) != 0:
-            msg += " - " + ste
-    return ipp_status(req, 'IPP_NOT_POSSIBLE', msg)
+    response = ipp.ipp()
+    response.setrespcode(ipp.IPP_OK, req.id)
+    opgrp = opgrp_hdr(req)
+    msg = ipp.ippvalue(ipp.IPP_TAG_TEXT)
+    msg.setnamevalues('status-message', 'successful-ok')
+    opgrp.setvalue(msg)
+    response.pushvalue(opgrp)
 
-def print_job(req):
-    """Actually print a job"""
+    jobgrp = ipp.ippgroup(ipp.IPP_TAG_JOB)
+    idval = ipp.ippvalue(ipp.IPP_TAG_INTEGER)
+    idval.setnamevalues('job-id', jobnum)
+    jobgrp.setvalue(idval)
+    iduri = "ipp://%s/%s/%d" % (socket.gethostname(), pname, jobnum)
+    idval = ipp.ippvalue(ipp.IPP_TAG_URI)
+    idval.setnamevalues('job-uri', iduri)
+    jobgrp.setvalue(idval)
+    jobstat = ipp.ippvalue(ipp.IPP_TAG_ENUM)
+    jobstat.setnamevalues('job-state', ipp.IPP_JOB_PROCESSING)
+    jobgrp.setvalue(jobstat)
+    response.pushvalue(jobgrp)
+    return response.generate()
 
-    # Get printer name
-    try:
-        pname = get_pname_from_uri(req)
-	uname = get_req_user_name(req)
-    except CupsError as err:
-        return  ipp_status(req, err.codename, err.args[0])
+class print_err(Exception):
+    """Throw me if print error happens"""
 
-    title = copy_or_default(req, 'job-name')
-    copies = copy_or_default(req, 'copies')
+    def __init__(self, c, ste, *args):
+        Exception.__init_(self, *args)
+        self.code = c
+        self.stderr = ste
 
-    # We are assuming that the content-length field gave us the whole lot
+def process_print(req, pname, copies, title, user):
+    """Perform the operation to do the print and return the job id.
 
-    command = Config_data.print_command(pname, copies=copies, title=title, user=uname)
+Throw a print_error if something goes wrong"""
+
+    command = Config_data.print_command(pname, copies=copies, title=title, user=user)
     if command is None:
-        return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'No print command for ' + pname)
-
-    # Now do the business
+        raise print_err('No print command for ' + pname)
 
     outf = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    # See if something went wrong at that point
-
     pl = outf.poll()
     if pl:
         (sto, ste) = outf.communicate()
-        return print_error(req, pname, pl, ste)
+        raise print_err(pl, ste)
 
     # Send the data
 
@@ -483,7 +506,7 @@ def print_job(req):
         except:
             outf.terminate()
             (sto, ste) = outf.communicate()
-            raise
+            raise print_err(256, ste)
 
         # End of data is signified by zero length
         # Other errors raise filebufEOF
@@ -494,24 +517,24 @@ def print_job(req):
             sti.write(b)
         except IOError as err:
             if err.args[0] == errno.EPIPE:
-                return ipp_status(req, "IPP_NOT_POSSIBLE", "Is GNUspool running")
+                raise print_err(err.args[0], "Is GNUspool running")
             else:
                 msg = "Pipe IO Error: " + err.args[1] + "(" + err.args[0] + ")"
-                return ipp_status(req, "IPP_NOT_POSSIBLE", msg)
+                raise print_err(err.args[0], msg)
 
         # Check it's still running
 
         pl = outf.poll()
         if  pl:
             (sto, ste) = outf.communicate()
-            return print_error(req, pname, pl, ste)
+            raise print_err(pl, msg)
 
     # Check we didn't get error message
 
     (sto, ste) = outf.communicate()
     pl = outf.wait()
     if pl:
-        return print_error(req, pname, pl, ste)
+        raise print_err(pl, msg)
 
     # Look for job id on std error and if present use it
     # Otherwise generate
@@ -525,29 +548,54 @@ def print_job(req):
     else:
         jobid = get_next_jobid()
 
-    # Now generate OK response
+    return jobid
 
-    response = ipp.ipp()
-    response.setrespcode(ipp.IPP_OK, req.id)
-    opgrp = opgrp_hdr(req)
-    msg = ipp.ippvalue(ipp.IPP_TAG_TEXT)
-    msg.setnamevalues('status-message', 'successful-ok')
-    opgrp.setvalue(msg)
-    response.pushvalue(opgrp)
 
-    jobgrp = ipp.ippgroup(ipp.IPP_TAG_JOB)
-    idval = ipp.ippvalue(ipp.IPP_TAG_INTEGER)
-    idval.setnamevalues('job-id', jobid)
-    jobgrp.setvalue(idval)
-    iduri = "ipp://%s/%s/%d" % (socket.gethostname(), pname, jobid)
-    idval = ipp.ippvalue(ipp.IPP_TAG_URI)
-    idval.setnamevalues('job-uri', iduri)
-    jobgrp.setvalue(idval)
-    jobstat = ipp.ippvalue(ipp.IPP_TAG_ENUM)
-    jobstat.setnamevalues('job-state', ipp.IPP_JOB_PENDING)
-    jobgrp.setvalue(jobstat)
-    response.pushvalue(jobgrp)
-    return response.generate()
+def print_error(req, pname, code, ste):
+    """Generate return code from print"""
+
+    msg = "%s gave exit code %d" % (pname, code)
+    if len(ste) != 0:
+            msg += " - " + ste
+    return ipp_status(req, 'IPP_NOT_POSSIBLE', msg)
+
+def print_job(req):
+    """Actually print a job"""
+    # Get printer name
+    try:
+        pname = get_pname_from_uri(req)
+	uname = get_req_user_name(req)
+    except CupsError as err:
+        return  ipp_status(req, err.codename, err.args[0])
+
+    title = copy_or_default(req, 'job-name')
+    copies = copy_or_default(req, 'copies')
+    try:
+        jobid = process_print(req, pname, copies, title, uname)
+    except print_err as err:
+        return print_error(req, pname, err.code, err.ste)
+    return created_job_ok(req, pname, jobid)
+
+def extract_jobid(reqop):
+    """Extract job id from a request (send-document or cancel job)"""
+    # Spec says it might be given as a URI or as a job number (and printer name which we don't need)
+    jobid = reqop.find_attribute('job-id')
+    if jobid:
+        jobid = jobid.get_value()
+    else:
+        juri = reqop.find_attribute('job-uri')
+        if not juri:
+            raise CupsError('IPP_BAD_REQUEST', 'Missing required job-id or job-uri')
+        m = re.match("ipp://.*/.*/(\d+)", juri.get_value())
+        if not m:
+            raise CupsError('IPP_BAD_REQUEST', 'Invalid format job-uri ' + juri)
+        jobid = m.group(1)
+    # Convert jobid to numeric and look up
+    try:
+        jobid = int(jobid)
+    except ValueError:
+        raise CupsError('IPP_BAD_REQUEST', 'Invalid non-integer jobid ' + jobid)
+    return jobid
 
 # We believe that these don't happen
 
@@ -556,12 +604,48 @@ def print_uri(req):
     return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'print_uri not implemented')
 
 def create_job(req):
-    """Dont do create_job as it doesn't seem to be used"""
-    return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'create_job not implemented')
+    """Create job routine now has to be implemented"""
+    # Get printer name
+    try:
+        pname = get_pname_from_uri(req)
+	uname = get_req_user_name(req)
+    except CupsError as err:
+        return  ipp_status(req, err.codename, err.args[0])
+
+    pj = pend_job(pname, uname, copy_or_default(req, 'job-name'), copy_or_default(req, 'copies'))
+    return created_job_ok(req, pname, pj.jobnum)
 
 def send_document(req):
-    """Dont do send_document as it doesn't seem to be used"""
-    return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'send_document not implemented')
+    """Send document to pending job created by create job"""
+
+    # Find out the job number this is associated with
+
+    reqop = req.values[0]
+    jobid = extract_jobid(reqop)
+    if jobid not in Pending_jobs:
+        raise CupsError('IPP_NOT_FOUND', 'Job id not found in send-doc ' + str(jobid))
+    pj = Pending_jobs[jobid]
+
+    # If last document set, delete from pending
+
+    lastdoc = reqop.find_attribute('last-document')
+    if not lastdoc:
+        raise CupsError('IPP_BAD_REQUEST', 'No last-doc attribute')
+    if lastdoc.get_value():
+        del Pending_jobs[jobid]
+    try:
+        process_print(req, pj.pname, pj.copies, pj.title, pj.uname)
+    except print_err as err:
+        return print_error(req, pname, err.code, err.ste)
+    return created_job_ok(req, pj.pname, jobid)
+
+def cancel_job(req):
+    """Cancel job - dont worry if not pending"""
+    reqop = req.values[0]
+    jobid = extract_jobid(reqop)
+    if jobid in Pending_jobs:
+        del Pending_jobs[jobid]
+    return ipp_ok(req)
 
 # Lookup for operations
 
@@ -630,10 +714,26 @@ functab = dict(IPP_PRINT_JOB=print_job,
 
 def process_get(f, l):
     """Process a http get request"""
+
+    # First read up to end of request
+
+    while 1:
+        line = f.readline()
+        if line is None:
+            break
+        line = line.rstrip()
+        if len(line) == 0:
+            break
+
+    # Try to parse the starting line
+
     m = re.match("GET\s+/printers/(.+)\s+HTTP", l)
     if not m:
         syslog.syslog(syslog.LOG_ERR, "Get request no match in %s" % l)
         return
+
+    # Try to open the file
+
     pf = None
     for ptr in (m.group(1), Config_data.default_printer() + ".ppd", "Default.ppd"):
         try:
@@ -645,11 +745,15 @@ def process_get(f, l):
         except:
             pass
 
-    if not pf:
+    if pf:
+        st = os.fstat(pf.fileno())
+        tim = time.ctime(st[stat.ST_MTIME])
+        fsize = st[stat.ST_SIZE]
+    else:
+        tim = time.time()
+        fsize = 0
         syslog.syslog(syslog.LOG_ERR, "Get request file not found for %s" % m.group(1))
-        return
 
-    st = os.fstat(pf.fileno())
     f.write("HTTP/1.1 200 OK\n")
     f.write("Date: %s\n" % time.ctime())
     f.write("Server: CUPS/1.2\n")
@@ -657,99 +761,71 @@ def process_get(f, l):
     f.write("Keep-Alive: timeout=60\n")
     f.write("Content-Language: en_US\n")
     f.write("Content-Type: application/vnd.cups-ppd\n")
-    f.write("Last-Modified: %s\n" % time.ctime(st[stat.ST_MTIME]))
-    f.write("Content-Length: %d\n\n" % st[stat.ST_SIZE])
-    f.flush()
-    ffno = f.fileno()
-    fsize = 0
-    while 1:
-        buf = pf.read(1024)
-        lb = len(buf)
-        if lb == 0:
-            break
-        fsize = fsize + lb
-        # Do write taking into account everything doesn't get
-        # written at once
-        while lb > 0:
-            lw = os.write(ffno, buf)
-            buf = buf[lw:]
-            lb -= lw
-    pf.close()
-    if Config_data.loglevel > 2:
-        syslog.syslog(syslog.LOG_INFO, ".ppd file was %d bytes long" % fsize)
-    
+    f.write("Last-Modified: %s\n" % tim)
+    f.write("Content-Length: %d\n\n" % fsize)
+
+    if pf:
+        while 1:
+            buf = pf.read(1024)
+            lb = len(buf)
+            if lb == 0:
+                break
+            f.write(buf)
+        pf.close()
 
 def process_post(f):
     """Process an HTTP POST request"""
+
     ipplength=0
+    exp = False
+    chnk = False
+
+    # Read rest of header
+
     while 1:
         line = f.readline()
+        if line is None:
+            return
+
         l = line.rstrip()
         if  len(l) == 0:
             break
+
         m = re.search('Content-Length:\s*(\d+)', l, re.I)
         if m:
             ipplength=int(m.group(1))
-    if ipplength==0:
-        return None
-    return  filebuf.filebuf(f, ipplength)
+            continue
 
-def parsefd(f):
-    """Parse an incoming request with HTTP header"""
-    # Get first line which should be either HTTP request or just the start of a header
-
-    try:
-        line = f.readline()
-        l = line.strip()
-        if len(l) == 0:
-            return None
-        m = re.match("(GET|PUT|POST|DELETE|TRACE|OPTIONS|HEAD)\s", l)
+        m = re.match('Expect:', l, re.I)
         if m:
-            op = m.group(1)
-            if op == "GET":
-                process_get(f, l)
-                return None
-            elif op == "POST":
-                return process_post(f)
-            else:
-                print "Dont know how to handle " + op + " http ops"
-        else:
-            print "No match for HTTP op"
-    except (socket.error, filebuf.filebufEOF):
-        return None
-    return None
+            exp = True
+            continue
 
-def parsefile(fname):
-    """Parse a file with an IPP in"""
-    try:
-        f = open(fname, 'rb')
-    except IOError:
-        return None
-    res = parsefd(f)
-    f.close()
-    return  res
+        m = re.match('Transfer-Encoding:\s+chunked', l, re.I)
+        if m:
+            chnk = True
 
-# Do the business in a thread
+    # If we've had a request to request more, satisfy it
 
-def cups_proc(conn, addr):
-    """Process a connection and handle request"""
-    f = conn.makefile("r+")
-    conn.close()
+    if exp:
+        f.write("HTTP/1.1 100 Continue\r\n\r\n")
 
-    # parsefd returns None if anything other than an IPP request,
-    # in which case it returns a filebuf
-
-    fb = parsefd(f)
-    if not fb:
-        f.close()
-        return
+    if chnk:
+        f.set_chunked()
+    else:
+        if ipplength == 0:
+            syslog.syslog(syslog.LOG_ERR, "No POST data")
+            return
+        f.set_expected(ipplength)
 
     # Parse IPP request
-    ipr = ipp.ipp(fb)
+
+    ipr = ipp.ipp(f)
     try:
         ipr.parse()
+        if Config_data.loglevel > 3:
+            ipr.display()
     except ipp.IppError as mm:
-        f.close()
         return
 
     iprcode = ipr.statuscode
@@ -759,7 +835,6 @@ def cups_proc(conn, addr):
         syslog.syslog(syslog.LOG_INFO, "Request operation %s" % iprname)
         func = functab[iprname]
     except KeyError:
-        f.close()
         return
 
     # Actually do the business and return an IPP string (filebuf is a structure member)
@@ -781,7 +856,45 @@ def cups_proc(conn, addr):
     f.write("Content-Type: application/ipp\r\n")
     f.write("Content-Length: %d\r\n\r\n" % len(resp))
     f.write(resp)
-    f.close()
+
+def parsefd(fd):
+    """Parse incoming requests with HTTP header"""
+
+    while 1:
+
+        # Get first line which should be an HTTP request
+
+        try:
+            line = fd.readline()
+            if line is None:
+                return
+            l = line.strip()
+            if len(l) == 0:
+                return
+
+            m = re.match("(GET|PUT|POST|DELETE|TRACE|OPTIONS|HEAD)\s", l)
+            if m:
+                op = m.group(1)
+                if op == "GET":
+                    process_get(fd, l)
+                elif op == "POST":
+                    process_post(fd)
+                else:
+                    syslog.syslog(syslog.LOG_ERR, "Dont know how to handle %s http ops" % op)
+                    return
+            else:
+                syslog.syslog(syslog.LOG_ERR, "No match for HTTP op")
+                return
+        except (socket.error, filebuf.filebufEOF):
+            return
+
+# Do the business in a thread
+
+def cups_proc(conn, addr):
+    """Process a connection and handle request"""
+    fd = filebuf.httpfilebuf(conn)
+    parsefd(fd)
+    conn.close()
 
 # Meat of the thing
 
@@ -792,33 +905,57 @@ def cups_server():
 
     # Try to support ipv6 and ipv4
 
-    for res in socket.getaddrinfo(None, port, socket.AF_UNSPEC, socket.SOCK_STREAM, 0, socket.AI_PASSIVE):
-        af, socktype, proto, canonname, sa = res
+    socklist = []
+    poss_socks = socket.getaddrinfo(None, port, socket.AF_UNSPEC, socket.SOCK_STREAM, 0, socket.AI_PASSIVE)
+    act_socks = []
+
+    # First find AF_INET6 if it's there
+    # Unlike the advertising it might be anywhere
+    # Then find AF_INET
+
+    for afam in (socket.AF_INET6, socket.AF_INET):
+        for p in poss_socks:
+            af, socktype, proto, canonname, sa = p
+            if af == afam:
+                act_socks.append(p)
+                break
+
+    for p in  act_socks:
+        af, socktype, proto, canonname, sa = p
         try:
             s = socket.socket(af, socktype, proto)
         except socket.error, msg:
-            s = None
             continue
+
         try:
             s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             s.bind(sa)
             s.listen(5)
+
         except socket.error as msg:
             if msg.args[0] == errno.EACCES:
                 sys.exit("Cannot access socket - no permission")
-            if msg.args[0] == errno.EADDRINUSE:
+
+            # We may get EADDRINUSE from IPV4 if we've just set up IPV6 which we ignore
+            if msg.args[0] == errno.EADDRINUSE and len(socklist) == 0 and af != socket.AF_INET:
                 sys.exit("Socket in use - is CUPS running?")
+
             s.close()
-            s = None
             continue
-        break
-    if s is None:
+
+        socklist.append(s)
+
+    # If no success, abort
+    if len(socklist) == 0:
         sys.exit("Sorry cannot start - unable to allocate socket?")
+
     while 1:
-        connaddr = s.accept()
-        th = threading.Thread(target=cups_proc, args=connaddr)
-        th.daemon = True
-        th.start()
+        rlist,wlist,xlist = select.select(socklist,(),())
+        for s in rlist:
+            connaddr = s.accept()
+            th = threading.Thread(target=cups_proc, args=connaddr)
+            th.daemon = True
+            th.start()
 
 def setup_pid():
     """Setup pid entry in /var/run/cups/cupsd.pid
@@ -871,11 +1008,11 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     signal.signal(signal.SIGQUIT, signal.SIG_IGN)
     signal.signal(signal.SIGHUP, signal.SIG_IGN)
+    if os.fork() != 0:
+        os._exit(0)
     syslog.openlog('cupspy', syslog.LOG_NDELAY|syslog.LOG_PID, syslog.LOG_LPR)
     syslog.setlogmask(syslog.LOG_UPTO(Config_data.loglevel + syslog.LOG_ERR))
     syslog.syslog(syslog.LOG_INFO, "Starting")
-    if os.fork() != 0:
-        os._exit(0)
     setup_pid()
     signal.signal(signal.SIGTERM, remove_pid)
     cups_server()

@@ -17,7 +17,7 @@
 
 # Originally written by John Collins <jmc@xisl.com>.
 
-import filebuf, struct, re, string, time, random
+import filebuf, struct, re, string, time, random, syslog
 
 name_to_op = dict(IPP_PRINT_JOB=2,                      # Print a single file
                   IPP_PRINT_URI=3,                      # Print a single URL @private@
@@ -338,13 +338,10 @@ class ippvalue:
 
     def display(self, indent):
         """Display/trace the value"""
-        for i in range(0,indent) : print "\t",
-        print "Value:", tag_to_name[self.tag]
-        for i in range(0,indent) : print "\t",
-        print "Name:", self.name
+        syslog.syslog(syslog.LOG_DEBUG, "Value:" + tag_to_name[self.tag])
+        syslog.syslog(syslog.LOG_DEBUG, "Name:" + self.name)
         for i,v in enumerate(self.value):
-            for j in range(0,indent) : print "\t",
-            print i, tag_to_name[v[0]], v[1]
+            syslog.syslog(syslog.LOG_DEBUG, str(i) + ' ' + tag_to_name[v[0]] + ' ' + str(v[1]))
 
     def generate(self):
         """Turn value into IPP string"""
@@ -377,10 +374,10 @@ class ippgroup:
 
     def display(self, indent):
         """Display/trace of group"""
-        print "Group:", tag_to_name[self.tag]
+        syslog.syslog(syslog.LOG_DEBUG, "Group:" + tag_to_name[self.tag])
         for i,v in enumerate(self.values):
-            print "Group value",i,":"
-            v.display(1)
+            syslog.syslog(syslog.LOG_DEBUG, "Group value " + str(i) + ":")
+            v.display(indent)
 
     def generate(self):
         """Generate an IPP string for the group"""
@@ -523,10 +520,10 @@ Argument is non-zero to specify it's a response structure"""
                 code = "Unknown status did you really mean resp"
             else:
                 code = "Unknown code didn't you mean resp"
-        print "Version=", self.majv, ".", self.minv
-        print "Code=", code, "Id=", self.id
+        syslog.syslog(syslog.LOG_DEBUG, "Version=" + str(self.majv) + "." + str(self.minv))
+        syslog.syslog(syslog.LOG_DEBUG, "Code=" + str(code) + " Id=" + str(self.id))
         if len(self.values) > 0:
-            print "Items:"
+            syslog.syslog(syslog.LOG_DEBUG, "Items:")
             for v in self.values:
                 v.display(0)
 
