@@ -477,7 +477,7 @@ class print_err(Exception):
     """Throw me if print error happens"""
 
     def __init__(self, c, ste, *args):
-        Exception.__init_(self, *args)
+        Exception.__init__(self, *args)
         self.code = c
         self.stderr = ste
 
@@ -527,14 +527,14 @@ Throw a print_error if something goes wrong"""
         pl = outf.poll()
         if  pl:
             (sto, ste) = outf.communicate()
-            raise print_err(pl, msg)
+            raise print_err(pl, ste)
 
     # Check we didn't get error message
 
     (sto, ste) = outf.communicate()
     pl = outf.wait()
     if pl:
-        raise print_err(pl, msg)
+        raise print_err(pl, ste)
 
     # Look for job id on std error and if present use it
     # Otherwise generate
@@ -573,7 +573,7 @@ def print_job(req):
     try:
         jobid = process_print(req, pname, copies, title, uname)
     except print_err as err:
-        return print_error(req, pname, err.code, err.ste)
+        return print_error(req, pname, err.code, err.stderr)
     return created_job_ok(req, pname, jobid)
 
 def extract_jobid(reqop):

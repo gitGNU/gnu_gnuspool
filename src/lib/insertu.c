@@ -21,6 +21,7 @@
 #include "defaults.h"
 #include "spuser.h"
 #include "incl_unix.h"
+#include "incl_ugid.h"
 
 /* Insert updated user descriptor into file.  */
 
@@ -29,6 +30,11 @@ void	insertu(const int fid, const struct spdet *item)
 	LONG	pos;
 	struct	spdet	*p1, *p2, *t;
 	struct	spdet	a, b;
+
+	/* Force all privs on for root and spooler user id */
+
+	if  (item->spu_user == ROOTID  || (ULONG) item->spu_user == (ULONG) Daemuid)
+		item->spu_flgs = ALLPRIVS;
 
 	/* If it's below maximum for vector, stuff it in.  */
 
