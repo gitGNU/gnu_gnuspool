@@ -9,7 +9,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
@@ -46,8 +46,8 @@ class pend_job:
     """Hold details of pending job"""
 
     def __init__(self, p, u, t, c):
-        global Pending_jobs
-        self.jobnum = get_next_jobid()
+	global Pending_jobs
+	self.jobnum = get_next_jobid()
         self.pname = p
         self.uname = u
         self.title = t
@@ -506,7 +506,7 @@ Throw a print_error if something goes wrong"""
         except:
             outf.terminate()
             (sto, ste) = outf.communicate()
-            raise print_err(256, ste)
+            raise print_err(256, 'Input error on socket')
 
         # End of data is signified by zero length
         # Other errors raise filebufEOF
@@ -517,7 +517,7 @@ Throw a print_error if something goes wrong"""
             sti.write(b)
         except IOError as err:
             if err.args[0] == errno.EPIPE:
-                raise print_err(err.args[0], "Is GNUspool running")
+                raise print_err(err.args[0], "Is spooler running")
             else:
                 msg = "Pipe IO Error: " + err.args[1] + "(" + err.args[0] + ")"
                 raise print_err(err.args[0], msg)
@@ -570,6 +570,7 @@ def print_job(req):
 
     title = copy_or_default(req, 'job-name')
     copies = copy_or_default(req, 'copies')
+
     try:
         jobid = process_print(req, pname, copies, title, uname)
     except print_err as err:
@@ -840,6 +841,7 @@ def process_post(f):
     # Actually do the business and return an IPP string (filebuf is a structure member)
 
     resp = func(ipr)
+    
     if  Config_data.loglevel > 2:
         ipresp = ipp.ipp(filebuf.stringbuf(resp, 0))
         ipresp.parse()
@@ -886,13 +888,14 @@ def parsefd(fd):
                 syslog.syslog(syslog.LOG_ERR, "No match for HTTP op")
                 return
         except (socket.error, filebuf.filebufEOF):
+            syslog.syslog(syslog.LOG_DEBUG, "Had EOF on socket")
             return
 
 # Do the business in a thread
 
 def cups_proc(conn, addr):
     """Process a connection and handle request"""
-    fd = filebuf.httpfilebuf(conn)
+    fd = filebuf.httpfilebuf(conn, Config_data.timeouts)
     parsefd(fd)
     conn.close()
 

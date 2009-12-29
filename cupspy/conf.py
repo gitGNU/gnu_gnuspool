@@ -133,6 +133,7 @@ class Conf:
         self.printers = dict()
         self.plist = []
         self.loglevel = 1
+        self.timeouts = 20
         self.conf_dir = os.getcwd()
         self.ppddir = self.conf_dir
 
@@ -165,6 +166,13 @@ class Conf:
                 if  len(arg) == 0:
                     raise ConfError("Invalid null PPDDIR")
                 hadppd = True
+            elif opt == "TIMEOUT":
+                try:
+                    self.timeouts = float(arg)
+                    if self.timeouts <= 0:
+                        raise ValueError
+                except ValueError:
+                    raise ConfError("Invalid TIMEOUT " + arg + " (should be >0)")
 
         # If ppdir was specified and not absolute, put confdir in front
 
@@ -245,7 +253,7 @@ Optionally write printers out in the order given"""
         # Write parameters
         
         outfile.write("# CUPSPY configuration file written on %s\n\n" % time.ctime())
-        outfile.write("# Parameters section\n\nPARAMS:\n\tLOGLEVEL=%d\n" % self.loglevel)
+        outfile.write("# Parameters section\n\nPARAMS:\n\tLOGLEVEL=%d\n\tTIMEOUT=%d\n" % (self.loglevel, self.timeouts))
 
         # Write out ppddir as relative or not at all if it's the same as outd
 

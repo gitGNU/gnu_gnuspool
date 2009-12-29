@@ -49,6 +49,7 @@ ui_string = """<ui>
     <menu action='ParamsMenu'>
       <menuitem action='Log'/>
       <menuitem action='Directs'/>
+      <menuitem action='Timeout'/>
       <separator/>
       <menuitem action='Defptr'/>
     </menu>
@@ -181,6 +182,18 @@ class LogDlg(gtk.Dialog):
         self.vbox.pack_start(self.loglevel)
         self.show_all()
 
+class ToDlg(gtk.Dialog):
+    """Dialog box for setting timeout values"""
+    def __init__(self, title="Set timeout value"):
+        gtk.Dialog.__init__(self, title, None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, (gtk.STOCK_OK, gtk.RESPONSE_OK, gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL))
+        self.timeout = gtk.SpinButton()
+        self.timeout.set_numeric(True)
+        self.timeout.set_digits(2)
+        self.timeout.set_range(0.01, 1000.00)
+        self.timeout.set_increments(0.01, 1.00)
+        self.vbox.pack_start(self.timeout)
+        self.show_all()
+
 class Window(gtk.Window):
     """Main window class"""
     def __init__(self, filename=""):
@@ -286,6 +299,7 @@ class Window(gtk.Window):
             ('ParamsMenu', None, 'P_arameters'),
             ('Log',      None, '_Logging', None, 'Log file settings', self.par_log_cb),
             ('Directs',  None, '_Directory for PPD files', None, 'Configure directory for PPD files', self.par_direct_cb),
+            ('Timeout',  None, '_Timeout', None, 'Timeout setting for socket', self.par_timeout_cb),
             ('Defptr',   gtk.STOCK_PRINT, 'Def _ptr', None, 'Set printer as default', self.par_defptr_cb),
             ('PtrMenu', None, '_Printers'),
             ('Add',      gtk.STOCK_GOTO_FIRST, '_Add', '<control>A', 'Add a new printer', self.file_newptr_cb),
@@ -465,6 +479,15 @@ class Window(gtk.Window):
         dialog.loglevel.set_active(self.config_data.loglevel)
         if  dialog.run() == gtk.RESPONSE_OK:
             self.config_data.loglevel = dialog.loglevel.get_active()
+            self.dirty = True
+        dialog.destroy()
+
+    def par_timeout_cb(self, action):
+        """Reset timeout parameter"""
+        dialog = ToDlg()
+        dialog.timeout.set_value(self.config_data.timeouts)
+        if  dialog.run() == gtk.RESPONSE_OK:
+            self.config_data.timeouts = dialog.timeout.get_value()
             self.dirty = True
         dialog.destroy()
 
