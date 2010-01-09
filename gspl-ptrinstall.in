@@ -1958,7 +1958,7 @@ sub proc_install {
 	# form type to that.
 	my $defform = `$bindir/gspl-ulist -S -F %f`;
 	chop $defform;
-	system("$bindir/gspl-uchange -D -f $defform -A") if $defform eq 'standard' && $defform ne $ftype;
+	system("$bindir/gspl-uchange -D -f $defform -F $defform -A") if $defform eq 'standard' && $defform ne $ftype;
     }
     if (system(join(' ', @args)) == 0)  {
 	print "$ptr added successfully\n";

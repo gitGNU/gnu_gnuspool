@@ -14,6 +14,9 @@ gnuspool-netsrv		48102/udp        # Client access
 gnuspool-api		48103/tcp        # API
 gnuspool-api		48103/udp        # API (for wakeup messages)
 
+The script /usr/sbin/gspl-servinstall has been provided to do
+this for you. It will back off if there are any conflicts.
+
 Please note that the next release of GNUspool will only use 2 ports.
 
 The Provides: on this package are a temporary measure to allow testing.

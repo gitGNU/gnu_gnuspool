@@ -121,14 +121,15 @@ case "$1" in
         # Check if it's running first
 
         if running ;  then
-            log_progress_msg "apparently already running"
+            log_daemon_msg "apparently already running"
             log_end_msg 0
             exit 0
         fi
 
 	if ! grep -qs '^gnuspool' /etc/services ; then
-	    log_progress_msg "You need ports set up in /etc/services - see /usr/share/doc/gnuspool/README.Debian"
-            log_end_msg 0
+	    log_daemon_msg "You need ports set up in /etc/services"
+	    log_daemon_msg "- see /usr/share/doc/gnuspool/README.Debian"
+            log_end_msg 1
 	    exit 0
 	fi
 

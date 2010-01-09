@@ -284,10 +284,13 @@ unless (-f "/etc/gnuspool/gnuspool.hosts")  {
 }
 
 system("/usr/bin/gspl-uchange -R");
-$wai=`who am i`;
-chop $wai;
-$wai =~ s/ .*//;
-system("/usr/bin/gspl-uchange -p ALL $wai");
+$wai = $ENV{'SUDO_USER'};
+unless (defined($wai))  {
+    $wai=`who am i`;
+    chop $wai;
+    $wai =~ s/ .*//;
+}
+system("/usr/bin/gspl-uchange -p ALL $wai") unless length($wai) == 0;
 
 EOF
 if [ $? -ne 0 ]

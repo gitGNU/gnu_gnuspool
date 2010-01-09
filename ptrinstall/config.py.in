@@ -95,4 +95,6 @@ Programs = dict(ADDPROG = findprogonpath('gspl-padd'),
                 CPLIST = findprogonpath('gspl-cplist'),
                 GETSNMP = findprogonpath('gspl-getsnmp'),
                 GS = findprogonpath('gs'),
-                HPIJS = findprogonpath('hpijs'))
+                HPIJS = findprogonpath('hpijs'),
+		ULIST = findprogonpath('gspl-ulist'),
+		UCHANGE = findprogonpath('gspl-uchange'))

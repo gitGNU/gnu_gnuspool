@@ -37,6 +37,7 @@ PDFDIR		=	$(DESTDIR)@pdfdir@
 CUPSPYDIR	=	$(DESTDIR)@cupspydir@
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
+LIBDIR		=	$(DESTDIR)@libdir@/gnuspool
 STAGED_INSTALL	=	false
 
 all:	buildd build-src
@@ -57,10 +58,11 @@ install: all
 	cd $(UTILDIR);$(MAKE) install
 	cd $(BUILDDIR);$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	cd ptrinstall;$(MAKE)
-	$(INSTALL) gspl-ptrinstall $(SBINDIR)
+	$(INSTALL) gspl-ptrinstall gspl-udevpatch $(SBINDIR)
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
 	cp -r -p ptrinstall $(DATADIR)
+	cp -r -p udev $(LIBDIR)
 	cd doc;$(MAKE) install
 	cd cupspy;$(MAKE) install
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
@@ -70,10 +72,11 @@ install-strip:	all
 	cd $(UTILDIR);make install-strip
 	cd $(BUILDDIR);$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	cd ptrinstall;$(MAKE)
-	$(INSTALL) gspl-ptrinstall $(SBINDIR)
+	$(INSTALL) gspl-ptrinstall gspl-udevpatch $(SBINDIR)
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
 	cp -r -p ptrinstall $(DATADIR)
+	cp -r -p udev $(LIBDIR)
 	cd doc;$(MAKE) install-strip
 	cd cupspy;$(MAKE) install-strip
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
@@ -96,7 +99,7 @@ distclean:	clean
 	cd $(UTILDIR);$(MAKE) distclean
 	cd $(SRCDIR);$(MAKE) distclean
 	$(RM) $(SRCDIR)/hdrs/files.h $(SRCDIR)/hdrs/infiles.h 
-	$(RM) config.cache config.h config.status config.log Makefile gspl-ptrinstall
+	$(RM) config.cache config.h config.status config.log Makefile gspl-ptrinstall gspl-udevpatch
 	$(RM) Checkuserinst Userinst Netinst STARTUP/Startdirs
 	cd doc;$(MAKE) distclean
 	cd cupspy;$(MAKE) distclean

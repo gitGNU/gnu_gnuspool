@@ -1111,9 +1111,11 @@ static void	endpriv(Widget w, int data)
 				Spuhdr.sph_flgs = newflags;
 				hchanges++;
 				uchanges++;
-				for  (cnt = 0;  cnt < Nusers;  cnt++)
-					if  (ulist[cnt].spu_user != Realuid)
+				for  (cnt = 0;  cnt < Nusers;  cnt++)  {
+					int_ugid_t uu = ulist[cnt].spu_user;
+					if  (uu != Realuid && uu != Daemuid && uu != ROOTID)
 						ulist[cnt].spu_flgs = newflags;
+				}
 				udisplay(0, (int *) 0);
 			}
 			else  if  (Spuhdr.sph_flgs != newflags)  {

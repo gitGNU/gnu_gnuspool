@@ -46,7 +46,7 @@ static	unsigned  char	igsigs[]= { SIGINT, SIGQUIT, SIGTERM, SIGHUP, SIGALRM, SIG
 static	RETSIGTYPE	(*oldsigs[sizeof(igsigs)])(int);
 #endif
 
-static void	savesigs(const int saving)
+static	void	savesigs(const int saving)
 {
 	int	cnt;
 #ifdef	HAVE_SIGACTION
@@ -80,7 +80,7 @@ static void	savesigs(const int saving)
 #endif
 }
 
-static void	iu(int fid, char * arg, int_ugid_t uid)
+static void iu(int fid, char *arg, int_ugid_t uid)
 {
 	((struct spdet *) arg) ->spu_user = uid;
 	insertu(fid, (struct spdet *) arg);
@@ -89,10 +89,10 @@ static void	iu(int fid, char * arg, int_ugid_t uid)
 /* Create user control file from scratch.
    Return 0 - failure, 1 - ok */
 
-static int	init_file(char * fname)
+static	int  init_file(char *fname)
 {
 	int		fid;
-	int_ugid_t	uu;
+	unsigned	nusers;
 	char		*formname;
 	struct	spdet	Spec;
 	struct	stat	pwbuf;
@@ -100,11 +100,10 @@ static int	init_file(char * fname)
 	if  ((fid = open(fname, O_RDWR|O_CREAT|O_TRUNC, 0600)) < 0)
 		return  0;
 
-	if  ((uu = lookup_uname(SPUNAME)) != UNKNOWN_UID)
 #if	defined(HAVE_FCHOWN) && !defined(M88000)
-		fchown(fid, (uid_t) uu, getegid());
+	fchown(fid, (uid_t) Daemuid, getegid());
 #else
-		chown(fname, (uid_t) uu, getegid());
+	chown(fname, (uid_t) Daemuid, getegid());
 #endif
 	savesigs(1);
 	if  ((formname = helpprmpt($P{Default user form type})) == (char *) 0)
@@ -139,23 +138,13 @@ static int	init_file(char * fname)
 
 	uloop_over(fid, iu, (char *) &Spec);
 
-	/* Set "root" and "spooler" to be super-people.  */
+	/* We no longer set "root" and "spooler" to be super-people as insertu forces this. */
 
-	Spec.spu_flgs = ALLPRIVS;
-	Spec.spu_user = ROOTID;
-	Spec.spu_isvalid = SPU_VALID;
-	insertu(fid, &Spec);
-
-	if  ((uu = lookup_uname(SPUNAME)) != UNKNOWN_UID)  {
-		gid_t	lastgid = getegid();
-		Spec.spu_user = uu;
-		insertu(fid, &Spec);
 #if	defined(HAVE_FCHOWN) && !defined(M88000)
-		fchown(fid, uu, lastgid);
+	fchown(fid, Daemuid, getegid());
 #else
-		chown(fname, uu, lastgid);
+	chown(fname, Daemuid, getegid());
 #endif
-	}
 	close(fid);
 	savesigs(0);
 	return  1;
@@ -163,7 +152,7 @@ static int	init_file(char * fname)
 
 /* Lock the whole caboodle */
 
-static  void  lockit(const int fid, const int type)
+static	void  lockit(const int fid, const int type)
 {
 	struct	flock	lk;
 
@@ -215,7 +204,7 @@ static  void  init_defaults(struct spdet *res, const int_ugid_t uid, const unsig
 
 /* Routine called by uloop_over to check for new users */
 
-static  void  chk_nuser(const int fid, char *arg, const int_ugid_t uid)
+static	void  chk_nuser(const int fid, char *arg, const int_ugid_t uid)
 {
 	struct	spdet	uu;
 
@@ -362,7 +351,7 @@ void	rebuild_spufile(void)
 /* See if we need to regenerate user file because of new users added recently.
    Return file descriptor */
 
-static void	open_file(int mode)
+static	void  open_file(int mode)
 {
 	char	*fname = envprocess(SPUFILE);
 	struct	stat	pwbuf;
@@ -459,7 +448,7 @@ static struct spdet *gallpriv(unsigned *Np)
    This is now the basic routine for user programs and does not return
    if there's a problem.  */
 
-struct  spdet *getspuser(const uid_t uid)
+struct spdet *getspuser(const uid_t uid)
 {
 	struct  spdet  *result;
 
@@ -477,7 +466,7 @@ struct  spdet *getspuser(const uid_t uid)
 
 /* Get entry in user file, possibly for update Only done for utility routines.  */
 
-struct  spdet *getspuentry(const uid_t uid)
+struct spdet *getspuentry(const uid_t uid)
 {
 	if  (spuf_fid < 0)
 		open_file(O_RDWR);
@@ -486,14 +475,14 @@ struct  spdet *getspuentry(const uid_t uid)
 
 /* Update details for given user only.  */
 
-void	putspuentry(struct spdet *item)
+void  putspuentry(struct spdet *item)
 {
 	lockit(spuf_fid, F_WRLCK);
 	insertu(spuf_fid, item);
 	unlockit(spuf_fid);
 }
 
-struct  spdet *getspulist(unsigned *Nu)
+struct spdet *getspulist(unsigned *Nu)
 {
 	struct	spdet	*result;
 	if  (spuf_fid < 0)
@@ -508,7 +497,7 @@ struct  spdet *getspulist(unsigned *Nu)
 
 /* Save list.  */
 
-void	putspulist(struct spdet *list, unsigned num, int hchanges)
+void  putspulist(struct spdet *list, unsigned num, int hchanges)
 {
 	lockit(spuf_fid, F_WRLCK);
 	if  (hchanges)  {

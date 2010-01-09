@@ -11884,7 +11884,7 @@ ac_config_headers="$ac_config_headers config.h"
 ac_config_commands="$ac_config_commands src/hdrs/files.h"
 
 
-ac_config_files="$ac_config_files Makefile util/Makefile src/Makefile src/helpmsg/Makefile src/hdrs/infiles.h src/lib/Makefile src/ins/Makefile src/termserv/Makefile src/lpdint/Makefile src/gtk/Makefile src/motif/Makefile src/apilib/Makefile src/loccgi/Makefile src/remcgi/Makefile gspl-ptrinstall Netinst Checkuserinst Userinst src/ins/installlpcmds STARTUP/Startdirs cupspy/Makefile doc/Makefile ptrinstall/config.py"
+ac_config_files="$ac_config_files Makefile util/Makefile src/Makefile src/helpmsg/Makefile src/hdrs/infiles.h src/lib/Makefile src/ins/Makefile src/termserv/Makefile src/lpdint/Makefile src/gtk/Makefile src/motif/Makefile src/apilib/Makefile src/loccgi/Makefile src/remcgi/Makefile gspl-ptrinstall gspl-udevpatch Netinst Checkuserinst Userinst src/ins/installlpcmds STARTUP/Startdirs cupspy/Makefile doc/Makefile ptrinstall/config.py"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -12507,6 +12507,7 @@ do
     "src/loccgi/Makefile") CONFIG_FILES="$CONFIG_FILES src/loccgi/Makefile" ;;
     "src/remcgi/Makefile") CONFIG_FILES="$CONFIG_FILES src/remcgi/Makefile" ;;
     "gspl-ptrinstall") CONFIG_FILES="$CONFIG_FILES gspl-ptrinstall" ;;
+    "gspl-udevpatch") CONFIG_FILES="$CONFIG_FILES gspl-udevpatch" ;;
     "Netinst") CONFIG_FILES="$CONFIG_FILES Netinst" ;;
     "Checkuserinst") CONFIG_FILES="$CONFIG_FILES Checkuserinst" ;;
     "Userinst") CONFIG_FILES="$CONFIG_FILES Userinst" ;;

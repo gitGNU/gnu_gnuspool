@@ -1028,6 +1028,18 @@ def snmpgetptr(host):
         return None
     return  string.strip(result)
 
+def checkdefpaper(paper):
+    """Having specified a paper type set the default paper type to fit"""
+    sp = subprocess.Popen(makecommand('ULIST', '-S', '-F', '%f'), shell=True, bufsize=1024, stdout=subprocess.PIPE)
+    existing = sp.stdout.readline()
+    sp.stdout.close()
+    if sp.wait() != 0 or existing is None:
+        return
+    existing = string.strip(existing)
+    if len(existing) == 0: return
+    if existing != 'standard' or existing == paper: return
+    os.system(makecommand('UCHANGE', '-D', '-f', paper, '-F', paper, '-A'))
+
 def list_defptrs():
     """Get list of defined printers"""
 
@@ -1580,6 +1592,7 @@ class PtrInstallMainwin(QMainWindow, ui_ptrinstall_main.Ui_MainWindow):
             ptr.colour = dlg.hascolour.isChecked()
             ptr.defcolour = dlg.defcolour.isChecked()
             ptr.paper = str(dlg.paper.currentText())
+            checkdefpaper(ptr.paper)
             return True
         return False
 

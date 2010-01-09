@@ -29,12 +29,17 @@ void	insertu(const int fid, const struct spdet *item)
 {
 	LONG	pos;
 	struct	spdet	*p1, *p2, *t;
-	struct	spdet	a, b;
+	struct	spdet	a, b, c;
 
-	/* Force all privs on for root and spooler user id */
+	/* Force all privs on for root and spooler user id
+	   OOPS we need to copy it as 2nd arg read only and may be done in a loop
+	   for all ids */
 
-	if  (item->spu_user == ROOTID  || (ULONG) item->spu_user == (ULONG) Daemuid)
-		item->spu_flgs = ALLPRIVS;
+	if  (item->spu_user == ROOTID  || (ULONG) item->spu_user == (ULONG) Daemuid)  {
+		c = *item;
+		c.spu_flgs = ALLPRIVS;
+		item = &c;
+	}
 
 	/* If it's below maximum for vector, stuff it in.  */
 

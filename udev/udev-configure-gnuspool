@@ -1,0 +1,68 @@
+#! /usr/bin/python
+#
+#   Copyright 2010 Free Software Foundation, Inc.
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Script to put in /lib/udev to start/stop printers
+
+import sys, os, os.path, re, string, subprocess, syslog
+
+if len(sys.argv) < 2:
+    print "Usage: %s add|remove" % sys.argv[0]
+    sys.exit(1)
+
+action = sys.argv[1]
+
+# Forget about the printer name we'll look at what's going on
+
+devs = subprocess.Popen(string.join(('gspl-plist', '-l', '-F', '%p::%d::%t'), ' '), shell=True, bufsize=1024, stdout=subprocess.PIPE)
+
+possptrs = []
+
+for line in devs.stdout:
+    try:
+        ptrname, dev, state = re.split('\s*::\s*', line)
+    except ValueError:
+        continue
+
+    if re.match('<.*>\s*', dev):
+        continue
+
+    if action == 'add':
+        if state == 'halted' or state == 'error' or state == 'offline':
+            possptrs.append((ptrname,dev))
+    else:
+        if state != 'halted' and state != 'error' and state != 'offline':
+            possptrs.append((ptrname,dev))
+
+if len(possptrs) == 0:
+    sys.exit(0)
+
+syslog.openlog(sys.argv[0], 0, syslog.LOG_LPR)
+
+if action == 'add':
+    for pd in possptrs:
+        ptr, dev = pd
+        devname = os.path.join('/dev', dev)
+        if os.path.exists(devname):
+            syslog.syslog(syslog.LOG_INFO, "Starting GNUspool printer %s on %d" % (ptr, devname))
+            os.system("gspl-start -l '%s' %s" % (dev, ptr))
+else:
+    for pd in possptrs:
+        ptr, dev = pd
+        devname = os.path.join('/dev', dev)
+        if not os.path.exists(devname):
+            syslog.syslog(syslog.LOG_INFO, "Halting GNUspool printer %s on %d" % (ptr, devname))
+            os.system("gspl-pstop -l '%s' %s" % (dev, ptr))

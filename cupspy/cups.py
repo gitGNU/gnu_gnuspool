@@ -144,11 +144,14 @@ class CupsError(Exception):
 
 # Util routines
 
-def copy_or_default(req, name):
+def copy_or_default(req, name, blank_def = False):
     """Copy field from request or supply default"""
     val = req.find_attribute(name)
     if val:
         res = val.get_value()
+        if blank_def:
+            res = res.strip()
+            if len(res) == 0: res = default_attr_values[name]           
     else:
         res = default_attr_values[name]
     return  res
@@ -568,7 +571,7 @@ def print_job(req):
     except CupsError as err:
         return  ipp_status(req, err.codename, err.args[0])
 
-    title = copy_or_default(req, 'job-name')
+    title = copy_or_default(req, 'job-name', True)
     copies = copy_or_default(req, 'copies')
 
     try:
@@ -613,7 +616,7 @@ def create_job(req):
     except CupsError as err:
         return  ipp_status(req, err.codename, err.args[0])
 
-    pj = pend_job(pname, uname, copy_or_default(req, 'job-name'), copy_or_default(req, 'copies'))
+    pj = pend_job(pname, uname, copy_or_default(req, 'job-name', True), copy_or_default(req, 'copies'))
     return created_job_ok(req, pname, pj.jobnum)
 
 def send_document(req):
@@ -637,7 +640,7 @@ def send_document(req):
     try:
         process_print(req, pj.pname, pj.copies, pj.title, pj.uname)
     except print_err as err:
-        return print_error(req, pname, err.code, err.ste)
+        return print_error(req, pj.pname, err.code, err.stderr)
     return created_job_ok(req, pj.pname, jobid)
 
 def cancel_job(req):

@@ -311,7 +311,7 @@ Optionally write printers out in the order given"""
 
         # Put quotes round title if needed
 
-        title = re.sub("'", "_", title)
+        title = re.sub("[^\w\s.]+", "_", title)
         if re.search("\s", title):
             title = "'" + title + "'"
 

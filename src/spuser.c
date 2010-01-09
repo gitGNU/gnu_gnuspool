@@ -556,9 +556,12 @@ mc:			move(currow, pcol[currow-srow]);
 				}  while  (ch != $K{spuser key yes} && ch != $K{spuser key no});
 
 				if  (ch == $K{spuser key yes})
-					for  (i = 0;  i < Nusers;  i++)
-						if  (ulist[i].spu_user != Realuid)
+					for  (i = 0;  i < Nusers;  i++)  {
+						int_ugid_t uu = ulist[i].spu_user;
+						/* We don't really need this check technically but it gets the display right */
+						if  (uu != Realuid && uu != Daemuid && uu != ROOTID)
 							ulist[i].spu_flgs = result;
+					}
 				free(pp);
 			}
 #ifdef	CURSES_MEGA_BUG
