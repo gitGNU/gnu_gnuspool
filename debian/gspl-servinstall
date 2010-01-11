@@ -166,8 +166,8 @@ EOF
 
 if ($had) {
     print <<EOF;
-I think all your services are installed correctly and I don't need to do anything,
-so I'll quit now.
+I think all your services are installed correctly and I don't need to
+do anything, so I'll quit now.
 EOF
     exit 0;
 }
@@ -184,3 +184,8 @@ for my $p (@Portlist)  {
 	print SRV "$name\t$pnum/$proto ", join(' ', @altnames), " #$comment\n";
 }
 close SRV;
+
+print <<EOF;
+Services set up satisfactorily in /etc/services.
+EOF
+exit 0;

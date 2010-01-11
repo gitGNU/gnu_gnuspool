@@ -290,7 +290,10 @@ unless (defined($wai))  {
     chop $wai;
     $wai =~ s/ .*//;
 }
-system("/usr/bin/gspl-uchange -p ALL $wai") unless length($wai) == 0;
+unless (length($wai) == 0)  {
+    print "Setting user $wai to be fully privileged\n";
+    system("/usr/bin/gspl-uchange -p ALL $wai") 
+}
 
 EOF
 if [ $? -ne 0 ]

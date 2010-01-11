@@ -2045,33 +2045,6 @@ sub proc_remove {
 
 die "You have to be super-user to run this" unless $> == 0;
 
-if (findonpath('python')) {
-    $pyprog = $Config{SDATADIR} . "/ptrinstall/ptrinstall.py";
-    $c = system('python $pyprog');
-    exit 0 if $c == 0;
-    $ec = $c >> 8;
-    if ($ec == 20) {
-	print <<EOT;
-You seem to have Python installed but not PyQt4.
-If you install this you should be able to install printers using a GUI interface.
-EOT
-    }
-    elsif ($ec == 21) {
-	print <<EOT;
-You seem to have Python installed and PyQt4 but are missing the
-auto-generated config.py.
-If you install this you should be able to install printers using a GUI interface.
-EOT
-    }
-    else {
-	print <<EOT;
-Sorry but the Python interface failed.
-Please try to install it or mend it if it is installed.
-If you install this you should be able to install printers using a GUI interface.
-EOT
-    }
-}
-    
 $Systemtype = `uname -s`;
 chop $Systemtype;
 
@@ -2100,6 +2073,38 @@ die "Cannot find pmenu program looking in $sbindir" unless -x $Pmenu;
 
 check_userpath;
 
+# Parse config in case directories relocated
+# (Need this before we go into python)
+
+parse_mconfig;
+
+if (findonpath('python')) {
+    $pyprog = $Config{SDATADIR} . "/ptrinstall/ptrinstall.py";
+    $c = system("python $pyprog");
+    exit 0 if $c == 0;
+    $ec = $c >> 8;
+    if ($ec == 20) {
+	print <<EOT;
+You seem to have Python installed but not PyQt4.
+If you install this you should be able to install printers using a GUI interface.
+EOT
+    }
+    elsif ($ec == 21) {
+	print <<EOT;
+You seem to have Python installed and PyQt4 but are missing the
+auto-generated config.py.
+If you install this you should be able to install printers using a GUI interface.
+EOT
+    }
+    else {
+	print <<EOT;
+Sorry but the Python interface failed.
+Please try to install it or mend it if it is installed.
+If you install this you should be able to install printers using a GUI interface.
+EOT
+    }
+}
+
 getekchars;
 $pager = findonpath('less') || findonpath('more') || findonpath('pg') || 'cat';
 
@@ -2109,10 +2114,6 @@ Please answer questions - mostly y or n as required (suggested default given)
 Press F1 if available for help otherwise ?
 =============================================================================
 EOT
-
-# Parse config in case directories relocated
-
-parse_mconfig;
 
 # Get exiting printers - defined and installed
 
