@@ -565,7 +565,7 @@ AC_CONFIG_COMMANDS([src/hdrs/files.h],
 
 AC_OUTPUT(Makefile util/Makefile src/Makefile src/helpmsg/Makefile src/hdrs/infiles.h
 src/lib/Makefile  src/ins/Makefile src/termserv/Makefile src/lpdint/Makefile src/gtk/Makefile
-src/motif/Makefile src/apilib/Makefile src/loccgi/Makefile src/remcgi/Makefile gspl-ptrinstall gspl-udevpatch
+src/motif/Makefile src/apilib/Makefile src/loccgi/Makefile src/remcgi/Makefile gspl-ptrinstall
 Netinst Checkuserinst Userinst src/ins/installlpcmds
 STARTUP/Startdirs cupspy/Makefile doc/Makefile ptrinstall/config.py)
 

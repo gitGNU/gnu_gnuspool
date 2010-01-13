@@ -23,6 +23,13 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Documentation for GNUspool
  PDF documentation for GNUspool
 
+Package: gnuspool-udev
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.5), gnuspool
+Conflicts: system-config-printer-udev
+Description: UDEV scripts for GNUspool
+ Python scripts for udev to start/stop USB printers
+
 Package: libgnuspool0
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, gnuspool (= ${binary:Version})
