@@ -23,15 +23,11 @@
 #define	HOSTNSIZE	14		/* Host name size */
 #define	PFEEDBACK	39		/* Feedback field on printer */
 
-#if	XITEXT_VN < 23
-#define	MAXFORM		18		// Size of form field INCREASED
-#else
 #define	MAXFORM		34		// Size of form field INCREASED
 #define	PTRNAMESIZE	28		// Printer name size
 #define	JPTRNAMESIZE	(PTRNAMESIZE*2+2)	// Printer name size in job
 #define	COMMENTSIZE	41		// Comment size on printer
 #define	ALLOWFORMSIZE	63
-#endif
 
 //	Timeout intervals and such
 
@@ -71,15 +67,10 @@ typedef long    jobno_t;
 typedef long    netid_t;
 typedef long    slotno_t;               // May be -ve
 typedef long    int_pid_t;
-#if	XITEXT_VN < 22
-typedef unsigned long int_ugid_t;
-typedef	unsigned short classcode_t;
-#else
 typedef	long	int_ugid_t;       
 typedef unsigned long classcode_t;
-#endif
 
-//      Fields in \Xitext\hosts lines
+//      Fields in hosts lines
 
 #define HOSTF_HNAME     0
 #define HOSTF_ALIAS     1

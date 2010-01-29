@@ -41,35 +41,8 @@ rulesdir=/lib/udev/rules.d
 rule=70-gspl-printers.rules
 confscript=udev-configure-gnuspool
 
-checkfunc() {
-    lines=`fgrep 'GROUP="lp"' $rulesdir/*|fgrep -c 'OWNER="gnuspool"'`
-    if [ $lines -eq 0 ]
-    then return 0
-    else return 1
-    fi
-}
-
-editfunc() {
-    ed -s $1 <<'EOF'
-g/GROUP="lp"/s/GROUP="lp"/OWNER="gnuspool", GROUP="lp"/
-w
-q
-EOF
-}
-
 case "$1" in
     configure)
-	if checkfunc
-	then
-	    pfiles=`fgrep -l 'GROUP="lp"' $rulesdir/[0-9]*`
-	    if [ -n "$pfiles" ]
-	    then
-		for pf in $pfiles
-		do
-		    editfunc $pf
-		done
-	    fi
-	fi
 	cp -p $scripts/$rule $rulesdir
 	cp -p $scripts/$confscript $udevdir
     ;;

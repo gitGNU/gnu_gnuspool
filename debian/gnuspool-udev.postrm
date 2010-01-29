@@ -24,38 +24,8 @@ rulesdir=/lib/udev/rules.d
 rule=70-gspl-printers.rules
 confscript=udev-configure-gnuspool
 
-# Return 0 (shell true) if the patch to the permissions has been done
-# Otherwise return 1 (shell false)
-
-checkfunc() {
-    lines=`fgrep 'GROUP="lp"' $rulesdir/*|fgrep -c 'OWNER="gnuspool"'`
-    if [ $lines -eq 0 ]
-    then return 0
-    else return 1
-    fi
-}
-
-uneditfunc() {
-    ed -s $1 <<'EOF'
-g/OWNER="gnuspool", GROUP="lp"/s/OWNER="gnuspool", GROUP="lp"/GROUP="lp"/
-w
-q
-EOF
-}
-
 case "$1" in
     purge|remove|abort-install|disappear)
-	if ! checkfunc
-	then
-	    pfiles=`fgrep -l 'GROUP="lp"' $rulesdir/[0-9]*`
-	    if [ -n "$pfiles" ]
-	    then
-		for pf in $pfiles
-		do
-		    uneditfunc $pf
-		done
-	    fi
-	fi
 	rm -f $rulesdir/$rule
 	rm -f $udevdir/$confscript
     ;;

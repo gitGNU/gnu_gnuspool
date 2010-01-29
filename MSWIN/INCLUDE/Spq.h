@@ -236,12 +236,8 @@ struct	sp_cmsg	{
 	unsigned  short	spr_seq;	/*  Sequence */
 	slotno_t		spr_pslot;	/*  Slot in ptr shmem */
 	int_pid_t		spr_pid;	/*  Originating process  */
-#if	XITEXT_VN < 22
-	unsigned  		spr_flags;	/*  Other stuff  */
-#else
 	netid_t			spr_netid;	/*  Network id 0 if local */
 	unsigned long	spr_flags;	/*  Other stuff  */
-#endif
 	struct	spchrg	spr_c;
 };
 

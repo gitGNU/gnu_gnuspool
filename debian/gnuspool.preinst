@@ -14,7 +14,7 @@ set -e
 # the debian-policy package
 
 Username=gnuspool
-Groupname=daemon
+Groupname=lp
 Homedir=/var/gnuspool
 Uid=50
 
