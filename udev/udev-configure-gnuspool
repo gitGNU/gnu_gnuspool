@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/perl
 #
 #   Copyright 2010 Free Software Foundation, Inc.
 #
@@ -16,53 +16,93 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # Script to put in /lib/udev to start/stop printers
+# (Rewritten in perl to avoid dependency on Python)
 
-import sys, os, os.path, re, string, subprocess, syslog
+use Sys::Syslog;
+use Sys::Syslog qw(:standard :macros);
 
-if len(sys.argv) < 2:
-    print "Usage: %s add|remove" % sys.argv[0]
-    sys.exit(1)
+# Make a full /dev/xxx pathname out of device
 
-action = sys.argv[1]
+sub fullpath {
+    my $dev = shift;
+    return $dev if $dev =~ /^\//;
+    join('/', ('/dev', $dev));
+}
 
-# Forget about the printer name we'll look at what's going on
+################ START HERE
 
-devs = subprocess.Popen(string.join(('gspl-plist', '-l', '-F', '%p::%d::%t'), ' '), shell=True, bufsize=1024, stdout=subprocess.PIPE)
+if ($#ARGV != 0) {
+    print "Usage: $0 add|remove\n";
+    exit 1;
+}
 
-possptrs = []
+$action = shift @ARGV;
 
-for line in devs.stdout:
-    try:
-        ptrname, dev, state = re.split('\s*::\s*', line)
-    except ValueError:
-        continue
+# Only interested in local printers hence -l
 
-    if re.match('<.*>\s*', dev):
-        continue
+unless (open(DEVS, "gspl-plist -l -F %p::%d::%t|"))  {
+    print "Cannot open printer list command\n";
+    exit 2;
+}
 
-    if action == 'add':
-        if state == 'halted' or state == 'error' or state == 'offline':
-            possptrs.append((ptrname,dev))
-    else:
-        if state != 'halted' and state != 'error' and state != 'offline':
-            possptrs.append((ptrname,dev))
+# Possible printers - store as arrays of pairs ptrname,dev
 
-if len(possptrs) == 0:
-    sys.exit(0)
+@possptrs = ();
 
-syslog.openlog(sys.argv[0], 0, syslog.LOG_LPR)
+while (<DEVS>)  {
+    chop;
+    my ($ptrname, $dev, $state) = split(/\s*::\s*/);
 
-if action == 'add':
-    for pd in possptrs:
-        ptr, dev = pd
-        devname = os.path.join('/dev', dev)
-        if os.path.exists(devname):
-            syslog.syslog(syslog.LOG_INFO, "Starting GNUspool printer %s on %d" % (ptr, devname))
-            os.system("gspl-start -l '%s' %s" % (dev, ptr))
-else:
-    for pd in possptrs:
-        ptr, dev = pd
-        devname = os.path.join('/dev', dev)
-        if not os.path.exists(devname):
-            syslog.syslog(syslog.LOG_INFO, "Halting GNUspool printer %s on %d" % (ptr, devname))
-            os.system("gspl-pstop -l '%s' %s" % (dev, ptr))
+    # Ignore network style devices
+
+    next if $dev =~ /<.*>/;
+    
+    if ($action eq 'add') {
+	push @possptrs, [$ptrname, $dev] if $state eq 'halted' || $state eq 'error' || $state eq 'offline';
+    }
+    else  {
+	push @possptrs, [$ptrname, $dev] unless $state eq 'halted' || $state eq 'error' || $state eq 'offline';
+    }
+}
+
+close DEVS;
+
+# Exit OK if nothing to do
+
+exit 0 if $#possptrs < 0;
+
+# Open log and save details
+
+openlog $0, 0, LOG_LPR;
+setlogmask(LOG_UPTO(LOG_DEBUG));
+
+if ($action eq 'add')  {
+    for my $p (@possptrs) {
+	my ($ptr, $dev) = @$p;
+	my $fdev = fullpath($dev);
+	if (-c $fdev) {
+	    $ret = system("gspl-start -l '$dev' $ptr");
+	    if  ($ret != 0)  {
+		syslog(LOG_ERR, "Unable to start $ptr");
+	    }
+	    else  {
+		syslog(LOG_INFO, "Started $ptr on $fdev");
+	    }
+	}
+    }
+}
+else  {
+    for my $p (@possptrs) {
+	my ($ptr, $dev) = @$p;
+	my $fdev = fullpath($dev);
+	unless (-c $fdev) {
+	    $ret = system("gspl-pstop -l '$dev' $ptr");
+	    if  ($ret != 0)  {
+		syslog(LOG_ERR, "Unable to stop $ptr");
+	    }
+	    else  {
+		syslog(LOG_INFO, "Stopped $ptr on $fdev");
+	    }
+	}
+    }
+}	

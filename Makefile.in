@@ -35,7 +35,6 @@ DATADIR		=	$(DESTDIR)@pkgdatadir@
 MANDIR		=	$(DESTDIR)@mandir@
 PDFDIR		=	$(DESTDIR)@pdfdir@
 CUPSPYDIR	=	$(DESTDIR)@cupspydir@
-UDEVDIR		=	$(DESTDIR)@datarootdir@/gnuspool-udev
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
 STAGED_INSTALL	=	false
@@ -62,14 +61,11 @@ install: all
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
 	cp -r -p ptrinstall $(DATADIR)
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(UDEVDIR)
-	cp -r -p udev/* $(UDEVDIR)
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(UDEVDIR)
-	cp -r -p udev/* $(UDEVDIR)
 	cd doc;$(MAKE) install
 	cd cupspy;$(MAKE) install
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
+	cd udev;$(MAKE) install
 
 install-strip:	all
 	cd $(UTILDIR);make install-strip
@@ -79,12 +75,11 @@ install-strip:	all
 	$(INSTALL) pclbanner psbanner $(INTBINDIR)
 	cp -r -p Psetups $(DATADIR)
 	cp -r -p ptrinstall $(DATADIR)
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(UDEVDIR)
-	cp -r -p udev/* $(UDEVDIR)
 	cd doc;$(MAKE) install-strip
 	cd cupspy;$(MAKE) install-strip
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -R
 	$(STAGED_INSTALL) || $(BINDIR)/gspl-uchange -p ALL `who am i|sed -e 's/ .*//'`
+	cd udev;$(MAKE) install
 
 install-user user-install:
 	@perlbin@ $(BASE)/Userinst
@@ -98,6 +93,7 @@ clean:
 	cd doc;$(MAKE) clean
 	cd cupspy;$(MAKE) clean
 	cd ptrinstall;$(MAKE) clean
+	cd udev;$(MAKE) clean
 
 distclean:	clean
 	cd $(UTILDIR);$(MAKE) distclean
@@ -108,3 +104,4 @@ distclean:	clean
 	cd doc;$(MAKE) distclean
 	cd cupspy;$(MAKE) distclean
 	cd ptrinstall;$(MAKE) distclean
+	cd udev;$(MAKE) distclean

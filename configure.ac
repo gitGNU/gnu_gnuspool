@@ -567,7 +567,7 @@ AC_OUTPUT(Makefile util/Makefile src/Makefile src/helpmsg/Makefile src/hdrs/infi
 src/lib/Makefile  src/ins/Makefile src/termserv/Makefile src/lpdint/Makefile src/gtk/Makefile
 src/motif/Makefile src/apilib/Makefile src/loccgi/Makefile src/remcgi/Makefile gspl-ptrinstall
 Netinst Checkuserinst Userinst src/ins/installlpcmds
-STARTUP/Startdirs cupspy/Makefile doc/Makefile ptrinstall/config.py)
+STARTUP/Startdirs cupspy/Makefile udev/Makefile doc/Makefile ptrinstall/config.py)
 
 AH_TEMPLATE([BROKEN_COMBOBOX], [Define if Motif combo boxes don't work])
 AH_TEMPLATE([BROKEN_RENDITION], [Define if Motif renditions don't work])
