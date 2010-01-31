@@ -37,9 +37,6 @@ override_dh_auto_install:
 	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpstatc $(CURDIR)/debian/tmp/usr/bin/lpstat
 	ln $(CURDIR)/debian/tmp/usr/bin/gspl-cancel $(CURDIR)/debian/tmp/usr/bin/cancel
 
-	# Create script to set up services entry
-	cp $(CURDIR)/debian/gspl-servinstall $(CURDIR)/debian/tmp/usr/sbin/gspl-servinstall
-
 	# keep lintian quiet about printers directory
 	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/etc/gnuspool/ptrconf/README
 	# Get rid of remote CGI bins for now as they depend on separated API library.
