@@ -30,20 +30,20 @@ override_dh_auto_install:
 	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp SPOOLUSER=root datarootdir=/usr/share STAGED_INSTALL=true install
 
 	# provide lpr links
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpr $(CURDIR)/debian/tmp/usr/bin/lpr
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpq $(CURDIR)/debian/tmp/usr/bin/lpq
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lprm $(CURDIR)/debian/tmp/usr/bin/lprm
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpcover $(CURDIR)/debian/tmp/usr/bin/lp
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-lpstatc $(CURDIR)/debian/tmp/usr/bin/lpstat
-	ln $(CURDIR)/debian/tmp/usr/bin/gspl-cancel $(CURDIR)/debian/tmp/usr/bin/cancel
+	ln debian/tmp/usr/bin/gspl-lpr debian/tmp/usr/bin/lpr
+	ln debian/tmp/usr/bin/gspl-lpq debian/tmp/usr/bin/lpq
+	ln debian/tmp/usr/bin/gspl-lprm debian/tmp/usr/bin/lprm
+	ln debian/tmp/usr/bin/gspl-lpcover debian/tmp/usr/bin/lp
+	ln debian/tmp/usr/bin/gspl-lpstatc debian/tmp/usr/bin/lpstat
+	ln debian/tmp/usr/bin/gspl-cancel debian/tmp/usr/bin/cancel
 
 	# keep lintian quiet about printers directory
-	echo 'This directory is for printer setup files' >$(CURDIR)/debian/tmp/etc/gnuspool/ptrconf/README
+	echo 'This directory is for printer setup files' > debian/tmp/etc/gnuspool/ptrconf/README
 	# Get rid of remote CGI bins for now as they depend on separated API library.
-	rm -f $(CURDIR)/debian/tmp/usr/lib/gnuspool/cgi-bin/r*
+	rm -f debian/tmp/usr/lib/gnuspool/cgi-bin/r*
 	# Remove .la files for internal only
-	rm -f $(CURDIR)/debian/tmp/usr/lib/libgnuspool_int.la
-	rm -f $(CURDIR)/debian/tmp/usr/lib/libgnuspool_curs.la
+	rm -f debian/tmp/usr/lib/libgnuspool_int.la
+	rm -f debian/tmp/usr/lib/libgnuspool_curs.la
 
 override_dh_install:
 	dh_install --fail-missing
