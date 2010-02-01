@@ -20,7 +20,8 @@ try:
     from PyQt4.QtCore import *
     from PyQt4.QtGui import *
 except ImportError:
-    print "Sorry but you need PyQt4 installed to run this"
+    # Turn off messages so users don't get confused
+    # print "Sorry but you need PyQt4 installed to run this"
     sys.exit(20)
 
 import ui_ptrinstall_main

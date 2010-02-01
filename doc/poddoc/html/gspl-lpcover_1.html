@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>gspl-lpcover - emulate LP</title>
+<title>gspl-cancel - emulate CANCEL</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -36,17 +36,38 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
+<p>gspl-cancel - emulate CANCEL</p>
 <p>gspl-lpcover - emulate LP</p>
 <p>gspl-lpstatc - emulate LPSTAT</p>
+<p>gspl-lpr - emulate LPR</p>
 <p>cancel - emulate CANCEL</p>
+<p>lp - emulate LP</p>
+<p>lpr - emulate LPR</p>
+<p>lpq - emulate LPQ</p>
+<p>lprm - emulate LPRM</p>
+<p>lpstat - emulate LPSTAT</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>gspl-cancel</strong>
+<em>jobnumber</em> [ ... ]</p>
 <p><strong>gspl-lpcover</strong>
 [ <em>-options</em> ]
 [ <em>file</em> ... ]</p>
 <p><strong>gspl-lpstatc</strong>
+[ <em>-options</em> ]</p>
+<p><strong>gspl-lpr</strong>
+[ <em>-options</em> ]</p>
+<p><strong>lp</strong>
+[ <em>-options</em> ]</p>
+<p><strong>lpr</strong>
+[ <em>-options</em> ]</p>
+<p><strong>lpq</strong>
+[ <em>-options</em> ]</p>
+<p><strong>lprm</strong>
+[ <em>-options</em> ]</p>
+<p><strong>lpstat</strong>
 [ <em>-options</em> ]</p>
 <p><strong>cancel</strong>
 <em>jobnumber</em> [ ... ]</p>
@@ -68,7 +89,10 @@ directory.</p>
 <p><strong>Gspl-lpstatc</strong> emulates <strong>lpstat</strong> as far as is practicable, generating a
 report of outstanding print jobs from the print queue in a format
 similar to the original <strong>lpstat</strong>.</p>
-<p><strong>cancel</strong> is a shell script which invokes gspl-qdel(1) on its arguments.</p>
+<p><strong>cancel</strong> is a shell script which invokes gspl-qdel(1) on its
+arguments.</p>
+<p>The other programs <strong>lpr</strong>, <strong>lpq</strong> and <strong>lprm</strong> are scripts to emulate
+the corresponding commands.</p>
 <p>
 </p>
 <hr />

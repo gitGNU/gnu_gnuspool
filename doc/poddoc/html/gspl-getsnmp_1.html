@@ -1,0 +1,143 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>gspl-getsnmp - fetch SNMP value from printer</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#notes">NOTES</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+
+-->
+
+
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>gspl-getsnmp - fetch SNMP value from printer</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>gspl-getsnmp</strong>
+[ <em>-options</em> ]
+variable</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>gspl-getsnmp</strong> obtains the value of an SNMP field from a
+network-enabled printer and displays it on standard output.</p>
+<p>It is mostly intended to probe for the type and options on printers
+during installation.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="h_hostname" class="item">-h <em>hostname</em></a></strong></dt>
+
+<dd>
+<p>specifies the host name or IP address of the printer. This option must
+always be given.</p>
+</dd>
+<dt><strong><a name="h_hostname" class="item">-H <em>hostname</em></a></strong></dt>
+
+<dd>
+<p>specifies the host name or IP address of the sending system in cases
+where this has to be given.</p>
+</dd>
+<dt><strong><a name="p_portnum" class="item">-p <em>portnum</em></a></strong></dt>
+
+<dd>
+<p>specifies the port number or service name to be used. If this is not
+specified, <em>snmp</em> is used.</p>
+</dd>
+<dt><strong><a name="c_community" class="item">-C <em>community</em></a></strong></dt>
+
+<dd>
+<p>specifies the community name to be used if not <em>public</em>.</p>
+</dd>
+<dt><strong><a name="t_sec" class="item">-T <em>sec</em></a></strong></dt>
+
+<dd>
+<p>specifies the timeout waiting for responses, if not 1.0. This may be a
+floating-point number to specify fractions of a second.</p>
+</dd>
+<dt><strong><a name="f_configname" class="item">-f <em>configname</em></a></strong></dt>
+
+<dd>
+<p>specifies the configuration file from which names of macros for parts
+of variable names can be obtained. (The corresponding file for <code>xtlhp(8)</code>
+can be used).</p>
+</dd>
+<dt><strong><a name="i" class="item">-I</a></strong></dt>
+
+<dd>
+<p>causes the variable name to be prefixed to the result with an equals
+sign.</p>
+</dd>
+<dt><strong><a name="n" class="item">-N</a></strong></dt>
+
+<dd>
+<p>if the variable name cannot be found, finds the next variable in lower
+leaves of the tree which can be found.</p>
+</dd>
+<dt><strong><a name="d_n" class="item">-d <em>n</em></a></strong></dt>
+
+<dd>
+<p>where <em>n</em> is 0 to 4, specifies increasing amounts of debugging
+information. 4 will display the parsed SNMP packets.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="notes">NOTES</a></h1>
+<p>This is mainly intended for getting information about printers.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>gspl-ptrinstall(1),
+<code>xtlhp(8)</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2009 Free Software Foundation, Inc.
+This is free software. You may redistribute copies of it under the
+terms of the GNU General Public License
+&lt;http://www.gnu.org/licenses/gpl.html&gt;.
+There is NO WARRANTY, to the extent permitted by law.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>John M Collins, Xi Software Ltd.</p>
+
+</body>
+
+</html>

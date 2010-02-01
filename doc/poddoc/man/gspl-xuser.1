@@ -123,47 +123,43 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "GSPL-XMPQ 1"
-.TH GSPL-XMPQ 1 "2010-02-01" "GNUspool Release 1" "GNUspool Print Manager"
+.IX Title "GSPL-XUSER 1"
+.TH GSPL-XUSER 1 "2010-02-01" "GNUspool Release 1" "GNUspool Print Manager"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-gspl\-xmpq \- X/Motif spool queue view
+gspl\-xuser \- GTK user control
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBgspl-xmpq\fR
+\&\fBgspl-xuser\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBGspl-Xmpq\fR is a fully interactive Motif alternative to the standard
-print queue manager \fIgspl\-pq\fR\|(1). As with \fIspq\fR\|(1) the format of the screen
-display, the help messages and the command keystrokes can be easily
-altered to suit your requirements.
+\&\fBGspl-xuser\fR is a fully interactive \s-1GTK\s0 alternative to the standard
+user control program \fIgspl\-user\fR\|(1), but only in the fully interactive
+mode, so it cannot be started by a user without \fIEdit admin file\fR
+privilege.
 .PP
-Unlike \fIgspl\-pq\fR\|(1) there are no specific command line options to
-\&\fBgspl-xmpq\fR. The facility to change or specify resources settings for an
-X11 (and hence Motif) program on the command line can be used.
+Unlike \fIgspl\-user\fR\|(1) there are no specific command line options to
+\&\fBgspl-xuser\fR. Options can be set and saved from within the program.
 .SH "FILES"
 .IX Header "FILES"
 \&\fI~/.gnuspool\fR
 configuration file (home directory)
 .PP
-\&\fI .gnuspool\fR
+\&\fI.gnuspool\fR
 configuration file (current directory)
 .PP
-\&\fIgspl\-xmpq.help\fR
+\&\fIgspl\-xmuser.help\fR
 message file
 .PP
-\&\fIgnuspoolptrs\fR
-printers directory
-.PP
-\&\fIspshed_reps\fR
-error log file
+\&\fIspufile0\fR
+user control file
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
-.IP "GSPL-XMPQCONF" 4
-.IX Item "GSPL-XMPQCONF"
+.IP "\s-1GSPL_XUSERCONF\s0" 4
+.IX Item "GSPL_XUSERCONF"
 path name of alternative message file.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
@@ -174,8 +170,9 @@ path name of alternative message file.
 \&\fIgspl\-qchange\fR\|(1),
 \&\fIgspl\-qlist\fR\|(1),
 \&\fIgspl\-plist\fR\|(1),
-\&\fIgnuspool.conf\fR\|(5),
-\&\fIgnuspool.hosts\fR\|(5).
+\&\fIgspl\-uchange\fR\|(1),
+\&\fIgspl\-ulist\fR\|(1),
+\&\fIgspl\-spuconv\fR\|(8).
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
 Copyright (c) 2009 Free Software Foundation, Inc.

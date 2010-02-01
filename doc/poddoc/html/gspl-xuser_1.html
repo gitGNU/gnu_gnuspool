@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>gspl-xmpq - X/Motif spool queue view</title>
+<title>gspl-xuser - GTK user control</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rev="made" href="mailto:root@localhost" />
 </head>
@@ -36,43 +36,40 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>gspl-xmpq - X/Motif spool queue view</p>
+<p>gspl-xuser - GTK user control</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p><strong>gspl-xmpq</strong></p>
+<p><strong>gspl-xuser</strong></p>
 <p>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p><strong>Gspl-Xmpq</strong> is a fully interactive Motif alternative to the standard
-print queue manager gspl-pq(1). As with <code>spq(1)</code> the format of the screen
-display, the help messages and the command keystrokes can be easily
-altered to suit your requirements.</p>
-<p>Unlike gspl-pq(1) there are no specific command line options to
-<strong>gspl-xmpq</strong>. The facility to change or specify resources settings for an
-X11 (and hence Motif) program on the command line can be used.</p>
+<p><strong>Gspl-xuser</strong> is a fully interactive GTK alternative to the standard
+user control program gspl-user(1), but only in the fully interactive
+mode, so it cannot be started by a user without <em>Edit admin file</em>
+privilege.</p>
+<p>Unlike gspl-user(1) there are no specific command line options to
+<strong>gspl-xuser</strong>. Options can be set and saved from within the program.</p>
 <p>
 </p>
 <hr />
 <h1><a name="files">FILES</a></h1>
 <p><em class="file">~/.gnuspool</em>
 configuration file (home directory)</p>
-<p><em class="file"> .gnuspool</em>
+<p><em class="file">.gnuspool</em>
 configuration file (current directory)</p>
-<p><em class="file">gspl-xmpq.help</em>
+<p><em class="file">gspl-xmuser.help</em>
 message file</p>
-<p><em class="file">gnuspoolptrs</em>
-printers directory</p>
-<p><em class="file">spshed_reps</em>
-error log file</p>
+<p><em class="file">spufile0</em>
+user control file</p>
 <p>
 </p>
 <hr />
 <h1><a name="environment">ENVIRONMENT</a></h1>
 <dl>
-<dt><strong><a name="gspl_xmpqconf" class="item">GSPL-XMPQCONF</a></strong></dt>
+<dt><strong><a name="gspl_xuserconf" class="item">GSPL_XUSERCONF</a></strong></dt>
 
 <dd>
 <p>path name of alternative message file.</p>
@@ -89,8 +86,9 @@ gspl-qdel(1),
 gspl-qchange(1),
 gspl-qlist(1),
 gspl-plist(1),
-gnuspool.conf(5),
-gnuspool.hosts(5).</p>
+gspl-uchange(1),
+gspl-ulist(1),
+gspl-spuconv(8).</p>
 <p>
 </p>
 <hr />

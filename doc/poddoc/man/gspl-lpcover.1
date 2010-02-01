@@ -124,24 +124,59 @@
 .\" ========================================================================
 .\"
 .IX Title "GSPL-LPCOVER 1"
-.TH GSPL-LPCOVER 1 "2009-05-18" "GNUspool Release 1" "GNUspool Print Manager"
+.TH GSPL-LPCOVER 1 "2010-02-01" "GNUspool Release 1" "GNUspool Print Manager"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
+gspl\-cancel \- emulate CANCEL
+.PP
 gspl\-lpcover \- emulate LP
 .PP
 gspl\-lpstatc \- emulate LPSTAT
 .PP
+gspl\-lpr \- emulate LPR
+.PP
 cancel \- emulate CANCEL
+.PP
+lp \- emulate LP
+.PP
+lpr \- emulate LPR
+.PP
+lpq \- emulate LPQ
+.PP
+lprm \- emulate LPRM
+.PP
+lpstat \- emulate LPSTAT
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
+\&\fBgspl-cancel\fR
+\&\fIjobnumber\fR [ ... ]
+.PP
 \&\fBgspl-lpcover\fR
 [ \fI\-options\fR ]
 [ \fIfile\fR ... ]
 .PP
 \&\fBgspl-lpstatc\fR
+[ \fI\-options\fR ]
+.PP
+\&\fBgspl-lpr\fR
+[ \fI\-options\fR ]
+.PP
+\&\fBlp\fR
+[ \fI\-options\fR ]
+.PP
+\&\fBlpr\fR
+[ \fI\-options\fR ]
+.PP
+\&\fBlpq\fR
+[ \fI\-options\fR ]
+.PP
+\&\fBlprm\fR
+[ \fI\-options\fR ]
+.PP
+\&\fBlpstat\fR
 [ \fI\-options\fR ]
 .PP
 \&\fBcancel\fR
@@ -166,7 +201,11 @@ directory.
 report of outstanding print jobs from the print queue in a format
 similar to the original \fBlpstat\fR.
 .PP
-\&\fBcancel\fR is a shell script which invokes \fIgspl\-qdel\fR\|(1) on its arguments.
+\&\fBcancel\fR is a shell script which invokes \fIgspl\-qdel\fR\|(1) on its
+arguments.
+.PP
+The other programs \fBlpr\fR, \fBlpq\fR and \fBlprm\fR are scripts to emulate
+the corresponding commands.
 .SH "OPTIONS"
 .IX Header "OPTIONS"
 The options below document \fBgspl-lpcover\fR only. Options to \fBgspl-lpstatc\fR

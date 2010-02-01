@@ -1,0 +1,96 @@
+=head1 NAME
+
+gspl-getsnmp - fetch SNMP value from printer
+
+=head1 SYNOPSIS
+
+B<gspl-getsnmp>
+[ I<-options> ]
+variable
+
+=head1 DESCRIPTION
+
+B<gspl-getsnmp> obtains the value of an SNMP field from a
+network-enabled printer and displays it on standard output.
+
+It is mostly intended to probe for the type and options on printers
+during installation.
+
+=head1 OPTIONS
+
+=over 4
+
+=item -h I<hostname>
+
+specifies the host name or IP address of the printer. This option must
+always be given.
+
+=item -H I<hostname>
+
+specifies the host name or IP address of the sending system in cases
+where this has to be given.
+
+=item -p I<portnum>
+
+specifies the port number or service name to be used. If this is not
+specified, I<snmp> is used.
+
+=item -C I<community>
+
+specifies the community name to be used if not I<public>.
+
+=item -T I<sec>
+
+specifies the timeout waiting for responses, if not 1.0. This may be a
+floating-point number to specify fractions of a second.
+
+=item -f I<configname>
+
+specifies the configuration file from which names of macros for parts
+of variable names can be obtained. (The corresponding file for xtlhp(8)
+can be used).
+
+=item -I
+
+causes the variable name to be prefixed to the result with an equals
+sign.
+
+=item -N
+
+if the variable name cannot be found, finds the next variable in lower
+leaves of the tree which can be found.
+
+=item -d I<n>
+
+where I<n> is 0 to 4, specifies increasing amounts of debugging
+information. 4 will display the parsed SNMP packets.
+
+=back
+
+=head1 NOTES
+
+This is mainly intended for getting information about printers.
+
+=head1 SEE ALSO
+
+gspl-ptrinstall(1),
+xtlhp(8).
+
+=head1 COPYRIGHT
+
+Copyright (c) 2009 Free Software Foundation, Inc.
+This is free software. You may redistribute copies of it under the
+terms of the GNU General Public License
+<http://www.gnu.org/licenses/gpl.html>.
+There is NO WARRANTY, to the extent permitted by law.
+
+=head1 AUTHOR
+
+John M Collins, Xi Software Ltd.
+
+=cut
+
+## Local Variables:
+## mode: nroff
+## End:
+## LocalWords:  gspl-charge

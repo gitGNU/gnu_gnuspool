@@ -1,18 +1,53 @@
 =head1 NAME
 
+gspl-cancel - emulate CANCEL
+
 gspl-lpcover - emulate LP
 
 gspl-lpstatc - emulate LPSTAT
 
+gspl-lpr - emulate LPR
+
 cancel - emulate CANCEL
 
+lp - emulate LP
+
+lpr - emulate LPR
+
+lpq - emulate LPQ
+
+lprm - emulate LPRM
+
+lpstat - emulate LPSTAT
+
 =head1 SYNOPSIS
+
+B<gspl-cancel>
+I<jobnumber> [ ... ]
 
 B<gspl-lpcover>
 [ I<-options> ]
 [ I<file> ... ]
 
 B<gspl-lpstatc>
+[ I<-options> ]
+
+B<gspl-lpr>
+[ I<-options> ]
+
+B<lp>
+[ I<-options> ]
+
+B<lpr>
+[ I<-options> ]
+
+B<lpq>
+[ I<-options> ]
+
+B<lprm>
+[ I<-options> ]
+
+B<lpstat>
 [ I<-options> ]
 
 B<cancel>
@@ -38,7 +73,11 @@ B<Gspl-lpstatc> emulates B<lpstat> as far as is practicable, generating a
 report of outstanding print jobs from the print queue in a format
 similar to the original B<lpstat>.
 
-B<cancel> is a shell script which invokes gspl-qdel(1) on its arguments.
+B<cancel> is a shell script which invokes gspl-qdel(1) on its
+arguments.
+
+The other programs B<lpr>, B<lpq> and B<lprm> are scripts to emulate
+the corresponding commands.
 
 =head1 OPTIONS
 

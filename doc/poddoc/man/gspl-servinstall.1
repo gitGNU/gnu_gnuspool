@@ -123,59 +123,24 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "GSPL-XMPQ 1"
-.TH GSPL-XMPQ 1 "2010-02-01" "GNUspool Release 1" "GNUspool Print Manager"
+.IX Title "GSPL-SERVINSTALL 1"
+.TH GSPL-SERVINSTALL 1 "2010-02-01" "GNUspool Release 1" "GNUspool Print Manager"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-gspl\-xmpq \- X/Motif spool queue view
+gspl\-servinstall \- install services
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBgspl-xmpq\fR
+\&\fBgspl-servinstall\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBGspl-Xmpq\fR is a fully interactive Motif alternative to the standard
-print queue manager \fIgspl\-pq\fR\|(1). As with \fIspq\fR\|(1) the format of the screen
-display, the help messages and the command keystrokes can be easily
-altered to suit your requirements.
-.PP
-Unlike \fIgspl\-pq\fR\|(1) there are no specific command line options to
-\&\fBgspl-xmpq\fR. The facility to change or specify resources settings for an
-X11 (and hence Motif) program on the command line can be used.
+\&\fBGspl-servinstall\fR installs services in \fI/etc/services\fR appropriate
+for GNUspool.
 .SH "FILES"
 .IX Header "FILES"
-\&\fI~/.gnuspool\fR
-configuration file (home directory)
-.PP
-\&\fI .gnuspool\fR
-configuration file (current directory)
-.PP
-\&\fIgspl\-xmpq.help\fR
-message file
-.PP
-\&\fIgnuspoolptrs\fR
-printers directory
-.PP
-\&\fIspshed_reps\fR
-error log file
-.SH "ENVIRONMENT"
-.IX Header "ENVIRONMENT"
-.IP "GSPL-XMPQCONF" 4
-.IX Item "GSPL-XMPQCONF"
-path name of alternative message file.
-.SH "SEE ALSO"
-.IX Header "SEE ALSO"
-\&\fIgspl\-pq\fR\|(1),
-\&\fIgspl\-pr\fR\|(1),
-\&\fIgspl\-user\fR\|(1),
-\&\fIgspl\-qdel\fR\|(1),
-\&\fIgspl\-qchange\fR\|(1),
-\&\fIgspl\-qlist\fR\|(1),
-\&\fIgspl\-plist\fR\|(1),
-\&\fIgnuspool.conf\fR\|(5),
-\&\fIgnuspool.hosts\fR\|(5).
+\&\fI/etc/services\fR
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
 Copyright (c) 2009 Free Software Foundation, Inc.

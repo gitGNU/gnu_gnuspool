@@ -123,59 +123,71 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "GSPL-XMPQ 1"
-.TH GSPL-XMPQ 1 "2010-02-01" "GNUspool Release 1" "GNUspool Print Manager"
+.IX Title "GSPL-GETSNMP 1"
+.TH GSPL-GETSNMP 1 "2010-02-01" "GNUspool Release 1" "GNUspool Print Manager"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-gspl\-xmpq \- X/Motif spool queue view
+gspl\-getsnmp \- fetch SNMP value from printer
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBgspl-xmpq\fR
+\&\fBgspl-getsnmp\fR
+[ \fI\-options\fR ]
+variable
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBGspl-Xmpq\fR is a fully interactive Motif alternative to the standard
-print queue manager \fIgspl\-pq\fR\|(1). As with \fIspq\fR\|(1) the format of the screen
-display, the help messages and the command keystrokes can be easily
-altered to suit your requirements.
+\&\fBgspl-getsnmp\fR obtains the value of an \s-1SNMP\s0 field from a
+network-enabled printer and displays it on standard output.
 .PP
-Unlike \fIgspl\-pq\fR\|(1) there are no specific command line options to
-\&\fBgspl-xmpq\fR. The facility to change or specify resources settings for an
-X11 (and hence Motif) program on the command line can be used.
-.SH "FILES"
-.IX Header "FILES"
-\&\fI~/.gnuspool\fR
-configuration file (home directory)
-.PP
-\&\fI .gnuspool\fR
-configuration file (current directory)
-.PP
-\&\fIgspl\-xmpq.help\fR
-message file
-.PP
-\&\fIgnuspoolptrs\fR
-printers directory
-.PP
-\&\fIspshed_reps\fR
-error log file
-.SH "ENVIRONMENT"
-.IX Header "ENVIRONMENT"
-.IP "GSPL-XMPQCONF" 4
-.IX Item "GSPL-XMPQCONF"
-path name of alternative message file.
+It is mostly intended to probe for the type and options on printers
+during installation.
+.SH "OPTIONS"
+.IX Header "OPTIONS"
+.IP "\-h \fIhostname\fR" 4
+.IX Item "-h hostname"
+specifies the host name or \s-1IP\s0 address of the printer. This option must
+always be given.
+.IP "\-H \fIhostname\fR" 4
+.IX Item "-H hostname"
+specifies the host name or \s-1IP\s0 address of the sending system in cases
+where this has to be given.
+.IP "\-p \fIportnum\fR" 4
+.IX Item "-p portnum"
+specifies the port number or service name to be used. If this is not
+specified, \fIsnmp\fR is used.
+.IP "\-C \fIcommunity\fR" 4
+.IX Item "-C community"
+specifies the community name to be used if not \fIpublic\fR.
+.IP "\-T \fIsec\fR" 4
+.IX Item "-T sec"
+specifies the timeout waiting for responses, if not 1.0. This may be a
+floating-point number to specify fractions of a second.
+.IP "\-f \fIconfigname\fR" 4
+.IX Item "-f configname"
+specifies the configuration file from which names of macros for parts
+of variable names can be obtained. (The corresponding file for \fIxtlhp\fR\|(8)
+can be used).
+.IP "\-I" 4
+.IX Item "-I"
+causes the variable name to be prefixed to the result with an equals
+sign.
+.IP "\-N" 4
+.IX Item "-N"
+if the variable name cannot be found, finds the next variable in lower
+leaves of the tree which can be found.
+.IP "\-d \fIn\fR" 4
+.IX Item "-d n"
+where \fIn\fR is 0 to 4, specifies increasing amounts of debugging
+information. 4 will display the parsed \s-1SNMP\s0 packets.
+.SH "NOTES"
+.IX Header "NOTES"
+This is mainly intended for getting information about printers.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fIgspl\-pq\fR\|(1),
-\&\fIgspl\-pr\fR\|(1),
-\&\fIgspl\-user\fR\|(1),
-\&\fIgspl\-qdel\fR\|(1),
-\&\fIgspl\-qchange\fR\|(1),
-\&\fIgspl\-qlist\fR\|(1),
-\&\fIgspl\-plist\fR\|(1),
-\&\fIgnuspool.conf\fR\|(5),
-\&\fIgnuspool.hosts\fR\|(5).
+\&\fIgspl\-ptrinstall\fR\|(1),
+\&\fIxtlhp\fR\|(8).
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
 Copyright (c) 2009 Free Software Foundation, Inc.
