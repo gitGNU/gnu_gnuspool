@@ -37,8 +37,6 @@ override_dh_auto_install:
 	ln debian/tmp/usr/bin/gspl-lpstatc debian/tmp/usr/bin/lpstat
 	ln debian/tmp/usr/bin/gspl-cancel debian/tmp/usr/bin/cancel
 
-	# keep lintian quiet about printers directory
-	echo 'This directory is for printer setup files' > debian/tmp/etc/gnuspool/ptrconf/README
 	# Get rid of remote CGI bins for now as they depend on separated API library.
 	rm -f debian/tmp/usr/lib/gnuspool/cgi-bin/r*
 	# Remove .la files for internal only
