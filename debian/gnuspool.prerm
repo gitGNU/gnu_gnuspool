@@ -31,7 +31,7 @@ set -e
 # the debian-policy package
 
 stopdaem() {
-    if /usr/bin/gspl-stop -y >/dev/null 2>&1
+    if gspl-stop -y >/dev/null 2>&1
     then echo stopped GNUspool
     else :
     fi

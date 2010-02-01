@@ -1,0 +1,9 @@
+# while this script is in the package, the functionality of the package
+# is not significantly impaired if this doesn't work, and a seperate
+# package for a single file would be overkill
+gnuspool binary: python-script-but-no-python-dep ./usr/share/gnuspool/ptrinstall/ptrinstall.py
+
+# These libraries are only useful to the binaries in the same package, so there's no point
+# splitting them out into a separate lib package
+gnuspool binary: package-name-doesnt-match-sonames libgnuspool-curs0 libgnuspool-int0
+gnuspool binary: non-dev-pkg-with-shlib-symlink
