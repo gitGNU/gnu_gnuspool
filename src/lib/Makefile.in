@@ -29,7 +29,8 @@ BASE		=	../..
 HDRS		=	$(PARENT)/hdrs
 CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
 CFLAGS		=	$(CCFLAGS) -I$(HDRS) -I$(BASE)
-LIBDIR		=	$(DESTDIR)@libdir@
+RPATH		=	@libdir@
+LIBDIR		=	$(DESTDIR)$(RPATH)
 LIB		=	libgnuspool_int.la
 LIBCURS		=	libgnuspool_curs.la
 LIBCURSES	=	@LIBCURSES@
@@ -65,8 +66,8 @@ LIBOBJECTS=$(OBJECTS:.o=.lo)
 LIBCURSOBJS=$(CURSOBJS:.o=.lo)
 
 all:	$(OBJECTS) $(CURSOBJS)
-	libtool --mode=link @CC@ $(CCFLAGS) -o $(LIB) $(LIBOBJECTS) -rpath $(LIBDIR) -version-info 0:0:0
-	libtool --mode=link @CC@ $(CCFLAGS) -o $(LIBCURS) $(LIBCURSOBJS) $(LIB) $(LIBCURSES) -rpath $(LIBDIR) -version-info 0:0:0
+	libtool --mode=link @CC@ $(CCFLAGS) -o $(LIB) $(LIBOBJECTS) -rpath $(RPATH) -version-info 0:0:0
+	libtool --mode=link @CC@ $(CCFLAGS) -o $(LIBCURS) $(LIBCURSOBJS) $(LIB) $(LIBCURSES) -rpath $(RPATH) -version-info 0:0:0
 
 install: all
 	libtool --mode=install $(INSTALL) $(LIB) $(LIBDIR)
