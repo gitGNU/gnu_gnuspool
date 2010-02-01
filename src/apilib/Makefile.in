@@ -28,7 +28,8 @@ RM		=	rm -f
 HDRS		=	$(PARENT)/hdrs
 CCFLAGS		=	-O @gcc_useful_options@ @funny_compiler_options@
 CFLAGS		=	$(CCFLAGS) -I$(HDRS)
-LIBDIR		=	$(DESTDIR)@libdir@
+RPATH		=	@libdir@
+LIBDIR		=	$(DESTDIR)$(RPATH)
 INCLUDEDIR	=	$(DESTDIR)@includedir@
 APILIB		=	libgnuspool.la
 INSTALL		=	@INSTALL@
@@ -57,7 +58,7 @@ OBJECTS=gspool_getspd.o\
 LIBOBJECTS=$(OBJECTS:.o=.lo)
 
 all:	gspool.h $(OBJECTS)
-	libtool --mode=link @CC@ $(CCFLAGS) -o $(APILIB) $(LIBOBJECTS) -rpath $(LIBDIR) -version-info 0:0:0
+	libtool --mode=link @CC@ $(CCFLAGS) -o $(APILIB) $(LIBOBJECTS) -rpath $(RPATH) -version-info 0:0:0
 
 # Build header out of the bits
 

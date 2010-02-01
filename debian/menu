@@ -1,2 +1,2 @@
-?package(gnuspool):needs="X11" section="Applications/System Tools"\
+?package(gnuspool):needs="X11" section="Applications/System/Administration"\
   title="gnuspool queue" command="/usr/bin/gspl-xpq"

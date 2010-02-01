@@ -346,10 +346,10 @@ RETSIGTYPE	catchalarm(int n)
 
 /* This notes signals from (presumably) the scheduler.  */
 
-RETSIGTYPE	markit(int sig)
+RETSIGTYPE	sh_markit(int sig)
 {
 #ifdef	UNSAFE_SIGNALS
-	signal(sig, markit);
+	signal(sig, sh_markit);
 #endif
 	hadrfresh++;
 }
@@ -421,7 +421,7 @@ void	lognprocess(void)
 	struct	spr_req	nmsg;
 #ifdef	STRUCT_SIG
 	struct	sigstruct_name	z;
-	z.sighandler_el = markit;
+	z.sighandler_el = sh_markit;
 	sigmask_clear(z);
 	z.sigflags_el = SIGVEC_INTFLAG;
 	sigact_routine(QRFRESH, &z, (struct sigstruct_name *) 0);
@@ -429,7 +429,7 @@ void	lognprocess(void)
 	sigact_routine(SIGALRM, &z, (struct sigstruct_name *) 0);
 #else
 	/* signal is #defined as sigset on suitable systems */
-	signal(QRFRESH, markit);
+	signal(QRFRESH, sh_markit);
 	signal(SIGALRM, catchalarm);
 #endif
 	nmsg.spr_mtype = MT_SCHED;

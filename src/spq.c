@@ -229,10 +229,10 @@ void	my_wpmsg(const int act)
 
 /* This notes signals from (presumably) the scheduler.  */
 
-RETSIGTYPE	markit(int sig)
+RETSIGTYPE	sh_markit(int sig)
 {
 #ifdef	UNSAFE_SIGNALS		/* QUICK!!!! */
-	signal(sig, markit);
+	signal(sig, sh_markit);
 #endif
 	if  (sig != QRFRESH)  {
 #ifndef	HAVE_ATEXIT
@@ -394,7 +394,7 @@ void	process(int inpq)
 
 #ifdef	STRUCT_SIG
 	struct	sigstruct_name	z;
-	z.sighandler_el = markit;
+	z.sighandler_el = sh_markit;
 	sigmask_clear(z);
 	z.sigflags_el = SIGVEC_INTFLAG | SIGACT_INTSELF;
 	sigact_routine(QRFRESH, &z, (struct sigstruct_name *) 0);
@@ -402,7 +402,7 @@ void	process(int inpq)
 	sigact_routine(SIGALRM, &z, (struct sigstruct_name *) 0);
 #else
 	/* signal is #defined as sigset on suitable systems */
-	signal(QRFRESH, markit);
+	signal(QRFRESH, sh_markit);
 	signal(SIGALRM, pollit);
 #endif
 	oreq.spr_un.o.spr_arg1 = Realuid;

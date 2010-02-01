@@ -493,10 +493,10 @@ void	pollit(int n, XtIntervalId id)
 
 /* This notes signals from (presumably) the scheduler.  */
 
-static RETSIGTYPE	markit(int sig)
+static RETSIGTYPE	sh_markit(int sig)
 {
 #ifdef	UNSAFE_SIGNALS
-	signal(sig, markit);
+	signal(sig, sh_markit);
 #endif
 	if  (sig != QRFRESH)  {
 #ifndef	HAVE_ATEXIT
@@ -893,7 +893,7 @@ static void	process(void)
 {
 #ifdef	STRUCT_SIG
 	struct	sigstruct_name	z;
-	z.sighandler_el = markit;
+	z.sighandler_el = sh_markit;
 	sigmask_clear(z);
 	z.sigflags_el = SIGVEC_INTFLAG;
 	sigact_routine(QRFRESH, &z, (struct sigstruct_name *) 0);
@@ -904,7 +904,7 @@ static void	process(void)
 	sigact_routine(SIGTERM, &z, (struct sigstruct_name *) 0);
 #else
 	/* signal is #defined as sigset on suitable systems */
-	signal(QRFRESH, markit);
+	signal(QRFRESH, sh_markit);
 	signal(SIGINT, sigerr);
 	signal(SIGQUIT, sigerr);
 	signal(SIGHUP, sigerr);

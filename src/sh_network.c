@@ -1810,10 +1810,10 @@ static	int	hadrfresh = 0;
 
 /* This notes signals relating to remaps.  */
 
-RETSIGTYPE	markit(int sig)
+RETSIGTYPE	sh_markit(int sig)
 {
 #ifdef	UNSAFE_SIGNALS
-	signal(sig, markit);
+	signal(sig, sh_markit);
 #endif
 	hadrfresh++;
 }
@@ -1865,7 +1865,7 @@ void	netmonitor(void)
 	Netm_pid = getpid();
 
 #ifdef	STRUCT_SIG
-	zmark.sighandler_el = markit;
+	zmark.sighandler_el = sh_markit;
 	sigact_routine(QRFRESH, &zmark, (struct sigstruct_name *) 0);
 	zmark.sighandler_el = stop_mon;
 	sigact_routine(SIGTERM, &zmark, (struct sigstruct_name *) 0);
@@ -1877,7 +1877,7 @@ void	netmonitor(void)
 #endif /* DEBUG */
 #endif /* SIGSYS */
 #else  /* HAVE_SIGVEC or unsafe sigs */
-	signal(QRFRESH, markit);
+	signal(QRFRESH, sh_markit);
 	signal(SIGTERM, stop_mon);
 #ifndef	DEBUG
 	signal(SIGBUS, stop_mon);
