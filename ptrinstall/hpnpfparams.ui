@@ -115,7 +115,7 @@
        <string>This file is used to supply macro names for SNMP variables</string>
       </property>
       <property name="text">
-       <string>SPROGDIR/xtsnmpdef</string>
+       <string>SDATADIR/xtsnmpdef</string>
       </property>
      </widget>
     </item>
@@ -135,7 +135,7 @@
        <string>This file is the SNMP operations control file</string>
       </property>
       <property name="text">
-       <string>SPROGDIR/xtlhp-ctrl</string>
+       <string>SDATADIR/xtlhp-ctrl</string>
       </property>
      </widget>
     </item>

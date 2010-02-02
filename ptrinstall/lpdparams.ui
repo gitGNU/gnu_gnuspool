@@ -61,7 +61,7 @@
        <string>This is the location of the control file</string>
       </property>
       <property name="text">
-       <string>SPROGDIR/xtlpc-ctrl</string>
+       <string>SDATADIR/xtlpc-ctrl</string>
       </property>
      </widget>
     </item>
