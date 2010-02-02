@@ -127,7 +127,7 @@ class Ui_lpdparams(object):
         lpdparams.setWindowTitle(QtGui.QApplication.translate("lpdparams", "LPD specific parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("lpdparams", "&Control file", None, QtGui.QApplication.UnicodeUTF8))
         self.ctrlfile.setToolTip(QtGui.QApplication.translate("lpdparams", "This is the location of the control file", None, QtGui.QApplication.UnicodeUTF8))
-        self.ctrlfile.setText(QtGui.QApplication.translate("lpdparams", "SPROGDIR/xtlpc-ctrl", None, QtGui.QApplication.UnicodeUTF8))
+        self.ctrlfile.setText(QtGui.QApplication.translate("lpdparams", "SDATADIR/xtlpc-ctrl", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("lpdparams", "&Outgoing host/IP", None, QtGui.QApplication.UnicodeUTF8))
         self.outhost.setToolTip(QtGui.QApplication.translate("lpdparams", "Some network setups may require the sending host to use a specific IP address or host name", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("lpdparams", "Printer &Name", None, QtGui.QApplication.UnicodeUTF8))

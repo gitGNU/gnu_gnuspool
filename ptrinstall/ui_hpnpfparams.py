@@ -119,10 +119,10 @@ class Ui_hpnpfparams(object):
         self.snmpport.setText(QtGui.QApplication.translate("hpnpfparams", "snmp", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("hpnpfparams", "De&fs file", None, QtGui.QApplication.UnicodeUTF8))
         self.defsfile.setToolTip(QtGui.QApplication.translate("hpnpfparams", "This file is used to supply macro names for SNMP variables", None, QtGui.QApplication.UnicodeUTF8))
-        self.defsfile.setText(QtGui.QApplication.translate("hpnpfparams", "SPROGDIR/xtsnmpdef", None, QtGui.QApplication.UnicodeUTF8))
+        self.defsfile.setText(QtGui.QApplication.translate("hpnpfparams", "SDATADIR/xtsnmpdef", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("hpnpfparams", "&Control file", None, QtGui.QApplication.UnicodeUTF8))
         self.ctrlfile.setToolTip(QtGui.QApplication.translate("hpnpfparams", "This file is the SNMP operations control file", None, QtGui.QApplication.UnicodeUTF8))
-        self.ctrlfile.setText(QtGui.QApplication.translate("hpnpfparams", "SPROGDIR/xtlhp-ctrl", None, QtGui.QApplication.UnicodeUTF8))
+        self.ctrlfile.setText(QtGui.QApplication.translate("hpnpfparams", "SDATADIR/xtlhp-ctrl", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("hpnpfparams", "Co&mmunity", None, QtGui.QApplication.UnicodeUTF8))
         self.community.setToolTip(QtGui.QApplication.translate("hpnpfparams", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"

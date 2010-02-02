@@ -1,4 +1,3 @@
-#! /usr/bin/python
 #
 #   Copyright 2009 Free Software Foundation, Inc.
 #
@@ -45,7 +44,7 @@ except ImportError:
 Printerlist = dict()
 
 def decode_dir(dir):
-    """Extract shorthand from something like ${SPROGDIR-/usr/spool/progs}/xtlpc-ctrl"""
+    """Extract shorthand from something like ${SDATADIR-/usr/share/gnuspool}/xtlpc-ctrl"""
     m = re.match('\$\{(\w+):-[^}]*\}/(.*)', dir)
     if m and m.group(1) in config.Deflocs:
         return m.group(1) + '/' + m.group(2)
@@ -298,7 +297,7 @@ class LPDnet(Networkopts):
         Networkopts.__init__(self, d)
         # Options are decoded/encoded in network command
         self.outhost = ""
-        self.ctrlfile = "SPROGDIR/xtlpc-ctrl"
+        self.ctrlfile = "SDATADIR/xtlpc-ctrl"
         self.lpdname = ""
         self.nonull = True
         self.resport = False
@@ -543,8 +542,8 @@ class XTLHPnet(Networkopts):
 
     def __init__(self, d = None):
         Networkopts.__init__(self, d)
-        self.configfile = "SPROGDIR/xtsnmpdef"
-        self.ctrlfile = "SPROGDIR/xtlhp-ctrl"
+        self.configfile = "SDATADIR/xtsnmpdef"
+        self.ctrlfile = "SDATADIR/xtlhp-ctrl"
         self.outhost = ""
         self.outport = 9100
         self.snmpport = "snmp"
@@ -925,8 +924,10 @@ class Printer:
         except IOError:
             return
         spd = '${SPROGDIR-' + config.Deflocs['SPROGDIR'] + '}'
+        sdd = '${SDATADIR-' + config.Deflocs['SDATADIR'] + '}'
         for l in inf:
             l = re.sub('SPROGDIR', spd, l)
+            l = re.sub('SDATADIR', sdd, l)
             l = re.sub('\\bGS\\b', config.Programs['GS'], l)
             l = re.sub('\\bIJS\\b', config.Programs['HPIJS'], l)
             l = re.sub('\\bGSSIZE\\b', self.paper, l)
