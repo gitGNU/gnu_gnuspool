@@ -1,3 +1,9 @@
+gnuspool (1.7) UNRELEASED; urgency=low
+
+  * strip out unneeded sections of postinst
+
+ -- Philip Hands <phil@hands.com>  Fri, 05 Mar 2010 12:46:38 +0000
+
 gnuspool (1.6) unstable; urgency=low
 
   [ John M Collins (Xi Software Ltd) ]
