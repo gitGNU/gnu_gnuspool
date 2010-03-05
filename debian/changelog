@@ -1,12 +1,6 @@
-gnuspool (1.6) UNRELEASED; urgency=low
+gnuspool (1.6) unstable; urgency=low
 
   [ John M Collins (Xi Software Ltd) ]
   * Initial release (Closes: #556996)
-
-  [ Philip Hands ]
-  * bump stabdards version
-  * switch to using dh_install rather than ccpack
-  * rename libgnuspool to libgnuspool-1-1, and move all .so files here
-  * add libgnuspool-dev package for .a & .h files
 
  -- John M Collins (Xi Software Ltd) <jmc@xisl.com>  Tue, 17 Nov 2009 10:16:21 +0000
