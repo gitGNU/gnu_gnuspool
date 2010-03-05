@@ -33,19 +33,11 @@ void	job_pack(spq &dest, const spq &src)
 	dest.spq_nptimeout = htons(src.spq_nptimeout);
 	dest.spq_ptimeout = htons(src.spq_ptimeout);
 	dest.spq_uid = htonl(src.spq_uid);
-#if	XITEXT_VN < 22
-	dest.spq_class = htons(src.spq_class);
-#else
 	dest.spq_class = htonl(src.spq_class);
 	dest.spq_extrn = 0;
-#if	XITEXT_VN < 23
-	dest.spq_resvd = 0;
-#else
-    dest.spq_pglim = 0;
-#endif
+	dest.spq_pglim = 0;
 	dest.spq_proptime = 0L;
 	dest.spq_starttime = 0L;
-#endif
 	dest.spq_wpri = htons(short(src.spq_wpri));
 
 	dest.spq_cps = src.spq_cps;
@@ -82,19 +74,11 @@ void	unpack_job(spq &dest, const spq &src)
 	dest.spq_nptimeout = ntohs(src.spq_nptimeout);
 	dest.spq_ptimeout = ntohs(src.spq_ptimeout);
 	dest.spq_uid = ntohl(src.spq_uid);
-#if	XITEXT_VN < 22
-	dest.spq_class = ntohs(src.spq_class);
-#else
 	dest.spq_class = ntohl(src.spq_class);
 	dest.spq_extrn = ntohs(src.spq_extrn);
-#if	XITEXT_VN < 23
-	dest.spq_resvd = 0;
-#else
 	dest.spq_pglim = 0;
-#endif
 	dest.spq_proptime = 0L;
 	dest.spq_starttime = ntohl(src.spq_starttime);
-#endif
 	dest.spq_wpri = ntohs(short(src.spq_wpri));
 
 	dest.spq_cps = src.spq_cps;

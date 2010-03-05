@@ -181,7 +181,7 @@ for my $p (@Portlist)  {
     my $proto = $dets->[1];
     my $comment = $dets->[2];
     my @altnames = @{$dets->[3]};
-	print SRV "$name\t$pnum/$proto ", join(' ', @altnames), " #$comment\n";
+    print SRV "$name\t$pnum/$proto ", join(' ', @altnames), " #$comment\n";
 }
 close SRV;
 
