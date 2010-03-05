@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for gnuspool
+# postinst script for libgnuspool0
 #
 #   Copyright 2009 Free Software Foundation, Inc.
 #
@@ -34,11 +34,7 @@ set -e
 
 
 case "$1" in
-    configure)
-	ldconfig
-    ;;
-
-    abort-upgrade|abort-remove|abort-deconfigure)
+    configure|abort-upgrade|abort-remove|abort-deconfigure)
 	:
     ;;
 
