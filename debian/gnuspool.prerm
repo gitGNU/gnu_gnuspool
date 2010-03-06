@@ -1,19 +1,5 @@
 #!/bin/sh
 # prerm script for gnuspool
-#   Copyright 2009 Free Software Foundation, Inc.
-#
-#  This program is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # see: dh_installdeb(1)
 
@@ -30,47 +16,14 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-stopdaem() {
-    if gspl-stop -y >/dev/null 2>&1
-    then echo stopped GNUspool
-    else :
-    fi
-}
-
-removenet() {
-#ed /etc/services <<'EOF' >/dev/null 2>&1
-#/GNUspool/d
-#g/gnuspool/d
-#w
-#q
-#EOF
-if grep -qs '^gnuspool' /etc/services; then
-    echo "You may want to remove gnuspool entries from /etc/services"
-fi
-rm -f /etc/gnuspool/gnuspool.hosts
-}
-
-removefiles() {
-    (cd /var/spool/gnuspool; find . -type f -print|xargs rm -f)
-    (cd /var/spool/gnuspool_alt; find . -type f -print|xargs rm -f)
-    rm -f /etc/gnuspool/gnuspool.conf
-    rm -rf /etc/gnuspool/ptrconf
-}
 
 case "$1" in
-    remove|deconfigure)
-	stopdaem
-	removenet
-	removefiles
-    ;;
-
-    upgrade)
-	:
+    remove|upgrade|deconfigure)
     ;;
 
     failed-upgrade)
-	:
     ;;
+
     *)
         echo "prerm called with unknown argument \`$1'" >&2
         exit 1

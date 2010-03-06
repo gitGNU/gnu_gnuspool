@@ -18,14 +18,28 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+purgenet() {
+if grep -qs '^gnuspool' /etc/services; then
+    echo "You may want to remove gnuspool entries from /etc/services"
+fi
+rm -f /etc/gnuspool/gnuspool.hosts
+}
+
+purgefiles() {
+    (cd /var/spool/gnuspool; find . -type f -print0|xargs -0 rm -f)
+    (cd /var/spool/gnuspool_alt; find . -type f -print0|xargs -0 rm -f)
+    rm -f /etc/gnuspool/gnuspool.conf
+    rm -rf /etc/gnuspool/ptrconf
+}
 
 case "$1" in
-    purge|remove|abort-install|disappear)
-	grep -q '^gnuspool:' /etc/passwd && userdel gnuspool
+    purge)
+	purgenet
+	purgefiles
+	deluser gnuspool
     ;;
 
-    upgrade|failed-upgrade|abort-upgrade)
-	:
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
     ;;
 
     *)
