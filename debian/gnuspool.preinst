@@ -13,21 +13,18 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-Username=gnuspool
-Groupname=lp
-Homedir=/var/gnuspool
-Uid=50
 
 case "$1" in
     install|upgrade)
-	if ! grep -q "^$Username:" /etc/passwd; then
-	    grep -q "^$Groupname:" /etc/group || Groupname=root
-	    while grep -q "^[^:]*:[^:]*:$Uid:" /etc/passwd; do Uid=`expr $Uid + 1`; done
-	    useradd -c 'GNUspool system user' -d $Homedir -g $Groupname -u $Uid -r -o $Username
-	fi
+        if ! id -g lp > /dev/null 2>&1 ; then
+            addgroup --system lp
+        fi
+        if ! id -u gnuspool > /dev/null 2>&1 ; then
+            adduser --system --no-create-home --home /var/gnuspool --gecos 'GNUspool system user,,,' --ingroup lp gnuspool
+        fi
     ;;
 
-    abort-upgrade) :
+    abort-upgrade)
     ;;
 
     *)

@@ -8,6 +8,7 @@ Homepage: http://www.gnu.org/software/gnuspool
 
 Package: gnuspool
 Architecture: any
+Pre-depends: adduser
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Replaces: lpr
 Provides: lpr, lprng
