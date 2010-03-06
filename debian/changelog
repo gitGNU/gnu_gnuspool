@@ -1,6 +1,6 @@
-gnuspool (1.7) UNRELEASED; urgency=low
+gnuspool (1.7) unstable; urgency=low
 
-  * strip out unneeded sections of postinst
+  * strip out unneeded sections of postinst etc. and do some related tidying
 
  -- Philip Hands <phil@hands.com>  Fri, 05 Mar 2010 12:46:38 +0000
 
