@@ -67,13 +67,8 @@ fi
 
 running()
 {
-    nproc=`pgrep spshed|wc -l`
-    if [ "$nproc" -gt 0 ]
-    then
-	return 0
-    else
-	return 1
-    fi
+    nproc=$(pgrep -c '^spshed$')
+    [ "$nproc" -gt 0 ]
 }
 
 start_server() {
