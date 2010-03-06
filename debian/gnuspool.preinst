@@ -20,7 +20,7 @@ case "$1" in
             addgroup --system lp
         fi
         if ! id -u gnuspool > /dev/null 2>&1 ; then
-            adduser --system --no-create-home --home /var/gnuspool --gecos 'GNUspool system user,,,' --ingroup lp gnuspool
+            adduser --system --no-create-home --home /var/spool/gnuspool --gecos 'GNUspool system user,,,' --ingroup lp gnuspool
         fi
     ;;
 
