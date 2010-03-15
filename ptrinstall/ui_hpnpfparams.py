@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'hpnpfparams.ui'
 #
-# Created: Tue Sep  1 15:10:57 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Fri Mar  5 10:14:50 2010
+#      by: PyQt4 UI code generator 4.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -68,7 +68,7 @@ class Ui_hpnpfparams(object):
         self.timeout = QtGui.QSpinBox(self.layoutWidget)
         self.timeout.setMaximum(3600000)
         self.timeout.setSingleStep(100)
-        self.timeout.setProperty("value", QtCore.QVariant(1000))
+        self.timeout.setProperty("value", 1000)
         self.timeout.setObjectName("timeout")
         self.gridLayout.addWidget(self.timeout, 4, 1, 1, 1)
         self.label_8 = QtGui.QLabel(self.layoutWidget)
@@ -77,7 +77,7 @@ class Ui_hpnpfparams(object):
         self.blocksize = QtGui.QSpinBox(self.layoutWidget)
         self.blocksize.setMinimum(1)
         self.blocksize.setMaximum(1024)
-        self.blocksize.setProperty("value", QtCore.QVariant(10))
+        self.blocksize.setProperty("value", 10)
         self.blocksize.setObjectName("blocksize")
         self.gridLayout.addWidget(self.blocksize, 4, 3, 1, 1)
         self.goback = QtGui.QPushButton(hpnpfparams)

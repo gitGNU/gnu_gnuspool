@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'lpdparams.ui'
 #
-# Created: Tue Sep  1 15:10:58 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Fri Mar  5 10:14:52 2010
+#      by: PyQt4 UI code generator 4.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -54,7 +54,7 @@ class Ui_lpdparams(object):
         self.gridLayout.addWidget(self.label_5, 4, 0, 1, 1)
         self.loops = QtGui.QSpinBox(self.layoutWidget)
         self.loops.setMinimum(1)
-        self.loops.setProperty("value", QtCore.QVariant(3))
+        self.loops.setProperty("value", 3)
         self.loops.setObjectName("loops")
         self.gridLayout.addWidget(self.loops, 4, 1, 1, 1)
         self.label_6 = QtGui.QLabel(self.layoutWidget)
@@ -71,7 +71,7 @@ class Ui_lpdparams(object):
         self.itimeout = QtGui.QSpinBox(self.layoutWidget)
         self.itimeout.setMinimum(1)
         self.itimeout.setMaximum(300)
-        self.itimeout.setProperty("value", QtCore.QVariant(5))
+        self.itimeout.setProperty("value", 5)
         self.itimeout.setObjectName("itimeout")
         self.gridLayout.addWidget(self.itimeout, 5, 1, 1, 1)
         self.label_9 = QtGui.QLabel(self.layoutWidget)
@@ -80,7 +80,7 @@ class Ui_lpdparams(object):
         self.otimeout = QtGui.QSpinBox(self.layoutWidget)
         self.otimeout.setMinimum(1)
         self.otimeout.setMaximum(300)
-        self.otimeout.setProperty("value", QtCore.QVariant(5))
+        self.otimeout.setProperty("value", 5)
         self.otimeout.setObjectName("otimeout")
         self.gridLayout.addWidget(self.otimeout, 5, 3, 1, 2)
         self.label_10 = QtGui.QLabel(self.layoutWidget)
