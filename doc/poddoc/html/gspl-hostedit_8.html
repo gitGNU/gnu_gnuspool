@@ -36,11 +36,17 @@
 </p>
 <h1><a name="name">NAME</a></h1>
 <p>gspl-hostedit - edit GNUspool host table</p>
+<p>gspl-xhostedit - edit GNUspool host table</p>
 <p>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
 <p><strong>gspl-hostedit</strong>
+[ -<em>o file</em> ]
+[ -<em>s arg</em> ]
+[ -<em>I</em> ]
+[ <em>file</em> ]</p>
+<p><strong>gspl-xhostedit</strong>
 [ -<em>o file</em> ]
 [ -<em>s arg</em> ]
 [ -<em>I</em> ]
@@ -51,18 +57,20 @@
 <h1><a name="description">DESCRIPTION</a></h1>
 <p><strong>gspl-hostedit</strong> is a simple curses-based program to edit host tables for
 <em class="file">gnuspool.hosts</em>, the host table for GNUspool.</p>
-<p>It knows about local addresses (selecting the correct IP address for a
+<p><strong>gspl-xhostedit</strong> is a similar program using GTK+</p>
+<p>They knows about local addresses (selecting the correct IP address for a
 machine with different IPs on different networks), Windows clients,
 DHCP, trusted hosts, manual connections, probes and timeouts.</p>
 <p>Input is taken from standard input unless a file name is given, and
 output is to standard output unless the <strong>-o</strong> option is given.</p>
-<p>Normally this would be run as follows:</p>
+<p>Normally they would be run as follows:</p>
 <pre>
         gspl-hostedit -I /usr/local/etc/gnuspool.hosts</pre>
 <p>You will usually have to stop and restart GNUspool after you have
 done this so that all parts of the system &quot;know&quot; about the new hosts,
 however this may not be necessary in all cases, you may only have to
 &quot;<code>kill -1</code>&quot; the process id of the xtnetserv process.</p>
+<p>Options are identical in each case</p>
 <p>
 </p>
 <hr />
@@ -92,7 +100,7 @@ address.</p>
 <p>The following command keys are used from within the screen displayed
 by <strong>gspl-hostedit</strong>. As with other GNUspool commands, any commands which
 operate upon an existing item will do so with the item to which the
-cursor is moved.</p>
+cursor is moved. <strong>gspl-xhostedit</strong> takes similar commands as menu entries.</p>
 <dl>
 <dt><strong><a name="k_or_cursor_up" class="item">k or <em>cursor up</em></a></strong></dt>
 

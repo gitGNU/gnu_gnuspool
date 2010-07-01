@@ -47,21 +47,19 @@ TTYGROUP	=	-o $(SPOOLUSER) -g tty -m 2755
 BINDIR		=	$(DESTDIR)@bindir@
 INTBINDIR	=	$(DESTDIR)@pkgexecdir@
 SPOOLDIR	=	$(DESTDIR)@spooldir@
-ALTSPOOL	=	$(DESTDIR)@altspool@
 SPOOLPT		=	$(DESTDIR)@spoolpt@
 SPHELPDIR	=	$(DESTDIR)@sphelpdir@
-USERBINS	=	gspl-mpr gspl-rpr gspl-pr gspl-charge gspl-pq gspl-start gspl-user \
+USERBINS	=	gspl-rpr gspl-pr gspl-charge gspl-pq gspl-start gspl-user \
 			gspl-ulist gspl-uchange gspl-plist gspl-qchange gspl-qlist gspl-qdel gspl-stop
 SUIDROOTBINS	=	spshed spexec spmdisp sppwchk xtnetserv
 SUIDSPBINS	=	spd spjobdump
 TTYGRPBINS	=	spwrite dosspwrite
 NOSETUBINS	=	spdinit
 SPSTARTLNKS	=	gspl-disconn gspl-nok gspl-ok gspl-pchange gspl-conn gspl-pdel gspl-pstat gspl-pinter gspl-padd gspl-phalt gspl-pstop
-MSPRLNKS	=	gspl-mrpr
 SSTOPLNKS	=	gspl-suspend gspl-release
 STAGED_INSTALL	=	false
 
-PROGS=gspl-pr gspl-rpr gspl-mpr spshed dosspwrite xtnetserv spd spdinit spwrite spmdisp gspl-user\
+PROGS=gspl-pr gspl-rpr spshed dosspwrite xtnetserv spd spdinit spwrite spmdisp gspl-user\
 	gspl-pq gspl-start gspl-stop gspl-charge gspl-ulist gspl-uchange spjobdump\
 	gspl-plist gspl-qlist gspl-qdel gspl-qchange spexec\
 	sppwchk loccgid insd gtkd @netsubdirs@
@@ -83,9 +81,6 @@ gspl-pr:	spr.o $(SHLIB)
 
 gspl-rpr:	$(RSPR_OBJS) $(SHLIB)
 	$(SHLIBCC) -o $@ $(LDFLAGS) $(RSPR_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
-
-gspl-mpr:	mspr.o $(SHLIB)
-	$(SHLIBCC) -o $@ $(LDFLAGS) mspr.o $(SHLIB) $(LIBS)
 
 spshed:	$(SPSHED_OBJS) $(SHLIB)
 	$(SHLIBCC) -o $@ $(LDFLAGS) $(SPSHED_OBJS) $(SHLIB) $(LIBNET) $(LIBS)
@@ -198,14 +193,12 @@ $(SHLIB):
 install: all
 	$(STAGED_INSTALL) || @perlbin@ $(BASE)/Checkuserinst $(SPOOLUSER) $(SPOOLDIR)
 	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLDIR)
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(ALTSPOOL)
 	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLPT)
 	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(INTBINDIR)
 	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPHELPDIR)
 	cd lib;$(MAKE) install prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	libtool --mode=install $(INSTALL) $(USERMODES) $(USERBINS) $(BINDIR)
 	cd $(BINDIR);for p in $(SPSTARTLNKS); do ln -f gspl-start $$p; done
-	cd $(BINDIR);for p in $(MSPRLNKS); do ln -f gspl-mpr $$p; done
 	cd $(BINDIR);for p in $(SSTOPLNKS); do ln -f gspl-stop $$p; done
 	libtool --mode=install $(INSTALL) $(SUIDROOT) $(SUIDROOTBINS) $(INTBINDIR)
 	libtool --mode=install $(INSTALL) $(USERMODES) $(SUIDSPBINS) $(INTBINDIR)
@@ -225,14 +218,12 @@ install: all
 install-strip:
 	$(STAGED_INSTALL) || @perlbin@ $(BASE)/Checkuserinst $(SPOOLUSER) $(SPOOLDIR)
 	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLDIR)
-	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(ALTSPOOL)
 	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPOOLPT)
 	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(INTBINDIR)
 	$(INSTALL) -d -o $(SPOOLUSER) -g root -m 755 $(SPHELPDIR)
 	cd lib;$(MAKE) install-strip prefix="$(prefix)" exec_prefix="$(exec_prefix)"
 	libtool --mode=install $(INSTALL) -s $(USERMODES) $(USERBINS) $(BINDIR)
 	cd $(BINDIR);for p in $(SPSTARTLNKS); do ln -f gspl-start $$p; done
-	cd $(BINDIR);for p in $(MSPRLNKS); do ln -f gspl-mpr $$p; done
 	cd $(BINDIR);for p in $(SSTOPLNKS); do ln -f gspl-stop $$p; done
 	libtool --mode=install $(INSTALL) -s $(SUIDROOT) $(SUIDROOTBINS) $(INTBINDIR)
 	libtool --mode=install $(INSTALL) -s $(USERMODES) $(SUIDSPBINS) $(INTBINDIR)

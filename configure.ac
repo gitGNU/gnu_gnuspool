@@ -24,7 +24,6 @@ esac
 
 AC_ARG_VAR(SPOOLUSER, [name of user files are owned by (gnuspool)])
 directarg(spool-directory,[spool directory (can be large)],[spooldir],[$localstatedir/gnuspool])
-directarg(alt-spool-directory,[alternate spool directory],[altspool],[$localstatedir/gnuspool_alt])
 directarg(internal-programs,[internal programs],[pkgexecdir],[$libexecdir/gnuspool])
 directarg(pkgdatadir,[data files other than help],[pkgdatadir],[$datadir/gnuspool])
 directarg(helpfiles,[help files],[sphelpdir],[$pkgdatadir/help])

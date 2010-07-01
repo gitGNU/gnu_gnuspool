@@ -2,9 +2,17 @@
 
 gspl-hostedit - edit GNUspool host table
 
+gspl-xhostedit - edit GNUspool host table
+
 =head1 SYNOPSIS
 
 B<gspl-hostedit>
+[ -I<o file> ]
+[ -I<s arg> ]
+[ -I<I> ]
+[ I<file> ]
+
+B<gspl-xhostedit>
 [ -I<o file> ]
 [ -I<s arg> ]
 [ -I<I> ]
@@ -15,14 +23,16 @@ B<gspl-hostedit>
 B<gspl-hostedit> is a simple curses-based program to edit host tables for
 F<gnuspool.hosts>, the host table for GNUspool.
 
-It knows about local addresses (selecting the correct IP address for a
+B<gspl-xhostedit> is a similar program using GTK+
+
+They knows about local addresses (selecting the correct IP address for a
 machine with different IPs on different networks), Windows clients,
 DHCP, trusted hosts, manual connections, probes and timeouts.
 
 Input is taken from standard input unless a file name is given, and
 output is to standard output unless the B<-o> option is given.
 
-Normally this would be run as follows:
+Normally they would be run as follows:
 
 	gspl-hostedit -I /usr/local/etc/gnuspool.hosts
 
@@ -30,6 +40,8 @@ You will usually have to stop and restart GNUspool after you have
 done this so that all parts of the system "know" about the new hosts,
 however this may not be necessary in all cases, you may only have to
 "C<kill -1>" the process id of the xtnetserv process.
+
+Options are identical in each case
 
 =head1 OPTIONS
 
@@ -55,7 +67,7 @@ Edit in place; a file argument must be given.
 The following command keys are used from within the screen displayed
 by B<gspl-hostedit>. As with other GNUspool commands, any commands which
 operate upon an existing item will do so with the item to which the
-cursor is moved.
+cursor is moved. B<gspl-xhostedit> takes similar commands as menu entries.
 
 =over 4
 

@@ -84,7 +84,7 @@ int-config (helpmsg) :
 
 rest.help (helpmsg) :
 		rspr spcharge spjobdump splist spr spstart spuchange spulist sqchange
-		sqdel sqlist sqcgi sqvcgi sqdcgi sqccgi sqcrcgi spcgi spccgi sstop lpstatc mspr
+		sqdel sqlist sqcgi sqvcgi sqdcgi sqccgi sqcrcgi spcgi spccgi sstop lpstatc
 		rsqcgi rsqccgi rsqcrcgi rsqdcgi rsqvcgi rspcgi rspccgi;
 
 spq.help (helpmsg) :
@@ -144,9 +144,6 @@ MODULES splist =
 
 MODULES spr =
 	spr.c LIB1 LIB2 LIB3 INLINE_OPTS INLINE_SPR LIB5;
-
-MODULES mspr =
-	mspr.c LIB1 LIB2 LIB3 INLINE_OPTS INLINE_SPR;
 
 MODULES spstart =
 	spstart.c LIB1 LIB2 LIB3 INLINE_OPTS LIB5 LIBSHLL;

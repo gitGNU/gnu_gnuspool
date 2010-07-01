@@ -2082,7 +2082,7 @@ if (findonpath('python')) {
     my $pyversion = `python --version 2>&1`;
     chop $pyversion;
     my ($maj,$min);
-    if (($maj,$min) = $pyversion =~ /(\d+)\.(\d+)/ && $maj >= 2 && $min >= 6)  {
+    if ((($maj,$min) = $pyversion =~ /(\d+)\.(\d+)/) && $maj >= 2 && $min >= 6)  {
 	$pyprog = $Config{SDATADIR} . "/ptrinstall/ptrinstall.py";
 	$c = system("python $pyprog");
 	exit 0 if $c == 0;

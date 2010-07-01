@@ -1,8 +1,9 @@
 gnuspool (1.7) unstable; urgency=low
 
   * strip out unneeded sections of postinst etc. and do some related tidying
+  * remove MSWIN subdirectory and bump version in configure
 
- -- Philip Hands <phil@hands.com>  Fri, 05 Mar 2010 12:46:38 +0000
+ -- John M Collins (Xi Software Ltd) <jmc@xisl.com>  Mon, 26 Apr 2010 12:26:21 +0000
 
 gnuspool (1.6) unstable; urgency=low
 

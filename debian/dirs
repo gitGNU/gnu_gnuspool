@@ -17,4 +17,3 @@ usr/share/man/man8
 var/spool/gnuspool
 var/spool/gnuspool/xtlpc
 var/spool/gnuspool/xtlpd
-var/spool/gnuspool_alt

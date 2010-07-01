@@ -26,8 +26,7 @@ rm -f /etc/gnuspool/gnuspool.hosts
 }
 
 purgefiles() {
-    (cd /var/spool/gnuspool; find . -type f -print0|xargs -0 rm -f)
-    (cd /var/spool/gnuspool_alt; find . -type f -print0|xargs -0 rm -f)
+    rm -rf /var/spool/gnuspool
     rm -f /etc/gnuspool/gnuspool.conf
     rm -rf /etc/gnuspool/ptrconf
 }

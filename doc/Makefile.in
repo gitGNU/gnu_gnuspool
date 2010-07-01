@@ -45,11 +45,11 @@ install install-strip: all
 	$(INSTALL_DATA) poddoc/man/*.5 $(MANDIR)/man5
 	$(INSTALL_DATA) poddoc/man/*.8 $(MANDIR)/man8
 	cd $(MANDIR)/man1; for p in $(LPCOVERLINKS); do ln -s gspl-lpcover.1 $$p.1; done
-	cd $(MANDIR)/man1; ln -s gspl-mpr.1 gspl-mrpr.1
 	cd $(MANDIR)/man1; ln -s gspl-pr.1 gspl-rpr.1
 	cd $(MANDIR)/man1; for p in $(STARTLINKS); do ln -s gspl-start.1 gspl-$$p.1; done
 	cd $(MANDIR)/man1; for p in $(STOPLINKS); do ln -s gspl-stop.1 gspl-$$p.1; done
 	cd $(MANDIR)/man3; ln -s gspool_jobfind.3 gspool_jobfindslot.3
+	cd $(MANDIR)/man8; ln -s gspl-hostedit.8 gspl-xhostedit.8
 	$(INSTALL_DATA) pdf/*.pdf $(PDFDIR)
 
 clean:

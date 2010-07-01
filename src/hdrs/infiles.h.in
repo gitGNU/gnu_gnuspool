@@ -93,7 +93,6 @@ extern char 	*mkspid(const char *, const jobno_t);
 #define	SPPWPROG	"${SPROGDIR-@pkgexecdir@}/sppwchk"
 #define	SPLPQPROG	"${SPROGDIR-@pkgexecdir@}/xtlpq"
 #define	SPLPRMPROG	"${SPROGDIR-@pkgexecdir@}/xtlprm"
-#define	ALTSPOOL	"${ALTSPOOL-@altspool@}"
 #define	DUMPPWFILE	"${SPOOLDIR-@spooldir@}/pwdump@MAJOR_PACKAGE_VERSION@"
 #define	GSHTMLINI	"${SDATADIR-@pkgdatadir@}/gshtml.ini"
 #define	HTML_UFILE	"${SDATADIR-@pkgdatadir@}/html_ufile"
