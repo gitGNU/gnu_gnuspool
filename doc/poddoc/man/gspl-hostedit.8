@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "GSPL-HOSTEDIT 8"
-.TH GSPL-HOSTEDIT 8 "2010-07-01" "GNUspool Release 1" "GNUspool Print Manager"
+.TH GSPL-HOSTEDIT 8 "2010-07-02" "GNUspool Release 1" "GNUspool Print Manager"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -153,7 +153,7 @@ gspl\-xhostedit \- edit GNUspool host table
 .PP
 \&\fBgspl-xhostedit\fR is a similar program using \s-1GTK+\s0
 .PP
-They knows about local addresses (selecting the correct \s-1IP\s0 address for a
+They know about local addresses (selecting the correct \s-1IP\s0 address for a
 machine with different IPs on different networks), Windows clients,
 \&\s-1DHCP\s0, trusted hosts, manual connections, probes and timeouts.
 .PP
@@ -171,7 +171,8 @@ done this so that all parts of the system \*(L"know\*(R" about the new hosts,
 however this may not be necessary in all cases, you may only have to
 "\f(CW\*(C`kill \-1\*(C'\fR" the process id of the xtnetserv process.
 .PP
-Options are identical in each case
+Options are identical in each case (except \fBgspl-xhostedit\fR also
+takes options parsed by \s-1GTK+\s0).
 .SH "OPTIONS"
 .IX Header "OPTIONS"
 .IP "\fB\-o\fR \fIfile\fR" 8
