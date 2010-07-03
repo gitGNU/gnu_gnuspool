@@ -1370,7 +1370,7 @@ sub askusegs {
     my $res = shift;
     return  unless  $res->{TYPE} =~ /ljet|pcl/i;
     $res->{TYPE} = 'PCL';
-    if  (findonpath('gs')  &&  askyorn('usegs', 'Use ghostscript for PS', 1))  {
+    if  (findonpath('gs')  &&  askyorn('usegs', 'Use ghostscript for PS (even if printer supports it)', 1))  {
 	unless (defined $res->{MODEL})  {
 	    if (askyorn("cptr", "Does this printer print colour", 0))  {
 		$res->{MODEL} = 'HP Color LaserJet';
@@ -1878,6 +1878,14 @@ sub proc_modify {
     }
 }
 
+sub setdefform {
+    my $form = shift;
+    return if length($form) == 0;
+    system("$bindir/gspl-uchange -D -f $form -F $form -A");
+    my $me = $ENV{'SUDO_USER'};
+    system("$bindir/gspl-uchange -p ALL $me") if length($me) != 0;
+}
+
 # Install printer
 
 sub proc_install {
@@ -1958,7 +1966,7 @@ sub proc_install {
 	# form type to that.
 	my $defform = `$bindir/gspl-ulist -S -F %f`;
 	chop $defform;
-	system("$bindir/gspl-uchange -D -f $defform -F $defform -A") if $defform eq 'standard' && $defform ne $ftype;
+	setdefform($ftype) if $defform eq 'standard' || askyorn('defform', "set $ftype as default form type", 0);
     }
     if (system(join(' ', @args)) == 0)  {
 	print "$ptr added successfully\n";
@@ -2082,7 +2090,7 @@ if (findonpath('python')) {
     my $pyversion = `python --version 2>&1`;
     chop $pyversion;
     my ($maj,$min);
-    if ((($maj,$min) = $pyversion =~ /(\d+)\.(\d+)/) && $maj >= 2 && $min >= 6)  {
+    if ((($maj,$min) = $pyversion =~ /(\d+)\.(\d+)/) && ($maj > 2 || ($maj >= 2 && $min >= 6)))  {
 	$pyprog = $Config{SDATADIR} . "/ptrinstall/ptrinstall.py";
 	$c = system("python $pyprog");
 	exit 0 if $c == 0;

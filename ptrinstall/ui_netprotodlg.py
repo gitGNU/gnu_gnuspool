@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'netprotodlg.ui'
 #
-# Created: Tue Sep  1 15:11:00 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Sat Jul  3 23:26:46 2010
+#      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
 

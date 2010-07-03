@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'optsdlg.ui'
 #
-# Created: Tue Sep  1 15:10:57 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Sat Jul  3 23:26:44 2010
+#      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -28,9 +28,9 @@ class Ui_optsdlg(object):
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.hdropt = QtGui.QComboBox(self.widget)
         self.hdropt.setObjectName("hdropt")
-        self.hdropt.addItem(QtCore.QString())
-        self.hdropt.addItem(QtCore.QString())
-        self.hdropt.addItem(QtCore.QString())
+        self.hdropt.addItem("")
+        self.hdropt.addItem("")
+        self.hdropt.addItem("")
         self.gridLayout.addWidget(self.hdropt, 0, 1, 1, 1)
         self.hdrpercopy = QtGui.QCheckBox(self.widget)
         self.hdrpercopy.setObjectName("hdrpercopy")

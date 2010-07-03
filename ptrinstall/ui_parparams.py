@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'parparams.ui'
 #
-# Created: Tue Sep  1 15:10:56 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Sat Jul  3 23:26:42 2010
+#      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -27,7 +27,7 @@ class Ui_parparams(object):
         self.gridLayout.setObjectName("gridLayout")
         self.opento = QtGui.QSpinBox(self.layoutWidget)
         self.opento.setMaximum(65535)
-        self.opento.setProperty("value", QtCore.QVariant(30))
+        self.opento.setProperty("value", 30)
         self.opento.setObjectName("opento")
         self.gridLayout.addWidget(self.opento, 0, 1, 1, 1)
         self.label_4 = QtGui.QLabel(self.layoutWidget)
@@ -35,7 +35,7 @@ class Ui_parparams(object):
         self.gridLayout.addWidget(self.label_4, 1, 0, 1, 1)
         self.offlineto = QtGui.QSpinBox(self.layoutWidget)
         self.offlineto.setMaximum(65535)
-        self.offlineto.setProperty("value", QtCore.QVariant(300))
+        self.offlineto.setProperty("value", 300)
         self.offlineto.setObjectName("offlineto")
         self.gridLayout.addWidget(self.offlineto, 1, 1, 1, 1)
         self.label_5 = QtGui.QLabel(self.layoutWidget)
@@ -45,7 +45,7 @@ class Ui_parparams(object):
         self.outbuffer.setMinimum(1)
         self.outbuffer.setMaximum(1048576)
         self.outbuffer.setSingleStep(1024)
-        self.outbuffer.setProperty("value", QtCore.QVariant(1024))
+        self.outbuffer.setProperty("value", 1024)
         self.outbuffer.setObjectName("outbuffer")
         self.gridLayout.addWidget(self.outbuffer, 2, 1, 1, 1)
         self.canhang = QtGui.QCheckBox(self.layoutWidget)

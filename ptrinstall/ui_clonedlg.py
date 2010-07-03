@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'clonedlg.ui'
 #
-# Created: Tue Sep  1 15:10:58 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Sat Jul  3 23:26:44 2010
+#      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -33,6 +33,7 @@ class Ui_clonedlg(object):
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 1, 0, 1, 1)
         self.clonedptr = QtGui.QComboBox(self.widget)
+        self.clonedptr.setStatusTip("")
         self.clonedptr.setObjectName("clonedptr")
         self.gridLayout.addWidget(self.clonedptr, 1, 1, 1, 1)
         self.label_2.setBuddy(self.clonename)

@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'ftpparams.ui'
 #
-# Created: Tue Sep  1 15:10:55 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Sat Jul  3 23:26:42 2010
+#      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,6 +13,7 @@ class Ui_ftpparams(object):
     def setupUi(self, ftpparams):
         ftpparams.setObjectName("ftpparams")
         ftpparams.resize(682, 287)
+        ftpparams.setToolTip("")
         self.buttonBox = QtGui.QDialogButtonBox(ftpparams)
         self.buttonBox.setGeometry(QtCore.QRect(580, 10, 81, 181))
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
@@ -69,7 +70,7 @@ class Ui_ftpparams(object):
         self.selectto.setMinimum(1)
         self.selectto.setMaximum(3600000)
         self.selectto.setSingleStep(10)
-        self.selectto.setProperty("value", QtCore.QVariant(750))
+        self.selectto.setProperty("value", 750)
         self.selectto.setObjectName("selectto")
         self.gridLayout.addWidget(self.selectto, 5, 1, 1, 1)
         self.label_9 = QtGui.QLabel(self.layoutWidget)
@@ -79,7 +80,7 @@ class Ui_ftpparams(object):
         self.mainto.setMinimum(1)
         self.mainto.setMaximum(3600000)
         self.mainto.setSingleStep(100)
-        self.mainto.setProperty("value", QtCore.QVariant(30000))
+        self.mainto.setProperty("value", 30000)
         self.mainto.setObjectName("mainto")
         self.gridLayout.addWidget(self.mainto, 5, 5, 1, 1)
         self.goback = QtGui.QPushButton(ftpparams)

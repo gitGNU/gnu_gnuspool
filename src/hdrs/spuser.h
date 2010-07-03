@@ -64,7 +64,7 @@
 #define	U_DF_MINP	100
 #define	U_DF_MAXP	200
 #define	U_DF_DEFP	150
-#define	U_DF_PRIV	(PV_FREEZEOK|PV_ACCESSOK|PV_OTHERP)
+#define	U_DF_PRIV	(PV_FREEZEOK|PV_ACCESSOK|PV_OTHERP|PV_FORMS|PV_PRINQ|PV_HALTGO|PV_REMOTEJ|PV_REMOTEP)
 #define	U_DF_CPS	10
 #define	U_DF_CLASS	0xffffffffL
 #define	U_MAX_CLASS	0xffffffffL
@@ -80,7 +80,7 @@
 /* DOS C++ Version we aren't interested in header file stuff. */
 
 struct	sphdr	{
-	unsigned  char	sph_version;	/* Major Xi-Text version number  */
+	unsigned  char	sph_version;	/* Major GNUspool version number  */
 
 	char	sph_form[MAXFORM+1];	/* Form type (35 bytes) */
 

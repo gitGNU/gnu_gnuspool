@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'lpdparams.ui'
 #
-# Created: Fri Mar  5 10:14:52 2010
-#      by: PyQt4 UI code generator 4.6
+# Created: Sat Jul  3 23:26:45 2010
+#      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,6 +13,7 @@ class Ui_lpdparams(object):
     def setupUi(self, lpdparams):
         lpdparams.setObjectName("lpdparams")
         lpdparams.resize(509, 322)
+        lpdparams.setToolTip("")
         self.buttonBox = QtGui.QDialogButtonBox(lpdparams)
         self.buttonBox.setGeometry(QtCore.QRect(410, 10, 81, 241))
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
@@ -127,7 +128,7 @@ class Ui_lpdparams(object):
         lpdparams.setWindowTitle(QtGui.QApplication.translate("lpdparams", "LPD specific parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("lpdparams", "&Control file", None, QtGui.QApplication.UnicodeUTF8))
         self.ctrlfile.setToolTip(QtGui.QApplication.translate("lpdparams", "This is the location of the control file", None, QtGui.QApplication.UnicodeUTF8))
-        self.ctrlfile.setText(QtGui.QApplication.translate("lpdparams", "SDATADIR/xtlpc-ctrl", None, QtGui.QApplication.UnicodeUTF8))
+        self.ctrlfile.setText(QtGui.QApplication.translate("lpdparams", "SPROGDIR/xtlpc-ctrl", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("lpdparams", "&Outgoing host/IP", None, QtGui.QApplication.UnicodeUTF8))
         self.outhost.setToolTip(QtGui.QApplication.translate("lpdparams", "Some network setups may require the sending host to use a specific IP address or host name", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("lpdparams", "Printer &Name", None, QtGui.QApplication.UnicodeUTF8))

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>506</width>
-    <height>252</height>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,13 +29,13 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>20</y>
      <width>371</width>
-     <height>171</height>
+     <height>241</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -82,12 +82,44 @@ similar printers.</string>
       </property>
      </widget>
     </item>
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Initial &amp;form type</string>
+      </property>
+      <property name="buddy">
+       <cstring>formtype</cstring>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="formtype">
+      <property name="toolTip">
+       <string>Specify the initial form type for the printer</string>
+      </property>
+      <property name="editable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="setdef">
+      <property name="toolTip">
+       <string>Check here to make this the default form type for all users</string>
+      </property>
+      <property name="text">
+       <string>Set this form type as default for all users</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
  </widget>
  <tabstops>
   <tabstop>devname</tabstop>
   <tabstop>description</tabstop>
+  <tabstop>formtype</tabstop>
+  <tabstop>setdef</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>

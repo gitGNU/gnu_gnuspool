@@ -879,7 +879,12 @@ class Printer:
             lt = '-N'
         else:
             lt = '-L'
-        if os.system(makecommand('ADDPROG', lt, '-l', self.device, '-D', "'" + self.descr + "'", self.name, ">/dev/null", "2>&1")) != 0:
+        if os.system(makecommand('ADDPROG', lt,
+                                 '-l', self.device,
+                                 '-D', "'" + self.descr + "'",
+                                 self.name,
+                                 "'" + self.paper + "'",
+                                 ">/dev/null", "2>&1")) != 0:
             QMessageBox.warning(mw, "Install error", "Could not install " + self.name)
             return False
         self.isinst = True
@@ -1030,17 +1035,30 @@ def snmpgetptr(host):
         return None
     return  string.strip(result)
 
+def getdefpaper():
+    """Discover what the default paper type is currently set to"""
+    sp = subprocess.Popen(makecommand('ULIST', '-S', '-F', '%f'), shell=True, bufsize=1024, stdout=subprocess.PIPE)
+    pap = sp.stdout.readline()
+    sp.stdout.close()
+    if sp.wait() != 0 or pap is None:
+        return ""
+    return  string.strip(pap)
+
+def setdefpaper(paper):
+    """Set default paper type to that given"""
+    if len(paper) != 0:
+        os.system(makecommand('UCHANGE', '-D', '-f', paper, '-F', paper, '-A'))
+        # Reset "my" permissions maybe we should separate permission function in -A
+        me = os.getenv('SUDO_USER', '')
+        if len(me) != 0:
+            os.system(makecommand('UCHANGE', '-p', 'ALL', me))
+
 def checkdefpaper(paper):
     """Having specified a paper type set the default paper type to fit"""
-    sp = subprocess.Popen(makecommand('ULIST', '-S', '-F', '%f'), shell=True, bufsize=1024, stdout=subprocess.PIPE)
-    existing = sp.stdout.readline()
-    sp.stdout.close()
-    if sp.wait() != 0 or existing is None:
-        return
-    existing = string.strip(existing)
-    if len(existing) == 0: return
-    if existing != 'standard' or existing == paper: return
-    os.system(makecommand('UCHANGE', '-D', '-f', paper, '-F', paper, '-A'))
+    existing = getdefpaper()
+    if existing == paper: return
+    if len(existing) == 0 or existing == 'standard':
+        setdefpaper(paper)
 
 def list_defptrs():
     """Get list of defined printers"""
@@ -1048,7 +1066,6 @@ def list_defptrs():
     global Printerlist
 
     clones = []
-
 
     try:
         ents = os.listdir(config.Locs['SPOOLPT'])
@@ -1098,10 +1115,10 @@ This version is for when the scheduler is running"""
 
     global Printerlist, mw
 
-    lp = subprocess.Popen(makecommand('LISTPROG', '-N', '-l', '-F', '%p:%d:%e'), shell=True, bufsize=1024, stdout=subprocess.PIPE)
+    lp = subprocess.Popen(makecommand('LISTPROG', '-N', '-l', '-F', '%p@%d@%e@%f'), shell=True, bufsize=1024, stdout=subprocess.PIPE)
     for line in lp.stdout:
         try:
-            ptrname, dev, descr = re.split('\s*:\s*', line)
+            ptrname, dev, descr, form = re.split('\s*@\s*', line)
         except ValueError:
             continue
 
@@ -1119,6 +1136,7 @@ This version is for when the scheduler is running"""
             QMessageBox.warning(mw, "Printer def error", ptrname + " defined as network but not installed as such")
         ptr.device = dev
         ptr.descr = descr
+        ptr.paper = form
         ptr.isinst = True
 
     lp.stdout.close()
@@ -1143,7 +1161,7 @@ This version is for when the scheduler is NOT running"""
     except IOError:
         QMessageBox.warning(mw, "Printer def error", "Cannot open tmp file")
         return
-    mre = re.compile("gspl-padd\s+-\w\s+-(\w)\s+-\w\s+[-A-Pa-p]+\s+-l\s+'(.*?)'\s+-D\s+'(.*?)'\s+(\w+)\s+'.*'")
+    mre = re.compile("gspl-padd\s+-\w\s+-(\w)\s+-\w\s+[-A-Pa-p]+\s+-l\s+'(.*?)'\s+-D\s+'(.*?)'\s+(\w+)\s+'(.*)'")
     for line in tf:
         l = string.rstring(line)
         m = mre.match(l)
@@ -1152,6 +1170,7 @@ This version is for when the scheduler is NOT running"""
             dev = m.group(2)
             descr = m.group(3)
             ptrname = m.group(4)
+            form = m.group(5)
             if ptrname not in Printerlist:
                 QMessageBox.warning(mw, "Printer def error", "Could not find installed printer " + ptrname + " in definitions")
                 continue
@@ -1163,9 +1182,31 @@ This version is for when the scheduler is NOT running"""
                     QMessageBox.warning(mw, "Printer def error", ptrname + " not defined as network but installed as such")
             ptr.device = dev
             ptr.descr = descr
+            ptr.paper = form
             ptr.isinst = True
     tf.close()
     os.unlink(tmpfile)
+
+def set_form_list(dlg, form):
+    """Set up form types in dialog selecting existing paper"""
+    global Printerlist
+    fts = dict()
+    for p in Printerlist.keys():
+        ptr = Printerlist[p]
+        pap = ptr.paper
+        if len(pap) != 0: fts[pap] = 1
+    if len(form) != 0: fts[form] = 1
+    fl = fts.keys()
+    fl.sort()
+    sel = 0
+    n = 0
+    for p in fl:
+        dlg.formtype.addItem(p)
+        if p == form: sel = n
+        n += 1
+    dlg.formtype.setCurrentIndex(sel)
+    if getdefpaper() == 'standard':
+        dlg.setdef.setChecked(True)
 
 class Cptseldlg(QDialog, ui_ptseldlg.Ui_ptseldlg):
 
@@ -1373,10 +1414,11 @@ class PtrInstallMainwin(QMainWindow, ui_ptrinstall_main.Ui_MainWindow):
             return None
         return Printerlist[self.model.printers[indx.row()]]
 
-    def performinstall(self, ptr, devn, desc):
+    def performinstall(self, ptr, devn, desc, pap):
         """Perform install of printer"""
         ptr.device = str(devn)
         ptr.descr = str(desc)
+        ptr.paper = pap
         if not ptr.performinstall(): return
         indx = self.tableView.currentIndex()
         if indx.isValid():
@@ -1847,17 +1889,24 @@ class PtrInstallMainwin(QMainWindow, ui_ptrinstall_main.Ui_MainWindow):
                 dlg = Cinstnetdlg()
             dlg.devname.setText(ptr.device)
             dlg.description.setText(ptr.descr)
-            if not dlg.exec_(): return
-            if ptr.porttype != "OTHER":
-                devn = str(dlg.devname.text())
-                try:
-                    s=socket.gethostbyname(devn)
-                except socket.gaierror:
-                    if QMessageBox.question(self,
-                                            "Unknown address",
-                                            devn + " is not a known host/IP - are you sure",
-                                            QMessageBox.Yes, QMessageBox.No|QMessageBox.Escape|QMessageBox.Default) != QMessageBox.Yes: return
-            self.performinstall(ptr, dlg.devname.text(), dlg.description.text())
+            set_form_list(dlg, ptr.paper)
+            while dlg.exec_():
+                pap = str(dlg.formtype.currentText())
+                if len(pap) == 0:
+                    QMessageBox.warning(self, "No form type given", "Please give a form type")
+                    continue
+                if ptr.porttype != "OTHER":
+                    devn = str(dlg.devname.text())
+                    try:
+                        s=socket.gethostbyname(devn)
+                    except socket.gaierror:
+                        if QMessageBox.question(self,
+                                                "Unknown address",
+                                                devn + " is not a known host/IP - are you sure",
+                                                QMessageBox.Yes, QMessageBox.No|QMessageBox.Escape|QMessageBox.Default) != QMessageBox.Yes: return
+                if dlg.setdef.isChecked():
+                    setdefpaper(pap)
+                self.performinstall(ptr, dlg.devname.text(), dlg.description.text(), pap)
         else:
             if ptr.porttype == "SERIAL":
                 g = "tty*"
@@ -1870,6 +1919,7 @@ class PtrInstallMainwin(QMainWindow, ui_ptrinstall_main.Ui_MainWindow):
             n = 0
             dlg = Cinstdevdlg()
             dlg.description.setText(ptr.descr)
+            set_form_list(dlg, ptr.paper)
             for d in ld:
                 bn = d[5:]
                 if ptr.device == d or ptr.device == bn: sel = n
@@ -1889,6 +1939,12 @@ class PtrInstallMainwin(QMainWindow, ui_ptrinstall_main.Ui_MainWindow):
                 if len(dev) == 0:
                     QMessageBox.warning(self, "No device given", "Please set a device")
                     continue
+                pap = str(dlg.formtype.currentText())
+                if len(pap) == 0:
+                    QMessageBox.warning(self, "No form type given", "Please give a form type")
+                    continue
+                if dlg.setdef.isChecked():
+                    setdefpaper(pap)
                 d = dev
                 if not os.path.isabs(d):
                     d = os.path.join('/dev', d)
@@ -1901,7 +1957,7 @@ class PtrInstallMainwin(QMainWindow, ui_ptrinstall_main.Ui_MainWindow):
                                             "Not a device",
                                             dev + " is not a device - OK",
                                             QMessageBox.Yes|QMessageBox.Default, QMessageBox.No|QMessageBox.Escape) != QMessageBox.Yes: continue
-                    self.performinstall(ptr, dev, desc)
+                    self.performinstall(ptr, dev, desc, pap)
                     return
                 if st.st_uid != config.Spooluid:
                     if QMessageBox.question(self,
@@ -1925,7 +1981,7 @@ class PtrInstallMainwin(QMainWindow, ui_ptrinstall_main.Ui_MainWindow):
                                             QMessageBox.Yes|QMessageBox.Default, QMessageBox.No|QMessageBox.Escape) == QMessageBox.Yes:
                                 #os.chmod(dev, (st.st_mode & 07777) | 0002)
                                 pass
-                self.performinstall(ptr, dev, desc)
+                self.performinstall(ptr, dev, desc, pap)
                 return
             else:
                 return
@@ -2045,6 +2101,8 @@ mw = PtrInstallMainwin()
 
 if os.geteuid() != 0:
     QMessageBox.warning(mw, "Not super-user", "Sorry, but this must be run under super-user")
+    # Seems that you have to delete the main window or we get seg error
+    del mw
     sys.exit(10)
 
 # Get existing printer definitions
@@ -2061,4 +2119,7 @@ else:
 mw.init_ptr_list()
 
 mw.show()
-sys.exit(app.exec_())
+t = app.exec_()
+# Seems that you have to delete the main window or we get seg error
+del mw
+sys.exit(t)

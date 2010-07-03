@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'psoptdlg.ui'
 #
-# Created: Tue Sep  1 15:10:56 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Sat Jul  3 23:26:43 2010
+#      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -41,12 +41,12 @@ class Ui_psoptdlg(object):
         self.gridLayout.addWidget(self.label, 3, 0, 1, 1)
         self.paper = QtGui.QComboBox(self.widget)
         self.paper.setObjectName("paper")
-        self.paper.addItem(QtCore.QString())
-        self.paper.addItem(QtCore.QString())
-        self.paper.addItem(QtCore.QString())
-        self.paper.addItem(QtCore.QString())
-        self.paper.addItem(QtCore.QString())
-        self.paper.addItem(QtCore.QString())
+        self.paper.addItem("")
+        self.paper.addItem("")
+        self.paper.addItem("")
+        self.paper.addItem("")
+        self.paper.addItem("")
+        self.paper.addItem("")
         self.gridLayout.addWidget(self.paper, 3, 1, 1, 1)
         self.label.setBuddy(self.paper)
 
