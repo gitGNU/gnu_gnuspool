@@ -788,37 +788,14 @@ MAINFN_TYPE	main(int argc, char **argv)
 	argv = optprocess(argv, Adefs, optprocs, $A{spr explain}, $A{spr freeze home}, 0);
 	SWAP_TO(Daemuid);
 
-	/* If sending to remote, invoke rspr with the same arguments
-	   we started with not the ones constructed.  Try to do
-	   it with a version of rspr parallel to the spr we
-	   started with. By the way we don't let rspr re-invoke
+	/* If sending to remote, invoke gspl-rr with the same arguments
+	   we started with not the ones constructed.
+	   By the way we don't let gspl-rr re-invoke
 	   this or we could loop forever and ever and ever and
 	   ever and ever */
 
 	if  (Out_host)  {
-		char	*epath = origargv[0];
-		char	*npath, *sp;
-
-		/* Get current directory before we start messing around */
-
-		if  (!Curr_pwd  &&  !(Curr_pwd = getenv("PWD")))
-			Curr_pwd = runpwd();
-
-		if  ((sp = strrchr(epath, '/')))  {
-			int	rp = sp - epath + 1;
-			if  (!(npath = malloc((unsigned) (strlen(epath) + 2))))
-				nomem();
-			strncpy(npath, epath, (unsigned) (sp - epath) + 1);
-			npath[rp] = 'r';
-			strcpy(&npath[rp+1], sp+1);
-		}
-		else  {
-			if  (!(npath = malloc((unsigned) (strlen(epath) + 2))))
-				nomem();
-			npath[0] = 'r';
-			strcpy(&npath[1], epath);
-			npath = spath(npath, Curr_pwd);	/* Leak here but we're about to ditch it */
-		}
+		char	*npath = spath("gspl-rr", Curr_pwd);
 		if  (!npath)  {
 			print_error($E{Cannot find rspr});
 			exit(E_USAGE);
