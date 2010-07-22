@@ -1,3 +1,0 @@
-Do you want colour printing to be the default?
-Sometimes colour is more expensive in terms of toner etc
-and routine prints should be in monochrome (black and white).

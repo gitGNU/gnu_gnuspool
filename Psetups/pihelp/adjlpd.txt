@@ -1,4 +1,0 @@
-Do you want to adjust parameters specific to the LPD protocol?
-
-This includes things like use of reserved ports, connection retries and similar
-parameters.

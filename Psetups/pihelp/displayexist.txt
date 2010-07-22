@@ -1,5 +1,0 @@
-Do you want to see a list of the currently-installed
-printers before you start?
-
-This will show defined printers which have not been
-installed.

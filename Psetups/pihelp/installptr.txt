@@ -1,2 +1,0 @@
-Do you want to complete the installation of this printer now, so it is
-visible and usable by GNUspool?

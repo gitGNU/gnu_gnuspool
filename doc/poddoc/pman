@@ -1,9 +1,0 @@
-rm -f man/* html/*
-for i in pod/*.[1-8]
-do
-	eval `echo $i|sed -e 's/\(.*\/\)\(.*\)\.\(.*\)/dir=\1 name=\2 sect=\3/'`
-	ln $i $name
-	pod2man --section=$sect --release="GNUspool Release 23" --center="GNUspool Print Manager" $name >man/$name.$sect
-	pod2html --noindex --outfile=html/${name}_$sect.html --infile=$name
-	rm -f $name
-done

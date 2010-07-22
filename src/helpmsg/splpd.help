@@ -1,7 +1,0 @@
-# $Header: /sources/gnuspool/gnuspool/src/helpmsg/splpd.help,v 1.1 2008/08/18 16:25:54 jmc Exp $
-# This file defines the prompts, help messages etc for the lpd interface
-# The numbers give "states" within the internal state machine by which
-# the program operates. These should generally be left alone.
-
-# Auto-generated beyond this line from master.
-

@@ -1,8 +1,0 @@
-<ui>
-  <menubar name='SELMenu'>
-    <menu action='SEFileMenu'>
-      <menuitem action='Clear'/>
-      <menuitem action='Quit'/>
-    </menu>
-  </menubar>
-</ui>

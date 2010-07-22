@@ -1,4 +1,0 @@
-Do you want users to be able to decide whether or not to have a banner
-page?
-
-This option allows you to control it.

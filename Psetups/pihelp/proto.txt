@@ -1,4 +1,0 @@
-Your printer offers various protocols - methods of sending the data
-over TCP/IP. Please select the one to use from the list given.
-
-We normally recommend LPD protocol.

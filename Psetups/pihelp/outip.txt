@@ -1,6 +1,0 @@
-Do you need to give a different outgoing host name or IP?
-
-We are referring to this computer not the IP or host name of the printer.
-
-This is often necessary if you have two or more network devices on your
-computer.
