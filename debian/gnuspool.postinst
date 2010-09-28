@@ -70,7 +70,7 @@ fixperms() {
 
     cd /usr/bin
     perm_suid_gnuspool gspl-rpr gspl-pr gspl-charge gspl-pq gspl-start gspl-user gspl-ulist \
-		       gspl-uchange gspl-plist gspl-qchange gspl-qlist gspl-qdel gspl-stop
+        gspl-uchange gspl-plist gspl-qchange gspl-qlist gspl-qdel gspl-stop
     perm_suid_gnuspool gspl-xpq gspl-xuser
     perm_suid_gnuspool gspl-lpq gspl-lprm
     perm_suid_gnuspool gspl-lpcover gspl-lpstatc
