@@ -105,7 +105,14 @@ fixperms() {
 
 case "$1" in
     configure)
-	    fixperms
+        if ! id -g lp > /dev/null 2>&1 ; then
+            addgroup --system lp
+        fi
+        if ! id -u gnuspool > /dev/null 2>&1 ; then
+            adduser --system --no-create-home --home /var/spool/gnuspool --gecos 'GNUspool system user,,,' --ingroup lp gnuspool
+        fi
+
+        fixperms
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
