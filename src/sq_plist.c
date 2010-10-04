@@ -61,23 +61,23 @@
 
 #define	DEFAULT_FORMAT	" %14p %10d %16f %>8s %3x %7j %7u %6w"
 
-void	dochelp(WINDOW *, const int);
-void	doerror(WINDOW *, const int);
-void	dohelp(WINDOW *, struct sctrl *, const char *);
-void	endhe(WINDOW *, WINDOW **);
-void	jdisplay(void);
-void	womsg(const int);
-void	my_wjmsg(const int);
-void	my_wpmsg(const int);
-void	offersave(char *, const int);
+extern  void  dochelp(WINDOW *, const int);
+extern  void  doerror(WINDOW *, const int);
+extern  void  dohelp(WINDOW *, struct sctrl *, const char *);
+extern  void  endhe(WINDOW *, WINDOW **);
+extern  void  jdisplay();
+extern  void  womsg(const int);
+extern  void  my_wjmsg(const int);
+extern  void  my_wpmsg(const int);
+extern  void  offersave(char *, const int);
 
-int	propts(void);
-int	view_errors(const int);
-int	fmtprocess(char **, const char, struct sq_formatdef *, struct sq_formatdef *);
+extern  int  propts();
+extern  int  view_errors(const int);
+extern  int  fmtprocess(char **, const char, struct sq_formatdef *, struct sq_formatdef *);
 
-char	**wotpprin(const char *, const int);
-char	**wottty(const char *, const int);
-char	**wotpform(const char *, const int);
+extern  char **wotpprin(const char *, const int);
+extern  char **wottty(const char *, const int);
+extern  char **wotpform(const char *, const int);
 
 static	struct	sctrl
  wst_aptr  = { $PH{spq pptr help},	wotpprin, PTRNAMESIZE,0,  1,  MAG_P|MAG_NL|MAG_FNL|MAG_LONG, 0L, 0L, (char *) 0 },
@@ -130,7 +130,7 @@ static	char	*more_amsg,	/* More after type message */
 
 /* Open print file - now a shared memory segment.  */
 
-void	openpfile(void)
+void  openpfile()
 {
 	int	i;
 
@@ -163,7 +163,7 @@ void	openpfile(void)
 
 /* Read printer list, checking on poll frequency. */
 
-void	rpfile(void)
+void  rpfile()
 {
 	unsigned oldnpp = Ptr_seg.npprocesses;
 	readptrlist(1);
@@ -227,7 +227,7 @@ static	struct	sq_formatdef
 	{	$P{Printer title}+'z'-1,	6,	0,	NULLCP, NULLCP,	fmt_maxsize	}	/* z */
 };
 
-char  *get_ptrtitle(void)
+char	*get_ptrtitle()
 {
 	int	nn, obuflen, isrjust;
 	struct	sq_formatdef	*fp;
@@ -377,7 +377,7 @@ char  *get_ptrtitle(void)
 
 /* Display contents of printer list.  Don't put it on screen yet.  */
 
-void	pdisplay(void)
+void  pdisplay()
 {
 	int	row, pcnt;
 
@@ -490,7 +490,7 @@ void	pdisplay(void)
 
 /* Parse device entry with <>s round it.  */
 
-static void	parse_dev(char *str)
+static void  parse_dev(char *str)
 {
 	if  (strncmp(str, nsmsg, lnsmsg) == 0)  {
 		int	tl;
@@ -507,7 +507,7 @@ static void	parse_dev(char *str)
 
 /* Add a printer.  Return 1 if not aborted.  */
 
-static	int	addprin(void)
+static	int  addprin()
 {
 	int	newrow = Ptr_seg.nptrs - Phline + more_above;
 	char	*str;
@@ -561,7 +561,7 @@ abortadd:
 
 /* Change class of printer.  */
 
-static	int	chngcls(void)
+static	int  chngcls()
 {
 	struct  spptr  *pp = &PREQ;
 	int	newrow = Ptr_seg.nptrs - Phline + more_above;
@@ -605,7 +605,7 @@ static	int	chngcls(void)
 
 /* Change limit on printer.  */
 
-static	int	chnglmt(const int code, ULONG *lp)
+static	int  chnglmt(const int code, ULONG *lp)
 {
 	struct  spptr  *pp = &PREQ;
 	int	newrow = Ptr_seg.nptrs - Phline + more_above;
@@ -649,7 +649,7 @@ static	int	chnglmt(const int code, ULONG *lp)
 
 /* Confirm that we really want to bypass alignment on printer.  */
 
-int	confbypa(const char *msg, const int code, const struct spptr *pp)
+int  confbypa(const char *msg, const int code, const struct spptr *pp)
 {
 	int	begy, y, x;
 	WINDOW	*awin;
@@ -751,7 +751,7 @@ static	char *gsearchs(const int isback)
 
 /* Match a printer string "vstr" against a pattern string "mstr" */
 
-static	int	smatchit(const char *vstr, const char *mstr)
+static	int  smatchit(const char *vstr, const char *mstr)
 {
 	const	char	*tp, *mp;
 	while  (*vstr)  {
@@ -770,7 +770,7 @@ static	int	smatchit(const char *vstr, const char *mstr)
 	return  0;
 }
 
-static	int	smatch(const int mline, const char *mstr)
+static	int  smatch(const int mline, const char *mstr)
 {
 	const  struct  spptr  *pp = &Ptr_seg.pp_ptrs[mline]->p;
 	return	smatchit(pp->spp_ptr, mstr) ||
@@ -782,7 +782,7 @@ static	int	smatch(const int mline, const char *mstr)
    Return 0 - need to redisplay ptrs (Phline and Peline suitably mangled)
    otherwise return error code */
 
-static	int	dosearch(const int isback)
+static	int  dosearch(const int isback)
 {
 	char	*mstr = gsearchs(isback);
 	int	mline;
@@ -815,7 +815,7 @@ static	int	dosearch(const int isback)
 	return  0;
 }
 
-static void	ptr_macro(const struct spptr *pp, const int num)
+static void  ptr_macro(const struct spptr *pp, const int num)
 {
 	char	*prompt = helpprmpt(num + $P{Printer macro}), *str;
 	static	char	*execprog;
@@ -896,9 +896,9 @@ static void	ptr_macro(const struct spptr *pp, const int num)
 			close(0);
 			close(1);
 			close(2);
-			dup(dup(open("/dev/null", O_RDWR)));
+			Ignored_error = dup(dup(open("/dev/null", O_RDWR)));
 		}
-		chdir(Curr_pwd);
+		Ignored_error = chdir(Curr_pwd);
 		execv(execprog, argbuf);
 		exit(255);
 	}
@@ -939,10 +939,9 @@ static void	ptr_macro(const struct spptr *pp, const int num)
 /* This accepts input from the screen.
    Return -1 for Q refresh, 0 to exit, 1 to change to job queue.  */
 
-int	p_process(void)
+int  p_process()
 {
-	int	changes = 0, currow, err_no;
-	int	ch, i;
+	int	changes = 0, currow, err_no, ch, i;
 	char	*str;
 	static	char	*confdelp = (char *) 0;
 

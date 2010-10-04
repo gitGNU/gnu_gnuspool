@@ -20,7 +20,7 @@
 #include "incl_unix.h"
 #include "errnums.h"
 
-char *	gprompt(const int code)
+char *gprompt(const int code)
 {
 	char	*result;
 

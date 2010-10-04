@@ -47,7 +47,7 @@ char	Ptrname[MAXVEC],
 
 int	needs_copy;
 
-static void	P_option(const char *arg)
+static void  P_option(const char *arg)
 {
 	if  (strchr(arg, ','))
 		needs_copy = 1;
@@ -61,7 +61,7 @@ static void	P_option(const char *arg)
 
 /* Delete temporary file if we are aborted */
 
-RETSIGTYPE	catchit(int n)
+RETSIGTYPE  catchit(int n)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(n, SIG_IGN);
@@ -70,7 +70,7 @@ RETSIGTYPE	catchit(int n)
 	exit(10);
 }
 
-void	copy_to_tmp(void)
+void  copy_to_tmp()
 {
 	int	ch;
 	FILE	*outf;
@@ -104,7 +104,7 @@ void	copy_to_tmp(void)
 	fclose(outf);
 }
 
-void	argcat(char *buf, char **arglist)
+void  argcat(char *buf, char **arglist)
 {
 	char	*ep = &buf[strlen(buf)], **ap;
 	int	l;
@@ -117,7 +117,7 @@ void	argcat(char *buf, char **arglist)
 	}
 }
 
-int	submit(char **arglist)
+int  submit(char **arglist)
 {
 	int	length = 1 + 6, ret;
 	char	*cbuf, *ebuf, **argp;
@@ -185,7 +185,7 @@ int	submit(char **arglist)
 	return  system(cbuf);
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	extern	char	*optarg;
 	extern	int	optind;

@@ -32,8 +32,7 @@ int	save_errno;
 
 char  **helpvec(const int n, const char chr)
 {
-	int	ch, lnum = 0;
-	int	totlines = INITLINES, percentflag = 0;
+	int	ch, lnum = 0, totlines = INITLINES, percentflag = 0;
 	char	**result;
 
 	save_errno = errno;	/*  Before someone else mangles it  */
@@ -89,7 +88,7 @@ skipn:			while  (ch != '\n'  &&  ch != EOF)
 
 /* Get me dimensions.  */
 
-void	count_hv(char **hv, int *rp, int *cp)
+void  count_hv(char **hv, int *rp, int *cp)
 {
 	int	l, rows = 0, cols = 0;
 
@@ -108,7 +107,7 @@ void	count_hv(char **hv, int *rp, int *cp)
 
 /* Deallocate a help vector */
 
-void	freehelp(char **hv)
+void  freehelp(char **hv)
 {
 	char	**hp;
 

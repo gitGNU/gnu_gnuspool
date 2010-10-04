@@ -49,8 +49,8 @@
 
 typedef	enum	{ START, HALT, STOP, INTER, OK, NOK, ADD, CHANGE, DEL, STAT_ENQ, CONN, DISCONN }  cmd_type;
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+int  spitoption(const int, const int, FILE *, const int, const int);
+int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
 char	*Curr_pwd;
 
@@ -87,7 +87,7 @@ static	char	Sufchars[] = DEF_SUFCHARS;
 
 extern	char	hostf_errors;
 
-static void	ptail(char *fname, int nlines)
+static void  ptail(char *fname, int nlines)
 {
 	FILE	*ifl = fopen(fname, "r");
 	int	cnt;
@@ -118,9 +118,10 @@ static void	ptail(char *fname, int nlines)
 
 /* Write message to scheduler.  */
 
-void	womsg(const int act, const slotno_t sl)
+void  womsg(const int act, const slotno_t sl)
 {
 	struct	spr_req	oreq;
+	int	blkcount = MSGQ_BLOCKS;
 
 	oreq.spr_mtype = MT_SCHED;
 	oreq.spr_un.o.spr_act = (USHORT) act;
@@ -131,14 +132,21 @@ void	womsg(const int act, const slotno_t sl)
 	oreq.spr_un.o.spr_netid = 0;
 	oreq.spr_un.o.spr_arg2 = 0;
 
-	while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)
-		if  (errno != EINTR)  {
-			print_error(errno == EAGAIN? $E{IPC msg q full}: $E{IPC msg q error});
+	while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
+		if  (errno != EAGAIN)  {
+			print_error($E{IPC msg q error});
 			exit(E_SETUP);
 		}
+		blkcount--;
+		if  (blkcount <= 0)  {
+			print_error($E{IPC msg q full});
+			exit(E_SETUP);
+		}
+		sleep(MSGQ_BLOCKWAIT);
+	}
 }
 
-void	my_wpmsg(const int act, const slotno_t sl, struct spptr *spp)
+void  my_wpmsg(const int act, const slotno_t sl, struct spptr *spp)
 {
 	int	ret;
 	struct	spr_req	preq;
@@ -156,7 +164,7 @@ void	my_wpmsg(const int act, const slotno_t sl, struct spptr *spp)
 	}
 }
 
-void	wexit(int n)
+void  wexit(int n)
 {
 	msg_log(SO_DMON, 0);
 	exit(n);
@@ -164,7 +172,7 @@ void	wexit(int n)
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	wexit(E_NOMEM);
@@ -172,7 +180,7 @@ void	nomem(void)
 
 /* Compare printer form type up to suffix with specified paper type. */
 
-int	compare(const char *pform, const char *sform, const int slength)
+int  compare(const char *pform, const char *sform, const int slength)
 {
 	int	ret;
 
@@ -185,7 +193,7 @@ int	compare(const char *pform, const char *sform, const int slength)
 
 /* Squeeze spaces & tabs out of thing */
 
-char *	squeezesp(char *subj)
+char	*squeezesp(char *subj)
 {
 	char	*cp2 = subj, *cp3;
 
@@ -199,7 +207,7 @@ char *	squeezesp(char *subj)
 	return  subj;
 }
 
-void	actprin(char *printer, char *line, char *paper)
+void  actprin(char *printer, char *line, char *paper)
 {
 	const  Hashspptr  *cp;
 	LONG	pind;
@@ -579,10 +587,11 @@ void	actprin(char *printer, char *line, char *paper)
 }
 
 #ifdef	NETWORK_VERSION
-static	int	doconnop(const char *hostn)
+static	int  doconnop(const char *hostn)
 {
 	struct	remote	*rp;
 	struct	spr_req	oreq;
+	int	blkcount = MSGQ_BLOCKS;
 
 	disp_str = hostn;
 	while  ((rp = get_hostfile()))
@@ -610,9 +619,17 @@ static	int	doconnop(const char *hostn)
 	oreq.spr_un.n.spr_pid = getpid();
 	oreq.spr_un.n.spr_n = *rp;
 	oreq.spr_un.n.spr_n.ht_flags &= ~HT_MANUAL;
-	if  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_nmsg), IPC_NOWAIT) < 0)  {
-		print_error(errno == EAGAIN? $E{IPC msg q full}: $E{IPC msg q error});
-		exit(E_SETUP);
+	while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_nmsg), IPC_NOWAIT) < 0)  {
+		if  (errno != EAGAIN)  {
+			print_error($E{IPC msg q error});
+			exit(E_SETUP);
+		}
+		blkcount--;
+		if  (blkcount <= 0)  {
+			print_error($E{IPC msg q full});
+			exit(E_SETUP);
+		}
+		sleep(MSGQ_BLOCKWAIT);
 	}
 	return  0;
 }
@@ -738,7 +755,7 @@ o_newdevice,	o_setclass,	o_forceall,	o_noforce,
 o_waitcompl,	o_nowait,	o_freezecd,	o_freezehd
 };
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0;
 
@@ -777,7 +794,7 @@ void	spit_options(FILE *dest, const char *name)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	*pname, *papname = (char *) 0, *dir;
 	const	char	*str;

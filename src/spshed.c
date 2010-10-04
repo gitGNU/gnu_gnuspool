@@ -82,76 +82,74 @@ union	my_semun	{
 #define	C_MASK		0077		/*  Umask value  */
 #define	IPC_MODE	0600
 
-void	lockxbuf(void);
-void	unlockxbuf(void);
+extern  void  lockxbuf();
+extern  void  unlockxbuf();
 
-void	addoper(struct sp_omsg *);
-void	addptr(struct sp_xpmsg *, struct spptr *);
-void	chjob(struct sp_xjmsg *, struct spq *);
-void	chgptr(struct sp_xpmsg *, struct spptr *);
-void	conn_attach(struct remote *);
-void	deloper(struct sp_omsg *);
-void	delptr(struct sp_omsg *);
-void	doabort(struct sp_omsg *);
-void	docharge(struct sp_cmsg *, struct spq *);
-void	enqueue(struct sp_xjmsg *, struct spq *);
-void	gop(struct sp_omsg *);
-void	halt(struct sp_omsg *);
-void	haltall(void);
-void	heoj(struct sp_omsg *);
-void	init_mwenv(int);
-void	interrupt(struct sp_omsg *);
-void	killops(void);
-void	msgptr(struct sp_omsg *);
-void	nfreport(const int);
-void	open_chfile(void);
-void	createjfile(int);
-void	createpfile(int);
-void	prdfin(struct sp_cmsg *);
-void	prdone(struct sp_cmsg *, const unsigned);
-void	prjab(struct sp_omsg *);
-void	proper(struct sp_cmsg *);
-void	restart(struct sp_omsg *);
-void	rewrjq(void);
-void	rewrpq(void);
-void	shut_host(const netid_t);
-void	tellopers(void);
-void	valspdir(void);
+extern  void  addoper(struct sp_omsg *);
+extern  void  addptr(struct sp_xpmsg *, struct spptr *);
+extern  void  chjob(struct sp_xjmsg *, struct spq *);
+extern  void  chgptr(struct sp_xpmsg *, struct spptr *);
+extern  void  conn_attach(struct remote *);
+extern  void  deloper(struct sp_omsg *);
+extern  void  delptr(struct sp_omsg *);
+extern  void  doabort(struct sp_omsg *);
+extern  void  enqueue(struct sp_xjmsg *, struct spq *);
+extern  void  gop(struct sp_omsg *);
+extern  void  halt(struct sp_omsg *);
+extern  void  haltall();
+extern  void  heoj(struct sp_omsg *);
+extern  void  init_mwenv(int);
+extern  void  interrupt(struct sp_omsg *);
+extern  void  killops();
+extern  void  msgptr(struct sp_omsg *);
+extern  void  nfreport(const int);
+extern  void  createjfile(int);
+extern  void  createpfile(int);
+extern  void  prdfin(struct sp_cmsg *);
+extern  void  prdone(struct sp_cmsg *, const unsigned);
+extern  void  prjab(struct sp_omsg *);
+extern  void  proper(struct sp_cmsg *);
+extern  void  restart(struct sp_omsg *);
+extern  void  rewrjq();
+extern  void  rewrpq();
+extern  void  shut_host(const netid_t);
+extern  void  tellopers();
+extern  void  valspdir();
 #ifdef	NETWORK_VERSION
-void	attach_hosts(void);
-void	clearhost(const netid_t);
-void	confirm_print(struct sp_omsg *);
-void	endsync(const netid_t);
-void	jpassign(struct sp_omsg *);
-void	locpassign(struct sp_omsg *);
-struct remote *	alloc_roam(const netid_t, const char *);
-void	net_initsync(void);
-void	net_xmit(const netid_t, const int, const LONG);
-void	netmonitor(void);
-void	netshut(void);
-void	netsync(void);
-void	newhost(void);
-int	rattach(struct remote *);
-void	remchjob(struct sp_xjmsg *, struct spq *);
-void	remdequeue(struct sp_omsg *);
-void	rem_notify(struct sp_omsg *);
-void	rempropose(struct sp_omsg *);
-void	sendsync(const netid_t);
-void	unassign_job(struct sp_xjmsg *, struct spq *);
-void	unassign_remjob(struct sp_xjmsg *, struct spq *);
-void	unassign_ptr(struct sp_xpmsg *, struct spptr *);
+extern  void  attach_hosts();
+extern  void  clearhost(const netid_t);
+extern  void  confirm_print(struct sp_omsg *);
+extern  void  endsync(const netid_t);
+extern  void  jpassign(struct sp_omsg *);
+extern  void  locpassign(struct sp_omsg *);
+extern  struct remote *alloc_roam(const netid_t, const char *);
+extern  void  net_initsync();
+extern  void  net_xmit(const netid_t, const int, const LONG);
+extern  void  netmonitor();
+extern  void  netshut();
+extern  void  netsync();
+extern  void  newhost();
+extern  int  rattach(struct remote *);
+extern  void  remchjob(struct sp_xjmsg *, struct spq *);
+extern  void  remdequeue(struct sp_omsg *);
+extern  void  rem_notify(struct sp_omsg *);
+extern  void  rempropose(struct sp_omsg *);
+extern  void  sendsync(const netid_t);
+extern  void  unassign_job(struct sp_xjmsg *, struct spq *);
+extern  void  unassign_remjob(struct sp_xjmsg *, struct spq *);
+extern  void  unassign_ptr(struct sp_xpmsg *, struct spptr *);
 #endif
-void	report(const int);
+extern  void  report(const int);
 
-unsigned	qpurge(void);
-unsigned	selectj(void);
+extern  unsigned  qpurge();
+extern  unsigned  selectj();
 
 #ifdef	NETWORK_VERSION
-unsigned	conn_process(const int, struct sp_nmsg *);
-unsigned	nettickle(void);
+extern  unsigned  conn_process(const int, struct sp_nmsg *);
+extern  unsigned  nettickle();
 
-struct remote	*	find_connected(const netid_t);
-struct remote	*	find_probe(const netid_t);
+extern  struct remote	*find_connected(const netid_t);
+extern  struct remote	*find_probe(const netid_t);
 #endif
 
 float	pri_decrement = 1.0;	/* Decrement in priority assignment */
@@ -197,7 +195,7 @@ time_t	hadalarm;
 
 int	Network_ok;		/* Set if skipping networking */
 
-void	do_exit(const int n)
+void  do_exit(const int n)
 {
 #ifndef	USING_FLOCK
 	union	my_semun	uun;
@@ -246,7 +244,7 @@ void	do_exit(const int n)
 	exit(n);
 }
 
-void	nomem(void)
+void  nomem()
 {
 	report($E{NO MEMORY});
 	do_exit(E_NOMEM);
@@ -254,7 +252,7 @@ void	nomem(void)
 
 /* Synchronise files.  */
 
-void	syncfls(void)
+void  syncfls()
 {
 	if  (Ptr_seg.Last_ser)  {
 		rewrpq();
@@ -268,7 +266,7 @@ void	syncfls(void)
 
 /* Try to exit gracefully and quickly....  */
 
-RETSIGTYPE	niceend(int signum)
+RETSIGTYPE  niceend(int signum)
 {
 	if  (signum < NSIG)  {
 #ifdef	UNSAFE_SIGNALS
@@ -292,7 +290,7 @@ RETSIGTYPE	niceend(int signum)
 /* Open IPC channel.  Done whilst we are still super-user as we use it
    as a lock file and we want to attach hosts etc as super-user.  */
 
-void	openrfile(void)
+void  openrfile()
 {
 	char	*xfers;
 #ifndef	USING_FLOCK
@@ -357,10 +355,10 @@ void	openrfile(void)
 		report($E{Cannot create xfer shm});
 #ifdef	HAVE_FCHOWN
 	if  (Daemuid)
-		fchown(Xfermmfd, Daemuid, getgid());
+		Ignored_error = fchown(Xfermmfd, Daemuid, getgid());
 #else
 	if  (Daemuid)
-		chown(XFMMAP_FILE, Daemuid, getgid());
+		Ignored_error = chown(XFMMAP_FILE, Daemuid, getgid());
 #endif
 	fcntl(Xfermmfd, F_SETFD, 1);
 	lseek(Xfermmfd, (long) (rqsize - 1), 0);
@@ -409,7 +407,7 @@ void	openrfile(void)
 
 /* Get a shared memory id, and increment key.  */
 
-int	gshmchan(struct spshm_info *infp, const int off)
+int  gshmchan(struct spshm_info *infp, const int off)
 {
 #ifdef	USING_MMAP
 	LONG	pagesize = sysconf(_SC_PAGE_SIZE);
@@ -524,7 +522,7 @@ int	gshmchan(struct spshm_info *infp, const int off)
 #endif
 }
 
-void	op_process(const int bytes, struct sp_omsg *req)
+void  op_process(const int bytes, struct sp_omsg *req)
 {
 	if  (bytes != sizeof(struct sp_omsg))  {
 		disp_arg[9] = bytes;
@@ -649,7 +647,7 @@ void	op_process(const int bytes, struct sp_omsg *req)
 	}
 }
 
-static struct joborptr *fetch_ptr(void)
+static struct joborptr *fetch_ptr()
 {
 	struct	joborptr  *result;
 	lockxbuf();
@@ -664,7 +662,7 @@ static struct joborptr *fetch_ptr(void)
 	return  result;
 }
 
-void	pr_process(const int bytes, struct sp_xpmsg *req)
+void  pr_process(const int bytes, struct sp_xpmsg *req)
 {
 	struct	joborptr  *pp;
 	struct	spptr	inptr;
@@ -705,7 +703,7 @@ void	pr_process(const int bytes, struct sp_xpmsg *req)
 	}
 }
 
-void	ch_process(const int bytes, struct sp_cmsg *req)
+void  ch_process(const int bytes, struct sp_cmsg *req)
 {
 	if  (bytes != sizeof(struct sp_cmsg))  {
 		disp_arg[9] = bytes;
@@ -731,15 +729,12 @@ void	ch_process(const int bytes, struct sp_cmsg *req)
 		proper(req);
 		break;
 
-#ifdef	NETWORK_VERSION
 	case  SPD_CHARGE:
-		docharge(req, (struct spq *) 0);
 		break;
-#endif
 	}
 }
 
-void	jb_process(const int bytes, struct sp_xjmsg *req)
+void  jb_process(const int bytes, struct sp_xjmsg *req)
 {
 	struct	joborptr  *pp;
 	struct	spq	injob;
@@ -788,7 +783,7 @@ void	jb_process(const int bytes, struct sp_xjmsg *req)
 }
 
 #ifdef	NETWORK_VERSION
-unsigned	conn_process(const int bytes, struct sp_nmsg *req)
+unsigned  conn_process(const int bytes, struct sp_nmsg *req)
 {
 	struct	remote	*rp;
 
@@ -849,7 +844,7 @@ unsigned	conn_process(const int bytes, struct sp_nmsg *req)
 
 /* Catch alarm signals.  */
 
-RETSIGTYPE	acatch(int n)
+RETSIGTYPE  acatch(int n)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(n, acatch);
@@ -859,7 +854,7 @@ RETSIGTYPE	acatch(int n)
 
 /* This routine is the main process.  */
 
-void	process(void)
+void  process()
 {
 	struct	spr_req	inreq;
 	int	bytes;
@@ -1003,8 +998,6 @@ void	process(void)
 			break;
 #endif
 		case  SOU_PWCHANGED:
-			un_rpwfile();
-			rpwfile();	/* Reread straight away don't want netmon doing it */
 #ifdef	NETWORK_VERSION
 			if  (Netm_pid)
 				kill(Netm_pid, NETSHUTSIG);
@@ -1052,7 +1045,7 @@ void	process(void)
 /* Ye olde main routine.
    Take initial job and printer allocations as parameters */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 #ifndef	DEBUG
 	PIDTYPE	pid;
@@ -1143,8 +1136,6 @@ MAINFN_TYPE	main(int argc, char **argv)
 		report($E{Cannot chdir});
 
 	valspdir();
-
-	open_chfile();
 
 	openrfile();
 

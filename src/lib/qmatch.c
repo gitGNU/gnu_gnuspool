@@ -20,10 +20,10 @@
 #include <ctype.h>
 #include "incl_unix.h"
 
-extern int	isinrange(const int, const char *, int *);
-extern char	*match_comma(char *);
+extern int  isinrange(const int, const char *, int *);
+extern char *match_comma(char *);
 
-static int	ematch(char *pattern, const char *value)
+static int  ematch(char *pattern, const char *value)
 {
 	int	cnt;
 
@@ -69,7 +69,7 @@ static int	ematch(char *pattern, const char *value)
 	}
 }
 
-int	qmatch(char *pattern, const char *value)
+int  qmatch(char *pattern, const char *value)
 {
 	int	res;
 	char	*cp;

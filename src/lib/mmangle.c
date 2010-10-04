@@ -58,9 +58,8 @@ static char *concat(const char *first, const char *insert, const char *rmb, cons
 
 char  **mmangle(char **mvec)
 {
-	char	**mp;
 	int	n;
-	char	*line, *cp, *newline;
+	char	**mp, *line, *cp, *newline;
 	const	char	*fmt;
 	char	numb[30];
 

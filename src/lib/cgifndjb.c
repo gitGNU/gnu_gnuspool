@@ -33,7 +33,7 @@
 #include "displayopt.h"
 #include "cgifndjb.h"
 
-int	numeric(const char *x)
+int  numeric(const char *x)
 {
 	while  (*x)  {
 		if  (!isdigit(*x))
@@ -43,7 +43,7 @@ int	numeric(const char *x)
 	return  1;
 }
 
-int	decode_jnum(char *jnum, struct jobswanted *jwp)
+int  decode_jnum(char *jnum, struct jobswanted *jwp)
 {
 	char	*cp;
 
@@ -69,7 +69,7 @@ int	decode_jnum(char *jnum, struct jobswanted *jwp)
 	return  0;
 }
 
-int	decode_pname(char *pname, struct ptrswanted *pwp)
+int  decode_pname(char *pname, struct ptrswanted *pwp)
 {
 	char	*cp;
 
@@ -90,7 +90,7 @@ int	decode_pname(char *pname, struct ptrswanted *pwp)
 	return  1;
 }
 
-const  Hashspq  *find_job(struct jobswanted *jw)
+const Hashspq *find_job(struct jobswanted *jw)
 {
 	LONG  jind;
 
@@ -111,7 +111,7 @@ const  Hashspq  *find_job(struct jobswanted *jw)
 	return  (Hashspq *) 0;
 }
 
-const  Hashspptr  *find_ptr(struct ptrswanted *pw)
+const Hashspptr *find_ptr(struct ptrswanted *pw)
 {
 	LONG  pind;
 

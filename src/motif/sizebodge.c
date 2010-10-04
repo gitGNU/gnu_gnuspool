@@ -34,7 +34,7 @@ static	FILE	*bodgefile;
 #define	PATH_MAX	1024
 #endif
 
-void	bodge_open(void)
+void  bodge_open()
 {
 	char	*hm;
 	char	Path[PATH_MAX];
@@ -52,7 +52,7 @@ void	bodge_open(void)
 	bodgefile = fopen(Path, "r");
 }
 
-void	bodge_size(Widget w, CONST char *dlgname)
+void  bodge_size(Widget w, CONST char *dlgname)
 {
 	int	ch, hadeof = 0;
 	Dimension	width, height;
@@ -91,9 +91,7 @@ void	bodge_size(Widget w, CONST char *dlgname)
 		if  (ch != ':')
 			goto  skiprest;
 
-		/*
-		 *	Read pgm name, get dlg name
-		 */
+		/* Read pgm name, get dlg name */
 
 		cp = dlgname;
 		do  {
@@ -106,9 +104,7 @@ void	bodge_size(Widget w, CONST char *dlgname)
 		if  (ch != ':')
 			goto  skiprest;
 
-		/*
-		 *	Skip over any space and read width
-		 */
+		/* Skip over any space and read width */
 
 		do  ch = getc(bodgefile);
 		while  (isspace(ch));
@@ -120,9 +116,7 @@ void	bodge_size(Widget w, CONST char *dlgname)
 		while  (isspace(ch))
 			ch = getc(bodgefile);
 
-		/*
-		 *	Read , and repeat for height, reject trailing garbage.
-		 */
+		/* Read , and repeat for height, reject trailing garbage. */
 
 		if  (ch != ',')
 			goto  skiprest;

@@ -19,11 +19,15 @@
 #include <stdio.h>
 #include "incl_unix.h"
 
+/* Include this here as it's used virtually everywhere */
+
+int	Ignored_error;
+
 /* Yes I have heard of strdup but the versions of Unix on which this
    was first implemented back in 1984 hadn't. Yes I'll change it later.
    Anyway I want to call nomem() if we're out of memory */
 
-char  *stracpy(const char *s)
+char *stracpy(const char *s)
 {
 	unsigned  l = strlen(s) + 1;
 	char	*r;

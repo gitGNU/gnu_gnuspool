@@ -85,26 +85,26 @@ struct	ber_parse_status  {
 	unsigned	seq_left; 		/* Length left */
 };
 
-extern void	asn_nodefree(struct asn_node *);
-extern void	asn_free_sequence(struct asn_node *);
-extern void	ber_enc_init(struct ber_encoding *);
-extern void	ber_enc_free(struct ber_encoding *);
-extern void	parse_stat_init(struct ber_parse_status *, asn_octet *, const unsigned);
+extern void  asn_nodefree(struct asn_node *);
+extern void  asn_free_sequence(struct asn_node *);
+extern void  ber_enc_init(struct ber_encoding *);
+extern void  ber_enc_free(struct ber_encoding *);
+extern void  parse_stat_init(struct ber_parse_status *, asn_octet *, const unsigned);
 
-extern struct asn_node *asn_nodealloc(void);
+extern struct asn_node *asn_nodealloc();
 extern struct asn_node *asn_alloc_bool(const int);
 extern struct asn_node *asn_alloc_int(const long);
 extern struct asn_node *asn_alloc_unsigned(const unsigned long);
 extern struct asn_node *asn_alloc_string(const char *);
 extern struct asn_node *asn_alloc_objid(const char *);
-extern struct asn_node *asn_alloc_null(void);
+extern struct asn_node *asn_alloc_null();
 extern struct asn_node *asn_alloc_sequence(const unsigned);
 extern struct asn_node *asn_addnext(struct asn_node *, struct asn_node *);
 extern struct asn_node *asn_addchild(struct asn_node *, struct asn_node *);
 extern struct asn_node *parse_asn_item(struct ber_parse_status *);
 
-extern unsigned	ber_encode(asn_octet **, struct asn_node *);
-extern unsigned long	asn_conv_unsigned(struct asn_node *);
+extern unsigned  ber_encode(asn_octet **, struct asn_node *);
+extern unsigned long  asn_conv_unsigned(struct asn_node *);
 
-extern void	prinbuf(asn_octet *, const unsigned);
-extern void	prin_asn(struct asn_node *, const int);
+extern void  prinbuf(asn_octet *, const unsigned);
+extern void  prin_asn(struct asn_node *, const int);

@@ -37,7 +37,7 @@ int	ncstrcmp(const char *a, const char *b)
 	}
 }
 
-int	ncstrncmp(const char *a, const char *b, int n)
+int  ncstrncmp(const char *a, const char *b, int n)
 {
 	int	ac, bc;
 

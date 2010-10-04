@@ -32,7 +32,7 @@ int	qsort_ptrs(const Hashspptr **, const Hashspptr **);
 
 /* Read through ptrs list and prune according to the options */
 
-void	readptrlist(const int andunlock)
+void  readptrlist(const int andunlock)
 {
 	LONG	pind;
 

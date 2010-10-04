@@ -16,7 +16,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-
 #include <stdio.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -53,8 +52,8 @@
 
 #define	LOCALHOST_NAME	"localhost"
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+int  spitoption(const int, const int, FILE *, const int, const int);
+int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
 extern	char	freeze_wanted;
 char	freeze_cd, freeze_hd;
@@ -82,7 +81,7 @@ struct	prin_params  {
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -99,7 +98,7 @@ const struct spptr *find_ptr(char *ptr)
 
 /* Anchored version of find2nd */
 
-static int	match2nd(const char *subj, const char *comp)
+static int  match2nd(const char *subj, const char *comp)
 {
 	int	lng;
 	return  strncmp(subj, comp, lng = strlen(comp)) == 0? lng: 0;
@@ -109,7 +108,7 @@ static int	match2nd(const char *subj, const char *comp)
    then return the index of the first char of the first string after
    the matched string. */
 
-static int	find2nd(const char *subj, const char *comp)
+static int  find2nd(const char *subj, const char *comp)
 {
 	const	char	*cp, *np;
 	int	ret;
@@ -122,7 +121,7 @@ static int	find2nd(const char *subj, const char *comp)
 
 /* Having found the control file for xtlpc, plug in data therefrom */
 
-static int	parse_xtctrl(FILE *cfile, struct prin_params *ppars)
+static int  parse_xtctrl(FILE *cfile, struct prin_params *ppars)
 {
 	char	**other = ppars->other;
 	char	linbuf[200];
@@ -182,7 +181,7 @@ static int	parse_xtctrl(FILE *cfile, struct prin_params *ppars)
 /* Grab argument from buffer, expanding environment vars
    and advancing pointer */
 
-char  *grabarg(char **bufp)
+char *grabarg(char **bufp)
 {
 	char	*result, *cp, save;
 
@@ -198,7 +197,7 @@ char  *grabarg(char **bufp)
 	return  result;
 }
 
-int	parse_xtlpccmd(struct prin_params *ppars, char *buf)
+int  parse_xtlpccmd(struct prin_params *ppars, char *buf)
 {
 	char	*workhost, *workptr, **other, *filename;
 	FILE	*cfile;
@@ -325,7 +324,7 @@ int	parse_xtlpccmd(struct prin_params *ppars, char *buf)
 	}
 }
 
-FILE  *getexec(char *cmd)
+FILE *getexec(char *cmd)
 {
 	char	*ec, *pathenv, *ep;
 	int	plen, clen;
@@ -370,7 +369,7 @@ FILE  *getexec(char *cmd)
 	return  fopen(bld, "r");
 }
 
-int	lookat_cmd(const int level, char *cmd, struct prin_params *ppars)
+int  lookat_cmd(const int level, char *cmd, struct prin_params *ppars)
 {
 	int	len = find2nd(cmd, "xtlpc "), cnt;
 	FILE	*fp;
@@ -457,7 +456,7 @@ int	lookat_cmd(const int level, char *cmd, struct prin_params *ppars)
    for consistency. We run spdinit as it is pointless writing the code
    twice (and I keep thinking I ought to change it). */
 
-int	parse_su(struct prin_params *ppars)
+int  parse_su(struct prin_params *ppars)
 {
 	char	*diname = envprocess(DAEMINIT);
 	char	*bldcmd;
@@ -543,9 +542,9 @@ int	parse_su(struct prin_params *ppars)
 }
 
 #ifdef SP_LPRM
-void	sppremove(char *ptr, char **arglist)
+void  sppremove(char *ptr, char **arglist)
 #else
-void	sppdisplay(char *ptr)
+void  sppdisplay(char *ptr)
 #endif
 {
 	char	**ccptr;
@@ -586,9 +585,9 @@ void	sppdisplay(char *ptr)
 }
 
 #ifdef SP_LPRM
-void	premove(char *ptr, char **arglist)
+void  premove(char *ptr, char **arglist)
 #else
-void	pdisplay(char *ptr)
+void  pdisplay(char *ptr)
 #endif
 {
 	const  struct  spptr  *pp = find_ptr(ptr);
@@ -730,7 +729,7 @@ o_spechost,
 o_freezecd,	o_freezehd
 };
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 #ifdef SP_LPRM
 	fprintf(dest, "%s", name);
@@ -754,7 +753,7 @@ void	spit_options(FILE *dest, const char *name)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	*pdir;
 #if	defined(NHONSUID) || defined(DEBUG)

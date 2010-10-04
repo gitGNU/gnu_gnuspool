@@ -52,18 +52,18 @@
 
 #define	HANGTIME	100	/* Suitably long */
 
-void	exec_prep(const int, const int);
-int	exec_wait(void);
-void	nfreport(const int);
-void	report(const int);
-FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
-void	path_execute(char *, char *, const int);
-void	holdorignore(const int);
-void	seterrorstate(const char *);
-void	setofflinestate(void);
-RETSIGTYPE	catchoff(int);
+extern	void	exec_prep(const int, const int);
+extern  int	exec_wait();
+extern	void	nfreport(const int);
+extern	void	report(const int);
+extern	FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+extern	void	path_execute(char *, char *, const int);
+extern	void	holdorignore(const int);
+extern	void	seterrorstate(const char *);
+extern	void	setofflinestate();
+extern	RETSIGTYPE  catchoff(int);
 #ifndef	UNSAFE_SIGNALS
-void	unhold(const int);
+void  unhold(const int);
 #endif
 extern	void	set_signal(const int, RETSIGTYPE (*)(int));
 
@@ -99,7 +99,7 @@ extern	struct	spptr	*Pptr;		/*  Current ptr descr */
 
 static	int	hadalarm, filt_stop;
 
-RETSIGTYPE	do_filt_stop(int n)
+RETSIGTYPE  do_filt_stop(int n)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(n, do_filt_stop);
@@ -107,7 +107,7 @@ RETSIGTYPE	do_filt_stop(int n)
 	filt_stop++;
 }
 
-RETSIGTYPE	catch_alsig(int n)
+RETSIGTYPE  catch_alsig(int n)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(SIGALRM, catch_alsig);
@@ -118,7 +118,7 @@ RETSIGTYPE	catch_alsig(int n)
 /* Close network filter. Check for exit codes.
    Return 1 or 0 in the specific case where we get an abort message */
 
-int	closenetfilt(void)
+int  closenetfilt()
 {
 #ifndef	HAVE_WAITPID
 	PIDTYPE	wpid;
@@ -270,7 +270,7 @@ int	closenetfilt(void)
 /* Close device (or network filter).
    Return 1 if OK 0 if we had an interrupt on a network filter */
 
-int	closedev(void)
+int  closedev()
 {
 	if  (pfile < 0)		/* Not open forget it */
 		return  1;
@@ -383,7 +383,7 @@ int	closedev(void)
 
 /* Catch offline type messages (from SIGHUP and SIGALRM).  */
 
-RETSIGTYPE	catchoff(int n)
+RETSIGTYPE  catchoff(int n)
 {
 	set_signal(SIGHUP, SIG_IGN);
 	set_signal(SIGALRM, SIG_IGN);
@@ -396,7 +396,7 @@ RETSIGTYPE	catchoff(int n)
 /* Fire off a process (if possible) to remember standard error from
    our printer when as terminal server */
 
-static	int	savefeedback(void)
+static	int  savefeedback()
 {
 	PIDTYPE	fpid;
 	int	pfs[2];
@@ -458,7 +458,7 @@ static	int	savefeedback(void)
 
 /* Open device.  */
 
-int	opendev(void)
+int  opendev()
 {
 	if  (netfilter)  {
 		int	pfs[2];
@@ -473,13 +473,13 @@ int	opendev(void)
 		if  (netfiltpid == 0)  {
 			close(pfs[1]);
 			close(0);	/*  Cfile I think  */
-			dup(pfs[0]);	/*  Should be 0 now */
+			Ignored_error = dup(pfs[0]);	/*  Should be 0 now */
 			close(pfs[0]);
 			close(1);
 			open("/dev/null", O_RDWR); /* Should be fd 1 */
 			if  (!(in_params.pi_flags & (PI_LOGERROR | PI_FBERROR)  &&  savefeedback()))  {
 				close(2);	/* So attach /dev/null instead */
-				dup(1);
+				Ignored_error = dup(1);
 			}
 			/* Set process group to try to insulate the main path
 			   from attempts to kill me */
@@ -530,7 +530,7 @@ int	opendev(void)
 			close(0); /* If the guy doesn't like these he can > or < them*/
 			close(1);
 			close(2);
-			dup(dup(dup(pfile)));
+			Ignored_error = dup(dup(dup(pfile)));
 			close(pfile);
 			path_execute("STTY", sttystring, (in_params.pi_flags & PI_EXSTTY)? 1: 0);
 			exit(255);
@@ -637,7 +637,7 @@ int	opendev(void)
 
 /* Output a bufferful, and check for offline indications.  */
 
-void	pout(char *buf, int size)
+void  pout(char *buf, int size)
 {
 	int	nbytes;
 
@@ -660,7 +660,7 @@ void	pout(char *buf, int size)
 	alarm(0);
 }
 
-void	stuffch(const int ch)
+void  stuffch(const int ch)
 {
 	outbuf[outb_ptr] = (char) ch;
 	if  (++outb_ptr >= in_params.pi_obuf)  {
@@ -670,7 +670,7 @@ void	stuffch(const int ch)
 	}
 }
 
-void	pchar(const int ch)
+void  pchar(const int ch)
 {
 	if  (ch == '\n'  &&  in_params.pi_flags2 & PI_ADDCR)
 		stuffch('\r');
@@ -678,7 +678,7 @@ void	pchar(const int ch)
 	Num_sent++;
 }
 
-void	pflush(void)
+void  pflush()
 {
 	if  (outb_ptr > 0)  {
 		pout(outbuf, outb_ptr);
@@ -701,7 +701,7 @@ void	pflush(void)
 
 /* Open filter process.  */
 
-void	filtopen(void)
+void  filtopen()
 {
 	int	pfs[2];
 
@@ -726,7 +726,7 @@ void	filtopen(void)
 	if  (filtpid == 0)  {
 		close(pfs[1]);
 		close(0);	/*  Cfile I think  */
-		dup(pfs[0]);	/*  Should be 0 now */
+		Ignored_error = dup(pfs[0]);	/*  Should be 0 now */
 		close(pfs[0]);
 		exec_prep(pfile, errfd); /* Sets setpgrp */
 		set_signal(SIGPIPE, SIG_DFL);
@@ -739,7 +739,7 @@ void	filtopen(void)
 		report($E{Cannot fdopen pipe});
 }
 
-void	fpush(const int ch)
+void  fpush(const int ch)
 {
 	if  (ffile)  {
 		if  (Num_sent % in_params.pi_obuf == 0)
@@ -754,7 +754,7 @@ void	fpush(const int ch)
    FC_NOERR set.  If FC_AB is set kill the process group.
    If FC_KILL is set kill it with SIGKILL */
 
-int	filtclose(const int fcflags)
+int  filtclose(const int fcflags)
 {
 #ifndef	HAVE_WAITPID
 	PIDTYPE	pid;
@@ -832,7 +832,7 @@ int	filtclose(const int fcflags)
 	   take it...  */
 
 	if  (!(fcflags & FC_NOERR))
-		link(jerrf, mkspid(ERNAM, Cjob->spq_job));
+		Ignored_error = link(jerrf, mkspid(ERNAM, Cjob->spq_job));
 
 	unlink(jerrf);
 	return  SPD_DERR;
@@ -840,7 +840,7 @@ int	filtclose(const int fcflags)
 
 /* Port set up before we first open.  */
 
-int	doportsu(void)
+int  doportsu()
 {
 	if  ((childproc = fork()) == 0)  {
 		/* We think that we have already connected fds 0 to 2
@@ -862,7 +862,7 @@ int	doportsu(void)
 
 /* Open job file */
 
-FILE  *getjobfile(struct spq *jp, const int feedtype)
+FILE *getjobfile(struct spq *jp, const int feedtype)
 {
 	if  (jp->spq_netid)
 		return  net_feed(feedtype, jp->spq_netid, jp->spq_rslot, jp->spq_job);

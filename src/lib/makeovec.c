@@ -20,11 +20,10 @@
 
 struct	optv	optvec[MAX_ANY_ARGS];
 
-void	makeoptvec(const HelpargRef ha, const int firstarg, const int lastarg)
+void  makeoptvec(const HelpargRef ha, const int firstarg, const int lastarg)
 {
-	int	i;
+	int	i, v;
 	HelpargkeyRef	hk;
-	int	v;
 
 	for  (i = 0;  i < ARG_ENDV - ARG_STARTV + 1;  i++)  {
 		v = ha[i].value - firstarg;

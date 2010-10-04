@@ -68,12 +68,12 @@ static	char	rcsid2[] = "@(#) $Revision: 1.1 $";
 #include "xmmenu.h"
 #include "displayopt.h"
 
-void	jdisplay(void);
-void	openjfile(void);
-void	openpfile(void);
-void	pdisplay(void);
+void	jdisplay();
+void	openjfile();
+void	openpfile();
+void	pdisplay();
 #if defined(HAVE_XMRENDITION) && !defined(BROKEN_RENDITION)
-void	allocate_colours(void);
+extern  void  allocate_colours();
 #endif
 
 char	Confvarname[] = "XMSPQCONF";
@@ -142,9 +142,9 @@ typedef	struct	{
 	int	rtime, rint;
 }  vrec_t;
 
-static void	cb_about(void);
-static void	cb_quit(Widget, int);
-static void	cb_saveopts(Widget);
+static void  cb_about();
+static void  cb_quit(Widget, int);
+static void  cb_saveopts(Widget);
 
 static	XtResource	resources[] = {
 	{ "toolbarPresent", "ToolbarPresent", XtRBoolean, sizeof(Boolean),
@@ -298,18 +298,18 @@ static	tool_button	toollist[] = {
    we don't want to include some -libucb which pulls in funny
    sprintfs etc */
 
-void	bcopy(void *from, void *to, unsigned count)
+void  bcopy(void *from, void *to, unsigned count)
 {
 	memcpy(to, from, count);
 }
 
-void	bzero(void *to, unsigned count)
+void  bzero(void *to, unsigned count)
 {
 	memset(to, '\0', count);
 }
 #endif
 
-void	exit_cleanup(void)
+void  exit_cleanup()
 {
 	if  (Ctrl_chan >= 0)
 		womsg(SO_DMON);
@@ -318,7 +318,7 @@ void	exit_cleanup(void)
 /* Don't put exit as a callback or we'll get some weird exit code
    based on a Widget pointer.  */
 
-static void	cb_quit(Widget w, int n)
+static void  cb_quit(Widget w, int n)
 {
 #ifndef	HAVE_ATEXIT
 	exit_cleanup();
@@ -326,12 +326,12 @@ static void	cb_quit(Widget w, int n)
 	exit(n);
 }
 
-static void	dumpbool(FILE *tf, char *name, const int value)
+static void  dumpbool(FILE *tf, char *name, const int value)
 {
 	fprintf(tf, "%s.%s:\t%s\n", progname, name, value? "True": "False");
 }
 
-static void	cb_saveopts(Widget w)
+static void  cb_saveopts(Widget w)
 {
 	char	*srfile = (char *) 0, *hf;
 	FILE	*inf, *tf;
@@ -403,7 +403,7 @@ static void	cb_saveopts(Widget w)
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 #ifndef	HAVE_ATEXIT
@@ -414,7 +414,7 @@ void	nomem(void)
 
 /* If we get a message error die appropriately */
 
-static void	msg_error(const int ret)
+static void  msg_error(const int ret)
 {
 	doerror(jwid, ret);
 	exit(E_SETUP);
@@ -422,14 +422,21 @@ static void	msg_error(const int ret)
 
 /* Write messages to scheduler.  */
 
-void	womsg(const int act)
+void  womsg(const int act)
 {
+	int	blkcount = MSGQ_BLOCKS;
 	oreq.spr_un.o.spr_act = (USHORT) act;
-	if  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)
-		msg_error(errno == EAGAIN? $EH{IPC msg q full}: $EH{IPC msg q error});
+	while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
+		if  (errno != EAGAIN)
+			msg_error($EH{IPC msg q error});
+		blkcount--;
+		if  (blkcount <= 0)
+			msg_error($EH{IPC msg q full});
+		sleep(MSGQ_BLOCKWAIT);
+	}
 }
 
-void	my_wjmsg(const int act)
+void  my_wjmsg(const int act)
 {
 	int	ret;
 	jreq.spr_un.j.spr_act = (USHORT) act;
@@ -437,7 +444,7 @@ void	my_wjmsg(const int act)
 		msg_error(ret);
 }
 
-void	my_wpmsg(const int act)
+void  my_wpmsg(const int act)
 {
 	int	ret;
 	preq.spr_un.p.spr_act = (USHORT) act;
@@ -445,7 +452,7 @@ void	my_wpmsg(const int act)
 		msg_error(ret);
 }
 
-static void	cb_about(void)
+static void  cb_about()
 {
 	Widget		dlg;
 	char	buf[sizeof(rcsid1) + sizeof(rcsid2) + 2];
@@ -463,7 +470,7 @@ static void	cb_about(void)
 
 /* This deals with alarm calls whilst polling.  */
 
-void	pollit(int n, XtIntervalId id)
+void  pollit(int n, XtIntervalId id)
 {
 	Ptimeout = (XtIntervalId) 0;
 
@@ -513,13 +520,13 @@ static RETSIGTYPE	sh_markit(int sig)
 
 /* Other signals are errors Suppress final message....  */
 
-static RETSIGTYPE	sigerr(int n)
+static RETSIGTYPE  sigerr(int n)
 {
 	Ctrl_chan = -1;
 	exit(E_SIGNAL);
 }
 
-Widget	BuildPulldown(Widget menub, pull_button *item)
+Widget  BuildPulldown(Widget menub, pull_button *item)
 {
 	int	cnt;
 	Widget	pulldown, cascade, button;
@@ -556,7 +563,7 @@ Widget	BuildPulldown(Widget menub, pull_button *item)
 	return  NULL;
 }
 
-static void  setup_macros(Widget menub, const int helpcode, const int helpbase, char *pullname, XtCallbackProc macroproc)
+static void setup_macros(Widget	menub, const int helpcode, const int helpbase, char *pullname, XtCallbackProc macroproc)
 {
 	int	cnt, had = 0;
 	Widget	pulldown, cascade, button;
@@ -583,7 +590,7 @@ static void  setup_macros(Widget menub, const int helpcode, const int helpbase, 
 	}
 }
 
-static void	setup_menus(void)
+static void  setup_menus()
 {
 	int			cnt;
 	XtWidgetGeometry	size;
@@ -614,7 +621,7 @@ static void	setup_menus(void)
 	XtManageChild(menubar);
 }
 
-static void	Buildpopup(Widget wid, casc_button * list, unsigned nlist)
+static void  Buildpopup(Widget wid, casc_button *list, unsigned nlist)
 {
 	unsigned  cnt;
 	Widget	button;
@@ -640,7 +647,7 @@ static void	Buildpopup(Widget wid, casc_button * list, unsigned nlist)
 	}
 }
 
-static void	setup_popupmenus(void)
+static void  setup_popupmenus()
 {
 	jpopmenu = XmCreatePopupMenu(jwid, "jobpopup", NULL, 0);
 	Buildpopup(jpopmenu, jobpop_casc, XtNumber(jobpop_casc));
@@ -648,7 +655,7 @@ static void	setup_popupmenus(void)
 	Buildpopup(ppopmenu, ptrpop_casc, XtNumber(ptrpop_casc));
 }
 
-static void	setup_toolbar(void)
+static void  setup_toolbar()
 {
 	int			cnt;
 
@@ -667,7 +674,7 @@ static void	setup_toolbar(void)
 	}
 }
 
-static Widget	maketitle(char *tname, char *tstring)
+static Widget  maketitle(char *tname, char *tstring)
 {
 	Widget			labv;
 	XtWidgetGeometry	size;
@@ -689,27 +696,27 @@ static Widget	maketitle(char *tname, char *tstring)
 }
 
 #ifdef	ACCEL_TRANSLATIONS
-void do_quit(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_quit(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	cb_quit(wid, 0);
 }
 
-void do_viewopts(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_viewopts(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	cb_viewopt(wid, 0);
 }
 
-void do_jobop(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_jobop(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	cb_jact(wid, SO_AB);
 }
 
-void do_onemore(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_onemore(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	cb_onemore();
 }
 
-void do_pact(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_pact(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	int	op;
 
@@ -732,35 +739,35 @@ void do_pact(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 	}
 }
 
-void do_view(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_view(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	cb_view(wid);
 }
 
-void do_form(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_form(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	cb_jform(wid);
 }
 
-void do_pform(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_pform(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	cb_pform();
 }
 
-void do_search(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_search(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	if  (*nargs != 1)
 		return;
 	cb_rsrch(wid, atoi(args[0]));
 }
 
-void do_help(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_help(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	dohelp(wid, wid == jwid? $H{xmspq job list help}: $H{xmspq ptr list help});
 }
 #endif
 
-void do_jpopup(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_jpopup(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	XButtonPressedEvent  *bpe = (XButtonPressedEvent *) xev;
 	int	pos = XmListYToPos(jwid, bpe->y);
@@ -771,7 +778,7 @@ void do_jpopup(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 	XtManageChild(jpopmenu);
 }
 
-void do_ppopup(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
+void  do_ppopup(Widget wid, XEvent *xev, String *args, Cardinal *nargs)
 {
 	XButtonPressedEvent  *bpe = (XButtonPressedEvent *) xev;
 	int	pos = XmListYToPos(pwid, bpe->y);
@@ -801,7 +808,7 @@ static	XtActionsRec	arecs[] = {
 
 #include "xmspq.bm"
 
-static void	wstart(int argc, char **argv)
+static void  wstart(int argc, char **argv)
 {
 	int	nopage;
 	vrec_t	vrec;
@@ -889,7 +896,7 @@ static void	wstart(int argc, char **argv)
 /* Tell the scheduler we are here and do the business The initial
    refresh will fill up the job and printer screens for us.  */
 
-static void	process(void)
+static void  process()
 {
 #ifdef	STRUCT_SIG
 	struct	sigstruct_name	z;
@@ -917,7 +924,7 @@ static void	process(void)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	ret;
 #if	defined(NHONSUID) || defined(DEBUG)

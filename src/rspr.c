@@ -16,7 +16,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-
 #include <stdio.h>
 #include <ctype.h>
 #include <setjmp.h>
@@ -93,13 +92,13 @@ char	*Curr_pwd;
 
 char	tmpfl[L_tmpnam];
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
-int	remenqueue(const netid_t, const struct spq *, const struct pages *, const char *, FILE *, jobno_t *);
-struct spdet *remgetspuser(const netid_t, char *);
-void	remgoodbye(void);
+extern	int	spitoption(const int, const int, FILE *, const int, const int);
+extern	int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+extern	int	remenqueue(const netid_t, const struct spq *, const struct pages *, const char *, FILE *, jobno_t *);
+extern	struct	spdet	*remgetspuser(const netid_t, char *);
+extern	void	remgoodbye();
 
-void	nomem(void)
+void	nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -146,7 +145,7 @@ static	char	sig_ignd[sizeof(sigstocatch)];	/*  Ignore these indices */
 /* If we have got better signal handling, use it.
    What a hassle!!!!! */
 
-void	catchsigs(void)
+void	catchsigs()
 {
 	int	i;
 #ifdef	STRUCT_SIG
@@ -196,7 +195,7 @@ void	catchsigs(void)
 /* Generate output temporary file name for the benefit of standard
    input where we need to copy to a file and count the size. */
 
-FILE *	goutfile(void)
+FILE	*goutfile()
 {
 	FILE	*res;
 	int	fid;
@@ -218,7 +217,7 @@ FILE *	goutfile(void)
 
 /* Get input file, set its size in SPQ.spq_size */
 
-FILE 	*ginfile(const char * arg)
+FILE	*ginfile(const char *arg)
 {
 	FILE  *inf;
 	struct	stat	sbuf;
@@ -302,8 +301,7 @@ FILE 	*ginfile(const char * arg)
 	}
 	else  {
 		FILE	*res;
-		int  ch;
-		int	pfile[2];
+		int	ch, pfile[2];
 
 		if  (stat(arg, &sbuf) < 0)
 			goto  noopen;
@@ -400,11 +398,10 @@ FILE 	*ginfile(const char * arg)
 
 /* Check for alarm and read input */
 
-int	togetc(FILE * f)
+int	togetc(FILE *f)
 {
 	if  (SPQ.spq_size > 0L)  {
 		int	ch;
-
 		alarm((unsigned) jobtimeout);
 		ch = getc(f);
 		alarm(0);
@@ -419,7 +416,7 @@ int	togetc(FILE * f)
 /* Yes it's true.... DYNIX doesn't have this function in stdio...
    Neither do some Suns. Neither do lots and lots lets test for it. */
 
-static	int	fgetc(FILE * f)
+static	int	fgetc(FILE *f)
 {
 	return	getc(f);
 }
@@ -428,7 +425,7 @@ static	int	fgetc(FILE * f)
 /* Write stdin to temporary output file watching for timeouts
    If we have a timeout, return 1, otherwise 0.  */
 
-int	copyout(FILE * outf)
+int	copyout(FILE *outf)
 {
 	int	ch;
 	int	(*infunc)() = fgetc;

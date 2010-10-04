@@ -89,13 +89,13 @@ char	*spdir;			/* Spool directory */
 
 /*	This are just to keep the library happy....*/
 
-void	nomem(void)
+void	nomem()
 {
 	fprintf(stderr, "Run out of memory\n");
 	exit(E_NOMEM);
 }
 
-static	struct job_save *alloc_j(void)
+static	struct job_save *alloc_j()
 {
 	struct	job_save	*result = (struct job_save *) malloc(sizeof(struct job_save));
 	if  (!result)  {
@@ -114,10 +114,9 @@ static	struct job_save *alloc_j(void)
 	return  result;
 }
 
-static int	is_prime(const int x)
+static int  is_prime(const int x)
 {
-	/*  Primes up to the square root of the largest number we allow - 999
-	    Yes lazy but no point I don't think */
+	/*  Primes up to the square root of the largest number we allow - 999 */
 	static  unsigned  char	ps[] =  { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37  };
 	int	cnt;
 
@@ -135,7 +134,7 @@ static int	is_prime(const int x)
 
 /* Bullet-proof 'cous we daren't use gets */
 
-static void	slurp(char *buf)
+static void  slurp(char *buf)
 {
 	int	ch, n = 0;
 
@@ -147,7 +146,7 @@ static void	slurp(char *buf)
 
 /* Ask a question with y or n answer.  */
 
-static int	Ask(char *msg)
+static int  Ask(char *msg)
 {
 	char	buf[SLURPSIZE];
 
@@ -174,7 +173,7 @@ static int	Ask(char *msg)
 
 /* Generate subd name in std format */
 
-static char  *gen_subd(const int n)
+static char *gen_subd(const int n)
 {
 	static	char	res[4];
 	sprintf(res, "%.3d", n);
@@ -183,7 +182,7 @@ static char  *gen_subd(const int n)
 
 /* "my" mkspid to generate the right answer with varying subdirectories.  */
 
-char  *my_mkspid(const char *nam, const jobno_t jnum, const int subds)
+char *my_mkspid(const char *nam, const jobno_t jnum, const int subds)
 {
 	static	char	result[NAMESIZE+4+1];
 	if  (subds > 0)
@@ -196,7 +195,7 @@ char  *my_mkspid(const char *nam, const jobno_t jnum, const int subds)
 /* Make directory and make it owned by spooler.  Cope with geysers who
    don't have mkdir We only ever do this chdir-ed to spdir */
 
-static int	make_directory(char *d)
+static int  make_directory(char *d)
 {
 #ifdef	HAVE_MKDIR
 	if  (mkdir(d, 0777) < 0  ||  chown(d, Daemuid, getegid()) < 0)
@@ -212,7 +211,7 @@ static int	make_directory(char *d)
 
 /* Ditto remove directory.  We only ever do this chdir-ed to spdir */
 
-static int	remove_directory(char *d)
+static int  remove_directory(char *d)
 {
 #ifdef	S_IFLNK
 	struct	stat	sbuf;
@@ -230,7 +229,7 @@ static int	remove_directory(char *d)
 
 /* Validate permissions etc of a subdirectory.  */
 
-static int	val_subdir(const int n)
+static int  val_subdir(const int n)
 {
 	int	errs = 0;
 	int	nomatter = set_subs > 0  &&  set_subs <= n;
@@ -311,7 +310,7 @@ static int	val_subdir(const int n)
 
 /* Check permissions etc of the main directory.  */
 
-static int	val_maindir(void)
+static int  val_maindir()
 {
 	int	errs = 0;
 	struct	stat	sbuf;
@@ -359,7 +358,7 @@ static struct job_save *find_hash(const jobno_t jn)
 
 /* Slurp up job list from spshed_jlist and initialise hash table from result.  */
 
-static int	load_joblist(void)
+static int  load_joblist()
 {
 	int		fd, errs = 0;
 	struct	spq	inj;
@@ -391,7 +390,7 @@ static int	load_joblist(void)
 
 /* Scan the subdirectories for things looking like job or page files.  */
 
-static void	load_subds(const int n)
+static void  load_subds(const int n)
 {
 	DIR	*dfd;
 	struct	dirent	*dp;
@@ -427,7 +426,7 @@ static void	load_subds(const int n)
 		if  (sbuf.st_uid != Daemuid)  {
 			fprintf(stderr, "%s does is not owned by %s\n", nbuf, prin_uname(Daemuid));
 			if  (Ask("Fix it"))
-				chown(nbuf, Daemuid, sbuf.st_gid);
+				Ignored_error = chown(nbuf, Daemuid, sbuf.st_gid);
 		}
 
 		/* Check for directories and funny things */
@@ -503,7 +502,7 @@ static void	load_subds(const int n)
 
 /* Ditto for main directory.  */
 
-static void	load_maind(void)
+static void  load_maind()
 {
 	DIR	*dfd;
 	struct	dirent	*dp;
@@ -532,7 +531,7 @@ static void	load_maind(void)
 		if  (sbuf.st_uid != Daemuid)  {
 			fprintf(stderr, "%s does is not owned by %s\n", dp->d_name, prin_uname(Daemuid));
 			if  (Ask("Fix it"))
-				chown(dp->d_name, Daemuid, sbuf.st_gid);
+				Ignored_error = chown(dp->d_name, Daemuid, sbuf.st_gid);
 		}
 		if  (!(sbuf.st_mode & 0400))  {
 			fprintf(stderr, "%s is not readable\n", dp->d_name);
@@ -591,7 +590,7 @@ static void	load_maind(void)
 
 /* Expunge from the spshed_jfiles file jobs which we didn't find the files for .  */
 
-static void	kill_nojobfiles(void)
+static void  kill_nojobfiles()
 {
 	int		fd1, fd2;
 	unsigned	cnt, errs = 0;
@@ -627,14 +626,14 @@ static void	kill_nojobfiles(void)
 		if  (jp->in_jfile > 1)
 			continue;
 		jp->in_jfile = 2;	/* To skip duplicates */
-		write(fd2, (char *) &inj, sizeof(inj));
+		Ignored_error = write(fd2, (char *) &inj, sizeof(inj));
 	}
 
 	fstat(fd1, &sbuf);
 #ifdef	HAVE_FCHOWN
-	fchown(fd2, sbuf.st_uid, sbuf.st_gid);
+	Ignored_error = fchown(fd2, sbuf.st_uid, sbuf.st_gid);
 #else
-	chown(REBUILDJNAM, sbuf.st_uid, sbuf.st_gid);
+	Ignored_error = chown(REBUILDJNAM, sbuf.st_uid, sbuf.st_gid);
 #endif
 	close(fd1);
 	close(fd2);
@@ -650,7 +649,7 @@ static void	kill_nojobfiles(void)
 
 /* Zap dead wood type jobs.  */
 
-static void	clearaway_jobs(void)
+static void  clearaway_jobs()
 {
 	struct	job_save	*jp, *nxt = (struct job_save *) 0;
 
@@ -665,7 +664,7 @@ static void	clearaway_jobs(void)
 
 /* Try to rename job, allowing for cross-device symbolic links.  */
 
-static int	job_rename(char *oldn, char *newn)
+static int  job_rename(char *oldn, char *newn)
 {
 	int	ofd, nfd, bytes;
 	char	bigbuff[1024];
@@ -691,9 +690,9 @@ static int	job_rename(char *oldn, char *newn)
 		return  0;
 	}
 #ifdef	HAVE_FCHOWN
-	fchown(nfd, Daemuid, getegid());
+	Ignored_error = fchown(nfd, Daemuid, getegid());
 #else
-	chown(newn, Daemuid, getegid());
+	Ignored_error = chown(newn, Daemuid, getegid());
 #endif
 
 	while  ((bytes = read(ofd, bigbuff, sizeof(bigbuff))) > 0)
@@ -724,7 +723,7 @@ static int	job_rename(char *oldn, char *newn)
 
 /* Put requeued jobs back on the job queue.  We set copies to 0 and priority to 1.  */
 
-static void	requeue_jobs(void)
+static void  requeue_jobs()
 {
 	struct	job_save	*jp, *nxt = (struct job_save *) 0;
 	jobno_t		jn = REQUEUE_START;
@@ -750,9 +749,9 @@ static void	requeue_jobs(void)
 			return;
 		}
 #ifdef	HAVE_FCHOWN
-		fchown(fd, Daemuid, getegid());
+		Ignored_error = fchown(fd, Daemuid, getegid());
 #else
-		chown(JFILE, Daemuid, getegid());
+		Ignored_error = chown(JFILE, Daemuid, getegid());
 #endif
 	}
 
@@ -775,7 +774,7 @@ static void	requeue_jobs(void)
 			free(jp->job_path);
 			jp->job_path = stracpy(npath);
 		}
-		write(fd, (char *) &newj, sizeof(newj));
+		Ignored_error = write(fd, (char *) &newj, sizeof(newj));
 		jp->jnum = jn;
 		jp->in_jfile = 1;
 		hashval = hashit(jn);
@@ -788,7 +787,7 @@ static void	requeue_jobs(void)
 	close(fd);
 }
 
-static int	move_jobs(void)
+static int  move_jobs()
 {
 	unsigned	cnt;
 	struct	job_save	*jp;
@@ -859,7 +858,7 @@ static int	move_jobs(void)
 
 /* Mangle the job file to cope with new job numbers */
 
-static int	renumber_jobs(void)
+static int  renumber_jobs()
 {
 	int	fd;
 	struct	job_save	*jp;
@@ -875,7 +874,7 @@ static int	renumber_jobs(void)
 		if  (jp->newnum != 0)  {
 			inj.spq_job = jp->newnum;
 			lseek(fd, -(long) sizeof(inj), 1);
-			write(fd, (char *) &inj, sizeof(inj));
+			Ignored_error = write(fd, (char *) &inj, sizeof(inj));
 		}
 	}
 	close(fd);
@@ -884,7 +883,7 @@ static int	renumber_jobs(void)
 
 /* Edit the master config file.  */
 
-static void	rewrite_mcfile(void)
+static void  rewrite_mcfile()
 {
 	FILE	*mc1, *tmc;
 	int	hadit = 0;
@@ -940,7 +939,7 @@ static void	rewrite_mcfile(void)
 	fclose(tmc);
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int		ch, errs = 0;
 	int_ugid_t	chku;

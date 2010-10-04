@@ -23,12 +23,11 @@
 #include "ecodes.h"
 #include "incl_unix.h"
 
-HelpargRef	helpargs(const Argdefault *defaults, const int mins, const int maxs)
+HelpargRef  helpargs(const Argdefault *defaults, const int mins, const int maxs)
 {
 	HelpargRef	result;
 	HelpargkeyRef	rp, *rpp;
-	int	ch;
-	int	staten, errs = 0, someset = 0, whatv;
+	int	ch, staten, errs = 0, someset = 0, whatv;
 
 	if  ((result = (HelpargRef) malloc(sizeof(Helparg) * (ARG_ENDV - ARG_STARTV + 1))) == (HelpargRef) 0)
 		nomem();
@@ -203,7 +202,7 @@ HelpargRef	helpargs(const Argdefault *defaults, const int mins, const int maxs)
 	return  result;
 }
 
-void	freehelpargs(HelpargRef he)
+void  freehelpargs(HelpargRef he)
 {
 	int	ch;
 	HelpargkeyRef	kv, nkv;

@@ -32,7 +32,7 @@ void	stringvec_init(struct stringvec *sv)
 		nomem();
 }
 
-void	stringvec_insert_unique(struct stringvec *sv, const char *newitem)
+void  stringvec_insert_unique(struct stringvec *sv, const char *newitem)
 {
 	int  first = 0, last = sv->memb_cnt;
 
@@ -64,7 +64,7 @@ void	stringvec_insert_unique(struct stringvec *sv, const char *newitem)
 	sv->memb_cnt++;
 }
 
-void	stringvec_append(struct stringvec *sv, const char *newitem)
+void  stringvec_append(struct stringvec *sv, const char *newitem)
 {
 	if  (sv->memb_cnt >= sv->memb_max)  {
 		sv->memb_max += STRINGVEC_INC;
@@ -76,7 +76,7 @@ void	stringvec_append(struct stringvec *sv, const char *newitem)
 	sv->memb_cnt++;
 }
 
-void	stringvec_free(struct stringvec *sv)
+void  stringvec_free(struct stringvec *sv)
 {
 	int	cnt;
 	for  (cnt = 0;  cnt < sv->memb_cnt;  cnt++)

@@ -104,7 +104,7 @@ struct	command  {
 #define	MAXEXPSIZE	99
 #define	BLDBUFF		1024
 
-#define	EXIT_NULL	1	
+#define	EXIT_NULL	1
 #define	EXIT_USAGE	4
 #define	EXIT_DEVERROR	5
 #define	EXIT_OFFLINE	6

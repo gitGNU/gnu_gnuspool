@@ -137,8 +137,8 @@ struct	spcharge	{
 	time_t		spch_when;	/* When it happened */
 	netid_t		spch_host;	/* Host responsible */
 	int_ugid_t	spch_user;	/* Uid charged for */
-	USHORT	spch_pri;	/* Priority */
-	USHORT	spch_what;	/* Type of charge */
+	USHORT	spch_pri;		/* Priority */
+	USHORT	spch_what;		/* Type of charge */
 #define	SPCH_RECORD	0		/* Record left by spshed */
 #define	SPCH_FEE	1		/* Impose fee */
 #define	SPCH_FEEALL	2		/* Impose fee everywhere */
@@ -150,17 +150,14 @@ struct	spcharge	{
 };
 /*APIEND - end of section copied for API */
 
-extern void	putspulist(struct spdet *, unsigned, int);
-extern void	putspuentry(struct spdet *);
-extern void	insertu(const int, const struct spdet *);
-extern void	rebuild_spufile(void);
+extern	void	putspuhdr();
+extern	void	putspulist(struct spdet *);
+extern	void	putspuentry(struct spdet *);
 
-extern int	readu(const int, const uid_t, struct spdet *);
-extern classcode_t	hextoi(const char *);
-extern char	*hex_disp(const classcode_t, const int);
-extern struct spdet *getspuser(const uid_t);
-extern struct spdet *getspuentry(const uid_t);
-extern struct spdet *getspulist(unsigned *);
-extern LONG	calccharge(const int_ugid_t);
+extern	classcode_t	hextoi(const char *);
+extern	char 		*hex_disp(const classcode_t, const int);
+extern	struct	spdet	*getspuser(const uid_t);
+extern	struct spdet	*getspuentry(const uid_t);
+extern	struct spdet	*getspulist();
 
-extern	int	spu_needs_rebuild;
+extern	int	spu_new_format;

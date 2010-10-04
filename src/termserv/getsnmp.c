@@ -32,14 +32,14 @@ double	udptimeout = 1.0;
 int	snmpsock;
 struct	sockaddr_in  snmp_serv, snmp_cli;
 
-extern void	snmp_xmit(char *, int);
-extern unsigned	snmp_recv(char *, int);
-extern int	snmp_wait(void);
-extern int	ParseMacroFile(const char *);
-extern void	init_define(const char *, const char *);
-extern char *	expand(const char *);
+extern void  snmp_xmit(char *, int);
+extern unsigned  snmp_recv(char *, int);
+extern int  snmp_wait();
+extern int  ParseMacroFile(const char *);
+extern void  init_define(const char *, const char *);
+extern char *expand(const char *);
 
-netid_t	get_hostorip(const char *name)
+netid_t  get_hostorip(const char *name)
 {
 	netid_t	hid;
 
@@ -67,7 +67,7 @@ netid_t	get_hostorip(const char *name)
 	return  hid;
 }
 
-int	get_portornum(const char *name)
+int  get_portornum(const char *name)
 {
 	struct	servent	 *sp;
 
@@ -81,7 +81,7 @@ int	get_portornum(const char *name)
 	return  sp->s_port;
 }
 
-void	init_snmp_socket(const netid_t hostid, const netid_t myhostid, int portnum)
+void  init_snmp_socket(const netid_t hostid, const netid_t myhostid, int portnum)
 {
 	snmp_cli.sin_addr.s_addr = myhostid? myhostid: htonl(INADDR_ANY);
 	snmp_serv.sin_addr.s_addr = hostid;
@@ -99,7 +99,7 @@ void	init_snmp_socket(const netid_t hostid, const netid_t myhostid, int portnum)
 	}
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	c, res;
 	unsigned	outlen, inlen, gnext = 0, prinid = 0;

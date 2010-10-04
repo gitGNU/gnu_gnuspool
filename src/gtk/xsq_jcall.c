@@ -68,10 +68,10 @@ static	char	*daynames[7],
 struct	macromenitem	jobmacs[MAXMACS];
 
 extern  GtkWidget *make_combo_box_entry(void (*)(struct stringvec *), const char *);
-extern void	wotjform(struct stringvec *);
-extern void	wotjprin(struct stringvec *);
-extern classcode_t	read_cc_butts(GtkWidget **);
-extern void	cc_dlgsetup(GtkWidget *, GtkWidget **, const classcode_t);
+extern void  wotjform(struct stringvec *);
+extern void  wotjprin(struct stringvec *);
+extern classcode_t  read_cc_butts(GtkWidget **);
+extern void  cc_dlgsetup(GtkWidget *, GtkWidget **, const classcode_t);
 
 struct	dialog_data  {
 	GtkWidget	*formsel, *titlew, *supphw, *ptrselw, *priw, *cpsw;
@@ -86,7 +86,7 @@ struct	dialog_data  {
 	GtkWidget	*classcodes[32], *locow;
 };
 
-static const Hashspq *	getselectedjob(void)
+static const Hashspq *getselectedjob()
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(jwid));
 	GtkTreeIter  iter;
@@ -133,7 +133,7 @@ const struct spq *getselectedjob_chk(const ULONG priv)
 
 /* Callback for one more copy.  */
 
-void	cb_onemore(void)
+void  cb_onemore()
 {
 	const  struct	spq	*cj = getselectedjob_chk(PV_OTHERJ);
 	int	num, maxnum = 255;
@@ -153,7 +153,7 @@ void	cb_onemore(void)
 
 /* Job actions, currently only SO_AB */
 
-void	cb_jact(void)
+void  cb_jact()
 {
 	const  struct	spq	*jp = getselectedjob_chk(PV_OTHERJ);
 	if  (!jp)
@@ -247,7 +247,7 @@ GtkWidget *create_formpri_dlg(struct dialog_data *ddata, const struct spq *jp)
 	return  frame;
 }
 
-int	extract_form_response(struct dialog_data *ddata)
+int  extract_form_response(struct dialog_data *ddata)
 {
 	const  char  *newft = gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(ddata->formsel))));
 	const  char  *newtit = gtk_entry_get_text(GTK_ENTRY(ddata->titlew));
@@ -276,7 +276,7 @@ int	extract_form_response(struct dialog_data *ddata)
 	return  1;
 }
 
-GtkWidget  *create_page_dlg(struct dialog_data *ddata, const struct spq *jp)
+GtkWidget *create_page_dlg(struct dialog_data *ddata, const struct spq *jp)
 {
 	GtkWidget  *frame, *vbox, *hbox, *lab;
 	char	*pr;
@@ -354,7 +354,7 @@ GtkWidget  *create_page_dlg(struct dialog_data *ddata, const struct spq *jp)
 	return  frame;
 }
 
-int	extract_page_response(struct dialog_data *ddata)
+int  extract_page_response(struct dialog_data *ddata)
 {
 	int	spage = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ddata->startpw));
 	int	hpage = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ddata->hatpw));
@@ -387,7 +387,7 @@ int	extract_page_response(struct dialog_data *ddata)
 	return  1;
 }
 
-GtkWidget  *create_usermail_dlg(struct dialog_data *ddata, const struct spq *jp)
+GtkWidget *create_usermail_dlg(struct dialog_data *ddata, const struct spq *jp)
 {
 	GtkWidget  *frame, *vbox, *hbox, *lab;
 	int	cnt, uselect = 0;
@@ -404,7 +404,7 @@ GtkWidget  *create_usermail_dlg(struct dialog_data *ddata, const struct spq *jp)
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
 	/* User to post to
-	   TODO?? - generate user list only if/when the page is selected */
+	   TODO - generate user list only if/when the page is selected */
 
 	hbox = gtk_hbox_new(FALSE, DEF_DLG_HPAD);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, DEF_DLG_VPAD*2);
@@ -446,7 +446,7 @@ GtkWidget  *create_usermail_dlg(struct dialog_data *ddata, const struct spq *jp)
 	return  frame;
 }
 
-int	extract_user_response(struct dialog_data *ddata)
+int  extract_user_response(struct dialog_data *ddata)
 {
 	gchar	*newu = gtk_combo_box_get_active_text(GTK_COMBO_BOX(ddata->postuw));
 	strncpy(JREQ.spq_puname, newu, UIDSIZE);
@@ -463,7 +463,7 @@ int	extract_user_response(struct dialog_data *ddata)
 	return  1;
 }
 
-void	ptimeoutchanged(GtkWidget *spinner, struct dialog_data *ddata)
+void  ptimeoutchanged(GtkWidget *spinner, struct dialog_data *ddata)
 {
 	GString	*labp;
 	gint	val = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinner));
@@ -476,7 +476,7 @@ void	ptimeoutchanged(GtkWidget *spinner, struct dialog_data *ddata)
 	g_string_free(labp, TRUE);
 }
 
-void	turn_ht(struct dialog_data *ddata, gboolean onoff)
+void  turn_ht(struct dialog_data *ddata, gboolean onoff)
 {
 	gtk_widget_set_sensitive(ddata->holdth, onoff);
 	gtk_widget_set_sensitive(ddata->holdtm, onoff);
@@ -484,7 +484,7 @@ void	turn_ht(struct dialog_data *ddata, gboolean onoff)
 	gtk_widget_set_sensitive(ddata->holdtdate, onoff);
 }
 
-void	set_ht_val(struct dialog_data *ddata, time_t when)
+void  set_ht_val(struct dialog_data *ddata, time_t when)
 {
 	struct	tm  *tp;
 	ddata->holdtime_copy = when;
@@ -496,7 +496,7 @@ void	set_ht_val(struct dialog_data *ddata, time_t when)
 	gtk_calendar_select_day(GTK_CALENDAR(ddata->holdtdate), tp->tm_mday);
 }
 
-void	set_ht(struct dialog_data *ddata)
+void  set_ht(struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ddata->hashtw)))  {
 		turn_ht(ddata, TRUE);
@@ -508,7 +508,7 @@ void	set_ht(struct dialog_data *ddata)
 	}
 }
 
-GtkWidget *	create_retain_dlg(struct dialog_data *ddata, const struct spq *jp)
+GtkWidget *create_retain_dlg(struct dialog_data *ddata, const struct spq *jp)
 {
 	GtkWidget  *frame, *vbox, *hbox, *lab;
 	char	*pr;
@@ -626,7 +626,7 @@ GtkWidget *	create_retain_dlg(struct dialog_data *ddata, const struct spq *jp)
 	return  frame;
 }
 
-int	extract_retain_response(struct dialog_data *ddata)
+int  extract_retain_response(struct dialog_data *ddata)
 {
 	gint	pto = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ddata->delpw));
 	gint	npto = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ddata->delnpw));
@@ -679,7 +679,7 @@ int	extract_retain_response(struct dialog_data *ddata)
 	return  1;
 }
 
-GtkWidget *	create_cc_dlg(struct dialog_data *ddata, const struct spq *jp)
+GtkWidget *create_cc_dlg(struct dialog_data *ddata, const struct spq *jp)
 {
 	GtkWidget  *frame, *vbox;
 	char	*pr;
@@ -702,13 +702,13 @@ GtkWidget *	create_cc_dlg(struct dialog_data *ddata, const struct spq *jp)
 	return  frame;
 }
 
-int	extract_cc_response(struct dialog_data *ddata)
+int  extract_cc_response(struct dialog_data *ddata)
 {
 	classcode_t  ncc = read_cc_butts(ddata->classcodes);
 
 	if  (!(mypriv->spu_flgs & PV_COVER))
 		ncc &= mypriv->spu_class;
-	
+
 	if  (ncc == 0)  {
 		doerror($EH{xmspq setting zero class});
 		return  0;
@@ -785,7 +785,7 @@ GtkWidget  *create_dialog(struct dialog_data *ddata, const struct spq *jp, const
 	return  dlg;
 }
 
-int	extract_job_response(struct dialog_data *ddata)
+int  extract_job_response(struct dialog_data *ddata)
 {
 	if  (extract_form_response(ddata)  &&
 	     extract_page_response(ddata)  &&
@@ -798,7 +798,7 @@ int	extract_job_response(struct dialog_data *ddata)
 	return  0;
 }
 
-void	cb_options(const int wpage)
+void  cb_options(const int wpage)
 {
 	struct	dialog_data	ddata;
 	GtkWidget  *dlg;
@@ -814,27 +814,27 @@ void	cb_options(const int wpage)
 	gtk_widget_destroy(dlg);
 }
 
-void	cb_jform(void)
+void  cb_jform()
 {
 	cb_options(JOBOPT_FORM_PAGE);
 }
 
-void	cb_jpages(void)
+void  cb_jpages()
 {
 	cb_options(JOBOPT_PAGE_PAGE);
 }
 
-void	cb_juser(void)
+void  cb_juser()
 {
 	cb_options(JOBOPT_USER_PAGE);
 }
 
-void	cb_jretain(void)
+void  cb_jretain()
 {
 	cb_options(JOBOPT_RETAIN_PAGE);
 }
 
-void	cb_jclass(void)
+void  cb_jclass()
 {
 	cb_options(JOBOPT_CLASS_PAGE);
 }
@@ -845,7 +845,7 @@ struct	unqueue_data  {
 	GtkWidget	*jfw;
 };
 
-void	cmd_sel(struct unqueue_data *unqd)
+void  cmd_sel(struct unqueue_data *unqd)
 {
 	GtkWidget *fsw;
 	char	*pr = gprompt($P{xspq unqueue cmd dlg title});
@@ -893,7 +893,7 @@ void	cmd_sel(struct unqueue_data *unqd)
 	gtk_widget_destroy(fsw);
 }
 
-void	job_sel(struct unqueue_data *unqd)
+void  job_sel(struct unqueue_data *unqd)
 {
 	GtkWidget *fsw;
 	char	*pr = gprompt($P{xspq unqueue job dlg title});
@@ -943,7 +943,7 @@ void	job_sel(struct unqueue_data *unqd)
    We need to invoke spexec to restore the user id and in
    turn invoke spjobdump to actually do the dirty */
 
-void	cb_unqueue(void)
+void  cb_unqueue()
 {
 	GtkWidget  *dlg, *hbox, *lab, *copyonly, *button;
 	char	*pr;
@@ -1158,7 +1158,7 @@ void	cb_unqueue(void)
 
 		/* Child process */
 
-		chdir(Curr_pwd);	/* So it picks up the right config file */
+		Ignored_error = chdir(Curr_pwd);	/* So it picks up the right config file */
 		if  (JREQ.spq_netid)
 			sprintf(jobnobuf, "%s:%ld", look_host(JREQ.spq_netid), (long) JREQ.spq_job);
 		else
@@ -1178,7 +1178,7 @@ void	cb_unqueue(void)
 	gtk_widget_destroy(dlg);
 }
 
-static  int	jmacroexec(const char *str, const struct spq *jp)
+static int  jmacroexec(const char *str, const struct spq *jp)
 {
 	PIDTYPE	pid;
 	int	status;
@@ -1200,7 +1200,7 @@ static  int	jmacroexec(const char *str, const struct spq *jp)
 		}
 		else
 			argbuf[1] = (char *) 0;
-		chdir(Curr_pwd);
+		Ignored_error = chdir(Curr_pwd);
 		execv(execprog, argbuf);
 		exit(E_SPEXEC1);
 	}
@@ -1235,7 +1235,7 @@ static	struct	stringvec  previous_commands;
 
 /* Version of job macro for where we prompt */
 
-void	cb_jmac(void)
+void  cb_jmac()
 {
 	const  Hashspq	*hjp = getselectedjob();
 	const	struct	spq  *jp = 0;
@@ -1304,7 +1304,7 @@ void	cb_jmac(void)
 	gtk_widget_destroy(dlg);
 }
 
-void	jmacruncb(GtkAction *act, struct macromenitem *mitem)
+void  jmacruncb(GtkAction *act, struct macromenitem *mitem)
 {
 	const  Hashspq	*hjp = getselectedjob();
 	const	struct	spq  *jp = 0;

@@ -71,7 +71,7 @@ static char *pathjoin(const char *d1, const char *d2, const char *f)
 	return  d;
 }
 
-static int	isform(const char *d1, const char *d2, const char *f)
+static int  isform(const char *d1, const char *d2, const char *f)
 {
 	char	*d;
 	int	sret;
@@ -86,7 +86,7 @@ static int	isform(const char *d1, const char *d2, const char *f)
 	return  sret >= 0  &&  (sbuf.st_mode & S_IFMT) == S_IFREG  &&  sbuf.st_uid == Daemuid;
 }
 
-static int	isprin(const char *d1, const char *d2, const char *f)
+static int  isprin(const char *d1, const char *d2, const char *f)
 {
 	char	*d;
 	struct	stat	sbuf;
@@ -100,7 +100,7 @@ static int	isprin(const char *d1, const char *d2, const char *f)
 	return  1;
 }
 
-static int	isaterm(const char *d1, const char *d2, const char *f)
+static int  isaterm(const char *d1, const char *d2, const char *f)
 {
 	char	*d = pathjoin(d1, d2, f);
 	struct	stat	sbuf;
@@ -127,7 +127,7 @@ static int	isaterm(const char *d1, const char *d2, const char *f)
 	return  1;
 }
 
-static	void	listdir(struct stringvec *sv, const char *d1, const char *d2, int (*chkfunc)(const char *,const char *,const char *))
+static void listdir(struct stringvec *sv, const char *d1, const char *d2, int (*chkfunc)(const char *,const char *,const char *))
 {
 	DIR	*dfd;
 	struct	dirent	*dp;
@@ -155,7 +155,7 @@ static	void	listdir(struct stringvec *sv, const char *d1, const char *d2, int (*
 	closedir(dfd);
 }
 
-void	p_prins(struct stringvec *sv)
+void  p_prins(struct stringvec *sv)
 {
 	const  Hashspptr  **pp, **ep;
 
@@ -164,7 +164,7 @@ void	p_prins(struct stringvec *sv)
 		stringvec_insert_unique(sv, (*pp)->p.spp_ptr);
 }
 
-void	p_forms(struct stringvec *sv)
+void  p_forms(struct stringvec *sv)
 {
 	const  Hashspptr  **pp, **ep;
 
@@ -173,7 +173,7 @@ void	p_forms(struct stringvec *sv)
 		stringvec_insert_unique(sv, (*pp)->p.spp_form);
 }
 
-void	j_prins(struct stringvec *sv)
+void  j_prins(struct stringvec *sv)
 {
 	unsigned  cnt;
 	for  (cnt = 0;  cnt < Job_seg.njobs;  cnt++)  {
@@ -183,14 +183,14 @@ void	j_prins(struct stringvec *sv)
 	}
 }
 
-void	j_forms(struct stringvec *sv)
+void  j_forms(struct stringvec *sv)
 {
 	unsigned  cnt;
 	for  (cnt = 0;  cnt < Job_seg.njobs;  cnt++)
 		stringvec_insert_unique(sv, Job_seg.jj_ptrs[cnt]->j.spq_form);
 }
 
-static void	listpfdirs(struct stringvec *sv, const struct spptr *current_prin)
+static void  listpfdirs(struct stringvec *sv, const struct spptr *current_prin)
 {
 	struct  stringvec  prins;
 	stringvec_init(&prins);
@@ -205,7 +205,7 @@ static void	listpfdirs(struct stringvec *sv, const struct spptr *current_prin)
 		listdir(sv, ptdir, current_prin->spp_ptr, isform);
 }
 
-FILE *	hexists(const char *dir, const char *d2)
+FILE *hexists(const char *dir, const char *d2)
 {
 	char	*fname;
 	static	char	*hname;
@@ -221,7 +221,7 @@ FILE *	hexists(const char *dir, const char *d2)
 
 #define	MAXLINESIZE	80
 
-void	makefvec(struct stringvec *sv, FILE *f)
+void  makefvec(struct stringvec *sv, FILE *f)
 {
 	int	ch;
 	unsigned  l;
@@ -250,31 +250,31 @@ void	makefvec(struct stringvec *sv, FILE *f)
 	fclose(f);
 }
 
-void	wotjprin(struct stringvec *sv)
+void  wotjprin(struct stringvec *sv)
 {
 	listdir(sv, ptdir, (char *) 0, isprin);
 	p_prins(sv);
 }
 
-void	wotjform(struct stringvec *sv)
+void  wotjform(struct stringvec *sv)
 {
 	listpfdirs(sv, (const struct spptr *) 0);
 	p_forms(sv);
 }
 
-void	wotpform(struct stringvec *sv)
+void  wotpform(struct stringvec *sv)
 {
 	listpfdirs(sv, (const struct spptr *) 0);
 	j_forms(sv);
 }
 
-void	wotpprin(struct stringvec *sv)
+void  wotpprin(struct stringvec *sv)
 {
 	listdir(sv, ptdir, (char *) 0, isprin);
 	j_prins(sv);
 }
 
-void	wottty(struct stringvec *sv)
+void  wottty(struct stringvec *sv)
 {
 	listdir(sv, "/dev", (char *) 0, isaterm);
 }
@@ -282,7 +282,7 @@ void	wottty(struct stringvec *sv)
 /* Look at proposed device and comment about it with a code (as a
    subsequent argument to Confirm()), or 0 if nothing wrong.  */
 
-int	validatedev(const char *devname)
+int  validatedev(const char *devname)
 {
 	const   char	*name;
 	struct	stat	sbuf;

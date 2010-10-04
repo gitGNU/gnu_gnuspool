@@ -30,7 +30,7 @@
 
 extern	GtkWidget	*toplevel;
 
-static  char *makebigvec(char **mat)
+static char *makebigvec(char **mat)
 {
 	unsigned  totlen = 0, len;
 	char	**ep, *newstr, *pos;
@@ -54,7 +54,7 @@ static  char *makebigvec(char **mat)
 	return  newstr;
 }
 
-void	doerror(int errnum)
+void  doerror(int errnum)
 {
 	char	**evec = helpvec(errnum, 'E'), *newstr;
 	GtkWidget  *msgw;
@@ -75,7 +75,7 @@ void	doerror(int errnum)
 	gtk_dialog_run(GTK_DIALOG(msgw));
 }
 
-int	Confirm(int code)
+int  Confirm(int code)
 {
 	int	ret;
 	char	*msg = gprompt(code), *secmsg = makebigvec(helpvec(code, 'H'));
@@ -88,7 +88,7 @@ int	Confirm(int code)
 	return  ret;
 }
 
-void	gtk_chk_uid(void)
+void  gtk_chk_uid()
 {
 	char	*hd = getenv("HOME");
 	struct	stat	sbuf;
@@ -123,7 +123,7 @@ GtkWidget *gprompt_radiobutton(const int code)
 	return  butt;
 }
 
-GtkWidget  *gprompt_radiobutton_fromwidget(GtkWidget *w, const int code)
+GtkWidget *gprompt_radiobutton_fromwidget(GtkWidget *w, const int code)
 {
 	char	*pr = gprompt(code);
 	GtkWidget  *butt = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(w), pr);

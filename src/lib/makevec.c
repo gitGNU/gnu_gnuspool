@@ -29,8 +29,7 @@
 char **makevec(const char *arg)
 {
 	char	*resv, **res;
-	int  count, tot;
-	int	rbits = 0, quote;
+	int  count, tot, rbits = 0, quote;
 	char	**ores;
 
 	ores = res = (char **)malloc((unsigned)(INITV * sizeof(char *)));

@@ -47,18 +47,20 @@
 #include "incl_unix.h"
 #include "notify.h"
 
-void	chrg_xmit(struct sp_cmsg *, struct spq *);
-void	job_sendnote(struct spq *, struct spptr *, const int, const jobno_t, const int);
-void	net_xmit(const netid_t, const int, const LONG);
-int	islogged(const int_ugid_t);
-FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
-void	do_exit(const int);
+extern	void	job_sendnote(struct spq *, struct spptr *, const int, const jobno_t, const int);
+extern	void	net_xmit(const netid_t, const int, const LONG);
+extern	int	islogged(const int_ugid_t);
+extern	FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+extern	void	do_exit(const int);
 
 extern	char	**environ;
 extern	char	*msgdisp, *ptrmsg;
 extern	uid_t	Daemuid;
 
 extern	int	Ctrl_chan;
+#ifndef	USING_FLOCK
+extern	int	Sem_chan;
+#endif
 
 #ifdef	BUGGY_SIGCLD
 int	nchild;
@@ -68,7 +70,7 @@ static	FILE	*rpfile;
 
 /* Open report file if possible and write message to it.  */
 
-void	nfreport(const int msgno)
+void  nfreport(const int msgno)
 {
 	int	fid;
 	time_t	tim;
@@ -85,9 +87,9 @@ void	nfreport(const int msgno)
 
 		if  (Daemuid)
 #if	defined(HAVE_FCHOWN) && !defined(M88000)
-			fchown(fid, Daemuid, getegid());
+			Ignored_error = fchown(fid, Daemuid, getegid());
 #else
-			chown(REPFILE, Daemuid, getegid());
+			Ignored_error = chown(REPFILE, Daemuid, getegid());
 #endif
 
 		fcntl(fid, F_SETFD, 1);
@@ -124,7 +126,7 @@ void	nfreport(const int msgno)
 
 /* Report - generate fatal error message.  */
 
-void	report(const int msgno)
+void  report(const int msgno)
 {
 	nfreport(msgno);
 	do_exit(E_SHEDERR);
@@ -143,7 +145,7 @@ static	int	oldumask;
 /* Initialise environment for notify-type commands by squeezing out
    any existing environment variables looking like the ones we set up.  */
 
-void	init_mwenv(int oldu)
+void  init_mwenv(int oldu)
 {
 	char	**ep, **nep;
 
@@ -322,7 +324,7 @@ void  rmsg(cmd_type cmd, int msgcode, struct spq *jp, struct spptr *pp, const ne
 		close(pfds[1]);	/*  Write side  */
 		if  (pfds[0] != 0)  {
 			close(0);
-			dup(pfds[0]);
+			Ignored_error = dup(pfds[0]);
 			close(pfds[0]);
 		}
 		execve(msgdisp, arglist, newenviron);
@@ -363,7 +365,7 @@ void  rmsg(cmd_type cmd, int msgcode, struct spq *jp, struct spptr *pp, const ne
 
 /* Fork dealing with child processes and nasty things in the environment */
 
-static	int	mw_fork(void)
+static	int  mw_fork()
 {
 #ifndef	BUGGY_SIGCLD
 #ifdef	STRUCT_SIG
@@ -455,7 +457,7 @@ void  notify(struct spq *jp, struct spptr *pp, const int msgcode, const jobno_t 
 #ifdef	NETWORK_VERSION
 /* Remote version of above */
 
-void	rem_notify(struct sp_omsg * rq)
+void  rem_notify(struct sp_omsg *rq)
 {
 	struct	spq	*jp;
 	struct	spptr	*pp;
@@ -511,52 +513,10 @@ void	rem_notify(struct sp_omsg * rq)
 }
 #endif
 
-static	int	chfid;
-
-/* Initialise charges file.  */
-
-void	open_chfile(void)
-{
-	char	*chfile = envprocess(CHFILE);
-	if  ((chfid = open(chfile, O_WRONLY|O_APPEND|O_CREAT, 0644)) < 0)
-		report($E{Create charge file error});
-	free(chfile);
-	if  (Daemuid != ROOTID)
-#if	defined(HAVE_FCHOWN) && !defined(M88000)
-		fchown(chfid, Daemuid, getegid());
-#else
-		chown(chfile, Daemuid, getegid());
-#endif
-	fcntl(chfid, F_SETFD, 1);
-}
-
-/* Charge user for job (or part of job).  */
-
-void	docharge(struct sp_cmsg *rq, struct spq *jp)
-{
-	struct	spcharge	spu;
-
-#ifdef	NETWORK_VERSION
-	if  (jp  &&  jp->spq_netid)  {
-		chrg_xmit(rq, jp);
-		return;
-	}
-#endif
-
-	time(&spu.spch_when);
-	spu.spch_host = rq->spr_netid;
-	spu.spch_user = rq->spr_c.spc_user;
-	spu.spch_pri = rq->spr_c.spc_pri;
-	spu.spch_what = SPCH_RECORD;
-	spu.spch_chars = rq->spr_c.spc_chars;
-	spu.spch_cpc = rq->spr_c.spc_cpc;
-	write(chfid, (char *) &spu, sizeof(spu));
-}
-
 /* Notify printers in funny states if required.
    We only do this with local printers */
 
-void	ptrnotify(struct spptr *pp)
+void  ptrnotify(struct spptr *pp)
 {
 	if  (ptrmsg  &&  *ptrmsg)  {
 		char	*cp;

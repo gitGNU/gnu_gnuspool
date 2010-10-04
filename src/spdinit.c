@@ -68,15 +68,15 @@
 #define CONTCHARS CINTR, CQUIT, CERASE, CKILL, 0, 0
 #endif
 
-void	checkfor(const int, char *);
-void	error(const int);
-void	readdescr(void);
-void	sethash(char *, void (*)(const int, const unsigned), const unsigned);
-void	setsymb(char *, const int);
+void  checkfor(const int, char *);
+void  error(const int);
+extern  void  readdescr();
+void  sethash(char *, void (*)(const int, const unsigned), const unsigned);
+void  setsymb(char *, const int);
 
-int	rdnum(void);
+extern  int  rdnum();
 
-struct string	*	rdstr(const int);
+struct string	*rdstr(const int);
 
 char	*ptdir = "",
 	*Suffix,
@@ -199,7 +199,7 @@ extern	uid_t	Realuid, Effuid, Daemuid;
 
 /* Open report file if possible write message to it.  */
 
-void	report(const int msgno)
+void  report(const int msgno)
 {
 	int	fid;
 	time_t	tim;
@@ -212,7 +212,7 @@ void	report(const int msgno)
 	setuperrs++;
 
 	dir = envprocess(SPDIR);
-	chdir(dir);
+	Ignored_error = chdir(dir);
 	free(dir);
 
 	if  ((fid = open(REPFILE, O_WRONLY|O_APPEND|O_CREAT, 0666)) < 0)
@@ -248,7 +248,7 @@ void	report(const int msgno)
 	fflush(rpfile);
 }
 
-void	nomem(void)
+void  nomem()
 {
 	report($E{NO MEMORY});
 	exit(E_NOMEM);
@@ -256,7 +256,7 @@ void	nomem(void)
 
 /* Procedures to do specific actions.  */
 
-void	do_wid(const int obey, const unsigned dummy)
+void  do_wid(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -264,7 +264,7 @@ void	do_wid(const int obey, const unsigned dummy)
 		out_params.pi_width = (USHORT) n;
 }
 
-void	do_hdropt(const int obey, const unsigned arg)
+void  do_hdropt(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 		out_params.pi_flags &= ~(PI_NOHDR|PI_FORCEHDR);
@@ -273,7 +273,7 @@ void	do_hdropt(const int obey, const unsigned arg)
 	}
 }
 
-void	do_flag(const int obey, const unsigned arg)
+void  do_flag(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 		if  (Nott)
@@ -283,7 +283,7 @@ void	do_flag(const int obey, const unsigned arg)
 	}
 }
 
-void	do_flag2(const int obey, const unsigned arg)
+void  do_flag2(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 		if  (Nott)
@@ -293,7 +293,7 @@ void	do_flag2(const int obey, const unsigned arg)
 	}
 }
 
-void	do_charge(const int obey, const unsigned dummy)
+void  do_charge(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -301,7 +301,7 @@ void	do_charge(const int obey, const unsigned dummy)
 		out_params.pi_charge = n;
 }
 
-void	do_windback(const int obey, const unsigned dummy)
+void  do_windback(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -309,7 +309,7 @@ void	do_windback(const int obey, const unsigned dummy)
 		out_params.pi_windback = n;
 }
 
-void	do_obuf(const int obey, const unsigned dummy)
+void  do_obuf(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -317,7 +317,7 @@ void	do_obuf(const int obey, const unsigned dummy)
 		out_params.pi_obuf = n;
 }
 
-void	do_offline(const int obey, const unsigned dummy)
+void  do_offline(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -325,7 +325,7 @@ void	do_offline(const int obey, const unsigned dummy)
 		out_params.pi_offa = (USHORT) n;
 }
 
-void	do_open(const int obey, const unsigned dummy)
+void  do_open(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -333,7 +333,7 @@ void	do_open(const int obey, const unsigned dummy)
 		out_params.pi_oa = (USHORT) n;
 }
 
-void	do_close(const int obey, const unsigned dummy)
+void  do_close(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -341,7 +341,7 @@ void	do_close(const int obey, const unsigned dummy)
 		out_params.pi_ca = (USHORT) n;
 }
 
-void	do_postcl(const int obey, const unsigned dummy)
+void  do_postcl(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -349,7 +349,7 @@ void	do_postcl(const int obey, const unsigned dummy)
 		out_params.pi_postclsl = (USHORT) n;
 }
 
-void	do_clsig(const int obey, const unsigned dummy)
+void  do_clsig(const int obey, const unsigned dummy)
 {
 	int	n = rdnum();
 
@@ -363,7 +363,7 @@ void	do_clsig(const int obey, const unsigned dummy)
 		out_params.pi_clsig = (USHORT) n;
 }
 
-void	do_record(const int obey, const unsigned dummy)
+void  do_record(const int obey, const unsigned dummy)
 {
 	struct	string	*r;
 	int	n = rdnum();
@@ -384,7 +384,7 @@ void	do_record(const int obey, const unsigned dummy)
 	}
 }
 
-void	do_logfile(const int obey, const unsigned dummy)
+void  do_logfile(const int obey, const unsigned dummy)
 {
 	struct	string	*r;
 
@@ -402,9 +402,9 @@ void	do_logfile(const int obey, const unsigned dummy)
 }
 
 #ifdef	HAVE_TERMIO_H
-void	do_baud(const int obey, const unsigned dummy)
+void  do_baud(const int obey, const unsigned dummy)
 #else
-void	do_baud(const int obey, const unsigned arg)
+void  do_baud(const int obey, const unsigned arg)
 #endif
 {
 	int	i = rdnum();
@@ -471,7 +471,7 @@ void	do_baud(const int obey, const unsigned arg)
 }
 
 #ifdef	HAVE_TERMIO_H
-void	do_csize(const int obey, const unsigned arg)
+void  do_csize(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 #ifdef OS_DYNIX
@@ -507,7 +507,7 @@ void	do_csize(const int obey, const unsigned arg)
 	}
 }
 
-void	do_parity(const int obey, const unsigned arg)
+void  do_parity(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 		if  (Isbann)  {
@@ -524,7 +524,7 @@ void	do_parity(const int obey, const unsigned arg)
 	}
 }
 
-void	do_cflags(const int obey, const unsigned arg)
+void  do_cflags(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 		if  (Isbann)  {
@@ -543,7 +543,7 @@ void	do_cflags(const int obey, const unsigned arg)
 	}
 }
 
-void	do_oflag(const int obey, const unsigned arg)
+void  do_oflag(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 		if  (Isbann)  {
@@ -562,7 +562,7 @@ void	do_oflag(const int obey, const unsigned arg)
 	}
 }
 
-void	do_iflag(const int obey, const unsigned arg)
+void  do_iflag(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 		if  (Isbann)  {
@@ -606,7 +606,7 @@ const	unsigned	arg;
 #endif	/* ifdef DYNIX */
 
 #else
-void	do_flags(const int obey, const unsigned arg)
+void  do_flags(const int obey, const unsigned arg)
 {
 	if  (obey)  {
 		if  (Isbann)  {
@@ -627,7 +627,7 @@ void	do_flags(const int obey, const unsigned arg)
 
 #endif
 
-void	do_mat(const int obey, const unsigned dummy)
+void  do_mat(const int obey, const unsigned dummy)
 {
 	if  (obey && mbeg)  {
 		char  *stuff = (char *) malloc((unsigned)(mend-mbeg+1));
@@ -645,7 +645,7 @@ void	do_mat(const int obey, const unsigned dummy)
 	}
 }
 
-void	initsymbs(void)
+void  initsymbs()
 {
 	sethash("_", do_mat, 0);
 
@@ -817,12 +817,12 @@ void  checkfile(struct string *str, USHORT *lp, const unsigned mode, const int m
 		*lp += elng;
 }
 
-void	dumpstr(struct string *str)
+void  dumpstr(struct string *str)
 {
 	if  (!str)
 		return;
 
-	do  (void) fwrite(str->s_str, 1, (int) str->s_length, stdout);
+	do  fwrite(str->s_str, 1, (int) str->s_length, stdout);
 	while  ((str = str->s_next));
 
 	/* And a final null.  */
@@ -830,7 +830,7 @@ void	dumpstr(struct string *str)
 	putchar(0);
 }
 
-void	dumpfile(struct string *str, const int noappend)
+void  dumpfile(struct string *str, const int noappend)
 {
 	struct  string  *sp;
 	for  (sp = str;  sp;  sp = sp->s_next)
@@ -844,7 +844,7 @@ void	dumpfile(struct string *str, const int noappend)
 	dumpstr(sp);
 }
 
-void	makeoutput(void)
+void  makeoutput()
 {
 	out_params.pi_setup = calclength(su_str);
 	out_params.pi_halt = calclength(hlt_str);
@@ -929,7 +929,7 @@ void	makeoutput(void)
 
 	spdinit	printer formtype	*/
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	versionprint(argv, "$Revision: 1.2 $", 1);
 

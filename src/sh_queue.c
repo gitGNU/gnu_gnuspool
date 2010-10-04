@@ -54,22 +54,22 @@
 #include <time.h>
 #endif
 
-void	notify(struct spq *, struct spptr *, const int, const jobno_t, const int);
+void  notify(struct spq *, struct spptr *, const int, const jobno_t, const int);
 #ifdef	NETWORK_VERSION
-void	job_broadcast(Hashspq *, const int);
-void	job_sendupdate(struct spq *, struct spq *, const int);
-void	job_message(const netid_t, struct spq *, const int, const ULONG, const ULONG);
-void	ptr_sendupdate(struct spptr *, struct spptr *, const int);
-void	ptr_message(struct spptr *, const int);
-void	ptr_broadcast(Hashspptr *, const int);
+void  job_broadcast(Hashspq *, const int);
+void  job_sendupdate(struct spq *, struct spq *, const int);
+void  job_message(const netid_t, struct spq *, const int, const ULONG, const ULONG);
+void  ptr_sendupdate(struct spptr *, struct spptr *, const int);
+void  ptr_message(struct spptr *, const int);
+void  ptr_broadcast(Hashspptr *, const int);
 #endif
-void	nowaiting(struct spptr *);
-void	pmsend(struct spptr *, struct spr_req *, const int);
-void	prabort(struct spptr *);
-void	prjab(struct sp_omsg *);
-void	report(const int);
-void	nfreport(const int);
-int	gshmchan(struct spshm_info *, const int);
+void  nowaiting(struct spptr *);
+void  pmsend(struct spptr *, struct spr_req *, const int);
+void  prabort(struct spptr *);
+void  prjab(struct sp_omsg *);
+void  report(const int);
+void  nfreport(const int);
+int  gshmchan(struct spshm_info *, const int);
 
 extern	uid_t	Daemuid;
 extern	float	pri_decrement;
@@ -104,7 +104,7 @@ extern	PIDTYPE	Netm_pid;
 #endif
 
 #ifdef	USING_FLOCK
-void	setjhold(const int typ)
+void  setjhold(const int typ)
 {
 	struct	flock	lck;
 	lck.l_type = typ;
@@ -124,12 +124,12 @@ void	setjhold(const int typ)
 	}
 }
 
-static void	jobs_lock(void)
+static void  jobs_lock()
 {
 	setjhold(F_WRLCK);
 }
 
-static void	jobs_unlock(void)
+static void  jobs_unlock()
 {
 #ifdef	USING_MMAP
 	msync(Job_seg.iinf.seg, Job_seg.iinf.segsize, MS_SYNC|MS_INVALIDATE);
@@ -139,7 +139,7 @@ static void	jobs_unlock(void)
 }
 
 #else
-static void	jobs_lock(void)
+static void  jobs_lock()
 {
 	for  (;;)  {
 		if  (semop(Sem_chan, jw, 2) >= 0)
@@ -150,7 +150,7 @@ static void	jobs_lock(void)
 	}
 }
 
-static void	jobs_unlock(void)
+static void  jobs_unlock()
 {
 #ifdef	USING_MMAP
 	msync(Job_seg.iinf.seg, Job_seg.iinf.segsize, MS_SYNC|MS_INVALIDATE);
@@ -166,7 +166,7 @@ static void	jobs_unlock(void)
 }
 #endif
 
-inline SHORT	round_short(float flt)
+inline SHORT  round_short(float flt)
 {
 	if  (flt < 0.0)  {
 		flt -= .5;
@@ -181,7 +181,7 @@ inline SHORT	round_short(float flt)
 	return  (SHORT) flt;
 }
 
-static void	free_rest(const LONG jind, const LONG njbs)
+static void  free_rest(const LONG jind, const LONG njbs)
 {
 	Hashspq		*jj;
 	LONG		cnt;
@@ -202,7 +202,7 @@ static void	free_rest(const LONG jind, const LONG njbs)
 	}
 }
 
-static void	val_dir(char * d)
+static void  val_dir(char *d)
 {
 	extern	char	*spdir;
 	struct	stat	sbuf;
@@ -234,7 +234,7 @@ static void	val_dir(char * d)
 /* Validate the ownership etc of the spool directory(ies)
    This is only a very basic check. */
 
-void	valspdir(void)
+void  valspdir()
 {
 	extern	int	spid_subdirs;
 	int	cnt;
@@ -258,7 +258,7 @@ void	valspdir(void)
 
 /* Create/open job file. Read it into memory if it exists. */
 
-void	createjfile(int jsize)
+void  createjfile(int jsize)
 {
 #if  	defined(USING_MMAP) || !defined(NO_ROUND_PAGES)
 	LONG	pagesize = sysconf(_SC_PAGE_SIZE);
@@ -459,7 +459,7 @@ void	createjfile(int jsize)
 	squash it up (by recreating the file, as vanilla UNIX doesn't have a
 	"truncate file" syscall [why not?]). */
 
-void	rewrjq(void)
+void  rewrjq()
 {
 	int	fjobs, nwritten;
 	LONG	jind;
@@ -487,7 +487,7 @@ void	rewrjq(void)
 		if  (errno != EINTR)
 			report($E{Panic couldnt lock job file});
 	}
-	ftruncate(jfilefd, 0L);
+	Ignored_error = ftruncate(jfilefd, 0L);
 	lseek(jfilefd, 0L, 0);
 #else
 	if  (nwritten < fjobs)  {
@@ -517,7 +517,7 @@ void	rewrjq(void)
 	while  (jind >= 0L)  {
 		Hashspq	*jp = &Job_seg.jlist[jind];
 		if  (jp->j.spq_netid == 0)
-			write(jfilefd, (char *) &jp->j, sizeof(struct spq));
+			Ignored_error = write(jfilefd, (char *) &jp->j, sizeof(struct spq));
 		jind = jp->q_nxt;
 	}
 
@@ -534,7 +534,7 @@ void	rewrjq(void)
    allocating a new shared memory segment, putting the key field in the job info
    segment - variation from before */
 
-void	growjseg(void)
+void  growjseg()
 {
 	unsigned	Oldmaxj = Job_seg.dptr->js_maxjobs;
 	unsigned	Maxjobs = Oldmaxj + INCNJOBS;
@@ -606,7 +606,7 @@ void	growjseg(void)
 #endif
 }
 
-static void	takeoff_q(const unsigned jind)
+static void  takeoff_q(const unsigned jind)
 {
 	LONG  nxtind = Job_seg.jlist[jind].q_nxt;
 	LONG  prvind = Job_seg.jlist[jind].q_prv;
@@ -621,7 +621,7 @@ static void	takeoff_q(const unsigned jind)
 		Job_seg.jlist[prvind].q_nxt = nxtind;
 }
 
-static void	dequeue_nolock(const LONG jind)
+static void  dequeue_nolock(const LONG jind)
 {
 	Hashspq	*jhp = &Job_seg.jlist[jind];
 	LONG	prevind, nextind;
@@ -667,7 +667,7 @@ static void	dequeue_nolock(const LONG jind)
 	qchanges++;
 }
 
-static void	puton_q(const unsigned jind, const LONG after)
+static void  puton_q(const unsigned jind, const LONG after)
 {
 	LONG	nxt;
 
@@ -695,7 +695,7 @@ static void	puton_q(const unsigned jind, const LONG after)
 /* Remove records of remote jobs when a remote machine kicks the bucket.
    This MUST be called before net_pclear as we "unassign" jobs which were being printed. */
 
-void	net_jclear(const netid_t netid)
+void  net_jclear(const netid_t netid)
 {
 	LONG	jind;
 
@@ -731,7 +731,7 @@ void	net_jclear(const netid_t netid)
 
 /* Get printer corresponding to job being printed */
 
-struct	spptr *printing(struct spq *jp)
+struct	spptr *  printing(struct spq *jp)
 {
 	struct	spptr	*cp;
 
@@ -747,7 +747,7 @@ struct	spptr *printing(struct spq *jp)
 
 /* Find local slot corresponding to given remote slot */
 
-slotno_t	find_rslot(const netid_t netid, const slotno_t rslot)
+slotno_t  find_rslot(const netid_t netid, const slotno_t rslot)
 {
 	LONG  jind = Job_seg.hashp_jid[jid_hash(netid, rslot)];
 
@@ -767,7 +767,7 @@ slotno_t	find_rslot(const netid_t netid, const slotno_t rslot)
 /* Enqueue request on spool queue.
    Non-local jobs have non-zero rq->spr_netid */
 
-void	enqueue(struct sp_xjmsg *rq, struct spq *inj)
+void  enqueue(struct sp_xjmsg *rq, struct spq *inj)
 {
 	unsigned	hashval;
 	LONG		jind, nxtind, lastind;
@@ -871,7 +871,7 @@ void	enqueue(struct sp_xjmsg *rq, struct spq *inj)
 /* Copy "minor" details of jobs which don't cause too much difficulty
    if the job is already printing. */
 
-static	void	copy_minor(struct spq *dest, struct spq *newj)
+static	void  copy_minor(struct spq *dest, struct spq *newj)
 {
 	dest->spq_cps = newj->spq_cps;
 	dest->spq_jflags &= ~(SPQ_WRT|SPQ_MAIL|SPQ_RETN|SPQ_MATTN|SPQ_WATTN);
@@ -882,7 +882,7 @@ static	void	copy_minor(struct spq *dest, struct spq *newj)
 
 /* Copy more substantial bits of jobs we want to change */
 
-static	void	copy_major(const LONG jind, struct spq *dest, struct spq *newj)
+static	void  copy_major(const LONG jind, struct spq *dest, struct spq *newj)
 {
 	int	pdiff;
 
@@ -943,7 +943,7 @@ static	void	copy_major(const LONG jind, struct spq *dest, struct spq *newj)
    This is the case where we have various details to change, possibly
    passing on some info elsewhere. */
 
-void	chjob(struct sp_xjmsg *rq, struct spq *newj)
+void  chjob(struct sp_xjmsg *rq, struct spq *newj)
 {
 	Hashspq		*hjp;
 	struct  spq	*dest;
@@ -1012,7 +1012,7 @@ void	chjob(struct sp_xjmsg *rq, struct spq *newj)
 
 /* Note that a remote job has been changed. */
 
-void	remchjob(struct sp_xjmsg *rq, struct spq *newj)
+void  remchjob(struct sp_xjmsg *rq, struct spq *newj)
 {
 	struct  spq	*dest;
 	slotno_t	slot;
@@ -1034,7 +1034,7 @@ void	remchjob(struct sp_xjmsg *rq, struct spq *newj)
 /* Update remote details of job when the job on the remote machine is
    printed by a local-only printer on the (same) remote machine. */
 
-void	locpassign(struct sp_omsg *rq)
+void  locpassign(struct sp_omsg *rq)
 {
 	struct  spq  *dest;
 	slotno_t	slot;
@@ -1053,7 +1053,7 @@ void	locpassign(struct sp_omsg *rq)
    It might be one of "my" jobs. However it will always be
    someone else's printer. */
 
-void	jpassign(struct sp_omsg *rq)
+void  jpassign(struct sp_omsg *rq)
 {
 	struct	spq	*jp;
 	struct	spptr	*pp;
@@ -1098,7 +1098,7 @@ void	jpassign(struct sp_omsg *rq)
 /* When printer finishes with job, then we break the links.
  This routine is only called from the machine the printer is on. */
 
-void	unassign(Hashspq *hjp, Hashspptr *hcp)
+void  unassign(Hashspq *hjp, Hashspptr *hcp)
 {
 	struct	spq	*jp = &hjp->j;
 	struct	spptr	*cp = &hcp->p;
@@ -1136,7 +1136,7 @@ void	unassign(Hashspq *hjp, Hashspptr *hcp)
 /* Routine called when a job on this machine stops being printed
    by a remote machine - the copies may get reset. */
 
-void	unassign_job(struct sp_xjmsg *rq, struct spq *newj)
+void  unassign_job(struct sp_xjmsg *rq, struct spq *newj)
 {
 	Hashspq		*hjp;
 	struct  spq	*dest;
@@ -1162,7 +1162,7 @@ void	unassign_job(struct sp_xjmsg *rq, struct spq *newj)
 /* Note that a remote job has been unassigned.
    Called from "job_broadcast" in previous routine. */
 
-void	unassign_remjob(struct sp_xjmsg *rq, struct spq *newj)
+void  unassign_remjob(struct sp_xjmsg *rq, struct spq *newj)
 {
 	struct  spq	*dest;
 	slotno_t  slot;
@@ -1185,7 +1185,7 @@ void	unassign_remjob(struct sp_xjmsg *rq, struct spq *newj)
 
 /* Remove job from queue.  Remove files if relevant. */
 
-void	dequeue(const LONG jind)
+void  dequeue(const LONG jind)
 {
 	struct  spq	*jp = &Job_seg.jlist[jind].j;
 
@@ -1200,7 +1200,7 @@ void	dequeue(const LONG jind)
 
 /* Delete a job by whatever means */
 
-void	delete_job(Hashspq *hjp)
+void  delete_job(Hashspq *hjp)
 {
 #ifdef	NETWORK_VERSION
 	if  (hjp->j.spq_netid)
@@ -1217,7 +1217,7 @@ void	delete_job(Hashspq *hjp)
 
 /* Abort job, removing from queue. */
 
-void	doabort(struct sp_omsg *rq)
+void  doabort(struct sp_omsg *rq)
 {
 	slotno_t  slotn = rq->spr_jpslot;
 	Hashspq  *hjp;
@@ -1246,7 +1246,7 @@ void	doabort(struct sp_omsg *rq)
 
 /* Note removal of non-local job */
 
-void	remdequeue(struct sp_omsg *rq)
+void  remdequeue(struct sp_omsg *rq)
 {
 	slotno_t	slot;
 	struct  spq	*jp;
@@ -1268,7 +1268,7 @@ void	remdequeue(struct sp_omsg *rq)
 
 #define	HOURS	3600L
 
-unsigned	qpurge(void)
+unsigned  qpurge()
 {
 	time_t	now = time((time_t *) 0);
 	unsigned  at = 0;

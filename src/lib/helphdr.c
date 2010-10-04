@@ -29,7 +29,7 @@
 
 #define	MAXLINES	10
 
-char  **helphdr(const char chr)
+char **helphdr(const char chr)
 {
 	char	**result;
 	int	lnum, maxl = 0, ch, perc = 0, hadeof = 0;

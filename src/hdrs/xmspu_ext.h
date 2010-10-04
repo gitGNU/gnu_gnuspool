@@ -21,7 +21,6 @@ extern	int	hchanges,	/* Had changes to default */
 		uchanges;	/* Had changes to user(s) */
 
 extern	char		alphsort;
-extern	unsigned	Nusers;
 extern	struct	sphdr	Spuhdr;
 extern	struct	spdet	*ulist;
 
@@ -74,26 +73,26 @@ extern	Widget	workw[];
 #define	FORMETC_UPTR	6
 #define	FORMETC_UPTRA	7
 
-extern void	cb_disporder(Widget);
-extern void	cb_pris(Widget, int);
-extern void	cb_formetc(Widget, int);
-extern void	cb_class(Widget, int);
-extern void	cb_priv(Widget, int);
-extern void	cb_copydef(Widget, int);
-extern void	cb_cdisplay(Widget, int);
-extern void	cb_zeroc(Widget, int);
-extern void	cb_impose(Widget, int);
-extern void	cb_macrou(Widget, int);
-extern void	cb_srchfor(Widget);
-extern void	cb_rsrch(Widget, int);
-extern void	cb_chelp(Widget, int, XmAnyCallbackStruct *);
-extern void	defdisplay(void);
-extern void	dohelp(Widget, int);
-extern void	doerror(Widget, int);
-extern void	displaybusy(const int);
-extern void	udisplay(int, int *);
+extern void  cb_disporder(Widget);
+extern void  cb_pris(Widget, int);
+extern void  cb_formetc(Widget, int);
+extern void  cb_class(Widget, int);
+extern void  cb_priv(Widget, int);
+extern void  cb_copydef(Widget, int);
+extern void  cb_cdisplay(Widget, int);
+extern void  cb_zeroc(Widget, int);
+extern void  cb_impose(Widget, int);
+extern void  cb_macrou(Widget, int);
+extern void  cb_srchfor(Widget);
+extern void  cb_rsrch(Widget, int);
+extern void  cb_chelp(Widget, int, XmAnyCallbackStruct *);
+extern void  defdisplay();
+extern void  dohelp(Widget, int);
+extern void  doerror(Widget, int);
+extern void  displaybusy(const int);
+extern void  udisplay(int, int *);
 
-extern int	Confirm(Widget, int);
+extern int  Confirm(Widget, int);
 
-extern int	sort_id(struct spdet *, struct spdet *);
-extern int	sort_u(struct spdet *, struct spdet *);
+extern int  sort_id(struct spdet *, struct spdet *);
+extern int  sort_u(struct spdet *, struct spdet *);

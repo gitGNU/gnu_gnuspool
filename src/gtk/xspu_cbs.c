@@ -76,7 +76,7 @@ struct	dialog_data  {
 
 static	GtkWidget  *msgwin;
 
-void	dest_busy(void)
+void	dest_busy()
 {
 	gtk_widget_destroy(msgwin);
 	msgwin = NULL;
@@ -100,12 +100,12 @@ void	displaybusy(const int on)
 }
 #endif
 
-extern	GtkWidget	*findwidfromptab(struct dialog_data *, const ULONG);
+extern	GtkWidget *findwidfromptab(struct dialog_data *, const ULONG);
 
 /* Test it's not on before we force it on otherwise we could get an endless loop
    of signals */
 
-void	setifnotset(GtkWidget *wid)
+void setifnotset(GtkWidget *wid)
 {
 	if  (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), TRUE);
@@ -113,13 +113,13 @@ void	setifnotset(GtkWidget *wid)
 
 /* Ditto for unsetting */
 
-void	unsetifset(GtkWidget *wid)
+void unsetifset(GtkWidget *wid)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), FALSE);
 }
 
-void	admin_changed(GtkWidget *wid, struct dialog_data *ddata)
+void admin_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))  {
 		int	cnt;
@@ -133,7 +133,7 @@ void	admin_changed(GtkWidget *wid, struct dialog_data *ddata)
 	}
 }
 
-void	cover_changed(GtkWidget *wid, struct dialog_data *ddata)
+void cover_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))  {
 		if  (wid == ddata->override)
@@ -149,7 +149,7 @@ void	cover_changed(GtkWidget *wid, struct dialog_data *ddata)
 	}
 }
 
-void	cprio_changed(GtkWidget *wid, struct dialog_data *ddata)
+void cprio_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))  {
 		if  (wid == ddata->cprio)
@@ -167,7 +167,7 @@ void	cprio_changed(GtkWidget *wid, struct dialog_data *ddata)
 	}
 }
 
-void	anyprio_changed(GtkWidget *wid, struct dialog_data *ddata)
+void anyprio_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))  {
 		if  (wid == ddata->anyprio)
@@ -185,20 +185,20 @@ void	anyprio_changed(GtkWidget *wid, struct dialog_data *ddata)
 	}
 }
 
-void	vother_changed(GtkWidget *wid, struct dialog_data *ddata)
+void vother_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))
 		unsetifset(findwidfromptab(ddata, PV_OTHERJ));
 }
 
-void	othj_changed(GtkWidget *wid, struct dialog_data *ddata)
+void othj_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))
 		setifnotset(findwidfromptab(ddata, PV_VOTHERJ));
 }
 
 
-void	prinq_changed(GtkWidget *wid, struct dialog_data *ddata)
+void prinq_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))  {
 		unsetifset(findwidfromptab(ddata, PV_ADDDEL));
@@ -206,7 +206,7 @@ void	prinq_changed(GtkWidget *wid, struct dialog_data *ddata)
 	}
 }
 
-void	haltp_changed(GtkWidget *wid, struct dialog_data *ddata)
+void haltp_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))
 		setifnotset(findwidfromptab(ddata, PV_PRINQ));
@@ -214,7 +214,7 @@ void	haltp_changed(GtkWidget *wid, struct dialog_data *ddata)
 		unsetifset(findwidfromptab(ddata, PV_ADDDEL));
 }
 
-void	addp_changed(GtkWidget *wid, struct dialog_data *ddata)
+void addp_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))  {
 		setifnotset(findwidfromptab(ddata, PV_HALTGO));
@@ -222,7 +222,7 @@ void	addp_changed(GtkWidget *wid, struct dialog_data *ddata)
 	}
 }
 
-void	cdeflt_changed(GtkWidget *wid, struct dialog_data *ddata)
+void cdeflt_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))  {
 		if  (wid == ddata->cdeflt)
@@ -238,13 +238,13 @@ void	cdeflt_changed(GtkWidget *wid, struct dialog_data *ddata)
 	}
 }
 
-void	access_changed(GtkWidget *wid, struct dialog_data *ddata)
+void access_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))
 		unsetifset(findwidfromptab(ddata, PV_FREEZEOK));
 }
 
-void	freeze_changed(GtkWidget *wid, struct dialog_data *ddata)
+void freeze_changed(GtkWidget *wid, struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wid)))
 		setifnotset(findwidfromptab(ddata, PV_ACCESSOK));
@@ -285,7 +285,7 @@ GtkWidget  *findwidfromptab(struct dialog_data *ddata, const ULONG fl)
 	_exit(E_SETUP);
 }
 
-void	priv_setdef(struct dialog_data *ddata)
+void priv_setdef(struct dialog_data *ddata)
 {
 	int	cnt;
 
@@ -296,21 +296,21 @@ void	priv_setdef(struct dialog_data *ddata)
 			unsetifset(ddata->privs[cnt]);
 }
 
-void	cc_setall(struct dialog_data *ddata)
+void cc_setall(struct dialog_data *ddata)
 {
 	int	cnt;
 	for  (cnt = 0;  cnt < 32;  cnt++)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ddata->classcodes[cnt]), TRUE);
 }
 
-void	cc_clearall(struct dialog_data *ddata)
+void cc_clearall(struct dialog_data *ddata)
 {
 	int	cnt;
 	for  (cnt = 0;  cnt < 32;  cnt++)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ddata->classcodes[cnt]), FALSE);
 }
 
-static int	getselectedusers(const int moan)
+static int getselectedusers(const int moan)
 {
 	GtkTreeSelection *selection;
 
@@ -435,7 +435,7 @@ GtkWidget *create_form_dialog(struct dialog_data *ddata, const char *eform, cons
 	stringvec_insert_unique(&possforms, Spuhdr.sph_form);
 	stringvec_insert_unique(&possallow, Spuhdr.sph_form);
 	stringvec_insert_unique(&possallow, Spuhdr.sph_formallow);
-	for  (cnt = 0;  cnt < Nusers;  cnt++)  {
+	for  (cnt = 0;  cnt < Npwusers;  cnt++)  {
 		stringvec_insert_unique(&possforms, ulist[cnt].spu_form);
 		stringvec_insert_unique(&possallow, ulist[cnt].spu_form);
 		stringvec_insert_unique(&possallow, ulist[cnt].spu_formallow);
@@ -481,7 +481,7 @@ GtkWidget *create_form_dialog(struct dialog_data *ddata, const char *eform, cons
 	return  frame;
 }
 
-GtkWidget	*create_ptr_dialog(struct dialog_data *ddata, const char *eptr, const char *eptra)
+GtkWidget *create_ptr_dialog(struct dialog_data *ddata, const char *eptr, const char *eptra)
 {
 	struct  stringvec  possptrs, possallow;
 	unsigned  cnt;
@@ -496,7 +496,7 @@ GtkWidget	*create_ptr_dialog(struct dialog_data *ddata, const char *eptr, const 
 	stringvec_insert_unique(&possptrs, Spuhdr.sph_ptr);
 	stringvec_insert_unique(&possallow, Spuhdr.sph_ptr);
 	stringvec_insert_unique(&possallow, Spuhdr.sph_ptrallow);
-	for  (cnt = 0;  cnt < Nusers;  cnt++)  {
+	for  (cnt = 0;  cnt < Npwusers;  cnt++)  {
 		stringvec_insert_unique(&possptrs, ulist[cnt].spu_ptr);
 		stringvec_insert_unique(&possallow, ulist[cnt].spu_ptr);
 		stringvec_insert_unique(&possallow, ulist[cnt].spu_ptrallow);
@@ -538,7 +538,7 @@ GtkWidget	*create_ptr_dialog(struct dialog_data *ddata, const char *eptr, const 
 	return  frame;
 }
 
-GtkWidget  *create_cc_dialog(struct dialog_data *ddata, const classcode_t cc, const ULONG priv)
+GtkWidget *create_cc_dialog(struct dialog_data *ddata, const classcode_t cc, const ULONG priv)
 {
 	GtkWidget	*frame, *vbox, *hbox, *button;
 	int		rcnt, ccnt, bitnum;
@@ -607,7 +607,7 @@ GtkWidget  *create_cc_dialog(struct dialog_data *ddata, const classcode_t cc, co
 	return  frame;
 }
 
-GtkWidget  *create_priv_dialog(struct dialog_data *ddata, const ULONG priv, const int isuser)
+GtkWidget *create_priv_dialog(struct dialog_data *ddata, const ULONG priv, const int isuser)
 {
 	static	int	expanded = 0;
 	int	cnt;
@@ -652,7 +652,7 @@ GtkWidget  *create_priv_dialog(struct dialog_data *ddata, const ULONG priv, cons
 	return  frame;
 }
 
-GtkWidget  *user_lab(const int isusers, const char *msg)
+GtkWidget *user_lab(const int isusers, const char *msg)
 {
 	GtkWidget  *lab;
 	if  (isusers)  {
@@ -676,7 +676,7 @@ GtkWidget  *user_lab(const int isusers, const char *msg)
 	return  lab;
 }
 
-GtkWidget  *create_dialog(struct dialog_data *ddata, const int wpage, const int isusers)
+GtkWidget *create_dialog(struct dialog_data *ddata, const int wpage, const int isusers)
 {
 	GtkWidget  *dlg, *lab, *notebook, *pridlg, *formdlg, *ptrdlg, *ccdlg, *privdlg;
 	char	*pr;
@@ -735,7 +735,7 @@ GtkWidget  *create_dialog(struct dialog_data *ddata, const int wpage, const int 
 	return  dlg;
 }
 
-classcode_t	get_class_from_widgets(struct dialog_data * ddata)
+classcode_t get_class_from_widgets(struct dialog_data *ddata)
 {
 	classcode_t  ncc = 0;
 	int	cnt;
@@ -746,7 +746,7 @@ classcode_t	get_class_from_widgets(struct dialog_data * ddata)
 	return  ncc;
 }
 
-ULONG	get_priv_from_widgets(struct dialog_data * ddata)
+ULONG get_priv_from_widgets(struct dialog_data *ddata)
 {
 	ULONG	npriv = 0;
 	int	cnt;
@@ -757,7 +757,7 @@ ULONG	get_priv_from_widgets(struct dialog_data * ddata)
 	return  npriv;
 }
 
-void	extract_ddata_defaults(struct dialog_data * ddata)
+void extract_ddata_defaults(struct dialog_data *ddata)
 {
 	int	redisp = 0;
 	int	minp, defp, maxp, cps;
@@ -821,7 +821,7 @@ void	extract_ddata_defaults(struct dialog_data * ddata)
 	defdisplay();
 }
 
-void	extract_ddata_users(struct dialog_data *ddata)
+void extract_ddata_users(struct dialog_data *ddata)
 {
 	int	cnt, minp, defp, maxp, cps;
 	const	char  *nform, *nptr, *nforma, *nptra;
@@ -882,32 +882,32 @@ void	cb_options(const int isusers, const int wpage)
 	gtk_widget_destroy(dlg);
 }
 
-void	cb_pri(GtkAction *action)
+void cb_pri(GtkAction *action)
 {
 	cb_options(gtk_action_get_name(action)[0] != 'D', DLG_PRI_PAGE);
 }
 
-void	cb_form(GtkAction *action)
+void cb_form(GtkAction *action)
 {
 	cb_options(gtk_action_get_name(action)[0] != 'D', DLG_FORM_PAGE);
 }
 
-void	cb_ptr(GtkAction *action)
+void cb_ptr(GtkAction *action)
 {
 	cb_options(gtk_action_get_name(action)[0] != 'D', DLG_PTR_PAGE);
 }
 
-void	cb_class(GtkAction *action)
+void cb_class(GtkAction *action)
 {
 	cb_options(gtk_action_get_name(action)[0] != 'D', DLG_CC_PAGE);
 }
 
-void	cb_priv(GtkAction *action)
+void cb_priv(GtkAction *action)
 {
 	cb_options(gtk_action_get_name(action)[0] != 'D', DLG_PRIV_PAGE);
 }
 
-static void	copyu(struct spdet *n)
+static void copyu(struct spdet *n)
 {
 	n->spu_defp = Spuhdr.sph_defp;
 	n->spu_minp = Spuhdr.sph_minp;
@@ -920,16 +920,16 @@ static void	copyu(struct spdet *n)
 	strncpy(n->spu_ptrallow, Spuhdr.sph_ptrallow, JPTRNAMESIZE);
 }
 
-void	cb_copyall(GtkAction *action)
+void cb_copyall(GtkAction *action)
 {
 	unsigned  cnt;
-	for  (cnt = 0;  cnt < Nusers;  cnt++)
+	for  (cnt = 0;  cnt < Npwusers;  cnt++)
 		copyu(&ulist[cnt]);
 	update_all_users();
 	uchanges++;
 }
 
-void	cb_copydef(GtkAction *action)
+void cb_copydef(GtkAction *action)
 {
 	unsigned  cnt;
 	if  (!getselectedusers(1))
@@ -938,150 +938,4 @@ void	cb_copydef(GtkAction *action)
 		copyu(&ulist[pendulist[cnt]]);
 	update_selected_users();
 	uchanges++;
-}
-
-/* Open charge file as required */
-
-static int	grab_file(const int omode)
-{
-	static	char	*file_name;
-
-	if  (!file_name)
-		file_name = envprocess(CHFILE);
-
-	return  open(file_name, omode);
-}
-
-void	cb_charges(GtkAction *action)
-{
-	GtkWidget  *dlg, *cwid, *scroll;
-	GtkCellRenderer     *rend;
-	GtkListStore	*clist_store;
-	int	cnt;
-	char	*pr;
-
-	if  (!getselectedusers(1))
-		return;
-
-	clist_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_LONG);
-
-	for  (cnt = 0;  cnt < pendunum;  cnt++)  {
-		int_ugid_t	uu = ulist[pendulist[cnt]].spu_user;
-		GtkTreeIter   iter;
-		gtk_list_store_append(clist_store, &iter);
-		gtk_list_store_set(clist_store, &iter, 0, prin_uname(uu), 1, (glong) calccharge(uu), -1);
-	}
-
-	pr = gprompt($P{xspuser charges dlg});
-	dlg = gtk_dialog_new_with_buttons(pr, GTK_WINDOW(toplevel), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-	free(pr);
-	gtk_window_set_default_size(GTK_WINDOW(dlg), DEFAULT_CHG_WIDTH, DEFAULT_CHG_HEIGHT);
-	cwid = gtk_tree_view_new();
-	rend = gtk_cell_renderer_text_new();
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(cwid), -1, "User", rend, "text", 0, NULL);
-	gtk_tree_view_column_set_resizable(gtk_tree_view_get_column(GTK_TREE_VIEW(cwid), 0), TRUE);
-	rend = gtk_cell_renderer_text_new();
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(cwid), -1, "Charge", rend, "text", 1, NULL);
-	gtk_tree_view_column_set_resizable(gtk_tree_view_get_column(GTK_TREE_VIEW(cwid), 1), TRUE);
-	gtk_tree_view_set_model(GTK_TREE_VIEW(cwid), GTK_TREE_MODEL(clist_store));
-	g_object_unref(clist_store);		/* So that it gets deallocated */
-
-	scroll = gtk_scrolled_window_new(NULL, NULL);
-	gtk_container_set_border_width(GTK_CONTAINER(scroll), 5);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(scroll), cwid);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), scroll, FALSE, FALSE, 0);
-	gtk_box_set_child_packing(GTK_BOX(GTK_DIALOG(dlg)->vbox), scroll, TRUE, TRUE, 0, GTK_PACK_START);
-	gtk_widget_show_all(dlg);
-
-	gtk_dialog_run(GTK_DIALOG(dlg));
-	gtk_widget_destroy(dlg);
-}
-
-void	cb_zerou(GtkAction *action)
-{
-	int	fd, cnt;
-	struct	spcharge	spc;
-
-	if  (!getselectedusers(1))
-		return;
-
-	if  (!Confirm($PH{xmspuser zero charges}))
-		return;
-	if  ((fd = grab_file(O_WRONLY|O_APPEND)) < 0)
-		return;
-	time(&spc.spch_when);
-	spc.spch_what = SPCH_ZERO;
-	for  (cnt = 0;  cnt < pendunum;  cnt++)  {
-		spc.spch_user = ulist[pendulist[cnt]].spu_user;
-		write(fd, (char *) &spc, sizeof(spc));
-	}
-	close(fd);
-}
-
-void	cb_zeroall(GtkAction *action)
-{
-	int	fd;
-	struct	spcharge	spc;
-
-	if  (!Confirm($PH{xmspuser zero all charges}))
-		return;
-	if  ((fd = grab_file(O_WRONLY|O_APPEND)) < 0)
-		return;
-	time(&spc.spch_when);
-	spc.spch_what = SPCH_ZEROALL;
-	spc.spch_user = -1;
-	write(fd, (char *) &spc, sizeof(spc));
-	close(fd);
-}
-
-void	cb_impose(GtkAction *action)
-{
-	GtkWidget  *dlg, *hbox, *spin;
-	GtkAdjustment *adj;
-	char	*pr;
-
-	if  (!getselectedusers(1))
-		return;
-
-	pr = gprompt($P{xspuser impose dlg});
-	dlg = gtk_dialog_new_with_buttons(pr,
-					  GTK_WINDOW(toplevel),
-					  GTK_DIALOG_DESTROY_WITH_PARENT,
-					  GTK_STOCK_OK,
-					  GTK_RESPONSE_OK,
-					  GTK_STOCK_CANCEL,
-					  GTK_RESPONSE_CANCEL,
-					  NULL);
-	free(pr);
-
-	hbox = gtk_hbox_new(TRUE, DEF_DLG_HPAD);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), hbox, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), user_lab(1, "Impose charges: "), FALSE, FALSE, 0);
-
-	adj = (GtkAdjustment *) gtk_adjustment_new(1.0, 1.0, 1E6, 1.0, 100.0, 0.0);
-	spin = gtk_spin_button_new(adj, 0.25, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), spin, FALSE, FALSE, 0);
-	gtk_widget_show_all(dlg);
-
-	if  (gtk_dialog_run(GTK_DIALOG(dlg)) == GTK_RESPONSE_OK)  {
-		int  res = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin));
-		int  fd, cnt;
-
-		if  ((fd = grab_file(O_WRONLY|O_APPEND)) >= 0)  {
-			struct	spcharge	spc;
-			time(&spc.spch_when);
-			spc.spch_host = 0;		/* Me */
-			spc.spch_pri = 0;
-			spc.spch_chars = 0;
-			spc.spch_cpc = res;
-			spc.spch_what = SPCH_FEE;
-			for  (cnt = 0;  cnt < pendunum;  cnt++)  {
-				spc.spch_user = ulist[pendulist[cnt]].spu_user;
-				write(fd, (char *) &spc, sizeof(spc));
-			}
-			close(fd);
-		}
-	}
-	gtk_widget_destroy(dlg);
 }

@@ -19,7 +19,7 @@
 #include "defaults.h"
 #include <ctype.h>
 
-classcode_t	hextoi(const char *arg)
+classcode_t  hextoi(const char *arg)
 {
 	classcode_t  result  =  0;
 	unsigned  ch;

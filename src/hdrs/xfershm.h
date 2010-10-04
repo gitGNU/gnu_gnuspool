@@ -45,8 +45,8 @@ struct	xfershm	{
 };
 
 #ifndef	USING_FLOCK
-extern void	set_xfer_server(void);
+extern void  set_xfer_server();
 #endif
-extern int	init_xfershm(const int);
-extern int	wjmsg(struct spr_req *, struct spq *);
-extern int	wpmsg(struct spr_req *, struct spptr *);
+extern int  init_xfershm(const int);
+extern int  wjmsg(struct spr_req *, struct spq *);
+extern int  wpmsg(struct spr_req *, struct spptr *);

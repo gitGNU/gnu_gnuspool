@@ -31,7 +31,7 @@ extern	int	snmpsock;
 extern	double	udptimeout;
 extern	struct	sockaddr_in  snmp_serv, snmp_cli;
 
-void	snmp_xmit(char *buff, int nbytes)
+void  snmp_xmit(char *buff, int nbytes)
 {
 	if  (sendto(snmpsock, buff, nbytes, 0, (struct sockaddr *) &snmp_serv, sizeof(snmp_serv)) != nbytes)  {
 		perror("SNMP Send fail");
@@ -39,7 +39,7 @@ void	snmp_xmit(char *buff, int nbytes)
 	}
 }
 
-unsigned	snmp_recv(char *buff, int nbytes)
+unsigned  snmp_recv(char *buff, int nbytes)
 {
 	int			nbs;
 	SOCKLEN_T		repl = sizeof(struct sockaddr_in);
@@ -52,7 +52,7 @@ unsigned	snmp_recv(char *buff, int nbytes)
 	return  nbs;
 }
 
-int	snmp_wait(void)
+int  snmp_wait()
 {
 	fd_set	sel;
 	struct	timeval	 tv;

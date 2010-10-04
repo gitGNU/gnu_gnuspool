@@ -51,7 +51,6 @@ static	char	rcsid2[] = "@(#) $Revision: 1.3 $";
 int	hchanges,	/* Had changes to default */
 	uchanges;	/* Had changes to user(s) */
 
-unsigned		Nusers;
 extern	struct	sphdr	Spuhdr;
 struct	spdet		*ulist;
 static	char		*defhdr,
@@ -73,13 +72,12 @@ GtkWidget	*toplevel,	/* Main window */
 GtkListStore		*raw_ulist_store;
 GtkTreeModelSort	*ulist_store;
 
-static void	cb_about(void);
+static void  cb_about();
 
 static GtkActionEntry entries[] = {
 	{ "FileMenu", NULL, "_File" },
 	{ "DefMenu", NULL, "_Defaults" },
 	{ "UserMenu", NULL, "_Users"  },
-	{ "ChargeMenu", NULL, "_Charges"  },
 	{ "HelpMenu", NULL, "_Help" },
 	{ "Quit", GTK_STOCK_QUIT, "_Quit", "<control>Q", "Quit and save", G_CALLBACK(gtk_main_quit)},
 	{ "Dpri", NULL, "Default _pri", "<shift>P", "Set default priorities", G_CALLBACK(cb_pri)},
@@ -96,16 +94,11 @@ static GtkActionEntry entries[] = {
 	{ "upriv", NULL, "Privileges", "v", "Set privileges for users", G_CALLBACK(cb_priv)},
 	{ "copydef", NULL, "Copy defaults", NULL, "Copy default privileges to selected users", G_CALLBACK(cb_copydef)},
 
-	{ "dispcharge", NULL, "Display charges", NULL, "Display charges for users", G_CALLBACK(cb_charges)},
-	{ "zerou", NULL, "Zero charges", NULL, "Zero charges for selected users", G_CALLBACK(cb_zerou)},
-	{ "zeroall", NULL, "Zero all charges", NULL, "Zero charges for all users", G_CALLBACK(cb_zeroall)},
-	{ "impose", NULL, "Impose fee", NULL, "Impose fee on selected users", G_CALLBACK(cb_impose)},
-
 	{ "About", NULL, "About xspuser", NULL, "About xspuser", G_CALLBACK(cb_about)}  };
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void	nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -113,7 +106,7 @@ void	nomem(void)
 
 char	*authlist[] =  { "John M Collins", NULL  };
 
-static void	cb_about(void)
+static void  cb_about()
 {
 	GtkWidget  *dlg = gtk_about_dialog_new();
 	char	*cp = strchr(rcsid2, ':');
@@ -139,7 +132,7 @@ static void	cb_about(void)
 
 /*  Make top level window and set title and icon */
 
-static void	winit(void)
+static  void  winit()
 {
 	GError *err;
 	char	*fn;
@@ -158,7 +151,7 @@ static void	winit(void)
 	g_signal_connect(G_OBJECT(toplevel), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 }
 
-gint sort_userid(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer userdata)
+gint  sort_userid(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer userdata)
 {
 	guint	id1, id2;
         gtk_tree_model_get(model, a, UID_COL, &id1, -1);
@@ -166,7 +159,7 @@ gint sort_userid(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer u
 	return  id1 < id2? -1:  id1 == id2? 0: 1;
 }
 
-gint sort_username(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer userdata)
+gint  sort_username(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer userdata)
 {
         gchar	*name1, *name2;
 	gint	ret = 0;
@@ -193,7 +186,7 @@ gint sort_username(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer
 	return  ret;
 }
 
-void	set_sort_col(int colnum)
+void  set_sort_col(int colnum)
 {
 	GtkTreeSortable *sortable = GTK_TREE_SORTABLE(ulist_store);
 	GtkSortType      order;
@@ -208,7 +201,7 @@ void	set_sort_col(int colnum)
 		gtk_tree_sortable_set_sort_column_id(sortable, colnum, GTK_SORT_ASCENDING);
 }
 
-GtkWidget  *wstart(void)
+GtkWidget *wstart()
 {
 	char	*mf;
 	GError *err;
@@ -291,7 +284,7 @@ GtkWidget  *wstart(void)
 	return  vbox;
 }
 
-static void	wcomplete(GtkWidget * vbox)
+static void wcomplete(GtkWidget *vbox)
 {
 	GtkWidget  *paned, *scroll;
 
@@ -307,7 +300,7 @@ static void	wcomplete(GtkWidget * vbox)
 	gtk_widget_show_all(toplevel);
 }
 
-void	defdisplay(void)
+void	defdisplay()
 {
 	char	buf[300];
 	snprintf(buf, sizeof(buf), "%s Def pri %d min %d max %d\nMax copies %d\nDef form: %s\nDef ptr: %s",
@@ -315,7 +308,7 @@ void	defdisplay(void)
 	gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(dwid)), buf, -1);
 }
 
-static  char *get_cmsg(struct spdet *uitem)
+static char *get_cmsg(struct spdet *uitem)
 {
 	char	*msg;
 	classcode_t	exclc;
@@ -332,7 +325,7 @@ static  char *get_cmsg(struct spdet *uitem)
 	return  msg;
 }
 
-static char  *get_pmsg(struct spdet *uitem)
+static char *get_pmsg(struct spdet *uitem)
 {
 	char	*pmsg;
 	ULONG		exclp;
@@ -349,7 +342,7 @@ static char  *get_pmsg(struct spdet *uitem)
 	return  pmsg;
 }
 
-void	upd_udisp(struct spdet *uitem, GtkTreeIter *iter)
+void  upd_udisp(struct spdet *uitem, GtkTreeIter *iter)
 {
 	gtk_list_store_set(raw_ulist_store, iter,
 			   DEFPRI_COL,	(guint) uitem->spu_defp,
@@ -363,7 +356,7 @@ void	upd_udisp(struct spdet *uitem, GtkTreeIter *iter)
 			   -1);
 }
 
-void	update_all_users(void)
+void  update_all_users()
 {
 	GtkTreeIter  iter;
 	gboolean  valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(raw_ulist_store), &iter);
@@ -376,7 +369,7 @@ void	update_all_users(void)
 	}
 }
 
-void	update_selected_users(void)
+void  update_selected_users()
 {
 	GtkTreeSelection *selection;
 	GList  *pu, *nxt;
@@ -399,7 +392,7 @@ void	update_selected_users(void)
 /* After changing default class codes or permissions we must update
    the corresponding user fields */
 
-void	redispallu(void)
+void	redispallu()
 {
 	GtkTreeIter   iter;
 	gboolean      isnext;
@@ -417,12 +410,12 @@ void	redispallu(void)
 	}
 }
 
-static void	udisplay(void)
+static  void  udisplay()
 {
 	unsigned  ucnt;
 	GtkTreeIter   iter;
 
-	for  (ucnt = 0;  ucnt < Nusers;  ucnt++)  {
+	for  (ucnt = 0;  ucnt < Npwusers;  ucnt++)  {
 
 		/* Add reow to store.
 		   Put in index and uid which udisp doesn't do */
@@ -439,7 +432,7 @@ static void	udisplay(void)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	struct	spdet	*mypriv;
 	GtkWidget  *vbox;
@@ -470,42 +463,27 @@ MAINFN_TYPE	main(int argc, char **argv)
 		urestrict = stracpy(argv[1]);
 	winit();
 
-	if  (!(mypriv = getspuentry(Realuid)))  {
-		doerror($EH{Not registered yet});
-		exit(E_UNOTSETUP);
-	}
+	mypriv = getspuentry(Realuid);
+
 	if  (!(mypriv->spu_flgs & PV_ADMIN))  {
 		doerror($EH{No admin file permission});
 		exit(E_NOPRIV);
 	}
-	if  (spu_needs_rebuild && Confirm($PH{Xmspuser confirm rebuild}))  {
-		char  *name = envprocess(DUMPPWFILE);
-		int	wuz = access(name, 0);
-		if  (wuz >= 0)  {
-			un_rpwfile();
-			unlink(name);
-		}
-		free(name);
-		rebuild_spufile();
-		if  (wuz >= 0)
-			dump_pwfile();
-		produser();
-	}
-	ulist = getspulist(&Nusers);
+	ulist = getspulist();
 
 	vbox = wstart();
 
 	/* Chop down list to ones we want */
 
-	if  (Nusers != 0  &&  urestrict)  {
+	if  (Npwusers != 0  &&  urestrict)  {
 		unsigned   cnt, nucnt = 0;
 		struct  spdet  *cp, *np;
-		struct  spdet  *newulist = (struct spdet *) malloc(Nusers * sizeof(struct spdet));
+		struct  spdet  *newulist = (struct spdet *) malloc(Npwusers * sizeof(struct spdet));
 		if  (!newulist)
 			nomem();
 		cp = ulist;
 		np = newulist;
-		for  (cnt = 0;  cnt < Nusers;  cp++, cnt++)  {
+		for  (cnt = 0;  cnt < Npwusers;  cp++, cnt++)  {
 			char	*un = prin_uname((uid_t) cp->spu_user);
 			if  (!qmatch(urestrict, un))
 				continue;
@@ -514,16 +492,14 @@ MAINFN_TYPE	main(int argc, char **argv)
 		}
 		free((char *) ulist);
 		ulist = newulist;
-		Nusers = nucnt;
+		Npwusers = nucnt;
 	}
 
 	defdisplay();
 	udisplay();
 	wcomplete(vbox);
 	gtk_main();
-	if  (uchanges)
-		putspulist(ulist, Nusers, hchanges);
-	else  if  (hchanges)
-		putspulist((struct spdet *) 0, 0, hchanges);
+	if  (hchanges || uchanges)
+		putspulist(ulist);
 	return  0;
 }

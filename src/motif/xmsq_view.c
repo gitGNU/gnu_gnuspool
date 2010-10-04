@@ -63,8 +63,8 @@
 
 #include "xmspqdoc.bm"
 
-extern int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
-extern FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+extern int  rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+extern FILE *  net_feed(const int, const netid_t, const slotno_t, const jobno_t);
 
 #define	INCPAGES	10	/* Incremental size page offsets vector */
 
@@ -123,11 +123,11 @@ static	FILE		*infile;
 static	unsigned	last_matchline;
 static	char		*matchtext;
 
-static void	cb_vsrchfor(Widget);
-static void	cb_vrsrch(Widget, int);
-static void	cb_vspage(Widget, int);
-static void	endview(Widget, int);
-static void	clearlog(Widget);
+static void  cb_vsrchfor(Widget);
+static void  cb_vrsrch(Widget, int);
+static void  cb_vspage(Widget, int);
+static void  endview(Widget, int);
+static void  clearlog(Widget);
 
 static	casc_button
 job_casc[] = {
@@ -169,7 +169,7 @@ static	pull_button
 static	pull_button	*viewmenlist[] = { &job_button, &srch_button, &page_button, &helpv_button, NULL },
 			*syserrmenlist[] = { &file_button, &helpse_button, NULL };
 
-static void	setup_menus(Widget panew, pull_button **menlist)
+static void  setup_menus(Widget panew, pull_button **menlist)
 {
 	XtWidgetGeometry	size;
 	Widget			helpw, result;
@@ -193,7 +193,7 @@ static void	setup_menus(Widget panew, pull_button **menlist)
 
 /* Read file to find where all the pages start.  */
 
-static  int  scanfile(FILE *fp)
+static int  scanfile(FILE *fp)
 {
 	int	curline, ppage, ch;
 
@@ -256,7 +256,7 @@ static  int  scanfile(FILE *fp)
 	return	1;
 }
 
-static  int  readpgfile(FILE *fp, const struct spq *jp)
+static int  readpgfile(FILE *fp, const struct spq *jp)
 {
 	int	ch, curline, ppage;
 	LONG	char_count;
@@ -352,7 +352,7 @@ static int	my_getline(LONG upto)
 	return  lng + 1;
 }
 
-static  int  initpage(int nline, LONG *pagec)
+static int  initpage(int nline, LONG *pagec)
 {
 	int	wpage, cline, ch;
 
@@ -380,7 +380,7 @@ static  int  initpage(int nline, LONG *pagec)
 	return  my_getline(physpages[wpage+1]);
 }
 
-static void	redraw(Boolean doclear)
+static void  redraw(Boolean doclear)
 {
 	int	yloc, yindx, xindx, lng, endy, lstart;
 	LONG	pageno, endofpage;
@@ -445,7 +445,7 @@ static void	redraw(Boolean doclear)
 	last_left = pix_hoffset;
 }
 
-static void	se_redraw(Boolean doclear)
+static void  se_redraw(Boolean doclear)
 {
 	int	yloc, yindx, xindx, lng, endy, lcount;
 
@@ -526,7 +526,7 @@ static void	se_redraw(Boolean doclear)
    redraw() to do actual scrolling.  cbs->value is Scrollbar's
    new position.  */
 
-static void	scrolled(Widget scrollbar, int orientation, XmScrollBarCallbackStruct * cbs)
+static void  scrolled(Widget scrollbar, int orientation, XmScrollBarCallbackStruct *cbs)
 {
 	if  (orientation == XmVERTICAL)
 		pix_voffset = cbs->value * cell_height;
@@ -535,7 +535,7 @@ static void	scrolled(Widget scrollbar, int orientation, XmScrollBarCallbackStruc
 	redraw(False);
 }
 
-static void	se_scrolled(Widget scrollbar, int orientation, XmScrollBarCallbackStruct * cbs)
+static void  se_scrolled(Widget scrollbar, int orientation, XmScrollBarCallbackStruct *cbs)
 {
 	if  (orientation == XmVERTICAL)
 		pix_voffset = cbs->value * cell_height;
@@ -652,23 +652,17 @@ static	void	gen_expose_resize(void (*redrawfunc)(Boolean), XmDrawingAreaCallback
 		(*redrawfunc)(True);
 }
 
-static void	expose_resize(
-	 Widget w, 
-	 XtPointer unused, 
-	 XmDrawingAreaCallbackStruct * cbs)
+static void expose_resize(Widget w, XtPointer unused, XmDrawingAreaCallbackStruct *cbs)
 {
 	gen_expose_resize(redraw, cbs, 0);
 }
 
-static void	se_expose_resize(
-	 Widget w, 
-	 XtPointer unused, 
-	 XmDrawingAreaCallbackStruct * cbs)
+static void se_expose_resize(Widget w, XtPointer unused, XmDrawingAreaCallbackStruct *cbs)
 {
 	gen_expose_resize(se_redraw, cbs, 1);
 }
 
-static void	endview(Widget w, int data)
+static void  endview(Widget w, int data)
 {
 	/* This routine is shared by the system error view routine,
 	   but only job view will have the pagecounts vector set up.  */
@@ -713,7 +707,7 @@ static void	endview(Widget w, int data)
 	inprogress = 0;
 }
 
-static void	cb_vspage(Widget w, int data)
+static void  cb_vspage(Widget w, int data)
 {
 	ULONG	*whichp = (ULONG *) 0;
 	char	*whichm = (char *) 0;
@@ -754,7 +748,7 @@ static void	cb_vspage(Widget w, int data)
 	}
 }
 
-static int	foundmatch(void)
+static int  foundmatch()
 {
 	int	bufl = strlen(buffer);
 	int	matchl = strlen(matchtext);
@@ -791,7 +785,7 @@ static int	foundmatch(void)
 	return  -1;
 }
 
-static void	execute_search(void)
+static void  execute_search()
 {
 	int	lng, mpos, redraw_needed = 0;
 	unsigned	cline = last_matchline, view_cells;
@@ -874,7 +868,7 @@ static void	execute_search(void)
 		redraw(False);
 }
 
-static void	cb_vrsrch(Widget w, int data)
+static void  cb_vrsrch(Widget w, int data)
 {
 	if  (!matchtext  ||  matchtext[0] == '\0')  {
 		doerror(w, $EH{No previous search});
@@ -884,7 +878,7 @@ static void	cb_vrsrch(Widget w, int data)
 	execute_search();
 }
 
-static void	endsdlg(Widget w, int data)
+static void  endsdlg(Widget w, int data)
 {
 	if  (data)  {
 		if  (matchtext)	/* Last time round */
@@ -905,7 +899,7 @@ static void	endsdlg(Widget w, int data)
 		XtDestroyWidget(GetTopShell(w));
 }
 
-static  void  cb_vsrchfor(Widget parent)
+static void  cb_vsrchfor(Widget parent)
 {
 	Widget	s_shell, panew, formw;
 
@@ -914,7 +908,7 @@ static  void  cb_vsrchfor(Widget parent)
 	CreateActionEndDlg(s_shell, panew, (XtCallbackProc) endsdlg, $H{xmspq view search dlg});
 }
 
-static  void  EndSetupViewDlg(Widget shelldlg, Widget panew, XtCallbackProc endrout, int helpcode)
+static void  EndSetupViewDlg(Widget shelldlg, Widget panew, XtCallbackProc endrout, int helpcode)
 {
 	Widget	actform, okw, cancw, helpw;
 	Dimension	h;
@@ -976,7 +970,7 @@ static  void  EndSetupViewDlg(Widget shelldlg, Widget panew, XtCallbackProc endr
 	XtPopup(shelldlg, XtGrabNone);
 }
 
-void	cb_view(Widget parent)
+void  cb_view(Widget parent)
 {
 	Widget	v_shell;
 	Widget	panew, formw, previous, prevabove;
@@ -1266,7 +1260,7 @@ void	cb_view(Widget parent)
 	XtAddCallback(v_shell, XmNdestroyCallback, (XtCallbackProc) endview, (XtPointer) -1);
 }
 
-static void	clearlog(Widget w)
+static void  clearlog(Widget w)
 {
 	if  (!Confirm(w, $PH{Clear syserr log}))
 		return;
@@ -1274,7 +1268,7 @@ static void	clearlog(Widget w)
 	endview(w, 1);
 }
 
-void	cb_syserr(Widget parent)
+void  cb_syserr(Widget parent)
 {
 	Widget	v_shell, panew;
 	int	curline, ch;

@@ -32,10 +32,10 @@
 static	char	Needs_byte_swap,
 		Swap_checked;
 
-FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+FILE *net_feed(const int, const netid_t, const slotno_t, const jobno_t);
 #endif
 
-int  rdpgfile(const struct spq *jp, struct pages *pfep, char **delimp, unsigned *pagenump, LONG **pageoffp)
+int rdpgfile(const struct spq *jp, struct pages *pfep, char **delimp, 	 unsigned *pagenump, LONG **pageoffp)
 {
 	LONG	*pvec;
 	FILE	*fp;

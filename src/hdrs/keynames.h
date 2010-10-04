@@ -15,6 +15,6 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-void	select_state(const int);
-void	reset_state(void);
-void	setupkeys(void);
+extern	void	select_state(const int);
+extern	void	reset_state();
+extern	void	setupkeys();

@@ -63,13 +63,13 @@ char	*statenames[API_PRNSTATES];
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-void	fmt_setup(void)
+void  fmt_setup()
 {
 	if  (!formatstring  &&  !(formatstring = html_inistr("format", (char *) 0)))
 		formatstring = sdefaultfmt;
@@ -117,14 +117,14 @@ typedef	unsigned	fmt_t;
 #include "inline/pfmt_dev.c"
 #include "inline/pfmt_heoj.c"
 
-static  fmt_t	fmt_pid(const struct apispptr *pp, const int fwidth)
+static fmt_t  fmt_pid(const struct apispptr *pp, const int fwidth)
 {
 	if  (pp->apispp_netid == dest_hostid  &&  pp->apispp_state >= API_PRPROC)
 		sprintf(bigbuff, "%ld", (long) pp->apispp_pid);
 	return  0;
 }
 
-static  fmt_t	fmt_jobno(const struct apispptr *pp, const int fwidth)
+static fmt_t  fmt_jobno(const struct apispptr *pp, const int fwidth)
 {
 	struct	apispq	job;
 
@@ -142,7 +142,7 @@ static  fmt_t	fmt_jobno(const struct apispptr *pp, const int fwidth)
 #include "inline/pfmt_msg.c"
 #include "inline/pfmt_na.c"
 
-static fmt_t	fmt_printer(const struct apispptr *pp, const int fwidth)
+static fmt_t  fmt_printer(const struct apispptr *pp, const int fwidth)
 {
 	if  (pp->apispp_netid != dest_hostid)
 		sprintf(bigbuff, "%s:%s", look_host(pp->apispp_netid), pp->apispp_ptr);
@@ -155,7 +155,7 @@ static fmt_t	fmt_printer(const struct apispptr *pp, const int fwidth)
 #include "inline/pfmt_state.c"
 #include "inline/pfmt_ostat.c"
 
-static fmt_t	fmt_user(const struct apispptr *pp, const int fwidth)
+static fmt_t  fmt_user(const struct apispptr *pp, const int fwidth)
 {
 	struct	apispq	job;
 
@@ -174,7 +174,7 @@ struct	formatdef  {
 	SHORT	statecode;	/* Code number for heading if applicable */
 	char	alch;		/* Default align char */
 	char	*msg;		/* Heading */
-	unsigned	(*fmt_fn)(const struct apispptr *, const int);
+	unsigned  (*fmt_fn)(const struct apispptr *, const int);
 };
 
 #define	NULLCP	(char *) 0
@@ -209,7 +209,7 @@ struct	formatdef
 	{	$P{Printer title}+'z'-1, 'L',	NULLCP,	fmt_maxsize	}	/* z */
 };
 
-void	print_hdrfmt(struct formatdef * fp)
+void  print_hdrfmt(struct formatdef *fp)
 {
 	if  (!fp->fmt_fn)
 		return;
@@ -231,7 +231,7 @@ struct	altype  {
 
 struct	altype	*commonest_align = &altypes[0];
 
-struct altype *	lookup_align(const int alch)
+struct altype *lookup_align(const int alch)
 {
 	int	cnt;
 	for  (cnt = 0;  cnt < NALIGNTYPES;  cnt++)
@@ -251,7 +251,7 @@ int	ncolfmts, maxcolfmts;
 #define	INITCF	10
 #define	INCCF	5
 
-void	find_commonest(char * fp)
+void  find_commonest(char *fp)
 {
 	int	rvec[NALIGNTYPES];
 	int	cnt, mx = 0, ind = 0, fmch;
@@ -301,12 +301,12 @@ void	find_commonest(char * fp)
 			cflist[cnt].alstr = (char *) 0;
 }
 
-void	startrow(void)
+void  startrow()
 {
 	printf("<tr align=%s>\n", commonest_align->str);
 }
 
-void	startcell(const int celltype, const char *str)
+void  startcell(const int celltype, const char *str)
 {
 	if  (str)
 		printf("<t%c align=%s>", celltype, str);
@@ -316,7 +316,7 @@ void	startcell(const int celltype, const char *str)
 
 /* Display contents of printer list.  */
 
-void	pdisplay(void)
+void  pdisplay()
 {
 	int	fcnt, pcnt;
 	unsigned   pflgs = 0, lpperm = 0, rpperm = 0;
@@ -412,10 +412,10 @@ struct	arginterp  {
 #define	AIF_NOARG	0
 #define	AIF_ARG		1
 #define	AIF_ARGLIST	2
-	int	(*arg_fn)(char *);
+	int  (*arg_fn)(char *);
 };
 
-int	perf_listformat(char * notused)
+int  perf_listformat(char *notused)
 {
 	struct	formatdef   *fp;
 	int	lett;
@@ -435,15 +435,15 @@ int	perf_listformat(char * notused)
 	exit(0);
 }
 
-extern int	perf_optselect(char *);
+extern int  perf_optselect(char *);
 
-int	set_queue(char * arg)
+int  set_queue(char *arg)
 {
 	Displayopts.opt_restrp = *arg? arg: (char *) 0;
 	return  1;
 }
 
-int	set_loco(char * arg)
+int  set_loco(char *arg)
 {
 	switch  (tolower(*arg))  {
 	case  'l':case 'y':case '1':
@@ -457,7 +457,7 @@ int	set_loco(char * arg)
 	}
 }
 
-int	set_header(char * arg)
+int  set_header(char *arg)
 {
 	switch  (tolower(*arg))  {
 	case  'y':case '1':
@@ -471,7 +471,7 @@ int	set_header(char * arg)
 	}
 }
 
-int	set_sorted(char * arg)
+int  set_sorted(char *arg)
 {
 	switch  (tolower(*arg))  {
 	case  'y':case '1':
@@ -485,13 +485,13 @@ int	set_sorted(char * arg)
 	}
 }
 
-int	set_format(char * arg)
+int  set_format(char *arg)
 {
 	formatstring = arg;
 	return  1;
 }
 
-extern void	perf_listprfm(char *, char *, char *);
+extern void  perf_listprfm(char *, char *, char *);
 
 struct	arginterp  argtypes[] =  {
 	{	"format",	AIF_ARG,	set_format	},
@@ -508,7 +508,7 @@ struct	arginterp  argtypes[] =  {
    taken from the printer "ptrnam"
    Printer, Form, device, description, possible forms */
 
-void	perf_listprfm(char * tmpl, char * jsfunc, char * ptrnam)
+void  perf_listprfm(char *tmpl, char *jsfunc, char *ptrnam)
 {
 	char	*pname, *pform, *pdev, *pdescr;
 	int	jcnt;
@@ -554,13 +554,13 @@ void	perf_listprfm(char * tmpl, char * jsfunc, char * ptrnam)
 	exit(0);
 }
 
-int	perf_optselect(char * notused)
+int  perf_optselect(char *notused)
 {
 	html_out_param_file("setopts", 1, 0, html_cookexpiry());
 	exit(0);
 }
 
-void	interp_args(char ** args)
+void  interp_args(char **args)
 {
 	char	**ap, *arg, *cp = (char *) 0;
 	int	cnt;
@@ -590,7 +590,7 @@ void	interp_args(char ** args)
 	}
 }
 
-int	mqsort_ptrs(struct ptr_with_slot *a, struct ptr_with_slot *b)
+int  mqsort_ptrs(struct ptr_with_slot *a, struct ptr_with_slot *b)
 {
 	int	ret;
 
@@ -603,7 +603,7 @@ int	mqsort_ptrs(struct ptr_with_slot *a, struct ptr_with_slot *b)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	i;
 	char	**newargs;

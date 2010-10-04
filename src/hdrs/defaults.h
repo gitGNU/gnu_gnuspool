@@ -69,6 +69,9 @@
 #define	POLLMIN		2		/* Minimum polling interval */
 #define	DEFAULT_REFRESH	10		/* Default initial */
 
+#define	MSGQ_BLOCKS	30		/* Number of times we try message queue */
+#define	MSGQ_BLOCKWAIT	10		/* Sleep time between message queue tries */
+
 /* Moved from spq.h as needed in network.h which we put in first */
 
 typedef	LONG	jobno_t;

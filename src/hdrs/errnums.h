@@ -21,13 +21,13 @@ extern  const   char    *disp_str,
                         *progname;
 extern  FILE    *Cfile;
 
-extern void	print_error(const int);
-extern void	fprint_error(FILE *, const int);
-extern void	freehelp(char **);
-extern void	count_hv(char **, int *, int *);
+extern void  print_error(const int);
+extern void  fprint_error(FILE *, const int);
+extern void  freehelp(char **);
+extern void  count_hv(char **, int *, int *);
 
-extern int	helpnstate(const int);
-extern int	helprdn(void);
+extern int  helpnstate(const int);
+extern int  helprdn();
 
 extern char *help_readl(int *);
 extern char *helpprmpt(const int);

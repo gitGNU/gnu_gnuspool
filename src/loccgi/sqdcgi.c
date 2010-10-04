@@ -64,13 +64,13 @@ char	*Realuname;
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-void	perform_delete(char ** args)
+void  perform_delete(char **args)
 {
 	char	*arg;
 	struct	spr_req	oreq;
@@ -87,6 +87,7 @@ void	perform_delete(char ** args)
 		struct	jobswanted	jw;
 		const	Hashspq		*hjp;
 		const	struct	spq	*jp;
+		int	blkcount = MSGQ_BLOCKS;
 
 		if  (decode_jnum(arg, &jw))  {
 			html_out_or_err("sbadargs", 1);
@@ -108,9 +109,17 @@ void	perform_delete(char ** args)
 		oreq.spr_un.o.spr_jobno = jp->spq_job;
 		oreq.spr_un.o.spr_jpslot = hjp - Job_seg.jlist;
 
-		if  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
-			html_disperror(errno == EAGAIN? $E{IPC msg q full}: $E{IPC msg q error});
-			exit(E_SETUP);
+		while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
+			if  (errno != EAGAIN)  {
+				html_disperror($E{IPC msg q error});
+				exit(E_SETUP);
+			}
+			blkcount--;
+			if  (blkcount <= 0)  {
+				html_disperror($E{IPC msg q full});
+				exit(E_SETUP);
+			}
+			sleep(MSGQ_BLOCKWAIT);
 		}
 		waitsig();
 	}

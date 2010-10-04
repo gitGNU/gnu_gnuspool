@@ -24,9 +24,6 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 
-void	endgrent(void);
-struct group *	getgrent(void);
-
 /* Structure used to hash group ids.  */
 
 struct	ghash	{
@@ -44,7 +41,7 @@ static	struct	ghash	*gnhash[HASHMOD];
 /* Read group file to build up hash table of group ids.
    This is done once only at the start of the program.  */
 
-void	rgrpfile(void)
+void  rgrpfile()
 {
 	struct  group  *ugrp;
 	struct  ghash  *hp, **hpp, **hnpp;
@@ -76,7 +73,7 @@ void	rgrpfile(void)
 
 /* Given a group id, return a group name.  */
 
-char 	*prin_gname(const gid_t gid)
+char *prin_gname(const gid_t gid)
 {
 	struct  ghash  *hp;
 
@@ -94,7 +91,7 @@ char 	*prin_gname(const gid_t gid)
 
 /* Do the opposite (long because Amdahl uids are unsigned) */
 
-int_ugid_t	lookup_gname(const char *name)
+int_ugid_t  lookup_gname(const char *name)
 {
 	const	char	*cp;
 	unsigned  sum = 0;

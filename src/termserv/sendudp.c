@@ -46,7 +46,7 @@ static	struct	sockaddr_in	serv_addr,	/* That's me */
 
 static	char	*clihost;
 
-static RETSIGTYPE	catchalarm(int n)
+static RETSIGTYPE  catchalarm(int n)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(SIGALRM, catchalarm);
@@ -54,7 +54,7 @@ static RETSIGTYPE	catchalarm(int n)
 	had_alarm++;
 }
 
-static void	xmit(int sock, char *buff, int nbytes)
+static void  xmit(int sock, char *buff, int nbytes)
 {
 	char	rbuf[1];
 	SOCKLEN_T		repl = sizeof(struct sockaddr_in);
@@ -96,7 +96,7 @@ static void	xmit(int sock, char *buff, int nbytes)
 	}
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	ch, nbytes, sock;
 	char	*progname = argv[0];

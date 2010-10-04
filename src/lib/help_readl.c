@@ -27,8 +27,7 @@ char  *help_readl(int *percentflag)
 	LONG	w = ftell(Cfile);
 	unsigned	l = 1;		/*  Final null  */
 	int	ch;
-	char	*result;
-	char	*rp;
+	char	*result, *rp;
 
 	while  ((ch = getc(Cfile)) != '\n' && ch != EOF)
 		l++;

@@ -94,7 +94,7 @@ Widget	holdspin;
    to get a different timeout The passed parameter is the Widget
    we are mangling */
 
-void	arrow_incr(Widget w, XtIntervalId *id)
+void  arrow_incr(Widget w, XtIntervalId *id)
 {
 	unsigned newval;
 	char	*txt, newtxt[20];
@@ -111,7 +111,7 @@ void	arrow_incr(Widget w, XtIntervalId *id)
 
 /* Ditto for decrement.  */
 
-void	arrow_decr(Widget w, XtIntervalId *id)
+void  arrow_decr(Widget w, XtIntervalId *id)
 {
 	unsigned	newval;
 	char	*txt, newtxt[20];
@@ -129,7 +129,7 @@ void	arrow_decr(Widget w, XtIntervalId *id)
 
 /* Increment priorities */
 
-static void	priup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  priup_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)  {
 		arrow_max = mypriv->spu_flgs & PV_ANYPRIO? 255: mypriv->spu_maxp;
@@ -142,7 +142,7 @@ static void	priup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 
 /* Decrement priorities */
 
-static void	pridn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  pridn_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)  {
 		arrow_min = mypriv->spu_flgs & PV_ANYPRIO? 1: mypriv->spu_minp;
@@ -155,7 +155,7 @@ static void	pridn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 
 /* Increment copies */
 
-static void	cpsup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  cpsup_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)  {
 		arrow_max = mypriv->spu_flgs & PV_ANYPRIO? 255: mypriv->spu_cps;
@@ -168,7 +168,7 @@ static void	cpsup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 
 /* Decrement copies */
 
-static void	cpsdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  cpsdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)  {
 		arrow_min = 0;
@@ -183,7 +183,7 @@ static void	cpsdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 
 /* Increment page count, displaying "end" at last page */
 
-static void	pg_incr(Widget w, XtIntervalId *id)
+static void  pg_incr(Widget w, XtIntervalId *id)
 {
 	LONG	newval;
 	char	*txt, newtxt[20];
@@ -205,7 +205,7 @@ static void	pg_incr(Widget w, XtIntervalId *id)
 
 /* Decrement page count.  */
 
-static void	pg_decr(Widget w, XtIntervalId *id)
+static void  pg_decr(Widget w, XtIntervalId *id)
 {
 	LONG	newval;
 	char	*txt, newtxt[20];
@@ -225,7 +225,7 @@ static void	pg_decr(Widget w, XtIntervalId *id)
 
 /* Callout routines for up and down pages.  */
 
-static void	pgup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  pgup_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)
 		pg_decr(workw[subj], NULL);
@@ -233,7 +233,7 @@ static void	pgup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 		XtRemoveTimeOut(arrow_timer);
 }
 
-static void	pgdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  pgdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)
 		pg_incr(workw[subj], NULL);
@@ -245,7 +245,7 @@ static void	pgdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 
 /* Callbacks for "delete if printed/not printed" times */
 
-static void	pup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  pup_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)  {
 		arrow_max = 0x7FFF;
@@ -256,7 +256,7 @@ static void	pup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 		XtRemoveTimeOut(arrow_timer);
 }
 
-static void	pdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  pdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)  {
 		arrow_min = 1;
@@ -268,7 +268,7 @@ static void	pdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 }
 #endif /* ! HAVE_XM_SPINB_H */
 
-static void	fillintimes(int on)
+static void  fillintimes(int on)
 {
 	if  (on)  {
 		time_t	ht = JREQ.spq_hold;
@@ -305,7 +305,7 @@ static void	fillintimes(int on)
 }
 
 #ifdef HAVE_XM_SPINB_H
-static void	holdt_cb(Widget w, XtPointer wh, XmSpinBoxCallbackStruct * cbs)
+static void  holdt_cb(Widget w, XtPointer wh, XmSpinBoxCallbackStruct *cbs)
 {
 	time_t	newtime = JREQ.spq_hold;
 	Widget	whichw = cbs->widget;
@@ -376,7 +376,7 @@ static void	holdt_cb(Widget w, XtPointer wh, XmSpinBoxCallbackStruct * cbs)
    number of the relevant bit if we are incrementing the time,
    otherwise - the widget number */
 
-static void	time_adj(int amount, XtIntervalId *id)
+static void  time_adj(int amount, XtIntervalId *id)
 {
 	static	unsigned  char	month_days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	time_t	newtime = JREQ.spq_hold;
@@ -441,7 +441,7 @@ static void	time_adj(int amount, XtIntervalId *id)
 
 /* Callback for arrows on bits of dates.  "Amount" is as described above.  */
 
-static void	time_cb(Widget w, int amount, XmArrowButtonCallbackStruct * cbs)
+static void  time_cb(Widget w, int amount, XmArrowButtonCallbackStruct *cbs)
 {
 	/* If we aren't doing a hold time, ignore it.  */
 
@@ -457,15 +457,7 @@ static void	time_cb(Widget w, int amount, XmArrowButtonCallbackStruct * cbs)
 
 /* Create pair of up/down arrows with appropriate callbacks.  */
 
-Widget CreateArrowPair(char *name,
-		       Widget formw,
-		       Widget topw,
-		       Widget leftw,
-		       XtCallbackProc upcall,
-		       XtCallbackProc dncall,
-		       int updata,
-		       int dndata,
-		       int sensitive)
+Widget CreateArrowPair(char *name, Widget formw, Widget	topw, Widget leftw, XtCallbackProc upcall, XtCallbackProc dncall, int updata, int dndata, int sensitive)
 {
 	Widget	uparrow, dnarrow;
 	char	fullname[10];
@@ -535,7 +527,7 @@ Widget CreateArrowPair(char *name,
 
 /* Get the job the user is pointing at.  Winge if no such job, or user can't get at it.  */
 
-const struct spq *	getselectedjob(const ULONG priv)
+const struct spq *getselectedjob(const ULONG priv)
 {
 	int	*plist, pcnt;
 
@@ -561,7 +553,7 @@ const struct spq *	getselectedjob(const ULONG priv)
 	return  NULL;
 }
 
-Widget	CreateJtitle(Widget formw)
+Widget  CreateJtitle(Widget formw)
 {
 	Widget		titw1, titw2;
 	int	lng;
@@ -593,7 +585,7 @@ Widget	CreateJtitle(Widget formw)
 
 /* Initial part of job dialog.  Return widget of tallest part of title.  */
 
-static  Widget  CreateJeditDlg(Widget parent, char *dlgname, Widget *dlgres, Widget *paneres, Widget *formres)
+static Widget CreateJeditDlg(Widget parent, char *dlgname, Widget *dlgres, Widget *paneres, Widget *formres)
 {
 	CreateEditDlg(parent, dlgname, dlgres, paneres, formres, 3);
 	return  CreateJtitle(*formres);
@@ -601,7 +593,7 @@ static  Widget  CreateJeditDlg(Widget parent, char *dlgname, Widget *dlgres, Wid
 
 /* Callback for one more copy.  */
 
-void	cb_onemore(void)
+void  cb_onemore()
 {
 	const  struct	spq	*cj = getselectedjob(PV_OTHERJ);
 	int	num, maxnum = 255;
@@ -621,7 +613,7 @@ void	cb_onemore(void)
 
 /* Job actions, currently only SO_AB */
 
-void	cb_jact(Widget wid, int msg)
+void  cb_jact(Widget wid, int msg)
 {
 	const  struct	spq	*jp = getselectedjob(PV_OTHERJ);
 	if  (!jp)
@@ -638,7 +630,7 @@ void	cb_jact(Widget wid, int msg)
 
 /* Callback for end of job forms dialog */
 
-static void	endjform(Widget w, int data)
+static void  endjform(Widget w, int data)
 {
 	if  (data)  {
 		char		*txt;
@@ -719,7 +711,7 @@ static void	endjform(Widget w, int data)
 
 /* Create job form dialog */
 
-void	cb_jform(Widget parent)
+void  cb_jform(Widget parent)
 {
 	int	maxp = 255, minp = 1, maxcps = 255, curp, curc;
 	Widget	jf_shell, panew, mainform, prevabove, htitw, prititw, ctitw;
@@ -913,7 +905,7 @@ void	cb_jform(Widget parent)
 	CreateActionEndDlg(jf_shell, panew, (XtCallbackProc) endjform, $H{xmspq form type menu});
 }
 
-static void	endjpage(Widget w, int data)
+static void  endjpage(Widget w, int data)
 {
 	if  (data)  {
 		char	*txt;
@@ -970,7 +962,7 @@ static void	endjpage(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_jpages(Widget parent)
+void  cb_jpages(Widget parent)
 {
 	Widget	jp_shell, panew, mainform, prevabove,
 		stitw,	etitw,	htitw,
@@ -1158,7 +1150,7 @@ static	struct	{
 	{	WORKW_MATTNW,	SPQ_MATTN,	"mattn"	},
 	{	WORKW_WATTNW,	SPQ_WATTN,	"wattn"	}};
 
-static void	attachmwbutts(Widget form, Widget after)
+static void  attachmwbutts(Widget form, Widget after)
 {
 	int	cnt;
 	Widget	w;
@@ -1178,7 +1170,7 @@ static void	attachmwbutts(Widget form, Widget after)
 	}
 }
 
-static void	endjuser(Widget w, int data)
+static void  endjuser(Widget w, int data)
 {
 	if  (data)  {
 		char	*txt;
@@ -1195,7 +1187,7 @@ static void	endjuser(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_juser(Widget parent)
+void  cb_juser(Widget parent)
 {
 	Widget	ju_shell, panew, mainform, prevabove;
 	const  struct	spq	*jp = getselectedjob(PV_OTHERJ);
@@ -1208,7 +1200,7 @@ void	cb_juser(Widget parent)
 	CreateActionEndDlg(ju_shell, panew, (XtCallbackProc) endjuser, $H{xmspq user menu});
 }
 
-static void	holdt_set(Widget w, int n, XmToggleButtonCallbackStruct * cbs)
+static void  holdt_set(Widget w, int n, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)  {
 		JREQ.spq_hold = (LONG) time((time_t *) 0);
@@ -1220,7 +1212,7 @@ static void	holdt_set(Widget w, int n, XmToggleButtonCallbackStruct * cbs)
 	}
 }
 
-static void	endjret(Widget w, int data)
+static void  endjret(Widget w, int data)
 {
 	if  (data)  {
 #ifdef HAVE_XM_SPINB_H
@@ -1270,7 +1262,7 @@ static void	endjret(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_jretain(Widget parent)
+void  cb_jretain(Widget parent)
 {
 	Widget		jr_shell, panew, mainform, prevabove, prevleft, ptitw, nptitw;
 #ifdef HAVE_XM_SPINB_H
@@ -1684,7 +1676,7 @@ void	cb_jretain(Widget parent)
 	CreateActionEndDlg(jr_shell, panew, (XtCallbackProc) endjret, $H{xmspq retain dlg});
 }
 
-static void	endjclass(Widget w, int data)
+static void  endjclass(Widget w, int data)
 {
 	if  (data)  {
 		if  (copyclasscode == 0)  {
@@ -1702,7 +1694,7 @@ static void	endjclass(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_jclass(Widget parent)
+void  cb_jclass(Widget parent)
 {
 	Widget	jc_shell, panew, mainform, prevabove;
 	const  struct	spq	*jp = getselectedjob(PV_OTHERJ);
@@ -1725,7 +1717,7 @@ void	cb_jclass(Widget parent)
 	CreateActionEndDlg(jc_shell, panew, (XtCallbackProc) endjclass, $H{xmspq class menu});
 }
 
-static void	endjunqueue(Widget w, int data)
+static void  endjunqueue(Widget w, int data)
 {
 	if  (data)  {
 		int	copyonly;
@@ -1849,7 +1841,7 @@ static void	endjunqueue(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-static void	enddseld(Widget w, int data, XmFileSelectionBoxCallbackStruct * cbs)
+static void  enddseld(Widget w, int data, XmFileSelectionBoxCallbackStruct *cbs)
 {
 	char	*dirname;
 
@@ -1867,7 +1859,7 @@ static void	enddseld(Widget w, int data, XmFileSelectionBoxCallbackStruct * cbs)
 	XtDestroyWidget(w);
 }
 
-static void	selectdir(Widget w)
+static void  selectdir(Widget w)
 {
 	Widget	dseld;
 	char	*txt;
@@ -1883,7 +1875,7 @@ static void	selectdir(Widget w)
 	XtManageChild(dseld);
 }
 
-void	cb_unqueue(Widget parent)
+void  cb_unqueue(Widget parent)
 {
 	Widget	ju_shell, panew, mainform, prevabove, prevleft, dselb;
 	const  struct	spq	*jp = getselectedjob(PV_OTHERJ);
@@ -1981,7 +1973,7 @@ void	cb_unqueue(Widget parent)
 	CreateActionEndDlg(ju_shell, panew, (XtCallbackProc) endjunqueue, $H{xmspq unqueue help});
 }
 
-static void	jmacroexec(char *str, const struct spq *jp)
+static void  jmacroexec(char *str, const struct spq *jp)
 {
 	static	char	*execprog;
 	PIDTYPE	pid;
@@ -2031,7 +2023,7 @@ static void	jmacroexec(char *str, const struct spq *jp)
 	}
 }
 
-static void	endjmacro(Widget w, int data)
+static void  endjmacro(Widget w, int data)
 {
 	if  (data)  {
 		char	*txt;
@@ -2050,7 +2042,7 @@ static void	endjmacro(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_macroj(Widget parent, int data)
+void  cb_macroj(Widget parent, int data)
 {
 	char	*prompt = helpprmpt(data + $P{Job or User macro});
 	int	*plist, pcnt;

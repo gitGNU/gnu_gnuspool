@@ -47,18 +47,18 @@
 
 #define	HALTATCOL	45
 
-void	cjfind(void);
-void	dochelp(WINDOW *, const int);
-void	doerror(WINDOW *, const int);
-void	endhe(WINDOW *, WINDOW **);
-void	rpfile(void);
-void	my_wjmsg(const int);
-char  **wotjform(const char *, const int);
-char  **wotjprin(const char *, const int);
-void	tdisplay(WINDOW *, const time_t, const int, const int);
-int	wtime(WINDOW *, const int, const int);
+extern  void  cjfind();
+extern	void  dochelp(WINDOW *, const int);
+extern	void  doerror(WINDOW *, const int);
+extern	void  endhe(WINDOW *, WINDOW **);
+extern  void  rpfile();
+extern	void	my_wjmsg(const int);
+extern	char	**wotjform(const char *, const int);
+extern	char	**wotjprin(const char *, const int);
+extern	void	tdisplay(WINDOW *, const time_t, const int, const int);
+extern	int	wtime(WINDOW *, const int, const int);
 #ifndef	HAVE_ATEXIT
-void	exit_cleanup(void);
+extern  void  exit_cleanup();
 #endif
 
 extern	struct	spdet	*mypriv;
@@ -90,7 +90,7 @@ struct	ltab	{
    Gyrations are to try to avoid the signal arriving
    the instant you do the my_wjmsg. */
 
-static	void	cmsg(void)
+static	void  cmsg()
 {
 #ifdef	HAVE_SIGACTION
 
@@ -124,67 +124,67 @@ static	void	cmsg(void)
 #endif
 }
 
-static	void	qd_title(const struct ltab *lt)
+static	void  qd_title(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_file);
 }
 
-static	void	qd_supph(const struct ltab *lt)
+static	void  qd_supph(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_NOH? yesmsg: nomsg);
 }
 
-static	void	qd_form(const struct ltab *lt)
+static	void  qd_form(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_form);
 }
 
-static	void	qd_ptr(const struct ltab *lt)
+static	void  qd_ptr(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_ptr);
 }
 
-static	void	qd_puser(const struct ltab *lt)
+static	void  qd_puser(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_puname);
 }
 
-static	void	qd_mail(const struct ltab *lt)
+static	void  qd_mail(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_MAIL? yesmsg: nomsg);
 }
 
-static	void	qd_wmsg(const struct ltab *lt)
+static	void  qd_wmsg(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_WRT? yesmsg: nomsg);
 }
 
-static	void	qd_mattn(const struct ltab *lt)
+static	void  qd_mattn(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_MATTN? yesmsg: nomsg);
 }
 
-static	void	qd_wattn(const struct ltab *lt)
+static	void  qd_wattn(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_WATTN? yesmsg: nomsg);
 }
 
-static	void	qd_class(const struct ltab *lt)
+static	void  qd_class(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, hex_disp(JREQ.spq_class, 1));
 }
 
-static	void	qd_flags(const struct ltab *lt)
+static	void  qd_flags(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_flags);
 }
 
-static	void	qd_retain(const struct ltab *lt)
+static	void  qd_retain(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_RETN? yesmsg: nomsg);
 }
 
-static	void	qd_num(const struct ltab *lt, const LONG num)
+static	void  qd_num(const struct ltab *lt, const LONG num)
 {
 	move(lt->row, lt->col);
 
@@ -194,72 +194,72 @@ static	void	qd_num(const struct ltab *lt, const LONG num)
 		printw("%*ld", lt->size, num);
 }
 
-static	void	qd_cps(const struct ltab *lt)
+static	void  qd_cps(const struct ltab *lt)
 {
 	qd_num(lt, (LONG) JREQ.spq_cps);
 }
 
-static	void	qd_pri(const struct ltab *lt)
+static	void  qd_pri(const struct ltab *lt)
 {
 	qd_num(lt, (LONG) JREQ.spq_pri);
 }
 
-static	void	qd_startp(const struct ltab *lt)
+static	void  qd_startp(const struct ltab *lt)
 {
 	qd_num(lt, (LONG) (JREQ.spq_start + 1L));
 }
 
-static	void	qd_hatp(const struct ltab *lt)
+static	void  qd_hatp(const struct ltab *lt)
 {
 	qd_num(lt, (LONG) (JREQ.spq_haltat + 1L));
 }
 
-static	void	qd_endp(const struct ltab *lt)
+static	void  qd_endp(const struct ltab *lt)
 {
 	qd_num(lt, (LONG) (JREQ.spq_end + 1L));
 }
 
-static	void	qd_sodd(const struct ltab *lt)
+static	void  qd_sodd(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_ODDP? yesmsg: nomsg);
 }
 
-static	void	qd_seven(const struct ltab *lt)
+static	void  qd_seven(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_EVENP? yesmsg: nomsg);
 }
 
-static	void	qd_revoe(const struct ltab *lt)
+static	void  qd_revoe(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_REVOE? yesmsg: nomsg);
 }
 
-static	void	qd_printed(const struct ltab *lt)
+static	void  qd_printed(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_dflags & SPQ_PRINTED? yesmsg: nomsg);
 }
 
-static	void	qd_local(const struct ltab *lt)
+static	void  qd_local(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, JREQ.spq_jflags & SPQ_LOCALONLY? yesmsg: nomsg);
 }
 
-static	void	qd_dinp(const struct ltab *lt)
+static	void  qd_dinp(const struct ltab *lt)
 {
 	qd_num(lt, (LONG) JREQ.spq_nptimeout);
 }
 
-static	void	qd_dip(const struct ltab *lt)
+static	void  qd_dip(const struct ltab *lt)
 {
 	qd_num(lt, (LONG) JREQ.spq_ptimeout);
 }
 
-static	void	qd_hold(const struct ltab *lt)
+static	void  qd_hold(const struct ltab *lt)
 {
 	tdisplay(stdscr, (time_t) JREQ.spq_hold, lt->row, lt->col);
 }
 
-static	int	qo_title(const struct ltab *lt)
+static	int  qo_title(const struct ltab *lt)
 {
 	char	*str;
 	struct	sctrl	wst_file;
@@ -279,7 +279,7 @@ static	int	qo_title(const struct ltab *lt)
 	return  wst_file.retv;
 }
 
-static	int	qo_form(const struct ltab *lt)
+static	int  qo_form(const struct ltab *lt)
 {
 	char	*str;
 	struct	sctrl	wst_form;
@@ -306,7 +306,7 @@ static	int	qo_form(const struct ltab *lt)
 	return  wst_form.retv;
 }
 
-static	int	qo_ptr(const struct ltab *lt)
+static	int  qo_ptr(const struct ltab *lt)
 {
 	char	*str;
 	struct	sctrl	wst_ptr;
@@ -334,7 +334,7 @@ static	int	qo_ptr(const struct ltab *lt)
 	return  wst_ptr.retv;
 }
 
-static	int	qo_flags(const struct ltab *lt)
+static	int  qo_flags(const struct ltab *lt)
 {
 	int	siz;
 	char	*str;
@@ -356,7 +356,7 @@ static	int	qo_flags(const struct ltab *lt)
 	return  wst_flags.retv;
 }
 
-static	int	qo_puser(const struct ltab *lt)
+static	int  qo_puser(const struct ltab *lt)
 {
 	char	*str, *origu;
 	struct	sctrl	wst_user;
@@ -390,7 +390,7 @@ static	int	qo_puser(const struct ltab *lt)
 	}
 }
 
-static	int	qo_bool(const struct ltab *lt, unsigned b)
+static	int  qo_bool(const struct ltab *lt, unsigned b)
 {
 	int	ch;
 
@@ -457,7 +457,7 @@ static	int	qo_bool(const struct ltab *lt, unsigned b)
 	}
 }
 
-static	int	qo_wmsg(const struct ltab *lt)
+static	int  qo_wmsg(const struct ltab *lt)
 {
 	int	ch;
 
@@ -478,7 +478,7 @@ static	int	qo_wmsg(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_mail(const struct ltab *lt)
+static	int  qo_mail(const struct ltab *lt)
 {
 	int	ch;
 
@@ -499,7 +499,7 @@ static	int	qo_mail(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_wattn(const struct ltab *lt)
+static	int  qo_wattn(const struct ltab *lt)
 {
 	int	ch;
 
@@ -520,7 +520,7 @@ static	int	qo_wattn(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_mattn(const struct ltab *lt)
+static	int  qo_mattn(const struct ltab *lt)
 {
 	int	ch;
 
@@ -541,7 +541,7 @@ static	int	qo_mattn(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_supph(const struct ltab *lt)
+static	int  qo_supph(const struct ltab *lt)
 {
 	int	ch;
 
@@ -562,7 +562,7 @@ static	int	qo_supph(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_retain(const struct ltab *lt)
+static	int  qo_retain(const struct ltab *lt)
 {
 	int	ch;
 
@@ -583,7 +583,7 @@ static	int	qo_retain(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_sodd(const struct ltab *lt)
+static	int  qo_sodd(const struct ltab *lt)
 {
 	int	ch;
 
@@ -607,7 +607,7 @@ static	int	qo_sodd(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_seven(const struct ltab *lt)
+static	int  qo_seven(const struct ltab *lt)
 {
 	int	ch;
 
@@ -631,7 +631,7 @@ static	int	qo_seven(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_local(const struct ltab *lt)
+static	int  qo_local(const struct ltab *lt)
 {
 	int	ch;
 
@@ -652,7 +652,7 @@ static	int	qo_local(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_revoe(const struct ltab *lt)
+static	int  qo_revoe(const struct ltab *lt)
 {
 	int	ch;
 
@@ -673,7 +673,7 @@ static	int	qo_revoe(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_printed(const struct ltab *lt)
+static	int  qo_printed(const struct ltab *lt)
 {
 	int	ch;
 
@@ -694,7 +694,7 @@ static	int	qo_printed(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_cps(const struct ltab *lt)
+static	int  qo_cps(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_cps;
@@ -716,7 +716,7 @@ static	int	qo_cps(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_pri(const struct ltab *lt)
+static	int  qo_pri(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_pri;
@@ -738,7 +738,7 @@ static	int	qo_pri(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_dinp(const struct ltab *lt)
+static	int  qo_dinp(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_npt;
@@ -760,7 +760,7 @@ static	int	qo_dinp(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_dip(const struct ltab *lt)
+static	int  qo_dip(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_pt;
@@ -782,7 +782,7 @@ static	int	qo_dip(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_startp(const struct ltab *lt)
+static	int  qo_startp(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_start;
@@ -805,7 +805,7 @@ static	int	qo_startp(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_hatp(const struct ltab *lt)
+static	int  qo_hatp(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_haltat;
@@ -828,7 +828,7 @@ static	int	qo_hatp(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_endp(const struct ltab *lt)
+static	int  qo_endp(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_end;
@@ -851,7 +851,7 @@ static	int	qo_endp(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static	int	qo_class(const struct ltab *lt)
+static	int  qo_class(const struct ltab *lt)
 {
 	classcode_t  in;
 	struct	sctrl	wht_cl;
@@ -882,7 +882,7 @@ static	int	qo_class(const struct ltab *lt)
 	return  wht_cl.retv? wht_cl.retv: $K{key eol};
 }
 
-static	int	qo_hold(const struct ltab *lt)
+static	int  qo_hold(const struct ltab *lt)
 {
 	int	ret;
 	time_t	origtime = JREQ.spq_hold;
@@ -927,7 +927,7 @@ static	struct	ltab  ltab[] = {
 static	struct	ltab	*lptrs[TABNUM+1];
 static	int	comeinat;
 
-static	void	initnames(void)
+static	void  initnames()
 {
 	int	i, next;
 	struct  ltab	*lt;
@@ -1048,7 +1048,7 @@ static	void	initnames(void)
 	lptrs[next] = (struct ltab *) 0;
 }
 
-static	void	qodisp(void)
+static	void  qodisp()
 {
 	int	i;
 	struct  ltab	*lt;
@@ -1103,12 +1103,11 @@ static	void	qodisp(void)
 /* This accepts input from the screen.
    JREQS (slot number) already set up in sq_jlist */
 
-int	qopts(const jobno_t Jnum)
+int  qopts(const jobno_t Jnum)
 {
 	char	**ev;
-	int	ch;
+	int	ch, rows, cols, row, col, i, whichel, pchanges = 0;
 	struct  ltab	*lt;
-	int	rows, cols, row, col, i, whichel, pchanges = 0;
 
 	if  (!percentmsg)
 		initnames();

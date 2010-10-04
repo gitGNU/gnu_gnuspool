@@ -44,8 +44,8 @@
 #include "displayopt.h"
 #include "xfershm.h"
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+int  spitoption(const int, const int, FILE *, const int, const int);
+int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
 extern	char	freeze_wanted;
 char	freeze_cd, freeze_hd, headerflag;
@@ -74,13 +74,13 @@ char	*statenames[SPP_NSTATES];
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-static void	getwanted(char ** argv)
+static	void  getwanted(char **argv)
 {
 	char	**ap;
 	struct	ptrswanted  *wp;
@@ -127,7 +127,7 @@ static void	getwanted(char ** argv)
 	nwanted = actw;
 }
 
-static int	iswanted(const struct spptr * pp)
+static int  iswanted(const struct spptr *pp)
 {
 	unsigned	cnt;
 
@@ -139,7 +139,7 @@ static int	iswanted(const struct spptr * pp)
 
 /* Open print file and get state names.  */
 
-void	openpfile(void)
+void  openpfile()
 {
 	int	i;
 
@@ -178,7 +178,7 @@ typedef	unsigned	fmt_t;
 struct	formatdef  {
 	SHORT	statecode;	/* Code number for heading if applicable */
 	char	*msg;		/* Heading */
-	unsigned	(*fmt_fn)(const struct spptr *, const int);
+	unsigned  (*fmt_fn)(const struct spptr *, const int);
 };
 
 #define	NULLCP	(char *) 0
@@ -215,7 +215,7 @@ struct	formatdef
 
 /* Display contents of printer list.  */
 
-void	pdisplay(void)
+void  pdisplay()
 {
 	int	pcnt;
 	char	*fp;
@@ -393,7 +393,7 @@ o_noheader,	o_punsorted,	o_psorted,
 o_freezecd,	o_freezehd
 };
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0;
 	fprintf(dest, "%s", name);
@@ -416,7 +416,7 @@ void	spit_options(FILE *dest, const char *name)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 #if	defined(NHONSUID) || defined(DEBUG)
 	int_ugid_t	chk_uid;

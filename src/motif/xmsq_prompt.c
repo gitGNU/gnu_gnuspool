@@ -72,7 +72,7 @@ static char *pathjoin(const char *d1, const char *d2, const char *f)
 	return  d;
 }
 
-static int	isform(const char *d1, const char *d2, const char *f)
+static int  isform(const char *d1, const char *d2, const char *f)
 {
 	char	*d;
 	struct	stat	sbuf;
@@ -89,7 +89,7 @@ static int	isform(const char *d1, const char *d2, const char *f)
 	return  1;
 }
 
-static int	isprin(const char *d1, const char *d2, const char *f)
+static int  isprin(const char *d1, const char *d2, const char *f)
 {
 	char	*d;
 	struct	stat	sbuf;
@@ -103,7 +103,7 @@ static int	isprin(const char *d1, const char *d2, const char *f)
 	return  1;
 }
 
-static int	isaterm(const char *d1, const char *d2, const char *f)
+static int  isaterm(const char *d1, const char *d2, const char *f)
 {
 	char	*d = pathjoin(d1, d2, f);
 	struct	stat	sbuf;
@@ -176,10 +176,9 @@ static char **listdir(const char *d1, const char *d2, int (*chkfunc)(const char 
 	return  result;
 }
 
-static char **p_prins(void)
+static char **p_prins()
 {
-	char	**result;
-	char	**rp;
+	char	**result, **rp;
 	const  Hashspptr  **pp, **ep;
 
 	if  ((result = (char **) malloc((unsigned) ((Ptr_seg.nptrs + 1) * sizeof(char *)))) == (char **) 0)
@@ -194,10 +193,9 @@ static char **p_prins(void)
 	return  result;
 }
 
-static char **p_forms(void)
+static char **p_forms()
 {
-	char	**result;
-	char	**rp;
+	char	**result, **rp;
 	const  Hashspptr  **pp, **ep;
 
 	if  ((result = (char **) malloc((unsigned) ((Ptr_seg.nptrs + 1) * sizeof(char *)))) == (char **) 0)
@@ -212,10 +210,9 @@ static char **p_forms(void)
 	return  result;
 }
 
-static char **j_prins(void)
+static char **j_prins()
 {
-	char	**result;
-	char	**rp;
+	char	**result, **rp;
 	const  Hashspq  **jpp, **bj, **ej;
 
 	/* Allocate a result buffer equal to the size of the number of
@@ -251,7 +248,7 @@ static char **j_prins(void)
 	return  result;
 }
 
-static char **j_forms(void)
+static char **j_forms()
 {
 	char	**result;
 	const  Hashspq  **jpp, **ej;
@@ -347,7 +344,7 @@ static char **listpfdirs(const struct spptr *current_prin)
 	return  result;
 }
 
-FILE  *hexists(const char *dir, const char *d2)
+FILE *hexists(const char *dir, const char *d2)
 {
 	char	*fname;
 	static	char	*hname;
@@ -361,7 +358,7 @@ FILE  *hexists(const char *dir, const char *d2)
 	return  result;
 }
 
-char  **makefvec(FILE *f)
+char **makefvec(FILE *f)
 {
 	char	**result, *ln;
 	int	msize, rcnt, ch;
@@ -404,27 +401,27 @@ char  **makefvec(FILE *f)
 	return  result;
 }
 
-char  **wotjprin(void)
+char **wotjprin()
 {
 	return  mconcat(p_prins(), listdir(ptdir, (char *) 0, isprin));
 }
 
-char  **wotjform(void)
+char **wotjform()
 {
 	return  squeeze(mconcat(p_forms(), listpfdirs((const struct spptr *) 0)));
 }
 
-char  **wotpform(void)
+char **wotpform()
 {
 	return  squeeze(mconcat(j_forms(), listpfdirs((const struct spptr *) 0)));
 }
 
-char  **wotpprin(void)
+char **wotpprin()
 {
 	return  squeeze(mconcat(j_prins(), listdir(ptdir, (char *) 0, isprin)));
 }
 
-char  **wottty(void)
+char **wottty()
 {
 	return  listdir("/dev", (char *) 0, isaterm);
 }
@@ -432,7 +429,7 @@ char  **wottty(void)
 /* Look at proposed device and comment about it with a code (as a
    subsequent argument to Confirm()), or 0 if nothing wrong.  */
 
-int	validatedev(char *devname)
+int  validatedev(char *devname)
 {
 	char	*name;
 	struct	stat	sbuf;

@@ -105,22 +105,22 @@ PIDTYPE	Netm_pid;	/* Process id of net monitor */
 
 extern	int	Ctrl_chan;
 
-unsigned	calcnhash(const netid_t);
-void	check_jmoved(void);
-void	check_pmoved(void);
-void	feed_req(void);
-void	job_pack(struct spq *, struct spq *);
-void	net_jclear(const netid_t);
-void	net_pclear(const netid_t);
-void	ptr_pack(struct spptr *, struct spptr *);
-void	nfreport(const int);
-void	report(const int);
-void	unpack_job(struct spq *,struct spq *);
-void	unpack_ptr(struct spptr *, struct spptr *);
-slotno_t	find_pslot(const netid_t, const slotno_t);
-Hashspq		*ver_job(const slotno_t, const jobno_t);
-Hashspptr 	*ver_ptr(const slotno_t);
-Hashspptr 	*ver_remptr(const slotno_t, const netid_t);
+extern	unsigned  calcnhash(const netid_t);
+extern  void  check_jmoved();
+extern  void  check_pmoved();
+extern  void  feed_req();
+extern	void  job_pack(struct spq *, struct spq *);
+extern	void  net_jclear(const netid_t);
+extern	void  net_pclear(const netid_t);
+extern	void  ptr_pack(struct spptr *, struct spptr *);
+extern	void  nfreport(const int);
+extern	void  report(const int);
+extern	void  unpack_job(struct spq *, struct spq *);
+extern	void  unpack_ptr(struct spptr *, struct spptr *);
+extern	slotno_t  find_pslot(const netid_t, const slotno_t);
+extern	Hashspq   *ver_job(const slotno_t, const jobno_t);
+extern	Hashspptr *ver_ptr(const slotno_t);
+extern	Hashspptr *ver_remptr(const slotno_t, const netid_t);
 
 /* Allocate a remote structure and copy.  */
 
@@ -196,68 +196,41 @@ static void	free_remlist(struct rem_list *rl, struct remote *rp, const int errco
 	}
 }
 
-#define	MAX_BACKOFF	512
-
-static void	push_msg(struct msgbuf *msg, const unsigned mlng)
+static void  push_msg(struct msgbuf *msg, const unsigned mlng)
 {
-	unsigned	backoff = 1;
-
 	for  (;;)  {
-		do  if  (msgsnd(Ctrl_chan, msg, mlng, IPC_NOWAIT) >= 0)
+		do  if  (msgsnd(Ctrl_chan, msg, mlng, 0) >= 0)
 			return;
 		while  (errno == EINTR);
-		if  (errno != EAGAIN)
-			report($E{Network IPC send fail});
-		if  (backoff > MAX_BACKOFF)
-			break;
-		disp_arg[0] = backoff;
-		nfreport($E{Network IPC queue filling});
-		sleep(backoff);
-		backoff <<= 1;
+		report($E{Network IPC send fail});
 	}
-	report($E{Network IPC full up});
 }
 
-static void	push_jmsg(struct spr_req *req, struct spq *jp)
+static void  push_jmsg(struct spr_req *req, struct spq *jp)
 {
 	int	ret;
-	unsigned	backoff = 1;
 
 	for  (;;)  {
 		if  ((ret = wjmsg(req, jp)) == 0)
 			return;
 		if  (ret != $E{IPC msg q full})
 			report(ret);
-		if  (backoff > MAX_BACKOFF)
-			break;
-		disp_arg[0] = backoff;
-		nfreport($E{Network IPC job queue filling});
-		sleep(backoff);
-		backoff <<= 1;
 	}
-	report($E{Network IPC full up});
 }
 
-static void	push_pmsg(struct spr_req * req, struct spptr *pp)
+static void  push_pmsg(struct spr_req *req, struct spptr *pp)
 {
 	int	ret;
-	unsigned	backoff = 1;
+
 	for  (;;)  {
 		if  ((ret = wpmsg(req, pp)) == 0)
 			return;
 		if  (ret != $E{IPC msg q full})
 			report(ret);
-		if  (backoff > MAX_BACKOFF)
-			break;
-		disp_arg[0] = backoff;
-		nfreport($E{Network IPC ptr queue filling});
-		sleep(backoff);
-		backoff <<= 1;
 	}
-	report($E{Network IPC full up});
 }
 
-struct remote  *alloc_roam(const netid_t roamip, const char *u_name)
+struct remote *alloc_roam(const netid_t roamip, const char *u_name)
 {
 	struct	remote	*rp;
 	struct	haship	**hipp, *hip;
@@ -299,14 +272,14 @@ struct	remote *find_connected(const netid_t netid)
 	return  look4(netid, HIP_REMOTE);
 }
 
-struct  remote *find_probe(const netid_t netid)
+struct remote *find_probe(const netid_t netid)
 {
 	return  look4(netid, HIP_PROBE);
 }
 
 /* Inline versions for this module */
 
-inline  struct	remote *inl_find_connected(const netid_t netid)
+inline struct remote *inl_find_connected(const netid_t netid)
 {
 	return  look4(netid, HIP_REMOTE);
 }
@@ -318,7 +291,7 @@ inline struct remote *inl_find_probe(const netid_t netid)
 
 /* Reassign contents of remote structure on connection.  */
 
-static  struct  remote  *reass_hip(struct haship *hip)
+static struct remote *reass_hip(struct haship *hip)
 {
 	struct	remote	*rp = hip->remp;
 
@@ -363,7 +336,7 @@ static  struct  remote  *reass_hip(struct haship *hip)
 
 /* Try to attach to remote machine which may already be running.  */
 
-void	conn_attach(struct remote *prp)
+void  conn_attach(struct remote *prp)
 {
 	int	sk;
 	struct	remote	*rp;
@@ -406,7 +379,7 @@ void	conn_attach(struct remote *prp)
 	Netsync_req++;
 }
 
-static	int	probe_send(const netid_t hostid, struct netmsg *pmsg)
+static	int  probe_send(const netid_t hostid, struct netmsg *pmsg)
 {
 	int	sockfd, tries;
 	struct	sockaddr_in	serv_addr, cli_addr;
@@ -455,7 +428,7 @@ static	int	probe_send(const netid_t hostid, struct netmsg *pmsg)
    The net monitor process deals with the reply, or "nettickle" discovers that
    it's not worth bothering about.  */
 
-void	probe_attach(struct remote *prp)
+void  probe_attach(struct remote *prp)
 {
 	struct	netmsg	pmsg;
 
@@ -504,7 +477,7 @@ void	probe_attach(struct remote *prp)
 	}
 }
 
-void	reply_probe(void)
+void  reply_probe()
 {
 	netid_t		whofrom;
 	struct	remote	*rp;
@@ -559,7 +532,7 @@ void	reply_probe(void)
 /* Attach remote, either immediately, or by doing probe operation
    first Return 1 if we got through immediately, 0 otherwise.  */
 
-int	rattach(struct remote *prp)
+int  rattach(struct remote *prp)
 {
 	if  (prp->hostid == 0L  ||  prp->hostid == myhostid)
 		return  0;
@@ -575,7 +548,7 @@ int	rattach(struct remote *prp)
 
 /* Accept connection from new machine */
 
-void	newhost(void)
+void  newhost()
 {
 	int	newsock;
 	struct	remote	*rp;
@@ -595,7 +568,7 @@ void	newhost(void)
 		rq.code = htons(SN_SHUTHOST);
 		rq.hostid = myhostid;
 		rq.arg = 0;
-		write(newsock, (char *) &rq, sizeof(rq));
+		Ignored_error = write(newsock, (char *) &rq, sizeof(rq));
 		hp = gethostbyaddr((char *) &sin.sin_addr.s_addr, sizeof(netid_t), AF_INET);
 		disp_str = hp? hp->h_name: inet_ntoa(sin.sin_addr);
 		nfreport($E{Connection attempt from unknown host});
@@ -631,7 +604,7 @@ static	char	*vservnames[] = {
 
 /* Attach hosts if possible */
 
-void	attach_hosts(void)
+void  attach_hosts()
 {
 	struct	servent	*sp;
 	struct	protoent  *pp;
@@ -797,7 +770,7 @@ void	attach_hosts(void)
 /* Remove traces of jobs and printers on our machine associated with
    the dying machine */
 
-static	void	deallochost(struct remote *rp)
+static	void  deallochost(struct remote *rp)
 {
 	struct	haship	**hipp, *hip;
 
@@ -838,7 +811,7 @@ static	void	deallochost(struct remote *rp)
 /* Write to socket, but if we get some error, treat connection as
    down.  Return 0 in that case so we can break out of loops.  */
 
-static	int	chk_write(struct remote *rp, char *buffer, unsigned length)
+static	int  chk_write(struct remote *rp, char *buffer, unsigned length)
 {
 	int	nbytes;
 	while  (length != 0)  {
@@ -856,7 +829,7 @@ static	int	chk_write(struct remote *rp, char *buffer, unsigned length)
 	return  1;
 }
 
-void	clearhost(const netid_t netid)
+void  clearhost(const netid_t netid)
 {
 	struct	haship	**hipp = get_pp_haship(netid);
 	struct	haship  *hip = *hipp;
@@ -867,7 +840,7 @@ void	clearhost(const netid_t netid)
 /* Send a random sort of message to a host.
    Currently this is used only for "delete job error file".  */
 
-void	net_xmit(const netid_t netid, const int code, const LONG arg)
+void  net_xmit(const netid_t netid, const int code, const LONG arg)
 {
 	struct	remote		*rp;
 
@@ -884,7 +857,7 @@ void	net_xmit(const netid_t netid, const int code, const LONG arg)
 /* Read from TCP socket and join together the bits which things
    sometimes get split into.  */
 
-static	void	read_sock(struct remote *rp, char *rqb, unsigned size)
+static	void  read_sock(struct remote *rp, char *rqb, unsigned size)
 {
 	int	nbytes;
 	struct	spr_req	msg;
@@ -914,7 +887,7 @@ static	void	read_sock(struct remote *rp, char *rqb, unsigned size)
    routine above, or a broadcast message from a machine to say
    we're going down.  */
 
-void	net_recv(const struct nihdr *ni, struct remote *rp)
+void  net_recv(const struct nihdr *ni, struct remote *rp)
 {
 	USHORT		act = ntohs(ni->code);
 	struct	netmsg		nrq;
@@ -959,7 +932,7 @@ void	net_recv(const struct nihdr *ni, struct remote *rp)
 
 /* Broadcast a message to all known hosts */
 
-void	broadcast(char *msg, const unsigned size)
+void  broadcast(char *msg, const unsigned size)
 {
 	int	cnt;
 
@@ -977,7 +950,7 @@ void	broadcast(char *msg, const unsigned size)
 
 /* Tell our friends byebye */
 
-void	netshut(void)
+void  netshut()
 {
 	unsigned		snore;
 	struct	netmsg		rq;
@@ -994,7 +967,7 @@ void	netshut(void)
 
 /* Tell one host goodbye */
 
-void	shut_host(const netid_t hostid)
+void  shut_host(const netid_t hostid)
 {
 	struct	remote	*rp;
 
@@ -1013,7 +986,7 @@ void	shut_host(const netid_t hostid)
 
 /* Keep connections alive */
 
-unsigned	nettickle(void)
+unsigned  nettickle()
 {
 	int		cnt;
 	unsigned	result;
@@ -1066,7 +1039,7 @@ unsigned	nettickle(void)
 
 /* Broadcast information about one of my jobs */
 
-void	job_broadcast(Hashspq *jp, const int code)
+void  job_broadcast(Hashspq *jp, const int code)
 {
 	if  (connected.rl_nums > 0)  {
 		struct	sp_jmsg	rq;
@@ -1082,7 +1055,7 @@ void	job_broadcast(Hashspq *jp, const int code)
 /* Accept a broadcast message about a job on some other machine sent
    by that machine.  */
 
-void	job_recvbcast(const struct nihdr *ni, struct remote *rp)
+void  job_recvbcast(const struct nihdr *ni, struct remote *rp)
 {
 	USHORT			act = ntohs(ni->code);
 	struct	spr_req		rq;
@@ -1129,7 +1102,7 @@ void	job_recvbcast(const struct nihdr *ni, struct remote *rp)
 
 /* Broadcast stuff about one of my printers */
 
-void	ptr_broadcast(Hashspptr *pp, const int code)
+void  ptr_broadcast(Hashspptr *pp, const int code)
 {
 	if  (connected.rl_nums > 0)  {
 		struct	sp_pmsg		rq;
@@ -1144,7 +1117,7 @@ void	ptr_broadcast(Hashspptr *pp, const int code)
 
 /* Pick above message up at the other end */
 
-void	ptr_recvbcast(const struct nihdr *ni, struct remote *rp)
+void  ptr_recvbcast(const struct nihdr *ni, struct remote *rp)
 {
 	slotno_t	lslot;
 	USHORT		act = ntohs(ni->code);
@@ -1198,7 +1171,7 @@ void	ptr_recvbcast(const struct nihdr *ni, struct remote *rp)
    the machine, except for confirming a job for remote printing,
    in which case we are talking about this machine's job.  */
 
-void  job_message(const netid_t netid, struct spq *jp, const int code, const ULONG arg1, const ULONG arg2)
+void	job_message(const netid_t netid, struct spq *jp, const int code, const ULONG arg1, const ULONG arg2)
 {
 	struct	remote		*rp;
 	struct	sp_omsg		rq;
@@ -1218,7 +1191,7 @@ void  job_message(const netid_t netid, struct spq *jp, const int code, const ULO
 
 /* Unravel that lot at the other end */
 
-void	job_recvmsg(const struct nihdr *ni, struct remote *rp)
+void  job_recvmsg(const struct nihdr *ni, struct remote *rp)
 {
 	USHORT		act = ntohs(ni->code);
 	Hashspq		*hjp;
@@ -1268,7 +1241,7 @@ void	job_recvmsg(const struct nihdr *ni, struct remote *rp)
 /* This says something about a printer belonging to a remote machine
    to the machine.  */
 
-void	ptr_message(struct spptr *pp, const int code)
+void  ptr_message(struct spptr *pp, const int code)
 {
 	struct	remote		*rp;
 	struct	sp_omsg		rq;
@@ -1288,7 +1261,7 @@ void	ptr_message(struct spptr *pp, const int code)
 
 /* Unravel that lot at the other end */
 
-void	ptr_recvmsg(const struct nihdr *ni, struct remote *rp)
+void  ptr_recvmsg(const struct nihdr *ni, struct remote *rp)
 {
 	USHORT		act = ntohs(ni->code);
 	Hashspptr		*pp;
@@ -1310,7 +1283,7 @@ void	ptr_recvmsg(const struct nihdr *ni, struct remote *rp)
 
 /* Tell a machine about a change I've made to one of its jobs */
 
-void	job_sendupdate(struct spq *jp, struct spq *newj, const int code)
+void  job_sendupdate(struct spq *jp, struct spq *newj, const int code)
 {
 	struct	remote		*rp;
 	struct	sp_jmsg		rq;
@@ -1328,7 +1301,7 @@ void	job_sendupdate(struct spq *jp, struct spq *newj, const int code)
 
 /* Unravel that lot at the other end */
 
-void	job_recvupdate(const struct nihdr *ni, struct remote *rp)
+void  job_recvupdate(const struct nihdr *ni, struct remote *rp)
 {
 	USHORT		act = ntohs(ni->code);
 	Hashspq			*hjp;
@@ -1351,7 +1324,7 @@ void	job_recvupdate(const struct nihdr *ni, struct remote *rp)
 
 /* Tell a machine about a change I've made to one of its printers */
 
-void	ptr_sendupdate(struct spptr *pp, struct spptr *newp, const int code)
+void  ptr_sendupdate(struct spptr *pp, struct spptr *newp, const int code)
 {
 	struct	remote		*rp;
 
@@ -1369,7 +1342,7 @@ void	ptr_sendupdate(struct spptr *pp, struct spptr *newp, const int code)
 
 /* Unravel that lot */
 
-void	ptr_recvupdate(const struct nihdr *ni, struct remote *rp)
+void  ptr_recvupdate(const struct nihdr *ni, struct remote *rp)
 {
 	Hashspptr		*pp;
 	struct	spr_req		rq;
@@ -1393,7 +1366,7 @@ void	ptr_recvupdate(const struct nihdr *ni, struct remote *rp)
    retain the slot numbers correctly. We are always calling this
    from the machine with the printer on.  */
 
-void	ptr_assxmit(Hashspq *jp, Hashspptr *pp)
+void  ptr_assxmit(Hashspq *jp, Hashspptr *pp)
 {
 	if  (connected.rl_nums > 0)  {
 		struct	sp_omsg	rq;
@@ -1417,7 +1390,7 @@ void	ptr_assxmit(Hashspq *jp, Hashspptr *pp)
 
 /* Receive notice of assignment.  */
 
-void	ptr_assrecv(const struct nihdr *ni, struct remote *rp)
+void  ptr_assrecv(const struct nihdr *ni, struct remote *rp)
 {
 	USHORT			act = ntohs(ni->code);
 	Hashspq			*jp;
@@ -1478,7 +1451,7 @@ void  job_sendnote(Hashspq *jp, Hashspptr *pp, const int code, const jobno_t err
 
 /* For unravelling the above at the other end */
 
-void	job_recvnote(const struct nihdr *ni, struct remote *rp)
+void  job_recvnote(const struct nihdr *ni, struct remote *rp)
 {
 	USHORT			act = ntohs(ni->code);
 	Hashspq			*jp;
@@ -1507,55 +1480,19 @@ void	job_recvnote(const struct nihdr *ni, struct remote *rp)
 	push_msg((struct msgbuf *) &rq, sizeof(struct sp_omsg));
 }
 
-/* For messing around with charges....  */
+/* For unravelling charges the other end
+   Support receipt of messages for compatibility but do nothing */
 
-void	chrg_xmit(struct sp_cmsg *rq, struct spq *jp)
+void  chrg_recv(const struct nihdr *ni, struct remote *rp)
 {
-	struct	remote		*rp;
 	struct	sp_cmsg		crq;
-
-	if  (!(rp = inl_find_connected(jp->spq_netid)))
-		return;
-	crq.spr_act = htons(SPD_CHARGE);
-	crq.spr_seq = htons(rp->ht_seqto);
-	crq.spr_pslot = 0;
-	crq.spr_pid = 0;
-	crq.spr_netid = myhostid;
-	crq.spr_flags = 0;
-	crq.spr_c.spc_chars = htonl((ULONG) rq->spr_c.spc_chars);
-	crq.spr_c.spc_cpc = htonl((ULONG) rq->spr_c.spc_cpc);
-	/* User id is appropriate for job-owning host */
-	crq.spr_c.spc_user = htonl((ULONG) rq->spr_c.spc_user);
-	crq.spr_c.spc_pri = rq->spr_c.spc_pri;
-	chk_write(rp, (char *) &crq, sizeof(crq));
-}
-
-/* For unravelling the above at the other end */
-
-void	chrg_recv(const struct nihdr *ni, struct remote *rp)
-{
-	struct	spr_req		rq;
-	struct	sp_cmsg		crq;
-
-	READ_SOCK(rp, crq);
-
-	rq.spr_mtype = MT_SCHED;
-	rq.spr_un.c.spr_act = SPD_CHARGE;
-	rq.spr_un.c.spr_pslot = 0;
-	rq.spr_un.c.spr_pid = Netm_pid;
-	rq.spr_un.c.spr_netid = crq.spr_netid;
-	rq.spr_un.c.spr_flags = 0;
-	rq.spr_un.c.spr_c.spc_chars = ntohl(crq.spr_c.spc_chars);
-	rq.spr_un.c.spr_c.spc_cpc = ntohl(crq.spr_c.spc_cpc);
-	rq.spr_un.c.spr_c.spc_user = ntohl(crq.spr_c.spc_user);
-	rq.spr_un.c.spr_c.spc_pri = crq.spr_c.spc_pri;
-	push_msg((struct msgbuf *) &rq, sizeof(struct sp_cmsg));
+	READ_SOCK(rp, crq);			/* Just soak it up */
 }
 
 /* Tell existing machines about all our luvly jobs and printers
    after initial startup.  */
 
-void	net_initsync(void)
+void	net_initsync()
 {
 	unsigned  lumpcount = 0;
 	LONG	indx;
@@ -1585,7 +1522,7 @@ void	net_initsync(void)
 
 /* Look around for remote machines we haven't got details of jobs or printers for */
 
-void	netsync(void)
+void  netsync()
 {
 	int	rpcnt;
 
@@ -1606,7 +1543,7 @@ void	netsync(void)
 	}
 }
 
-void	sendsync(const netid_t netid)
+void  sendsync(const netid_t netid)
 {
 	unsigned  lumpcount = 0;
 	LONG	  indx;
@@ -1657,7 +1594,7 @@ void	sendsync(const netid_t netid)
 	}
 }
 
-void	endsync(const netid_t netid)
+void  endsync(const netid_t netid)
 {
 	struct	remote	*rp;
 
@@ -1669,7 +1606,7 @@ void	endsync(const netid_t netid)
 		netsync();
 }
 
-void	remote_recv(struct remote *rp)
+void  remote_recv(struct remote *rp)
 {
 	struct	nihdr	nih;
 
@@ -1769,7 +1706,7 @@ void	remote_recv(struct remote *rp)
 
 static	int	count_catch_shut = 0;
 
-void	exec_catchshut(void)
+void  exec_catchshut()
 {
 	struct	spr_req	reply;
 	reply.spr_mtype = MT_SCHED;
@@ -1778,7 +1715,7 @@ void	exec_catchshut(void)
 	exit(0);
 }
 
-RETSIGTYPE	catchshut(int n)
+RETSIGTYPE  catchshut(int n)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(n, SIG_IGN);
@@ -1786,7 +1723,7 @@ RETSIGTYPE	catchshut(int n)
 	count_catch_shut++;
 }
 
-static RETSIGTYPE	stop_mon(int signum)
+static RETSIGTYPE  stop_mon(int signum)
 {
 	struct	spr_req	msg;
 #ifdef	STRUCT_SIG
@@ -1826,7 +1763,7 @@ RETSIGTYPE	sh_markit(int sig)
    garbage hosts in it, so we can be born again another day.
    Hopefully this won't happen too often.  */
 
-void	netmonitor(void)
+void  netmonitor()
 {
 	int	nret, rpcnt;
 	int	highfd;

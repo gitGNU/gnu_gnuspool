@@ -116,11 +116,11 @@ extern	int	Sem_chan;
 #define	jid_hash(nid,slot)	(((((unsigned) (nid)) >> 16) ^ ((unsigned) (nid)) ^ (((unsigned) (slot)) >> 4) ^ ((unsigned) (slot))) % SHM_JHASHMOD)
 #define	pid_hash(nid,slot)	(((((unsigned) (nid)) >> 16) ^ ((unsigned) (nid)) ^ (((unsigned) (slot)) >> 4) ^ ((unsigned) (slot))) % SHM_PHASHMOD)
 
-extern void	jobshm_lock(void);
-extern void	jobshm_unlock(void);
-extern void	ptrshm_lock(void);
-extern void	ptrshm_unlock(void);
-extern int	jobshminit(const int);
-extern int	ptrshminit(const int);
-extern void	jobgrown(void);
-extern void	ptrgrown(void);
+extern void  jobshm_lock();
+extern void  jobshm_unlock();
+extern void  ptrshm_lock();
+extern void  ptrshm_unlock();
+extern int  jobshminit(const int);
+extern int  ptrshminit(const int);
+extern void  jobgrown();
+extern void  ptrgrown();

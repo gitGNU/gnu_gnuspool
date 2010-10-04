@@ -15,24 +15,23 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-void	rpwfile(void);
-void	un_rpwfile(void);
-void	produser(void);
-void	dump_pwfile(void);
-void	uloop_over(const int, void (*)(int, char *, int_ugid_t), char *);
-int	isvuser(const uid_t);
-int_ugid_t	lookup_gname(const char *);
-int_ugid_t	lookup_uname(const char *);
-char	*prin_gname(const uid_t);
-char	*prin_uname(const uid_t);
-char	*unameproc(char *, const char *, const uid_t);
-char 	**gen_ulist(const char *, const int);
+extern	void	rpwfile();
+extern	void	uloop_over(void (*)(char *, int_ugid_t), char *);
+extern	int	isvuser(const uid_t);
+extern	int_ugid_t	lookup_gname(const char *);
+extern	int_ugid_t	lookup_uname(const char *);
+extern	char	*prin_gname(const uid_t);
+extern	char	*prin_uname(const uid_t);
+extern	char	*unameproc(char *, const char *, const uid_t);
+extern	char	**gen_ulist(const char *, const int);
 
 #define	UNKNOWN_UID	(-1)
 
 extern	uid_t	Daemuid,
 		Realuid,
 		Effuid;
+
+extern	unsigned  Npwusers;
 
 #ifdef	HAVE_SETEUID
 #if	defined(NHONSUID) || defined(DEBUG)

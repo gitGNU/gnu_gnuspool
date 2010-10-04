@@ -52,8 +52,8 @@
 
 #define	HTIME	5		/* Forge prompt if one doesn't come */
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+int  spitoption(const int, const int, FILE *, const int, const int);
+int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
 extern	char	freeze_wanted;
 char	freeze_cd,
@@ -76,7 +76,9 @@ struct	spdet	*mypriv;
 int	exit_code,
 	force;
 
-void	nomem(void)
+/* Keep library happy */
+
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -84,7 +86,7 @@ void	nomem(void)
 
 /* "Read" job file.  */
 
-void	rjobfile(void)
+void  rjobfile()
 {
 	jobshm_lock();
 #ifdef	USING_MMAP
@@ -99,7 +101,7 @@ void	rjobfile(void)
 
 /* Run job dump program if possible */
 
-static	void	dounqueue(const struct spq *jp)
+static	void  dounqueue(const struct spq *jp)
 {
 	PIDTYPE	pid;
 	int	ac;
@@ -155,7 +157,7 @@ static	void	dounqueue(const struct spq *jp)
 
 	udprog = envprocess(DUMPJOB);
 	setuid(Realuid);
-	chdir(Curr_pwd);	/* So that it picks up config file correctly */
+	Ignored_error = chdir(Curr_pwd);	/* So that it picks up config file correctly */
 	if  (jp->spq_netid)
 		sprintf(jnobuf, "%s:%ld", look_host(jp->spq_netid), (long) jp->spq_job);
 	else
@@ -180,7 +182,7 @@ static	void	dounqueue(const struct spq *jp)
 
 /* This is the main processing routine.  */
 
-void	process(char **joblist)
+void  process(char **joblist)
 {
 	char	*jobc;
 	struct	spr_req	oreq;
@@ -198,6 +200,7 @@ void	process(char **joblist)
 		const  struct  spq	*jp;
 		int			ret;
 		struct	jobswanted	jw;
+		int	blkcount = MSGQ_BLOCKS;
 
 		disp_str = jobc;	/* What we're wingeing about in case of any error */
 
@@ -240,9 +243,17 @@ void	process(char **joblist)
 		oreq.spr_un.o.spr_jobno = jp->spq_job;
 		oreq.spr_un.o.spr_jpslot = hjp - Job_seg.jlist;
 
-		if  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
-			print_error(errno == EAGAIN? $E{IPC msg q full}: $E{IPC msg q error});
-			exit(E_SETUP);
+		while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
+			if  (errno != EAGAIN)  {
+				print_error($E{IPC msg q error});
+				exit(E_SETUP);
+			}
+			blkcount--;
+			if  (blkcount <= 0)  {
+				print_error($E{IPC msg q full});
+				exit(E_SETUP);
+			}
+			sleep(MSGQ_BLOCKWAIT);
 		}
 		waitsig();
 	}
@@ -346,7 +357,7 @@ o_jobprefix,	o_cmdprefix,	o_directory,
 o_freezecd,	o_freezehd
 };
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0;
 	char	*fmt = " %s";
@@ -369,7 +380,7 @@ void	spit_options(FILE *dest, const char *name)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	ec;
 #if	defined(NHONSUID) || defined(DEBUG)

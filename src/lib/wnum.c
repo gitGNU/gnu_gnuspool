@@ -40,11 +40,8 @@ void  wn_fill(WINDOW *wp, const int row, const struct sctrl *scp, const LONG val
 
 LONG  wnum(WINDOW *wp, const int row, struct sctrl *scp, const LONG exist)
 {
-	int	ch;
 	LONG	result = 0L;
-	int	chcnt = 0;
-	int	err_no, err_off = 0;
-	int	isfirst = 1, changes = 0;
+	int	ch, chcnt = 0, err_no, err_off, isfirst = 1, changes = 0;
 
 	/* Initialise help/error message values and strings.
 	   "err_off" add 4 to select different error message if

@@ -51,7 +51,7 @@ struct	jshm_info	Job_seg;
    whether we are using memory-mapped files or shared memory (USING_MMAP) */
 
 #ifdef	USING_FLOCK
-static void	setjhold(const int typ)
+static void  setjhold(const int typ)
 {
 	struct	flock	lck;
 	lck.l_type = typ;
@@ -71,12 +71,12 @@ static void	setjhold(const int typ)
 	}
 }
 
-void	jobshm_lock(void)
+void  jobshm_lock()
 {
 	setjhold(F_RDLCK);
 }
 
-void	jobshm_unlock(void)
+void  jobshm_unlock()
 {
 	setjhold(F_UNLCK);
 }
@@ -86,7 +86,7 @@ static	struct	sembuf	jr[2] =	{{	JQ_FIDDLE,	0,	0	},
 				{	JQ_READING,	1,	SEM_UNDO}},
 			ju[1] = {{	JQ_READING,	-1,	SEM_UNDO}};
 
-void	jobshm_lock(void)
+void  jobshm_lock()
 {
 	for  (;;)  {
 		if  (semop(Sem_chan, &jr[0], 2) >= 0)
@@ -98,7 +98,7 @@ void	jobshm_lock(void)
 	}
 }
 
-void	jobshm_unlock(void)
+void  jobshm_unlock()
 {
 	for  (;;)  {
 		if  (semop(Sem_chan, &ju[0], 1) >= 0)
@@ -112,7 +112,7 @@ void	jobshm_unlock(void)
 #endif
 
 #ifdef	USING_MMAP
-static int	open_mmff(struct spshm_info * sinf, char * mmfname, const int insdir)
+static int  open_mmff(struct spshm_info *sinf, char *mmfname, const int insdir)
 {
 	if  (insdir)
 		sinf->mmfd = open(mmfname, O_RDONLY);
@@ -128,7 +128,7 @@ static int	open_mmff(struct spshm_info * sinf, char * mmfname, const int insdir)
 }
 #endif
 
-int	jobshminit(const int insdir)
+int  jobshminit(const int insdir)
 {
 #ifdef	USING_MMAP
 	if  (!open_mmff(&Job_seg.iinf, JIMMAP_FILE, insdir))
@@ -196,7 +196,7 @@ int	jobshminit(const int insdir)
 	return  1;
 }
 
-void	jobgrown(void)
+void  jobgrown()
 {
 #ifdef	USING_MMAP
 	if  (Job_seg.dinf.segsize == Job_seg.dptr->js_did)

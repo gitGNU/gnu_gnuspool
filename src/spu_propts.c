@@ -29,15 +29,15 @@
 #include "ecodes.h"
 #include "incl_unix.h"
 
-void	dohelp(WINDOW *, struct sctrl *, const char *);
-void	doerror(WINDOW *, const int);
-void	endhe(WINDOW *, WINDOW **);
+extern  void  dohelp(WINDOW *, struct sctrl *, const char *);
+extern  void  doerror(WINDOW *, const int);
+extern  void  endhe(WINDOW *, WINDOW **);
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+extern  int  spitoption(const int, const int, FILE *, const int, const int);
+extern  int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
 #ifndef	HAVE_ATEXIT
-void	exit_cleanup(void);
+extern  void  exit_cleanup();
 #endif
 
 extern	char	iflag,
@@ -68,7 +68,7 @@ struct	ltab	{
 /* Bodge help for when we don't have a specific thing to
    do other than display a message code.  */
 
-void	dochelp(WINDOW *wp, const int code)
+void  dochelp(WINDOW *wp, const int code)
 {
 	struct	sctrl	xx;
 	xx.helpcode = code;
@@ -77,32 +77,32 @@ void	dochelp(WINDOW *wp, const int code)
 	dohelp(wp, &xx, (char *) 0);
 }
 
-static	void	prd_mode(const struct ltab *lt)
+static	void  prd_mode(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, iflag? lt->prompts[2]: cflag? lt->prompts[1]: lt->prompts[0]);
 }
 
-static	void	prd_sort(const struct ltab *lt)
+static	void  prd_sort(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, alphsort? lt->prompts[1]: lt->prompts[0]);
 }
 
-static	void	prd_helpbox(const struct ltab *lt)
+static	void  prd_helpbox(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, helpbox? lt->prompts[1]: lt->prompts[0]);
 }
 
-static	void	prd_errbox(const struct ltab *lt)
+static	void  prd_errbox(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, errbox? lt->prompts[1]: lt->prompts[0]);
 }
 
-static	void	prd_helpclr(const struct ltab *lt)
+static	void  prd_helpclr(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, helpclr? lt->prompts[1]: lt->prompts[0]);
 }
 
-static	int	pro_bool(const struct ltab *lt, unsigned *b)
+static	int  pro_bool(const struct ltab *lt, unsigned *b)
 {
 	int	ch;
 	unsigned  origb = *b;
@@ -155,7 +155,7 @@ static	int	pro_bool(const struct ltab *lt, unsigned *b)
 	}
 }
 
-static	int	pro_mode(const struct ltab *lt)
+static	int  pro_mode(const struct ltab *lt)
 {
 	unsigned  current = iflag? 2: cflag? 1: 0;
 	unsigned  orig = current;
@@ -178,7 +178,7 @@ static	int	pro_mode(const struct ltab *lt)
 	return  ch;
 }
 
-static	int	pro_sort(const struct ltab *lt)
+static	int  pro_sort(const struct ltab *lt)
 {
 	unsigned  current = alphsort;
 	int	ch = pro_bool(lt, &current);
@@ -188,7 +188,7 @@ static	int	pro_sort(const struct ltab *lt)
 	return  ch;
 }
 
-static	int	pro_helpbox(const struct ltab *lt)
+static	int  pro_helpbox(const struct ltab *lt)
 {
 	unsigned  current = helpbox;
 	int	ch = pro_bool(lt, &current);
@@ -198,7 +198,7 @@ static	int	pro_helpbox(const struct ltab *lt)
 	return  ch;
 }
 
-static	int	pro_errbox(const struct ltab *lt)
+static	int  pro_errbox(const struct ltab *lt)
 {
 	unsigned  current = errbox;
 	int	ch = pro_bool(lt, &current);
@@ -208,7 +208,7 @@ static	int	pro_errbox(const struct ltab *lt)
 	return  ch;
 }
 
-static	int	pro_helpclr(const struct ltab *lt)
+static	int  pro_helpclr(const struct ltab *lt)
 {
 	unsigned  current = helpclr;
 	int	ch = pro_bool(lt, &current);
@@ -232,7 +232,7 @@ static	struct	ltab	*lptrs[TABNUM+1];
 static	int	comeinat;
 static	char	**title;
 
-static	void	initnames(void)
+static	void  initnames()
 {
 	int	i, next;
 	struct  ltab	*lt;
@@ -327,7 +327,7 @@ static	void	initnames(void)
 	lptrs[next] = (struct ltab *) 0;
 }
 
-static	int	askyorn(const int code)
+static	int  askyorn(const int code)
 {
 	char	*prompt = gprompt(code);
 	int	ch;
@@ -381,7 +381,7 @@ static	int	askyorn(const int code)
 	}
 }
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0;
 	fprintf(dest, "%s", name);
@@ -405,7 +405,7 @@ void	spit_options(FILE *dest, const char *name)
 	putc('\n', dest);
 }
 
-static	void	ask_build(void)
+static	void  ask_build()
 {
 	char	*hd;
 	int	ret, i;
@@ -452,11 +452,10 @@ static	void	ask_build(void)
 
 /* This accepts input from the screen.  */
 
-int	propts(void)
+int  propts()
 {
-	int	ch;
+	int	ch, i, whichel;
 	struct  ltab	*lt;
-	int	i, whichel;
 	char	**hv;
 	static	char	doneinit = 0;
 

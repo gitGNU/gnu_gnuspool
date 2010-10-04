@@ -21,7 +21,7 @@
 #include "incl_unix.h"
 #include "asn.h"
 
-struct asn_node *asn_nodealloc(void)
+struct asn_node *asn_nodealloc()
 {
 	struct  asn_node  *result = (struct asn_node *) malloc(sizeof(struct asn_node));
 
@@ -35,14 +35,14 @@ struct asn_node *asn_nodealloc(void)
 	return  result;
 }
 
-void	asn_nodefree(struct asn_node *nd)
+void  asn_nodefree(struct asn_node *nd)
 {
 	if  (nd->asn_type == ASN_OCTET_STR  ||  (nd->asn_type == ASN_OBJECT_ID && nd->asn_length != 0))
 		free(nd->asn_un.asn_string);
 	free((char *) nd);
 }
 
-struct	asn_node *	asn_alloc_bool(const int val)
+struct	asn_node *asn_alloc_bool(const int val)
 {
 	struct	asn_node  *result = asn_nodealloc();
 
@@ -89,7 +89,7 @@ struct asn_node *asn_alloc_string(const char *val)
 	return  result;
 }
 
-static unsigned	countbits(unsigned long n)
+static unsigned  countbits(unsigned long n)
 {
 	unsigned  result = 0;
 	while  (n)  {
@@ -99,12 +99,12 @@ static unsigned	countbits(unsigned long n)
 	return  result;
 }
 
-static unsigned	objid_segsreq(unsigned long n)
+static unsigned  objid_segsreq(unsigned long n)
 {
 	return  (countbits(n) + 6) / 7;
 }
 
-static asn_octet *	objid_packval(asn_octet *buf, unsigned long n)
+static asn_octet *objid_packval(asn_octet *buf, unsigned long n)
 {
 	unsigned  had = 0;
 	asn_octet  *endbuf = buf + objid_segsreq(n);
@@ -117,7 +117,7 @@ static asn_octet *	objid_packval(asn_octet *buf, unsigned long n)
 	return  endbuf;
 }
 
-struct asn_node *	asn_alloc_objid(const char *val)
+struct asn_node *asn_alloc_objid(const char *val)
 {
 	struct	asn_node  *result = asn_nodealloc();
 	const  char  *dp;
@@ -182,7 +182,7 @@ struct asn_node *	asn_alloc_objid(const char *val)
 	return  result;
 }
 
-struct asn_node *asn_alloc_null(void)
+struct asn_node *asn_alloc_null()
 {
 	struct	asn_node  *result = asn_nodealloc();
 	result->asn_type = ASN_NULL;
@@ -200,7 +200,7 @@ struct asn_node *asn_alloc_sequence(const unsigned type)
 	return  result;
 }
 
-void	asn_free_sequence(struct asn_node *nd)
+void  asn_free_sequence(struct asn_node *nd)
 {
 	struct  asn_node  *nxt;
 
@@ -254,7 +254,7 @@ struct asn_node *asn_adopt(struct asn_node *parent, struct asn_node *firstchild)
 	return  parent;
 }
 
-unsigned long	asn_conv_unsigned(struct asn_node *nd)
+unsigned long  asn_conv_unsigned(struct asn_node *nd)
 {
 	unsigned  long  result = 0;
 	unsigned  bytes = nd->asn_length;
@@ -267,7 +267,7 @@ unsigned long	asn_conv_unsigned(struct asn_node *nd)
 	return  result;
 }
 
-void	ber_enc_init(struct ber_encoding *bec)
+void  ber_enc_init(struct ber_encoding *bec)
 {
 	asn_octet  *newbuff = (asn_octet *) malloc(BER_ENC_BUFFSIZE);
 	if  (!newbuff)
@@ -279,12 +279,12 @@ void	ber_enc_init(struct ber_encoding *bec)
 	bec->nxtptr = bec->endbuffer;
 }
 
-void	ber_enc_free(struct ber_encoding *bec)
+void  ber_enc_free(struct ber_encoding *bec)
 {
 	free((char *) bec->buffer);
 }
 
-void	ber_enc_checksize(struct ber_encoding *bec, const unsigned reqsize)
+void  ber_enc_checksize(struct ber_encoding *bec, const unsigned reqsize)
 {
 	unsigned  nincs, incsize;
 	asn_octet  *newbuff;
@@ -310,7 +310,7 @@ void	ber_enc_checksize(struct ber_encoding *bec, const unsigned reqsize)
 	bec->nxtptr = bec->endbuffer + bec->indx;
 }
 
-void	asn_add_octet(struct ber_encoding *bec, const unsigned val)
+void  asn_add_octet(struct ber_encoding *bec, const unsigned val)
 {
 	*--(bec->nxtptr) = val;
 	bec->indx--;
@@ -318,14 +318,14 @@ void	asn_add_octet(struct ber_encoding *bec, const unsigned val)
 
 /* Cheating version for now - just one byte as we don't hold class or p/c separately. */
 
-unsigned	ber_enc_id(struct ber_encoding *bec, const unsigned  type)
+unsigned  ber_enc_id(struct ber_encoding *bec, const unsigned type)
 {
 	ber_enc_checksize(bec, 1);
 	asn_add_octet(bec, type);
 	return  1;
 }
 
-unsigned	ber_enc_len(struct ber_encoding *bec, const unsigned len)
+unsigned  ber_enc_len(struct ber_encoding *bec, const unsigned len)
 {
 	unsigned  bcount, lngv;
 
@@ -343,14 +343,14 @@ unsigned	ber_enc_len(struct ber_encoding *bec, const unsigned len)
 	return  bcount + 1;
 }
 
-unsigned	ber_enc_bool(struct ber_encoding *bec, struct asn_node *str)
+unsigned  ber_enc_bool(struct ber_encoding *bec, struct asn_node *str)
 {
 	ber_enc_checksize(bec, 1);
 	asn_add_octet(bec, str->asn_un.asn_bool);
 	return  1;
 }
 
-unsigned	ber_enc_unsigned(struct ber_encoding *bec, struct asn_node *str)
+unsigned  ber_enc_unsigned(struct ber_encoding *bec, struct asn_node *str)
 {
 	unsigned  bcount = 0, valv, lastbyte = 0xffff;
 
@@ -363,7 +363,7 @@ unsigned	ber_enc_unsigned(struct ber_encoding *bec, struct asn_node *str)
 	return  bcount;
 }
 
-unsigned	ber_enc_int(struct ber_encoding *bec, struct asn_node *str)
+unsigned  ber_enc_int(struct ber_encoding *bec, struct asn_node *str)
 {
 	unsigned  bcount = 0;
 
@@ -390,7 +390,7 @@ unsigned	ber_enc_int(struct ber_encoding *bec, struct asn_node *str)
 	return  bcount;
 }
 
-unsigned	ber_enc_string(struct ber_encoding *bec, struct asn_node *str)
+unsigned  ber_enc_string(struct ber_encoding *bec, struct asn_node *str)
 {
 	unsigned  bcount = str->asn_length;
 	const  char  *cp = str->asn_un.asn_string + bcount;
@@ -402,7 +402,7 @@ unsigned	ber_enc_string(struct ber_encoding *bec, struct asn_node *str)
 	return  str->asn_length;
 }
 
-unsigned	ber_enc_objid(struct ber_encoding *bec, struct asn_node *str)
+unsigned  ber_enc_objid(struct ber_encoding *bec, struct asn_node *str)
 {
 	unsigned  bcount = str->asn_length;
 	const  asn_octet  *cp = str->asn_un.asn_objid + bcount;
@@ -414,7 +414,7 @@ unsigned	ber_enc_objid(struct ber_encoding *bec, struct asn_node *str)
 	return  str->asn_length;
 }
 
-unsigned	ber_enc_item(struct ber_encoding *bec, struct asn_node *str)
+unsigned  ber_enc_item(struct ber_encoding *bec, struct asn_node *str)
 {
 	unsigned  totalbytes = 0;
 
@@ -464,7 +464,7 @@ unsigned	ber_enc_item(struct ber_encoding *bec, struct asn_node *str)
 	return  totalbytes;
 }
 
-unsigned	ber_encode(asn_octet **res, struct asn_node *seq)
+unsigned  ber_encode(asn_octet **res, struct asn_node *seq)
 {
 	asn_octet  *result;
 	unsigned  outlen;
@@ -483,13 +483,13 @@ unsigned	ber_encode(asn_octet **res, struct asn_node *seq)
 	return  outlen;
 }
 
-void	parse_stat_init(struct ber_parse_status *ps, asn_octet *chars, const unsigned len)
+void  parse_stat_init(struct ber_parse_status *ps, asn_octet *chars, const unsigned len)
 {
 	ps->seq_start = ps->seq_next = chars;
 	ps->seq_len = ps->seq_left = len;
 }
 
-unsigned	parse_next_byte(struct ber_parse_status *ps)
+unsigned  parse_next_byte(struct ber_parse_status *ps)
 {
 	if  (ps->seq_left == 0)
 		return  0;
@@ -497,7 +497,7 @@ unsigned	parse_next_byte(struct ber_parse_status *ps)
 	return  *ps->seq_next++;
 }
 
-long	asn_parse_int(struct ber_parse_status *ps, unsigned len)
+long  asn_parse_int(struct ber_parse_status *ps, unsigned len)
 {
 	long	result;
 	unsigned  b = parse_next_byte(ps);
@@ -513,7 +513,7 @@ long	asn_parse_int(struct ber_parse_status *ps, unsigned len)
 	return  result;
 }
 
-unsigned	get_oid_val(asn_octet **buf, unsigned *len)
+unsigned  get_oid_val(asn_octet **buf, unsigned *len)
 {
 	unsigned  res = 0;
 	unsigned  nxt;
@@ -528,7 +528,7 @@ unsigned	get_oid_val(asn_octet **buf, unsigned *len)
 	return  res;
 }
 
-unsigned	oid_nchars(unsigned val)
+unsigned  oid_nchars(unsigned val)
 {
 	unsigned  res = 0;
 	do  {
@@ -537,12 +537,12 @@ unsigned	oid_nchars(unsigned val)
 	}  while  (val != 0);
 	return  res;
 }
-     
-unsigned	parse_oid_len(asn_octet *buf, unsigned len)
+
+unsigned  parse_oid_len(asn_octet *buf, unsigned len)
 {
 	unsigned  result;
 	unsigned  val = get_oid_val(&buf, &len);
-	
+
 	result = oid_nchars(val / 40) + oid_nchars(val % 40) + 1;
 
 	/* Allow only for 1 '.' */
@@ -554,12 +554,12 @@ unsigned	parse_oid_len(asn_octet *buf, unsigned len)
 	return  result;
 }
 
-char  *parse_oid_string(asn_octet *buf, unsigned len)
+char *parse_oid_string(asn_octet *buf, unsigned len)
 {
 	char	*result = malloc(parse_oid_len(buf, len)+1);
 	char	*rp = result;
 	unsigned  val;
-	
+
 	if  (!result)
 		abort();
 

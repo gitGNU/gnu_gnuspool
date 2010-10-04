@@ -45,7 +45,7 @@ int	make_connection(struct information *);
 int	accept_connection(struct information *);
 int	get_port_number(char *);
 int	get_number_of_copies(char *);
-char *	get_host_name(char *);
+char	*get_host_name(char *);
 int	get_number_of_files(int, char **, char *);
 
 #define TIME_OUT_LENGTH 5

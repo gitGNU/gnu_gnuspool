@@ -19,7 +19,7 @@
 struct	remote	{
 	/* NB we assume in various places that HOSTNSIZE > UIDSIZE */
 	char	hostname[HOSTNSIZE];	/* Actual host name (alternatively user name) */
-	char	alias[HOSTNSIZE];	/* Alias for within Xi-Text */
+	char	alias[HOSTNSIZE];	/* Alias for within GNUspool */
 	SHORT	sockfd;			/* Socket fd to talk to it */
 	netid_t hostid;			/* Host id in network byte order */
 	unsigned char	is_sync;	/* sync flags */
@@ -79,10 +79,10 @@ struct	nihdr	{		/* Incoming messages, see what in a minute */
 #define	FEED_ER		2	/* Feed error file */
 #define	FEED_PF		3	/* Feed page file */
 
-void	end_hostfile(void);
-netid_t	look_hostname(const char *);
-char *	look_host(const netid_t);
-struct remote *	get_hostfile(void);
-void	hash_hostfile(void);
+extern  void  end_hostfile();
+netid_t look_hostname(const char *);
+char 	*look_host(const netid_t);
+extern  struct remote *  get_hostfile();
+extern  void  hash_hostfile();
 
 extern	netid_t	myhostid;

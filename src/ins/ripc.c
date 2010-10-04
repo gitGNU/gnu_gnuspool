@@ -98,7 +98,7 @@ void	nomem()
 }
 
 #ifdef	HAVE_SYS_MMAN_H
-char *mmfile_name(const char * name)
+char *mmfile_name(const char *name)
 {
 	static	char	fname[PATH_MAX];
 
@@ -114,7 +114,7 @@ char *mmfile_name(const char * name)
 /* Locate a memory-mapped file in its hole and return an fd to it
    and stat-ify it into sb */
 
-int	open_mmfile(const char *name, struct stat *sb)
+int  open_mmfile(const char *name, struct stat *sb)
 {
 	int	result;
 	if  ((result = open(mmfile_name(name), O_RDONLY)) < 0)
@@ -124,7 +124,7 @@ int	open_mmfile(const char *name, struct stat *sb)
 }
 #endif
 
-void	segdump(unsigned char *shp, unsigned segsz)
+void  segdump(unsigned char *shp, unsigned segsz)
 {
 	unsigned  addr = 0, had = 0, hadsame = 0, left = segsz;
 	unsigned  char  lastbuf[MAX_NWORDS * sizeof(ULONG)];
@@ -169,7 +169,7 @@ void	segdump(unsigned char *shp, unsigned segsz)
 	printf("%.6x --- end ---\n", addr);
 }
 
-void	dump_lock(const int fd, const char *msg)
+void  dump_lock(const int fd, const char *msg)
 {
 #ifdef	OS_LINUX
 	FILE	*ifl;
@@ -199,12 +199,12 @@ void	dump_lock(const int fd, const char *msg)
 #endif
 }
 
-void	dump_mode(unsigned mode)
+void  dump_mode(unsigned mode)
 {
 	printf("%c%c-", mode & 4? 'r': '-', mode & 2? 'w': '-');
 }
 
-char *	pr_uname(uid_t uid)
+char *pr_uname(uid_t uid)
 {
 	static	char	buf[16];
 	struct	passwd	*pw;
@@ -215,7 +215,7 @@ char *	pr_uname(uid_t uid)
 	return  buf;
 }
 
-char *	pr_gname(gid_t gid)
+char *pr_gname(gid_t gid)
 {
 	static	char	buf[16];
 	struct	group	*pw;
@@ -226,7 +226,7 @@ char *	pr_gname(gid_t gid)
 	return  buf;
 }
 
-char *	lookhost(netid_t hid)
+char *lookhost(netid_t hid)
 {
 	static	char	buf[100];
 	struct	hostent	*hp;
@@ -243,7 +243,7 @@ char *	lookhost(netid_t hid)
 	return  buf;
 }
 
-void	dump_ipcperm(struct ipc_perm * perm)
+void  dump_ipcperm(struct ipc_perm *perm)
 {
 	printf("Owner: %s/%s\t", pr_uname(perm->uid), pr_gname(perm->gid));
 	printf("Creator: %s/%s\tMode: ", pr_uname(perm->cuid), pr_gname(perm->cgid));
@@ -253,7 +253,7 @@ void	dump_ipcperm(struct ipc_perm * perm)
 	putchar('\n');
 }
 
-void	dotime(time_t arg, char *descr)
+void  dotime(time_t arg, char *descr)
 {
 	struct	tm	*tp = localtime(&arg);
 	static  char	*wdays[] =  { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"  };
@@ -263,7 +263,7 @@ void	dotime(time_t arg, char *descr)
 	       tp->tm_hour, tp->tm_min, tp->tm_sec);
 }
 
-void	dops(const long lpid1, const long lpid2)
+void  dops(const long lpid1, const long lpid2)
 {
 	char	obuf[100];
 
@@ -289,7 +289,7 @@ void	dops(const long lpid1, const long lpid2)
 			sprintf(obuf, "ps %s | fgrep \' %ld \n %ld \'", psarg, lpid1, lpid2);
 	}
 	fflush(stdout);
-	system(obuf);
+	Ignored_error = system(obuf);
 }
 
 void  shmhdr(long key, int chan, struct shmid_ds *sp, char *descr)
@@ -305,7 +305,7 @@ void  shmhdr(long key, int chan, struct shmid_ds *sp, char *descr)
 }
 
 #ifdef	HAVE_SYS_MMAN_H
-void	mmaphdr(struct stat *sp, const char *descr)
+void  mmaphdr(struct stat *sp, const char *descr)
 {
 	printf("Memory mapped file for %s\n", descr);
 	printf("Owner: %s/%s\tMode:", pr_uname(sp->st_uid), pr_gname(sp->st_gid));
@@ -325,7 +325,7 @@ void	mmaphdr(struct stat *sp, const char *descr)
 }
 #endif
 
-void	dumpjob(struct spq *jp)
+void  dumpjob(struct spq *jp)
 {
 	printf("%s%ld\t", lookhost(jp->spq_netid), (long) jp->spq_job);
 	if  (jp->spq_jflags & SPQ_NOH)
@@ -371,7 +371,7 @@ void	dumpjob(struct spq *jp)
 	putchar('\n');
 }
 
-void	dumpptr(struct spptr *pp)
+void  dumpptr(struct spptr *pp)
 {
 	static	char	*snames[] =  { "null", "offl", "err", "hlt", "init", "idle", "shd", "prt", "a/w"  };
 	printf("%s%s\t%s\t%s\t", lookhost(pp->spp_netid), pp->spp_ptr, pp->spp_dev,
@@ -402,7 +402,7 @@ struct	jbitmaps  {
 		*hbitmap;	/* Job numbers */
 };
 
-int	jbitmap_init(struct jbitmaps *bms)
+int  jbitmap_init(struct jbitmaps *bms)
 {
 	bms->msize = ((Job_seg.dptr->js_maxjobs + 31) >> 5) << 2;
 	bms->jbitmap = (ULONG *) malloc(bms->msize);
@@ -411,14 +411,14 @@ int	jbitmap_init(struct jbitmaps *bms)
 	return  bms->jbitmap  &&  bms->fbitmap  &&  bms->hbitmap;
 }
 
-void	jbitmap_free(struct jbitmaps *bms)
+void  jbitmap_free(struct jbitmaps *bms)
 {
 	free((char *) bms->hbitmap);
 	free((char *) bms->fbitmap);
 	free((char *) bms->jbitmap);
 }
 
-int	jbitmap_check(struct jbitmaps *bms)
+int  jbitmap_check(struct jbitmaps *bms)
 {
 	if  (bms->msize == ((Job_seg.dptr->js_maxjobs + 31) >> 5) << 2)
 		return  1;
@@ -426,13 +426,13 @@ int	jbitmap_check(struct jbitmaps *bms)
 	return  jbitmap_init(bms);
 }
 
-void	jobseg_hinit1(void)
+void  jobseg_hinit1()
 {
 	Job_seg.hashp_jno = (LONG *) (Job_seg.iinf.seg + sizeof(struct jshm_hdr));
 	Job_seg.hashp_jid = (LONG *) ((char *) Job_seg.hashp_jno + SHM_JHASHMOD * sizeof(LONG));
 }
 
-void	del_jshm(const int typ1, const int typ2)
+void  del_jshm(const int typ1, const int typ2)
 {
 #ifdef	HAVE_SYS_MMAN_H
 	if  (typ1 > 0)
@@ -458,7 +458,7 @@ void	del_jshm(const int typ1, const int typ2)
 #endif
 }
 
-int	jobshminit1(struct shmid_ds *sp, struct stat *fsb)
+int  jobshminit1(struct shmid_ds *sp, struct stat *fsb)
 {
 #ifdef	HAVE_SYS_MMAN_H
 
@@ -495,7 +495,7 @@ int	jobshminit1(struct shmid_ds *sp, struct stat *fsb)
 	return  1;
 }
 
-int	jobshminit2(struct shmid_ds *sp, struct stat *fsb)
+int  jobshminit2(struct shmid_ds *sp, struct stat *fsb)
 {
 #ifdef	HAVE_SYS_MMAN_H
 
@@ -530,12 +530,12 @@ int	jobshminit2(struct shmid_ds *sp, struct stat *fsb)
 	return  1;
 }
 
-inline  int  bitmap_isset(ULONG *bm, const unsigned n)
+inline int  bitmap_isset(ULONG *bm, const unsigned n)
 {
 	return  bm[n >> 5] & (1 << (n & 31));
 }
 
-inline  void  bitmap_set(ULONG *bm, const unsigned n)
+inline void  bitmap_set(ULONG *bm, const unsigned n)
 {
 	bm[n >> 5] |= 1 << (n & 31);
 }
@@ -546,7 +546,7 @@ inline  void  bitmap_set(ULONG *bm, const unsigned n)
    job shm is being updated but we daren't use the semaphore in case
    we miss whatever is doing the dirty. */
 
-int	check_jmangled(struct jbitmaps *bms)
+int  check_jmangled(struct jbitmaps *bms)
 {
 	unsigned  cnt;
 	LONG	jind, prevind;
@@ -707,7 +707,7 @@ int	check_jmangled(struct jbitmaps *bms)
 	return  0;
 }
 
-void	dump_jobshm(void)
+void  dump_jobshm()
 {
 	unsigned		cnt, errs = 0;
 	LONG			jind, prevind;
@@ -1064,7 +1064,7 @@ void	dump_jobshm(void)
 		del_jshm(typ1, typ2);
 }
 
-int	ptrshminit1(struct shmid_ds *sp, struct stat *fsb)
+int  ptrshminit1(struct shmid_ds *sp, struct stat *fsb)
 {
 #ifdef	HAVE_SYS_MMAN_H
 
@@ -1121,7 +1121,7 @@ int	ptrshminit1(struct shmid_ds *sp, struct stat *fsb)
 	return  1;
 }
 
-void	del_pshm(const int typ)
+void  del_pshm(const int typ)
 {
 #ifdef	HAVE_SYS_MMAN_H
 	if  (typ > 0)
@@ -1136,7 +1136,7 @@ void	del_pshm(const int typ)
 #endif
 }
 
-void	dump_ptrshm(void)
+void  dump_ptrshm()
 {
 	int		typ;
 	unsigned	msize, cnt, errs = 0;
@@ -1346,7 +1346,7 @@ void	dump_ptrshm(void)
 		del_pshm(typ);
 }
 
-void	dump_xfershm(void)
+void  dump_xfershm()
 {
 	int			xfer_chan;
 	unsigned		segsize = 0;
@@ -1411,7 +1411,7 @@ void	dump_xfershm(void)
 	}
 }
 
-void	dump_sem(int semid, int semnum, char *descr)
+void  dump_sem(int semid, int semnum, char *descr)
 {
 	union	my_semun	zz;
 	zz.val = 0;
@@ -1423,7 +1423,7 @@ void	dump_sem(int semid, int semnum, char *descr)
 	       semctl(semid, semnum, GETPID, zz));
 }
 
-void	dump_sema4(void)
+void  dump_sema4()
 {
 	int			semid;
 	struct	semid_ds	sbuf;
@@ -1463,7 +1463,7 @@ void	dump_sema4(void)
 		semctl(semid, 0, IPC_RMID, zz);
 }
 
-void	dump_q(int rq)
+void  dump_q(int rq)
 {
 	int			msgid;
 	struct	msqid_ds	sbuf;
@@ -1684,7 +1684,7 @@ void	dump_q(int rq)
 		msgctl(msgid, IPC_RMID, (struct msqid_ds *) 0);
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	c, hadsd = 0;
 	int	rq = 0;

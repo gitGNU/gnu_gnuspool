@@ -58,7 +58,7 @@ char	*orig_host;
 
 extern	char	*Helpfile_path;
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Out of memory...\n");
 	exit(E_NOMEM);
@@ -68,7 +68,7 @@ void	nomem(void)
    in it which makes funny things happen if file descriptors 0 or
    1 are closed.  */
 
-void	rmsg(char *cmd)
+void  rmsg(char *cmd)
 {
 	char	*ptrname, *jnum;
 	FILE	*po;
@@ -84,7 +84,7 @@ void	rmsg(char *cmd)
 		close(pfds[1]);	/*  Write side  */
 		if  (pfds[0] != 0)  {
 			close(0);
-			dup(pfds[0]);
+			Ignored_error = dup(pfds[0]);
 			close(pfds[0]);
 		}
 
@@ -150,7 +150,7 @@ void	rmsg(char *cmd)
 	exit(0);
 }
 
-FILE  *getmsgfile(void)
+FILE	*getmsgfile()
 {
 	FILE		*res;
 	char		*libf, *homedf, *sysf, *repl;
@@ -238,7 +238,7 @@ FILE  *getmsgfile(void)
 	return  res;
 }
 
-static char  *app_dir(char *nam)
+static	char *app_dir(char *nam)
 {
 	static	char	*basedir;
 	char	*result;
@@ -252,7 +252,7 @@ static char  *app_dir(char *nam)
 	return  result;
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	cmd_type	cmd = NOTIFY_MAIL;
 	int		extnum = 0;

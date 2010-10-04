@@ -48,7 +48,7 @@ static	char	*login_name, *login_pass;
 char		*dest_hostname;
 netid_t		dest_hostid;
 
-netid_t	my_look_hostname(const char *name)
+netid_t  my_look_hostname(const char *name)
 {
 	netid_t	res = look_hostname(name);
 	struct	hostent	*hp;
@@ -73,7 +73,7 @@ netid_t	my_look_hostname(const char *name)
 	return  res == htonl(INADDR_LOOPBACK)?  myhostid: res;
 }
 
-static void	cgifileopen(void)
+static void  cgifileopen()
 {
 	if  (user_file)
 		fseek(user_file, 0L, 0);
@@ -87,9 +87,9 @@ static void	cgifileopen(void)
 			umask(oldumask);
 			if  (fd >= 0  &&  Effuid != Daemuid) /* Shouldn't matter if not init'ed */
 #ifdef	HAVE_FCHOWN
-				fchown(fd, Daemuid, getegid());
+				Ignored_error = fchown(fd, Daemuid, getegid());
 #else
-				chown(fn, Daemuid, getegid());
+				Ignored_error = chown(fn, Daemuid, getegid());
 #endif
 		}
 		if  (fd < 0  ||  !(user_file = fdopen(fd, "r+")))  {
@@ -101,7 +101,7 @@ static void	cgifileopen(void)
 	}
 }
 
-static ULONG	alloc_key(void)
+static ULONG  alloc_key()
 {
 	static	time_t	seeded = 0;
 
@@ -111,7 +111,7 @@ static ULONG	alloc_key(void)
 	return  (rand() << 16) | (rand() & 0xffff);
 }
 
-ULONG	cgi_useralloc(const int_ugid_t uid, const netid_t nid)
+ULONG  cgi_useralloc(const int_ugid_t uid, const netid_t nid)
 {
 	time_t	now = time((time_t *) 0);
 	long	timeout = html_iniint(DEFLT_TMOPARAM, DEFLT_TIMEOUT);
@@ -182,7 +182,7 @@ int_ugid_t  cgi_uidbykey(const ULONG key)
 	return  UNKNOWN_UID;
 }
 
-netid_t	cgi_deflthost(void)
+netid_t  cgi_deflthost()
 {
 	if  (!(dest_hostname = html_inistr(DEFLT_HOSTPARAM, (char *) 0)))
 		return  0;
@@ -211,7 +211,7 @@ int_ugid_t  cgi_defltuser(const int subsid)
 
 /* NB - This wants generalising!! */
 
-static int checkpw(const char *name, const char *passwd)
+static int  checkpw(const char *name, const char *passwd)
 {
 	static	char	*sppwnam;
 	int		ipfd[2], opfd[2];
@@ -236,12 +236,12 @@ static int checkpw(const char *name, const char *passwd)
 		close(ipfd[0]);
 		if  (opfd[0] != 0)  {
 			close(0);
-			dup(opfd[0]);
+			Ignored_error = dup(opfd[0]);
 			close(opfd[0]);
 		}
 		if  (ipfd[1] != 1)  {
 			close(1);
-			dup(ipfd[1]);
+			Ignored_error = dup(ipfd[1]);
 			close(ipfd[1]);
 		}
 		execl(sppwnam, sppwnam, name, (char *) 0);
@@ -254,7 +254,7 @@ static int checkpw(const char *name, const char *passwd)
 		close(opfd[1]);
 		return  0;
 	}
-	write(opfd[1], passwd, strlen(passwd));
+	Ignored_error = write(opfd[1], passwd, strlen(passwd));
 	rbuf[0] = '\n';
 	write(opfd[1], rbuf, sizeof(rbuf));
 	close(opfd[1]);
@@ -266,22 +266,22 @@ static int checkpw(const char *name, const char *passwd)
 	return  rbuf[0] == '0'? 1: 0;
 }
 
-static void	log_host(char *arg)
+static void  log_host(char *arg)
 {
 	dest_hostname = stracpy(arg);
 }
 
-static void	log_name(char *arg)
+static void  log_name(char *arg)
 {
 	login_name = stracpy(arg);
 }
 
-static void	log_pass(char *arg)
+static void  log_pass(char *arg)
 {
 	login_pass = stracpy(arg);
 }
 
-static void	gotlogin(const int_ugid_t uid, const netid_t nid, const int isdeflt)
+static void  gotlogin(const int_ugid_t uid, const netid_t nid, const int isdeflt)
 {
 	ULONG  key = cgi_useralloc(uid, nid);
 	if  (html_out_param_file(isdeflt? "defltlogin": "gotlogin", 1, key, html_cookexpiry()))
@@ -390,7 +390,7 @@ char **cgi_arginterp(const int ac, char **av, const int subsid)
 	return  (char **) 0;
 }
 
-void	strvec_init(struct strvec *v)
+void  strvec_init(struct strvec *v)
 {
 	v->cntv = 0;
 	v->maxv = INIT_STRVEC;
@@ -398,7 +398,7 @@ void	strvec_init(struct strvec *v)
 		html_nomem();
 }
 
-void	strvec_add(struct strvec *v, const char *item)
+void  strvec_add(struct strvec *v, const char *item)
 {
 	unsigned  cnt;
 	for  (cnt = 0;  cnt < v->cntv;  cnt++)
@@ -413,18 +413,18 @@ void	strvec_add(struct strvec *v, const char *item)
 	v->cntv++;
 }
 
-static int	pstrcmp(const char **a, const char **b)
+static int  pstrcmp(const char **a, const char **b)
 {
 	return  strcmp(*a, *b);
 }
 
-void	strvec_sort(struct strvec *v)
+void  strvec_sort(struct strvec *v)
 {
 	if  (v->cntv > 1)
 		qsort(QSORTP1 v->list, v->cntv, sizeof(char *), QSORTP4 pstrcmp);
 }
 
-void	print_strvec(struct strvec *v)
+void  print_strvec(struct strvec *v)
 {
 	int	sepch = '[';
 	unsigned  cnt;
@@ -437,7 +437,7 @@ void	print_strvec(struct strvec *v)
 	putchar(']');
 }
 
-char  *escquot(char *s)
+char	*escquot(char *s)
 {
 	char	*cp, *np, *result;
 	int	cnt = 0;

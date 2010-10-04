@@ -67,9 +67,9 @@ struct	jplist_elems  {
 
 #define	SEQ_COL		0
 
-extern void	womsg(const int);
-extern void	my_wjmsg(const int);
-extern void	my_wpmsg(const int);
+extern void  womsg(const int);
+extern void  my_wjmsg(const int);
+extern void  my_wpmsg(const int);
 
 #define	MAXMACS		10
 
@@ -79,4 +79,4 @@ struct	macromenitem  {
 	unsigned  mergeid;
 };
 
-extern int	add_macro_to_list(const char *, const char, struct macromenitem *);
+extern int  add_macro_to_list(const char *, const char, struct macromenitem *);

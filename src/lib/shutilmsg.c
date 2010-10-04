@@ -50,7 +50,7 @@ int	Ctrl_chan;
 
 /* This notes signals from (presumably) the scheduler.  */
 
-RETSIGTYPE	markit(int sig)
+RETSIGTYPE  markit(int sig)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(sig, markit);
@@ -62,7 +62,7 @@ RETSIGTYPE	markit(int sig)
 #endif
 }
 
-void	waitsig(void)
+void  waitsig()
 {
 #ifdef	UNSAFE_SIGNALS
 	if  (!setjmp(Mj))
@@ -106,7 +106,7 @@ void	waitsig(void)
 #endif
 }
 
-int	msg_log(const int msg, const int wt)
+int  msg_log(const int msg, const int wt)
 {
 	struct	spr_req	oreq;
 #ifdef	STRUCT_SIG
@@ -115,6 +115,7 @@ int	msg_log(const int msg, const int wt)
 #ifdef	HAVE_SIGACTION
 	sigset_t	nset;
 #endif
+	int	blkcount = MSGQ_BLOCKS;
 
 	if  (wt)  {
 #ifdef	STRUCT_SIG
@@ -160,8 +161,14 @@ int	msg_log(const int msg, const int wt)
 	oreq.spr_un.o.spr_seq = 0;
 	oreq.spr_un.o.spr_netid = 0;
 
-	if  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)
-		return errno == EAGAIN? $E{IPC msg q full}: $E{IPC msg q error};
+	while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
+		if  (errno != EAGAIN)
+			return  $E{IPC msg q error};
+		blkcount--;
+		if  (blkcount <= 0)
+			return  $E{IPC msg q full};
+		sleep(MSGQ_BLOCKWAIT);
+	}
 	if  (wt)
 		waitsig();
 	return  0;

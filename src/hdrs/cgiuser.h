@@ -26,8 +26,8 @@ struct	cgiuser  {
 extern	char		*dest_hostname;
 extern	netid_t		dest_hostid;
 
-extern netid_t	my_look_hostname(const char *);
-extern char **cgi_arginterp(const int, char **, const int);
+extern netid_t  my_look_hostname(const char *);
+extern char	**cgi_arginterp(const int, char **, const int);
 
 /* Following parameters may be passed as 3rd arg to cgi_arginterp */
 
@@ -52,8 +52,8 @@ struct	strvec  {
 #define	INIT_STRVEC	10
 #define	INC_STRVEC	5
 
-void	strvec_init(struct strvec *);
-void	strvec_add(struct strvec *, const char *);
-void	strvec_sort(struct strvec *);
-void	print_strvec(struct strvec *);
-char *	escquot(char *);
+extern	void  strvec_init(struct strvec *);
+extern	void  strvec_add(struct strvec *, const char *);
+extern	void  strvec_sort(struct strvec *);
+extern	void  print_strvec(struct strvec *);
+extern	char *escquot(char *);

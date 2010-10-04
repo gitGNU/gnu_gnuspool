@@ -41,7 +41,7 @@ void	nomem()
 
 /* Field names are alternate arguments */
 
-int	isfld(char *buff, char **argv)
+int  isfld(char *buff, char **argv)
 {
 	char	*ep = strchr(buff, '=');
 	char	**ap;
@@ -68,7 +68,7 @@ int	isfld(char *buff, char **argv)
     6. Fields for job view XSPQJOBFLD
     7. Fields for job view XSPQPTRFLD */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	*homed;
 	int	oldumask, cnt;

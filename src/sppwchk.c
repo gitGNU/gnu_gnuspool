@@ -48,7 +48,7 @@ FILE  *open_pwfile(void)
 	return  pwf;
 }
 
-char  *get_pwfile(FILE *pwf, const char *nam)
+char	*get_pwfile(FILE *pwf, const char *nam)
 {
 	char	buf[120];
 
@@ -71,7 +71,7 @@ char  *get_pwfile(FILE *pwf, const char *nam)
    (not 2nd argument!!)  If OK return '0' on std output.  If
    anything wrong at all return non zero.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	*username = argv[1], *pw;
 	FILE	*xipwf;

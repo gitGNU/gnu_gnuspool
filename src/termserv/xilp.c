@@ -34,7 +34,7 @@
 static char TEMPORARY_FILE_NAME[32];
 static char CONTROL_FILE [32];
 
-RETSIGTYPE	on_signal_quit(int i)
+RETSIGTYPE  on_signal_quit(int i)
 {
 	/* Signal handler to remove the temporary files.  */
 
@@ -43,7 +43,7 @@ RETSIGTYPE	on_signal_quit(int i)
 	exit(INTERRUPTED);
 }
 
-RETSIGTYPE	on_signal_alarm(int i)
+RETSIGTYPE  on_signal_alarm(int i)
 {
 	/* Signal handler to remove the temporary files */
 
@@ -53,7 +53,7 @@ RETSIGTYPE	on_signal_alarm(int i)
 	exit(TIMED_OUT);
 }
 
-static int	process_arguments(int argc, char **argv, struct information *info)
+static int  process_arguments(int argc, char **argv, struct information *info)
 {
 	/* Parse the command line looking for arguments.  */
 
@@ -135,7 +135,7 @@ static int	process_arguments(int argc, char **argv, struct information *info)
 	return  get_number_of_files(argc, argv, "p:hr#:H:U:P:C:JF:");
 }
 
-void	print_error_and_quit(int code, char *error_string)
+void  print_error_and_quit(int code, char *error_string)
 {
 	/* Display an error message on stderr and quit.  */
 
@@ -149,7 +149,7 @@ void	print_error_and_quit(int code, char *error_string)
 	exit(code);
 }
 
-int	transmit_header(int sockfd, char *printer_name)
+int  transmit_header(int sockfd, char *printer_name)
 {
 	/* Transmit the initial command to tell the remote server that
 	   we wish to send some files for printing on the remote machine.  */
@@ -175,7 +175,7 @@ int	transmit_header(int sockfd, char *printer_name)
 	return 0;
 }
 
-int	save_in_temporary_file(char *file_name, int input_fd)
+int  save_in_temporary_file(char *file_name, int input_fd)
 {
 	/* Store the file "input_fd" in a temporary file returning its
 	   size in bytes.  */
@@ -270,7 +270,7 @@ int  transmit_control_info(int sockfd, struct information *info, int size, int f
 	return 0;
 }
 
-int	get_sequence_number(void)
+int  get_sequence_number()
 {
 	/* Attempt to read a sequence file ".seq" if it does not exist create one */
 
@@ -408,7 +408,7 @@ int  transmit_data(int sockfd, struct information *info, int input_fd, off_t len
 	return 0;
 }
 
-int	create_control_file(struct information *info, int *size)
+int  create_control_file(struct information *info, int *size)
 {
 	/* Create the first part of the control file.  The host name
 		user name etc.  Save it in a temporary file.  Keep a
@@ -438,7 +438,7 @@ int	create_control_file(struct information *info, int *size)
 	return fd;
 }
 
-void	append_control_file(struct information *info, int *size, int fd)
+void  append_control_file(struct information *info, int *size, int fd)
 {
 	/* Append to the control file the information which is
 	   specific to a particular file.  Keep track of the size.  */
@@ -453,13 +453,13 @@ void	append_control_file(struct information *info, int *size, int fd)
 	*size += write(fd, buffer, (unsigned int)strlen(buffer));
 }
 
-void	create_temporary_file_names(void)
+void  create_temporary_file_names()
 {
 	sprintf(CONTROL_FILE, ".rlpcnt%d", (int) getpid());
 	sprintf(TEMPORARY_FILE_NAME, ".rlpdata%d", (int) getpid());
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int sockfd;
 	int err;

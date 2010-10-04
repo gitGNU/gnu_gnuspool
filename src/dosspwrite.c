@@ -40,6 +40,8 @@
 #include "xfershm.h"
 #include "q_shm.h"
 
+
+
 #define	RTIMEOUT	10	/* 10 seconds to hear back from xtnetserv */
 
 SHORT	uaportnum;
@@ -48,12 +50,12 @@ extern	uid_t	Realuid, Effuid, Daemuid;
 
 /* For benefit of library routines */
 
-void	nomem(void)
+void  nomem()
 {
 	exit(255);
 }
 
-static	int	udpsend(const netid_t hostid, char * msg, const int msglen)
+static	int	udpsend(const netid_t hostid, char *msg, const int msglen)
 {
 	int	sock;
 	struct	sockaddr_in	serv_addr;	/* That's me */
@@ -79,12 +81,12 @@ static	int	udpsend(const netid_t hostid, char * msg, const int msglen)
 	return  1;
 }
 
-static	RETSIGTYPE	asig(int n)
+static	RETSIGTYPE  asig(int n)
 {
 	return;			/* Don't do anything just return setting EINTR */
 }
 
-static int roamsend(char *username, char *msg, const int msglen)
+static int  roamsend(char *username, char *msg, const int msglen)
 {
 	int			sockfd;
 	int			cnt, doneok = 0;
@@ -180,7 +182,7 @@ static int roamsend(char *username, char *msg, const int msglen)
 
 /* If we fail to get through, reroute back to despatch program and do an "ordinary" write. */
 
-static void	back_despatch(char * msg)
+static void  back_despatch(char *msg)
 {
 	char	*dispatch = envprocess(MSGDISPATCH);
 	char	*cmdline = malloc((unsigned) (strlen(dispatch) + 20));
@@ -200,7 +202,7 @@ static void	back_despatch(char * msg)
 
 /* Ye olde main routine. */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 #ifdef	NETWORK_VERSION
 	char	*hostname, *username, *portname = GSNETSERV_PORT;

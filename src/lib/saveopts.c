@@ -50,7 +50,7 @@ int  spitoption(const int arg, const int firstarg, FILE *xfl, const int	pch, con
 	return  0;
 }
 
-static  void  copyout(FILE *src,  FILE *dest, const char *name)
+static void copyout(FILE *src, FILE *dest, const char *name)
 {
 	int	ch;
 	int	match, nn;
@@ -96,7 +96,7 @@ static  void  copyout(FILE *src,  FILE *dest, const char *name)
 	}
 }
 
-static  void  copyin(FILE *src, FILE *dest)
+static void copyin(FILE *src, FILE *dest)
 {
 	int  ch;
 

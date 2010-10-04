@@ -112,15 +112,15 @@ struct	pend_job  pend_list[MAX_PEND_JOBS];/* List of pending UDP jobs */
 unsigned tracing = 0;
 FILE	*tracefile;
 
-extern unsigned	calcnhash(const netid_t);
+extern unsigned  calcnhash(const netid_t);
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Run out of memory\n");
 	exit(E_NOMEM);
 }
 
-unsigned	calc_clu_hash(const char *name)
+unsigned  calc_clu_hash(const char *name)
 {
 	unsigned  sum = 0;
 	while  (*name)
@@ -130,7 +130,7 @@ unsigned	calc_clu_hash(const char *name)
 
 /* Clear details of client "roaming" users if hosts file changes.  */
 
-static void	zap_clu_hash(void)
+static void  zap_clu_hash()
 {
 	unsigned  cnt;
 
@@ -167,11 +167,15 @@ static void	zap_clu_hash(void)
 
 /* Add IP address representing "me" to table for benefit of APIs on local host */
 
-static void	addme(const netid_t mid)
+static void  addme(const netid_t mid)
 {
 	unsigned nhval = calcnhash(mid);
 	struct	hhash	*hp;
 	time_t	now = time((time_t *) 0);
+
+	/* Avoid adding it if we already did it in host file */
+	if  (find_remote(mid))
+		return;
 
 	if  (!(hp = (struct hhash *) malloc(sizeof(struct hhash))))
 		nomem();
@@ -188,7 +192,7 @@ static void	addme(const netid_t mid)
 
 /* Read in hosts file and build up interesting stuff */
 
-void	process_hfile(void)
+void  process_hfile()
 {
 	struct	remote	*rp;
 	extern	char	hostf_errors;
@@ -271,7 +275,7 @@ void	process_hfile(void)
 
 /* Catch hangup signals and re-read hosts file a la mountd */
 
-static	RETSIGTYPE	catchhup(int n)
+static	RETSIGTYPE  catchhup(int n)
 {
 	unsigned  cnt;
 	struct	hhash	*hp, *np;
@@ -291,14 +295,13 @@ static	RETSIGTYPE	catchhup(int n)
 	}
 	zap_clu_hash();
 	process_hfile();
-	un_rpwfile();
 	send_askall();
 #ifdef	UNSAFE_SIGNALS
 	signal(n, catchhup);
 #endif
 }
 
-struct	hhash *	find_remote(const netid_t hid)
+struct	hhash *find_remote(const netid_t hid)
 {
 	struct	hhash	*hp;
 
@@ -314,7 +317,7 @@ static	char	sigstocatch[] =	{ SIGINT, SIGQUIT, SIGTERM };
 
 /* On a signal, remove file (TCP connection) */
 
-RETSIGTYPE	catchdel(int n)
+RETSIGTYPE  catchdel(int n)
 {
 	unlink(tmpfl);
 	unlink(pgfl);
@@ -323,7 +326,7 @@ RETSIGTYPE	catchdel(int n)
 
 /* Main path - remove files pending for UDP */
 
-RETSIGTYPE	catchabort(int n)
+RETSIGTYPE  catchabort(int n)
 {
 	int	cnt;
 #ifdef	UNSAFE_SIGNALS
@@ -336,7 +339,7 @@ RETSIGTYPE	catchabort(int n)
 
 /* Catch alarm signals */
 
-RETSIGTYPE	catchalarm(int n)
+RETSIGTYPE  catchalarm(int n)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(n, catchalarm);
@@ -375,7 +378,7 @@ void	catchsigs(RETSIGTYPE (*catchfn)(int))
 #endif
 }
 
-void	openrfile(void)
+void  openrfile()
 {
 	int	ret;
 
@@ -416,7 +419,7 @@ void	openrfile(void)
 
 /* "Log myself in" with spshed.  */
 
-void	lognprocess(void)
+void  lognprocess()
 {
 	struct	spr_req	nmsg;
 #ifdef	STRUCT_SIG
@@ -437,12 +440,12 @@ void	lognprocess(void)
 	nmsg.spr_un.n.spr_seq = 0;
 	nmsg.spr_un.n.spr_pid = getpid();
 	BLOCK_ZERO(&nmsg.spr_un.n.spr_n, sizeof(nmsg.spr_un.n.spr_n));
-	msgsnd(Ctrl_chan, (struct msgbuf *) &nmsg, sizeof(struct sp_nmsg), 0);
+	msgsnd(Ctrl_chan, (struct msgbuf *) &nmsg, sizeof(struct sp_nmsg), 0); /* Wait until it goes */
 }
 
 /* Unpack a job and see what British Hairyways has broken this time */
 
-void	unpack_job(struct spq *to, struct spq *from)
+void  unpack_job(struct spq *to, struct spq *from)
 {
 	to->spq_job = ntohl((ULONG) from->spq_job);
 	to->spq_netid = 0L;
@@ -488,7 +491,7 @@ void	unpack_job(struct spq *to, struct spq *from)
 	strncpy(to->spq_flags, from->spq_flags, MAXFLAGS+1);
 }
 
-int	tcp_serv_open(SHORT portnum)
+int  tcp_serv_open(SHORT portnum)
 {
 	int	result;
 	struct	sockaddr_in	sin;
@@ -512,7 +515,7 @@ int	tcp_serv_open(SHORT portnum)
 	return  result;
 }
 
-int	tcp_serv_accept(const int msock, netid_t *whofrom)
+int  tcp_serv_accept(const int msock, netid_t *whofrom)
 {
 	int	sock;
 	SOCKLEN_T	sinl;
@@ -525,7 +528,7 @@ int	tcp_serv_accept(const int msock, netid_t *whofrom)
 	return  sock;
 }
 
-int	udp_serv_open(SHORT portnum)
+int  udp_serv_open(SHORT portnum)
 {
 	int	result;
 	struct	sockaddr_in	sin;
@@ -548,7 +551,7 @@ int	udp_serv_open(SHORT portnum)
 
 /* Set up network stuff */
 
-int	init_network(void)
+int  init_network()
 {
 	struct	hostent	*hp;
 	struct	servent	*sp;
@@ -670,7 +673,7 @@ FILE *goutfile(jobno_t *jnp, char *tmpfl, char *pgfl, const int wantreread)
 	return  res;
 }
 
-static	int	sock_read(const int sock, char *buffer, unsigned nbytes)
+static	int  sock_read(const int sock, char *buffer, unsigned nbytes)
 {
 	while  (nbytes != 0)  {
 		int	rbytes = read(sock, buffer, nbytes);
@@ -687,11 +690,10 @@ static	int	sock_read(const int sock, char *buffer, unsigned nbytes)
    Return 0 (XTNQ_OK) if OK,
    -1 if network error, otherwise queueing error.  */
 
-int	copyout(int sock, FILE *outf, char *delim)
+int  copyout(int sock, FILE *outf, char *delim)
 {
-	int	ch;
 	char	*rcp;
-	int		rec_cnt, pgfid = -1, inbytes = 0, incount = 0, retcode = XTNQ_OK;
+	int	ch, rec_cnt, pgfid = -1, inbytes = 0, incount = 0, retcode = XTNQ_OK;
 	unsigned	sequence = 1;
 	LONG	onpage, char_count = 0;
 	LONG	plim = 0x7fffffffL;
@@ -794,8 +796,8 @@ int	copyout(int sock, FILE *outf, char *delim)
 #endif
 #endif
 	pfe.lastpage = 0;	/* Fix this later perhaps */
-	write(pgfid, (char *) &pfe, sizeof(pfe));
-	write(pgfid, delim, (unsigned) pfe.deliml);
+	Ignored_error = write(pgfid, (char *) &pfe, sizeof(pfe));
+	Ignored_error = write(pgfid, delim, (unsigned) pfe.deliml);
 
 	rcp = delim;
 	rcdend = delim + pfe.deliml;
@@ -899,7 +901,7 @@ int	copyout(int sock, FILE *outf, char *delim)
 		SPQ.spq_npages++;
 		if  ((pfe.lastpage = pfe.delimnum - rec_cnt) > 0)  {
 			lseek(pgfid, 0L, 0);
-			write(pgfid, (char *) &pfe, sizeof(pfe));
+			Ignored_error = write(pgfid, (char *) &pfe, sizeof(pfe));
 		}
 	}
 
@@ -934,17 +936,17 @@ int	copyout(int sock, FILE *outf, char *delim)
 	return  -1;
 }
 
-void	q_reply(const int sock, const int flag, const jobno_t code)
+void  q_reply(const int sock, const int flag, const jobno_t code)
 {
 	struct	client_if	result;
 
 	result.resvd[0] = result.resvd[1] = result.resvd[2] = '\0';
 	result.flag = (unsigned char) flag;
 	result.jobnum = htonl((ULONG) code);
-	write(sock, (char *) &result, sizeof(result));
+	Ignored_error = write(sock, (char *) &result, sizeof(result));
 }
 
-int	validate_job(struct spq *jp)
+int  validate_job(struct spq * jp)
 {
 	uid_t	Realuid = jp->spq_uid;
 	struct	spdet	*spuser;
@@ -952,8 +954,7 @@ int	validate_job(struct spq *jp)
 	/* Find out the privileges of the specified user.
 	   If we don't know the posting user, quietly zap it.  */
 
-	if  (!(spuser = getspuentry(Realuid)))
-		return  XTNR_NOT_USERNAME;
+	spuser = getspuentry(Realuid);
 	if  (lookup_uname(jp->spq_puname) == UNKNOWN_UID)
 		strcpy(jp->spq_puname, jp->spq_uname);
 
@@ -1001,7 +1002,7 @@ int	validate_job(struct spq *jp)
 	return  0;
 }
 
-void	convert_username(struct hhash *frp, struct spq *jp)
+void  convert_username(struct hhash *frp, struct spq *jp)
 {
 	if  (frp->rem.ht_flags & HT_DOS)  {
 		char	*unam = frp->dosname;
@@ -1024,7 +1025,7 @@ void	convert_username(struct hhash *frp, struct spq *jp)
 
 /* Code executed by child process to continue queueing job.  */
 
-static	int	qrest(const int sock, const netid_t netid)
+static	int  qrest(const int sock, const netid_t netid)
 {
 	int	tries, ret;
 	struct	hhash	*frp;
@@ -1120,7 +1121,7 @@ static	int	qrest(const int sock, const netid_t netid)
 	return  0;
 }
 
-static	int	jobthere(int sock)
+static	int  jobthere(int sock)
 {
 	struct	tcp_data  inb;
 
@@ -1138,7 +1139,7 @@ static	int	jobthere(int sock)
 
 /* Process requests to enqueue file */
 
-void	process_q(void)
+void  process_q()
 {
 	int	sock;
 	PIDTYPE	pid;
@@ -1192,7 +1193,7 @@ void	process_q(void)
 	exit(0);
 }
 
-void	process(void)
+void  process()
 {
 	int	nret;
 	unsigned  nexttime;
@@ -1244,7 +1245,7 @@ void	process(void)
 	}
 }
 
-void	trace_dtime(char *buf)
+void  trace_dtime(char *buf)
 {
 	time_t  now = time(0);
 	struct  tm  *tp = localtime(&now);
@@ -1261,7 +1262,7 @@ void	trace_dtime(char *buf)
 	sprintf(buf, "%.2d/%.2d/%.2d|%.2d:%.2d:%.2d", mday, mon, tp->tm_year%100, tp->tm_hour, tp->tm_min, tp->tm_sec);
 }
 
-void	trace_op(const int_ugid_t uid, const char *op)
+void  trace_op(const int_ugid_t uid, const char *op)
 {
 	char	tbuf[20];
 	trace_dtime(tbuf);
@@ -1269,7 +1270,7 @@ void	trace_op(const int_ugid_t uid, const char *op)
 	fflush(tracefile);
 }
 
-void	trace_op_res(const int_ugid_t uid, const char *op, const char *res)
+void  trace_op_res(const int_ugid_t uid, const char *op, const char *res)
 {
 	char	tbuf[20];
 	trace_dtime(tbuf);
@@ -1277,7 +1278,7 @@ void	trace_op_res(const int_ugid_t uid, const char *op, const char *res)
 	fflush(tracefile);
 }
 
-void	client_trace_op(const netid_t nid, const char *op)
+void  client_trace_op(const netid_t nid, const char *op)
 {
 	char	tbuf[20];
 	trace_dtime(tbuf);
@@ -1285,7 +1286,7 @@ void	client_trace_op(const netid_t nid, const char *op)
 	fflush(tracefile);
 }
 
-void	client_trace_op_name(const netid_t nid, const char *op, const char *uid)
+void  client_trace_op_name(const netid_t nid, const char *op, const char *uid)
 {
 	char	tbuf[20];
 	trace_dtime(tbuf);
@@ -1299,7 +1300,7 @@ void	client_trace_op_name(const netid_t nid, const char *op, const char *uid)
    I don't expect any arguments & will ignore any the fool gives me,
    apart from remembering my name.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 #ifdef	NETWORK_VERSION
 	int_ugid_t	chku;

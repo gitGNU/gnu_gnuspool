@@ -16,7 +16,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-
 #include <stdio.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -48,13 +47,13 @@ netid_t	myhostid;
 
 extern	uid_t	Realuid, Effuid, Daemuid;
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Out of memory\n");
 	exit(E_NOMEM);
 }
 
-static netid_t	host_by_nameoraddr(char *str)
+static netid_t  host_by_nameoraddr(char *str)
 {
 	if  (isdigit(str[0]))  {
 		netid_t  ina;
@@ -75,7 +74,7 @@ static netid_t	host_by_nameoraddr(char *str)
 	}
 }
 
-static void	assignhost(char *sendhost)
+static void  assignhost(char *sendhost)
 {
 	struct	hostent	*hp;
 	char	myhost[256];
@@ -103,7 +102,7 @@ static void	assignhost(char *sendhost)
 
 /* Set up network stuff */
 
-static int	init_network(netid_t hostid, char *portnamenum)
+static int  init_network(netid_t hostid, char *portnamenum)
 {
 	int	qsock;
 	struct	protoent  *pp;
@@ -166,7 +165,7 @@ static int	init_network(netid_t hostid, char *portnamenum)
 	return  qsock;
 }
 
-void	pushout(int sockfd, char *buf, int buflen)
+void  pushout(int sockfd, char *buf, int buflen)
 {
 	int	outb;
 
@@ -180,7 +179,7 @@ void	pushout(int sockfd, char *buf, int buflen)
 	}
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 #ifdef XTLPRM
 	extern	int	optind;

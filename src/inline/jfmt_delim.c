@@ -46,7 +46,7 @@ static fmt_t	fmt_delimnum(const struct spq *jp, const int fwidth)
 #endif
 }
 
-static fmt_t	fmt_delim(const struct spq *jp, const int fwidth)
+static fmt_t  fmt_delim(const struct spq *jp, const int fwidth)
 {
 	int		ret;
 	unsigned	ii;

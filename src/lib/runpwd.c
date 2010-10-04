@@ -21,7 +21,7 @@
 
 /* OK I have heard of getcwd() but not all versions of Unix back in 1984 had it */
 
-char  *runpwd(void)
+char  *runpwd()
 {
 	FILE	*fp;
 	char	*result;

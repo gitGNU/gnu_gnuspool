@@ -47,9 +47,9 @@ extern	struct	ctrltype	*ctrl_list[],
 				*repeat_ctrl,
 				*norepeat_ctrl;
 
-extern struct	varname	*	lookuphash(const char *);
-extern char *	expandvars(char *);
-extern void	tf_unlink(char *, const int);
+extern struct	varname	*lookuphash(const char *);
+extern char *expandvars(char *);
+extern void  tf_unlink(char *, const int);
 
 /* Predefined variable names to be set up in control file.  */
 

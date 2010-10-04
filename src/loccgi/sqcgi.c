@@ -82,13 +82,13 @@ int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-static void	shm_setup(void)
+static void  shm_setup()
 {
 	if  ((Ctrl_chan = msgget(MSGID, 0)) < 0)  {
 		html_disperror($E{Spooler not running});
@@ -110,7 +110,7 @@ static void	shm_setup(void)
 	}
 }
 
-void	fmt_setup(void)
+void  fmt_setup()
 {
 	if  (!formatstring)  {
 		if  (!(formatstring = html_inistr("format", (char *) 0)))
@@ -157,7 +157,7 @@ struct	formatdef  {
 	SHORT	statecode;	/* Code number for heading if applicable */
 	char	alch;		/* Default align char */
 	char	*msg;		/* Heading */
-	unsigned	(*fmt_fn)(const struct spq *, const int);
+	unsigned  (*fmt_fn)(const struct spq *, const int);
 };
 
 #define	NULLCP	(char *) 0
@@ -220,7 +220,7 @@ struct	formatdef
 	{	0,			 'L',	NULLCP,	0		}	/* z */
 };
 
-void	print_hdrfmt(struct formatdef * fp)
+void  print_hdrfmt(struct formatdef *fp)
 {
 	if  (!fp->fmt_fn)
 		return;
@@ -242,7 +242,7 @@ struct	altype  {
 
 struct	altype	*commonest_align = &altypes[0];
 
-struct altype *	lookup_align(const int alch)
+struct altype *lookup_align(const int alch)
 {
 	int	cnt;
 	for  (cnt = 0;  cnt < NALIGNTYPES;  cnt++)
@@ -262,7 +262,7 @@ int	ncolfmts, maxcolfmts;
 #define	INITCF	10
 #define	INCCF	5
 
-void	find_commonest(char * fp)
+void  find_commonest(char *fp)
 {
 	int	rvec[NALIGNTYPES];
 	int	cnt, mx = 0, ind = 0, fmch;
@@ -312,12 +312,12 @@ void	find_commonest(char * fp)
 			cflist[cnt].alstr = (char *) 0;
 }
 
-void	startrow(void)
+void  startrow()
 {
 	printf("<tr align=%s>\n", commonest_align->str);
 }
 
-void	startcell(const int celltype, const char *str)
+void  startcell(const int celltype, const char *str)
 {
 	if  (str)
 		printf("<t%c align=%s>", celltype, str);
@@ -327,7 +327,7 @@ void	startcell(const int celltype, const char *str)
 
 /* Display contents of job file.  */
 
-void	jdisplay(void)
+void  jdisplay()
 {
 	int	fcnt, jcnt;
 	unsigned	pflgs = 0;
@@ -444,10 +444,10 @@ struct	arginterp  {
 #define	AIF_NOARG	0
 #define	AIF_ARG		1
 #define	AIF_ARGLIST	2
-	int	(*arg_fn)(char *);
+	int	(*arg_fn)( char *);
 };
 
-int	perf_listformat(char *notused)
+int  perf_listformat(char *notused)
 {
 	struct	formatdef   *fp;
 	int	lett;
@@ -473,21 +473,21 @@ int	perf_listformat(char *notused)
 	exit(0);
 }
 
-extern int	perf_optselect(char *);
+extern  int  perf_optselect(char *);
 
-int	set_queue(char *arg)
+int  set_queue(char *arg)
 {
 	Displayopts.opt_restrp = *arg? arg: (char *) 0;
 	return  1;
 }
 
-int	set_user(char *arg)
+int  set_user(char *arg)
 {
 	Displayopts.opt_restru = *arg? arg: (char *) 0;
 	return  1;
 }
 
-int	set_incnull(char *arg)
+int  set_incnull(char *arg)
 {
 	switch  (tolower(*arg))  {
 	case  'a':
@@ -504,7 +504,7 @@ int	set_incnull(char *arg)
 	}
 }
 
-int	set_loco(char *arg)
+int  set_loco(char *arg)
 {
 	switch  (tolower(*arg))  {
 	case  'l':case 'y':case '1':
@@ -518,7 +518,7 @@ int	set_loco(char *arg)
 	}
 }
 
-int	set_prininc(char *arg)
+int  set_prininc(char *arg)
 {
 	switch  (tolower(*arg))  {
 	case  'n':
@@ -535,7 +535,7 @@ int	set_prininc(char *arg)
 	}
 }
 
-int	set_pagecnt(char *arg)
+int  set_pagecnt(char *arg)
 {
 	switch  (tolower(*arg))  {
 	case  'y':case '1':
@@ -549,7 +549,7 @@ int	set_pagecnt(char *arg)
 	}
 }
 
-int	set_header(char *arg)
+int  set_header(char *arg)
 {
 	switch  (tolower(*arg))  {
 	case  'y':case '1':
@@ -563,13 +563,13 @@ int	set_header(char *arg)
 	}
 }
 
-int	set_format(char *arg)
+int  set_format(char *arg)
 {
 	formatstring = arg;
 	return  1;
 }
 
-extern void	perf_listprfm(char *, char *, char *);
+extern  void  perf_listprfm(char *, char *, char *);
 
 struct	arginterp  argtypes[] =  {
 	{	"format",	AIF_ARG,	set_format	},
@@ -585,13 +585,13 @@ struct	arginterp  argtypes[] =  {
 	{	"listformat",	AIF_NOARG,	perf_listformat	}
 };
 
-int	perf_optselect(char *notused)
+int  perf_optselect(char *notused)
 {
 	html_out_param_file("setopts", 1, 0, html_cookexpiry());
 	exit(0);
 }
 
-void	interp_args(char **args)
+void  interp_args(char **args)
 {
 	char	**ap, *arg, *cp = (char *) 0;
 	int	cnt;
@@ -625,7 +625,7 @@ void	interp_args(char **args)
    taken from the job "jobnum" or defaults if null
    Title, suppress, Copies, Pri, form, printer, form list, printer list */
 
-void	perf_listprfm(char *tmpl, char *jsfunc, char *jobnum)
+void  perf_listprfm(char *tmpl, char *jsfunc, char *jobnum)
 {
 	int	def_copies = 1, def_pri = mypriv->spu_defp, def_supp = 0;
 	char	*def_ptr = mypriv->spu_ptr, *def_form = mypriv->spu_form, *def_tit = "";

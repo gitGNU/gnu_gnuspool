@@ -22,7 +22,7 @@
 #define	INITSIZE	80
 #define	INCSIZE		40
 
-char  *strread(FILE *fp, const char *delim)
+char *strread(FILE *fp, const char *delim)
 {
 	int	ch, ccnt;
 	unsigned  bufsize;

@@ -44,20 +44,20 @@ struct  {
 	short	ignfmt;		/* Ignore file format errors */
 }  popts;
 
-extern char  *expand_srcdir(char *);
-extern char  *make_absolute(char *);
+extern char *expand_srcdir(char *);
+extern char *make_absolute(char *);
 
 const	char	*progname;
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-static int	formok(const char *form, const unsigned flng)
+static int  formok(const char *form, const unsigned flng)
 {
 	int	lng = strlen(form);
 	if  (lng <= 0  ||  lng > flng)
@@ -81,7 +81,7 @@ static int	spu23fldsok(struct spdet * od)
 	return  1;
 }
 
-static int	isit_r23(const int fd, const struct stat *sb)
+static int  isit_r23(const int fd, const struct stat *sb)
 {
 	int	uidn = 0;
 	struct	sphdr	oh;
@@ -120,7 +120,7 @@ static int	isit_r23(const int fd, const struct stat *sb)
 	return  uidn > 0;
 }
 
-void	conv_r23(const int ifd)
+void  conv_r23(const int ifd)
 {
 	struct	sphdr	oh;
 	struct	spdet	od;

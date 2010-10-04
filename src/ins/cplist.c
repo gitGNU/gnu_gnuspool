@@ -51,13 +51,13 @@ extern char *hex_disp(const classcode_t, const int);
 
 const	char	*progname;
 
-void	nomem(void)
+void	nomem()
 {
 	fprintf(stderr, "Run out of memory\n");
 	exit(E_NOMEM);
 }
 
-static int	devok(const char * dev)
+static int  devok(const char *dev)
 {
 	int	lng = strlen(dev);
 	if  (lng <= 0  ||  lng > LINESIZE)
@@ -68,7 +68,7 @@ static int	devok(const char * dev)
 	return  1;
 }
 
-static int	formok(const char *form, const unsigned flng)
+static int  formok(const char *form, const unsigned flng)
 {
 	int	lng = strlen(form);
 	if  (lng <= 0  ||  lng > flng)
@@ -79,7 +79,7 @@ static int	formok(const char *form, const unsigned flng)
 	return  1;
 }
 
-static int	ptrok(const char *ptr, const unsigned plng)
+static int  ptrok(const char *ptr, const unsigned plng)
 {
 	int	lng = strlen(ptr);
 	if  (lng <= 0  ||  lng > plng)
@@ -100,7 +100,7 @@ static int	fldsok23(struct spptr *old)
 	return  1;
 }
 
-int	isit_r23(const int ifd, const struct stat *sb)
+int  isit_r23(const int ifd, const struct stat *sb)
 {
 	struct	spptr	old;
 
@@ -115,7 +115,7 @@ int	isit_r23(const int ifd, const struct stat *sb)
 	return  1;
 }
 
-void	conv_r23(const int ifd)
+void  conv_r23(const int ifd)
 {
 	struct	spptr	old;
 

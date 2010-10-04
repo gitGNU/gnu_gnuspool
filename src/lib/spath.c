@@ -25,7 +25,7 @@
 #define	PATH_MAX	1024
 #endif
 
-char  *spath(const char *name, const char *curr_dir)
+char *spath(const char *name, const char *curr_dir)
 {
 	int	lng = strlen(name), lfirst, lngc = strlen(curr_dir);
 	char	*pathn = getenv("PATH"), *cp;

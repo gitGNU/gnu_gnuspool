@@ -34,18 +34,18 @@ struct	ctrltype	*begin_ctrl,
 
 static	struct	varname	*hashtab[HASHMOD];
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Run out of memory\n");
 	exit(255);
 }
 
-static void	err(char * msg)
+static void  err(char *msg)
 {
 	fprintf(stderr, "Control file error line %d: %s\n", line_count, msg);
 }
 
-static unsigned	hashcalc(const char * name)
+static unsigned  hashcalc(const char *name)
 {
 	unsigned  result = 0;
 	while  (*name)
@@ -53,7 +53,7 @@ static unsigned	hashcalc(const char * name)
 	return  result % HASHMOD;
 }
 
-struct varname	*	lookuphash(const char * name)
+struct varname	*lookuphash(const char *name)
 {
 	struct	varname	*hp;
 	unsigned  hashval = hashcalc(name);
@@ -70,7 +70,7 @@ struct varname	*	lookuphash(const char * name)
 	return  hp;
 }
 
-static struct ctrltype *	alloc_ctrl(int typ)
+static struct ctrltype *alloc_ctrl(int typ)
 {
 	struct	ctrltype	*result, **wf, *np;
 
@@ -101,7 +101,7 @@ static struct ctrltype *	alloc_ctrl(int typ)
 #define	INIT_BUF	1023
 #define	INC_BUF		512
 
-static char *	capture(char * str)
+static char *capture(char *str)
 {
 	FILE	*infile;
 	char	*inbuf = malloc(INIT_BUF+1);
@@ -129,7 +129,7 @@ static char *	capture(char * str)
 	return  inbuf;
 }
 
-char *	expandvars(char * str)
+char *expandvars(char *str)
 {
 	unsigned  length = 1;
 	char	*result, *rp, *sp, *varname;
@@ -249,7 +249,7 @@ char *	expandvars(char * str)
 	return  result;
 }
 
-int	parsecf(FILE * infile)
+int  parsecf(FILE *infile)
 {
 	int	ch, prepend, append, quote, cnt;
 	char	*newstr;

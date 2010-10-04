@@ -16,7 +16,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-
 #include <stdio.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -53,10 +52,10 @@ unsigned	input_timeout = 5, output_timeout = 5, send_retries = 0;
 
 extern	uid_t	Realuid, Effuid, Daemuid;
 
-extern int	parsecf(FILE *);
-extern int	evalcond(struct condition *);
+extern int  parsecf(FILE *);
+extern int  evalcond(struct condition *);
 
-RETSIGTYPE	cleanupfiles(int signum)
+RETSIGTYPE  cleanupfiles(int signum)
 {
 	struct	varname	*vp;
 
@@ -71,7 +70,7 @@ RETSIGTYPE	cleanupfiles(int signum)
 		exit(200);
 }
 
-RETSIGTYPE	alarmhandler(int signum)
+RETSIGTYPE  alarmhandler(int signum)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(signum, alarmhandler);
@@ -79,7 +78,7 @@ RETSIGTYPE	alarmhandler(int signum)
 	had_alarm++;
 }
 
-static netid_t	host_by_nameoraddr(char *str)
+static netid_t  host_by_nameoraddr(char *str)
 {
 	if  (isdigit(str[0]))  {
 		netid_t  ina;
@@ -100,7 +99,7 @@ static netid_t	host_by_nameoraddr(char *str)
 	}
 }
 
-static void	envassign(char *name, char *defvalue)
+static void  envassign(char *name, char *defvalue)
 {
 	struct	varname	*vp;
 
@@ -113,7 +112,7 @@ static void	envassign(char *name, char *defvalue)
 	vp->vn_value = stracpy(defvalue); /* Must be free-able */
 }
 
-static void	assignenvs(char *sendhost)
+static void  assignenvs(char *sendhost)
 {
 	extern	char	**environ;
 	char	**ep;
@@ -156,7 +155,7 @@ static void	assignenvs(char *sendhost)
 	myhostname = stracpy(myhost);
 }
 
-static void	reset_envirvar(char *name, char *value)
+static void  reset_envirvar(char *name, char *value)
 {
 	struct	varname	*vp = lookuphash(name);
 	if  (vp->vn_value)
@@ -164,7 +163,7 @@ static void	reset_envirvar(char *name, char *value)
 	vp->vn_value = stracpy(value);
 }
 
-FILE  *generate_cdfname(int startseq, char *vname, char **oldval)
+FILE *generate_cdfname(int startseq, char *vname, char **oldval)
 {
 	struct	varname	*vp = lookuphash(vname);
 	int	ch, cnt;
@@ -204,7 +203,7 @@ FILE  *generate_cdfname(int startseq, char *vname, char **oldval)
 	exit(14);
 }
 
-void	restore_cdfname(char *vname, char *oldval)
+void  restore_cdfname(char *vname, char *oldval)
 {
 	struct  varname  *vp = lookuphash(vname);
 	if  (vp->vn_value)  {
@@ -214,7 +213,7 @@ void	restore_cdfname(char *vname, char *oldval)
 	vp->vn_value = oldval;
 }
 
-static char *	conv_line(char *str, int *length)
+static char *conv_line(char *str, int *length)
 {
 	char	*result = malloc((unsigned) (strlen(str) + 10));
 	char	*cp, *rp;
@@ -260,7 +259,7 @@ static char *	conv_line(char *str, int *length)
 	return  result;
 }
 
-static int	getseq(void)
+static int  getseq()
 {
 	int	fd, result;
 	char	buf[100];
@@ -280,12 +279,12 @@ static int	getseq(void)
 		lseek(fd, 0L, 0);
 	}
 	sprintf(buf, "%d\n", result);
-	write(fd, buf, strlen(buf));
+	Ignored_error = write(fd, buf, strlen(buf));
 	close(fd);
 	return  result;
 }
 
-static void	savepid(void)
+static void  savepid()
 {
 	int	fd;
 	char	buf[40];
@@ -293,13 +292,13 @@ static void	savepid(void)
 	if  ((fd = open(PIDFILE, O_RDWR|O_CREAT|O_TRUNC, 0666)) < 0)
 		return;
 	sprintf(buf, "%d\n", getpid());
-	write(fd, buf, strlen(buf));
+	Ignored_error = write(fd, buf, strlen(buf));
 	close(fd);
 }
 
 /* Set up network stuff */
 
-static int	init_network(netid_t hostid)
+static int  init_network(netid_t hostid)
 {
 	int	qsock;
 	struct	protoent  *pp;
@@ -388,7 +387,7 @@ static int	init_network(netid_t hostid)
 	return  qsock;
 }
 
-int	pushout(int sockfd, char * buf, int buflen)
+int  pushout(int sockfd, char *buf, int buflen)
 {
 	int	outb;
 
@@ -410,7 +409,7 @@ int	pushout(int sockfd, char * buf, int buflen)
 	return  0;
 }
 
-int	pushfile(int sockfd, char *filename)
+int  pushfile(int sockfd, char *filename)
 {
 	int	infd, inb;
 	long	had = 0;
@@ -435,7 +434,7 @@ int	pushfile(int sockfd, char *filename)
 	return  0;
 }
 
-int	pullin(int sockfd, char * cbuf, int cbuflen)
+int  pullin(int sockfd, char *cbuf, int cbuflen)
 {
 	char	inbuf;
 
@@ -466,7 +465,7 @@ int	pullin(int sockfd, char * cbuf, int cbuflen)
 	return  0;
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	struct	ctrltype	*cp;
 	int	ch, sequence, sock, pass1 = 0;

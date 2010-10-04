@@ -51,7 +51,7 @@ struct	pshm_info	Ptr_seg;
    whether we are using memory-mapped files or shared memory (USING_MMAP) */
 
 #ifdef	USING_FLOCK
-static void	setphold(const int typ)
+static void  setphold(const int typ)
 {
 	struct	flock	lck;
 	lck.l_type = typ;
@@ -71,12 +71,12 @@ static void	setphold(const int typ)
 	}
 }
 
-void	ptrshm_lock(void)
+void  ptrshm_lock()
 {
 	setphold(F_RDLCK);
 }
 
-void	ptrshm_unlock(void)
+void  ptrshm_unlock()
 {
 	setphold(F_UNLCK);
 }
@@ -85,7 +85,7 @@ static	struct	sembuf	pr[2] = {{	PQ_FIDDLE,	0,	0	},
 				 {	PQ_READING,	1,	SEM_UNDO}},
 			pu[1] = {{	PQ_READING,	-1,	SEM_UNDO}};
 
-void	ptrshm_lock(void)
+void  ptrshm_lock()
 {
 	for  (;;)  {
 		if  (semop(Sem_chan, &pr[0], 2) >= 0)
@@ -97,7 +97,7 @@ void	ptrshm_lock(void)
 	}
 }
 
-void	ptrshm_unlock(void)
+void  ptrshm_unlock()
 {
 	for  (;;)  {
 		if  (semop(Sem_chan, &pu[0], 1) >= 0)
@@ -110,7 +110,7 @@ void	ptrshm_unlock(void)
 }
 #endif
 
-int	ptrshminit(const int insdir)
+int  ptrshminit(const int insdir)
 {
 #ifdef  USING_MMAP
 	if  (insdir)
@@ -162,7 +162,7 @@ int	ptrshminit(const int insdir)
 	return  1;
 }
 
-void	ptrgrown(void)
+void  ptrgrown()
 {
 #ifdef	USING_MMAP
 	if  (Ptr_seg.inf.segsize == Job_seg.dptr->js_psegid)

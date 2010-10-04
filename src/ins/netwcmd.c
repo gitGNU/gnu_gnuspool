@@ -16,7 +16,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-
 #include <stdio.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -56,13 +55,13 @@ struct	spdet	*mypriv;
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-const struct spptr *	find_ptr(char * ptr)
+const struct spptr *find_ptr(char *ptr)
 {
 	unsigned  cnt;
 	for  (cnt = 0;  cnt < Ptr_seg.nptrs;  cnt++)
@@ -73,7 +72,7 @@ const struct spptr *	find_ptr(char * ptr)
 
 /* Anchored version of find2nd */
 
-static int	match2nd(const char *subj, const char *comp)
+static int  match2nd(const char *subj, const char *comp)
 {
 	int	lng;
 	return  strncmp(subj, comp, lng = strlen(comp)) == 0? lng: 0;
@@ -83,7 +82,7 @@ static int	match2nd(const char *subj, const char *comp)
    then return the index of the first char of the first string after
    the matched string. */
 
-static int	find2nd(const char *subj, const char *comp)
+static int  find2nd(const char *subj, const char *comp)
 {
 	const	char	*cp, *np;
 	int	ret;
@@ -96,7 +95,7 @@ static int	find2nd(const char *subj, const char *comp)
 
 /* Look for specific strings in command and rewrite. */
 
-char  *rebuild(char * cmd, const char * str, const char * repl)
+char *rebuild(char *cmd, const char *str, const char *repl)
 {
 	int	mp, limit = 10;
 	char	*res = cmd;
@@ -121,7 +120,7 @@ char  *rebuild(char * cmd, const char * str, const char * repl)
 
 /* Expand various environment variables in network command. */
 
-char  *expandenv(char *cmd, const struct spptr *pp, char *formname)
+char *expandenv(char *cmd, const struct spptr *pp, char *formname)
 {
 	char  *res = rebuild(cmd, "$SPOOLDEV", pp->spp_dev), *res2;
 	res = rebuild(res, "$SPOOLPTR", pp->spp_ptr);
@@ -133,7 +132,7 @@ char  *expandenv(char *cmd, const struct spptr *pp, char *formname)
 
 /* Extract network command from our setup file and print out. */
 
-int	do_bizniz(char *pname, char *formname)
+int  do_bizniz(char *pname, char *formname)
 {
 	const  struct  spptr  *pp = find_ptr(pname);
 	char	*diname = envprocess(DAEMINIT);
@@ -242,7 +241,7 @@ int	do_bizniz(char *pname, char *formname)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	*pdir;
 #if	defined(NHONSUID) || defined(DEBUG)

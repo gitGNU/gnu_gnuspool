@@ -45,11 +45,10 @@ struct	extdef	{
 static	char	done_file = 0;
 static	struct	extdef	*hhashtab[EXTHASHMOD], *nhashtab[EXTHASHMOD];
 
-static  unsigned  calcnhash(const int num)
+static unsigned  calcnhash(const int num)
 {
 	int	i;
-	unsigned  result = 0;
-	unsigned  orig = (USHORT) num;
+	unsigned  result = 0, orig = (USHORT) num;
 
 	for  (i = 0;  i < 16;  i += 4)
 		result ^= orig >> i;
@@ -65,7 +64,7 @@ static	unsigned  calchhash(const char *hostid)
 	return  result % EXTHASHMOD;
 }
 
-static void	procfile(void)
+static void  procfile()
 {
 	FILE	*fp;
 	int	num, fsize, ch;
@@ -168,7 +167,7 @@ static void	procfile(void)
 	fclose(fp);
 }
 
-int	ext_nametonum(const char *name)
+int  ext_nametonum(const char *name)
 {
 	struct  extdef	*ep;
 
@@ -192,7 +191,7 @@ static struct extdef *lookup_extnum(const int num)
 	return  (struct extdef *) 0;
 }
 
-char  *ext_numtoname(const int num)
+char	*ext_numtoname(const int num)
 {
 	struct	extdef	*ep;
 
@@ -202,13 +201,13 @@ char  *ext_numtoname(const int num)
 	return  ep? ep->name: (char *) 0;
 }
 
-char  *ext_mail(const int num)
+char	*ext_mail(const int num)
 {
 	struct	extdef	*ep = lookup_extnum(num);
 	return  ep? ep->mailprog: (char *) 0;
 }
 
-char  *ext_wrt(const int num)
+char	*ext_wrt(const int num)
 {
 	struct	extdef	*ep = lookup_extnum(num);
 	return  ep? ep->wrtprog: (char *) 0;

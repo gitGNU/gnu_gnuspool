@@ -50,7 +50,7 @@ struct	ptr_with_slot	*ptr_sl_list;
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -74,7 +74,7 @@ struct	argop  {
 	struct  argop	*next;
 };
 
-int	arg_netflags(struct apispptr *pp, const struct argop *ao)
+int  arg_netflags(struct apispptr *pp, const struct argop *ao)
 {
 	USHORT	bit = ao->ao_un.ao_boolbit;
 	if  (ao->off)
@@ -84,7 +84,7 @@ int	arg_netflags(struct apispptr *pp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_class(struct apispptr *pp, const struct argop *ao)
+int  arg_class(struct apispptr *pp, const struct argop *ao)
 {
 	ULONG	rcl = ao->ao_un.ao_ulong;
 	if  (!(mypriv.spu_flgs & PV_COVER))
@@ -95,19 +95,19 @@ int	arg_class(struct apispptr *pp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_form(struct apispptr *pp, const struct argop *ao)
+int  arg_form(struct apispptr *pp, const struct argop *ao)
 {
 	strncpy(pp->apispp_form, ao->ao_un.ao_string, MAXFORM);
 	return  1;
 }
 
-int	arg_dev(struct apispptr *pp, const struct argop *ao)
+int  arg_dev(struct apispptr *pp, const struct argop *ao)
 {
 	strncpy(pp->apispp_dev, ao->ao_un.ao_string, LINESIZE);
 	return  1;
 }
 
-int	arg_descr(struct apispptr *pp, const struct argop *ao)
+int  arg_descr(struct apispptr *pp, const struct argop *ao)
 {
 	strncpy(pp->apispp_comment, ao->ao_un.ao_string, COMMENTSIZE);
 	return  1;
@@ -140,7 +140,7 @@ struct	actop  {
 };
 
 
-void	list_op(char *arg, char *cp)
+void  list_op(char *arg, char *cp)
 {
 	int	cnt;
 
@@ -191,7 +191,7 @@ void	list_op(char *arg, char *cp)
 	exit(E_SETUP);
 }
 
-void	apply_ops(char * arg)
+void  apply_ops(char *arg)
 {
 	int			ret;
 	struct	argop		*aop;
@@ -235,7 +235,7 @@ void	apply_ops(char * arg)
 	}
 }
 
-void	apply_action(struct actop *aop, char *arg)
+void  apply_action(struct actop *aop, char *arg)
 {
 	int			ret;
 	struct  apispptr	ptr;
@@ -276,7 +276,7 @@ badstate:
 	exit(E_USAGE);
 }
 
-void	perform_update(char ** args)
+void  perform_update(char **args)
 {
 	char	**ap = args, *arg = *ap;
 
@@ -306,7 +306,7 @@ void	perform_update(char ** args)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	**newargs;
 	int_ugid_t	chku;

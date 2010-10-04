@@ -24,5 +24,5 @@
 #define	MAG_FNL		0x40			/*  As MAG_NL but even if typed and erased */
 #define	MAG_LONG	0x80			/*  Wgets - allow long strings */
 
-int	getkey(const unsigned);
-void	endwinkeys(void);
+extern	int	getkey(const unsigned);
+extern  void	endwinkeys();

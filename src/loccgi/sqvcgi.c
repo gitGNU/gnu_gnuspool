@@ -67,13 +67,13 @@ FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-void	perform_view(char *jnum, char *pnum)
+void  perform_view(char *jnum, char *pnum)
 {
 	struct	jobswanted	jw;
 	const  struct	spq	*jp;

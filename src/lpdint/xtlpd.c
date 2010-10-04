@@ -16,7 +16,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-
 #include <stdio.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -42,13 +41,13 @@ int	debug_level = 0;
 
 extern	uid_t	Realuid, Effuid, Daemuid;
 
-extern int	parsecf(FILE *);
-extern void	lassign(struct varname *, const char *);
-extern void	process(const int);
+extern int  parsecf(FILE *);
+extern void  lassign(struct varname *, const char *);
+extern void  process(const int);
 
 /* Set up network stuff */
 
-static int	init_network(void)
+static	int	init_network()
 {
 	struct	protoent  *pp;
 	struct	varname	*vp;
@@ -106,7 +105,7 @@ static int	init_network(void)
 	return  1;
 }
 
-static int	tcp_accept(const int msock, netid_t *whofrom)
+static int  tcp_accept(const int msock, netid_t *whofrom)
 {
 	int	sock;
 	SOCKLEN_T	sinl;
@@ -119,7 +118,7 @@ static int	tcp_accept(const int msock, netid_t *whofrom)
 	return  sock;
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	FILE	*wotfile;
 	int	newsock;

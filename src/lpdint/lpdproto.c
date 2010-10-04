@@ -44,11 +44,11 @@ char	cfilename[FILEN_SIZE],
 
 extern	int	debug_level;
 
-extern void	printfiles(char *);
+extern void  printfiles(char *);
 
 /* Hideous and revolting algorithm copied from lpd.  */
 
-static void	cleanupfiles(void)
+static void  cleanupfiles()
 {
 	if  (cfilename[0])  {
 		if  (debug_level > 1)
@@ -69,22 +69,22 @@ static void	cleanupfiles(void)
 	}
 }
 
-static void	acknowledge(int sockfd)
+static void  acknowledge(int sockfd)
 {
 	static	char	ackcode = '\0';
-	write(sockfd, &ackcode, sizeof(ackcode));
+	Ignored_error = write(sockfd, &ackcode, sizeof(ackcode));
 }
 
-static void	recvabort(int sockfd, char *message)
+static void  recvabort(int sockfd, char *message)
 {
 	static	char	ecode = '\1';
 	cleanupfiles();
-	write(sockfd, &ecode, sizeof(ecode));
+	Ignored_error = write(sockfd, &ecode, sizeof(ecode));
 	fprintf(stderr, "%s\n", message);
 	exit(100);
 }
 
-static int	readsockline(int sockfd, char *inbuf)
+static int  readsockline(int sockfd, char *inbuf)
 {
 	char	inch;
 	int	inb, cnt = 0;
@@ -104,7 +104,7 @@ static int	readsockline(int sockfd, char *inbuf)
 	return  1;
 }
 
-static int	readfile(int sockfd, char * filename, int size)
+static int  readfile(int sockfd, char *filename, int size)
 {
 	int	outfd, bytesleft = size;
 	char	buf[XBUFSIZE];
@@ -151,7 +151,7 @@ static int	readfile(int sockfd, char * filename, int size)
 	return  1;
 }
 
-static void	recvjob(int sockfd)
+static void  recvjob(int sockfd)
 {
 	char	*cp, *sp;
 	int	size;
@@ -195,14 +195,14 @@ static void	recvjob(int sockfd)
 	}
 }
 
-void	lassign(struct varname *varr, const char *str)
+void  lassign(struct varname *varr, const char *str)
 {
 	if  (varr->vn_value)
 		free(varr->vn_value);
 	varr->vn_value = stracpy(str);
 }
 
-void	setexport(struct varname *varr, char *str)
+void  setexport(struct varname *varr, char *str)
 {
 	char	*envv;
 	lassign(varr, str);
@@ -212,7 +212,7 @@ void	setexport(struct varname *varr, char *str)
 	putenv(envv);
 }
 
-static void	dodisp(const int sockfd, char *cmd)
+static void  dodisp(const int sockfd, char *cmd)
 {
 	int	ch;
 	char	*expv;
@@ -240,7 +240,7 @@ static void	dodisp(const int sockfd, char *cmd)
 	free(expv);
 }
 
-static void	doremove(const int sockfd)
+static void  doremove(const int sockfd)
 {
 	int	ch;
 	struct	varname	*varrm = lookuphash(REMOVE);
@@ -265,7 +265,7 @@ static void	doremove(const int sockfd)
 	free(expr);
 }
 
-void	process(const int sockfd)
+void  process(const int sockfd)
 {
 	char	*cp, *pname;
 	struct	varname	*varp, *varsl, *varll, *varcmd, *varperson;
@@ -287,13 +287,13 @@ void	process(const int sockfd)
 
 		case  PR_CHECK:
 			lassign(varp, cp);
-			chdir(cp);
+			Ignored_error = chdir(cp);
 			printfiles((char *) 0);
 			exit(0);
 
 		case  PR_RECEIVE:
 			lassign(varp, cp);
-			chdir(cp);
+			Ignored_error = chdir(cp);
 			recvjob(sockfd);
 			printfiles(cfilename);
 			exit(0);

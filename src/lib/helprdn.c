@@ -19,10 +19,9 @@
 #include <stdio.h>
 #include "errnums.h"
 
-int	helprdn(void)
+int  helprdn()
 {
-	int	ch;
-	int	result = 0, minus = 0;
+	int	ch, result = 0, minus = 0;
 
 	if  ((ch = getc(Cfile)) == '-')  {
 		minus = 1;

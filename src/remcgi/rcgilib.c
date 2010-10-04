@@ -37,7 +37,7 @@
 #include "cgiuser.h"
 #include "rcgilib.h"
 
-int	numeric(const char *x)
+int  numeric(const char *x)
 {
 	while  (*x)  {
 		if  (!isdigit(*x))
@@ -47,7 +47,7 @@ int	numeric(const char *x)
 	return  1;
 }
 
-int	decode_jnum(char *jnum, struct jobswanted *jwp)
+int  decode_jnum(char *jnum, struct jobswanted *jwp)
 {
 	char	*cp;
 
@@ -71,7 +71,7 @@ int	decode_jnum(char *jnum, struct jobswanted *jwp)
 	return  0;
 }
 
-int	decode_pname(char *pname, struct ptrswanted *pwp)
+int  decode_pname(char *pname, struct ptrswanted *pwp)
 {
 	char	*cp;
 
@@ -92,7 +92,7 @@ int	decode_pname(char *pname, struct ptrswanted *pwp)
 	return  1;
 }
 
-struct  apispptr *find_ptr(const slotno_t sl)
+struct apispptr *find_ptr(const slotno_t sl)
 {
 	struct	ptr_with_slot	*ps;
 
@@ -102,7 +102,7 @@ struct  apispptr *find_ptr(const slotno_t sl)
 	return  (struct apispptr *) 0;
 }
 
-int	find_ptr_by_name(const char **namep, struct ptr_with_slot *rptr)
+int  find_ptr_by_name(const char **namep, struct ptr_with_slot *rptr)
 {
 	const	char	*name = *namep;
 	const	char	*colp = strchr(name, ':');
@@ -136,7 +136,7 @@ int	find_ptr_by_name(const char **namep, struct ptr_with_slot *rptr)
 	return  1;
 }
 
-void	api_open(char *realuname)
+void  api_open(char *realuname)
 {
 	int	ret;
 
@@ -153,7 +153,7 @@ void	api_open(char *realuname)
 	}
 }
 
-void	read_jobqueue(const unsigned afl)
+void  read_jobqueue(const unsigned afl)
 {
 	slotno_t	*slots;
 	int		ret;
@@ -187,7 +187,7 @@ void	read_jobqueue(const unsigned afl)
 	}
 }
 
-void	api_readptrs(const unsigned afl)
+void  api_readptrs(const unsigned afl)
 {
 	slotno_t	*slots;
 	int		ret;

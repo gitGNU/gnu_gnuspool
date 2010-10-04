@@ -27,7 +27,7 @@
 #include "q_shm.h"
 #include "incl_unix.h"
 
-int	qsort_ptrs(const Hashspptr **a, const Hashspptr **b)
+int  qsort_ptrs(const Hashspptr **a, const Hashspptr **b)
 {
 	const  struct  spptr  *ap = &(*a)->p, *bp = &(*b)->p;
 	int	ret;

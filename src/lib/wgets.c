@@ -46,9 +46,7 @@ void  ws_fill(WINDOW *wp, const int row, const struct sctrl *scp, const char *va
 
 char *wgets(WINDOW *wp, const int row, struct sctrl *scp, const char *exist)
 {
-	int	posn = 0, optline = 0, hadch = 0, overflow = 0;
-	int	ch;
-	int	err_no;
+	int	posn = 0, optline = 0, hadch = 0, overflow = 0, ch, err_no;
 	char	**optvec = (char **) 0;
 
 	Ew = wp;

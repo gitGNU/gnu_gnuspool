@@ -23,10 +23,10 @@ struct	stringvec  {
 	char	**memb_list;
 };
 
-extern void	stringvec_init(struct stringvec *);
-extern void	stringvec_insert_unique(struct stringvec *, const char *);
-extern void	stringvec_append(struct stringvec *, const char *);
-extern void	stringvec_free(struct stringvec *);
+extern void  stringvec_init(struct stringvec *);
+extern void  stringvec_insert_unique(struct stringvec *, const char *);
+extern void  stringvec_append(struct stringvec *, const char *);
+extern void  stringvec_free(struct stringvec *);
 
 #define	is_init(sv)	((sv).memb_list != (char **) 0)
 #define	stringvec_count(sv)  (sv).memb_cnt

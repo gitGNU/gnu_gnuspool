@@ -36,4 +36,4 @@ struct	snmp_result  {
 #define	RES_NULL	4
 
 extern asn_octet *gen_snmp_get(const char *, const char *, unsigned *, const int);
-extern int	snmp_parse_result(asn_octet *, const unsigned, struct snmp_result *);
+extern int  snmp_parse_result(asn_octet *, const unsigned, struct snmp_result *);

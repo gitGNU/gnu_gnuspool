@@ -46,7 +46,7 @@ extern classcode_t	read_cc_butts(GtkWidget **);
 extern void	cc_dlgsetup(GtkWidget *, GtkWidget **, const classcode_t);
 extern int	validatedev(const char *);
 
-static  const Hashspptr *getselectedptr(void)
+static const Hashspptr *getselectedptr()
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(pwid));
 	GtkTreeIter  iter;
@@ -89,7 +89,7 @@ static const struct spptr *getselectedptr_chk(ULONG perm, int code)
 
 /* Printer actions. */
 
-void	cb_pact(GtkAction *action)
+void  cb_pact(GtkAction *action)
 {
 	const  struct	spptr	*pp;
 	const  char	*act = gtk_action_get_name(action);
@@ -221,7 +221,7 @@ void	cb_pact(GtkAction *action)
 	womsg(msg);
 }
 
-void	set_ptrdlglab(GtkWidget *dlg, const struct spptr *pp)
+void  set_ptrdlglab(GtkWidget *dlg, const struct spptr *pp)
 {
 	char  *pr = gprompt($P{xspq pdlg lab});
 	GString *labp = g_string_new(NULL);
@@ -237,7 +237,7 @@ void	set_ptrdlglab(GtkWidget *dlg, const struct spptr *pp)
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), lab, FALSE, FALSE, DEF_DLG_VPAD);
 }
 
-void	cb_pform(void)
+void  cb_pform()
 {
 	char	*pr;
 	GtkWidget  *dlg, *hbox, *lab, *formsel;
@@ -281,7 +281,7 @@ void	cb_pform(void)
 	gtk_widget_destroy(dlg);
 }
 
-void	cb_pclass(void)
+void  cb_pclass()
 {
 	char	*pr;
 	const  struct	spptr	*pp = getselectedptr_chk(PV_ADDDEL, $EH{No perm change class});
@@ -358,7 +358,7 @@ void	cb_pclass(void)
 	gtk_widget_destroy(dlg);
 }
 
-void	cb_padd(void)
+void  cb_padd()
 {
 	char	*pr;
 	GtkWidget  *dlg, *hbox, *lab, *ptrsel, *devsel, *nw, *formsel, *comm, *classcodes[32], *locw;
@@ -485,7 +485,7 @@ void	cb_padd(void)
 	gtk_widget_destroy(dlg);
 }
 
-void	cb_pdev(void)
+void  cb_pdev()
 {
 	GtkWidget  *dlg, *hbox, *lab, *devselc, *netf, *comm;
 	char	   *pr;
@@ -560,7 +560,7 @@ void	cb_pdev(void)
 	gtk_widget_destroy(dlg);
 }
 
-static int	pmacroexec(const char *str, const struct spptr *pp)
+static int  pmacroexec(const char *str, const struct spptr *pp)
 {
 	PIDTYPE	pid;
 	int	status;
@@ -583,7 +583,7 @@ static int	pmacroexec(const char *str, const struct spptr *pp)
 		}
 		else
 			argbuf[1] = (char *) 0;
-		chdir(Curr_pwd);
+		Ignored_error = chdir(Curr_pwd);
 		execv(execprog, argbuf);
 		exit(255);
 	}
@@ -618,7 +618,7 @@ static	struct	stringvec  previous_commands;
 
 /* Version of printer macro for where we prompt */
 
-void	cb_pmac(void)
+void  cb_pmac()
 {
 	const  Hashspptr *hpp = getselectedptr();
 	const  struct	spptr	*pp = 0;
@@ -684,7 +684,7 @@ void	cb_pmac(void)
 	gtk_widget_destroy(dlg);
 }
 
-void	pmacruncb(GtkAction *act, struct macromenitem *mitem)
+void  pmacruncb(GtkAction *act, struct macromenitem *mitem)
 {
 	const  Hashspptr  *hpp = getselectedptr();
 	const	struct	spptr  *pp = 0;

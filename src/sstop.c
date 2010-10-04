@@ -42,20 +42,20 @@
 #define	DEFAULT_SUSTIME	300	/* 5 minutes */
 #define	MAX_SUSTIME	7200	/* 2 hours */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr,"Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-void	confirm_op(const int promptnum, const int errnum)
+void  confirm_op(const int promptnum, const int errnum)
 {
 	char	*cp, *prompt, string[80];
 
 	prompt = gprompt(promptnum);
 	fputs(prompt, stdout);
 	fflush(stdout);
-	fgets(string, sizeof(string), stdin);
+	cp = fgets(string, sizeof(string), stdin);
 	cp = string;
 	while  (*cp  &&  !isalpha(*cp))
 		cp++;
@@ -67,9 +67,9 @@ void	confirm_op(const int promptnum, const int errnum)
 
 /* Ye olde main routine. No arguments are expected.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
-	int	countdown = 5;
+	int	countdown = MSGQ_BLOCKS;
 	struct	spr_req	oreq;
 	struct	spdet	*mypriv;
 #if	defined(NHONSUID) || defined(DEBUG)
@@ -178,7 +178,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 			exit(E_SETUP);
 		}
 		print_error($E{Sstop waiting});
-		sleep(5);
+		sleep(MSGQ_BLOCKWAIT);
 	}
 	return  0;
 }

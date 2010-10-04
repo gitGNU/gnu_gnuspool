@@ -31,9 +31,9 @@
 #include "files.h"
 #include "incl_unix.h"
 
-void	report(const int);
-void	rewrjq(void);
-void	rewrpq(void);
+void  report(const int);
+extern  void  rewrjq();
+extern  void  rewrpq();
 
 extern	int	qchanges;
 
@@ -52,7 +52,7 @@ extern	PIDTYPE	Xtns_pid;
 
 /* Allocate a structure for an operator.  */
 
-void	makeop(const int_pid_t pid, const int_ugid_t uid)
+void  makeop(const int_pid_t pid, const int_ugid_t uid)
 {
 	if  (numopers >= maxopers)  {
 		if  (maxopers)  {
@@ -74,7 +74,7 @@ void	makeop(const int_pid_t pid, const int_ugid_t uid)
 
 /* Delete a structure for an operator.  */
 
-void	killop(const int_pid_t pid)
+void  killop(const int_pid_t pid)
 {
 	int	i;
 
@@ -89,7 +89,7 @@ void	killop(const int_pid_t pid)
 
 /* Find an operator by process id.  */
 
-int_pid_t	findop(const int_pid_t pid)
+int_pid_t  findop(const int_pid_t pid)
 {
 	int	i;
 
@@ -101,7 +101,7 @@ int_pid_t	findop(const int_pid_t pid)
 
 /* An operator has just signed on - note the fact.  */
 
-void	addoper(struct sp_omsg *rq)
+void  addoper(struct sp_omsg *rq)
 {
 	if  (findop(rq->spr_pid) == 0)
 		makeop(rq->spr_pid, (int_ugid_t) rq->spr_arg1);
@@ -111,7 +111,7 @@ void	addoper(struct sp_omsg *rq)
 
 /* Tell operators. */
 
-void	tellopers(void)
+void  tellopers()
 {
 	int	i = 0;
 
@@ -138,7 +138,7 @@ redo:
 
 /* Delete an operator. */
 
-void	deloper(struct sp_omsg *rq)
+void  deloper(struct sp_omsg *rq)
 {
 	if  (findop(rq->spr_pid) == 0)
 		return;
@@ -147,7 +147,7 @@ void	deloper(struct sp_omsg *rq)
 
 /* Kill off operators.  */
 
-void	killops(void)
+void  killops()
 {
 	int	i;
 
@@ -157,7 +157,7 @@ void	killops(void)
 
 /* Is given uid on list of operators */
 
-int	islogged(const int_ugid_t uid)
+int  islogged(const int_ugid_t uid)
 {
 	int	i;
 

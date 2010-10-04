@@ -51,7 +51,7 @@ struct	ptr_with_slot	*ptr_sl_list;
 
 /* Keep library happy */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -82,25 +82,25 @@ struct	argop  {
 	struct  argop	*next;
 };
 
-int	arg_sp(struct apispq *jp, const struct argop *ao)
+int  arg_sp(struct apispq *jp, const struct argop *ao)
 {
 	jp->apispq_start = ao->ao_un.ao_ulong != 0? ao->ao_un.ao_ulong - 1: 0;
 	return  1;
 }
 
-int	arg_ep(struct apispq *jp, const struct argop *ao)
+int  arg_ep(struct apispq *jp, const struct argop *ao)
 {
 	jp->apispq_end = ao->ao_un.ao_ulong != 0? ao->ao_un.ao_ulong - 1: LOTSANDLOTS;
 	return  1;
 }
 
-int	arg_hatp(struct apispq *jp, const struct argop *ao)
+int  arg_hatp(struct apispq *jp, const struct argop *ao)
 {
 	jp->apispq_haltat = ao->ao_un.ao_ulong != 0? ao->ao_un.ao_ulong - 1: 0;
 	return  1;
 }
 
-int	arg_cps(struct apispq *jp, const struct argop *ao)
+int  arg_cps(struct apispq *jp, const struct argop *ao)
 {
 	unsigned  nn = ao->ao_un.ao_uchar;
 	if  (!(mypriv.spu_flgs & PV_ANYPRIO)  &&  nn > (unsigned) mypriv.spu_cps)
@@ -109,7 +109,7 @@ int	arg_cps(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_pri(struct apispq *jp, const struct argop *ao)
+int  arg_pri(struct apispq *jp, const struct argop *ao)
 {
 	unsigned  nn = ao->ao_un.ao_uchar;
 
@@ -121,7 +121,7 @@ int	arg_pri(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_jflags(struct apispq *jp, const struct argop *ao)
+int  arg_jflags(struct apispq *jp, const struct argop *ao)
 {
 	USHORT	bit = ao->ao_un.ao_boolbit;
 	if  (ao->off)
@@ -131,7 +131,7 @@ int	arg_jflags(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_dflags(struct apispq *jp, const struct argop *ao)
+int  arg_dflags(struct apispq *jp, const struct argop *ao)
 {
 	USHORT	bit = ao->ao_un.ao_boolbit;
 	if  (ao->off)
@@ -141,7 +141,7 @@ int	arg_dflags(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_class(struct apispq *jp, const struct argop *ao)
+int  arg_class(struct apispq *jp, const struct argop *ao)
 {
 	ULONG	rcl = ao->ao_un.ao_ulong;
 	if  (!(mypriv.spu_flgs & PV_COVER))
@@ -152,19 +152,19 @@ int	arg_class(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_hdr(struct apispq *jp, const struct argop *ao)
+int  arg_hdr(struct apispq *jp, const struct argop *ao)
 {
 	strncpy(jp->apispq_file, ao->ao_un.ao_string, MAXTITLE);
 	return  1;
 }
 
-int	arg_flags(struct apispq *jp, const struct argop *ao)
+int  arg_flags(struct apispq *jp, const struct argop *ao)
 {
 	strncpy(jp->apispq_flags, ao->ao_un.ao_string, MAXFLAGS);
 	return  1;
 }
 
-int	arg_form(struct apispq *jp, const struct argop *ao)
+int  arg_form(struct apispq *jp, const struct argop *ao)
 {
 	if  (!((mypriv.spu_flgs & PV_FORMS) || qmatch(mypriv.spu_formallow, ao->ao_un.ao_string)))
 		return  0;
@@ -172,7 +172,7 @@ int	arg_form(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_ptr(struct apispq *jp, const struct argop *ao)
+int  arg_ptr(struct apispq *jp, const struct argop *ao)
 {
 	if  (!((mypriv.spu_flgs & PV_OTHERP)  ||  issubset(mypriv.spu_ptrallow, ao->ao_un.ao_string)))
 		return  0;
@@ -180,7 +180,7 @@ int	arg_ptr(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_hold(struct apispq *jp, const struct argop *ao)
+int  arg_hold(struct apispq *jp, const struct argop *ao)
 {
 	time_t	ht = ao->ao_un.ao_time, now = time((time_t *) 0);
 	if  (ht < now)
@@ -189,7 +189,7 @@ int	arg_hold(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_npt(struct apispq *jp, const struct argop *ao)
+int  arg_npt(struct apispq *jp, const struct argop *ao)
 {
 	USHORT	us = ao->ao_un.ao_ushort;
 	if  (us == 0)
@@ -198,7 +198,7 @@ int	arg_npt(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_pt(struct apispq *jp, const struct argop *ao)
+int  arg_pt(struct apispq *jp, const struct argop *ao)
 {
 	USHORT	us = ao->ao_un.ao_ushort;
 	if  (us == 0)
@@ -207,7 +207,7 @@ int	arg_pt(struct apispq *jp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_puser(struct apispq *jp, const struct argop *ao)
+int  arg_puser(struct apispq *jp, const struct argop *ao)
 {
 	strncpy(jp->apispq_puname, prin_uname(ao->ao_un.ao_user), UIDSIZE);
 	return  1;
@@ -243,7 +243,7 @@ struct	argop  aolist[] =  {
 
 struct	argop	*aochain;
 
-void	list_op(char *arg, char *cp)
+void  list_op(char *arg, char *cp)
 {
 	int	cnt;
 
@@ -318,7 +318,7 @@ void	list_op(char *arg, char *cp)
 	exit(E_SETUP);
 }
 
-void	apply_ops(char * arg)
+void  apply_ops(char *arg)
 {
 	int			ret;
 	struct	argop		*aop;
@@ -359,7 +359,7 @@ void	apply_ops(char * arg)
 	}
 }
 
-void	perform_update(char ** args)
+void  perform_update(char **args)
 {
 	char	**ap, *arg;
 
@@ -374,7 +374,7 @@ void	perform_update(char ** args)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	**newargs;
 	int_ugid_t	chku;

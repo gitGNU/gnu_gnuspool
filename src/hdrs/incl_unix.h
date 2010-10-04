@@ -79,15 +79,19 @@ char	*strchr(),
 
 /* These are our own string-ish things */
 
-extern int	ncstrcmp(const char *, const char *);
-extern int	ncstrncmp(const char *, const char *, int);
+extern int ncstrcmp(const char *, const char *);
+extern int ncstrncmp(const char *, const char *, int);
 
-extern int	qmatch(char *, const char *);
-extern int	issubset(char *, char *);
-extern int	repattok(const char *);
+extern int qmatch(char *, const char *);
+extern int issubset(char *, char *);
+extern int repattok(const char *);
 
-extern char *	stracpy(const char *);
-extern char *	strread(FILE *, const char *);
-extern char *	runpwd(void);
+extern char *stracpy(const char *);
+extern char *strread(FILE *, const char *);
+extern char *runpwd();
 
-extern	void	nomem(void);
+extern	void nomem();
+
+/* This is to shut compilers up about errors which don't matter */
+
+extern	int	Ignored_error;

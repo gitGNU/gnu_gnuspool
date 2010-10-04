@@ -24,11 +24,11 @@ struct	api_fd	{
 	char		username[UIDSIZE+1]; /* User name */
 #ifdef	OS_PYRAMID
 	/* Bug in Pyramid cc - a const parameter makes the whole thing const */
-	void	(*jobfn)(int);	/* Function to invoke on jobs change */
-	void	(*ptrfn)(int);	/* Function to invoke on ptrs change */
+	void  (*jobfn)(int);	/* Function to invoke on jobs change */
+	void  (*ptrfn)(int);	/* Function to invoke on ptrs change */
 #else
-	void	(*jobfn)(const int);	/* Function to invoke on jobs change */
-	void	(*ptrfn)(const int);	/* Function to invoke on ptrs change */
+	void  (*jobfn)(const int);	/* Function to invoke on jobs change */
+	void  (*ptrfn)(const int);	/* Function to invoke on ptrs change */
 #endif
 	ULONG	jserial;	/* Serial of jobs */
 	ULONG	pserial;	/* Serial of ptrs */

@@ -32,7 +32,7 @@ extern	char	**environ;
 
 /* Getenv where we are looking for a non-null-terminated string */
 
-static char  *sgetenv(const char *sstart, const char *send)
+static char *sgetenv(const char *sstart, const char *send)
 {
 	char	**envp;
 	int	l = send - sstart;
@@ -45,11 +45,10 @@ static char  *sgetenv(const char *sstart, const char *send)
 
 /* Initialise environment variables not otherwise defined from Master Config file.  */
 
-void	init_mcfile(void)
+void  init_mcfile()
 {
 	FILE	*inf;
-	char	*inl, *cp, *ep, **newenv;
-	char	**envp, **nep;
+	char	*inl, *cp, *ep, **newenv, **envp, **nep;
 	static	char	alloc_env = 0;
 
 	if  ((inf = fopen(MASTER_CONFIG, "r")) == (FILE *) 0)
@@ -102,7 +101,7 @@ void	init_mcfile(void)
 	fclose(inf);
 }
 
-char  *envprocess(const char *inp_string)
+char	*envprocess(const char *inp_string)
 {
 	const	char	*inp;
 	char	*outp;
@@ -215,7 +214,7 @@ is_ch:
 
 /* Get an absolute path name to the given file in the batch spool directory */
 
-extern char *mkspdirfile(const char *bfile)
+char	*mkspdirfile(const char *bfile)
 {
 	char	*spdir = envprocess(SPDIR);
 	char	*res = malloc((unsigned) (strlen(spdir) + strlen(bfile) + 2));

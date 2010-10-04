@@ -82,18 +82,20 @@ int	LINES;			/* Not defined anywhere without extern */
 
 #define	P_DONT_CARE	100
 
-void	cjfind(void);
-void	jdisplay(void);
-void	openjfile(void);
-void	openpfile(void);
-void	pdisplay(void);
-void	rpfile(void);
+#define	BOXWID	1
 
-int	p_process(void);
-int	j_process(void);
+extern  void  cjfind();
+extern  void  jdisplay();
+extern  void  openjfile();
+extern  void  openpfile();
+extern  void  pdisplay();
+extern  void  rpfile();
 
-char *	get_jobtitle(int);
-char *	get_ptrtitle(void);
+extern  int  p_process();
+extern  int  j_process();
+
+extern	char *get_jobtitle(int);
+extern  char *get_ptrtitle();
 
 char	Win_setup, jset;
 static	jmp_buf	Mj;
@@ -154,7 +156,7 @@ extern	void	doerror(WINDOW *, const int);
 
 /* If we get a message error die appropriately */
 
-void	msg_error(const int ret)
+void  msg_error(const int ret)
 {
 	if  (Win_setup)  {
 		int	save_errno = errno; /* In cases endwin clobbers it */
@@ -171,10 +173,10 @@ void	msg_error(const int ret)
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 #ifndef	HAVE_ATEXIT
-	void	exit_cleanup(void);
+	extern  void  exit_cleanup();
 #endif
 	if  (Win_setup)  {
 		clear();
@@ -191,7 +193,7 @@ void	nomem(void)
 
 /* Write messages to scheduler.  */
 
-void	womsg(const int act)
+void  womsg(const int act)
 {
 	oreq.spr_un.o.spr_act = (USHORT) act;
 	if  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)
@@ -200,7 +202,7 @@ void	womsg(const int act)
 
 /* Exit cleanup function - turn off curses and log off spshed */
 
-void	exit_cleanup(void)
+void  exit_cleanup()
 {
 	if  (Win_setup)  {
 		clear();
@@ -211,7 +213,7 @@ void	exit_cleanup(void)
 		womsg(SO_DMON);
 }
 
-void	my_wjmsg(const int act)
+void  my_wjmsg(const int act)
 {
 	int	ret;
 	jreq.spr_un.j.spr_act = (USHORT) act;
@@ -219,7 +221,7 @@ void	my_wjmsg(const int act)
 		msg_error(ret);
 }
 
-void	my_wpmsg(const int act)
+void  my_wpmsg(const int act)
 {
 	int	ret;
 	preq.spr_un.p.spr_act = (USHORT) act;
@@ -260,7 +262,7 @@ RETSIGTYPE	sh_markit(int sig)
 
 /* This deals with alarm calls whilst polling.  */
 
-RETSIGTYPE	pollit(int n)
+RETSIGTYPE  pollit(int n)
 {
 	static	ULONG	lastserial;
 
@@ -293,7 +295,7 @@ RETSIGTYPE	pollit(int n)
 
 /* Other signals are errors Suppress final message....  */
 
-RETSIGTYPE	sigerr(int n)
+RETSIGTYPE  sigerr(int n)
 {
 	Ctrl_chan = -1;
 #ifndef	HAVE_ATEXIT
@@ -306,7 +308,7 @@ RETSIGTYPE	sigerr(int n)
 /* Bodge dohelp for when we don't have a specific thing to do other
    than display a message code.  */
 
-void	dochelp(WINDOW *wp, const int code)
+void  dochelp(WINDOW *wp, const int code)
 {
 	struct	sctrl	xx;
 	xx.helpcode = code;
@@ -317,7 +319,7 @@ void	dochelp(WINDOW *wp, const int code)
 
 /* Get rid of a help or error message */
 
-void	endhe(WINDOW *owin, WINDOW **wpp)
+void  endhe(WINDOW *owin, WINDOW **wpp)
 {
 	delwin(*wpp);
 	*wpp = (WINDOW *) 0;
@@ -457,7 +459,7 @@ void	process(int inpq)
 
 /* Set up terminal suitably.  */
 
-void	wstart(void)
+void  wstart()
 {
 	int	i;
 	char	**hvi, **hj, **tp, *jtitle, *ptitle;
@@ -733,7 +735,7 @@ char	Cvarname[] = "SPQCONF";
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	ret;
 #if	defined(NHONSUID) || defined(DEBUG)

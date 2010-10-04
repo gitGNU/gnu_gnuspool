@@ -21,7 +21,7 @@
 #include "incl_unix.h"
 #include "asn.h"
 
-void	prinbuf(asn_octet *buf, const unsigned len)
+void  prinbuf(asn_octet *buf, const unsigned len)
 {
 	unsigned  cnt4, cnt;
 	for  (cnt4 = 0;  cnt4 < len;  cnt4 += 16)  {
@@ -47,7 +47,7 @@ void	prinbuf(asn_octet *buf, const unsigned len)
 	}
 }
 
-void	prin_asn(struct asn_node *nd, const int level)
+void  prin_asn(struct asn_node *nd, const int level)
 {
 	while  (nd)  {
 		int	cnt;

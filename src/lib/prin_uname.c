@@ -43,16 +43,10 @@ uid_t	Daemuid,
 /* Structure used to hash user ids.  */
 
 struct	uhash	{
-	struct	uhash	*pwh_next, *pwu_next;
+	struct	uhash	*pwhuid_next, *pwhuname_next;
 	int_ugid_t	pwh_uid;
 	char		*pwh_homed;	/* Used for unameproc */
 	char		pwh_name[1];
-};
-
-struct	fuhash  {
-	LONG		pwh_next;
-	int_ugid_t	pwh_uid;
-	LONG		pwh_homed;
 };
 
 #define	HASHMOD	97
@@ -61,187 +55,54 @@ static	int	doneit;
 static	struct	uhash	*uhash[HASHMOD];
 static	struct	uhash	*unhash[HASHMOD];
 
-void	dump_pwfile(void)
-{
-	LONG	offset;
-	int	fd, hn, hdl;
-	unsigned	cnt;
-	struct	uhash	*hp;
-	char	*name = envprocess(DUMPPWFILE);
-	struct	fuhash	fh;
-	LONG	dhash[HASHMOD];
+/* Number of users in password file */
 
-	if  ((fd = open(name, O_WRONLY|O_CREAT|O_TRUNC, 0644)) < 0)
-		goto  zapit;
-
-	offset = HASHMOD * sizeof(LONG);
-	lseek(fd, offset, 0);
-
-	for  (cnt = 0;  cnt < HASHMOD;  cnt++)  {
-		dhash[cnt] = uhash[cnt]? offset: 0L;
-		for  (hp = uhash[cnt];  hp;  hp = hp->pwh_next)  {
-			fh.pwh_uid = hp->pwh_uid;
-			hn = strlen(hp->pwh_name) + 1;
-			hdl = strlen(hp->pwh_homed) + 1;
-			offset += sizeof(struct fuhash) + hn;
-			fh.pwh_homed = offset;
-			offset += hdl;
-			fh.pwh_next = hp->pwh_next? offset: 0L;
-			if  (write(fd, (char *) &fh, sizeof(fh)) != sizeof(fh))
-				goto  zapitc;
-			if  (write(fd, hp->pwh_name, hn) != hn)
-				goto  zapitc;
-			if  (write(fd, hp->pwh_homed, hdl) != hdl)
-				goto  zapitc;
-		}
-	}
-
-	/* Dump out hash table of uids.
-	   We'd like to do it for names but we want to be sure of
-	   preserving the order of uid->name lookups
-	   (See comment in pwfile below); */
-
-	lseek(fd, 0L, 0);
-	if  (write(fd, (char *) dhash, sizeof(dhash)) != sizeof(dhash))
-		goto  zapitc;
-
-	close(fd);
-	free(name);
-	return;
-zapitc:
-	close(fd);
-zapit:
-	unlink(name);
-	free(name);
-}
-
-static int	undump_pwfile(void)
-{
-	char	*name = envprocess(DUMPPWFILE);
-	struct	uhash	*hp, **hpp;
-	unsigned	cnt;
-	int	fd, nl;
-	LONG	fp;
-	struct	fuhash	fh;
-	LONG	dhash[HASHMOD];
-	char	dirbuf[PATH_MAX];
-
-	fd = open(name, O_RDONLY);
-	free(name);
-	if  (fd < 0)
-		return  0;
-	if  (read(fd, (char *) dhash, sizeof(dhash)) != sizeof(dhash))  {
-	yuk:
-		close(fd);
-		return  0;
-	}
-
-	/* Read in and reallocate the user hash table.  */
-
-	for  (cnt = 0;  cnt < HASHMOD;  cnt++)  {
-		hpp = &uhash[cnt];
-		fp = dhash[cnt];
-		while  (fp)  {
-			lseek(fd, fp, 0);
-			if  (read(fd, (char *) &fh, sizeof(fh)) != sizeof(fh))
-				goto  yuk;
-
-			/* Take advantage of the fact that we write
-			   the home dirs after the hash structure
-			   to get user name length (including
-			   null char).  */
-
-			nl = fh.pwh_homed - fp - sizeof(fh);
-			fp = fh.pwh_next;
-			if  (!(hp = (struct uhash *) malloc((unsigned) (nl + sizeof(struct uhash) - 1))))
-				nomem();
-			*hpp = hp;
-			hpp = &hp->pwh_next;
-			hp->pwh_uid = fh.pwh_uid;
-			if  (read(fd, hp->pwh_name, nl) != nl)
-				goto  yuk;
-			if  (read(fd, dirbuf, sizeof(dirbuf)) <= 0)
-				goto  yuk;
-			hp->pwh_homed = stracpy(dirbuf);
-		}
-		*hpp = (struct uhash *) 0;
-	}
-	close(fd);
-	BLOCK_ZERO(unhash, sizeof(unhash));
-
-	for  (cnt = 0;  cnt < HASHMOD;  cnt++)
-		for  (hp = uhash[cnt];  hp;  hp = hp->pwh_next)  {
-			char	*pn = hp->pwh_name;
-			unsigned  sum = 0;
-			while  (*pn)
-				sum += *pn++;
-			sum %= HASHMOD;
-			hp->pwu_next = unhash[sum];
-			unhash[sum] = hp;
-		}
-
-	return  1;
-}
-
-/* "unread" password file to order */
-
-void	un_rpwfile(void)
-{
-	unsigned   cnt;
-	struct	uhash	*hp, *np;
-
-	if  (!doneit)		/* Nothing to undo */
-		return;
-	for  (cnt = 0;  cnt < HASHMOD;  cnt++)  {
-		for  (hp = uhash[cnt];  hp;  hp = np)  {
-			np = hp->pwh_next;
-			if  (hp->pwh_homed)
-				free(hp->pwh_homed);
-			free((char *) hp);
-		}
-		uhash[cnt] = unhash[cnt] = (struct uhash *) 0;
-	}
-	doneit = 0;
-}
+unsigned  Npwusers;
 
 /* Read password file to build up hash table of user ids.  This is
    done once only at the start of the program.  */
 
-void	rpwfile(void)
+void	rpwfile()
 {
-	if  (!undump_pwfile())  {
-		struct  passwd  *upw;
-		struct  uhash  *hp, **hpp, **hnpp;
-		char	*pn;
-		unsigned  sum;
+	struct  passwd  *upw;
+	struct  uhash  *hp, **hpp, **hnpp;
+	char	*pn;
+	unsigned  sum;
 
-		while  ((upw = getpwent()) != (struct passwd *) 0)  {
-			pn = upw->pw_name;
-			sum = 0;
-			while  (*pn)
-				sum += *pn++;
+	Npwusers = 0;			/* This is the number of unique IDs */
 
-			/* Find END of collision chain for uid lookup.
-			   This is so system ids with the same
-			   uid come out with first name in the
-			   password file.  */
+	while  ((upw = getpwent()))  {
+		int	haduid = 0;
+		pn = upw->pw_name;
+		sum = 0;
+		while  (*pn)
+			sum += *pn++;
 
-			for  (hpp = &uhash[(ULONG)upw->pw_uid % HASHMOD]; (hp = *hpp); hpp = &hp->pwh_next)
-				;
+		/* Avoid adding clashing names with the same id to the hash */
 
-			hnpp = &unhash[sum % HASHMOD];
-			if  ((hp = (struct uhash *) malloc(sizeof(struct uhash) + strlen(upw->pw_name))) == (struct uhash *) 0)
-				nomem();
-			hp->pwh_uid = upw->pw_uid;
-			hp->pwh_homed = stracpy(upw->pw_dir);
-			strcpy(hp->pwh_name, upw->pw_name);
-			hp->pwh_next = *hpp;
-			hp->pwu_next = *hnpp;
+		for  (hpp = &uhash[(ULONG)upw->pw_uid % HASHMOD]; (hp = *hpp); hpp = &hp->pwhuid_next)
+			if  (hp->pwh_uid == upw->pw_uid)
+				haduid = 1;
+
+		hnpp = &unhash[sum % HASHMOD];
+		if  ((hp = (struct uhash *) malloc(sizeof(struct uhash) + strlen(upw->pw_name))) == (struct uhash *) 0)
+			nomem();
+		hp->pwh_uid = upw->pw_uid;
+		hp->pwh_homed = stracpy(upw->pw_dir);
+		strcpy(hp->pwh_name, upw->pw_name);
+		/* Add to user id hash if unique id and bump the number of users */
+		if  (haduid)
+			hp->pwhuid_next = 0;
+		else  {
+			hp->pwhuid_next = *hpp;
 			*hpp = hp;
-			*hnpp = hp;
+			Npwusers++;
 		}
-		endpwent();
+		/* Always add the name to the name hash to look up id */
+		hp->pwhuname_next = *hnpp;
+		*hnpp = hp;
 	}
+	endpwent();
 	doneit = 1;
 }
 
@@ -259,14 +120,14 @@ static struct uhash *luid_lookup(const uid_t uid)
 	while  (hp)  {
 		if  (uid == hp->pwh_uid)
 			return	hp;
-		hp = hp->pwh_next;
+		hp = hp->pwhuid_next;
 	}
 	return	(struct uhash *) 0;
 }
 
 /* Look up user name in hash table of user names */
 
-static const struct uhash *luname_lookup(const char * name)
+static const struct uhash *luname_lookup(const char *name)
 {
 	const char	*cp;
 	unsigned  sum = 0;
@@ -281,14 +142,14 @@ static const struct uhash *luname_lookup(const char * name)
 	while  (hp)  {
 		if  (strcmp(name, hp->pwh_name) == 0)
 			return  hp;
-		hp = hp->pwu_next;
+		hp = hp->pwhuname_next;
 	}
 	return  (struct uhash *) 0;
 }
 
 /* Given a user id, return a user name.  */
 
-char *	prin_uname(const uid_t uid)
+char *prin_uname(const uid_t uid)
 {
 	struct  uhash  *hp = luid_lookup(uid);
 	if  (hp)
@@ -302,7 +163,7 @@ char *	prin_uname(const uid_t uid)
 
 /* Validate user id */
 
-int	isvuser(const uid_t uid)
+int  isvuser(const uid_t uid)
 {
 	struct  uhash  *hp = luid_lookup(uid);
 	return  hp != (struct uhash *) 0;
@@ -310,7 +171,7 @@ int	isvuser(const uid_t uid)
 
 /* Get uid from name - (long in case uid_t isn't signed thankyou Amdahl) */
 
-int_ugid_t	lookup_uname(const char * name)
+int_ugid_t  lookup_uname(const char *name)
 {
 	const	struct  uhash  *hp = luname_lookup(name);
 	return  hp? hp->pwh_uid: UNKNOWN_UID;
@@ -319,7 +180,7 @@ int_ugid_t	lookup_uname(const char * name)
 /* Loop over all known user ids, calling the supplied function with
    argument arg and uid.  */
 
-void	uloop_over(const int fid, void (*fn)(int, char *, int_ugid_t), char *arg)
+void	uloop_over(void (*fn)(char *, int_ugid_t), char *arg)
 {
 	struct  uhash  *hp;
 	unsigned	hi;
@@ -327,8 +188,8 @@ void	uloop_over(const int fid, void (*fn)(int, char *, int_ugid_t), char *arg)
 	if  (!doneit)
 		rpwfile();
 	for  (hi = 0;  hi < HASHMOD;  hi++)
-		for  (hp = uhash[hi];  hp;  hp = hp->pwh_next)
-			(*fn)(fid, arg, hp->pwh_uid);
+		for  (hp = uhash[hi];  hp;  hp = hp->pwhuid_next)
+			(*fn)(arg, hp->pwh_uid);
 }
 
 /* Generate a matrix for use when prompting for user names */
@@ -336,7 +197,7 @@ void	uloop_over(const int fid, void (*fn)(int, char *, int_ugid_t), char *arg)
 #define	ULINIT	40
 #define	ULINCR	10
 
-char  **gen_ulist(const char *prefix, const int notused)
+char **gen_ulist(const char *prefix, const int notused)
 {
 	struct  uhash  *hp;
 	unsigned	hi;
@@ -356,7 +217,7 @@ char  **gen_ulist(const char *prefix, const int notused)
 		sfl = strlen(prefix);
 
 	for  (hi = 0;  hi < HASHMOD;  hi++)
-		for  (hp = uhash[hi];  hp;  hp = hp->pwh_next)  {
+		for  (hp = uhash[hi];  hp;  hp = hp->pwhuid_next)  {
 
 			/* Skip ones which don't match the prefix */
 
@@ -386,8 +247,7 @@ char  **gen_ulist(const char *prefix, const int notused)
 
 char  *unameproc(char *str, const char *currdir, const uid_t realuid)
 {
-	char	*ep;
-	char	*cp, *newstr;
+	char	*ep, *cp, *newstr;
 	const	char	*ins;
 	int	l1, l2, l3, alloc = 0;
 

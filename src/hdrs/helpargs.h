@@ -71,13 +71,13 @@ typedef	int	(*optparam)(const char *);
 #define	OPTRESULT_LAST_ARG_OK	2	/* Result OK - arg eaten - last arg */
 #define	OPTRESULT_MISSARG	(-1)	/* Error result - missing arg */
 
-void	doenv(char *, HelpargRef, optparam * const, int);
-void	freehelpargs(HelpargRef);
-void	makeoptvec(const HelpargRef, const int, const int);
+extern	void	doenv(char *, HelpargRef, optparam * const, int);
+extern	void	freehelpargs(HelpargRef);
+extern	void	makeoptvec(const HelpargRef, const int, const int);
 
-char	**doopts(char **, HelpargRef, optparam * const, int);
-char	**makevec(const char *);
-char	**optprocess(char **, const Argdefault *, optparam * const, const int, const int, const int);
-char	*make_varname();
+extern	char	**doopts(char **, HelpargRef, optparam * const, int);
+extern	char	**makevec(const char *);
+extern	char	**optprocess(char **, const Argdefault *, optparam * const, const int, const int, const int);
+extern	char	*make_varname();
 
-HelpargRef  helpargs(const Argdefault *, const int, const int);
+extern	HelpargRef  helpargs(const Argdefault *, const int, const int);

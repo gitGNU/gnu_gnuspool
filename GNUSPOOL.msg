@@ -22,9 +22,8 @@
 ##  Macros for library modules
 
 DEFINE	LIB1 (lib) :
-		calccharge.c extdefs.c getspuser.c hex_disp.c hextoi.c insertu.c
-		jobshm.c look_host.c net_feed.c ptrshm.c rdpgfile.c
-		readu.c produser.c;
+		extdefs.c getspuser.c hex_disp.c hextoi.c
+		jobshm.c look_host.c net_feed.c ptrshm.c rdpgfile.c;
 
 DEFINE	INLINE_OPTS (inline) :
 		o_allj.c	o_boxes.c	o_classc.c	o_copies.c	o_delim.c
@@ -475,16 +474,6 @@ E{spstart cannot delete remote printer} ++
 "Sorry but you cannot delete remote printers. You must rlogin to the
 machine %s and do it from there."
 
-E{Spufile needs rebuild} ++
-"Warning: Your user control file may be out of date
-with your password file. Please consider running ""spuser -i""
-or ""spuchange -R""."
-
-E{Cannot create sequence file} = ROUND(@, 10)	"Cannot create sequence number in alt spool directory - %E"
-E{Cannot find program} ++		"%P: Cannot find program %s"
-E{Cannot run program} ++		"%P: Cannot run program %s"
-E{Unknown alternative spool directories} ++	"%P: Cannot locate spool directory in %s"
-
 E{sqcrcgi no file supplied} = ROUND(@, 20) "No file supplied with job create - probable CGI error"
 E{sqcrcgi cannot reopen temp file} ++ "CGI error - cannot reopen temp file"
 E{sqcrcgi no job data} ++	"No job data received"
@@ -495,8 +484,6 @@ Names for permissions
 ]
 P{Spulist default name} = 400			"DEFAULT"
 P{Spulist all name} ++				"ALL"
-P{Spulist lic user} ++				"L"
-P{Spulist unlic user} ++			"U"
 
 P{Priv adm} = ROUND(@, 10)			"Adm"
 P{Priv stp} ++ COPY				"Stp"
@@ -535,7 +522,6 @@ E{Ptr type doesnt match allowed} ++		"Default printer %s doesn't fit the restric
 E{Unknown user name ignored} ++			"Unknown user name `%s' - ignored"
 
 E{Rebuilding spufile wait} ++			"Rebuilding user control file, please wait."
-E{Finished rebuild spufile} ++			"Finished rebuild."
 
 E{spulist nothing to do} ++			"Both header and user lines suppressed - nothing to do"
 E{spuchange nothing to do} ++			"%P - Nothing to do"
@@ -562,33 +548,6 @@ E{Sstop ssuspend usage} ++		"Usage: %P [-y] [time]"
 P{Confirm suspend scheduling} ++	"Please confirm that you want to suspend scheduling: "
 P{Scheduling suspension time} ++	"Suspend scheduling time (seconds): "
 E{Sstop ssuspend not suspended} ++	"Suspension cancelled"
-
-##  SPCHARGE
-
-[
-Mostly for spcharge
-]
-E{spcharge bad amount} = ROUND(@, 20)	"%P:bad number for charge amount: %s"
-
-E{spcharge spooler running} ++
-"%P:GNUSpool is running and to avoid conflicts we only allow
-reformatting of the charges file whilst it is stopped."
-
-E{spcharge unknown user} ++		"%P:unknown user name: %s"
-E{spcharge no memory} ++		"%P:Out of memory"
-E{No charges file yet} ++
-"Sorry but the charges file has not been created yet.
-Has GNUSpool been run yet?"
-
-E{spcharge summary format} = ROUND(@, 10)	"%s:%d1"
-E{spcharge unexpected record} ++		"Unexpected charges record %d0"
-E{spcharge print record format} ++		"%D4 %T4:%u0:%d1:%d2:%d3"
-E{spcharge print record format host} ++		"%D4 %T4:%u0:%d1:%d2:%d3 printed on %s"
-E{spcharge fee format} ++			"%D4 %T4:%u0 charged %d3"
-E{spcharge feeall format} ++			"%D4 %T4:All users charged %d3"
-E{spcharge consol format} ++			"%D4 %T4:%u0 consolidated to %d3"
-E{spcharge zero format} ++			"%D4 %T4:%u0 zeroed"
-E{spcharge zeroall format} ++			"%D4 %T4:All users zeroed"
 
 [
 Argument syntax for spr
@@ -794,20 +753,6 @@ A{spuchange aswas pw} ++ COPY		"Y,default-passwd"
 A{spuchange kill pw} ++ COPY		"Z,kill-dump-passwd"
 A{spuchange freeze current} ++ COPY	"freeze-current"
 A{spuchange freeze home} ++ COPY	"freeze-home"
-
-[
-Argument syntax for spcharge
-]
-A{spcharge explain} = ROUND(@, 20)	"?,help,explain"
-A{spcharge print} ++ COPY		"p,print-users"
-A{spcharge full} ++ COPY		"P,print-full"
-A{spcharge zero} ++ COPY		"z,zero-charge"
-A{spcharge add} ++ COPY			"c,add-charge"
-A{spcharge consol} ++ COPY		"C,consolidate"
-A{spcharge reset} ++ COPY		"R,reset-file"
-A{spcharge cancel} ++ COPY		"K,cancel-flags"
-A{spcharge freeze current} ++ COPY	"freeze-current"
-A{spcharge freeze home} ++ COPY		"freeze-home"
 
 [
 Argument syntax for sp.lpq
@@ -1078,26 +1023,7 @@ Follow by named users or none to set all users"
 Usage options - spcharge
 ]
 E{spcharge options} ++
-"%P options
-   %P [-c charge] [-p] [-z] [ user ... ]
-           -c charge
-                   means add the specified charge to the named users'
-                   charge record (before printing it)
-           -p
-                   means print the charge records for the named users
-           -P
-                   means print full records for the named users
-           -z
-                   means zero the charge records for the named users
-                   (after printing it)
-           -C
-                   consolidate charge records
-           -R
-                   reset file (only whilst spooler not running)
-
-           if no users are specified, the default is ALL users
-           if no options are specified, the default is ``-p''"
-
+"%P is now deprecated as charges are no longer recorded"
 [
 Usage options - sp.lpq
 ]
@@ -2579,13 +2505,13 @@ P{Spulist title}+'b'-1		"Ptr allow"
 P{Spulist title}+'c'-1		"Class"
 P{Spulist title}+'d'-1		"Defp"
 P{Spulist title}+'f'-1		"Form"
+P{Spulist title}+'i'-1		"Uid"
 P{Spulist title}+'l'-1		"Minp"
 P{Spulist title}+'m'-1		"Maxp"
 P{Spulist title}+'n'-1		"Cps"
 P{Spulist title}+'o'-1		"Printer"
 P{Spulist title}+'p'-1		"Priv"
 P{Spulist title}+'u'-1		"User"
-P{Spulist title}+'v'-1		"Lic"
 
 # Argument names
 
@@ -3324,14 +3250,6 @@ H{xmspuser users menu help} ++
 
     Copy       - copy defaults to selected users"
 
-H{xmspuser charges help} ++
-"Charges menu - Choose from:
-    Zero       - Set charges for selected users
-                 to zero
-    Zero all   - Set charges for all users to zero
-    Impose     - Add a value to selected users'
-                 current charge."
-
 H{xmspuser search help} ++
 "Search menu - Choose from:
     Search - for particular string
@@ -3420,10 +3338,6 @@ H{xmspuser user privs} ++
 "This menu selects the privileges for the selected users
 Use the ""Set Default"" button to set to the defaults."
 
-H{xmspuser addfee help} ++
-"Use this menu to add a constant fee to the charges
-for all of the selected users."
-
 H{xmspuser system forms} ++
 "Use this menu to set the default form type which will
 be automatically assigned to new users.
@@ -3487,24 +3401,6 @@ You can also set up whether you want the search to wrap around
 and whether you want exact upper/lower-case matches of strings.
 Use ""."" to signify a wild card."
 
-P,H{xmspuser zero all charges} = ROUND(@, 100)
-"Zero charges for all users",
-"I just thought I'd ask before zero-ing charges for
-all known users, as this is a bit drastic!"
-
-P,H{xmspuser zero charges} ++
-"Zero charges for selected users",
-"I just thought I'd ask before zero-ing charges for
-the selected users, as this is a bit drastic!"
-
-P,H{Xmspuser confirm rebuild} ++
-"Rebuild user control file?",
-"The user control file may be out of sync with the
-password file, with some new users omitted or old ones
-still included. Please indicate whether you want to
-rebuild it. (This may take some time and will hold up
-other users)."
-
 E,H{No users selected} ++
 "No users selected - please choose some",
 "Please select one or more users by clicking the left mouse
@@ -3536,11 +3432,6 @@ E,H{xmspuser zero class} ++
 "You aren't allowed to have all the class code
 bits set to zero as the jobs would be invisible and
 unprintable."
-
-E,H{xmspuser invalid charge} ++
-"Invalid charge field",
-"You haven't put a valid numeric charge in this field.
-Please try again."
 
 E,H{Fsearch user not found} ++
 "User not found",
@@ -3941,28 +3832,8 @@ p  Set printer type"
 ({spuser cdef state})K{spuser key own def pri} ++	"d,D"
 ({spuser cdef state})K{spuser key own def ptr} ++	"p,P"
 
-[
-Spuser confirm rebuild
-]
-E,H,S{Spuser confirm rebuild} = 5
-"Warning: Your user control file may be out of date
-with your password file.
-Do you want to rebuild it? (Y or N).
-(This may take some time and may hold up other users)",
-"Please confirm whether you want to rebuild
-the user control file."
-
-E{Spuser rebuilding wait} ++
-"***Rebuilding user control file, please wait***"
-
 E{Unknown command askyorn} ++
 "Unknown command - please say Y or N do you want to save options"
-
-[
-Spuser save options
-]
-({Spuser confirm rebuild})K{spuser key yes}	"y,Y,t,T,s,S"
-({Spuser confirm rebuild})K{spuser key no}	"n,N,f,F,u,U"
 
 [
 Spuser copy default classes
@@ -4393,8 +4264,6 @@ P{xspuser frametab privs} ++		  "Privs"
 P{xspuser deflab} = ROUND(@, 5)		  "Default parameters"
 P{xspuser udlgtit} ++			  "User parameters"
 P{xspuser ddlgtit} ++			  "Default parameters"
-P{xspuser charges dlg} ++		  "User charges"
-P{xspuser impose dlg} ++		  "Impose charges"
 
 P{xspuser pcdlg minp} = ROUND(@, 5)	  "Minimum priority"
 P{xspuser pcdlg defp} ++		  "Default priority"
@@ -4412,7 +4281,7 @@ P{xspuser ccdlg clearall} ++		  "Clear All"
 
 P{xspuser priv setdef} = ROUND(@, 5)	  "Set to default"
 
-P{xspuser app title} = ROUND(@, 5)	  "Set spool user perrmissions"
+P{xspuser app title} = ROUND(@, 5)	  "Set spool user permissions"
 
 [
 Messages for xspq
@@ -4727,10 +4596,6 @@ E{Cannot unlock user ctrl file} ++
 "Error - %E
 Attempting to unlock user control file."
 
-E{Cannot create temp user file} ++
-"Error - %E
-Attempting to create temporary file %s."
-
 E{Wrong version of product} ++
 "User control file GNUSpool version number is %d0.
 GNUSpool Version is %d1.
@@ -4810,11 +4675,6 @@ E,H{Transfer buffer full up} ++
 This should normally be the same as the number of messages
 on a message queue."
 
-E{Network IPC queue filling} ++		"Network enqueue is filling up - waiting %d0 seconds"
-E{Network IPC job queue filling} ++	"Network job enqueue is filling up - waiting %d0 seconds"
-E{Network IPC ptr queue filling} ++	"Network ptr enqueue is filling up - waiting %d0 seconds"
-E{Network IPC full up} ++		"Network queue full up - giving up"
-
 E{Cannot create xfer shm} ++		"Failed to create transfer buffer shm segment"
 E{Cannot attach xfer shm} ++		"Created, buf failed to attach transfer buffer shm segment"
 
@@ -4828,14 +4688,6 @@ E{Cannot open semaphore} ++
 E{Wait to come up} ++
 "Waiting for scheduler process to come up fully.
 Please be patient!"
-
-E,H{Not registered yet} ++
-"Sorry, but your user id %R has not yet been
-registered for GNUSpool. You need to run
-(or have run for you) ""gspl-user -i"" ""gspl-xmuser"" or ""gspl-xuser"".",
-"Sorry, but your user id %R has not yet been
-registered for GNUSpool. You need to run
-(or have run for you) ""gspl-user -i"" ""gspl-xmuser"" or ""gspl-xuser""."
 
 E{Warn errors in host file} ++
 "%P: Warning: There are errors in the gnuspool.hosts file"
@@ -5205,7 +5057,6 @@ E{Message synch lost} ++
 "Incoming message sequence from %s lost.
 Expected %d0, read %d1
 Command packet was %d2"
-E{Create charge file error} ++			"%P cannot create charge file - %E"
 
 E{Unknown network packet} ++			"Unknown incoming message packet %d0 0x%x0"
 E{Lost track of job} ++				"Lost track of job on %s slot number %d1 0x%x1"

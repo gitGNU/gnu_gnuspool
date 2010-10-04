@@ -42,25 +42,26 @@ INSTALL_DATA	=	@INSTALL_DATA@
 
 OBJECTS=xfershm.o 	spath.o 	shutilmsg.o	saveopts.o \
  	runpwd.o	rptrlist.o	rjoblist.o	rdpgfile.o \
-	qmatch.o	ptrshm.o	produser.o 	prin_size.o \
-	optprocess.o	open_cfile.o	op_icf.o	net_feed.o \
-	mkspid.o	makeovec.o	make_km.o	jobshm.o \
-	issubset.o	hextoi.o	hex_disp.o	helpnstate.o \
-	helphdr.o	helpargs.o	gprompt.o	getspuser.o \
-	extdefs.o	doenv.o		cgiuser.o	cgifndjb.o \
-	calccharge.o	sortp.o		readu.o		rdoptfile.o \
-	matchrouts.o	makevec.o	look_host.o	insertu.o \
-	htmllib.o	helpprmpt.o	doopts.o	disperror.o \
-	ncstrncmp.o	helpvec.o	helprdn.o	help_readl.o \
-	mmangle.o	prin_uname.o	prin_gname.o	envprocess.o \
-	strread.o	stringvec.o	stracpy.o	versionprint.o
+	qmatch.o	ptrshm.o	prin_size.o	optprocess.o \
+	open_cfile.o	op_icf.o	net_feed.o	mkspid.o \
+	makeovec.o	jobshm.o	issubset.o	hextoi.o \
+	hex_disp.o	helpnstate.o	helphdr.o	helpargs.o \
+	gprompt.o	getspuser.o	extdefs.o	doenv.o \
+	cgiuser.o	cgifndjb.o	sortp.o		rdoptfile.o \
+	matchrouts.o	makevec.o	look_host.o	htmllib.o \
+	helpprmpt.o	doopts.o	disperror.o	ncstrncmp.o \
+	helpvec.o	helprdn.o	help_readl.o	mmangle.o \
+	prin_uname.o	prin_gname.o	envprocess.o	strread.o \
+	stringvec.o	stracpy.o	versionprint.o
+
 CURSOBJS=dohe.o\
 	 wnum.o\
 	 whexnum.o\
 	 whdrstr.o\
 	 wgets.o\
 	 setkey.o\
-	 getkey.o
+	 getkey.o \
+	 make_km.o
 
 LIBOBJECTS=$(OBJECTS:.o=.lo)
 LIBCURSOBJS=$(CURSOBJS:.o=.lo)

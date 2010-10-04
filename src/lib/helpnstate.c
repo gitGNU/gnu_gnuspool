@@ -24,8 +24,7 @@
 
 int	helpnstate(const int current_state)
 {
-	int	ch;
-	int	result, hadeof = 0;
+	int	ch, result, hadeof = 0;
 
 	for  (;;)  {
 		ch = getc(Cfile);

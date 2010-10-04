@@ -51,13 +51,13 @@ struct	ptr_with_slot	*ptr_sl_list;
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-void	perform_delete(char ** args)
+void  perform_delete(char **args)
 {
 	char	*arg;
 
@@ -92,7 +92,7 @@ void	perform_delete(char ** args)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	**newargs;
 	int_ugid_t	chku;

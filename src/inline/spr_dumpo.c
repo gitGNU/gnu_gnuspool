@@ -23,7 +23,7 @@ static void	dumpstr(FILE *dest, const char *str)
 		fputs(str, dest);
 }
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0;
 	fprintf(dest, "%s", name);

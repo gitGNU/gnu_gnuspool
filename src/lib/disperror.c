@@ -20,10 +20,9 @@
 #include "incl_unix.h"
 #include "errnums.h"
 
-void	fprint_error(FILE *fp, const int Errnum)
+void  fprint_error(FILE *fp, const int Errnum)
 {
-	char	**emess = helpvec(Errnum, 'E');
-	char	**ep;
+	char	**emess = helpvec(Errnum, 'E'), **ep;
 
 	for  (ep = emess;  *ep;  ep++)  {
 		fprintf(fp, "%s\n", *ep);
@@ -32,7 +31,7 @@ void	fprint_error(FILE *fp, const int Errnum)
 	free((char *) emess);
 }
 
-void	print_error(const int Errnum)
+void  print_error(const int Errnum)
 {
 	fprint_error(stderr, Errnum);
 }

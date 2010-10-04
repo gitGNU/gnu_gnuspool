@@ -55,8 +55,8 @@ unsigned	pagenums;
 LONG		*pageoffsets;
 
 #ifdef	USING_FLOCK
-extern void	setjhold(const int);
-extern void	setphold(const int);
+extern void  setjhold(const int);
+extern void  setphold(const int);
 
 #define	JLOCK		setjhold(F_RDLCK)
 #define	JUNLOCK		setjhold(F_UNLCK)
@@ -64,6 +64,7 @@ extern void	setphold(const int);
 #define	PTRS_UNLOCK	setphold(F_UNLCK)
 
 #else
+extern	int	Sem_chan;
 static	struct	sembuf	rjr[2]	= {{ JQ_FIDDLE,		0,	0 },
 				   { JQ_READING,	1,	0 }},
 			rju[1]  = {{ JQ_READING,	-1,	0 }},
@@ -85,7 +86,7 @@ void	nfreport(const int);
 
 /* Pack up a job ready for its journey into the unknown... */
 
-void	job_pack(struct spq *to, struct spq *from)
+void  job_pack(struct spq *to, struct spq *from)
 {
 	to->spq_job = htonl((ULONG) from->spq_job);
 	to->spq_netid = 0L;
@@ -132,7 +133,7 @@ void	job_pack(struct spq *to, struct spq *from)
 
 /* Unpack a job and see what British Hairyways has broken this time */
 
-void	unpack_job(struct spq *to, struct spq *from)
+void  unpack_job(struct spq *to, struct spq *from)
 {
 	to->spq_job = ntohl((ULONG) from->spq_job);
 	to->spq_netid = 0L;
@@ -179,7 +180,7 @@ void	unpack_job(struct spq *to, struct spq *from)
 
 /* Ditto for printers */
 
-void	ptr_pack(struct spptr *to, struct spptr *from)
+void  ptr_pack(struct spptr *to, struct spptr *from)
 {
 	to->spp_netid = from->spp_netid;
 	to->spp_rslot = htonl((ULONG) from->spp_rslot);
@@ -211,7 +212,7 @@ void	ptr_pack(struct spptr *to, struct spptr *from)
 
 /* And unpack again... */
 
-void	unpack_ptr(struct spptr *to, struct spptr *from)
+void  unpack_ptr(struct spptr *to, struct spptr *from)
 {
 	to->spp_netid = from->spp_netid;
 	to->spp_rslot = ntohl((ULONG) from->spp_rslot);
@@ -244,7 +245,7 @@ void	unpack_ptr(struct spptr *to, struct spptr *from)
 
 /* If the jobs segment has moved, find where it went. */
 
-void	check_jmoved(void)
+void  check_jmoved()
 {
 #ifdef	USING_MMAP
 	if  (Job_seg.dinf.segsize != Job_seg.dptr->js_did)  {
@@ -269,7 +270,7 @@ void	check_jmoved(void)
 #endif
 }
 
-void	check_pmoved(void)
+void  check_pmoved()
 {
 #ifdef	USING_MMAP
 	if  (Job_seg.dptr->js_psegid != Ptr_seg.inf.segsize)
@@ -325,7 +326,7 @@ int  find_jslot(const jobno_t jobno, const netid_t hostid, const slotno_t slotn,
 
 /* Ditto for printers */
 
-slotno_t	find_pslot(const netid_t hostid, const slotno_t slotn)
+slotno_t  find_pslot(const netid_t hostid, const slotno_t slotn)
 {
 	LONG  pind;
 
@@ -352,7 +353,7 @@ slotno_t	find_pslot(const netid_t hostid, const slotno_t slotn)
    check that the job segment hasn't been grown (remember that this
    is run by processes forked off from the main spshed one). */
 
-Hashspq  *ver_job(const slotno_t jslot, const jobno_t jobno)
+Hashspq *ver_job(const slotno_t jslot, const jobno_t jobno)
 {
 	Hashspq	*result;
 	check_jmoved();
@@ -388,7 +389,7 @@ Hashspptr *ver_remptr(const slotno_t pslot, const netid_t netid)
 
 /* Read and attempt to check validity of page file 0 not ok 1 ok */
 
-int	rdpagefile(struct spq *jp)
+int  rdpagefile(struct spq *jp)
 {
 	int		pgfid, rlng;
 	char		*fdelim;
@@ -438,7 +439,7 @@ int	rdpagefile(struct spq *jp)
 
 /* Use form feed */
 
-int	scan_ffs(FILE *infile, struct spq *jp)
+int  scan_ffs(FILE *infile, struct spq *jp)
 {
 	int	ch;
 	LONG		page_cnt;
@@ -472,7 +473,7 @@ int	scan_ffs(FILE *infile, struct spq *jp)
 
 /* Send a file down a socket and keep track of the pages */
 
-void	sp_feed(const slotno_t jslot, const jobno_t jobno, const int sock)
+void  sp_feed(const slotno_t jslot, const jobno_t jobno, const int sock)
 {
 	int	ch;
 	Hashspq		*hjp;
@@ -538,7 +539,7 @@ void	sp_feed(const slotno_t jslot, const jobno_t jobno, const int sock)
 	return;
 }
 
-static	void	sockwrite(const int sock, char * buff, int bytes)
+static	void  sockwrite(const int sock, char *buff, int bytes)
 {
 	while  (bytes > 0)  {
 		int	obytes = write(sock, buff, bytes);
@@ -551,7 +552,7 @@ static	void	sockwrite(const int sock, char * buff, int bytes)
 
 #ifndef	WORDS_BIGENDIAN
 /* Send a page file down the socket in cases where we have to transmogrify into net byte order. */
-void	feed_pages(const jobno_t jobno, const int sock)
+void  feed_pages(const jobno_t jobno, const int sock)
 {
 	int	ffd, lng, bytes;
 	LONG	*ep;
@@ -579,7 +580,7 @@ void	feed_pages(const jobno_t jobno, const int sock)
 
 	while  (lng > 0)  {
 		bytes = lng > sizeof(un.buffer)? sizeof(un.buffer): lng;
-		read(ffd, un.buffer, (unsigned) bytes);
+		Ignored_error = read(ffd, un.buffer, (unsigned) bytes);
 		sockwrite(sock, un.buffer, bytes);
 		lng -= bytes;
 	}
@@ -599,7 +600,7 @@ void	feed_pages(const jobno_t jobno, const int sock)
 
 /* Send a file down a socket without worrying about pages */
 
-void	feed_pr(const jobno_t jobno, const char *prefix, const int sock)
+void  feed_pr(const jobno_t jobno, const char *prefix, const int sock)
 {
 	int	ffd, bytes;
 	char	buffer[1024];
@@ -613,7 +614,7 @@ void	feed_pr(const jobno_t jobno, const char *prefix, const int sock)
 
 /* Process request from another process to read job/error/page file */
 
-void	feed_req(void)
+void  feed_req()
 {
 	PIDTYPE	pid;
 	int	sock;

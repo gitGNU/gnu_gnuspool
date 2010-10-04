@@ -52,5 +52,5 @@ struct	ctrltype	{
 
 extern	struct	ctrltype	*card_list, *proto_list;
 
-extern struct varname *	lookuphash(const char *);
-extern char  *expandvars(char *);
+extern struct varname *lookuphash(const char *);
+extern char *expandvars(char *);

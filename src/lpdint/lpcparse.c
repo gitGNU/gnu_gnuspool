@@ -30,18 +30,18 @@ struct	ctrltype	*card_list, *proto_list;
 
 static	int	line_count = 1;
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Run out of memory\n");
 	exit(255);
 }
 
-static void	err(char *msg)
+static void  err(char *msg)
 {
 	fprintf(stderr, "Control file error line %d: %s\n", line_count, msg);
 }
 
-static unsigned	hashcalc(const char *name)
+static unsigned  hashcalc(const char *name)
 {
 	unsigned  result = 0;
 	while  (*name)
@@ -82,7 +82,7 @@ static struct ctrltype *alloc_ctrl(struct ctrltype **where)
 	return  result;
 }
 
-char  *expandvars(char *str)
+char *expandvars(char *str)
 {
 	unsigned  length = 1;
 	char	*result, *rp, *sp = str;
@@ -247,7 +247,7 @@ static struct condition *read_cond(FILE *inf)
 	}
 }
 
-int	evalcond(struct condition *cp)
+int  evalcond(struct condition *cp)
 {
 	char	*varvalue;
 
@@ -307,7 +307,7 @@ static char *getcard(FILE *inf, char *linbuf)
 	return  linbuf;
 }
 
-int	parsecf(FILE *infile)
+int  parsecf(FILE *infile)
 {
 	int	ch, prepend, append, quote, cnt;
 	char	*newstr, *card;

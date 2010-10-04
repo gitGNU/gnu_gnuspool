@@ -50,5 +50,6 @@ typedef	 struct  {
 }  dispopt_t;
 
 extern	dispopt_t	Displayopts;
+
 extern void	readjoblist(const int);
 extern void	readptrlist(const int);

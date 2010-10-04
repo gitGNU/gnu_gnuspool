@@ -79,14 +79,14 @@ static	char	*statecoloursfg[SPP_NSTATES];
 extern	unsigned	arrow_min,
 			arrow_max,
 			arrow_lng;
-extern void	arrow_incr(Widget, XtIntervalId *);
-extern void	arrow_decr(Widget, XtIntervalId *);
+extern void  arrow_incr(Widget, XtIntervalId *);
+extern void  arrow_decr(Widget, XtIntervalId *);
 #endif
 
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
 #if defined(HAVE_XMRENDITION) && !defined(BROKEN_RENDITION)
-void	allocate_colours(void)
+void  allocate_colours()
 {
 	Pixel		origfg;
 	int		cnt, rendcnt = 0;
@@ -135,7 +135,7 @@ void	allocate_colours(void)
 #endif
 
 /* Open print file.  */
-void	openpfile(void)
+void  openpfile()
 {
 	int	i;
 
@@ -225,7 +225,7 @@ static	struct	formatdef
 	{	$P{Printer title}+'z'-1,6,		NULLCP, NULLCP,	fmt_maxsize	}	/* z */
 };
 
-char *	get_ptrtitle(void)
+char *get_ptrtitle()
 {
 	int	nn, obuflen;
 	struct	formatdef	*fp;
@@ -326,7 +326,7 @@ char *	get_ptrtitle(void)
 
 /* Display contents of printer list.  Don't put it on screen yet.  */
 
-void	pdisplay(void)
+void  pdisplay()
 {
 	int	topp = 1, cptrpos = -1, newpos = -1, pcnt, plines;
 	XmString	*elist;
@@ -461,7 +461,7 @@ static	Widget	listw, eatw, skipw;
 static	int	whicline;
 static	unsigned	char	wfld, isinsert;
 
-static void	fillpdisplist(void)
+static void  fillpdisplist()
 {
 	char	*cp, *lbp;
 	int		nn;
@@ -510,7 +510,7 @@ static void	fillpdisplist(void)
 	}
 }
 
-static void	fld_turn(Widget w, int n, XmToggleButtonCallbackStruct * cbs)
+static void  fld_turn(Widget w, int n, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)  {
 		struct	formatdef  *fp;
@@ -534,7 +534,7 @@ static void	fld_turn(Widget w, int n, XmToggleButtonCallbackStruct * cbs)
 	}
 }
 
-static void	endnewedit(Widget w, int data)
+static void  endnewedit(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		char	*lbp;
@@ -573,7 +573,7 @@ static void	endnewedit(Widget w, int data)
 }
 
 #ifndef HAVE_XM_SPINB_H
-void	widup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+void  widup_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)  {
 		arrow_max = 255;
@@ -584,7 +584,7 @@ void	widup_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 		XtRemoveTimeOut(arrow_timer);
 }
 
-void	widdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+void  widdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)  {
 		arrow_min = 1;
@@ -596,7 +596,7 @@ void	widdn_cb(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 }
 #endif
 
-static void	newrout(Widget w, int isnew)
+static void  newrout(Widget w, int isnew)
 {
 	Widget	ae_shell, panew, formw, prevleft, fldrc;
 	int	*plist, cnt, wotc = 255, widsetting = 10, iseat = 0, isskip = 0;
@@ -754,7 +754,7 @@ static void	newrout(Widget w, int isnew)
 	CreateActionEndDlg(ae_shell, panew, (XtCallbackProc) endnewedit, $H{xmspq view opts dlg});
 }
 
-static void	endnewsepedit(Widget w, int data)
+static void  endnewsepedit(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		char		*txt;
@@ -772,7 +772,7 @@ static void	endnewsepedit(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-static void	newseprout(Widget w, int isnew)
+static void  newseprout(Widget w, int isnew)
 {
 	Widget	ae_shell, panew, formw, prevleft;
 	int	*plist, pcnt;
@@ -825,7 +825,7 @@ static void	newseprout(Widget w, int isnew)
 	CreateActionEndDlg(ae_shell, panew, (XtCallbackProc) endnewsepedit, $H{xmspq new sep dlg});
 }
 
-static void	delrout(void)
+static void  delrout()
 {
 	int	*plist, pcnt;
 
@@ -836,7 +836,7 @@ static void	delrout(void)
 	}
 }
 
-static void	endpdisp(Widget w, int data)
+static void  endpdisp(Widget w, int data)
 {
 	if  (data)  {		/* OK Pressed */
 		XmStringTable	strlist;
@@ -885,7 +885,7 @@ static void	endpdisp(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_setpdisplay(Widget parent)
+void  cb_setpdisplay(Widget parent)
 {
 	Widget	pd_shell, panew, pdispform, neww, editw, newsepw, editsepw, delw;
 	Arg		args[6];
@@ -975,12 +975,12 @@ static	char	*f_name, *d_name, ishd;
 extern	char	Confvarname[];
 extern	char	*Helpfile_path;
 
-static void	make_confline(FILE *fp, const char *vname)
+static void  make_confline(FILE *fp, const char *vname)
 {
 	fprintf(fp, "%s=%s\n", vname, f_name);
 }
 
-static void	createnewhelp(FILE *ifl, FILE *ofl)
+static void  createnewhelp(FILE *ifl, FILE *ofl)
 {
 	int	ch, ch2, nn, hadj1 = 0, hadj2 = 0, hadp = 0, *wh = (int *) 0;
 	char	*oline = (char *) 0;
@@ -1074,10 +1074,7 @@ static void	createnewhelp(FILE *ifl, FILE *ofl)
 	}
 }
 
-static void	endmsaved(
-	 Widget w, 
-	 int data, 
-	 XmFileSelectionBoxCallbackStruct * cbs)
+static void endmsaved(Widget w, int data, XmFileSelectionBoxCallbackStruct *cbs)
 {
 	if  (data)  {		/* OK selected */
 		int	ret;
@@ -1150,7 +1147,7 @@ static void	endmsaved(
 	XtDestroyWidget(w);
 }
 
-void	cb_saveformats(Widget parent, const int ish)
+void  cb_saveformats(Widget parent, const int ish)
 {
 	Widget	msaved;
 	if  ((ishd = (char) ish))

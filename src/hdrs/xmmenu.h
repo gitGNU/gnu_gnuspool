@@ -32,4 +32,4 @@ typedef	struct	{
 	char		ishelp;		/* Mark as help */
 }  pull_button;
 
-extern Widget	BuildPulldown(Widget, pull_button *);
+extern Widget  BuildPulldown(Widget, pull_button *);

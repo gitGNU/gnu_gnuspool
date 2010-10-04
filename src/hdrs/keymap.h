@@ -52,5 +52,5 @@ struct	state_map	{
 
 extern	struct	state_map	*state_map;
 
-void	insert_global_key(const char *, const int, const int);
-void	insert_state_key(const int, const char *, const int, const int);
+void  insert_global_key(const char *, const int, const int);
+void  insert_state_key(const int, const char *, const int, const int);

@@ -30,7 +30,7 @@ struct	state_map	*state_map;
 int	keyerrors;
 static	int	maxkchars, nstates, last_state = 0;
 
-static  void  append_rest(struct keymap_sparse **kvp, const int n, const char *text, const int length, const int value)
+static void append_rest(struct keymap_sparse **kvp, const int n, const char *text, const int length, const int value)
 {
 	struct  keymap_sparse	*kp, **pp;
 	int	ch = text[n] & (MAPSIZE-1);
@@ -101,12 +101,12 @@ static void insert_key(struct keymap_vec *kv, const char *text, const int length
 	}
 }
 
-void	insert_global_key(const char * text, const int length, const int value)
+void  insert_global_key(const char *text, const int length, const int value)
 {
 	insert_key(&gen_map[text[0] & (MAPSIZE-1)], text, length, value, $E{Global key error});
 }
 
-void	map_dup(struct keymap_sparse **ksp)
+void  map_dup(struct keymap_sparse **ksp)
 {
 	struct  keymap_sparse  *newp;
 
@@ -120,7 +120,7 @@ void	map_dup(struct keymap_sparse **ksp)
 		map_dup(&newp->ks_link);
 }
 
-void	insert_state_key(const int state, const char *text, const int length, const int value)
+void  insert_state_key(const int state, const char *text, const int length, const int value)
 {
 	struct	state_map	*sm;
 	int	i;
@@ -160,7 +160,7 @@ void	insert_state_key(const int state, const char *text, const int length, const
 	insert_key(&sm->state_map[text[0] & (MAPSIZE-1)], text, length, value, $E{State key error});
 }
 
-void	select_state(const int state)
+void  select_state(const int state)
 {
 	struct	state_map	*sm;
 
@@ -181,7 +181,7 @@ void	select_state(const int state)
 	exit(E_BADCFILE);
 }
 
-void	reset_state(void)
+void  reset_state()
 {
 	curr_map = gen_map;
 	last_state = 0;

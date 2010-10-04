@@ -51,7 +51,7 @@ struct	ptr_with_slot	*ptr_sl_list;
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -59,7 +59,7 @@ void	nomem(void)
 
 #define	PAGE_LUMP	100
 
-void	perform_view(char *jnum, char *pnum)
+void  perform_view(char *jnum, char *pnum)
 {
 	int			myjob, haspgfile = 0;
 	unsigned		wpage = 0;
@@ -204,7 +204,7 @@ void	perform_view(char *jnum, char *pnum)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	**newargs;
 	int_ugid_t	chku;

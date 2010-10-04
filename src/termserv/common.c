@@ -38,7 +38,7 @@ int	make_connection(struct information *info)
 	int sockfd;
 	int resvport;
 	int port_num;
-	char *	getlogin(void);
+	extern  char *getlogin();
 	struct	sockaddr_in	server_address;
 
 	/* Get the users login name from the environment. Sorry mark
@@ -101,7 +101,7 @@ int	make_connection(struct information *info)
 	return sockfd;
 }
 
-int	accept_connection(struct information *info)
+int  accept_connection(struct information *info)
 {
 	/* Wait for a connection from a remote client.  */
 
@@ -136,7 +136,7 @@ int	accept_connection(struct information *info)
 	return sockfd;
 }
 
-int	get_port_number(char *port_text)
+int  get_port_number(char *port_text)
 {
 	/* returns the network byte ordered port number for either a
 	   port name or port number arg a value of -1 is returned
@@ -186,7 +186,7 @@ int	get_port_number(char *port_text)
 	}
 }
 
-int	get_number_of_files(int argc, char **argv, char *arg_chars)
+int  get_number_of_files(int argc, char **argv, char *arg_chars)
 {
 	/* whizz along the command line searching for arguments that
 	   do not belong to an option */
@@ -224,7 +224,7 @@ int	get_number_of_files(int argc, char **argv, char *arg_chars)
 	return number_of_files;
 }
 
-int	get_number_of_copies(char *text)
+int  get_number_of_copies(char *text)
 {
 	/* convert a string into an integer returning a -1 if any non digit is found.  */
 
@@ -240,7 +240,7 @@ int	get_number_of_copies(char *text)
 	return number_of_copies;
 }
 
-char *	get_host_name(char *host_name)
+char *get_host_name(char *host_name)
 {
 	LONG	hostid;
 
@@ -267,7 +267,7 @@ char *	get_host_name(char *host_name)
 		return  host_name;
 }
 
-int	show_usage(char *progname, char *option_str)
+int  show_usage(char *progname, char *option_str)
 {
 	int i;
 	int singles_done = 0;
@@ -302,7 +302,7 @@ int	show_usage(char *progname, char *option_str)
 	return 0;
 }
 
-int	get_user_id(char *name)
+int  get_user_id(char *name)
 {
 	struct passwd *pw;
 
@@ -313,7 +313,7 @@ int	get_user_id(char *name)
 		return pw->pw_uid;
 }
 
-void	init_info(struct information *info)
+void  init_info(struct information *info)
 {
 	info->host_name = (char *)0;
 	info->printer_name = (char *)0;
@@ -337,7 +337,7 @@ void	init_info(struct information *info)
 	info->remove_on_completion = 0;
 }
 
-int	connection_accepted(int sockfd)
+int  connection_accepted(int sockfd)
 {
 	/* Wait for a client to connect with us.  */
 

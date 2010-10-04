@@ -66,21 +66,21 @@ static	Widget	ccws[32];
 static	int	pendunum,
 		*pendulist;
 
-Widget	GetTopShell(Widget w)
+Widget  GetTopShell(Widget w)
 {
 	while  (w && !XtIsWMShell(w))
 		w = XtParent(w);
 	return  w;
 }
 
-Widget	FindWidget(Widget w)
+Widget  FindWidget(Widget w)
 {
 	while  (w && !XtIsWidget(w))
 		w = XtParent(w);
 	return  w;
 }
 
-static char *	makebigvec(char ** mat)
+static char *makebigvec(char **mat)
 {
 	unsigned  totlen = 0, len;
 	char	**ep, *newstr, *pos;
@@ -104,7 +104,7 @@ static char *	makebigvec(char ** mat)
 	return  newstr;
 }
 
-void	dohelp(Widget wid, int helpcode)
+void  dohelp(Widget wid, int helpcode)
 {
 	char	**evec = helpvec(helpcode, 'H'), *newstr;
 	Widget		ew;
@@ -126,7 +126,7 @@ void	dohelp(Widget wid, int helpcode)
 	XtPopup(XtParent(ew), XtGrabNone);
 }
 
-void	doerror(Widget wid, int errnum)
+void  doerror(Widget wid, int errnum)
 {
 	char	**evec = helpvec(errnum, 'E'), *newstr;
 	Widget		ew;
@@ -148,7 +148,7 @@ void	doerror(Widget wid, int errnum)
 	XtPopup(XtParent(ew), XtGrabNone);
 }
 
-void	displaybusy(const int on)
+void  displaybusy(const int on)
 {
 	static	Cursor	cursor;
 	XSetWindowAttributes	attrs;
@@ -159,7 +159,7 @@ void	displaybusy(const int on)
 	XFlush(dpy);
 }
 
-static void	response(Widget w, int * answer, XmAnyCallbackStruct * cbs)
+static void  response(Widget w, int *answer, XmAnyCallbackStruct *cbs)
 {
 	switch  (cbs->reason)  {
 	case  XmCR_OK:
@@ -172,7 +172,7 @@ static void	response(Widget w, int * answer, XmAnyCallbackStruct * cbs)
 	XtDestroyWidget(w);
 }
 
-int	Confirm(Widget parent, int code)
+int  Confirm(Widget parent, int code)
 {
 	Widget	dlg;
 	static	int	answer;
@@ -202,7 +202,7 @@ int	Confirm(Widget parent, int code)
 	return  answer;
 }
 
-static int	getselectedusers(const int moan)
+static int  getselectedusers(const int moan)
 {
 	int	nu, *nulist;
 
@@ -264,7 +264,7 @@ void  CreateActionEndDlg(Widget shelldlg, Widget panew, XtCallbackProc endrout, 
 /* Create the stuff at the beginning a dialog which can relate to a
    default value or a (group of) user(s).  */
 
-static Widget CreateUEditDlg(Widget parent, char *dlgname,  Widget *dlgres, Widget *paneres, Widget *formres)
+static Widget CreateUEditDlg(Widget parent, char *dlgname, Widget *dlgres, Widget *paneres, Widget *formres)
 {
 	char	resname[UIDSIZE*2 + 10];
 
@@ -307,7 +307,7 @@ static Widget CreateUEditDlg(Widget parent, char *dlgname,  Widget *dlgres, Widg
 						NULL);
 }
 
-static void	enddispopt(Widget w, int data)
+static void  enddispopt(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		int	ret;
@@ -315,16 +315,16 @@ static void	enddispopt(Widget w, int data)
 		if  (ret != alphsort)  {
 			alphsort = (char) ret;
 			if  (alphsort)
-				qsort(QSORTP1 ulist, Nusers, sizeof(struct spdet), QSORTP4 sort_u);
+				qsort(QSORTP1 ulist, Npwusers, sizeof(struct spdet), QSORTP4 sort_u);
 			else
-				qsort(QSORTP1 ulist, Nusers, sizeof(struct spdet), QSORTP4 sort_id);
+				qsort(QSORTP1 ulist, Npwusers, sizeof(struct spdet), QSORTP4 sort_id);
 			udisplay(0, (int *) 0);
 		}
 	}
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_disporder(Widget parent)
+void  cb_disporder(Widget parent)
 {
 	Widget	disp_shell, paneview, mainform, butts, sortu;
 
@@ -357,7 +357,7 @@ void	cb_disporder(Widget parent)
 
 /* Handle "linked" privileges */
 
-static void	changepriv(Widget w, int wpriv, XmToggleButtonCallbackStruct * cbs)
+static void  changepriv(Widget w, int wpriv, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)  {
 		int	cnt;
@@ -402,7 +402,7 @@ static void	changepriv(Widget w, int wpriv, XmToggleButtonCallbackStruct * cbs)
 	}
 }
 
-static void	endprio(Widget w, int data)
+static void  endprio(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		int		cmin, cmax, cdef, ccps;
@@ -463,7 +463,7 @@ static void	endprio(Widget w, int data)
 
 /* Priorities which = 0 to set default, 1 to selected users */
 
-void	cb_pris(Widget parent, int which)
+void  cb_pris(Widget parent, int which)
 {
 	Widget	pri_shell, paneview, mainform, prevabove;
 	int	cmin, cmax, cdef, ccps;
@@ -626,7 +626,7 @@ void	cb_pris(Widget parent, int which)
 /* Provide lists of forms and printers (This would be a wonderful use
    of C++ pointers to members - sigh) */
 
-static XmString *	uhelpform(int * cnt)
+static XmString *uhelpform(int *cnt)
 {
 	unsigned	ucnt;
 	XmString	*result, *rp;
@@ -636,13 +636,13 @@ static XmString *	uhelpform(int * cnt)
 	/* There cannot be more form types than the number of users
 	   can there....  */
 
-	result = (XmString *) malloc((Nusers + 2) * sizeof(XmString));
+	result = (XmString *) malloc((Npwusers + 2) * sizeof(XmString));
 	if  (!result)
 		return  result;
 	rp = result;
 	*rp++ = XmStringCreateLocalized(Spuhdr.sph_form);
 	++*cnt;
-	for  (ucnt = 0;  ucnt < Nusers;  ucnt++)  {
+	for  (ucnt = 0;  ucnt < (int) Npwusers;  ucnt++)  {
 		XmString	*prev, curr;
 		curr = XmStringCreateLocalized(ulist[ucnt].spu_form);
 		for  (prev = result;  prev < rp;  prev++)
@@ -659,7 +659,7 @@ static XmString *	uhelpform(int * cnt)
 	return  result;
 }
 
-static XmString *	uhelpforma(int * cnt)
+static XmString *uhelpforma(int *cnt)
 {
 	unsigned	ucnt;
 	XmString	*result, *rp;
@@ -669,13 +669,13 @@ static XmString *	uhelpforma(int * cnt)
 	/* There cannot be more form types than the number of users
 	   can there....  */
 
-	result = (XmString *) malloc((Nusers + 2) * sizeof(XmString));
+	result = (XmString *) malloc((Npwusers + 2) * sizeof(XmString));
 	if  (!result)
 		return  result;
 	rp = result;
 	*rp++ = XmStringCreateLocalized(Spuhdr.sph_formallow);
 	++*cnt;
-	for  (ucnt = 0;  ucnt < Nusers;  ucnt++)  {
+	for  (ucnt = 0;  ucnt < (int) Npwusers;  ucnt++)  {
 		XmString	*prev, curr;
 		curr = XmStringCreateLocalized(ulist[ucnt].spu_formallow);
 		for  (prev = result;  prev < rp;  prev++)
@@ -692,7 +692,7 @@ static XmString *	uhelpforma(int * cnt)
 	return  result;
 }
 
-static XmString *	uhelpptr(int * cnt)
+static XmString *uhelpptr(int *cnt)
 {
 	unsigned	ucnt;
 	XmString	*result, *rp;
@@ -702,13 +702,13 @@ static XmString *	uhelpptr(int * cnt)
 	/* There cannot be more ptr types than the number of users can
 	   there....  */
 
-	result = (XmString *) malloc((Nusers + 2) * sizeof(XmString));
+	result = (XmString *) malloc((Npwusers + 2) * sizeof(XmString));
 	if  (!result)
 		return  result;
 	rp = result;
 	*rp++ = XmStringCreateLocalized(Spuhdr.sph_ptr);
 	++*cnt;
-	for  (ucnt = 0;  ucnt < Nusers;  ucnt++)  {
+	for  (ucnt = 0;  ucnt < (int) Npwusers;  ucnt++)  {
 		XmString	*prev, curr;
 		curr = XmStringCreateLocalized(ulist[ucnt].spu_ptr);
 		for  (prev = result;  prev < rp;  prev++)
@@ -725,7 +725,7 @@ static XmString *	uhelpptr(int * cnt)
 	return  result;
 }
 
-static XmString *	uhelpptra(int * cnt)
+static XmString *uhelpptra(int *cnt)
 {
 	unsigned	ucnt;
 	XmString	*result, *rp;
@@ -735,13 +735,13 @@ static XmString *	uhelpptra(int * cnt)
 	/* There cannot be more ptr types than the number of users can
 	   there....  */
 
-	result = (XmString *) malloc((Nusers + 2) * sizeof(XmString));
+	result = (XmString *) malloc((Npwusers + 2) * sizeof(XmString));
 	if  (!result)
 		return  result;
 	rp = result;
 	*rp++ = XmStringCreateLocalized(Spuhdr.sph_ptrallow);
 	++*cnt;
-	for  (ucnt = 0;  ucnt < Nusers;  ucnt++)  {
+	for  (ucnt = 0;  ucnt < Npwusers;  ucnt++)  {
 		XmString	*prev, curr;
 		curr = XmStringCreateLocalized(ulist[ucnt].spu_ptrallow);
 		for  (prev = result;  prev < rp;  prev++)
@@ -758,7 +758,7 @@ static XmString *	uhelpptra(int * cnt)
 	return  result;
 }
 
-static void	form_cb(Widget w, XtPointer cldata, XmSelectionBoxCallbackStruct * cbs)
+static void  form_cb(Widget w, XtPointer cldata, XmSelectionBoxCallbackStruct *cbs)
 {
 	char	*value;
 	int	ucnt;
@@ -815,7 +815,7 @@ static void	form_cb(Widget w, XtPointer cldata, XmSelectionBoxCallbackStruct * c
 	XtDestroyWidget(w);
 }
 
-void	cb_formetc(Widget parent, int which)
+void  cb_formetc(Widget parent, int which)
 {
 	Widget		dw;
 	int		rows, mcode = 0;
@@ -916,7 +916,7 @@ void	cb_formetc(Widget parent, int which)
 
 static	classcode_t	 copyclasscode;
 
-static void	setclear(Widget w, int val)
+static void  setclear(Widget w, int val)
 {
 	int	cnt;
 	if  (val)  {		/* Setting */
@@ -931,7 +931,7 @@ static void	setclear(Widget w, int val)
 	}
 }
 
-static void	cctoggle(Widget w, int bitnum, XmToggleButtonCallbackStruct * cbs)
+static void  cctoggle(Widget w, int bitnum, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)
 		copyclasscode |= 1 << bitnum;
@@ -939,7 +939,7 @@ static void	cctoggle(Widget w, int bitnum, XmToggleButtonCallbackStruct * cbs)
 		copyclasscode &= ~(1 << bitnum);
 }
 
-static void	endclass(Widget w, int data)
+static void  endclass(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		if  (copyclasscode == 0)  {
@@ -978,7 +978,7 @@ static void	endclass(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_class(Widget parent, int which)
+void  cb_class(Widget parent, int which)
 {
 	Widget	class_shell, paneview, mainform, prevabove, ccmainrc, seta, cleara;
 	int	cnt;
@@ -1084,7 +1084,7 @@ struct	{
 {	"freezeok",	PV_FREEZEOK	}
 };
 
-static void	pcopydef(void)
+static void  pcopydef()
 {
 	int	cnt;
 	for  (cnt = 0;  cnt < NUM_PRIVS;  cnt++)
@@ -1092,7 +1092,7 @@ static void	pcopydef(void)
 					     Spuhdr.sph_flgs & privbutts[cnt].privbit? True: False, False);
 }
 
-static void	endpriv(Widget w, int data)
+static void  endpriv(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		ULONG  newflags = 0;
@@ -1111,7 +1111,7 @@ static void	endpriv(Widget w, int data)
 				Spuhdr.sph_flgs = newflags;
 				hchanges++;
 				uchanges++;
-				for  (cnt = 0;  cnt < Nusers;  cnt++)  {
+				for  (cnt = 0;  cnt < (int) Npwusers;  cnt++)  {
 					int_ugid_t uu = ulist[cnt].spu_user;
 					if  (uu != Realuid && uu != Daemuid && uu != ROOTID)
 						ulist[cnt].spu_flgs = newflags;
@@ -1128,7 +1128,7 @@ static void	endpriv(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_priv(Widget parent, int which)
+void  cb_priv(Widget parent, int which)
 {
 	Widget	priv_shell, paneview, mainform, prevabove;
 	ULONG  existing;
@@ -1187,7 +1187,7 @@ void	cb_priv(Widget parent, int which)
 			   which? $H{xmspuser user privs}: $H{xmspuser system privs});
 }
 
-static void	copyu(struct spdet * n)
+static void  copyu(struct spdet *n)
 {
 	n->spu_defp = Spuhdr.sph_defp;
 	n->spu_minp = Spuhdr.sph_minp;
@@ -1200,7 +1200,7 @@ static void	copyu(struct spdet * n)
 	strncpy(n->spu_ptrallow, Spuhdr.sph_ptrallow, JPTRNAMESIZE);
 }
 
-void	cb_copydef(Widget parent, int which)
+void  cb_copydef(Widget parent, int which)
 {
 	int	cnt;
 
@@ -1218,195 +1218,14 @@ void	cb_copydef(Widget parent, int which)
 		udisplay(pendunum, pendulist);
 	}
 	else  {
-		for  (cnt = 0;  cnt < Nusers;  cnt++)
+		for  (cnt = 0;  cnt < (int) Npwusers;  cnt++)
 			copyu(&ulist[cnt]);
 		udisplay(0, (int *) 0);
 	}
 	uchanges++;
 }
 
-static void	endcbdisplay(Widget w, int data)
-{
-	XtDestroyWidget(GetTopShell(w));
-}
-
-void	cb_cdisplay(Widget parent, int notused)
-{
-	int		cnt, n;
-	XmStringTable	str_list;
-	Widget		c_shell, cpanes, listw;
-	XmString	dones;
-	Arg		args[8];
-
-	if  (pendunum > 0)  {
-		pendunum = 0;
-		XtFree((char *) pendulist);
-		pendulist = (int *) 0;
-	}
-
-	if  (!getselectedusers(1))
-		return;
-
-	displaybusy(1);
-	str_list = (XmStringTable) XtMalloc(pendunum * sizeof(XmString *));
-	for  (cnt = 0;  cnt < pendunum; cnt++)  {
-		int_ugid_t	uu = ulist[pendulist[cnt]-1].spu_user;
-		char	buf[UIDSIZE + 20];
-		sprintf(buf, "%10.10s %12ld", prin_uname(uu), (long) calccharge(uu));
-		str_list[cnt] = XmStringCreateLocalized(buf);
-	}
-	dones = XmStringCreateLocalized("Done");
-	n = 0;
-        XtSetArg(args[n], XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL); n++;
-	XtSetArg(args[n], XmNdeleteResponse, XmDESTROY); n++;
-	XtSetArg(args[n], XmNokLabelString, dones);	n++;
-        c_shell = cpanes = XmCreateTemplateDialog(GetTopShell(parent), "chlist", args, n);
-	XmStringFree(dones);
-	listw = XmCreateScrolledList(cpanes, "chargelist", args, 0);
-	n = 0;
-	XtSetArg(args[n], XmNitems, str_list); n++;
-	XtSetArg(args[n], XmNitemCount, pendunum); n++;
-	XtSetArg(args[n], XmNvisibleItemCount, pendunum > 30? 30: pendunum); n++;
-	XtSetValues(listw, args, n);
-	XtManageChild(listw);
-	for  (cnt = 0;  cnt < pendunum;  cnt++)
-		XmStringFree(str_list[cnt]);
-	XtFree((char *) str_list);
-	displaybusy(0);
-	XtAddCallback(c_shell, XmNokCallback, (XtCallbackProc) endcbdisplay, (XtPointer) 0);
-        XtManageChild(c_shell);
-}
-
-/* Open charge file as required */
-
-static int	grab_file(const int omode)
-{
-	static	char	*file_name;
-
-	if  (!file_name)
-		file_name = envprocess(CHFILE);
-
-	return  open(file_name, omode);
-}
-
-void	cb_zeroc(Widget parent, int which)
-{
-	int	cnt, fd;
-	struct	spcharge	spc;
-
-	if  (pendunum > 0)  {
-		pendunum = 0;
-		XtFree((char *) pendulist);
-		pendulist = (int *) 0;
-	}
-
-	spc.spch_host = 0;		/* Me */
-	spc.spch_pri = 0;
-	spc.spch_chars = 0;
-	spc.spch_cpc = 0;
-
-	if  (!which)  {
-		if  (!getselectedusers(1))
-			return;
-		if  (!Confirm(parent, $PH{xmspuser zero charges}))
-			return;
-		if  ((fd = grab_file(O_WRONLY|O_APPEND)) < 0)
-			return;
-		time(&spc.spch_when);
-		spc.spch_what = SPCH_ZERO;
-		for  (cnt = 0;  cnt < pendunum;  cnt++)  {
-			spc.spch_user = ulist[pendulist[cnt]-1].spu_user;
-			write(fd, (char *) &spc, sizeof(spc));
-		}
-	}
-	else  {
-		if  (!Confirm(parent, $PH{xmspuser zero all charges}))
-			return;
-		if  ((fd = grab_file(O_WRONLY|O_APPEND)) < 0)
-			return;
-		time(&spc.spch_when);
-		spc.spch_what = SPCH_ZEROALL;
-		spc.spch_user = -1;
-		write(fd, (char *) &spc, sizeof(spc));
-	}
-	close(fd);
-}
-
-static void	endimp(Widget w, int data)
-{
-	if  (data)  {		/* OK pressed */
-		char	*txt, *tp;
-		int	cnt, fd;
-		LONG	res;
-		struct	spcharge	spc;
-
-		XtVaGetValues(workw[WORKW_IMPW], XmNvalue, &txt, NULL);
-		for  (tp = txt;  isspace(*tp);  tp++)
-			;
-		if  (!isdigit(*tp))  {
-			doerror(w, $EH{xmspuser invalid charge});
-			XtFree(txt);
-			return;
-		}
-		res = atol(txt);
-		if  ((fd = grab_file(O_WRONLY|O_APPEND)) >= 0)  {
-			time(&spc.spch_when);
-			spc.spch_host = 0;		/* Me */
-			spc.spch_pri = 0;
-			spc.spch_chars = 0;
-			spc.spch_cpc = res;
-			spc.spch_what = SPCH_FEE;
-			for  (cnt = 0;  cnt < pendunum;  cnt++)  {
-				spc.spch_user = ulist[pendulist[cnt]-1].spu_user;
-				write(fd, (char *) &spc, sizeof(spc));
-			}
-			close(fd);
-		}
-	}
-	XtDestroyWidget(GetTopShell(w));
-}
-
-void	cb_impose(Widget parent, int which)
-{
-	Widget	imp_shell, paneview, mainform, prevabove, titw;
-	char	nbuf[10];
-
-	if  (pendunum > 0)  {
-		pendunum = 0;
-		XtFree((char *) pendulist);
-		pendulist = (int *) 0;
-	}
-
-	if  (!getselectedusers(1))
-		return;
-
-	prevabove = CreateUEditDlg(parent, "impose", &imp_shell, &paneview, &mainform);
-
-	titw = XtVaCreateManagedWidget("amount",
-				       xmLabelGadgetClass,	mainform,
-				       XmNtopAttachment,	XmATTACH_WIDGET,
-				       XmNtopWidget,		prevabove,
-				       XmNleftAttachment,	XmATTACH_FORM,
-				       NULL);
-
-	workw[WORKW_IMPW] = XtVaCreateManagedWidget("amt",
-						    xmTextFieldWidgetClass,	mainform,
-						    XmNcolumns,			8,
-						    XmNmaxWidth,		8,
-						    XmNcursorPositionVisible,	False,
-						    XmNtopAttachment,		XmATTACH_WIDGET,
-						    XmNtopWidget,		prevabove,
-						    XmNleftAttachment,		XmATTACH_WIDGET,
-						    XmNleftWidget,		titw,
-						    NULL);
-
-	sprintf(nbuf, "%8d", 0);
-	XmTextSetString(workw[WORKW_IMPW], nbuf);
-	XtManageChild(mainform);
-	CreateActionEndDlg(imp_shell, paneview, (XtCallbackProc) endimp, $H{xmspuser addfee help});
-}
-
-void	cb_chelp(Widget w, int data, XmAnyCallbackStruct * cbs)
+void  cb_chelp(Widget w, int data, XmAnyCallbackStruct *cbs)
 {
 	Widget	help_w;
 	Cursor	cursor;
@@ -1420,7 +1239,7 @@ void	cb_chelp(Widget w, int data, XmAnyCallbackStruct * cbs)
 	XFreeCursor(dpy, cursor);
 }
 
-static void	umacroexec(char * str)
+static void  umacroexec(char *str)
 {
 	static	char	*execprog;
 	PIDTYPE	pid;
@@ -1466,7 +1285,7 @@ static void	umacroexec(char * str)
 	}
 }
 
-static void	endumacro(Widget w, int data)
+static void  endumacro(Widget w, int data)
 {
 	if  (data)  {
 		char	*txt;
@@ -1478,7 +1297,7 @@ static void	endumacro(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_macrou(Widget parent, int data)
+void  cb_macrou(Widget parent, int data)
 {
 	char	*prompt = helpprmpt(data + $P{Job or User macro});
 	Widget	uc_shell, panew, mainform, labw;
@@ -1514,7 +1333,7 @@ void	cb_macrou(Widget parent, int data)
 
 static	char	matchcase, wraparound, sbackward, *matchtext;
 
-static int	smstr(const char *str, const int exact)
+static int  smstr(const char *str, const int exact)
 {
 	int	 l = strlen(matchtext), cl = strlen(str);
 
@@ -1560,12 +1379,12 @@ static int	smstr(const char *str, const int exact)
 
 /* Written like this for easy e-x-t-e-n-s-i-o-n.  */
 
-static int	usermatch(int n)
+static int  usermatch(int n)
 {
 	return  smstr(prin_uname((uid_t) ulist[n].spu_user), 0);
 }
 
-static void	execute_search(void)
+static void  execute_search()
 {
 	int	*plist, pcnt, cline, nline;
 	int	topitem, visibleitem;
@@ -1575,19 +1394,19 @@ static void	execute_search(void)
 		XtFree((char *) plist);
 	}
 	else
-		cline = sbackward? (int) Nusers: -1;
+		cline = sbackward? (int) Npwusers: -1;
 	if  (sbackward)  {
 		for  (nline = cline - 1;  nline >= 0;  nline--)
 			if  (usermatch(nline))
 				goto  gotuser;
 		if  (wraparound)
-			for  (nline = Nusers-1;  nline > cline;  nline--)
+			for  (nline = Npwusers-1;  nline > cline;  nline--)
 				if  (usermatch(nline))
 					goto  gotuser;
 		doerror(uwid, $EH{Rsearch user not found});
 	}
 	else  {
-		for  (nline = cline + 1;  nline < Nusers;  nline++)
+		for  (nline = cline + 1;  nline < (int) Npwusers;  nline++)
 			if  (usermatch(nline))
 				goto  gotuser;
 		if  (wraparound)
@@ -1634,7 +1453,7 @@ static Widget InitsearchDlg(Widget parent, Widget *shellp, Widget *panep, Widget
 	return  workw[WORKW_STXTW];
 }
 
-static void	endsdlg(Widget w, int data)
+static void  endsdlg(Widget w, int data)
 {
 	if  (data)  {
 		sbackward = XmToggleButtonGadgetGetState(workw[WORKW_FORWW])? 0: 1;
@@ -1654,7 +1473,7 @@ static void	endsdlg(Widget w, int data)
 		XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_rsrch(Widget w, int data)
+void  cb_rsrch(Widget w, int data)
 {
 	if  (!matchtext  ||  matchtext[0] == '\0')  {
 		doerror(w, $EH{No previous search});
@@ -1664,7 +1483,7 @@ void	cb_rsrch(Widget w, int data)
 	execute_search();
 }
 
-void	cb_srchfor(Widget parent)
+void  cb_srchfor(Widget parent)
 {
 	Widget	s_shell, panew, formw, dirrc, prevleft, prevabove;
 

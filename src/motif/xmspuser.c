@@ -16,8 +16,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-static	char	rcsid1[] = "@(#) $Id: xmspuser.c,v 1.2 2009/04/24 22:06:45 toadwarble Exp $";		/* We use these in the about message */
-static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
+static	char	rcsid1[] = "@(#) $Id: xmspuser.c,v 1.3 2010/10/01 22:06:45 toadwarble Exp $";		/* We use these in the about message */
+static	char	rcsid2[] = "@(#) $Revision: 1.3 $";
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -69,7 +69,6 @@ int	hchanges,	/* Had changes to default */
 	uchanges;	/* Had changes to user(s) */
 
 char		alphsort;
-unsigned	Nusers;
 extern	struct	sphdr	Spuhdr;
 struct	spdet	*ulist;
 static	char		*defhdr,
@@ -114,9 +113,9 @@ typedef	struct	{
 	int	rtime, rint;
 }  vrec_t;
 
-static void	cb_about(void);
-static void	cb_quit(Widget, int);
-static void	cb_saveopts(Widget);
+static void  cb_about();
+static void  cb_quit(Widget, int);
+static void  cb_saveopts(Widget);
 
 static	XtResource	resources[] = {
 	{ "titlePresent", "TitlePresent", XtRBoolean, sizeof(Boolean),
@@ -160,12 +159,6 @@ user_casc[] = {
 	{	ITEM,	"upriv",	cb_priv,	1	},
 	{	SEP	},
 	{	ITEM,	"ucpy",		cb_copydef,	1	}},
-chrg_casc[] = {
-	{	ITEM,	"Display",	cb_cdisplay,	0	},
-	{	SEP	},
-	{	ITEM,	"Zero",		cb_zeroc,	0	},
-	{	ITEM,	"Zeroall",	cb_zeroc,	1	},
-	{	ITEM,	"Impose",	cb_impose,	0	}},
 search_casc[] = {
 	{	ITEM,	"Search",	cb_srchfor,	0	},
 	{	ITEM,	"Searchforw",	cb_rsrch,	0	},
@@ -183,16 +176,13 @@ static	pull_button
 		"Defaults",	XtNumber(def_casc),	$H{xmspuser defaults menu help},def_casc	},
 	user_button = {
 		"Users",	XtNumber(user_casc),	$H{xmspuser users menu help},	user_casc	},
-	chrg_button = {
-		"Charges",	XtNumber(chrg_casc),	$H{xmspuser charges help},	chrg_casc	},
 	srch_button = {
 		"Search",	XtNumber(search_casc),	$H{xmspuser search help},	search_casc	},
 	help_button = {
 		"Help",		XtNumber(help_casc),	$H{xmspuser help help},	help_casc,	1	};
 
 static	pull_button	*menlist[] = {
-	&opt_button,	&def_button,	&user_button,
-	&chrg_button,	&srch_button,	&help_button
+	&opt_button, &def_button, &user_button, &srch_button, &help_button
 };
 
 #if	defined(HAVE_MEMCPY) && !defined(HAVE_BCOPY)
@@ -201,12 +191,12 @@ static	pull_button	*menlist[] = {
    we don't want to include some -libucb which pulls in funny
    sprintfs etc */
 
-void	bcopy(void * from, void * to, unsigned count)
+void  bcopy(void *from, void *to, unsigned count)
 {
 	memcpy(to, from, count);
 }
 
-void	bzero(void *to, unsigned count)
+void  bzero(void *to, unsigned count)
 {
 	memset(to, '\0', count);
 }
@@ -214,12 +204,12 @@ void	bzero(void *to, unsigned count)
 
 /* Different sorts of sorts (of sorts) */
 
-int	sort_u(struct spdet *a, struct spdet *b)
+int  sort_u(struct spdet *a, struct spdet *b)
 {
 	return  strcmp(prin_uname((uid_t) a->spu_user), prin_uname((uid_t) b->spu_user));
 }
 
-int	sort_id(struct spdet *a, struct spdet *b)
+int  sort_id(struct spdet *a, struct spdet *b)
 {
 	return  (ULONG) a->spu_user < (ULONG) b->spu_user ? -1: (ULONG) a->spu_user == (ULONG) b->spu_user? 0: 1;
 }
@@ -227,17 +217,17 @@ int	sort_id(struct spdet *a, struct spdet *b)
 /* Don't put exit as a callback or we'll get some weird exit code
    based on a Widget pointer.  */
 
-static void	cb_quit(Widget w, int n)
+static void  cb_quit(Widget w, int n)
 {
 	if  (uchanges || hchanges)  {
 		if  (alphsort)
-			qsort(QSORTP1 ulist, Nusers, sizeof(struct spdet), QSORTP4 sort_id);
-		putspulist(ulist, Nusers, hchanges);
+			qsort(QSORTP1 ulist, Npwusers, sizeof(struct spdet), QSORTP4 sort_id);
+		putspulist(ulist);
 	}
 	exit(n);
 }
 
-static void	cb_saveopts(Widget w)
+static void  cb_saveopts(Widget w)
 {
 	char	*srfile = (char *) 0, *hf;
 	FILE	*inf, *tf;
@@ -298,13 +288,13 @@ static void	cb_saveopts(Widget w)
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-static void	cb_about(void)
+static void  cb_about()
 {
 	Widget		dlg;
 	char	buf[sizeof(rcsid1) + sizeof(rcsid2) + 2];
@@ -320,7 +310,7 @@ static void	cb_about(void)
 	XtPopup(XtParent(dlg), XtGrabNone);
 }
 
-Widget	BuildPulldown(Widget menub, pull_button *item)
+Widget  BuildPulldown(Widget menub, pull_button *item)
 {
 	int	cnt;
 	Widget	pulldown, cascade, button;
@@ -357,7 +347,7 @@ Widget	BuildPulldown(Widget menub, pull_button *item)
 	return  NULL;
 }
 
-static void setup_macros(Widget	menub, const int helpcode, const int helpbase, char *pullname, XtCallbackProc macroproc)
+static void setup_macros(Widget menub, const int helpcode, const int helpbase, char *pullname, XtCallbackProc macroproc)
 {
 	int	cnt, had = 0;
 	Widget	pulldown, cascade, button;
@@ -384,7 +374,7 @@ static void setup_macros(Widget	menub, const int helpcode, const int helpbase, c
 	}
 }
 
-static void	setup_menus(void)
+static void  setup_menus()
 {
 	int			cnt;
 	XtWidgetGeometry	size;
@@ -406,7 +396,7 @@ static void	setup_menus(void)
 	XtManageChild(menubar);
 }
 
-static void	maketitle(char * tname)
+static void  maketitle(char *tname)
 {
 	Widget			labv;
 	XtWidgetGeometry	size;
@@ -419,7 +409,7 @@ static void	maketitle(char * tname)
 
 #include "xmspuser.bm"
 
-static void	wstart(int argc, char **argv)
+static void  wstart(int argc, char **argv)
 {
 	vrec_t	vrec;
 	Pixmap	bitmap;
@@ -489,14 +479,14 @@ static void	wstart(int argc, char **argv)
 #ifdef	HAVE_MEMCPY
 #define	BLOCK_SET(to, n, ch)	memset((void *) to, ch, (unsigned) n)
 #else
-static void	BLOCK_SET(char * to, unsigned n, const char ch)
+static void  BLOCK_SET(char *to, unsigned n, const char ch)
 {
 	while  (n != 0)
 		*to++ = ch;
 }
 #endif
 
-void	defdisplay(void)
+void  defdisplay()
 {
 	int	outl;
 	XmString	str;
@@ -526,10 +516,7 @@ void	defdisplay(void)
 	XmStringFree(str);
 }
 
-static	XmString	fillbuffer(
-	 char * buff, 
-	 unsigned buffsize, 
-	 struct spdet * uitem)
+static	XmString fillbuffer(char *buff, unsigned buffsize, struct spdet *uitem)
 {
 	int	outl;
 	ULONG	exclp;
@@ -575,7 +562,7 @@ static	XmString	fillbuffer(
 	return  XmStringCreateLocalized(buff);
 }
 
-void	udisplay(int nu, int *posns)
+void  udisplay(int nu, int *posns)
 {
 	int		ucnt;
 	XmString	str;
@@ -583,7 +570,7 @@ void	udisplay(int nu, int *posns)
 
 	if  (nu <= 0)  {
 		XmListDeleteAllItems(uwid);
-		for  (ucnt = 0;  ucnt < Nusers;  ucnt++)  {
+		for  (ucnt = 0;  ucnt < Npwusers;  ucnt++)  {
 			str = fillbuffer(obuf, sizeof(obuf), &ulist[ucnt]);
 			XmListAddItem(uwid, str, 0);
 			XmStringFree(str);
@@ -605,7 +592,7 @@ void	udisplay(int nu, int *posns)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	struct	spdet	*mypriv;
 #if	defined(NHONSUID) || defined(DEBUG)
@@ -628,42 +615,24 @@ MAINFN_TYPE	main(int argc, char **argv)
 	SCRAMBLID_CHECK
 	SWAP_TO(Daemuid);
 	wstart(argc, argv);
-	if  (!(mypriv = getspuentry(Realuid)))  {
-		doerror(toplevel, $EH{Not registered yet});
-		exit(E_UNOTSETUP);
-	}
+	mypriv = getspuentry(Realuid);
 	if  (!(mypriv->spu_flgs & PV_ADMIN))  {
 		doerror(toplevel, $EH{No admin file permission});
 		exit(E_NOPRIV);
 	}
-	if  (spu_needs_rebuild && Confirm(toplevel, $PH{Xmspuser confirm rebuild}))  {
-		char  *name = envprocess(DUMPPWFILE);
-		int	wuz = access(name, 0);
-		if  (wuz >= 0)  {
-			un_rpwfile();
-			unlink(name);
-		}
-		free(name);
-		displaybusy(1);
-		rebuild_spufile();
-		if  (wuz >= 0)
-			dump_pwfile();
-		produser();
-		displaybusy(0);
-	}
-	ulist = getspulist(&Nusers);
+	ulist = getspulist();
 
 	/* Chop down list to ones we want */
 
-	if  (Nusers != 0  &&  urestrict)  {
+	if  (Npwusers != 0  &&  urestrict)  {
 		unsigned   cnt, nucnt = 0;
 		struct  spdet  *cp, *np;
-		struct  spdet  *newulist = (struct spdet *) malloc(Nusers * sizeof(struct spdet));
+		struct  spdet  *newulist = (struct spdet *) malloc(Npwusers * sizeof(struct spdet));
 		if  (!newulist)
 			nomem();
 		cp = ulist;
 		np = newulist;
-		for  (cnt = 0;  cnt < Nusers;  cp++, cnt++)  {
+		for  (cnt = 0;  cnt < Npwusers;  cp++, cnt++)  {
 			char	*un = prin_uname((uid_t) cp->spu_user);
 			if  (urestrict && !qmatch(urestrict, un))
 				continue;
@@ -672,11 +641,11 @@ MAINFN_TYPE	main(int argc, char **argv)
 		}
 		free((char *) ulist);
 		ulist = newulist;
-		Nusers = nucnt;
+		Npwusers = nucnt;		/* Check me!!!! */
 	}
 
 	if  (alphsort)
-		qsort(QSORTP1 ulist, Nusers, sizeof(struct spdet), QSORTP4 sort_u);
+		qsort(QSORTP1 ulist, Npwusers, sizeof(struct spdet), QSORTP4 sort_u);
 	defdisplay();
 	udisplay(0, (int *) 0);
 	XtAppMainLoop(app);

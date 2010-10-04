@@ -43,14 +43,14 @@ LONG	sect_start = 0L,	/* Offset of section start just after [name] bit */
 
 extern	const	char	*progname;
 
-void	html_error(const char * msg)
+void  html_error(const char *msg)
 {
 	printf("Content-type: text/html\n\n<html>\n<head>\n<title>System error from %s</title>\n</head>\n", progname);
 	printf("<body>\n<H1 align=center>Error from %s</H1>\n", progname);
 	printf("%s\n<p>Please press BACK on your browser.\n</body></html>\n", msg);
 }
 
-int	html_getline(char * buf)
+int  html_getline(char *buf)
 {
 	int	ccnt = 0, ch;
 
@@ -89,7 +89,7 @@ int	html_getline(char * buf)
 	return  0;
 }
 
-void	html_openini(void)
+void  html_openini()
 {
 	char	*fn = envprocess(GSHTMLINI), *cp;
 	char	inbuf[HINILWIDTH];
@@ -139,7 +139,7 @@ void	html_openini(void)
 	}  while (inbuf[0] != '['  ||  inbuf[lng-1] != ']');
 }
 
-void	html_closeini(void)
+void  html_closeini()
 {
 	if  (Htmlini)  {
 		fclose(Htmlini);
@@ -147,7 +147,7 @@ void	html_closeini(void)
 	}
 }
 
-static int	parfind(const off_t epos, char * rbuf, const char * parname)
+static int  parfind(const off_t epos, char *rbuf, const char *parname)
 {
 	int	pnl = strlen(parname);
 	char	inbuf[HINILWIDTH];
@@ -175,7 +175,7 @@ static int	parfind(const off_t epos, char * rbuf, const char * parname)
 	return  0;
 }
 
-int	html_iniparam(const char *parname, char *buf)
+int  html_iniparam(const char *parname, char *buf)
 {
 	LONG	cpos = ftell(Htmlini);
 
@@ -204,7 +204,7 @@ int	html_iniparam(const char *parname, char *buf)
 	return  0;
 }
 
-int	html_inibool(const char *parname, const int deflt)
+int  html_inibool(const char *parname, const int deflt)
 {
 	char	inbuf[HINILWIDTH];
 
@@ -221,7 +221,7 @@ int	html_inibool(const char *parname, const int deflt)
 	}
 }
 
-long	html_iniint(const char *parname, const int deflt)
+long  html_iniint(const char *parname, const int deflt)
 {
 	long	result = 0, r2 = 0, r3 = 0;
 	char	*cp;
@@ -255,7 +255,7 @@ long	html_iniint(const char *parname, const int deflt)
 	return  ((result * 24 + r2) * 60 + r3) * 60;
 }
 
-char  *html_inistr(const char *parname, char *deflt)
+char *html_inistr(const char *parname, char *deflt)
 {
 	char	inbuf[HINILWIDTH];
 
@@ -278,7 +278,7 @@ char  *html_inistr(const char *parname, char *deflt)
 		return  stracpy(inbuf);
 }
 
-char  *html_inifile(const char *parname, char *deflt)
+char *html_inifile(const char *parname, char *deflt)
 {
 	char	*res1 = html_inistr(parname, deflt);
 	char	*nres;
@@ -321,12 +321,12 @@ char  *html_inifile(const char *parname, char *deflt)
 
 /* Common case of wanting cookie expiry time. */
 
-int	html_cookexpiry(void)
+int  html_cookexpiry()
 {
 	return  (html_iniint("cookexpiry", DEFLT_COOKEXP_DAYS) + 1800*24L) / (3600*24L);
 }
 
-int	html_output_file(const char *name, const int cont_type)
+int  html_output_file(const char *name, const int cont_type)
 {
 	char	*fname = html_inifile(name, (char *) 0);
 	FILE	*fp;
@@ -346,7 +346,7 @@ int	html_output_file(const char *name, const int cont_type)
 	return  1;
 }
 
-void	html_out_or_err(const char *name, const int cont_type)
+void  html_out_or_err(const char *name, const int cont_type)
 {
 	if  (!(html_output_file(name, cont_type)))  {
 		char	outbuf[HINILWIDTH];
@@ -358,7 +358,7 @@ void	html_out_or_err(const char *name, const int cont_type)
 
 /* Same but with two optional parameters */
 
-int	html_out_param_file(const char *name, const int cont_type, const ULONG par1, const ULONG par2)
+int  html_out_param_file(const char *name, const int cont_type, const ULONG par1, const ULONG par2)
 {
 	char	*fname = html_inifile(name, (char *) 0);
 	FILE	*fp;
@@ -393,7 +393,7 @@ int	html_out_param_file(const char *name, const int cont_type, const ULONG par1,
 	return  1;
 }
 
-int	html_out_cparam_file(const char *name, const int cont_type, const char *par1)
+int  html_out_cparam_file(const char *name, const int cont_type, const char *par1)
 {
 	char	*fname = html_inifile(name, (char *) 0);
 	FILE	*fp;
@@ -424,17 +424,16 @@ int	html_out_cparam_file(const char *name, const int cont_type, const char *par1
 	return  1;
 }
 
-void	html_nomem(void)
+void  html_nomem()
 {
 	if  (!html_output_file("nomem", 1))
 		html_error("Out of memory");
 	exit(E_NOMEM);
 }
 
-void	html_disperror(const int errnum)
+void  html_disperror(const int errnum)
 {
-	char	**emess = helpvec(errnum, 'E');
-	char	**ep;
+	char	**emess = helpvec(errnum, 'E'), **ep;
 
 	html_output_file("error_preamble", 1);
 	for  (ep = emess;  *ep;  ep++)  {
@@ -445,7 +444,7 @@ void	html_disperror(const int errnum)
 	html_output_file("error_postamble", 0);
 }
 
-void	html_fldprint(const char *fld)
+void  html_fldprint(const char *fld)
 {
 	while  (*fld)  {
 		char	*msg;
@@ -476,7 +475,7 @@ void	html_fldprint(const char *fld)
 	putchar('\n');
 }
 
-void	html_pre_putchar(const int ch)
+void  html_pre_putchar(const int ch)
 {
 	const  char  *msg;
 
@@ -502,7 +501,7 @@ void	html_pre_putchar(const int ch)
 	printf("&%s;", msg);
 }
 
-int	html_getpostline(char *buf)
+int  html_getpostline(char *buf)
 {
 	int	ccnt = 0, ch;
 
@@ -534,7 +533,7 @@ int	html_getpostline(char *buf)
 	return  0;
 }
 
-void	html_convert(const char *inbuf, char *outbuf)
+void  html_convert(const char *inbuf, char *outbuf)
 {
 	int	ch, chleft = HINILWIDTH;
 
@@ -631,7 +630,7 @@ char **html_getvalues(const char *arg)
 
 /* Roll our own temporary files as there are such a plethora of mktemp functions etc. */
 
-static  char  *gen_tempfile(void)
+static char *gen_tempfile()
 {
 	char	*tname = html_inifile(HTML_TMPNAME, HTML_TMPFILE), *newname;
 	static	int	tmpfcnt = 0;
@@ -645,7 +644,7 @@ static  char  *gen_tempfile(void)
 	return  tname;
 }
 
-static int	html_getmpline(char *buf, const int nocr)
+static int  html_getmpline(char *buf, const int nocr)
 {
 	int	result = 0, ch;
 
@@ -665,7 +664,7 @@ static int	html_getmpline(char *buf, const int nocr)
 /* Extract name possibly surrounded by ' or "s from line of multipart stuff.
    Return next char. str is initially char BEFORE the construct */
 
-static  char *mp_name(char *str, char *nbuf)
+static char *mp_name(char *str, char *nbuf)
 {
 	int  lng = 0;
 
@@ -700,7 +699,7 @@ static struct posttab *find_posttab(const char *nam, struct posttab *pt)
 	return  (struct posttab *) 0;
 }
 
-static int is_boundary(char *buff, char *boundary, const int buffb, const int boundb)
+static int  is_boundary(char *buff, char *boundary, const int buffb, const int boundb)
 {
 	if  (buffb < boundb + 3)	/* Two extra minuses and \n */
 		return  0;
@@ -709,7 +708,7 @@ static int is_boundary(char *buff, char *boundary, const int buffb, const int bo
 	return  1;
 }
 
-static  int  find_startbound(char *boundary)
+static int  find_startbound(char *boundary)
 {
 	int	szb = strlen(boundary);
 
@@ -730,7 +729,7 @@ static  int  find_startbound(char *boundary)
 #define	RES_INIT	50
 #define	RES_INC		30
 
-static int	html_getmpencsect(struct posttab *pt, char *boundary)
+static int  html_getmpencsect(struct posttab *pt, char *boundary)
 {
 	int	szb = strlen(boundary), nbytes;
 	char	*cp;
@@ -903,7 +902,7 @@ static int	html_getmpencsect(struct posttab *pt, char *boundary)
 	return  0;
 }
 
-void	html_postvalues(struct posttab * pt)
+void  html_postvalues(struct posttab *pt)
 {
 	char	*ep;
 	struct	posttab	*pp;

@@ -40,8 +40,8 @@
 #define	INITSTR	150
 #define	INCSTR	20
 
-void	error(const int);
-void	report(const int);
+void  error(const int);
+void  report(const int);
 
 static	int	line_count = 1;
 struct	kw	*lastsym;
@@ -66,14 +66,14 @@ extern	int	Nott, Isbann, Hadbann;
 struct	kw	*hashtab[HASHMOD];
 jmp_buf	syntax_error;
 
-void	error(const int messno)
+void  error(const int messno)
 {
 	disp_arg[0] = line_count;
 	report(messno);
 	longjmp(syntax_error, 1);
 }
 
-static	char *rdexpr(void)
+static	char *rdexpr()
 {
 	int	ch;
 	char	buf[80];
@@ -101,7 +101,7 @@ static	char *rdexpr(void)
 	}
 }
 
-static	int	mel(char *a, char *b)
+static	int  mel(char *a, char *b)
 {
 	int	had, not, r;
 
@@ -166,7 +166,7 @@ static	int	mel(char *a, char *b)
 	}
 }
 
-static	int	match(char *re)
+static	int  match(char *re)
 {
 	char	*a = Suffix;
 	char	*b = re;
@@ -227,7 +227,7 @@ void	sethash(char *mnem, void (*proc)(const int, const unsigned), const unsigned
 
 /* Put mnemonic into hash table for keyword.  */
 
-void	setsymb(char *mnem, const int tok)
+void  setsymb(char *mnem, const int tok)
 {
 	struct  kw  *kp = findhash(mnem);
 
@@ -239,7 +239,7 @@ void	setsymb(char *mnem, const int tok)
 
 /* Look up user's name in hash table.  */
 
-static	struct kw *lookuphash(char *nam)
+static	struct	kw *lookuphash(char *nam)
 {
 	struct  kw  *kp = findhash(nam);
 
@@ -251,7 +251,7 @@ static	struct kw *lookuphash(char *nam)
 	return  kp;
 }
 
-static	void	defkw(struct kw *k, struct string *item)
+static	void  defkw(struct kw *k, struct string *item)
 {
 	if  (k->k_type == TK_STR  &&  --k->k_un.k_str->s_cnt <= 0)  {
 		if  (k->k_un.k_str->s_length)
@@ -263,7 +263,7 @@ static	void	defkw(struct kw *k, struct string *item)
 	item->s_cnt++;
 }
 
-static int peek(void)
+static int  peek()
 {
 	int	ch;
 
@@ -286,12 +286,11 @@ static int peek(void)
 	return	ch;
 }
 
-static	int	gettok(void)
+static	int  gettok()
 {
 	char	instring[MAXID];
-	int	ch;
 	char	*bp;
-	int	bcnt;
+	int	ch, bcnt;
 
 	for  (;;)  {
 		ch = getc(infile);
@@ -352,7 +351,7 @@ static	int	gettok(void)
 
 /* Read a string.  */
 
-struct	string  *rdstr(const int flags)
+struct	string *rdstr(const int flags)
 {
 	int	termch, rc, i;
 	char	*result;
@@ -526,7 +525,7 @@ fin:
 	return  rr;
 }
 
-static	void	findeol(void)
+static	void  findeol()
 {
 	int	ch;
 
@@ -534,7 +533,7 @@ static	void	findeol(void)
 	while  (ch != '\n' && ch != EOF);
 }
 
-int	rdnum(void)
+int  rdnum()
 {
 	int  result, ch;
 
@@ -560,7 +559,7 @@ int	rdnum(void)
 	return  result;
 }
 
-void	checkfor(const int ch, char *name)
+void  checkfor(const int ch, char *name)
 {
 	if  (getc(infile) != ch)   {
 		disp_arg[9] = ch;
@@ -571,9 +570,9 @@ void	checkfor(const int ch, char *name)
 	}
 }
 
-static void	readfile(const int);
+static void  readfile(const int);
 
-static void	docase(int obey)
+static void  docase(int obey)
 {
 	char	*re;
 
@@ -596,6 +595,7 @@ static	void  readcodelist(const int obey, ULONG *result, const unsigned lo, cons
 {
 	int	ch;
 	unsigned  nn, nn2;
+
 	if  (obey)  {
 		nn = lo >> 5;
 		nn2 = hi >> 5;
@@ -639,12 +639,11 @@ static	void  readcodelist(const int obey, ULONG *result, const unsigned lo, cons
 	}
 }
 
-static	void	readfile(const int obey)
+static	void  readfile(const int obey)
 {
 	int	tok, execflag = 0, n;
-	struct string	*	rdstr(const int);
-	struct  string  *r;
-	struct	string	**oldlast = out_str_last, **wotp;
+	struct string	*rdstr(const int);
+	struct  string  *r, **oldlast = out_str_last, **wotp;
 	unsigned  oldflags = out_params.pi_flags;
 
 	for  (;;)  {
@@ -896,7 +895,7 @@ static	void	readfile(const int obey)
 	}
 }
 
-void	readdescr(void)
+void  readdescr()
 {
 	if  (setjmp(syntax_error))
 		findeol();

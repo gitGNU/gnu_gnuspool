@@ -63,16 +63,16 @@
 #include "displayopt.h"
 
 #ifndef HAVE_XM_SPINB_H
-extern void	widdn_cb(Widget, int, XmArrowButtonCallbackStruct *);
-extern void	widup_cb(Widget, int, XmArrowButtonCallbackStruct *);
+extern void  widdn_cb(Widget, int, XmArrowButtonCallbackStruct *);
+extern void  widup_cb(Widget, int, XmArrowButtonCallbackStruct *);
 #endif
-extern int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+extern int  rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
 
 static	char	*localptr;
 
 /* Open job file and get relevant messages.  */
 
-void	openjfile(void)
+void  openjfile()
 {
 	if  (!jobshminit(1))  {
 		print_error($E{Cannot open jshm});
@@ -187,7 +187,7 @@ struct	formatdef
 	{	0,			0,		NULLCP, NULLCP,	0		}	/* z */
 };
 
-char *	get_jobtitle(int nopage)
+char *get_jobtitle(int nopage)
 {
 	int	nn, obuflen;
 	struct	formatdef	*fp;
@@ -290,7 +290,7 @@ char *	get_jobtitle(int nopage)
 
 /* Display contents of job file.  */
 
-void	jdisplay(void)
+void  jdisplay()
 {
 	int	topj = 1, cjobpos = -1, newpos = -1, jlines;
 	jobno_t		Cjobno = -1;
@@ -412,7 +412,7 @@ static	Widget	listw, eatw;
 static	int	whicline;
 static	unsigned	char	wfld, isinsert;
 
-static void	filljdisplist(void)
+static void  filljdisplist()
 {
 	char	*cp, *lbp;
 	int		nn;
@@ -463,7 +463,7 @@ static void	filljdisplist(void)
 	}
 }
 
-static void	fld_turn(Widget w, int n, XmToggleButtonCallbackStruct * cbs)
+static void  fld_turn(Widget w, int n, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)  {
 		struct	formatdef  *fp;
@@ -490,7 +490,7 @@ static void	fld_turn(Widget w, int n, XmToggleButtonCallbackStruct * cbs)
 	}
 }
 
-static void	endnewedit(Widget w, int data)
+static void  endnewedit(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		char		*lbp;
@@ -528,7 +528,7 @@ static void	endnewedit(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-static void	newrout(Widget w, int isnew)
+static void  newrout(Widget w, int isnew)
 {
 	Widget	ae_shell, panew, formw, prevleft, fldrc;
 	int	*plist, cnt, wotc = 255, widsetting = 10, iseat = 0;
@@ -692,7 +692,7 @@ static void	newrout(Widget w, int isnew)
 	CreateActionEndDlg(ae_shell, panew, (XtCallbackProc) endnewedit, $H{new job field dlg});
 }
 
-static void	endnewsepedit(Widget w, int data)
+static void  endnewsepedit(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		char		*txt;
@@ -710,7 +710,7 @@ static void	endnewsepedit(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-static void	newseprout(Widget w, int isnew)
+static void  newseprout(Widget w, int isnew)
 {
 	Widget	ae_shell, panew, formw, prevleft;
 	int	*plist, pcnt;
@@ -763,7 +763,7 @@ static void	newseprout(Widget w, int isnew)
 	CreateActionEndDlg(ae_shell, panew, (XtCallbackProc) endnewsepedit, $H{new job sep dlg});
 }
 
-static void	delrout(void)
+static void  delrout()
 {
 	int	*plist, pcnt;
 
@@ -774,7 +774,7 @@ static void	delrout(void)
 	}
 }
 
-static void	endjdisp(Widget w, int data)
+static void  endjdisp(Widget w, int data)
 {
 	if  (data)  {		/* OK Pressed */
 		XmStringTable	strlist;
@@ -823,7 +823,7 @@ static void	endjdisp(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_setjdisplay(Widget parent)
+void  cb_setjdisplay(Widget parent)
 {
 	Widget	jd_shell, panew, jdispform, neww, editw, newsepw, editsepw, delw;
 	Arg		args[6];

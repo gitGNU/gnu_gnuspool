@@ -27,13 +27,13 @@ extern	int	debug;
 
 static	struct	macro	*hashtab[HASHMOD];
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Run out of memory\n");
 	exit(255);
 }
 
-static unsigned	calchash(const char * name)
+static unsigned  calchash(const char *name)
 {
 	unsigned	result = 0;
 	while  (*name)
@@ -41,7 +41,7 @@ static unsigned	calchash(const char * name)
 	return  result % HASHMOD;
 }
 
-struct macro *	lookupname(const char * name)
+struct macro *  lookupname(const char *name)
 {
 	unsigned  hashval = calchash(name);
 	struct	macro	*hp;
@@ -52,7 +52,7 @@ struct macro *	lookupname(const char * name)
 	return  (struct macro *) 0;
 }
 
-struct	macro *	lookupcreatename(const char *name)
+struct	macro *lookupcreatename(const char *name)
 {
 	unsigned  hashval = calchash(name);
 	struct	macro	*hp, **hpp;
@@ -69,7 +69,7 @@ struct	macro *	lookupcreatename(const char *name)
 	return  hp;
 }
 
-int	ParseMacroFile(const char *name)
+int  ParseMacroFile(const char *name)
 {
 	FILE	*ifl;
 	int	ch, cnt, startquote;
@@ -184,7 +184,7 @@ int	ParseMacroFile(const char *name)
 
 /* Set up initial definitions.  */
 
-void	init_define(const char *name, const char *val)
+void  init_define(const char *name, const char *val)
 {
 	struct	macro	*hp = lookupcreatename(name);
 	if  (hp->expansion)
@@ -194,7 +194,7 @@ void	init_define(const char *name, const char *val)
 
 /* This routine expands a string possibly containing macro names */
 
-char  *expand(const char *value)
+char *expand(const char *value)
 {
 	const  char  *origvalue = value;
 	char	*ep;

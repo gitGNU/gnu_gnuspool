@@ -37,16 +37,16 @@ extern	char	*community;
 static	struct	snmp_result	last_result;
 static	int	snmp_ok = RES_UNDEF;
 
-extern void	do_flush(void);
-extern char	*expand(const char *);
-extern void	snmp_xmit(char *, int);
-extern unsigned	snmp_recv(char *, int);
-extern int	snmp_wait(void);
+extern void  do_flush();
+extern char *expand(const char *);
+extern void  snmp_xmit(char *, int);
+extern unsigned  snmp_recv(char *, int);
+extern int  snmp_wait();
 
 /* Get hex digit.  This is for IBM who in their INFINITE and SUBLIME
    WISDOM choose to return strings as hex like 4a:43:50 */
 
-static int	ghexdig(const int ch)
+static int  ghexdig(const int ch)
 {
 	switch  (ch)  {
 	default:
@@ -67,7 +67,7 @@ static int	ghexdig(const int ch)
    sed or something into the command to rejig it if necessary
    (e.g. IBM).  */
 
-char  *execute_str(char *orig)
+char *execute_str(char *orig)
 {
 	char	*expstr = expand(orig), *cp;
 	FILE	*pf;
@@ -110,7 +110,7 @@ char  *execute_str(char *orig)
 	return  stracpy("");
 }
 
-int	eval_snmp(char *str)
+int  eval_snmp(char *str)
 {
 	char		*expanded;
 	asn_octet	*coded;
@@ -176,7 +176,7 @@ int	eval_snmp(char *str)
 	return  snmp_ok;
 }
 
-char  *eval_string(struct value *val)
+char *eval_string(struct value *val)
 {
 	int	ch, ch2;
 	long	nn;
@@ -283,7 +283,7 @@ char  *eval_string(struct value *val)
 
 /* Get number.  This is a bit of a long way round but we only use it in one place */
 
-long	eval_num(struct value *val)
+long  eval_num(struct value *val)
 {
 	char	*strval, *cp;
 	long	nn;
@@ -359,7 +359,7 @@ static	const	unsigned  char	clook[6][3] =  {
 	{ 0, 0, 1},		/* GT */
 	{ 0, 1, 1}};		/* GE */
 
-int	exec_cond(struct compare *cmp)
+int  exec_cond(struct compare *cmp)
 {
 	char	*str1, *str2;
 	int	ret, indx;
@@ -400,7 +400,7 @@ int	exec_cond(struct compare *cmp)
 	return  (int) clook[indx][ret];
 }
 
-int	exec_bitop(struct boolexpr *expr)
+int  exec_bitop(struct boolexpr *expr)
 {
 	long	n1;
 	int	b1, b2;
@@ -419,7 +419,7 @@ int	exec_bitop(struct boolexpr *expr)
 	return  last_result.res_un.res_string[b2] & b1;
 }
 
-int	exec_allclear(struct boolexpr *expr)
+int  exec_allclear(struct boolexpr *expr)
 {
 	char	*str;
 	unsigned  l;
@@ -437,7 +437,7 @@ int	exec_allclear(struct boolexpr *expr)
 	return  1;
 }
 
-int	exec_expr(struct boolexpr *expr)
+int  exec_expr(struct boolexpr *expr)
 {
 	switch  (expr->type)  {
 	case  VARDEFINED:
@@ -512,7 +512,7 @@ int	exec_expr(struct boolexpr *expr)
 
 /* This does the biz.  */
 
-int	exec_script(struct command *cmdlist)
+int  exec_script(struct command *cmdlist)
 {
 	char	*expval;
 	int	reti;

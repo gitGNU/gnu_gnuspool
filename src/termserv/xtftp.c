@@ -52,7 +52,7 @@ int	csock;
 
 #define	IBUF_LNG	200
 
-void	pushout(int sock, char *buf, int olen)
+void  pushout(int sock, char *buf, int olen)
 {
 	while  (olen > 0)  {
 		int	nb = write(sock, buf, olen);
@@ -65,7 +65,7 @@ void	pushout(int sock, char *buf, int olen)
 	}
 }
 
-int	fill_buf(int sock, char *buf)
+int  fill_buf(int sock, char *buf)
 {
 	int	ilng = 0;
 	do  {
@@ -82,13 +82,13 @@ int	fill_buf(int sock, char *buf)
 	return  ilng;
 }
 
-void	getcode(int *code, char *buf)
+void  getcode(int *code, char *buf)
 {
 	if  (isdigit(buf[0])  &&  isdigit(buf[1]) &&  isdigit(buf[2]) && isspace(buf[3]))
 		*code = atoi(buf) / 100;
 }
 
-int	getresp(int sock, int ismulti)
+int  getresp(int sock, int ismulti)
 {
 	int	ilng, lastcode = 0;
 	fd_set	ready;
@@ -176,7 +176,7 @@ int  command(int sock, char *a1, char *a2, int multi)
 	return  getresp(sock, multi);
 }
 
-RETSIGTYPE	catchabort(int n)
+RETSIGTYPE  catchabort(int n)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(n, SIG_IGN);
@@ -185,7 +185,7 @@ RETSIGTYPE	catchabort(int n)
 	exit(E_SIGNAL);
 }
 
-void	portcommand(int sock)
+void  portcommand(int sock)
 {
 	int	cnt;
 	char	*thing;
@@ -204,7 +204,7 @@ void	portcommand(int sock)
 	}
 }
 
-SHORT	gserv(char *name)
+SHORT  gserv(char *name)
 {
 	struct  servent	*sp;
 
@@ -218,7 +218,7 @@ SHORT	gserv(char *name)
 	return  sp->s_port;
 }
 
-netid_t	ghost(char *name)
+netid_t  ghost(char *name)
 {
 	if  (isdigit(name[0]))  {
 		netid_t	hostid;
@@ -245,7 +245,7 @@ netid_t	ghost(char *name)
 	}
 }
 
-void	getmyhostid(void)
+void  getmyhostid()
 {
 	char	myname[256];
 
@@ -309,14 +309,14 @@ void  initsockets(netid_t hostid, SHORT portnum, int *csock, int *dsock)
 	*dsock = ds;
 }
 
-int	accept_data(int dsock)
+int  accept_data(int dsock)
 {
 	struct	sockaddr_in	from;
 	SOCKLEN_T	fromlen = sizeof(from);
 	return  accept(dsock, (struct sockaddr *) &from, &fromlen);
 }
 
-int	xmit_stdin(int dsock, char *outfile)
+int  xmit_stdin(int dsock, char *outfile)
 {
 	int	cnt, ssock;
 	char	xbuf[1024];
@@ -344,7 +344,7 @@ int	xmit_stdin(int dsock, char *outfile)
 	return  1;
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	*hostname = (char *) 0, *cport = (char *) 0;
 	char	*username = (char *) 0, *password = (char *) 0;

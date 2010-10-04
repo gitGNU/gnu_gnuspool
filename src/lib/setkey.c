@@ -60,7 +60,7 @@ extern	int	keyerrors;
 static	char	*tc_str, duff_str[MAXDUFF];
 unsigned  char	Key_delay;
 
-static int	getxdig(void)
+static int  getxdig()
 {
 	int	ch = getc(Cfile);
 
@@ -78,7 +78,7 @@ static int	getxdig(void)
 	}
 }
 
-static int	getodig(void)
+static int  getodig()
 {
 	int	ch = getc(Cfile);
 
@@ -92,7 +92,7 @@ static int	getodig(void)
 	}
 }
 
-static void	skipover(const char *text)
+static void  skipover(const char *text)
 {
 	int	ch, sch;
 
@@ -110,7 +110,7 @@ static void	skipover(const char *text)
 
 #ifdef	HAVE_TIGETSTR
 
-static int	get_ti_fkey(char * cap)
+static int  get_ti_fkey(char *cap)
 {
 	char	*str;
 
@@ -128,7 +128,7 @@ static int	get_ti_fkey(char * cap)
 
 static	char	*tc_area;
 
-static int	get_tc_fkey(char * cap)
+static int  get_tc_fkey(char *cap)
 {
 #ifdef	OLDDYNIX
 	/* Old Dynix chokes over tgetstr....  */
@@ -163,7 +163,7 @@ static int	get_tc_fkey(char * cap)
    \kERASE	ERASE key (ditto)
    \kQUIT quit key (ditto) */
 
-static int	klookup(void)
+static int  klookup()
 {
 	int	ch;
 
@@ -298,7 +298,7 @@ static int	klookup(void)
    meaning, \xXX for hex chars \nnn for octal \\ for \ \, for ,
    \s for space.  Also provide: \kname as above.  */
 
-static int	esc_getc(void)
+static int  esc_getc()
 {
 	int	ch, res;
 
@@ -379,17 +379,16 @@ static	char	*arrow_treset;
 
 /* Yes that's right some stdio.h-es don't have putchar in */
 
-static int	func_putchar(int ch)
+static int  func_putchar(int ch)
 {
 	return  putc(ch, stdout);
 }
 
 /* Main routine to set up key sequences for various states from config file.  */
 
-void	setupkeys(void)
+void  setupkeys()
 {
-	int	ch;
-	int	minus, kvalue, kstate, length;
+	int	ch, minus, kvalue, kstate, length;
 	char	*kd, tbuf[MAXTBUF];
 	char	*arrow_tset;
 #ifdef	HAVE_TIGETSTR
@@ -585,7 +584,7 @@ void	setupkeys(void)
 		Key_delay = DELAY_TENTHS;
 }
 
-void	endwinkeys(void)
+void  endwinkeys()
 {
 	endwin();
 	if  (arrow_treset)

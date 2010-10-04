@@ -29,7 +29,7 @@
 
 extern	char	*Helpfile_path;
 
-FILE *	open_icfile(void)
+FILE *open_icfile()
 {
 	char	*filename;
 	FILE	*res;

@@ -78,7 +78,7 @@ static const struct spptr *getselectedptr(ULONG perm, int code)
    SO_PGO, SO_PHLT, SO_PSTP, SO_OYES, SO_ONO,
    SO_INTER, SO_PJAB, SO_RSP, SO_DELP */
 
-void	cb_pact(Widget wid, int msg)
+void  cb_pact(Widget wid, int msg)
 {
 	const  struct	spptr	*pp;
 
@@ -159,7 +159,7 @@ void	cb_pact(Widget wid, int msg)
 	womsg(msg);
 }
 
-static void	pform_cb(Widget w, XtPointer cldata, XmSelectionBoxCallbackStruct * cbs)
+static void  pform_cb(Widget w, XtPointer cldata, XmSelectionBoxCallbackStruct *cbs)
 {
 	char	*value;
 
@@ -177,7 +177,7 @@ static void	pform_cb(Widget w, XtPointer cldata, XmSelectionBoxCallbackStruct * 
 	XtDestroyWidget(w);
 }
 
-void	cb_pform(void)
+void  cb_pform()
 {
 	const  struct  spptr  *pp = getselectedptr(PV_PRINQ, $EH{No printer list access});
 	char	**flist;
@@ -226,7 +226,7 @@ void	cb_pform(void)
 	XtManageChild(dw);
 }
 
-static void	endpclass(Widget w, int data)
+static void  endpclass(Widget w, int data)
 {
 	if  (data)  {
 		if  (PREQ.spp_minsize != 0  &&  PREQ.spp_maxsize != 0  &&  PREQ.spp_minsize > PREQ.spp_maxsize)  {
@@ -248,7 +248,7 @@ static void	endpclass(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-static void	maxmin_incr(int w, XtIntervalId *id)
+static void  maxmin_incr(int w, XtIntervalId *id)
 {
 	ULONG	*wp;
 
@@ -259,7 +259,7 @@ static void	maxmin_incr(int w, XtIntervalId *id)
 	arrow_timer = XtAppAddTimeOut(app, id? arr_rint: arr_rtime, (XtTimerCallbackProc) maxmin_incr, INT_TO_XTPOINTER(w));
 }
 
-static void	maxmin_decr(int w, XtIntervalId *id)
+static void  maxmin_decr(int w, XtIntervalId *id)
 {
 	ULONG	*wp;
 
@@ -273,7 +273,7 @@ static void	maxmin_decr(int w, XtIntervalId *id)
 	arrow_timer = XtAppAddTimeOut(app, id? arr_rint: arr_rtime, (XtTimerCallbackProc) maxmin_decr, INT_TO_XTPOINTER(w));
 }
 
-static void	upmaxmin(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  upmaxmin(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)
 		maxmin_incr(subj, NULL);
@@ -281,7 +281,7 @@ static void	upmaxmin(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 		XtRemoveTimeOut(arrow_timer);
 }
 
-static void	dnmaxmin(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
+static void  dnmaxmin(Widget w, int subj, XmArrowButtonCallbackStruct *cbs)
 {
 	if  (cbs->reason == XmCR_ARM)
 		maxmin_decr(subj, NULL);
@@ -289,7 +289,7 @@ static void	dnmaxmin(Widget w, int subj, XmArrowButtonCallbackStruct * cbs)
 		XtRemoveTimeOut(arrow_timer);
 }
 
-void	cb_pclass(Widget parent)
+void  cb_pclass(Widget parent)
 {
 	Widget	pc_shell, panew, mainform, titw;
 	const  struct	spptr	*pp = getselectedptr(PV_ADDDEL, $EH{No perm change class});
@@ -393,7 +393,7 @@ void	cb_pclass(Widget parent)
 	CreateActionEndDlg(pc_shell, panew, (XtCallbackProc) endpclass, $H{Ptr class dlg});
 }
 
-static void	endnewp(Widget w, int data)
+static void  endnewp(Widget w, int data)
 {
 	char		*txt;
 #if  	defined(HAVE_XM_COMBOBOX_H)  &&  !defined(BROKEN_COMBOBOX)
@@ -462,7 +462,7 @@ static void	endnewp(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_padd(Widget parent)
+void  cb_padd(Widget parent)
 {
 	Widget	padd_shell, panew, mainform, prevabove,
 		dtitw,		dselb,
@@ -591,7 +591,7 @@ void	cb_padd(Widget parent)
 	CreateActionEndDlg(padd_shell, panew, (XtCallbackProc) endnewp, $H{Ptr add dlg});
 }
 
-static void	pmacroexec(char *str, const struct spptr *pp)
+static void  pmacroexec(char *str, const struct spptr *pp)
 {
 	static	char	*execprog;
 	PIDTYPE	pid;
@@ -642,7 +642,7 @@ static void	pmacroexec(char *str, const struct spptr *pp)
 	}
 }
 
-static void	endpmacro(Widget w, int data)
+static void  endpmacro(Widget w, int data)
 {
 	if  (data)  {
 		char	*txt;
@@ -654,7 +654,7 @@ static void	endpmacro(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_macrop(Widget parent, int data)
+void  cb_macrop(Widget parent, int data)
 {
 	char	*prompt = helpprmpt(data + $P{Printer macro});
 	int	*plist, pcnt;
@@ -697,7 +697,7 @@ void	cb_macrop(Widget parent, int data)
 	CreateActionEndDlg(pc_shell, panew, (XtCallbackProc) endpmacro, $H{Printer macro});
 }
 
-static void	endpdev(Widget w, int data)
+static void  endpdev(Widget w, int data)
 {
 	char	*txt;
 	if  (!data)  {
@@ -727,7 +727,7 @@ static void	endpdev(Widget w, int data)
 	XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_pdev(Widget w)
+void  cb_pdev(Widget w)
 {
 	Widget	pd_shell, panew, mainform, titw, dtitw, dselb;
 	const  struct	spptr	*pp = getselectedptr(PV_ADDDEL, $EH{No perm change dev});

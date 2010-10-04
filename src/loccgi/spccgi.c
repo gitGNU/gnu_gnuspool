@@ -65,7 +65,7 @@ struct	spdet	*mypriv;
 
 /* Keep library happy */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -73,7 +73,7 @@ void	nomem(void)
 
 struct	argop  {
 	const	char	*name;		/* Name of parameter case insens */
-	int	(*arg_fn)(struct spptr *, const struct argop *);
+	int 	(*arg_fn)(struct spptr *, const struct argop *);
 	short	typ;			/* Type of parameter */
 #define	AO_BOOL		0
 #define	AO_ULONG	1
@@ -89,7 +89,7 @@ struct	argop  {
 	struct  argop	*next;
 };
 
-int	arg_netflags(struct spptr *pp, const struct argop *ao)
+int  arg_netflags(struct spptr *pp, const struct argop *ao)
 {
 	USHORT	bit = ao->ao_un.ao_boolbit;
 	if  (ao->off)
@@ -99,7 +99,7 @@ int	arg_netflags(struct spptr *pp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_class(struct spptr *pp, const struct argop *ao)
+int  arg_class(struct spptr *pp, const struct argop *ao)
 {
 	ULONG	rcl = ao->ao_un.ao_ulong;
 	if  (!(mypriv->spu_flgs & PV_COVER))
@@ -110,19 +110,19 @@ int	arg_class(struct spptr *pp, const struct argop *ao)
 	return  1;
 }
 
-int	arg_form(struct spptr *pp, const struct argop *ao)
+int  arg_form(struct spptr *pp, const struct argop *ao)
 {
 	strncpy(pp->spp_form, ao->ao_un.ao_string, MAXFORM);
 	return  1;
 }
 
-int	arg_dev(struct spptr *pp, const struct argop *ao)
+int  arg_dev(struct spptr *pp, const struct argop *ao)
 {
 	strncpy(pp->spp_dev, ao->ao_un.ao_string, LINESIZE);
 	return  1;
 }
 
-int	arg_descr(struct spptr *pp, const struct argop *ao)
+int  arg_descr(struct spptr *pp, const struct argop *ao)
 {
 	strncpy(pp->spp_comment, ao->ao_un.ao_string, COMMENTSIZE);
 	return  1;
@@ -155,7 +155,7 @@ struct	actop  {
 };
 
 
-void	list_op(char *arg, char *cp)
+void  list_op(char *arg, char *cp)
 {
 	int	cnt;
 
@@ -206,7 +206,7 @@ void	list_op(char *arg, char *cp)
 	exit(E_SETUP);
 }
 
-void	apply_ops(char *arg)
+void  apply_ops(char *arg)
 {
 	const	Hashspptr	*hpp;
 	const	struct  spptr	*pp;
@@ -260,12 +260,13 @@ void	apply_ops(char *arg)
 	waitsig();
 }
 
-void	apply_action(struct actop *aop, char *arg)
+void  apply_action(struct actop *aop, char *arg)
 {
 	const	Hashspptr	*hpp;
 	const	struct  spptr	*pp;
 	struct	ptrswanted	pw;
 	struct	spr_req		preq;
+	int	blkcount = MSGQ_BLOCKS;
 
 	if  (!decode_pname(arg, &pw))  {
 		if  (html_out_cparam_file("badcarg", 1, arg))
@@ -301,9 +302,17 @@ void	apply_action(struct actop *aop, char *arg)
 	preq.spr_un.o.spr_seq = 0;
 	preq.spr_un.o.spr_netid = 0;
 
-	if  (msgsnd(Ctrl_chan, (struct msgbuf *) &preq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
-		html_disperror(errno == EAGAIN? $E{IPC msg q full}: $E{IPC msg q error});
-		exit(E_SETUP);
+	while  (msgsnd(Ctrl_chan, (struct msgbuf *) &preq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
+		if  (errno != EAGAIN)  {
+			html_disperror($E{IPC msg q error});
+			exit(E_SETUP);
+		}
+		blkcount--;
+		if  (blkcount <= 0)  {
+			html_disperror($E{IPC msg q full});
+			exit(E_SETUP);
+		}
+		sleep(MSGQ_BLOCKWAIT);
 	}
 	return;
 
@@ -312,7 +321,7 @@ badstate:
 	exit(E_USAGE);
 }
 
-void	perform_update(char **args)
+void  perform_update(char **args)
 {
 	char	**ap = args, *arg = *ap;
 

@@ -39,12 +39,10 @@ void  wh_fill(WINDOW *wp, const int row, const struct sctrl *scp, const classcod
 	mvwaddstr(wp, row, scp->col, hex_disp(value, 1));
 }
 
-classcode_t whexnum(WINDOW *wp, const int row, struct sctrl *scp, const classcode_t exist)
+classcode_t  whexnum(WINDOW *wp, const int row, struct sctrl *scp, const classcode_t exist)
 {
 	classcode_t	result = exist;
-	int	ch;
-	int	whichcol = 0, isfirst = 1;
-	int	err_no, err_off = 0;
+	int	ch, whichcol = 0, isfirst = 1, err_no, err_off = 0;
 
 	/* Initialise help/error message values and strings.  */
 

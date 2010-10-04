@@ -32,7 +32,7 @@
 
 static	FILE	*fid;
 
-void	close_optfile(void)
+void  close_optfile()
 {
 	if  (fid != (FILE *) 0)  {
 		fclose(fid);
@@ -45,13 +45,12 @@ void	close_optfile(void)
    BE FREED IN THE CALLING ROUTINE when the result is no longer
    needed If the file name is NULL, use the last one.  */
 
-char  *rdoptfile(const char *file, const char *keyword)
+char *rdoptfile(const char *file, const char *keyword)
 {
 	const	char	*inp;
 	char	*outp;
-	int	ch;
 	char	*result = (char *) 0;
-	int	outlen;
+	int	ch, outlen;
 
 	if  (file != (char *) 0)  {
 		close_optfile();	/*  Close previous one  */

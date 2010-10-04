@@ -57,23 +57,23 @@ extern	PIDTYPE	childproc;
 
 extern	struct	spptr		*Pptr;	/*  Current ptr descr  */
 
-void	path_execute(char *, char *, const int);
-int	execorsend(char *, char *, unsigned, const ULONG, const int);
-void	exec_prep(const int, const int);
-int	exec_wait(void);
-void	filtopen(void);
-void	fpush(const int);
-void	nfreport(const int);
-void	report(const int);
-void	pagethrow(int);
-void	pchar(const int);
-void	pflush(void);
-int	opendev(void);
-int	filtclose(const int);
-RETSIGTYPE	stopit(int);
-void	holdorignore(const int);
-void	seterrorstate(const char *);
-extern	void	set_signal(const int, RETSIGTYPE (*)(int));
+extern	void  path_execute(char *, char *, const int);
+extern	int  execorsend(char *, char *, unsigned, const ULONG, const int);
+extern	void  exec_prep(const int, const int);
+extern  int  exec_wait();
+extern  void  filtopen();
+extern	void  fpush(const int);
+extern	void  nfreport(const int);
+extern	void  report(const int);
+extern	void  pagethrow(int);
+extern	void  pchar(const int);
+extern  void  pflush();
+extern  int  opendev();
+extern	int  filtclose(const int);
+extern	RETSIGTYPE  stopit(int);
+extern	void  holdorignore(const int);
+extern	void  seterrorstate(const char *);
+extern	void  set_signal(const int, RETSIGTYPE (*)(int));
 
 extern	LONG	Pages_done;
 
@@ -90,9 +90,9 @@ static	unsigned  char	**chrtab;
    assign it */
 
 #ifdef	OS_PYRAMID
-static void	(*pfunc)(int);
+static void  (*pfunc)(int);
 #else
-static void	(*pfunc)(const int);
+static void  (*pfunc)(const int);
 #endif /* !PYRAMID */
 
 extern	jmp_buf	stopj;
@@ -107,7 +107,7 @@ extern	struct	pages	pfe;
 extern	int	pfile;
 static	int	lcnt;
 
-static	int	hexchar(const int ch)
+static	int  hexchar(const int ch)
 {
 	switch  (ch)  {
 	default:
@@ -126,7 +126,7 @@ static	int	hexchar(const int ch)
    for each big letter.  The first letter we understand is
    "chrbase". (usually space) */
 
-void	init_bigletter(void)
+void  init_bigletter()
 {
 	int	pch;
 	char	*cp;
@@ -187,7 +187,7 @@ void	init_bigletter(void)
 
 /* Print character of banner.  */
 
-void	banch(int x, const int row)
+void  banch(int x, const int row)
 {
 	unsigned  ent, bit;
 	int  i;
@@ -201,7 +201,7 @@ void	banch(int x, const int row)
 
 /* Print word of banner.  */
 
-void	banwd(const char *word)
+void  banwd(const char *word)
 {
 	int  row, cnt;
 	const	char  *cp;
@@ -217,7 +217,7 @@ void	banwd(const char *word)
 
 /* Generate newlines.  */
 
-void	newline(int n)
+void  newline(int n)
 {
 	lcnt += n;
 	while  (--n >= 0)
@@ -226,7 +226,7 @@ void	newline(int n)
 
 /* Print time.  */
 
-void	tprin(time_t tim)
+void  tprin(time_t tim)
 {
 	struct  tm  *tp = localtime(&tim);
 	char	*cp;
@@ -260,7 +260,7 @@ void	tprin(time_t tim)
 	lcnt++;
 }
 
-void	pfstr(const char *s)
+void  pfstr(const char *s)
 {
 	while  (*s)
 		(*pfunc)(*s++);
@@ -268,10 +268,9 @@ void	pfstr(const char *s)
 
 /* Push message at output function.  */
 
-void	pfpe(const int n)
+void  pfpe(const int n)
 {
-	char	**emess = helpvec(n, 'E');
-	char	**ep;
+	char	**emess = helpvec(n, 'E'), **ep;
 
 	for  (ep = emess;  *ep;  ep++)  {
 		pfstr(*ep);
@@ -284,7 +283,7 @@ void	pfpe(const int n)
 
 /* Ditto, first ensuring output function is set */
 
-void	outerr(const int n)
+void  outerr(const int n)
 {
 	pfunc = pchar;
 	pfpe(n);
@@ -364,7 +363,7 @@ int	bannprin(struct spq *jp, void (*pfl)(const int))
 
 /* Run banner program */
 
-void	runbann(struct spq *jp)
+void  runbann(struct spq *jp)
 {
 	char	*cmdbuff;
 
@@ -415,7 +414,7 @@ void	runbann(struct spq *jp)
 
 /* Worry about banners */
 
-void	dobanner(struct spq *jp)
+void  dobanner(struct spq *jp)
 {
 	if  (!(in_params.pi_flags & PI_FORCEHDR)  &&
 	     (in_params.pi_flags & PI_NOHDR || jp->spq_jflags & SPQ_NOH))

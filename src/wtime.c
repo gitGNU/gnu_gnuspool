@@ -56,11 +56,11 @@ extern	struct	spq	JREQ;
 
 extern	char	helpclr;
 
-void	dochelp(WINDOW *, const int);
-void	doerror(WINDOW *, const int);
-void	endhe(WINDOW *, WINDOW **);
+void  dochelp(WINDOW *, const int);
+void  doerror(WINDOW *, const int);
+void  endhe(WINDOW *, WINDOW **);
 
-static void	initnames(void)
+static void  initnames()
 {
 	int	i;
 
@@ -104,7 +104,7 @@ void  tdisplay(WINDOW *w, const time_t t, const int row, const int col)
    Return:		0 abort
 			1 ok	*/
 
-static	int	gettdigs(WINDOW *w, const int row, const int col)
+static	int  gettdigs(WINDOW *w, const int row, const int col)
 {
 	int	dignum, coladd, ch, err_no, dig, ctim, newtim;
 	time_t	ht;
@@ -419,7 +419,7 @@ static	int	gettdigs(WINDOW *w, const int row, const int col)
 	}
 }
 
-static	int	getdw(WINDOW *w, const int row, const int acol)
+static	int  getdw(WINDOW *w, const int row, const int acol)
 {
 	int	col, ch, err_no;
 
@@ -491,7 +491,7 @@ static	int	getdw(WINDOW *w, const int row, const int acol)
 	}
 }
 
-static	int	getdm(WINDOW *w, const int row, const int acol)
+static	int  getdm(WINDOW *w, const int row, const int acol)
 {
 	int	col, dignum, ch, err_no, dig, newday, cday, cmon;
 	time_t	ht = JREQ.spq_hold;
@@ -623,7 +623,7 @@ static	int	getdm(WINDOW *w, const int row, const int acol)
 	}
 }
 
-static	int	getmon(WINDOW *w, const int row, const int acol)
+static	int  getmon(WINDOW *w, const int row, const int acol)
 {
 	int	col, ch, err_no;
 	time_t	ht = JREQ.spq_hold;
@@ -709,7 +709,7 @@ static	int	getmon(WINDOW *w, const int row, const int acol)
 	}
 }
 
-static	int	getyr(WINDOW *w, const int row, const int acol)
+static	int  getyr(WINDOW *w, const int row, const int acol)
 {
 	int	col, ch, err_no;
 	time_t	ht = JREQ.spq_hold;
@@ -824,7 +824,7 @@ static	int	getyr(WINDOW *w, const int row, const int acol)
 	}
 }
 
-int	wtime(WINDOW *w, const int row, const int col)
+int  wtime(WINDOW *w, const int row, const int col)
 {
 	int	i, ret;
 	static	int	(*fns[])(WINDOW *, const int, const int) = { gettdigs, getdw, getdm, getmon, getyr };

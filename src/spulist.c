@@ -48,7 +48,7 @@ static	char	alphsort = SORT_NONE, defline = 1, ulines = 1;
 
 extern	struct	sphdr	Spuhdr;
 
-static	char	*defaultname, *allname, *licu, *unlicu, *privnames[NUM_PRIVS];
+static	char	*defaultname, *allname, *privnames[NUM_PRIVS];
 static	ULONG	privbits[] = {
 PV_ADMIN,	PV_SSTOP,	PV_FORMS,	PV_OTHERP,
 PV_CPRIO,	PV_OTHERJ,	PV_PRINQ,	PV_HALTGO,
@@ -68,7 +68,7 @@ int	spitoption(const int, const int, FILE *, const int, const int);
 
 /* For benefit of library routines */
 
-void	nomem(void)
+void	nomem()
 {
 	print_error($E{NO MEMORY});
 	exit(E_NOMEM);
@@ -76,32 +76,32 @@ void	nomem(void)
 
 typedef	unsigned	fmt_t;
 
-static fmt_t	fmt_form(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_form(struct spdet *up, const int fwidth)
 {
 	return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_form: Spuhdr.sph_form));
 }
 
-static fmt_t	fmt_printer(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_printer(struct spdet *up, const int fwidth)
 {
 	return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_ptr: Spuhdr.sph_ptr));
 }
 
-static fmt_t	fmt_formallow(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_formallow(struct spdet *up, const int fwidth)
 {
 	return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_formallow: Spuhdr.sph_formallow));
 }
 
-static fmt_t	fmt_ptrallow(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_ptrallow(struct spdet *up, const int fwidth)
 {
 	return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_ptrallow: Spuhdr.sph_ptrallow));
 }
 
-static fmt_t	fmt_class(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_class(struct spdet *up, const int fwidth)
 {
 	return  (fmt_t) strlen(strcpy(bigbuff, hex_disp(up? up->spu_class: Spuhdr.sph_class, 0)));
 }
 
-static fmt_t	fmt_defpri(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_defpri(struct spdet *up, const int fwidth)
 {
 #ifdef	CHARSPRINTF
 	sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_defp: (unsigned) Spuhdr.sph_defp);
@@ -111,7 +111,7 @@ static fmt_t	fmt_defpri(struct spdet *up, const int fwidth)
 #endif
 }
 
-static fmt_t	fmt_minpri(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_minpri(struct spdet *up, const int fwidth)
 {
 #ifdef	CHARSPRINTF
 	sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_minp: (unsigned) Spuhdr.sph_minp);
@@ -121,7 +121,7 @@ static fmt_t	fmt_minpri(struct spdet *up, const int fwidth)
 #endif
 }
 
-static fmt_t	fmt_maxpri(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_maxpri(struct spdet *up, const int fwidth)
 {
 #ifdef	CHARSPRINTF
 	sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_maxp: (unsigned) Spuhdr.sph_maxp);
@@ -131,7 +131,7 @@ static fmt_t	fmt_maxpri(struct spdet *up, const int fwidth)
 #endif
 }
 
-static fmt_t	fmt_copies(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_copies(struct spdet *up, const int fwidth)
 {
 #ifdef	CHARSPRINTF
 	sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_cps: (unsigned) Spuhdr.sph_cps);
@@ -141,7 +141,7 @@ static fmt_t	fmt_copies(struct spdet *up, const int fwidth)
 #endif
 }
 
-static fmt_t	fmt_priv(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_priv(struct spdet *up, const int fwidth)
 {
 	ULONG	priv = up? up->spu_flgs: Spuhdr.sph_flgs;
 
@@ -164,14 +164,25 @@ static fmt_t	fmt_priv(struct spdet *up, const int fwidth)
 	}
 }
 
-static fmt_t	fmt_user(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_uid(struct spdet *up, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, up? prin_uname((uid_t) up->spu_user) : defaultname));
+#ifdef	CHARSPRINTF
+	if  (up)
+		sprintf(bigbuff, "%*u", fwidth, (unsigned) up->spu_user);
+	else
+		sprintf(bigbuff, "%*s", fwidth, "-");
+	return  (fmt_t) strlen(bigbuff);
+#else
+	if  (up)
+		return  (fmt_t) sprintf(bigbuff, "%*u", fwidth, (unsigned) up->spu_user);
+	else
+		return  (fmt_t)  sprintf(bigbuff, "%*s", fwidth, "-");
+#endif
 }
 
-static fmt_t	fmt_licu(struct spdet *up, const int fwidth)
+static  fmt_t  fmt_user(struct spdet *up, const int fwidth)
 {
-	return  (fmt_t) (up? strlen(strcpy(bigbuff, up->spu_isvalid == SPU_VALID? licu: unlicu)) : 0);
+	return  (fmt_t) strlen(strcpy(bigbuff, up? prin_uname((uid_t) up->spu_user) : defaultname));
 }
 
 /* Mapping of format characters (assumed A-Z a-z) and format routines */
@@ -179,7 +190,7 @@ static fmt_t	fmt_licu(struct spdet *up, const int fwidth)
 struct	formatdef  {
 	SHORT	statecode;	/* Code number for heading if applicable */
 	char	*msg;		/* Heading */
-	unsigned	(*fmt_fn)(struct spdet *, const int);
+	unsigned  (*fmt_fn)(struct spdet *, const int);
 };
 
 #define	NULLCP	(char *) 0
@@ -194,7 +205,7 @@ struct	formatdef
 	{	$P{Spulist title}+'f'-1,	NULLCP,	fmt_form	},	/* f */
 	{	0,				NULLCP,	0		},	/* g */
 	{	0,				NULLCP,	0		},	/* h */
-	{	0,				NULLCP,	0		},	/* i */
+	{	$P{Spulist title}+'i'-1,	NULLCP,	fmt_uid		},	/* i */
 	{	0,				NULLCP,	0		},	/* j */
 	{	0,				NULLCP,	0		},	/* k */
 	{	$P{Spulist title}+'l'-1,	NULLCP,	fmt_minpri	},	/* l */
@@ -207,7 +218,7 @@ struct	formatdef
 	{	0,				NULLCP, 0		},	/* s */
 	{	0,				NULLCP, 0		},	/* t */
 	{	$P{Spulist title}+'u'-1,	NULLCP, fmt_user	},	/* u */
-	{	$P{Spulist title}+'v'-1,	NULLCP,	fmt_licu	},	/* v */
+	{	0,				NULLCP,	0		},	/* v */
 	{	0,				NULLCP,	0		},	/* w */
 	{	0,				NULLCP,	0		},	/* x */
 	{	0,				NULLCP,	0		},	/* y */
@@ -216,10 +227,9 @@ struct	formatdef
 
 /* Display contents of user list.  */
 
-void	udisplay(struct spdet *ul, const unsigned nu)
+void  udisplay(struct spdet *ul, const unsigned nu)
 {
-	struct  spdet	*up;
-	struct  spdet  *ep = &ul[nu];
+	struct  spdet	*up, *ep = &ul[nu];
 	char	*fp;
 	unsigned  pieces, pc, *lengths = (unsigned *) 0;
 	int	lng;
@@ -462,7 +472,7 @@ o_formatdflt,	o_header,	o_noheader,
 o_freezecd,	o_freezehd
 };
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0;
 	fprintf(dest, "%s", name);
@@ -489,7 +499,7 @@ void	spit_options(FILE *dest, const char *name)
 	putc('\n', dest);
 }
 
-int	sort_u(struct spdet *a, struct spdet *b)
+static	int  sort_u(struct spdet *a, struct spdet *b)
 {
 	return  strcmp(prin_uname((uid_t) a->spu_user), prin_uname((uid_t) b->spu_user));
 }
@@ -500,7 +510,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	int_ugid_t	chk_uid;
 #endif
 	struct	spdet	*mypriv, *ulist = (struct spdet *) 0;
-	unsigned	Nu = 0, pn;
+	unsigned	pn, nusers = 0;
 
 	versionprint(argv, "$Revision: 1.2 $", 0);
 
@@ -524,16 +534,12 @@ MAINFN_TYPE	main(int argc, char **argv)
 	}
 	defaultname = gprompt($P{Spulist default name});
 	allname = gprompt($P{Spulist all name});
-	licu = gprompt($P{Spulist lic user});
-	unlicu = gprompt($P{Spulist unlic user});
 
 	for  (pn = 0;  pn < NUM_PRIVS;  pn++)
 		privnames[pn] = gprompt($P{Priv adm} + pn);
 
-	if  (!(mypriv = getspuentry(Realuid)))  {
-		print_error($E{Not registered yet});
-		exit(E_UNOTSETUP);
-	}
+	mypriv = getspuentry(Realuid);
+
 #include "inline/freezecode.c"
 	if  (freeze_wanted)
 		exit(0);
@@ -541,15 +547,47 @@ MAINFN_TYPE	main(int argc, char **argv)
 		print_error($E{shell no admin file priv});
 		exit(E_NOPRIV);
 	}
-	if  (spu_needs_rebuild)
-		print_error($E{Spufile needs rebuild});
 	if  (ulines)  {
-		ulist = getspulist(&Nu);
+		if  (*argv)  {
+			char  **av = argv;
+			struct  spdet  *up;
+			nusers = 1;
+			while  (*++av)
+				nusers++;
+			ulist = (struct spdet *) malloc(nusers * sizeof(struct spdet));
+			if  (!ulist)
+				nomem();
+			up = ulist;
+			for  (av = argv;  *av;  av++)  {
+				char  *uname = *av;
+				int_ugid_t  uid;
+				if  (isdigit(uname[0]))
+					uid = atoi(uname);
+				else  if  ((uid = lookup_uname(uname)) == UNKNOWN_UID)  {
+					nusers--;
+					disp_str = uname;
+					print_error($E{Unknown user name ignored});
+					continue;
+				}
+				/* Get spuentry always returns something these days */
+				*up++ = *getspuentry(uid);
+			}
+		}
+		else  {
+			ulist = getspulist();
+			nusers = Npwusers;
+		}
 		if  (alphsort == SORT_USER)
-			qsort(QSORTP1 ulist, Nu, sizeof(struct spdet), QSORTP4 sort_u);
+			qsort(QSORTP1 ulist, nusers, sizeof(struct spdet), QSORTP4 sort_u);
+
 	}
+	else  if  (!*argv)  {
+		print_error($E{Unexpected arguments follow defaults});
+		return  E_USAGE;
+	}
+
 	if  (!formatstring)
 		formatstring = sdefaultfmt;
-	udisplay(ulist, Nu);
+	udisplay(ulist, nusers);
 	exit(0);
 }

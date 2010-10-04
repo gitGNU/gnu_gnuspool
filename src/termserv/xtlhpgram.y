@@ -21,7 +21,7 @@
 #include "incl_unix.h"
 #include "xtlhpdefs.h"
 
-extern int	yylex(void);
+extern int  yylex();
 
 int	errors = 0;
 
@@ -29,13 +29,13 @@ extern	int	line_count;
 
 extern	struct	command	*Control_list;
 
-void	yyerror(char *msg)
+void  yyerror(char *msg)
 {
 	fprintf(stderr, "Parse error: %s on line %d\n", msg, line_count);
 	errors++;
 }
 
-struct	compare	 *alloc_compare(int type)
+struct	compare	*alloc_compare(int type)
 {
 	struct	compare	*result;
 	if  (!(result = (struct compare *) malloc(sizeof(struct compare))))
@@ -44,7 +44,7 @@ struct	compare	 *alloc_compare(int type)
 	return  result;
 }
 
-struct value  *alloc_value(int type)
+struct value *alloc_value(int type)
 {
 	struct	value	*result;
 	if  (!(result = (struct value *) malloc(sizeof(struct value))))
@@ -53,7 +53,7 @@ struct value  *alloc_value(int type)
 	return  result;
 }
 
-struct boolexpr  *alloc_boolexpr(int type)
+struct boolexpr *alloc_boolexpr(int type)
 {
 	struct  boolexpr  *result;
 	if  (!(result = (struct boolexpr *) malloc(sizeof(struct boolexpr))))
@@ -62,7 +62,7 @@ struct boolexpr  *alloc_boolexpr(int type)
 	return  result;
 }
 
-struct	command	 *alloc_cmd(int type)
+struct	command	*alloc_cmd(int type)
 {
 	struct	command	*result;
 	if  (!(result = (struct command *) malloc(sizeof(struct command))))
@@ -277,7 +277,7 @@ bitexpr:	bitstring BITOP value
 		;
 
 bitstring:	SNMPSTRVAL  |  	LASTVAL { $$ = 0;  } ;
-			
+
 defexpr:	SNMPDEFINED
 			{
 				$$ = alloc_boolexpr(VARDEFINED);

@@ -36,7 +36,7 @@ char *match_comma(char *patt)
 	return  patt;
 }
 
-int	isinrange(const int ch, const char *patt, int *cnt)
+int  isinrange(const int ch, const char *patt, int *cnt)
 {
 	int	nott = 0;
 	const	char	*patta = patt;
@@ -104,7 +104,7 @@ int	isinrange(const int ch, const char *patt, int *cnt)
 	return  1;
 }
 
-int	repattok(const char *str)
+int  repattok(const char *str)
 {
 	while  (*str)  {
 		if  (*str == '[')  {

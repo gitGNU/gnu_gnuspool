@@ -96,11 +96,11 @@ int	wotl;
 
 char	*Curr_pwd, *spdir, *tmpfl, *pgfl;
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
-char	*spath(const char *, const char *);
+extern	int  spitoption(const int, const int, FILE *, const int, const int);
+extern	int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+extern	char *spath(const char *, const char *);
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -108,7 +108,7 @@ void	nomem(void)
 
 /* On a signal, remove file.  */
 
-RETSIGTYPE	catchit(int n)
+RETSIGTYPE  catchit(int n)
 {
 	unlink(tmpfl);
 	unlink(pgfl);
@@ -117,7 +117,7 @@ RETSIGTYPE	catchit(int n)
 
 /* On alarm signal...  */
 
-RETSIGTYPE	acatch(int n)
+RETSIGTYPE  acatch(int n)
 {
 #ifdef	HAVE_SIGACTION
 #ifndef	SA_NODEFER
@@ -148,7 +148,7 @@ static	char	sig_ignd[sizeof(sigstocatch)];	/*  Ignore these indices */
 /* If we have got better signal handling, use it.
    What a hassle!!!!!  */
 
-void	catchsigs(void)
+void  catchsigs()
 {
 	int	i;
 #ifdef	STRUCT_SIG
@@ -196,7 +196,7 @@ void	catchsigs(void)
 #endif
 }
 
-static void	holdsigs(void)
+static void  holdsigs()
 {
 	int	i;
 #ifdef	HAVE_SIGACTION
@@ -226,7 +226,7 @@ static void	holdsigs(void)
 #endif
 }
 
-static void	releasesigs(void)
+static void  releasesigs()
 {
 	int	i;
 #ifdef	HAVE_SIGACTION
@@ -253,7 +253,7 @@ static void	releasesigs(void)
 #endif
 }
 
-static void	default_sigs(void)
+static void  default_sigs()
 {
 	int	i;
 
@@ -293,7 +293,7 @@ static void	default_sigs(void)
 
 /* Generate output file name */
 
-FILE *	goutfile(void)
+FILE *goutfile()
 {
 	FILE	*res;
 	int	fid;
@@ -319,7 +319,7 @@ FILE *	goutfile(void)
 
 /* Get input file.  */
 
-FILE *	ginfile(const char * arg)
+FILE *ginfile(const char *arg)
 {
 	FILE  *inf;
 
@@ -387,8 +387,7 @@ FILE *	ginfile(const char * arg)
 	}
 	else  {
 		FILE	*res;
-		int  ch;
-		int	pfile[2];
+		int	ch, pfile[2];
 
 		/* Otherwise we fork off a process to read the file as
 		   the files might not be readable by the spooler
@@ -469,7 +468,7 @@ FILE *	ginfile(const char * arg)
 
 /* Check for alarm and read input */
 
-int	togetc(FILE * f)
+int  togetc(FILE *f)
 {
 	if  (SPQ.spq_size > 0L)  {
 		int	ch;
@@ -488,7 +487,7 @@ int	togetc(FILE * f)
 /* Yes it's true.... DYNIX doesn't have this function in stdio...
    Neither do some Suns. Neither do lots and lots lets test for it.  */
 
-static	int	fgetc(FILE * f)
+static	int  fgetc(FILE *f)
 {
 	return	getc(f);
 }
@@ -498,7 +497,7 @@ static	int	fgetc(FILE * f)
    page descriptor file if we aren't happy with the standard one
    If we have a timeout, return 1, otherwise 0.  */
 
-int	copyout(FILE * inf, FILE * outf, const int fpipe)
+int  copyout(FILE *inf, FILE *outf, const int fpipe)
 {
 	int	ch;
 	char	*rcp;
@@ -576,8 +575,8 @@ int	copyout(FILE * inf, FILE * outf, const int fpipe)
 		exit(E_IO);
 	}
 	pfe.lastpage = 0;	/* Fix this later perhaps */
-	write(pgfid, (char *) &pfe, sizeof(pfe));
-	write(pgfid, delimiter, (unsigned) pfe.deliml);
+	Ignored_error = write(pgfid, (char *) &pfe, sizeof(pfe));
+	Ignored_error = write(pgfid, delimiter, (unsigned) pfe.deliml);
 
 	rcp = delimiter;
 	rcdend = delimiter + pfe.deliml;
@@ -641,7 +640,7 @@ int	copyout(FILE * inf, FILE * outf, const int fpipe)
 		SPQ.spq_npages++;
 		if  ((pfe.lastpage = pfe.delimnum - rec_cnt) > 0)  {
 			lseek(pgfid, 0L, 0);
-			write(pgfid, (char *) &pfe, sizeof(pfe));
+			Ignored_error = write(pgfid, (char *) &pfe, sizeof(pfe));
 		}
 	}
 
@@ -665,7 +664,7 @@ int	copyout(FILE * inf, FILE * outf, const int fpipe)
 
 /* Enqueue request to spool scheduler.  */
 
-void	enqueue(char * name)
+void  enqueue(char *name)
 {
 	unsigned  sleeptime = 1;
 
@@ -730,7 +729,7 @@ void	enqueue(char * name)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	FILE  *inf, *outf;
 	int	nohdr, exitcode = 0, ret;

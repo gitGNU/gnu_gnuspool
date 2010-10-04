@@ -70,27 +70,27 @@
 
 #define	C_MASK	0177
 
-int	closedev(void);
-void	dobanner(struct spq *);
-int	doportsu(void);
-void	exec_prep(const int, const int);
-int	exec_wait(void);
-int	execorsend(char *, char *, unsigned, const ULONG, const int);
-void	path_execute(char *, char *, const int);
-void	filtopen(void);
-void	fpush(const int);
-void	init_bigletter(void);
-void	outerr(const int);
-void	nfreport(const int);
-void	pchar(const int);
-void	pflush(void);
-void	report(const int);
-int	filtclose(const int);
-int	rinitfile(void);
-int	opendev(void);
-int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
-extern RETSIGTYPE	catchoff(int);	/*  Function for catching SIGHUPS with  */
-FILE *	getjobfile(struct spq *, const int);
+extern  int	closedev();
+extern	void	dobanner(struct spq *);
+extern  int	doportsu();
+extern	void	exec_prep(const int, const int);
+extern  int	exec_wait();
+extern	int	execorsend(char *, char *, unsigned, const ULONG, const int);
+extern	void	path_execute(char *, char *, const int);
+extern  void	filtopen();
+extern	void	fpush(const int);
+extern  void	init_bigletter();
+extern	void	outerr(const int);
+extern	void	nfreport(const int);
+extern	void	pchar(const int);
+extern  void	pflush();
+extern	void	report(const int);
+extern	int	filtclose(const int);
+extern  int	rinitfile();
+extern  int	opendev();
+extern	int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+extern RETSIGTYPE  catchoff(int);	/*  Function for catching SIGHUPS with  */
+extern	FILE	*getjobfile(struct spq *, const int);
 
 extern	char	**environ;
 
@@ -196,19 +196,19 @@ LONG		*pageoffsets;
 
 /* Send a message back to the scheduler */
 
-void	sendrep(const int code)
+void  sendrep(const int code)
 {
 	reply.spr_un.c.spr_act = (USHORT) code;
-	msgsnd(Ctrl_chan, (struct msgbuf *) &reply, sizeof(struct sp_cmsg), 0);
+	msgsnd(Ctrl_chan, (struct msgbuf *) &reply, sizeof(struct sp_cmsg), 0); /* Wait until we can send it */
 }
 
-void	set_pstate(const unsigned code)
+void  set_pstate(const unsigned code)
 {
 	Pptr->spp_state = code;
 	Ptr_seg.dptr->ps_serial++;
 }
 
-void	set_pstate_exit(const unsigned code)
+void  set_pstate_exit(const unsigned code)
 {
 	set_pstate(code);
 	Pptr->spp_dflags = 0;		/*  In case left around */
@@ -218,27 +218,27 @@ void	set_pstate_exit(const unsigned code)
 	exit(0);
 }
 
-void	set_pstate_notify(const unsigned code)
+void  set_pstate_notify(const unsigned code)
 {
 	set_pstate(code);
 	sendrep(SPD_SCH);
 }
 
-void	seterrorstate(const char *msg)
+void  seterrorstate(const char *msg)
 {
 	if  (msg)
 		strncpy(Pptr->spp_feedback, msg, PFEEDBACK);
 	set_pstate_exit(SPP_ERROR);
 }
 
-void	setofflinestate(void)
+void  setofflinestate()
 {
 	set_pstate_exit(SPP_OFFLINE);
 }
 
 /* Open job segments. */
 
-void	initjseg(void)
+void  initjseg()
 {
 #ifdef	USING_MMAP
 	char	*fname = mkspdirfile(JIMMAP_FILE);
@@ -294,7 +294,7 @@ void	initjseg(void)
 /* The scheduler sends messages if it has to reallocate the shared
    memory segment used to hold the printer list or job queue. */
 
-void	remap(void)
+void  remap()
 {
 #ifdef	USING_MMAP
 
@@ -374,7 +374,7 @@ void	remap(void)
 
 /* Receive a message from the scheduler */
 
-void	getreq(struct spr_req *buf)
+void  getreq(struct spr_req *buf)
 {
 	do  {
 		if  (msgrcv(Ctrl_chan,
@@ -393,7 +393,7 @@ void	getreq(struct spr_req *buf)
 
 /* Catch restart messages.  */
 
-RETSIGTYPE	catchrst(int n)
+RETSIGTYPE  catchrst(int n)
 {
 #ifdef	HAVE_SIGACTION
 #ifndef	SA_NODEFER
@@ -414,7 +414,7 @@ RETSIGTYPE	catchrst(int n)
 
 /* Catch abort messages.  */
 
-RETSIGTYPE	stopit(int n)
+RETSIGTYPE  stopit(int n)
 {
 #ifdef	HAVE_SIGACTION
 #ifndef	SA_NODEFER
@@ -436,7 +436,7 @@ RETSIGTYPE	stopit(int n)
 
 /* Hold or ignore signal */
 
-void	holdorignore(const int signum)
+void  holdorignore(const int signum)
 {
 #ifdef	HAVE_SIGACTION
 	sigset_t	nset;
@@ -453,7 +453,7 @@ void	holdorignore(const int signum)
 }
 
 #ifndef	UNSAFE_SIGNALS
-void	unhold(const int signum)
+void  unhold(const int signum)
 {
 #ifdef	HAVE_SIGACTION
 	sigset_t	nset;
@@ -496,7 +496,7 @@ void	set_signal(const int signum, RETSIGTYPE (*val)(int))
 
 /* Add character count to the record, print log file entry if needed.  */
 
-void	addrecord(void)
+void  addrecord()
 {
 	/* Charge extra if one copy only but the guy asked for more */
 
@@ -511,7 +511,7 @@ void	addrecord(void)
 			previous = 0;
 		previous += Num_sent;
 		lseek(rfid, (long) in_params.pi_offset, 0);
-		write(rfid, (char *)&previous, sizeof(previous));
+		Ignored_error = write(rfid, (char *)&previous, sizeof(previous));
 	}
 
 	if  (lfid >= 0)  {
@@ -586,7 +586,7 @@ void	addrecord(void)
 		   fprintf might perform several writes causing
 		   mixed output.  */
 
-		write(lfid, buffer, lng);
+		Ignored_error = write(lfid, buffer, lng);
 	}
 	CRESP.spc_chars = Num_sent;
 	Num_sent = 0;
@@ -596,7 +596,7 @@ void	addrecord(void)
 /* This is where we initialise the printer.
    Terminate (in seterrorstate) if we fail  */
 
-void	startup_state(void)
+void  startup_state()
 {
 	set_pstate_notify(SPP_INIT);
 
@@ -626,7 +626,7 @@ void	startup_state(void)
    cases where we don't have one off of a sequence as we don't
    know where in the last buffersworth the signal came.  */
 
-void	pagethrow(int lcnt)
+void  pagethrow(int lcnt)
 {
 	int	rc, cc, nd, nc;
 	char	*str;
@@ -651,7 +651,7 @@ void	pagethrow(int lcnt)
 
 /* single sheets - await operator.  Return 1 if ok 0 if halting -1 if job deleted */
 
-int	swait(void)
+int  swait()
 {
 	struct	spr_req	nreply;
 
@@ -686,7 +686,7 @@ int	swait(void)
 /* New paper - print out setup file and await reply.
    Return 1 if all done OK, 0 if terminated, -1 if aborted */
 
-int	pwait(void)
+int  pwait()
 {
 	int	ch;
 	struct	spr_req	nreply;
@@ -788,7 +788,7 @@ int	pwait(void)
 
 /* Compage page delimiters etc from file with ones read from setup file Use the latter if it exists */
 
-int	comp_dels(const char *fdelim)
+int  comp_dels(const char *fdelim)
 {
 	if  (pfe.delimnum != in_params.pi_rcount  ||  pfe.deliml != in_params.pi_rcstring - 1)
 		return  0;
@@ -800,7 +800,7 @@ int	comp_dels(const char *fdelim)
    delimiters and text or go through the motions of so doing on
    remote jobs.  */
 
-void	scanpages(struct spq *jp)
+void  scanpages(struct spq *jp)
 {
 	char	*rcp;
 	int	ch;
@@ -884,9 +884,9 @@ void	scanpages(struct spq *jp)
 		if  ((pgfid = open(pfn, O_WRONLY|O_CREAT|O_TRUNC, 0666)) < 0)
 			return;
 
-		write(pgfid, (char *) &pfe, sizeof(struct pages));
-		write(pgfid, rdelim, (unsigned) (in_params.pi_rcstring - 1));
-		write(pgfid, (char *) &pageoffsets[1], (unsigned) outlng);
+		Ignored_error = write(pgfid, (char *) &pfe, sizeof(struct pages));
+		Ignored_error = write(pgfid, rdelim, (unsigned) (in_params.pi_rcstring - 1));
+		Ignored_error = write(pgfid, (char *) &pageoffsets[1], (unsigned) outlng);
 		close(pgfid);
 
 		/* Mark job to indicate that we have assigned a page
@@ -905,7 +905,7 @@ void	scanpages(struct spq *jp)
 			if nonexistent/incompatible page file
 	PAGE_FF		note formfeeds on the fly */
 
-void	page_anal(struct spq *jp)
+void  page_anal(struct spq *jp)
 {
 	char	*fdelim;
 
@@ -965,7 +965,7 @@ void	page_anal(struct spq *jp)
 /* Seek up from from to to.  To take care of remote jobs where we
    can't seek.  Return to.  */
 
-LONG	pfseek(FILE *ifl, LONG from, LONG to)
+LONG  pfseek(FILE *ifl, LONG from, LONG to)
 {
 	if  (Cjob->spq_netid == 0)
 		fseek(ifl, (long) to, 0);
@@ -980,7 +980,7 @@ LONG	pfseek(FILE *ifl, LONG from, LONG to)
    Return 1 if OK, 0 if not (because one of the page send things
    detected an abort signal */
 
-int	contj(FILE *ifl, LONG initpage)
+int  contj(FILE *ifl, LONG initpage)
 {
 	int	ch;
 	void	(*pfunc)() = pchar;
@@ -1100,10 +1100,9 @@ int	contj(FILE *ifl, LONG initpage)
    come, preferring to believe the count that spr made.
    Return 1 ok 0 not ok (page start/end detected abort) */
 
-int	contj_ff(FILE *ifl, LONG initpage)
+int  contj_ff(FILE *ifl, LONG initpage)
 {
-	int	ch;
-	int	lastch = -1;
+	int	ch, lastch = -1;
 	void	(*pfunc)() = pchar;
 	LONG	char_cnt;
 	ULONG	page_cnt;
@@ -1234,7 +1233,7 @@ int	contj_ff(FILE *ifl, LONG initpage)
 
 /* Process a print request */
 
-int	proc_req(void)
+int  proc_req()
 {
 	int	newjob = 0, r;
 	LONG	initpage;
@@ -1538,7 +1537,7 @@ int	proc_req(void)
 
 /* Main printing state after getting through init stuff.  */
 
-void	process(void)
+void  process()
 {
 	for  (;;)  {
 		getreq(&rq);
@@ -1572,11 +1571,10 @@ void	process(void)
 
 /* Initialise environment.  */
 
-void	envinit(void)
+void  envinit()
 {
-	char  **cp, **ncp;
 	int	lng = 1+14;	/*  Null entry + 14 new ones  */
-	char	**newenv;
+	char	**cp, **ncp, **newenv;
 
 	for  (cp = environ;  *cp;  cp++)
 		lng++;
@@ -1647,7 +1645,7 @@ void	envinit(void)
 
    Device/printer/formtype are all extracted from there. */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 #ifdef	USING_MMAP
 	char	*fname;

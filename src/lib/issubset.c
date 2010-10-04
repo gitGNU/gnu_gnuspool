@@ -107,7 +107,7 @@ static int	ssmatch(char *patta, char *pattb) /* TRUE if patta >= pattb */
 	}
 }
 
-static int	smatcha(char *patterna, char *patternb)
+static int  smatcha(char *patterna, char *patternb)
 {
 	int	res;
 	char	*cp;
@@ -136,7 +136,7 @@ static int	smatcha(char *patterna, char *patternb)
 	return  0;
 }
 
-int	issubset(char *patterna, char *patternb)
+int  issubset(char *patterna, char *patternb)
 {
 	int	res;
 	char	*cp;

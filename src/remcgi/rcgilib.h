@@ -30,15 +30,15 @@ struct	ptr_with_slot  {
 	struct	apispptr	ptr;
 };
 
-extern int	sort_p(struct ptr_with_slot *, struct ptr_with_slot *);
-extern int	numeric(const char *);
-extern int	decode_jnum(char *, struct jobswanted *);
-extern int	decode_pname(char *, struct ptrswanted *);
-extern struct apispptr *	find_ptr(const slotno_t);
-extern int	find_ptr_by_name(const char **, struct ptr_with_slot *);
-extern void	api_open(char *);
-extern void	api_readptrs(const unsigned);
-extern void	read_jobqueue(const unsigned);
+extern int  sort_p(struct ptr_with_slot *, struct ptr_with_slot *);
+extern int  numeric(const char *);
+extern int  decode_jnum(char *, struct jobswanted *);
+extern int  decode_pname(char *, struct ptrswanted *);
+extern struct apispptr *find_ptr(const slotno_t);
+extern int  find_ptr_by_name(const char **, struct ptr_with_slot *);
+extern void  api_open(char *);
+extern void  api_readptrs(const unsigned);
+extern void  read_jobqueue(const unsigned);
 
 extern	int		gspool_fd;
 extern	struct	apispdet  mypriv;

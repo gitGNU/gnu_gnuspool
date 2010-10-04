@@ -103,7 +103,7 @@ static	int	see_pend()
 
 #else	/*  !OS_DYNIX  */
 
-static int	see_pend(void)
+static int  see_pend()
 {
 	char	inbuf[2];
 	struct	termio	tstr;
@@ -125,7 +125,7 @@ static int	see_pend(void)
 }
 #endif	/* !OS_DYNIX */
 
-static int	read_buf(char * buf)
+static int  read_buf(char *buf)
 {
 	int	lng;
 #ifdef	BROKEN_TERM_READ
@@ -144,7 +144,7 @@ static int	read_buf(char * buf)
 	return  lng;
 }
 
-static int	getmore(char * buf, int lng, struct keymap_sparse * ksp)
+static int  getmore(char *buf, int lng, struct keymap_sparse *ksp)
 {
 	int	ch;
 
@@ -186,7 +186,7 @@ static int	getmore(char * buf, int lng, struct keymap_sparse * ksp)
    characters to be "magic", i.e. possibly interpreted as a
    "special" character.  */
 
-static int	sgetkey(const unsigned magic_printing)
+static int  sgetkey(const unsigned magic_printing)
 {
 	int	lng, ch;
 	struct	keymap_vec	*kv;
@@ -228,7 +228,7 @@ static int	sgetkey(const unsigned magic_printing)
 	return  getmore(inbuf, 1, kv->kv_link);
 }
 
-int	getkey(const unsigned magic_printing)
+int  getkey(const unsigned magic_printing)
 {
 #ifdef	SIGTSTP
 	int	ch;

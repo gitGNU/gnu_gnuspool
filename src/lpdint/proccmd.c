@@ -32,13 +32,13 @@ int	indentation;
 
 extern	int	debug_level;
 
-extern char *expandvars(char *);
+extern  char  *expandvars(char *);
 
 #ifndef	HAVE_LONG_FILE_NAMES
 #include "inline/owndirops.c"
 #endif
 
-void	tf_unlink(char *fil, const int dlev)
+void  tf_unlink(char *fil, const int dlev)
 {
 	if  (unlink(fil) >= 0)  {
 		if  (debug_level > dlev)
@@ -48,7 +48,7 @@ void	tf_unlink(char *fil, const int dlev)
 		fprintf(stderr, "unlink of %s failed: %s\n", fil, errno == ENOENT? "Did not exist": "Other error");
 }
 
-static int	my_getline(FILE *inf, char *buf)
+static int  my_getline(FILE *inf, char *buf)
 {
 	int	cnt = 0, ch;
 
@@ -66,7 +66,7 @@ static int	my_getline(FILE *inf, char *buf)
 	return  cnt;
 }
 
-static char  *expand_bits(char *str)
+static char *expand_bits(char *str)
 {
 	unsigned  length = 1;
 	char	*result, *rp, *sp, *varname;
@@ -155,7 +155,7 @@ static char  *expand_bits(char *str)
 	return  result;
 }
 
-static void	runcommand(char *filename, char *command)
+static  void  runcommand(char *filename, char *command)
 {
 	int	ch;
 	FILE	*inf, *outf;
@@ -198,7 +198,7 @@ static void	runcommand(char *filename, char *command)
 	fclose(inf);
 }
 
-static void	runcommandlist(char *str, char *command)
+static  void  runcommandlist(char *str, char *command)
 {
 	char	*cp, *np;
 
@@ -217,7 +217,7 @@ static void	runcommandlist(char *str, char *command)
 		runcommand(cp, command);
 }
 
-static void	execute(struct ctrltype *cp)
+static void  execute(struct ctrltype *cp)
 {
 	char	*newstr, *estr, *chp, *np;
 
@@ -296,7 +296,7 @@ static void	execute(struct ctrltype *cp)
 	}
 }
 
-void	process_input(FILE *inf)
+void  process_input(FILE *inf)
 {
 	int	rcnt, more;
 	struct	ctrltype	*cp;
@@ -393,7 +393,7 @@ void	process_input(FILE *inf)
 		execute(cp);
 }
 
-void	printfiles(char *cfile)
+void  printfiles(char *cfile)
 {
 	DIR	*dir;
 	FILE	*cf;

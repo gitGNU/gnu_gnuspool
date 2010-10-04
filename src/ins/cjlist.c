@@ -58,13 +58,13 @@ extern char *expand_srcdir(char *);
 extern char *make_absolute(char *);
 extern char *hex_disp(const classcode_t, const int);
 
-void	nomem(void)
+void	nomem()
 {
 	fprintf(stderr, "Run out of memory\n");
 	exit(E_NOMEM);
 }
 
-static int	formok(const char *form, const unsigned flng)
+static int  formok(const char *form, const unsigned flng)
 {
 	int	lng = strlen(form);
 	if  (lng <= 0  ||  lng > flng)
@@ -75,7 +75,7 @@ static int	formok(const char *form, const unsigned flng)
 	return  1;
 }
 
-static int	ptrok(const char *ptr, const unsigned plng, const int ispatt)
+static int  ptrok(const char *ptr, const unsigned plng, const int ispatt)
 {
 	if  (strlen(ptr) > plng)
 		return  0;
@@ -95,7 +95,7 @@ static int	ptrok(const char *ptr, const unsigned plng, const int ispatt)
 	return	1;
 }
 
-static int	unameok(const char *un, const int_ugid_t uid)
+static int  unameok(const char *un, const int_ugid_t uid)
 {
 	struct	passwd	*pw;
 
@@ -112,7 +112,7 @@ static int	unameok(const char *un, const int_ugid_t uid)
 
 static	char	misscreate[] = "***** Missing job recreated *****\n";
 
-static int	jobok(const jobno_t jobnum, const long jsize, const int cr)
+static int  jobok(const jobno_t jobnum, const long jsize, const int cr)
 {
 	char	*nam;
 	struct	stat	sbuf;
@@ -137,7 +137,7 @@ static int	jobok(const jobno_t jobnum, const long jsize, const int cr)
 				towrite = jsize - nbytes;
 				if  (towrite > sizeof(misscreate) - 1)
 					towrite = sizeof(misscreate) -1;
-				write(fd, misscreate, towrite);
+				Ignored_error = write(fd, misscreate, towrite);
 				nbytes += towrite;
 			}
 			close(fd);
@@ -171,7 +171,7 @@ static int	copyjob(const jobno_t jobnum)
 	return  1;
 }
 
-static void	outpagefile(const jobno_t jobnum)
+static void  outpagefile(const jobno_t jobnum)
 {
 	int	pfid, ii;
 	char	*nam = mkspid(PFNAM, jobnum);
@@ -260,7 +260,7 @@ static int	fldsok23(struct spq * old)
 	return  1;
 }
 
-int	isit_r23(const int ifd, const struct stat *sb)
+int  isit_r23(const int ifd, const struct stat *sb)
 {
 	struct	spq	old;
 
@@ -275,7 +275,7 @@ int	isit_r23(const int ifd, const struct stat *sb)
 	return  1;
 }
 
-void	conv_r23(const int ifd)
+void  conv_r23(const int ifd)
 {
 	struct	spq	old;
 

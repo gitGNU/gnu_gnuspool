@@ -80,13 +80,13 @@ int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-static void	init_jobdefaults(void)
+static void  init_jobdefaults()
 {
 	/* Assumes SPQ initialised to zero of course */
 	strcpy(wotform, mypriv->spu_form);
@@ -104,7 +104,7 @@ static void	init_jobdefaults(void)
 
 /* Interpret argument if any as being a "template job" job number */
 
-void	interp_args(char **args)
+void  interp_args(char **args)
 {
 	char	*arg = *args;
 	int	ret;
@@ -185,32 +185,32 @@ void	interp_args(char **args)
 char	had_hdr = 0, had_pri = 0, had_cps = 0;
 char	*buff_filename;
 
-static void	arg_jobdata(char *arg)
+static void  arg_jobdata(char *arg)
 {
 	if  (!had_hdr)
 		strncpy(SPQ.spq_file, arg, MAXTITLE);
 }
 
-static void	arg_hdr(char *arg)
+static void  arg_hdr(char *arg)
 {
 	strncpy(SPQ.spq_file, arg, MAXTITLE);
 	if  (arg[0])		/* Only if it isn't blank */
 		had_hdr = 1;
 }
 
-static void	arg_sp(char *arg)
+static void  arg_sp(char *arg)
 {
 	ULONG  v = strtoul(arg, (char **) 0, 0);
 	SPQ.spq_start = v != 0? v - 1: 0;
 }
 
-static void	arg_ep(char *arg)
+static void  arg_ep(char *arg)
 {
 	ULONG  v = strtoul(arg, (char **) 0, 0);
 	SPQ.spq_end = v != 0? v - 1: MAXLONG-1;
 }
 
-static void	arg_cps(char *arg)
+static void  arg_cps(char *arg)
 {
 	int	c = atoi(arg);
 
@@ -222,7 +222,7 @@ static void	arg_cps(char *arg)
 	}
 }
 
-static void	arg_pri(char *arg)
+static void  arg_pri(char *arg)
 {
 	int	n = atoi(arg);
 	if  (had_pri)
@@ -233,12 +233,12 @@ static void	arg_pri(char *arg)
 	}
 }
 
-static void	arg_form(char *arg)
+static void  arg_form(char *arg)
 {
 	strncpy(wotform, arg, MAXFORM);
 }
 
-static void	arg_ptr(char *arg)
+static void  arg_ptr(char *arg)
 {
 	if  (!((mypriv->spu_flgs & PV_OTHERP)  ||  issubset(mypriv->spu_ptrallow, arg)))  {
 		disp_str = arg;
@@ -249,19 +249,19 @@ static void	arg_ptr(char *arg)
 	strncpy(SPQ.spq_ptr, arg, JPTRNAMESIZE);
 }
 
-static void	arg_npt(char *arg)
+static void  arg_npt(char *arg)
 {
 	int	n = atoi(arg);
 	SPQ.spq_nptimeout = (USHORT) n;
 }
 
-static void	arg_pt(char *arg)
+static void  arg_pt(char *arg)
 {
 	int	n = atoi(arg);
 	SPQ.spq_ptimeout = (USHORT) n;
 }
 
-static void	arg_jflags(char *arg, const unsigned flag)
+static void  arg_jflags(char *arg, const unsigned flag)
 {
 	switch  (*arg)  {
 	case  'y':case  'Y':
@@ -277,57 +277,57 @@ static void	arg_jflags(char *arg, const unsigned flag)
 	}
 }
 
-static void	arg_jflags_noh(char *arg)
+static void  arg_jflags_noh(char *arg)
 {
 	arg_jflags(arg, SPQ_NOH);
 }
 
-static void	arg_jflags_wrt(char *arg)
+static void  arg_jflags_wrt(char *arg)
 {
 	arg_jflags(arg, SPQ_WRT);
 }
 
-static void	arg_jflags_mail(char *arg)
+static void  arg_jflags_mail(char *arg)
 {
 	arg_jflags(arg, SPQ_MAIL);
 }
 
-static void	arg_jflags_retn(char *arg)
+static void  arg_jflags_retn(char *arg)
 {
 	arg_jflags(arg, SPQ_RETN);
 }
 
-static void	arg_jflags_oddp(char *arg)
+static void  arg_jflags_oddp(char *arg)
 {
 	arg_jflags(arg, SPQ_ODDP);
 }
 
-static void	arg_jflags_evenp(char *arg)
+static void  arg_jflags_evenp(char *arg)
 {
 	arg_jflags(arg, SPQ_EVENP);
 }
 
-static void	arg_jflags_revoe(char *arg)
+static void  arg_jflags_revoe(char *arg)
 {
 	arg_jflags(arg, SPQ_REVOE);
 }
 
-static void	arg_jflags_mattn(char *arg)
+static void  arg_jflags_mattn(char *arg)
 {
 	arg_jflags(arg, SPQ_MATTN);
 }
 
-static void	arg_jflags_wattn(char *arg)
+static void  arg_jflags_wattn(char *arg)
 {
 	arg_jflags(arg, SPQ_WATTN);
 }
 
-static void	arg_jflags_loco(char *arg)
+static void  arg_jflags_loco(char *arg)
 {
 	arg_jflags(arg, SPQ_LOCALONLY);
 }
 
-static void	arg_class(char *arg)
+static void  arg_class(char *arg)
 {
 	classcode_t	cl = strtoul(arg, (char **) 0, 0);
 	if  (!(mypriv->spu_flgs & PV_COVER))
@@ -341,7 +341,7 @@ static void	arg_class(char *arg)
 	SPQ.spq_class = cl;
 }
 
-static void	arg_hold(char *arg)
+static void  arg_hold(char *arg)
 {
 	time_t	ht = atol(arg), now = time((time_t *) 0);
 	if  (ht < now)
@@ -349,14 +349,14 @@ static void	arg_hold(char *arg)
 	SPQ.spq_hold = (LONG) ht;
 }
 
-static void	arg_puser(char *arg)
+static void  arg_puser(char *arg)
 {
 	strncpy(SPQ.spq_puname,
 		lookup_uname(arg) == UNKNOWN_UID? Realuname: arg,
 		UIDSIZE);
 }
 
-static void	arg_flags(char *arg)
+static void  arg_flags(char *arg)
 {
 	strncpy(SPQ.spq_flags, arg, MAXFLAGS);
 }
@@ -393,7 +393,7 @@ struct	posttab  ptab[] =  {
 	{	(char *) 0  }
 };
 
-jobno_t	perform_submit(void)
+jobno_t  perform_submit()
 {
 	jobno_t	jn;
 	FILE	*inf, *outf;
@@ -482,8 +482,8 @@ jobno_t	perform_submit(void)
 		}
 
 		page_fe.lastpage = 0;	/* Fix this later perhaps */
-		write(fid, (char *) &page_fe, sizeof(page_fe));
-		write(fid, page_delim, (unsigned) page_fe.deliml);
+		Ignored_error = write(fid, (char *) &page_fe, sizeof(page_fe));
+		Ignored_error = write(fid, page_delim, (unsigned) page_fe.deliml);
 
 		rcp = page_delim;
 		rcdend = page_delim + page_fe.deliml;
@@ -535,7 +535,7 @@ jobno_t	perform_submit(void)
 			SPQ.spq_npages++;
 			if  ((page_fe.lastpage = page_fe.delimnum - rec_cnt) > 0)  {
 				lseek(fid, 0L, 0);
-				write(fid, (char *) &page_fe, sizeof(page_fe));
+				Ignored_error = write(fid, (char *) &page_fe, sizeof(page_fe));
 			}
 		}
 

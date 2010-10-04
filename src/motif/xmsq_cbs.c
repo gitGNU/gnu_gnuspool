@@ -64,21 +64,21 @@ static	char	matchcase, wraparound, sbackward, searchptrs;
 static	char	searchtit = 1, searchform = 1, searchuser = 1, searchptr = 1, searchdev = 1;
 static	char	*matchtext;
 
-Widget	GetTopShell(Widget w)
+Widget  GetTopShell(Widget w)
 {
 	while  (w && !XtIsWMShell(w))
 		w = XtParent(w);
 	return  w;
 }
 
-Widget	FindWidget(Widget w)
+Widget  FindWidget(Widget w)
 {
 	while  (w && !XtIsWidget(w))
 		w = XtParent(w);
 	return  w;
 }
 
-static	char *	makebigvec(char ** mat)
+static	char *makebigvec(char **mat)
 {
 	unsigned  totlen = 0, len;
 	char	**ep, *newstr, *pos;
@@ -102,7 +102,7 @@ static	char *	makebigvec(char ** mat)
 	return  newstr;
 }
 
-void	dohelp(Widget wid, int helpcode)
+void  dohelp(Widget wid, int helpcode)
 {
 	char	**evec = helpvec(helpcode, 'H'), *newstr;
 	Widget		ew;
@@ -124,7 +124,7 @@ void	dohelp(Widget wid, int helpcode)
 	XtPopup(XtParent(ew), XtGrabNone);
 }
 
-void	doerror(Widget wid, int errnum)
+void  doerror(Widget wid, int errnum)
 {
 	char	**evec = helpvec(errnum, 'E'), *newstr;
 	Widget		ew;
@@ -146,7 +146,7 @@ void	doerror(Widget wid, int errnum)
 	XtPopup(XtParent(ew), XtGrabNone);
 }
 
-static void	response(Widget w, int *answer, XmAnyCallbackStruct *cbs)
+static void  response(Widget w, int *answer, XmAnyCallbackStruct *cbs)
 {
 	switch  (cbs->reason)  {
 	case  XmCR_OK:
@@ -159,7 +159,7 @@ static void	response(Widget w, int *answer, XmAnyCallbackStruct *cbs)
 	XtDestroyWidget(w);
 }
 
-int	Confirm(Widget parent, int code)
+int  Confirm(Widget parent, int code)
 {
 	Widget	dlg;
 	static	int	answer;
@@ -189,7 +189,7 @@ int	Confirm(Widget parent, int code)
 	return  answer;
 }
 
-static void	ulist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct *cbs)
+static void ulist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct *cbs)
 {
 	char	*value;
 
@@ -204,12 +204,12 @@ static void	ulist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct *cbs)
 	XtDestroyWidget(w);
 }
 
-static int	sort_u(char **a, char **b)
+static int  sort_u(char **a, char **b)
 {
 	return  strcmp(*a, *b);
 }
 
-static void	getusersel(Widget w, int nullok)
+static void  getusersel(Widget w, int nullok)
 {
 	Widget		dw;
 	int		nusers, cnt;
@@ -254,7 +254,7 @@ static void	getusersel(Widget w, int nullok)
 }
 
 #if  	!defined(HAVE_XM_COMBOBOX_H)  ||  defined(BROKEN_COMBOBOX)
-static void	plist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct *cbs)
+static void  plist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct *cbs)
 {
 	char	*value;
 
@@ -269,7 +269,7 @@ static void	plist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct *cbs)
 	XtDestroyWidget(w);
 }
 
-static void	newpnamehelp(Widget w, int helpcode)
+static void  newpnamehelp(Widget w, int helpcode)
 {
 	FILE	*nfile;
 
@@ -291,7 +291,7 @@ static void	newpnamehelp(Widget w, int helpcode)
 		dohelp(w, helpcode);
 }
 
-void	getptrsel(Widget w, int nullok)
+void  getptrsel(Widget w, int nullok)
 {
 	Widget		dw;
 	int		nptrs, cnt;
@@ -338,7 +338,7 @@ void	getptrsel(Widget w, int nullok)
 	XtManageChild(dw);
 }
 
-void	getnewptrsel(Widget w)
+void  getnewptrsel(Widget w)
 {
 	Widget		dw;
 	int		nptrs, cnt;
@@ -386,7 +386,7 @@ void	getnewptrsel(Widget w)
 }
 #endif
 
-static void	dlist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct * cbs)
+static void  dlist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct *cbs)
 {
 	char	*value;
 
@@ -401,7 +401,7 @@ static void	dlist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct * cbs)
 	XtDestroyWidget(w);
 }
 
-void	getdevsel(Widget w)
+void  getdevsel(Widget w)
 {
 	Widget		dw;
 	int		ndevs, cnt;
@@ -445,7 +445,7 @@ void	getdevsel(Widget w)
 	XtManageChild(dw);
 }
 
-static void	flist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct * cbs)
+static void  flist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct *cbs)
 {
 	char	*value;
 
@@ -460,7 +460,7 @@ static void	flist_cb(Widget w, int nullok, XmSelectionBoxCallbackStruct * cbs)
 	XtDestroyWidget(w);
 }
 
-void	pformhelp(Widget w, int isold)
+void  pformhelp(Widget w, int isold)
 {
 	FILE	*nfile;
 	char	*pname;
@@ -490,7 +490,7 @@ void	pformhelp(Widget w, int isold)
 		XtFree(pname);
 }
 
-void	getformsel(Widget w, int isptr)
+void  getformsel(Widget w, int isptr)
 {
 	Widget		dw;
 	int		nforms, cnt;
@@ -538,7 +538,7 @@ void	getformsel(Widget w, int isptr)
 	XtManageChild(dw);
 }
 
-static void	setclear(Widget w, int val)
+static void  setclear(Widget w, int val)
 {
 	int	cnt;
 	if  (val)  {		/* Setting */
@@ -565,7 +565,7 @@ static void	setclear(Widget w, int val)
 		XmToggleButtonGadgetSetState(ccws[cnt], (copyclasscode & (1 << cnt))? True: False, False);
 }
 
-static void	cctoggle(Widget w, int bitnum, XmToggleButtonCallbackStruct * cbs)
+static void  cctoggle(Widget w, int bitnum, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)
 		copyclasscode |= 1 << bitnum;
@@ -573,19 +573,19 @@ static void	cctoggle(Widget w, int bitnum, XmToggleButtonCallbackStruct * cbs)
 		copyclasscode &= ~(1 << bitnum);
 }
 
-static void	conftoggle(Widget w, int cnt, XmToggleButtonCallbackStruct * cbs)
+static void  conftoggle(Widget w, int cnt, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)
 		copyconfabort = (unsigned char) cnt;
 }
 
-static void	restrptoggle(Widget w, int cnt, XmToggleButtonCallbackStruct * cbs)
+static void  restrptoggle(Widget w, int cnt, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)
 		copyrestrunp = (unsigned char) cnt;
 }
 
-static void	jincltoggle(Widget w, int cnt, XmToggleButtonCallbackStruct * cbs)
+static void  jincltoggle(Widget w, int cnt, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)
 		copyjinclude = (unsigned char) cnt;
@@ -594,7 +594,7 @@ static void	jincltoggle(Widget w, int cnt, XmToggleButtonCallbackStruct * cbs)
 /* Set up a form selection pane and dialog */
 
 #if  	!defined(HAVE_XM_COMBOBOX_H)  ||  defined(BROKEN_COMBOBOX)
-Widget CreateFselDialog(Widget mainform, Widget	prevabove, char *existing, XtCallbackProc cb, int nullok)
+Widget CreateFselDialog(Widget mainform, Widget prevabove, char *existing, XtCallbackProc cb, int nullok)
 #else
 Widget CreateFselDialog(Widget mainform, Widget	prevabove, char *existing, char **formlist)
 #endif
@@ -673,7 +673,7 @@ Widget CreateFselDialog(Widget mainform, Widget	prevabove, char *existing, char 
 /* Set up a printer selection pane and dialog */
 
 #if  	!defined(HAVE_XM_COMBOBOX_H)  ||  defined(BROKEN_COMBOBOX)
-Widget CreatePselDialog(Widget mainform, Widget	prevabove, char *existing, XtCallbackProc cb, int nullok)
+Widget CreatePselDialog(Widget mainform, Widget prevabove, char *existing, XtCallbackProc cb, int nullok)
 #else
 Widget CreatePselDialog(Widget mainform, Widget	prevabove, char *existing, char **printerslist, int nullok, int namesize)
 #endif
@@ -856,7 +856,7 @@ Widget CreateCCDialog(Widget mainform, Widget prevabove, classcode_t eclass, Wid
 
 /* Create the stuff at the beginning of a dialog */
 
-void  CreateEditDlg(Widget parent, char *dlgname, Widget *dlgres, Widget *paneres, Widget *formres, const int nbutts)
+void  CreateEditDlg(Widget parent, char *dlgname, Widget *dlgres, Widget	*paneres, Widget *formres, const int nbutts)
 {
 	int	n = 0;
 	Arg	arg[7];
@@ -882,7 +882,7 @@ void  CreateEditDlg(Widget parent, char *dlgname, Widget *dlgres, Widget *panere
 
 /* Create the stuff at the end of a dialog.  */
 
-void CreateActionEndDlg(Widget shelldlg, Widget panew, XtCallbackProc endrout, int helpcode)
+void  CreateActionEndDlg(Widget shelldlg, Widget panew, XtCallbackProc endrout, int helpcode)
 {
 	XtAddCallback(shelldlg, XmNokCallback, endrout, (XtPointer) 1);
         XtAddCallback(shelldlg, XmNcancelCallback, endrout, (XtPointer) 0);
@@ -890,7 +890,7 @@ void CreateActionEndDlg(Widget shelldlg, Widget panew, XtCallbackProc endrout, i
         XtManageChild(shelldlg);
 }
 
-static  void  endviewopt(Widget w, int data)
+static void endviewopt(Widget w, int data)
 {
 	if  (data)  {		/* OK pressed */
 		char	*txt;
@@ -936,7 +936,7 @@ static  void  endviewopt(Widget w, int data)
 	jdisplay();
 }
 
-void	cb_viewopt(Widget parent, int data)
+void  cb_viewopt(Widget parent, int data)
 {
 	int	cnt;
 	Widget	view_shell, paneview, mainform, prevabove, butts, loconly, confbuts, allh, jdisp_but;
@@ -1128,7 +1128,7 @@ void	cb_viewopt(Widget parent, int data)
 	CreateActionEndDlg(view_shell, paneview, (XtCallbackProc) endviewopt, $H{xmspq dopts help});
 }
 
-static int	smstr(const char *str, const int exact)
+static int  smstr(const char *str, const int exact)
 {
 	int	 l = strlen(matchtext), cl = strlen(str);
 
@@ -1172,7 +1172,7 @@ static int	smstr(const char *str, const int exact)
 	}
 }
 
-static int	jobmatch(int n)
+static int  jobmatch(int n)
 {
 	const  struct	spq	*jp = &Job_seg.jj_ptrs[n]->j;
 
@@ -1187,7 +1187,7 @@ static int	jobmatch(int n)
 	return  0;
 }
 
-static int	ptrmatch(int n)
+static int  ptrmatch(int n)
 {
 	const  struct	spptr	*pp = &Ptr_seg.pp_ptrs[n]->p;
 
@@ -1200,7 +1200,7 @@ static int	ptrmatch(int n)
 	return  0;
 }
 
-static void	execute_search(void)
+static void  execute_search()
 {
 	int	*plist, pcnt, cline, nline;
 	int	topitem, visibleitem;
@@ -1306,7 +1306,7 @@ void InitsearchDlg(Widget parent, Widget *shellp, Widget *panep, Widget *formp, 
 		XmTextSetString(workw[WORKW_STXTW], existing);
 }
 
-void  InitsearchOpts(Widget formw, Widget after, int sback, int matchc, int wrap)
+void InitsearchOpts(Widget formw, Widget after, int sback, int matchc, int wrap)
 {
 	Widget	dirrc, prevleft;
 
@@ -1365,7 +1365,7 @@ void  InitsearchOpts(Widget formw, Widget after, int sback, int matchc, int wrap
 	XtManageChild(formw);
 }
 
-static void	changesearch(Widget w, int unused, XmToggleButtonCallbackStruct * cbs)
+static void  changesearch(Widget w, int unused, XmToggleButtonCallbackStruct *cbs)
 {
 	if  (cbs->set)  {
 		searchptrs = 1;
@@ -1381,7 +1381,7 @@ static void	changesearch(Widget w, int unused, XmToggleButtonCallbackStruct * cb
 	}
 }
 
-static void	endsdlg(Widget w, int data)
+static void  endsdlg(Widget w, int data)
 {
 	if  (data)  {
 		sbackward = XmToggleButtonGadgetGetState(workw[WORKW_FORWW])? 0: 1;
@@ -1416,7 +1416,7 @@ static void	endsdlg(Widget w, int data)
 		XtDestroyWidget(GetTopShell(w));
 }
 
-void	cb_rsrch(Widget w, int data)
+void  cb_rsrch(Widget w, int data)
 {
 	if  (!matchtext  ||  matchtext[0] == '\0')  {
 		doerror(w, $EH{No previous search});
@@ -1426,7 +1426,7 @@ void	cb_rsrch(Widget w, int data)
 	execute_search();
 }
 
-void	cb_srchfor(Widget parent)
+void  cb_srchfor(Widget parent)
 {
 	Widget	s_shell, panew, formw, orc, jorp, whp;
 
@@ -1524,7 +1524,7 @@ void	cb_srchfor(Widget parent)
 	CreateActionEndDlg(s_shell, panew, (XtCallbackProc) endsdlg, $H{xmspq search menu help});
 }
 
-void	cb_chelp(Widget w, int data, XmAnyCallbackStruct *cbs)
+void cb_chelp(Widget w, int data, XmAnyCallbackStruct *cbs)
 {
 	Widget	help_w;
 	Cursor	cursor;

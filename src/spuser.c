@@ -69,7 +69,8 @@
 int	LINES;			/* Not defined anywhere without extern */
 #endif
 
-unsigned Nusers;
+#define	BOXWID	1
+
 extern	struct	sphdr	Spuhdr;
 struct	spdet	*ulist;
 
@@ -176,10 +177,10 @@ static	struct	sctrl
 
 /* Ditto for wgets */
 
-int	propts(void);
+extern  int  propts();
 
-char **	uhelpform(const char *, const int);
-char **	syshelpform(const char *, const int);
+extern	char **uhelpform(const char *, const int);
+extern	char **syshelpform(const char *, const int);
 
 static	struct	sctrl
   wst_ufm = { $H{spuser user form type help},
@@ -197,7 +198,7 @@ struct	termios	orig_term;
 struct	termio	orig_term;
 #endif
 
-void	exit_cleanup(void)
+void  exit_cleanup()
 {
 	if  (Win_setup)  {
 		clear();
@@ -208,7 +209,7 @@ void	exit_cleanup(void)
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void	nomem()
 {
 	if  (Win_setup)  {
 		clear();
@@ -232,13 +233,13 @@ char **uhelpform(const char *sofar, const int hf)
 
 	/* There cannot be more form types than the number of users can there....  */
 
-	result = (char **) malloc((Nusers + 2) * sizeof(char *));
+	result = (char **) malloc((Npwusers + 2) * sizeof(char *));
 	if  (!result)
 		return  result;
 	rp = result;
 	if  (strncmp(Spuhdr.sph_form, sofar, sfl) == 0)
 		*rp++ = stracpy(Spuhdr.sph_form);
-	for  (ucnt = 0;  ucnt < Nusers;  ucnt++)  {
+	for  (ucnt = 0;  ucnt < Npwusers;  ucnt++)  {
 		if  (strncmp(ulist[ucnt].spu_form, sofar, sfl) == 0)  {
 			char	**prev;
 			for  (prev = result;  prev < rp;  prev++)
@@ -263,11 +264,11 @@ char **syshelpform(const char *sofar, const int hf)
 
 	/* There cannot be more form types than the number of users can there.... */
 
-	result = (char **) malloc((Nusers + 1) * sizeof(char *));
+	result = (char **) malloc((Npwusers + 1) * sizeof(char *));
 	if  (!result)
 		return  result;
 	rp = result;
-	for  (ucnt = 0;  ucnt < Nusers;  ucnt++)  {
+	for  (ucnt = 0;  ucnt < Npwusers;  ucnt++)  {
 		if  (strncmp(ulist[ucnt].spu_form, sofar, sfl) == 0)  {
 			char	**prev;
 			for  (prev = result;  prev < rp;  prev++)
@@ -284,10 +285,9 @@ char **syshelpform(const char *sofar, const int hf)
 
 /* Expand privilege codes into messages */
 
-static	void	expcodes(void)
+static	void  expcodes()
 {
-	int	i, j;
-	int	look4, permstart;
+	int	i, j, look4, permstart;
 
 	if  (code_expanded)
 		return;
@@ -327,7 +327,7 @@ static	void	expcodes(void)
 
 /* Deal with signals.  */
 
-RETSIGTYPE	catchit(int n)
+RETSIGTYPE  catchit(int n)
 {
 #ifndef	HAVE_ATEXIT
 	exit_cleanup();
@@ -338,7 +338,7 @@ RETSIGTYPE	catchit(int n)
 /* Bodge dohelp for when we don't have a specific thing to do other
    than display a message code.  */
 
-static	void	dochelp(WINDOW *wp, int code)
+static	void  dochelp(WINDOW *wp, int code)
 {
 	struct	sctrl	xx;
 	xx.helpcode = code;
@@ -347,7 +347,7 @@ static	void	dochelp(WINDOW *wp, int code)
 	dohelp(wp, &xx, NULLCH);
 }
 
-void	endhe(WINDOW *owin, WINDOW **wpp)
+void  endhe(WINDOW *owin, WINDOW **wpp)
 {
 	delwin(*wpp);
 	*wpp = (WINDOW *) 0;
@@ -382,9 +382,7 @@ void	endhe(WINDOW *owin, WINDOW **wpp)
 int	cpriv(char *uname, ULONG *fp)
 {
 	ULONG	 result = *fp;
-	int	srow, erow, currow;
-	int  ch, i;
-	int	err_no, changes = 0;
+	int	srow, erow, currow, ch, i, err_no, changes = 0;
 	char	*pp;
 	char	pcol[MAXPERM];
 	static	char	*yes, *no;
@@ -556,7 +554,7 @@ mc:			move(currow, pcol[currow-srow]);
 				}  while  (ch != $K{spuser key yes} && ch != $K{spuser key no});
 
 				if  (ch == $K{spuser key yes})
-					for  (i = 0;  i < Nusers;  i++)  {
+					for  (i = 0;  i < Npwusers;  i++)  {
 						int_ugid_t uu = ulist[i].spu_user;
 						/* We don't really need this check technically but it gets the display right */
 						if  (uu != Realuid && uu != Daemuid && uu != ROOTID)
@@ -573,7 +571,7 @@ mc:			move(currow, pcol[currow-srow]);
 	}
 }
 
-static  void  disp_user(int unum, int row, const int andclear)
+static void  disp_user(int unum, int row, const int andclear)
 {
 	struct  spdet  *up = &ulist[unum];
 	char	*msg;
@@ -614,10 +612,9 @@ static  void  disp_user(int unum, int row, const int andclear)
 
 /* Fill up the screen.  If cflg is set, clear first and start again.  */
 
-void	display(int cflg)
+void  display(int cflg)
 {
-	int	i;
-	int	row;
+	int	i, row;
 
 	if  (cflg)  {
 		clear();
@@ -664,10 +661,10 @@ void	display(int cflg)
 
 	more_below = 0;
 
-	for  (i = Top_user;  i < Nusers && row < DLINES;  i++, row++)  {
-		if  (row >= (DLINES - 1)  &&  i < Nusers - 1)  {
+	for  (i = Top_user;  i < Npwusers && row < DLINES;  i++, row++)  {
+		if  (row >= (DLINES - 1)  &&  i < Npwusers - 1)  {
 			wstandout(dscr);
-			mvwprintw(dscr, row, (COLS - (int) strlen(more_bmsg))/2, more_bmsg, Nusers - i);
+			mvwprintw(dscr, row, (COLS - (int) strlen(more_bmsg))/2, more_bmsg, Npwusers - i);
 			wstandend(dscr);
 			more_below = 1;
 			break;
@@ -692,7 +689,7 @@ void	display(int cflg)
 	wrefresh(dscr);
 }
 
-void	screeninit(int hh)
+void  screeninit(int hh)
 {
 	int	hrows, i;
 #ifdef TOWER
@@ -777,7 +774,7 @@ void	screeninit(int hh)
 	}
 }
 
-static	void	copyu(int n)
+static	void  copyu(int n)
 {
 	struct	spdet	*up = &ulist[n];
 	up->spu_defp = Spuhdr.sph_defp;
@@ -790,7 +787,7 @@ static	void	copyu(int n)
 	strncpy(up->spu_ptrallow, Spuhdr.sph_ptrallow, JPTRNAMESIZE);
 }
 
-static void	user_macro(const int up, const int num)
+static void  user_macro(const int up, const int num)
 {
 	char	*prompt = helpprmpt(num + $P{Job or User macro}), *str;
 	static	char	*execprog;
@@ -859,7 +856,7 @@ static void	user_macro(const int up, const int num)
 			close(0);
 			close(1);
 			close(2);
-			dup(dup(open("/dev/null", O_RDWR)));
+			Ignored_error = dup(dup(open("/dev/null", O_RDWR)));
 		}
 		execv(execprog, argbuf);
 		exit(255);
@@ -932,7 +929,7 @@ static int  getpatt(WINDOW *w, const int row, const int state, const unsigned wi
 	}
 }
 
-static int getclass(WINDOW *w, const int row, const int state, classcode_t *exist, char *msg)
+static int  getclass(WINDOW *w, const int row, const int state, classcode_t *exist, char *msg)
 {
 	char	*prompt;
 	classcode_t	res;
@@ -965,7 +962,7 @@ static int getclass(WINDOW *w, const int row, const int state, classcode_t *exis
 
 /* Spit out a prompt for a search string */
 
-static	char *	gsearchs(const int isback)
+static	char *gsearchs(const int isback)
 {
 	int	row;
 	char	*gstr;
@@ -1017,7 +1014,7 @@ static	char *	gsearchs(const int isback)
 
 /* Match a job string "vstr" against a pattern string "mstr" */
 
-static	int	smatchit(const char *vstr, const char *mstr)
+static	int  smatchit(const char *vstr, const char *mstr)
 {
 	const	char	*tp, *mp;
 	while  (*vstr)  {
@@ -1039,7 +1036,7 @@ static	int	smatchit(const char *vstr, const char *mstr)
 /* Only match user name for now, but write like this to allow for
    future e-x-p-a-n-s-i-o-n.  */
 
-static	int	smatch(const int mline, const char *mstr)
+static	int  smatch(const int mline, const char *mstr)
 {
 	return  smatchit(prin_uname((uid_t) ulist[mline].spu_user), mstr);
 }
@@ -1048,7 +1045,7 @@ static	int	smatch(const int mline, const char *mstr)
    Return 0 - found (Current_user and Top_user suitably mangled)
    otherwise return error code */
 
-static	int	dosearch(const int isback)
+static	int  dosearch(const int isback)
 {
 	char	*mstr = gsearchs(isback);
 	int	mline;
@@ -1060,12 +1057,12 @@ static	int	dosearch(const int isback)
 		for  (mline = Current_user - 1;  mline >= 0;  mline--)
 			if  (smatch(mline, mstr))
 				goto  gotit;
-		for  (mline = Nusers - 1;  mline >= Current_user;  mline--)
+		for  (mline = Npwusers - 1;  mline >= Current_user;  mline--)
 			if  (smatch(mline, mstr))
 				goto  gotit;
 	}
 	else  {
-		for  (mline = Current_user + 1;  (unsigned) mline < Nusers;  mline++)
+		for  (mline = Current_user + 1;  (unsigned) mline < Npwusers;  mline++)
 			if  (smatch(mline, mstr))
 				goto  gotit;
 		for  (mline = 0;  mline <= Current_user;  mline++)
@@ -1083,11 +1080,10 @@ static	int	dosearch(const int isback)
 
 /* This accepts input from the screen.  */
 
-int	process(void)
+int  process()
 {
 	LONG	num;
-	int	ch;
-	int	changes = 0, u_p, err_no;
+	int	ch, changes = 0, u_p, err_no;
 	char	*str;
 	static	char	*cch;
 
@@ -1136,7 +1132,7 @@ int	process(void)
 		case  $K{key cursor down}:
 			Current_user++;
 			u_p++;
-			if  (Current_user >= Nusers)  {
+			if  (Current_user >= Npwusers)  {
 				Current_user--;
 ej:				err_no = $E{spuser off bottom};
 				goto  err;
@@ -1186,18 +1182,18 @@ bj:				err_no = $E{spuser off top};
 
 		case  $K{key bottom}:
 			ch = Top_user + DLINES - more_above - more_below - 1;
-			if  (Current_user < ch  &&  ch < Nusers - 1)  {
+			if  (Current_user < ch  &&  ch < Npwusers - 1)  {
 				Current_user = ch;
 				u_p = Current_user - Top_user + more_above;
 				wmove(dscr, u_p, 0);
 				wrefresh(dscr);
 				continue;
 			}
-			if  (Nusers > DLINES)
-				Top_user = Nusers - DLINES + 1;
+			if  (Npwusers > DLINES)
+				Top_user = Npwusers - DLINES + 1;
 			else
 				Top_user = 0;
-			Current_user = Nusers - 1;
+			Current_user = Npwusers - 1;
 			display(0);
 			continue;
 
@@ -1378,10 +1374,9 @@ bj:				err_no = $E{spuser off top};
 			goto  ucnt;
 
 		case  $K{spuser key user charge}:
-			num = calccharge(ulist[Current_user].spu_user);
 			if  (!cch)
 				cch = gprompt($P{Spuser current charge});
-			mvwprintw(dscr, u_p, 0, cch, prin_uname((uid_t) ulist[Current_user].spu_user), num);
+			mvwprintw(dscr, u_p, 0, cch, prin_uname((uid_t) ulist[Current_user].spu_user), 0);
 			wrefresh(dscr);
 			ch = getkey(MAG_A|MAG_P);
 			disp_user(Current_user, u_p, 1);
@@ -1392,7 +1387,7 @@ bj:				err_no = $E{spuser off top};
 			goto  gotit;
 
 		case  $K{spuser key sys def to all}:
-			for  (ch = 0;  ch < Nusers;  ch++)
+			for  (ch = 0;  ch < Npwusers;  ch++)
 				copyu(ch);
 			display(0);
 			changes++;
@@ -1460,7 +1455,7 @@ bj:				err_no = $E{spuser off top};
 				wrefresh(hscr);
 				touchwin(dscr);
 				if  (ch == $K{spuser key yes})   {
-					for  (num = 0L; num < (LONG) Nusers; num++)
+					for  (num = 0L; num < (LONG) Npwusers; num++)
 						ulist[num].spu_class = Spuhdr.sph_class;
 				}
 				display(0);
@@ -1476,16 +1471,16 @@ bj:				err_no = $E{spuser off top};
 			return  changes;
 
 		case  $K{key screen down}:
-			if  (Top_user + DLINES - more_above >= Nusers)
+			if  (Top_user + DLINES - more_above >= Npwusers)
 				goto  ej;
 			Top_user += DLINES - more_above - more_below;
-			if  ((Current_user += DLINES - more_above - more_below) >= Nusers)
-				Current_user = Nusers - 1;
+			if  ((Current_user += DLINES - more_above - more_below) >= Npwusers)
+				Current_user = Npwusers - 1;
 			display(0);
 			continue;
 
 		case  $K{key half screen down}:
-			if  (Top_user + DLINES/2 >= Nusers)
+			if  (Top_user + DLINES/2 >= Npwusers)
 				goto  ej;
 			Top_user += (DLINES - more_above - more_below) / 2;
 			if  (Current_user < Top_user)
@@ -1503,7 +1498,7 @@ bj:				err_no = $E{spuser off top};
 				more_above = 0;
 			}
 			if ((!more_below) &&
-			   (Top_user + (2*DLINES) + 1 - more_above > Nusers) &&  (more_above))
+			   (Top_user + (2*DLINES) + 1 - more_above > Npwusers) &&  (more_above))
 				Top_user++;
 			if  (Current_user - Top_user >= (DLINES - more_above - more_below))
 				Current_user = Top_user + DLINES - 1 - more_above - more_below;
@@ -1534,7 +1529,7 @@ bj:				err_no = $E{spuser off top};
 #define	PTR_ROW		9
 #define	LIMS_ROW	14
 
-int	change(struct spdet * priv)
+int  change(struct spdet *priv)
 {
 	int	pcol, fcol, ptrcol, row;
 	int	ch, err_no, changes = 0;
@@ -1721,52 +1716,7 @@ int	change(struct spdet * priv)
 	}
 }
 
-static	int	confirm_rebuild(void)
-{
-	char	**emess = helpvec($E{Spuser confirm rebuild}, 'E');
-	int	mx, my, mr, mc, cnt, ch;
-
-	count_hv(emess, &mr, &mc);
-	if  (mr <= 0)
-		return  1;
-	getmaxyx(dscr, my, mx);
-	my = my < mr? 0: (my - mr) / 2;
-	mx = mx < mc? 0: (mx - mc) / 2;
-	for  (cnt = 0;  cnt < mr;  cnt++)  {
-		mvwaddstr(dscr, my+cnt, mx, emess[cnt]);
-		free(emess[cnt]);
-	}
-	free((char *) emess);
-	select_state($S{Spuser confirm rebuild});
-	wrefresh(dscr);
-	do  {
-		ch = getkey(MAG_A|MAG_P);
-		if  (ch == $K{key help})
-			dochelp(dscr, $S{Spuser confirm rebuild});
-	}  while  (ch != $K{spuser key yes} && ch != $K{spuser key no});
-	werase(dscr);
-	return  ch == $K{spuser key yes};
-}
-
-static	void	please_wait(void)
-{
-	char	**emess = helpvec($E{Spuser rebuilding wait}, 'E');
-	int	mx, my, mr, mc, cnt;
-	count_hv(emess, &mr, &mc);
-	if  (mr <= 0)
-		return;
-	getmaxyx(dscr, my, mx);
-	my = my < mr? 0: (my - mr) / 2;
-	mx = mx < mc? 0: (mx - mc) / 2;
-	for  (cnt = 0;  cnt < mr;  cnt++)  {
-		mvwaddstr(dscr, my+cnt, mx, emess[cnt]);
-		free(emess[cnt]);
-	}
-	free((char *) emess);
-	wrefresh(dscr);
-}
-
-void	display_info(struct spdet * mypriv)
+void  display_info(struct spdet *mypriv)
 {
 	disp_str = mypriv->spu_form;
 	disp_str2 = mypriv->spu_formallow;
@@ -1774,7 +1724,7 @@ void	display_info(struct spdet * mypriv)
 	disp_arg[1] = mypriv->spu_minp;
 	disp_arg[2] = mypriv->spu_maxp;
 	disp_arg[3] = mypriv->spu_defp;
-	disp_arg[4] = calccharge(Realuid);
+	disp_arg[4] = 0;
 	fprint_error(stdout, $E{Spuser display values});
 	disp_str = mypriv->spu_ptr;
 	disp_str2 = mypriv->spu_ptrallow;
@@ -1796,12 +1746,12 @@ void	display_info(struct spdet * mypriv)
 	}
 }
 
-int	sort_u(struct spdet *a, struct spdet *b)
+int  sort_u(struct spdet *a, struct spdet *b)
 {
 	return  strcmp(prin_uname((uid_t) a->spu_user), prin_uname((uid_t) b->spu_user));
 }
 
-int	sort_id(struct spdet *a, struct spdet *b)
+int  sort_id(struct spdet *a, struct spdet *b)
 {
 	return  (ULONG) a->spu_user < (ULONG) b->spu_user ? -1: (ULONG) a->spu_user == (ULONG) b->spu_user? 0: 1;
 }
@@ -1862,7 +1812,7 @@ o_errbox,	o_noerrbox
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	struct	spdet	*mypriv;
 #if	defined(NHONSUID) || defined(DEBUG)
@@ -1891,10 +1841,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 	argv = optprocess(argv, Adefs, optprocs, $A{spuser explain}, $A{spuser no error box}, 1);
 	SWAP_TO(Daemuid);
 
-	if  (!(mypriv = getspuentry(Realuid)))  {
-		print_error($E{Not registered yet});
-		exit(E_UNOTSETUP);
-	}
+	mypriv = getspuentry(Realuid);		/* Always returns something or bombs */
 
 	if  (iflag)  {
 		if  (!(mypriv->spu_flgs & PV_ADMIN))  {
@@ -1911,28 +1858,13 @@ MAINFN_TYPE	main(int argc, char **argv)
 #ifdef	HAVE_ATEXIT
 		atexit(exit_cleanup);
 #endif
-		if  (spu_needs_rebuild  &&  confirm_rebuild())  {
-			char  *name = envprocess(DUMPPWFILE);
-			int	wuz = access(name, 0);
-			if  (wuz >= 0)  {
-				un_rpwfile();
-				unlink(name);
-			}
-			free(name);
-			please_wait();
-			rebuild_spufile();
-			if  (wuz >= 0)
-				dump_pwfile();
-			produser();
-			werase(dscr);
-		}
-		ulist = getspulist(&Nusers);
+		ulist = getspulist();
 		if  (alphsort == SORT_USER)
-			qsort(QSORTP1 ulist, Nusers, sizeof(struct spdet), QSORTP4 sort_u);
+			qsort(QSORTP1 ulist, Npwusers, sizeof(struct spdet), QSORTP4 sort_u);
 		if  (process() || hchanges)  {
 			if  (alphsort == SORT_USER)
-				qsort(QSORTP1 ulist, Nusers, sizeof(struct spdet), QSORTP4 sort_id);
-			putspulist(ulist, Nusers, hchanges);
+				qsort(QSORTP1 ulist, Npwusers, sizeof(struct spdet), QSORTP4 sort_id);
+			putspulist(ulist);
 		}
 	}
 	else  if  (cflag)  {

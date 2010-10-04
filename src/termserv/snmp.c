@@ -58,7 +58,7 @@ asn_octet *gen_snmp_get(const char *commun, const char *objid, unsigned *outlen,
 	return  coded;
 }
 
-static  void  snmp_gen_ip(struct asn_node *asn, struct snmp_result *rbuf)
+static void  snmp_gen_ip(struct asn_node *asn, struct snmp_result *rbuf)
 {
 	asn_octet  *r = asn->asn_un.asn_objid;
 	char	obuf[4*4];
@@ -68,13 +68,13 @@ static  void  snmp_gen_ip(struct asn_node *asn, struct snmp_result *rbuf)
 		abort();
 }
 
-static  void  snmp_gen_counter(struct asn_node *asn, struct snmp_result *rbuf)
+static void  snmp_gen_counter(struct asn_node *asn, struct snmp_result *rbuf)
 {
 	rbuf->res_type = RES_TYPE_UNSIGNED;
 	rbuf->res_un.res_unsigned = asn_conv_unsigned(asn);
 }
 
-static  void  snmp_gen_ticks(struct asn_node *asn, struct snmp_result *rbuf)
+static void  snmp_gen_ticks(struct asn_node *asn, struct snmp_result *rbuf)
 {
 	unsigned  long  t = asn_conv_unsigned(asn);
 	unsigned  hours, mins, secs, centisecs;
@@ -91,7 +91,7 @@ static  void  snmp_gen_ticks(struct asn_node *asn, struct snmp_result *rbuf)
 		abort();
 }
 
-static  void  snmp_gen_string(struct asn_node *asn, struct snmp_result *rbuf)
+static void  snmp_gen_string(struct asn_node *asn, struct snmp_result *rbuf)
 {
 	rbuf->res_type = RES_TYPE_STRING;
 	if  (!(rbuf->res_un.res_string = malloc(asn->asn_length+1)))

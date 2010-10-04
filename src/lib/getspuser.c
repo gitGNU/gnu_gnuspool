@@ -24,6 +24,14 @@
 #ifdef	HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
+#ifdef	TIME_WITH_SYS_TIME
+#include <sys/time.h>
+#include <time.h>
+#elif	defined(HAVE_SYS_TIME_H)
+#include <sys/time.h>
+#else
+#include <time.h>
+#endif
 #include "errnums.h"
 #include "defaults.h"
 #include "spuser.h"
@@ -33,18 +41,55 @@
 #include "incl_ugid.h"
 #include "incl_sig.h"
 
-#define	INITU	70
-#define	INCU	10
+#define	INC_USERDETS	10
 
 struct	sphdr	Spuhdr;
+static	struct  spdet  *userdets_buf;
+static	int	Num_userdets, Max_userdets;
+
 static	int	spuf_fid = -1;
-int		spu_needs_rebuild;
+int		spu_new_format;
+static	time_t	last_mod_time;
 
 static	unsigned  char	igsigs[]= { SIGINT, SIGQUIT, SIGTERM, SIGHUP, SIGALRM, SIGUSR1, SIGUSR2 };
 
 #ifdef	UNSAFE_SIGNALS
 static	RETSIGTYPE	(*oldsigs[sizeof(igsigs)])(int);
 #endif
+
+/* Lock the whole caboodle */
+
+static	void  lockit(const int type)
+{
+	struct	flock	lk;
+
+	lk.l_type = (SHORT) type;
+	lk.l_whence = 0;
+	lk.l_start = 0;
+	lk.l_len = 0;
+	lk.l_pid = 0;
+	if  (fcntl(spuf_fid, F_SETLKW, &lk) < 0)  {
+		print_error($E{Cannot lock user ctrl file});
+		exit(E_SETUP);
+	}
+}
+
+/* Unlock the whole caboodle */
+
+static  void  unlockit()
+{
+	struct	flock	lk;
+
+	lk.l_type = F_UNLCK;
+	lk.l_whence = 0;
+	lk.l_start = 0;
+	lk.l_len = 0;
+	lk.l_pid = 0;
+	if  (fcntl(spuf_fid, F_SETLKW, &lk) < 0)  {
+		print_error($E{Cannot unlock user ctrl file});
+		exit(E_SETUP);
+	}
+}
 
 static	void	savesigs(const int saving)
 {
@@ -80,10 +125,203 @@ static	void	savesigs(const int saving)
 #endif
 }
 
-static void iu(int fid, char *arg, int_ugid_t uid)
+/* Binary search for user id in sorted list
+   Return the index of where it's found (or just past that) which might be off the end. */
+
+static	int  bsearch_spdet(const uid_t uid)
 {
-	((struct spdet *) arg) ->spu_user = uid;
-	insertu(fid, (struct spdet *) arg);
+	int  first = 0, last = Num_userdets, mid;
+
+	while  (first < last)  {
+		struct  spdet  *sp;
+		mid = (first + last) / 2;
+		sp = &userdets_buf[mid];
+		if  (sp->spu_user == uid)
+			return  mid;
+		if  (sp->spu_user > uid)
+			last = mid;
+		else
+			first = mid + 1;
+	}
+	return  first;
+}
+
+void	copy_defs(struct spdet *res, uid_t uid)
+{
+	res->spu_isvalid = SPU_VALID;
+	res->spu_user = uid;
+	strcpy(res->spu_form, Spuhdr.sph_form);
+	strcpy(res->spu_formallow, Spuhdr.sph_formallow);
+	strcpy(res->spu_ptr, Spuhdr.sph_ptr);
+	strcpy(res->spu_ptrallow, Spuhdr.sph_ptrallow);
+	res->spu_minp = Spuhdr.sph_minp;
+	res->spu_maxp = Spuhdr.sph_maxp;
+	res->spu_defp = Spuhdr.sph_defp;
+	res->spu_cps = Spuhdr.sph_cps;
+	res->spu_flgs = Spuhdr.sph_flgs;
+	res->spu_class = Spuhdr.sph_class;
+}
+
+int	issame_defs(const struct spdet *item)
+{
+	return  item->spu_minp == Spuhdr.sph_minp  &&
+		item->spu_maxp == Spuhdr.sph_maxp  &&
+		item->spu_defp == Spuhdr.sph_defp  &&
+		item->spu_cps == Spuhdr.sph_cps  &&
+		item->spu_flgs == Spuhdr.sph_flgs  &&
+		item->spu_class == Spuhdr.sph_class  &&
+		strcmp(item->spu_form, Spuhdr.sph_form) == 0  &&
+		strcmp(item->spu_formallow, Spuhdr.sph_formallow) == 0  &&
+		strcmp(item->spu_ptr, Spuhdr.sph_ptr) == 0 &&
+		strcmp(item->spu_ptrallow, Spuhdr.sph_ptrallow) == 0;
+}
+
+/* Read user from file or memory.
+   File is assumed to be locked. */
+
+void  readu(const uid_t uid, struct spdet *item)
+{
+	int	whu;
+	struct  spdet  *sp;
+
+	if  (!spu_new_format)  {
+
+		/* If it's below the magic number at which we store them as a
+		   vector, jump to the right place and go home.  */
+
+		if  ((ULONG) uid < SMAXUID)  {
+			lseek(spuf_fid, (long)(sizeof(struct sphdr) + uid * sizeof(struct spdet)), 0);
+			if  (read(spuf_fid, (char *) item, sizeof(struct spdet)) != sizeof(struct spdet)  ||  !item->spu_isvalid)
+				copy_defs(item, uid);
+			return;
+		}
+
+	}
+
+	/* For new format files and for excess over SMAXUID of old format, we save them in the vector */
+
+	whu = bsearch_spdet(uid);
+	sp = &userdets_buf[whu];
+	if  (whu < Num_userdets  &&  sp->spu_user == uid)  {
+		*item = *sp;
+		return;
+	}
+
+	/* Otherwise copy defaults */
+
+	copy_defs(item, uid);
+}
+
+static	void	insert_item_vec(const struct spdet *item, const int whu)
+{
+	struct  spdet  *sp = &userdets_buf[whu];
+	int	cnt;
+
+	if  (Num_userdets >= Max_userdets)  {
+		Max_userdets += INC_USERDETS;
+		if  (userdets_buf)
+			userdets_buf = (struct spdet *) realloc((char *) userdets_buf, Max_userdets * sizeof(struct spdet));
+		else
+			userdets_buf = (struct spdet *) malloc(Max_userdets * sizeof(struct spdet));
+		if  (!userdets_buf)
+			nomem();
+		sp = &userdets_buf[whu];
+	}
+	for  (cnt = Num_userdets;  cnt > whu;  cnt--)
+		userdets_buf[cnt] = userdets_buf[cnt-1];
+	Num_userdets++;
+	*sp = *item;
+}
+
+void	insertu(const struct spdet *item)
+{
+	if  (spu_new_format)  {
+#ifndef	HAVE_FTRUNCATE
+		char	*fname;
+#endif
+		int  whu = bsearch_spdet(item->spu_user);
+		struct  spdet  *sp = &userdets_buf[whu];
+
+		if  (whu >= Num_userdets || sp->spu_user != item->spu_user)  {
+			/* We haven't met this user before.
+			   If it's the same as the default, forget it. */
+			if  (issame_defs(item))
+				return;
+			insert_item_vec(item, whu);
+		}
+		else  {
+			*sp = *item;
+
+			/* If we're root or spooler user, force on all privs */
+
+			if  (item->spu_user == ROOTID  || (ULONG) item->spu_user == (ULONG) Daemuid)
+				sp->spu_flgs = ALLPRIVS;
+
+			/* If it's the same as the default, then we want to delete the user */
+
+			if  (issame_defs(sp))  {
+				int  cnt;
+				for  (cnt = whu+1;  cnt < Num_userdets;  cnt++)
+					userdets_buf[cnt-1] = userdets_buf[cnt];
+				Num_userdets--;
+			}
+		}
+
+		/* And now write the thing out */
+
+#ifdef	HAVE_FTRUNCATE
+		Ignored_error = ftruncate(spuf_fid, 0L);
+		lseek(spuf_fid, 0L, 0);
+#else
+		close(spuf_fid);
+		fname = envprocess(SPUFILE);
+
+		spuf_fid = open(fname, O_RDWR|O_TRUNC);
+		free(fname);
+		fcntl(spuf_fid, F_SETFD, 1);
+		lockit(F_WRLCK);
+#endif
+
+		Ignored_error = write(spuf_fid, (char *) &Spuhdr, sizeof(Spuhdr));
+		if  (Num_userdets != 0)
+			Ignored_error = write(spuf_fid, (char *) userdets_buf, Num_userdets * sizeof(struct spdet));
+	}
+	else  {					/* Old-style format */
+		struct	spdet	c;
+
+		/* Force all privs on for root and spooler user id - item is const so we can't fiddle with it */
+
+		if  (item->spu_user == ROOTID  || (ULONG) item->spu_user == (ULONG) Daemuid)  {
+			c = *item;
+			c.spu_flgs = ALLPRIVS;
+			item = &c;
+		}
+
+		/* If it's below maximum for vector, stuff it in.  */
+
+		if  ((ULONG) item->spu_user < SMAXUID)  {
+			lseek(spuf_fid, (long) (sizeof(struct sphdr) + item->spu_user * sizeof(struct spdet)), 0);
+			Ignored_error = write(spuf_fid, (char *) item, sizeof(struct spdet));
+		}
+		else  {
+			/* We now hold details for users >SMAXUID in the in-memory vector used for new fmt
+			   We won't worry for now about items duplicating the default as that will happen
+			   when the whole file is written out. */
+
+			int  whu = bsearch_spdet(item->spu_user);
+			struct  spdet  *sp = &userdets_buf[whu];
+
+			if  (whu >= Num_userdets || sp->spu_user != item->spu_user)
+				insert_item_vec(item, whu);
+			else
+				*sp = *item;
+
+			lseek(spuf_fid, (long) (sizeof(struct sphdr) + sizeof(struct spdet) * SMAXUID), 0);
+			Ignored_error = write(spuf_fid, (char *) userdets_buf, Num_userdets * sizeof(struct spdet));
+		}
+	}
+
+	last_mod_time = time(0);
 }
 
 /* Create user control file from scratch.
@@ -92,25 +330,22 @@ static void iu(int fid, char *arg, int_ugid_t uid)
 static	int  init_file(char *fname)
 {
 	int		fid;
-	unsigned	nusers;
 	char		*formname;
 	struct	spdet	Spec;
-	struct	stat	pwbuf;
 
 	if  ((fid = open(fname, O_RDWR|O_CREAT|O_TRUNC, 0600)) < 0)
 		return  0;
 
 #if	defined(HAVE_FCHOWN) && !defined(M88000)
-	fchown(fid, (uid_t) Daemuid, getegid());
+	Ignored_error = fchown(fid, (uid_t) Daemuid, getegid());
 #else
-	chown(fname, (uid_t) Daemuid, getegid());
+	Ignored_error = chown(fname, (uid_t) Daemuid, getegid());
 #endif
 	savesigs(1);
 	if  ((formname = helpprmpt($P{Default user form type})) == (char *) 0)
-		formname = "standard";
+		formname = stracpy("standard");
 
-	stat("/etc/passwd", &pwbuf);
-	Spuhdr.sph_lastp = pwbuf.st_mtime;
+	Spuhdr.sph_lastp = 0;			/* Set time zero to signify new format */
 	Spuhdr.sph_minp = U_DF_MINP;
 	Spuhdr.sph_maxp = U_DF_MAXP;
 	Spuhdr.sph_defp = U_DF_DEFP;
@@ -122,7 +357,9 @@ static	int  init_file(char *fname)
 	strncpy(Spuhdr.sph_formallow, formname, ALLOWFORMSIZE);
 	Spuhdr.sph_ptr[0] = '\0';
 	Spuhdr.sph_ptrallow[0] = '\0';
-	write(fid, (char *) &Spuhdr, sizeof(Spuhdr));
+	Ignored_error = write(fid, (char *) &Spuhdr, sizeof(Spuhdr));
+
+	/* Initialise root and Daemuid to have all privs */
 
 	Spec.spu_isvalid = SPU_VALID;
 	strncpy(Spec.spu_form, formname, MAXFORM);
@@ -133,228 +370,33 @@ static	int  init_file(char *fname)
 	Spec.spu_maxp = U_DF_MAXP;
 	Spec.spu_defp = U_DF_DEFP;
 	Spec.spu_cps = U_DF_CPS;
-	Spec.spu_flgs = U_DF_PRIV;
+	Spec.spu_flgs = ALLPRIVS;
 	Spec.spu_class = (classcode_t) U_DF_CLASS;
-
-	uloop_over(fid, iu, (char *) &Spec);
-
-	/* We no longer set "root" and "spooler" to be super-people as insertu forces this. */
+	Spec.spu_user = ROOTID;
+	Ignored_error = write(fid, (char *) &Spec, sizeof(Spec));
+	if  (Daemuid != ROOTID)  {
+		Spec.spu_user = Daemuid;
+		Ignored_error = write(fid, (char *) &Spec, sizeof(Spec));
+	}
 
 #if	defined(HAVE_FCHOWN) && !defined(M88000)
-	fchown(fid, Daemuid, getegid());
+	Ignored_error = fchown(fid, Daemuid, getegid());
 #else
-	chown(fname, Daemuid, getegid());
+	Ignored_error = chown(fname, Daemuid, getegid());
 #endif
 	close(fid);
 	savesigs(0);
+	free(formname);
 	return  1;
 }
 
-/* Lock the whole caboodle */
-
-static	void  lockit(const int fid, const int type)
-{
-	struct	flock	lk;
-
-	lk.l_type = (SHORT) type;
-	lk.l_whence = 0;
-	lk.l_start = 0;
-	lk.l_len = 0;
-	lk.l_pid = 0;
-	if  (fcntl(fid, F_SETLKW, &lk) < 0)  {
-		print_error($E{Cannot lock user ctrl file});
-		exit(E_SETUP);
-	}
-}
-
-/* Unlock the whole caboodle */
-
-static  void  unlockit(const int fid)
-{
-	struct	flock	lk;
-
-	lk.l_type = F_UNLCK;
-	lk.l_whence = 0;
-	lk.l_start = 0;
-	lk.l_len = 0;
-	lk.l_pid = 0;
-	if  (fcntl(fid, F_SETLKW, &lk) < 0)  {
-		print_error($E{Cannot unlock user ctrl file});
-		exit(E_SETUP);
-	}
-}
-
-/* Didn't find user, or he wasn't valid, so make new thing.  */
-
-static  void  init_defaults(struct spdet *res, const int_ugid_t uid, const unsigned varg)
-{
-	res->spu_isvalid = varg;
-	strncpy(res->spu_form, Spuhdr.sph_form, MAXFORM);
-	strncpy(res->spu_formallow, Spuhdr.sph_formallow, ALLOWFORMSIZE);
-	strncpy(res->spu_ptr, Spuhdr.sph_ptr, PTRNAMESIZE);
-	strncpy(res->spu_ptrallow, Spuhdr.sph_ptrallow, JPTRNAMESIZE);
-	res->spu_user = uid;
-	res->spu_minp = Spuhdr.sph_minp;
-	res->spu_maxp = Spuhdr.sph_maxp;
-	res->spu_defp = Spuhdr.sph_defp;
-	res->spu_cps = Spuhdr.sph_cps;
-	res->spu_flgs = Spuhdr.sph_flgs;
-	res->spu_class = Spuhdr.sph_class;
-}
-
-/* Routine called by uloop_over to check for new users */
-
-static	void  chk_nuser(const int fid, char *arg, const int_ugid_t uid)
-{
-	struct	spdet	uu;
-
-	if  (!readu(fid, uid, &uu))  {
-		init_defaults(&uu, uid, (unsigned) *arg);
-		insertu(fid, &uu);
-	}
-}
-
-void	rebuild_spufile(void)
-{
-	int		needsquash;
-	char		ulim;
-	LONG		posn;
-	char		*fname = envprocess(SPUFILE);
-	struct	spdet	bu;
-	struct	stat	pwbuf;
-
-	/* First lock the file (it must be open to get here).  This
-	   might take a long time because some other guy got in
-	   first and locked the file.  If he did then we probably
-	   don't need to do the regen.  */
-
-	savesigs(1);
-	lockit(spuf_fid, F_WRLCK);
-	lseek(spuf_fid, 0L, 0);
-	read(spuf_fid, (char *)&Spuhdr, sizeof(Spuhdr));
-	stat("/etc/passwd", &pwbuf);
-	if  (Spuhdr.sph_lastp >= pwbuf.st_mtime)
-		goto  forgetit;
-
-	/* Go through the users in the password file and see if we
-	   know about them.  */
-
-	ulim = SPU_VALID;	/* Kludge for initialising */
-	uloop_over(spuf_fid, chk_nuser, &ulim);
-
-	/* We now remove users who no longer belong.  'needsquash'
-	   records users over the direct seek limit who have
-	   disappeared. In this case we mark them as invalid and
-	   rewrite the file in the next loop eliminating them.  */
-
-	needsquash = 0;
-	posn = sizeof(Spuhdr);
-	lseek(spuf_fid, (long) posn, 0);
-
-	for  (; read(spuf_fid, (char *) &bu, sizeof(struct spdet)) == sizeof(struct spdet);  posn += sizeof(struct spdet))  {
-
-		if  (!bu.spu_isvalid)  {
-			/* The expression in the next statement could
-			   be replaced by bu.spu_user, but there
-			   is always the possibility that the
-			   file has been mangled which this will
-			   tend to eliminate.  */
-			if  ((posn - sizeof(Spuhdr)) / sizeof(struct spdet) >= SMAXUID)
-				needsquash++;
-			continue;
-		}
-
-		if  (isvuser((uid_t) bu.spu_user))  {  /* Still in pw file */
-			if  (bu.spu_isvalid == SPU_VALID)
-				continue;
-			bu.spu_isvalid = SPU_VALID;
-		}
-		else  {
-			/* Mark no longer valid.  If it's beyond the
-			   magic limit we will need to squash the file.  */
-			bu.spu_isvalid = SPU_INVALID;
-			if  ((ULONG) bu.spu_user >= SMAXUID)
-				needsquash++;
-		}
-
-		lseek(spuf_fid, -(long) sizeof(struct spdet), 1);
-		write(spuf_fid, &bu, sizeof(struct spdet));
-	}
-
-	/* Copy password file mod time into header.  We do this rather
-	   than the current time (a) to reduce the chances of
-	   missing a further change (b) to cope with `time moving
-	   backwards'.  */
-
-	Spuhdr.sph_lastp = pwbuf.st_mtime;
-	lseek(spuf_fid, 0L, 0);
-	write(spuf_fid, (char *) &Spuhdr, sizeof(Spuhdr));
-
-	/* Ok now for squashes. We copy out to a temporary file and
-	   copy back in case anyone else is looking at the file
-	   it saves messing around with locks.  */
-
-	if  (needsquash)  {
-		char	*tfname = envprocess(SPUTMP);
-		int	outfd, uc;
-
-		if  ((outfd = open(tfname, O_RDWR|O_CREAT|O_TRUNC, 0600)) < 0)  {
-			disp_str = tfname;
-			print_error($E{Cannot create temp user file});
-			free(tfname);
-			goto  forgetit;
-		}
-
-		/* Copy over the direct seek bits.  First the
-		   header. Note that we should be at just the
-		   right place in the original file.  */
-
-		write(outfd, (char *) &Spuhdr, sizeof(Spuhdr));
-		for  (uc = 0;  uc < SMAXUID;  uc++)  {
-			read(spuf_fid, (char *) &bu, sizeof(bu));
-			write(outfd, (char *) &bu, sizeof(bu));
-		}
-
-		/* And now for the rest */
-
-		while  (read(spuf_fid, (char *) &bu, sizeof(bu)) == sizeof(bu))
-			if  (bu.spu_isvalid)
-				write(outfd, (char *) &bu, sizeof(bu));
-
-		/* Now truncate the original file.  If we have some
-		   sort of `truncate' system call use it here
-		   instead of this mangling.  */
-
-		lseek(spuf_fid, 0L, 0);
-		lseek(outfd, (long) sizeof(Spuhdr), 0);
-#ifdef	HAVE_FTRUNCATE
-		ftruncate(spuf_fid, 0L);
-#else
-		close(open(fname, O_RDWR|O_TRUNC));
-#endif
-		write(spuf_fid, (char *) &Spuhdr, sizeof(Spuhdr));
-		while  (read(outfd, (char *) &bu, sizeof(bu)) == sizeof(bu))
-			write(spuf_fid, (char *) &bu, sizeof(bu));
-
-		close(outfd);
-		unlink(tfname);
-		free(tfname);
-	}
-
- forgetit:
-	savesigs(0);
-	free(fname);
-	unlockit(spuf_fid);
-	spu_needs_rebuild = 0;
-}
-
-/* See if we need to regenerate user file because of new users added recently.
-   Return file descriptor */
+/* Open user file and return file descriptor in spuf_fid
+   Cope with new and old formats. New format has date = 0 */
 
 static	void  open_file(int mode)
 {
 	char	*fname = envprocess(SPUFILE);
-	struct	stat	pwbuf;
+	struct	stat	fbuf;
 
 	if  ((spuf_fid = open(fname, mode)) < 0)  {
 		if  (errno == EACCES)  {
@@ -365,83 +407,104 @@ static	void  open_file(int mode)
 			init_file(fname);
 		spuf_fid = open(fname, mode);
 	}
+	free(fname);
 
 	if  (spuf_fid < 0)  {
 		print_error($E{Cannot open user file});
 		exit(E_SETUP);
 	}
 
+	lockit(F_RDLCK);
+	fstat(spuf_fid, &fbuf);
+	last_mod_time = fbuf.st_mtime;
 	fcntl(spuf_fid, F_SETFD, 1);
-	lockit(spuf_fid, F_RDLCK);
-	read(spuf_fid, (char *)&Spuhdr, sizeof(Spuhdr));
+
+	if  (read(spuf_fid, (char *)&Spuhdr, sizeof(Spuhdr)) != sizeof(Spuhdr))  {
+		close(spuf_fid);
+		spuf_fid = -1;
+		print_error($E{Cannot open user file});
+		exit(E_SETUP);
+	}
 
 	/* Check version number and print warning message if funny.  */
 
-	if  (Spuhdr.sph_version != GNU_SPOOL_MAJOR_VERSION)  {
+	if  (Spuhdr.sph_version != GNU_SPOOL_MAJOR_VERSION  ||  (fbuf.st_size - sizeof(struct sphdr)) % sizeof(struct spdet) != 0)  {
 		disp_arg[0] = Spuhdr.sph_version;
 		disp_arg[1] = GNU_SPOOL_MAJOR_VERSION;
 		print_error($E{Wrong version of product});
 	}
 
-	if  (stat("/etc/passwd", &pwbuf) < 0)  {
-		free(fname);
-		return;
-	}
+	Num_userdets = (fbuf.st_size - sizeof(struct sphdr)) / sizeof(struct spdet);
 
-	unlockit(spuf_fid);
-	free(fname);
+	/* We signify the new format (default + exceptions) by having password time = 0 */
 
-	if  (Spuhdr.sph_lastp >= pwbuf.st_mtime)  {
+	if  (Spuhdr.sph_lastp == 0)
+		spu_new_format = 1;
+	else  {
+		struct	stat	pwbuf;
+		if  (stat("/etc/passwd", &pwbuf) < 0)  {
+			close(spuf_fid);
+			spuf_fid = -1;
+			return;
+		}
 		if  (Spuhdr.sph_lastp > pwbuf.st_mtime)
 			print_error($E{Funny times passwd file});
-		spu_needs_rebuild = 0;
-		return;
+
+		/* Number of users is reduced by the ones saved as a vector */
+
+		Num_userdets -= SMAXUID;
+		if  (Num_userdets > 0)
+			lseek(spuf_fid, (long) (sizeof(struct sphdr) + SMAXUID * sizeof(struct spdet)), 0);
+		spu_new_format = 0;
 	}
-	spu_needs_rebuild = 1;
+
+	if  (Num_userdets > 0)  {
+		unsigned  sizeb = Num_userdets * sizeof(struct spdet);
+		if  (!(userdets_buf = (struct spdet *) malloc(sizeb)))
+			nomem();
+		if  (read(spuf_fid, (char *) userdets_buf, sizeb) != (int) sizeb)  {
+			print_error($E{Cannot open user file});
+			exit(E_SETUP);
+		}
+	}
+
+	Max_userdets = Num_userdets;
+	unlockit();
 }
 
-/* Get info about specific user.
-   If we haven't met the guy before copy over default stuff.  */
+static  void	close_file()
+{
+	if  (userdets_buf)  {
+		free((char *) userdets_buf);
+		userdets_buf = 0;
+	}
+	close(spuf_fid);
+	spuf_fid = -1;
+}
+
+/* Get info about specific user. */
 
 static struct spdet *gpriv(uid_t uid)
 {
 	static	struct	spdet	result;
-	int	ret;
+	struct  stat  ufst;
 
-	lockit(spuf_fid, F_RDLCK);
-	ret = readu(spuf_fid, uid, &result);
-	unlockit(spuf_fid);
-	return  ret? &result: (struct spdet *) 0;
-}
+	lockit(F_RDLCK);
+	fstat(spuf_fid, &ufst);
 
-/* Get list of all users known.  */
+	/* If file has changed since we read stuff in, close and reopen.
+	   This is assumed not to happen very often.
+	   Probably the only thing it will happen with is the API or if
+	   2 or more people are editing the user file at the same time */
 
-static struct spdet *gallpriv(unsigned *Np)
-{
-	struct  spdet  *result, *rp;
-	unsigned  maxu = INITU, count = 0;
-
-	if  ((result = (struct spdet *) malloc(INITU*sizeof(struct spdet))) == (struct spdet *) 0)
-		nomem();
-
-	/* NB assume that the last thing we did was read the header. (or seek to it!).  */
-
-	rp = result;
-	while  (read(spuf_fid, (char *) rp, sizeof(struct spdet)) == sizeof(struct spdet))  {
-		if  (rp->spu_isvalid)  {
-			rp++;
-			count++;
-			if  (count >= maxu)  {
-				maxu += INCU;
-				if  ((result = (struct spdet *) realloc((char *) result, maxu * sizeof(struct spdet))) == (struct spdet *) 0)
-					nomem();
-				rp = &result[count];
-			}
-		}
+	if  (ufst.st_mtime != last_mod_time)  {
+		close_file();			/* Kills the lock */
+		open_file(O_RDWR);		/* Probably only done for edit-type cases */
+		lockit(F_RDLCK);
 	}
-
-	*Np = count;
-	return  result;
+	readu(uid, &result);
+	unlockit();
+	return  &result;
 }
 
 /* Routine to access privilege/mode file.
@@ -454,17 +517,11 @@ struct spdet *getspuser(const uid_t uid)
 
 	open_file(O_RDONLY);
 	result = gpriv(uid);
-	close(spuf_fid);
-	spuf_fid = -1;
-
-	if  (!result)  {
-		print_error($E{Not registered yet});
-		exit(E_UNOTSETUP);
-	}
+	close_file();
 	return  result;
 }
 
-/* Get entry in user file, possibly for update Only done for utility routines.  */
+/* Get entry in user file only done for utility routines and API.  */
 
 struct spdet *getspuentry(const uid_t uid)
 {
@@ -477,40 +534,98 @@ struct spdet *getspuentry(const uid_t uid)
 
 void  putspuentry(struct spdet *item)
 {
-	lockit(spuf_fid, F_WRLCK);
-	insertu(spuf_fid, item);
-	unlockit(spuf_fid);
+	lockit(F_WRLCK);
+	insertu(item);
+	unlockit();
 }
 
-struct spdet *getspulist(unsigned *Nu)
+/* This routine is used by getspulist via uloop_over */
+
+static void gu(char *arg, int_ugid_t uid)
 {
-	struct	spdet	*result;
-	if  (spuf_fid < 0)
+	struct  spdet  **rp = (struct spdet **) arg;
+	readu(uid, *rp);
+	++*rp;					/* pointer to rbuf - advance to next item */
+}
+
+static  int  sort_id(struct spdet *a, struct spdet *b)
+{
+	return  (ULONG) a->spu_user < (ULONG) b->spu_user ? -1: (ULONG) a->spu_user == (ULONG) b->spu_user? 0: 1;
+}
+
+struct spdet *getspulist()
+{
+	struct	spdet	*result, *rbuf;
+
+	/* If we haven't got list of users yet, better get it */
+
+	if  (Npwusers == 0)
+		rpwfile();
+
+	if  (spuf_fid < 0)  {
 		open_file(O_RDWR);
-	else
-		lseek(spuf_fid, (long) sizeof(struct sphdr), 0);
-	lockit(spuf_fid, F_RDLCK);
-	result = gallpriv(Nu);
-	unlockit(spuf_fid);
+		lockit(F_RDLCK);
+	}
+	else  {
+		/* Check it hasn't changed */
+		struct  stat  ufst;
+		lockit(F_RDLCK);
+		fstat(spuf_fid, &ufst);
+		if  (ufst.st_mtime != last_mod_time)  {
+			close_file();
+			open_file(O_RDWR);
+			lockit(F_RDLCK);
+		}
+	}
+
+	result = (struct spdet *) malloc(Npwusers * sizeof(struct spdet));
+	if  (!result)
+		nomem();
+	rbuf = result;
+	uloop_over(gu, (char *) &rbuf);
+	unlockit();
+	qsort(QSORTP1 result, Npwusers, sizeof(struct spdet), QSORTP4 sort_id);
 	return  result;
 }
 
-/* Save list.  */
-
-void  putspulist(struct spdet *list, unsigned num, int hchanges)
+void  putspuhdr()
 {
-	lockit(spuf_fid, F_WRLCK);
-	if  (hchanges)  {
-		lseek(spuf_fid, 0L, 0);
-		write(spuf_fid, (char *) &Spuhdr, sizeof(Spuhdr));
-	}
-	else
-		lseek(spuf_fid, (long) sizeof(Spuhdr), 0);
+	lockit(F_WRLCK);
+	lseek(spuf_fid, 0L, 0);
+	Ignored_error = write(spuf_fid, (char *) &Spuhdr, sizeof(Spuhdr));
+	unlockit();
+}
 
-	if  (list)  {
-		struct  spdet  *up;
-		for  (up = list;  up < &list[num];  up++)
-			insertu(spuf_fid, up);
+/* Save list. This always rewrites the header and
+   probably is the last thing to be called before we quit */
+
+void  putspulist(struct spdet *list)
+{
+	struct  spdet  *sp, *ep;
+#ifndef	HAVE_FTRUNCATE
+	char	*fname;
+#endif
+
+	lockit(F_WRLCK);
+#ifdef	HAVE_FTRUNCATE
+	Ignored_error = ftruncate(spuf_fid, 0L);
+	lseek(spuf_fid, 0L, 0);
+#else
+	close(spuf_fid);
+	fname = envprocess(SPUFILE);
+	spuf_fid = open(fname, O_RDWR|O_TRUNC);
+	free(fname);
+	fcntl(spuf_fid, F_SETFD, 1);
+	lockit(F_WRLCK);
+#endif
+	Spuhdr.sph_lastp = 0;			/* Force new format */
+	Ignored_error = write(spuf_fid, (char *) &Spuhdr, sizeof(Spuhdr));
+
+	ep = &list[Npwusers];
+	for  (sp = list;  sp < ep;  sp++)  {
+		if  (issame_defs(sp))
+			continue;
+		Ignored_error = write(spuf_fid, (char *) sp, sizeof(struct spdet));
 	}
-	unlockit(spuf_fid);
+	unlockit();
 }

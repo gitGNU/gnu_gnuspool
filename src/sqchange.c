@@ -104,7 +104,7 @@ int	doing_something,	/* Set if something would affect jobs */
 
 /* Keep library happy */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -112,7 +112,7 @@ void	nomem(void)
 
 /* "Read" job file.  */
 
-void	rjobfile(void)
+void  rjobfile()
 {
 	jobshm_lock();
 #ifdef	USING_MMAP
@@ -127,7 +127,7 @@ void	rjobfile(void)
 
 /* This is the main processing routine.  */
 
-void	process(char ** joblist)
+void  process(char **joblist)
 {
 	char		*jobc;
 	struct	spr_req	jreq;
@@ -337,7 +337,7 @@ o_tdelay,	o_dtime,	o_oddeven,	o_setclass,
 o_freezecd,	o_freezehd
 };
 
-static	void	dumpstr(FILE *dest, const char *str)
+static	void  dumpstr(FILE *dest, const char *str)
 {
 	if  (strpbrk(str, " \t"))
 		fprintf(dest, " \'%s\'", str);
@@ -345,7 +345,7 @@ static	void	dumpstr(FILE *dest, const char *str)
 		fputs(str, dest);
 }
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0;
 	fprintf(dest, "%s", name);
@@ -449,7 +449,7 @@ void	spit_options(FILE *dest, const char *name)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	ret;
 #if	defined(NHONSUID) || defined(DEBUG)

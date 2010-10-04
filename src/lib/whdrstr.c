@@ -24,7 +24,7 @@
 #define	chtype	int
 #endif
 
-void	whdrstr(WINDOW *wp, const char *str)
+void  whdrstr(WINDOW *wp, const char *str)
 {
 	int	isld = 0, isenh = 0;
 	chtype	ch;

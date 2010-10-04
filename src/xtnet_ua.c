@@ -55,7 +55,7 @@
 #include <time.h>
 #endif
 
-extern unsigned	calcnhash(const netid_t); /* Defined in look_host.c */
+extern unsigned  calcnhash(const netid_t); /* Defined in look_host.c */
 
 struct	pend_job *add_pend(const netid_t whofrom)
 {
@@ -92,7 +92,7 @@ struct	pend_job *find_j_by_jno(const jobno_t jobno)
 
 /* Clean up after decaying job.  */
 
-void	abort_job(struct pend_job *pj)
+void  abort_job(struct pend_job *pj)
 {
 	if  (!pj  ||  !pj->out_f)
 		return;
@@ -109,7 +109,7 @@ void	abort_job(struct pend_job *pj)
 
 /* Pack up a spdet structure */
 
-void	spdet_pack(struct spdet *to, struct spdet *from)
+void  spdet_pack(struct spdet *to, struct spdet *from)
 {
 	to->spu_isvalid = from->spu_isvalid;
 	strncpy(to->spu_form, from->spu_form, MAXFORM);
@@ -164,11 +164,10 @@ static int  dotrunc(struct pend_job *pj, const LONG size)
 /* At end of UDP or API job, scan for pages
    Return 0 (or XTNR_WARN_LIMIT) if ok otherwise error code.  */
 
-int	scan_job(struct pend_job *pj)
+int  scan_job(struct pend_job *pj)
 {
-	int	ch;
 	char	*rcp;
-	int	rec_cnt, pgfid = -1, retcode = XTNQ_OK;
+	int	ch, rec_cnt, pgfid = -1, retcode = XTNQ_OK;
 	ULONG	klim = 0xffffffffL;
 	LONG	plim = 0x7fffffffL, onpage, char_count = 0;
 	char	*rcdend;
@@ -234,8 +233,8 @@ int	scan_job(struct pend_job *pj)
 #endif
 #endif
 	pj->pageout.lastpage = 0;	/* Fix this later perhaps */
-	write(pgfid, (char *) &pj->pageout, sizeof(pj->pageout));
-	write(pgfid, pj->delim, (unsigned) pj->pageout.deliml);
+	Ignored_error = write(pgfid, (char *) &pj->pageout, sizeof(pj->pageout));
+	Ignored_error = write(pgfid, pj->delim, (unsigned) pj->pageout.deliml);
 
 	rcp = pj->delim;
 	rcdend = pj->delim + pj->pageout.deliml;
@@ -302,7 +301,7 @@ int	scan_job(struct pend_job *pj)
 		pj->jobout.spq_npages++;
 		if  ((pj->pageout.lastpage = pj->pageout.delimnum - rec_cnt) > 0)  {
 			lseek(pgfid, 0L, 0);
-			write(pgfid, (char *) &pj->pageout, sizeof(pj->pageout));
+			Ignored_error = write(pgfid, (char *) &pj->pageout, sizeof(pj->pageout));
 		}
 	}
 
@@ -549,14 +548,14 @@ void  udp_job_process(const netid_t whofrom, char *pmsg, int datalength, struct 
 	sendto(uasock, reply, sizeof(reply), 0, (struct sockaddr *) sinp, sizeof(struct sockaddr_in));
 }
 
-static	void	udp_send_vec(char *vec, const int size, struct sockaddr_in *sinp)
+static	void  udp_send_vec(char *vec, const int size, struct sockaddr_in *sinp)
 {
 	sendto(uasock, vec, size, 0, (struct sockaddr *) sinp, sizeof(struct sockaddr_in));
 }
 
 /* Similar routine for when we are sending from scratch */
 
-static void	udp_send_to(char *vec, const int size, const netid_t whoto)
+static void  udp_send_to(char *vec, const int size, const netid_t whoto)
 {
 	int	sockfd, tries;
 	struct	sockaddr_in	to_sin, cli_addr;
@@ -589,7 +588,7 @@ static void	udp_send_to(char *vec, const int size, const netid_t whoto)
 	}
 }
 
-void	udp_send_ulist(const netid_t whofrom, struct sockaddr_in *sinp)
+void  udp_send_ulist(const netid_t whofrom, struct sockaddr_in *sinp)
 {
 	char	**ul;
 	int	rp = 0;
@@ -619,7 +618,7 @@ void	udp_send_ulist(const netid_t whofrom, struct sockaddr_in *sinp)
 	udp_send_vec(reply, 1, sinp);
 }
 
-int	checkpw(const char *name, const char *passwd)
+int  checkpw(const char *name, const char *passwd)
 {
 	static	char	*sppwnam;
 	int		ipfd[2], opfd[2];
@@ -644,12 +643,12 @@ int	checkpw(const char *name, const char *passwd)
 		close(ipfd[0]);
 		if  (opfd[0] != 0)  {
 			close(0);
-			dup(opfd[0]);
+			Ignored_error = dup(opfd[0]);
 			close(opfd[0]);
 		}
 		if  (ipfd[1] != 1)  {
 			close(1);
-			dup(ipfd[1]);
+			Ignored_error = dup(ipfd[1]);
 			close(ipfd[1]);
 		}
 		execl(sppwnam, sppwnam, name, (char *) 0);
@@ -662,9 +661,9 @@ int	checkpw(const char *name, const char *passwd)
 		close(opfd[1]);
 		return  0;
 	}
-	write(opfd[1], passwd, strlen(passwd));
+	Ignored_error = write(opfd[1], passwd, strlen(passwd));
 	rbuf[0] = '\n';
-	write(opfd[1], rbuf, sizeof(rbuf));
+	Ignored_error = write(opfd[1], rbuf, sizeof(rbuf));
 	close(opfd[1]);
 	if  (read(ipfd[0], rbuf, sizeof(rbuf)) != sizeof(rbuf))  {
 		close(ipfd[0]);
@@ -676,7 +675,7 @@ int	checkpw(const char *name, const char *passwd)
 
 /* Tell scheduler about new user.  */
 
-void	tell_sched_roam(const netid_t netid, const char *unam)
+void  tell_sched_roam(const netid_t netid, const char *unam)
 {
 	struct	spr_req	nmsg;
 	BLOCK_ZERO(&nmsg, sizeof(nmsg));
@@ -685,12 +684,12 @@ void	tell_sched_roam(const netid_t netid, const char *unam)
 	nmsg.spr_un.n.spr_pid = getpid();
 	nmsg.spr_un.n.spr_n.hostid = netid;
 	strncpy(nmsg.spr_un.n.spr_n.hostname, unam, HOSTNSIZE);
-	msgsnd(Ctrl_chan, (struct msgbuf *) &nmsg, sizeof(struct sp_nmsg), 0);
+	msgsnd(Ctrl_chan, (struct msgbuf *) &nmsg, sizeof(struct sp_nmsg), 0); /* Wait until it goes */
 }
 
 /* Tell other xtnetservs about new user.  */
 
-void	tell_friends(struct hhash *frp)
+void  tell_friends(struct hhash *frp)
 {
 	unsigned	cnt;
 	struct	ua_pal  palsmsg;
@@ -716,7 +715,7 @@ void	tell_friends(struct hhash *frp)
 
 /* Check password status in login/enquiries on roaming users, and "tell friends" */
 
-static void	set_pwstatus(struct ua_login *inmsg, struct hhash *frp, struct cluhash *cp)
+static void  set_pwstatus(struct ua_login *inmsg, struct hhash *frp, struct cluhash *cp)
 {
 	if  (cp->rem.ht_flags & HT_PWCHECK  ||  (cp->machname  &&  ncstrcmp(cp->machname, inmsg->ual_machname) != 0))  {
 		frp->flags = UAL_NOK;
@@ -819,7 +818,7 @@ struct cluhash *new_roam_name(const netid_t whofrom, struct hhash **frpp, const 
 	return  cp;
 }
 
-int	update_nonroam_name(struct hhash *frp, const char *name)
+int  update_nonroam_name(struct hhash *frp, const char *name)
 {
 	free(frp->actname);
 	frp->actname = stracpy(name);
@@ -835,7 +834,7 @@ int	update_nonroam_name(struct hhash *frp, const char *name)
 	return  1;
 }
 
-static  void  do_logout(struct hhash *frp)
+static void  do_logout(struct hhash *frp)
 {
 	if  (frp->rem.ht_flags & HT_ROAMUSER)  {
 
@@ -873,7 +872,7 @@ static  void  do_logout(struct hhash *frp)
 
 /* Handle logins and initial enquiries, doing as much as possible.  */
 
-static void udp_login(const netid_t whofrom, struct ua_login *inmsg, const int inlng, struct sockaddr_in *sinp)
+static void  udp_login(const netid_t whofrom, struct ua_login *inmsg, const int inlng, struct sockaddr_in *sinp)
 {
 	struct	ua_login	reply;
 
@@ -1006,7 +1005,7 @@ static void udp_login(const netid_t whofrom, struct ua_login *inmsg, const int i
 	udp_send_vec((char *) &reply, sizeof(reply), sinp);
 }
 
-static  void  note_roamer(const netid_t whofrom, struct ua_pal *inmsg, const int inlng)
+static void  note_roamer(const netid_t whofrom, struct ua_pal *inmsg, const int inlng)
 {
 	struct	hhash	*sender, *client;
 
@@ -1048,7 +1047,7 @@ static  void  note_roamer(const netid_t whofrom, struct ua_pal *inmsg, const int
 
 /* This is mainly for dosspwrite */
 
-static  void  answer_asku(const netid_t whofrom, struct ua_pal *inmsg, const int inlng, struct sockaddr_in *sinp)
+static void  answer_asku(const netid_t whofrom, struct ua_pal *inmsg, const int inlng, struct sockaddr_in *sinp)
 {
 	int	nu = 0, cnt;
 	struct	hhash	*hp;
@@ -1083,7 +1082,7 @@ static  void  answer_asku(const netid_t whofrom, struct ua_pal *inmsg, const int
 		client_trace_op_name(whofrom, "asku", inmsg->uap_name);
 }
 
-static  void  answer_askall(const netid_t whofrom, struct ua_pal *inmsg, const int inlng)
+static void  answer_askall(const netid_t whofrom, struct ua_pal *inmsg, const int inlng)
 {
 	int	cnt;
 	struct	hhash	*hp;
@@ -1113,7 +1112,7 @@ static  void  answer_askall(const netid_t whofrom, struct ua_pal *inmsg, const i
 		client_trace_op(whofrom, "askall done");
 }
 
-void	send_askall(void)
+void  send_askall()
 {
 	int	cnt;
 	struct	ua_pal	msg;
@@ -1132,7 +1131,7 @@ void	send_askall(void)
 /* Respond to keep alive messages - we rely on "find_remote" updating
    the last access time.  */
 
-static  void  tickle(const netid_t whofrom, struct sockaddr_in *sinp)
+static void  tickle(const netid_t whofrom, struct sockaddr_in *sinp)
 {
 	struct	hhash	*frp = find_remote(whofrom);
 	char	repl = XTNQ_OK;
@@ -1143,7 +1142,7 @@ static  void  tickle(const netid_t whofrom, struct sockaddr_in *sinp)
 	}
 }
 
-void	process_ua(void)
+void  process_ua()
 {
 	uid_t	Realuid;	/* NOT a global */
 	int	datalength;
@@ -1244,12 +1243,7 @@ void	process_ua(void)
 	uret = lookup_uname(luser);
 	Realuid = uret == UNKNOWN_UID?  Daemuid: uret;		/* NB Not a global Realuid! */
 
-	if  (!(spuser = getspuentry(Realuid)))  {
-		if  (tracing & TRACE_CLIOPEND)
-			client_trace_op_name(whofrom, "init-unknown user", luser);
-		ret = XTNR_NOT_USERNAME;
-		goto  badret;
-	}
+	spuser = getspuentry(Realuid);
 
 	/* Pack together our answer and launch it out again.  */
 
@@ -1276,7 +1270,7 @@ void	process_ua(void)
 
 /* Tell the client we think it should wake up */
 
-void	send_prod(struct pend_job *pj)
+void  send_prod(struct pend_job *pj)
 {
 	char	prodit = SV_CL_TOENQ;
 	udp_send_to(&prodit, sizeof(prodit), pj->clientfrom);
@@ -1287,7 +1281,7 @@ void	send_prod(struct pend_job *pj)
 /* See which UDP ports seem to have dried up
    Return time of next alarm.  */
 
-unsigned  process_alarm(void)
+unsigned  process_alarm()
 {
 	time_t	now = time((time_t *) 0);
 	unsigned  mintime = 0, nexttime;

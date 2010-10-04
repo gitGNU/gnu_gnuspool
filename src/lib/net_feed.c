@@ -35,7 +35,7 @@
 
 /* Grab hold of a spool file on a remote system.  */
 
-FILE *net_feed(const int type, const netid_t netid, const slotno_t jslot, const jobno_t	jobno)
+FILE *net_feed(const int type, const netid_t netid, const slotno_t jslot, const jobno_t jobno)
 {
 	int			sock;
 	FILE			*result;

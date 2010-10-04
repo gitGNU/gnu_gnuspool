@@ -72,28 +72,28 @@
 #define	getbegyx(win,y,x)	((y) = (win)->_begy, (x) = (win)->_begx)
 #endif
 
-void	dochelp(WINDOW *, const int);
-void	doerror(WINDOW *, const int);
-void	dohelp(WINDOW *, struct sctrl *, const char *);
-void	endhe(WINDOW *, WINDOW **);
-void	pdisplay(void);
-void	rpfile(void);
-void	my_wjmsg(const int);
-void	womsg(const int);
-void	offersave(char *, const int);
+extern  void  dochelp(WINDOW *, const int);
+extern  void  doerror(WINDOW *, const int);
+extern  void  dohelp(WINDOW *, struct sctrl *, const char *);
+extern  void  endhe(WINDOW *, WINDOW **);
+extern  void  pdisplay();
+extern  void  rpfile();
+extern  void  my_wjmsg(const int);
+extern  void  womsg(const int);
+extern  void  offersave(char *, const int);
 
-int	view_errors(const int);
-int	propts(void);
-int	viewfile(void);
-int	qopts(const jobno_t);
-int	fmtprocess(char **, const char, struct sq_formatdef *, struct sq_formatdef *);
-int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+extern  int  view_errors(const int);
+extern  int  propts();
+extern  int  viewfile();
+extern  int  qopts(const jobno_t);
+extern  int  fmtprocess(char **, const char, struct sq_formatdef *, struct sq_formatdef *);
+extern  int  rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
 
-char	**wotjform(const char *, const int);
-char	**wotjprin(const char *, const int);
+extern  char	**wotjform(const char *, const int);
+extern  char	**wotjprin(const char *, const int);
 
-void	tdisplay(WINDOW *, const time_t, const int, const int);
-int	wtime(WINDOW *, const int, const int);
+extern  void	tdisplay(WINDOW *, const time_t, const int, const int);
+extern  int	wtime(WINDOW *, const int, const int);
 
 #define	BOXWID	1
 
@@ -126,7 +126,7 @@ extern	WINDOW	*hjscr, *hpscr, *tpscr, *jscr, *pscr;
 
 /* Open job file. Allocate memory for it as well.  */
 
-void	openjfile(void)
+void  openjfile()
 {
 	if  (!jobshminit(1))  {
 		print_error($E{Cannot open jshm});
@@ -147,7 +147,7 @@ void	openjfile(void)
    the current line (even if we are currently looking at the
    print file).  Option - if scrkeep set, move job but keep the rest.  */
 
-void	cjfind(void)
+void  cjfind()
 {
 	int	row;
 
@@ -182,14 +182,14 @@ void	cjfind(void)
 	}
 }
 
-static	int	r_max(const int a, const int b)
+static	int  r_max(const int a, const int b)
 {
 	return  a > b? a: b;
 }
 
 /* Stuff to implement the unqueue command */
 
-int	dounqueue(const struct spq *jp, const int nodelete)
+int  dounqueue(const struct spq *jp, const int nodelete)
 {
 	static	char	*udprog, *udprompt, *dirprompt, *xfilep, *jfilep;
 	static	int	maxp;
@@ -304,7 +304,7 @@ int	dounqueue(const struct spq *jp, const int nodelete)
 			clear();
 			refresh();
 #endif
-			chdir(spdir);
+			Ignored_error = chdir(spdir);
 			return  -1;
 		}
 
@@ -331,7 +331,7 @@ int	dounqueue(const struct spq *jp, const int nodelete)
 			clear();
 			refresh();
 #endif
-			chdir(spdir);
+			Ignored_error = chdir(spdir);
 			return  -1;
 		}
 
@@ -354,7 +354,7 @@ int	dounqueue(const struct spq *jp, const int nodelete)
 	clear();
 	refresh();
 #endif
-	chdir(spdir);
+	Ignored_error = chdir(spdir);
 
 	if  ((pid = fork()))  {
 		int	status;
@@ -404,7 +404,7 @@ int	dounqueue(const struct spq *jp, const int nodelete)
 	}
 
 	setuid(Realuid);
-	chdir(Curr_pwd);	/* So it picks up the right config file */
+	Ignored_error = chdir(Curr_pwd);	/* So it picks up the right config file */
 	if  (jp->spq_netid)
 		sprintf(jobnobuf, "%s:%ld", look_host(jp->spq_netid), (long) jp->spq_job);
 	else
@@ -520,7 +520,7 @@ struct	sq_formatdef
 {	0,			0,	0,			NULLCP, NULLCP,	0		}	/* z */
 };
 
-static int	upd_copies(const int row, struct sctrl *scp)
+static int  upd_copies(const int row, struct sctrl *scp)
 {
 	int	num;
 	if  (!(mypriv->spu_flgs & PV_ANYPRIO))
@@ -533,7 +533,7 @@ static int	upd_copies(const int row, struct sctrl *scp)
 	return  0;
 }
 
-static int	upd_prio(const int row, struct sctrl *scp)
+static int  upd_prio(const int row, struct sctrl *scp)
 {
 	int	num;
 	if  (!(mypriv->spu_flgs & PV_ANYPRIO))  {
@@ -550,7 +550,7 @@ static int	upd_prio(const int row, struct sctrl *scp)
 	return  0;
 }
 
-static int	upd_printer(const int row, struct sctrl *scp)
+static int  upd_printer(const int row, struct sctrl *scp)
 {
 	char	*str = chk_wgets(jscr, row, scp, JREQ.spq_ptr, JPTRNAMESIZE);
 	if  (!str)
@@ -565,7 +565,7 @@ static int	upd_printer(const int row, struct sctrl *scp)
 	return  -1;
 }
 
-static int	upd_form(const int row, struct sctrl *scp)
+static int  upd_form(const int row, struct sctrl *scp)
 {
 	char	*str = chk_wgets(jscr, row, scp, JREQ.spq_form, MAXFORM);
 	if  (!str)
@@ -580,7 +580,7 @@ static int	upd_form(const int row, struct sctrl *scp)
 	return  -1;
 }
 
-static int	upd_title(const int row, struct sctrl *scp)
+static int  upd_title(const int row, struct sctrl *scp)
 {
 	char	*str = chk_wgets(jscr, row, scp, JREQ.spq_file, MAXTITLE);
 	if  (str)  {
@@ -590,7 +590,7 @@ static int	upd_title(const int row, struct sctrl *scp)
 	return  0;
 }
 
-static int	upd_hold(const int row, struct sctrl *scp)
+static int  upd_hold(const int row, struct sctrl *scp)
 {
 	WINDOW	*awin;
 	char	*prmpt;
@@ -610,7 +610,7 @@ static int	upd_hold(const int row, struct sctrl *scp)
 	return  ret != 0? -1: 0;
 }
 
-static int	upd_npdel(const int row, struct sctrl *scp)
+static int  upd_npdel(const int row, struct sctrl *scp)
 {
 	int	num = wnum(jscr, row, scp, (LONG) JREQ.spq_nptimeout);
 	if  (num > 0  &&  num != (int) JREQ.spq_nptimeout)  {
@@ -620,7 +620,7 @@ static int	upd_npdel(const int row, struct sctrl *scp)
 	return  0;
 }
 
-static int	upd_pdel(const int row, struct sctrl *scp)
+static int  upd_pdel(const int row, struct sctrl *scp)
 {
 	int	num = wnum(jscr, row, scp, (LONG) JREQ.spq_ptimeout);
 	if  (num > 0  &&  num != (int) JREQ.spq_ptimeout)  {
@@ -630,7 +630,7 @@ static int	upd_pdel(const int row, struct sctrl *scp)
 	return  0;
 }
 
-static int gbool(WINDOW *awin, const int row, const int col, struct sctrl *scp, const int existing)
+static int  gbool(WINDOW *awin, const int row, const int col, struct sctrl *scp, const int existing)
 {
 	int	ch;
 
@@ -681,7 +681,7 @@ static int gbool(WINDOW *awin, const int row, const int col, struct sctrl *scp, 
 	}
 }
 
-static int	upd_bool(const int row, struct sctrl *scp)
+static int  upd_bool(const int row, struct sctrl *scp)
 {
 	WINDOW	*awin;
 	char	*prmpt;
@@ -713,7 +713,7 @@ static int	upd_bool(const int row, struct sctrl *scp)
 	return  -1;
 }
 
-static int	upd_class(const int row, struct sctrl *scp)
+static int  upd_class(const int row, struct sctrl *scp)
 {
 	classcode_t  in = whexnum(jscr, row, scp, JREQ.spq_class);
 	if  (in == JREQ.spq_class)
@@ -729,7 +729,7 @@ static int	upd_class(const int row, struct sctrl *scp)
 	return  -1;
 }
 
-static int	upd_range(const int row, struct sctrl *scp)
+static int  upd_range(const int row, struct sctrl *scp)
 {
 	WINDOW	*awin;
 	char	*prmpt;
@@ -798,7 +798,7 @@ static int	upd_range(const int row, struct sctrl *scp)
 	return  -1;
 }
 
-static int	upd_hat(const int row, struct sctrl *scp)
+static int  upd_hat(const int row, struct sctrl *scp)
 {
 	LONG	num;
 	if  (JREQ.spq_haltat == 0)		/* Just ignore it */
@@ -817,7 +817,7 @@ static int	upd_hat(const int row, struct sctrl *scp)
 	return  -1;
 }
 
-static int	upd_oddeven(const int row, struct sctrl *scp)
+static int  upd_oddeven(const int row, struct sctrl *scp)
 {
 	WINDOW	*awin;
 	char	*prmpt;
@@ -877,7 +877,7 @@ static int	upd_oddeven(const int row, struct sctrl *scp)
 	return  0;
 }
 
-static int	upd_postuser(const int row, struct sctrl *scp)
+static int  upd_postuser(const int row, struct sctrl *scp)
 {
 	char	*str = wgets(jscr, row, scp, JREQ.spq_puname);
 	if  (!str)
@@ -891,7 +891,7 @@ static int	upd_postuser(const int row, struct sctrl *scp)
 	return  -1;
 }
 
-static int	upd_flags(const int row, struct sctrl *scp)
+static int  upd_flags(const int row, struct sctrl *scp)
 {
 	char	*str = wgets(jscr, row, scp, JREQ.spq_flags);
 	if  (str)  {
@@ -936,7 +936,7 @@ struct	attrib_key	job_attribs[] = {
 #define	DISP_CHAR(w, ch)	waddch(w, ch);
 #endif
 
-char *	get_jobtitle(int nopage)
+char *get_jobtitle(int nopage)
 {
 	int	nn, obuflen, isrjust;
 	struct	sq_formatdef	*fp;
@@ -1068,7 +1068,7 @@ char *	get_jobtitle(int nopage)
 
 /* Display contents of job file.  */
 
-void	jdisplay(void)
+void  jdisplay()
 {
 	int	row;
 
@@ -1189,7 +1189,7 @@ void	jdisplay(void)
 #endif
 }
 
-static	void	abortjob(const slotno_t jslot)
+static	void  abortjob(const slotno_t jslot)
 {
 	static	char	*cnfmsgp, *cnfmsgnp;
 	static	WINDOW	*awin;
@@ -1252,7 +1252,7 @@ static	void	abortjob(const slotno_t jslot)
 
 /* Spit out a prompt for a search string */
 
-static	char *	gsearchs(const int isback)
+static	char *gsearchs(const int isback)
 {
 	int	row;
 	char	*gstr;
@@ -1304,7 +1304,7 @@ static	char *	gsearchs(const int isback)
 
 /* Match a job string "vstr" against a pattern string "mstr" */
 
-static	int	smatchit(const char *vstr, const char *mstr)
+static	int  smatchit(const char *vstr, const char *mstr)
 {
 	const	char	*tp, *mp;
 	while  (*vstr)  {
@@ -1323,7 +1323,7 @@ static	int	smatchit(const char *vstr, const char *mstr)
 	return  0;
 }
 
-static	int	smatch(const int mline, const char *mstr)
+static	int  smatch(const int mline, const char *mstr)
 {
 	const  struct  spq  *jp = &Job_seg.jj_ptrs[mline]->j;
 	return  smatchit(jp->spq_file, mstr) ||
@@ -1336,7 +1336,7 @@ static	int	smatch(const int mline, const char *mstr)
    Return 0 - need to redisplay jobs (Jhline and Jeline suitably mangled)
    otherwise return error code */
 
-static	int	dosearch(const int isback)
+static	int  dosearch(const int isback)
 {
 	char	*mstr = gsearchs(isback);
 	int	mline;
@@ -1369,7 +1369,7 @@ static	int	dosearch(const int isback)
 	return  0;
 }
 
-static void	job_macro(const struct spq *jp, const int num)
+static void  job_macro(const struct spq *jp, const int num)
 {
 	char	*prompt = helpprmpt(num + $P{Job or User macro}), *str;
 	static	char	*execprog;
@@ -1449,9 +1449,9 @@ static void	job_macro(const struct spq *jp, const int num)
 			close(0);
 			close(1);
 			close(2);
-			dup(dup(open("/dev/null", O_RDWR)));
+			Ignored_error = dup(dup(open("/dev/null", O_RDWR)));
 		}
-		chdir(Curr_pwd);
+		Ignored_error = chdir(Curr_pwd);
 		execv(execprog, argbuf);
 		exit(255);
 	}
@@ -1490,10 +1490,9 @@ static void	job_macro(const struct spq *jp, const int num)
 
 /* This accepts input from the screen.  */
 
-int	j_process(void)
+int  j_process()
 {
-	int	state, err_no, i;
-	int	ch, currow;
+	int	state, err_no, i, ch, currow;
 	char	*str;
 	struct	attrib_key	*atp;
 	struct	sctrl	opjob;

@@ -219,7 +219,7 @@ extern	int	Dirty;
 
 /* Open job file and get relevant messages.  */
 
-void	openjfile(void)
+void  openjfile()
 {
 	if  (!jobshminit(1))  {
 		print_error($E{Cannot open jshm});
@@ -229,7 +229,7 @@ void	openjfile(void)
 
 
 /* Open print file.  */
-void	openpfile(void)
+void  openpfile()
 {
 	int	i;
 
@@ -256,7 +256,7 @@ gint	sort_uint(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer use
 	return  seq1 < seq2? -1:  seq1 == seq2? 0: 1;
 }
 
-gint	sort_string(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer userdata)
+gint  sort_string(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer userdata)
 {
         gchar	*name1, *name2;
 	gint	ret = 0;
@@ -284,9 +284,9 @@ gint	sort_string(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer u
 	return  ret;
 }
 
-void	set_tview_col(struct fielddef *, const int);
+void  set_tview_col(struct fielddef *, const int);
 
-void	men_toggled(GtkMenuItem *item, struct fielddef *fd)
+void  men_toggled(GtkMenuItem *item, struct fielddef *fd)
 {
 	unsigned  cnt;
 
@@ -312,7 +312,7 @@ void	men_toggled(GtkMenuItem *item, struct fielddef *fd)
 
 /* I'd like to make this a right-click but I don't know how - sob */
 
-gboolean	hdr_clicked(GtkWidget *treeview, GdkEventButton *event, struct fielddef *fd)
+gboolean  hdr_clicked(GtkWidget *treeview, GdkEventButton *event, struct fielddef *fd)
 {
 	GtkWidget	*menu;
 	unsigned  	cnt;
@@ -337,13 +337,13 @@ gboolean	hdr_clicked(GtkWidget *treeview, GdkEventButton *event, struct fielddef
 	return  TRUE;
 }
 
-void	set_tview_col(struct fielddef *fd, const int typenum)
+void  set_tview_col(struct fielddef *fd, const int typenum)
 {
 	struct jplist_elems  *lp = &fd->list_els[typenum];
 	GtkCellRenderer  *renderer;
 	GtkTreeViewColumn  *col;
 	GtkWidget	*lab;
-	int  colnum = 0;
+	int  colnum;
 
 	switch  (lp->rendtype)  {
 	case  JPREND_TEXT:
@@ -374,7 +374,7 @@ void	set_tview_col(struct fielddef *fd, const int typenum)
 	lp->colnum = colnum-1;
 }
 
-void	set_tview_attribs(struct fielddef *fd, USHORT *flds, unsigned nflds)
+void  set_tview_attribs(struct fielddef *fd, USHORT *flds, unsigned nflds)
 {
 	unsigned  cnt;
 	for  (cnt = 0; cnt < nflds;  cnt++)
@@ -385,7 +385,7 @@ void	set_tview_attribs(struct fielddef *fd, USHORT *flds, unsigned nflds)
    The job list is returned in the global jwid.
    We also set up the global jlist_store for the Liststore. */
 
-void	init_jlist_win(void)
+void  init_jlist_win()
 {
 	unsigned  cnt;
 	GtkTreeSelection *sel;
@@ -418,7 +418,7 @@ void	init_jlist_win(void)
 	gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(jwid), TRUE);
 }
 
-void	set_time(char *buf, LONG tim)
+void  set_time(char *buf, LONG tim)
 {
 	struct	tm	*tp;
 	time_t	tt = tim;
@@ -445,7 +445,7 @@ void	set_time(char *buf, LONG tim)
 	sprintf(buf, "%.2d/%.2d/%.4d %.2d:%.2d", day, mon, tp->tm_year + 1900, tp->tm_hour, tp->tm_min);
 }
 
-void	set_jlist_store(const int jnum, GtkTreeIter *iter)
+void  set_jlist_store(const int jnum, GtkTreeIter *iter)
 {
 	const  struct  spq  *jp = &Job_seg.jj_ptrs[jnum]->j;
 	const	char	*ob;
@@ -542,7 +542,7 @@ void	set_jlist_store(const int jnum, GtkTreeIter *iter)
    The job list is returned in the global jwid.
    We also set up the global jlist_store for the Liststore. */
 
-void	init_plist_win(void)
+void  init_plist_win()
 {
 	unsigned  cnt;
 	GtkTreeSelection *sel;
@@ -594,7 +594,7 @@ void	init_plist_win(void)
 	gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(pwid), TRUE);
 }
 
-void	set_plist_store(const int pnum, GtkTreeIter *iter)
+void  set_plist_store(const int pnum, GtkTreeIter *iter)
 {
 	const  struct  spptr  *pp = &Ptr_seg.pp_ptrs[pnum]->p;
 	char	ptrnamebuf[PTRNAMESIZE+30], devnamebuf[LINESIZE+3], statenbuf[PFEEDBACK+20], limb[3];
@@ -681,7 +681,7 @@ void	set_plist_store(const int pnum, GtkTreeIter *iter)
 
 /* Initial display of jobs */
 
-void	init_jdisplay(void)
+void  init_jdisplay()
 {
 	unsigned  jcnt;
 
@@ -694,7 +694,7 @@ void	init_jdisplay(void)
 	}
 }
 
-void	job_redisplay(void)
+void  job_redisplay()
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(jwid));
 	GtkTreeIter  iter;
@@ -740,7 +740,7 @@ void	job_redisplay(void)
 
 /* Initial display of printers */
 
-void	init_pdisplay(void)
+void  init_pdisplay()
 {
 	unsigned  pcnt;
 
@@ -753,7 +753,7 @@ void	init_pdisplay(void)
 	}
 }
 
-void	ptr_redisplay(void)
+void  ptr_redisplay()
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(pwid));
 	GtkTreeIter  iter;
@@ -807,12 +807,12 @@ struct	sortcols  {
 	unsigned  fldnum;	/* Field number */
 };
 
-int	compare_cols(struct sortcols *a, struct sortcols * b)
+int  compare_cols(struct sortcols *a, struct sortcols *b)
 {
 	return  a->colnum < b->colnum? -1: a->colnum > b->colnum? 1: 0;
 }
 
-char  *gen_colorder(struct jplist_elems *lst, const int num)
+char *gen_colorder(struct jplist_elems *lst, const int num)
 {
 	struct	sortcols	scl[40]; 		/* This is the most we currently need */
 	struct	sortcols	*sp = scl, *fp;
@@ -837,12 +837,12 @@ char  *gen_colorder(struct jplist_elems *lst, const int num)
 	return  stracpy(&rbuf[1]);
 }
 
-char *	gen_jfmts(void)
+char *gen_jfmts()
 {
 	return  gen_colorder(jlist_els, NUM_JOB_ELS);
 }
 
-char *	gen_pfmts(void)
+char *gen_pfmts()
 {
 	return  gen_colorder(plist_els, NUM_PTR_ELS);
 }
@@ -864,7 +864,7 @@ struct	sparts  {
 /* Match routine taking just '.' as wild card
    FIXME give regex option sometime */
 
-static  int  smatch_in(const char *field)
+static int  smatch_in(const char *field)
 {
 	const	char	*tp, *mp;
 
@@ -889,7 +889,7 @@ static  int  smatch_in(const char *field)
 	return  0;
 }
 
-static int	foundin_job(const int jnum)
+static int  foundin_job(const int jnum)
 {
 	const  struct  spq  *jp = &Job_seg.jj_ptrs[jnum]->j;
 
@@ -904,7 +904,7 @@ static int	foundin_job(const int jnum)
 	return  0;
 }
 
-static int	foundin_ptr(GtkTreeIter *iter)
+static int  foundin_ptr(GtkTreeIter *iter)
 {
 	const  struct  spptr  *pp;
 	guint  seq;
@@ -921,7 +921,7 @@ static int	foundin_ptr(GtkTreeIter *iter)
 	return  0;
 }
 
-static void	jsearch_result(const int jnum)
+static void  jsearch_result(const int jnum)
 {
 	GtkTreeIter  iter;
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(jwid));
@@ -934,7 +934,7 @@ static void	jsearch_result(const int jnum)
 	gtk_tree_path_free(path);
 }
 
-static void	execute_jsearch(const int isback)
+static void  execute_jsearch(const int isback)
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(jwid));
 	GtkTreeIter  iter;
@@ -1011,7 +1011,7 @@ static void	execute_jsearch(const int isback)
 	doerror(isback? $EH{Rsearch job not found}: $EH{Fsearch job not found});
 }
 
-static void	psearch_result(GtkTreePath *path)
+static void  psearch_result(GtkTreePath *path)
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(pwid));
 
@@ -1020,7 +1020,7 @@ static void	psearch_result(GtkTreePath *path)
 	gtk_tree_path_free(path);
 }
 
-static void	execute_psearch(const int isback)
+static void  execute_psearch(const int isback)
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(pwid));
 	GtkTreeIter  iter;
@@ -1113,7 +1113,7 @@ static void	execute_psearch(const int isback)
 	doerror(isback? $EH{Rsearch ptr not found}: $EH{Fsearch ptr not found});
 }
 
-static void	execute_search(const int isback)
+static void  execute_search(const int isback)
 {
 	if  (last_isptr)
 		execute_psearch(isback);
@@ -1121,7 +1121,7 @@ static void	execute_search(const int isback)
 		execute_jsearch(isback);
 }
 
-static void	jorp_flip(GtkWidget *jorp, struct sparts *sp)
+static void  jorp_flip(GtkWidget *jorp, struct sparts *sp)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(jorp)))  {
 		gtk_widget_set_sensitive(sp->sdev, TRUE);
@@ -1135,7 +1135,7 @@ static void	jorp_flip(GtkWidget *jorp, struct sparts *sp)
 	}
 }
 
-void	cb_search(void)
+void  cb_search()
 {
 	GtkWidget  *dlg, *hbox, *lab, *sstringw, *jorp, *backw, *matchw, *wrapw;
 	char	*pr;
@@ -1252,7 +1252,7 @@ void	cb_search(void)
 	gtk_widget_destroy(dlg);
 }
 
-void	cb_rsearch(GtkAction *action)
+void  cb_rsearch(GtkAction *action)
 {
 	const	char	*act = gtk_action_get_name(action);
 

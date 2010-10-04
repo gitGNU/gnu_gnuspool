@@ -62,11 +62,11 @@ netid_t	netid;
 char		*Dirname;
 char		*Xfile, *Jfile;
 
-int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
-FILE 	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
-HelpargRef	helpargs(const Argdefault *, const int, const int);
+extern	int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+extern	FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+extern	HelpargRef  helpargs(const Argdefault *, const int, const int);
 
-static	void	spitstring(const int arg, FILE * xfl, const int term)
+static	void  spitstring(const int arg, FILE *xfl, const int term)
 {
 	int	v = arg - $A{spr explain};
 
@@ -82,7 +82,7 @@ static	void	spitstring(const int arg, FILE * xfl, const int term)
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory");
 	exit(E_NOMEM);
@@ -90,7 +90,7 @@ void	nomem(void)
 
 /* Reread job file if necessary.  */
 
-void	rerjobfile(void)
+void  rerjobfile()
 {
 #ifdef	USING_MMAP
 	if  (Job_seg.dinf.segsize != Job_seg.dptr->js_did)
@@ -347,14 +347,14 @@ void	deljob(const Hashspq *jp)
 	oreq.spr_un.o.spr_jobno = jp->j.spq_job;
 	oreq.spr_un.o.spr_arg1 = 0;
 	oreq.spr_un.o.spr_arg2 = 0;
-	msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), 0);
+	msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), 0); /* Wait until we can send it */
 }
 
 #include "inline/spr_adefs.c"
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char		*spdir, *colp;
 	LONG		jind;
@@ -376,7 +376,8 @@ MAINFN_TYPE	main(int argc, char **argv)
 	init_mcfile();
 
 #ifndef	DEBUG
-	freopen("/dev/null", "w", stderr);
+	if  (!freopen("/dev/null", "w", stderr))
+		return  E_SETUP;
 #endif
 
 	Realuid = getuid();

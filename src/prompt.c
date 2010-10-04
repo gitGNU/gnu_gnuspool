@@ -66,7 +66,7 @@ static	char *pathjoin(const char *d1, const char *d2, const char *f)
 	return  d;
 }
 
-int	isform(const char *d1, const char *d2, const char *f)
+int  isform(const char *d1, const char *d2, const char *f)
 {
 	char	*d;
 	struct	stat	sbuf;
@@ -83,7 +83,7 @@ int	isform(const char *d1, const char *d2, const char *f)
 	return  1;
 }
 
-int	isprin(const char *d1, const char *d2, const char *f)
+int  isprin(const char *d1, const char *d2, const char *f)
 {
 	char	*d;
 	struct	stat	sbuf;
@@ -97,7 +97,7 @@ int	isprin(const char *d1, const char *d2, const char *f)
 	return  1;
 }
 
-int	isaterm(const char *d1, const char *d2, const char *f)
+int  isaterm(const char *d1, const char *d2, const char *f)
 {
 	char	*d = pathjoin(d1, d2, f);
 	struct	stat	sbuf;
@@ -175,10 +175,9 @@ char	**listdir(const char *d1, const char *d2, int (*chkfunc)(const char *, cons
 	return  result;
 }
 
-char  **p_prins(const char *sofar)
+char **p_prins(const char *sofar)
 {
-	char	**result;
-	char	**rp;
+	char	**result, **rp;
 	const  Hashspptr  **pp, **ep;
 	int	sfl = 0;
 
@@ -197,10 +196,9 @@ char  **p_prins(const char *sofar)
 	return  result;
 }
 
-char  **p_forms(const char *sofar)
+char **p_forms(const char *sofar)
 {
-	char	**result;
-	char	**rp;
+	char	**result, **rp;
 	const  Hashspptr  **pp, **ep;
 	int	sfl = 0;
 
@@ -219,10 +217,9 @@ char  **p_forms(const char *sofar)
 	return  result;
 }
 
-char  **j_prins(const char *sofar)
+char **j_prins(const char *sofar)
 {
-	char	**result;
-	char	**rp;
+	char	**result, **rp;
 	const Hashspq  **jpp, **bj, **ej;
 	int	sfl = 0;
 	unsigned	pcnt = 0;
@@ -271,7 +268,7 @@ char  **j_prins(const char *sofar)
 	return  result;
 }
 
-char  **j_forms(const char *sofar)
+char **j_forms(const char *sofar)
 {
 	char	**result;
 	const Hashspq  **jpp, **ej;
@@ -306,7 +303,7 @@ char  **j_forms(const char *sofar)
 	return  result;
 }
 
-char  **mconcat(char **m1, char **m2)
+char **mconcat(char **m1, char **m2)
 {
 	unsigned	k1 = 0, k2 = 0;
 	char	**m, **r, **result;
@@ -371,7 +368,7 @@ char  **listpfdirs(const char *sofar)
 	return  result;
 }
 
-FILE  *hexists(const char *dir, const char *d2)
+FILE *hexists(const char *dir, const char *d2)
 {
 	char	*fname;
 	static	char	*hname;
@@ -428,7 +425,7 @@ static	char **makefvec(FILE *f)
 	return  result;
 }
 
-char  **wotjprin(const char *sofar, const int hf)
+char **wotjprin(const char *sofar, const int hf)
 {
 	FILE	*f;
 
@@ -438,12 +435,12 @@ char  **wotjprin(const char *sofar, const int hf)
 	return  mconcat(p_prins(sofar), listdir(ptdir, (char *) 0, isprin, sofar));
 }
 
-char  **wotjform(const char *sofar, const int hf)
+char **wotjform(const char *sofar, const int hf)
 {
 	return  squeeze(mconcat(p_forms(sofar), listpfdirs(sofar)));
 }
 
-char  **wotpform(const char *sofar, const int hf)
+char **wotpform(const char *sofar, const int hf)
 {
 	FILE	*f;
 
@@ -453,7 +450,7 @@ char  **wotpform(const char *sofar, const int hf)
 	return  squeeze(mconcat(j_forms(sofar), listpfdirs(sofar)));
 }
 
-char  **wotpprin(const char *sofar, const int hf)
+char **wotpprin(const char *sofar, const int hf)
 {
 	FILE	*f;
 
@@ -463,7 +460,7 @@ char  **wotpprin(const char *sofar, const int hf)
 	return  squeeze(mconcat(j_prins(sofar), listdir(ptdir, (char *) 0, isprin, sofar)));
 }
 
-char  **wottty(const char *sofar, const int hf)
+char **wottty(const char *sofar, const int hf)
 {
 	return  listdir("/dev", (char *) 0, isaterm, sofar);
 }

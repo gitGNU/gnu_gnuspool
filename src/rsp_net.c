@@ -56,7 +56,7 @@ static	struct	sockaddr_in	serv_addr, cli_addr;
 
 #define	RTIMEOUT	5
 
-int	sock_read(const int sock, char * buffer, int nbytes)
+int  sock_read(const int sock, char *buffer, int nbytes)
 {
 	while  (nbytes > 0)  {
 		int	rbytes = read(sock, buffer, nbytes);
@@ -68,7 +68,7 @@ int	sock_read(const int sock, char * buffer, int nbytes)
 	return  1;
 }
 
-int	sock_write(const int sock, const char * buffer, int nbytes)
+int  sock_write(const int sock, const char *buffer, int nbytes)
 {
 	while  (nbytes > 0)  {
 		int	rbytes = write(sock, buffer, nbytes);
@@ -80,7 +80,7 @@ int	sock_write(const int sock, const char * buffer, int nbytes)
 	return  1;
 }
 
-static	int	initsock(const netid_t hostid)
+static	int  initsock(const netid_t hostid)
 {
 	int	sockfd;
 	SHORT	portnum;
@@ -135,7 +135,7 @@ static	int	initsock(const netid_t hostid)
 
 /* Unpack spuser from networked version. */
 
-static	void	unpack_spuser(struct spdet *dest, const struct spdet *src)
+static	void  unpack_spuser(struct spdet *dest, const struct spdet *src)
 {
 	strncpy(dest->spu_form, src->spu_form, MAXFORM);
 	strncpy(dest->spu_formallow, src->spu_formallow, ALLOWFORMSIZE);
@@ -151,12 +151,12 @@ static	void	unpack_spuser(struct spdet *dest, const struct spdet *src)
 	dest->spu_user = ntohl((ULONG) src->spu_user);
 }
 
-static	RETSIGTYPE	asig(int n)
+static	RETSIGTYPE  asig(int n)
 {
 	return;			/* Don't do anything just return setting EINTR */
 }
 
-static int udp_enquire(char *outmsg, const int outlen, char *inmsg, const int inlen)
+static	int  udp_enquire(char *outmsg, const int outlen, char *inmsg, const int inlen)
 {
 #ifdef	STRUCT_SIG
 	struct	sigstruct_name	za;
@@ -219,7 +219,7 @@ struct	spdet *remgetspuser(const netid_t hostid, char *realuname)
 	return	&result;
 }
 
-static	void	packjob(struct spq *dest, const struct spq *src)
+static	void  packjob(struct spq *dest, const struct spq *src)
 {
 	dest->spq_job = htonl((ULONG) src->spq_job);
 	dest->spq_netid = 0L;
@@ -265,7 +265,7 @@ static	void	packjob(struct spq *dest, const struct spq *src)
 	strncpy(dest->spq_flags, src->spq_flags, MAXFLAGS+1);
 }
 
-int	inittcp(const netid_t hostid)
+int  inittcp(const netid_t hostid)
 {
 	int			sock;
 	SHORT			tcpportnum;
@@ -413,7 +413,7 @@ int  remenqueue(const netid_t host, const struct spq *jp, const struct pages *pf
 	}
 }
 
-void	remgoodbye(void)
+void  remgoodbye()
 {
 	struct	tcp_data	outb;
 	if  (tcpsocket < 0)

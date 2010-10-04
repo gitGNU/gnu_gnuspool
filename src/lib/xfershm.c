@@ -59,7 +59,7 @@ int	Xfershm_lockfd;
 
 #ifdef	USING_FLOCK
 
-void	lockxbuf(void)
+void  lockxbuf()
 {
 	struct	flock	lck;
 	lck.l_type = F_WRLCK;
@@ -76,7 +76,7 @@ void	lockxbuf(void)
 	}
 }
 
-void	unlockxbuf(void)
+void  unlockxbuf()
 {
 	struct	flock	lck;
 	lck.l_type = F_UNLCK;
@@ -102,7 +102,7 @@ int	Sem_chan = -1;
 static	struct	sembuf	xlw = { XT_LOCK, -1, SEM_UNDO },
 			xulw ={ XT_LOCK, 1, SEM_UNDO };
 
-void	lockxbuf(void)
+void  lockxbuf()
 {
 	for  (;;)  {
 		if  (semop(Sem_chan, &xlw, 1) >= 0)
@@ -114,7 +114,7 @@ void	lockxbuf(void)
 	}
 }
 
-void	unlockxbuf(void)
+void  unlockxbuf()
 {
 	for  (;;)  {
 		if  (semop(Sem_chan, &xulw, 1) >= 0)
@@ -128,13 +128,13 @@ void	unlockxbuf(void)
 
 /* Turn off SEM_UNDO for server processes */
 
-void	set_xfer_server(void)
+void  set_xfer_server()
 {
 	xlw.sem_flg = xulw.sem_flg = 0;
 }
 #endif
 
-int	init_xfershm(const int insdir)
+int  init_xfershm(const int insdir)
 {
 	char	*xret;
 
@@ -177,7 +177,7 @@ int	init_xfershm(const int insdir)
 	return  0;
 }
 
-static  struct joborptr *getptr(void)
+static struct joborptr *getptr()
 {
 	struct	joborptr	*result = &Xfer_shmp->xf_queue[Xfer_shmp->xf_tail];
 	Xfer_shmp->xf_tail = (Xfer_shmp->xf_tail + 1) % (TRANSBUF_NUM + 1);
@@ -185,9 +185,10 @@ static  struct joborptr *getptr(void)
 	return  result;
 }
 
-int	wjmsg(struct spr_req *req, struct spq *job)
+int  wjmsg(struct spr_req *req, struct spq *job)
 {
 	int	ret, save_errno;
+	int	blkcount = MSGQ_BLOCKS;
 
 	if  (Xfer_shmp->xf_nonq >= TRANSBUF_NUM + 1)
 		return  $EH{Transfer buffer full up};
@@ -219,8 +220,16 @@ int	wjmsg(struct spr_req *req, struct spq *job)
 
 	/* Send the message, ignoring interrupt errors.  */
 
-	while  ((ret = msgsnd(Ctrl_chan, (struct msgbuf *) req, sizeof(struct sp_xjmsg), IPC_NOWAIT)) < 0  &&  errno == EINTR)
-		;
+	while  ((ret = msgsnd(Ctrl_chan, (struct msgbuf *) req, sizeof(struct sp_xjmsg), IPC_NOWAIT)) < 0)  {
+		if  (errno == EINTR)
+			continue;
+		if  (errno != EAGAIN)
+			break;
+		blkcount--;
+		if  (blkcount <= 0)
+			break;
+		sleep(MSGQ_BLOCKWAIT);
+	}
 
 	/* If all ok, get pointer, copy across buffer, unlock the
 	   thing and go home.  */
@@ -242,9 +251,10 @@ int	wjmsg(struct spr_req *req, struct spq *job)
 	return  errno == EAGAIN? $EH{IPC msg q full}: $EH{IPC msg q error};
 }
 
-int	wpmsg(struct spr_req *req, struct spptr *ptr)
+int  wpmsg(struct spr_req *req, struct spptr *ptr)
 {
 	int	ret, save_errno;
+	int	blkcount = MSGQ_BLOCKS;
 
 	if  (Xfer_shmp->xf_nonq >= TRANSBUF_NUM + 1)
 		return  $EH{Transfer buffer full up};
@@ -258,9 +268,16 @@ int	wpmsg(struct spr_req *req, struct spptr *ptr)
 
 	/* Send the message, ignoring interrupt errors.  */
 
-	while  ((ret = msgsnd(Ctrl_chan, (struct msgbuf *) req, sizeof(struct sp_xpmsg), IPC_NOWAIT)) < 0
-		&&  errno == EINTR)
-		;
+	while  ((ret = msgsnd(Ctrl_chan, (struct msgbuf *) req, sizeof(struct sp_xpmsg), IPC_NOWAIT)) < 0)  {
+		if  (errno == EINTR)
+			continue;
+		if  (errno != EAGAIN)
+			break;
+		blkcount--;
+		if  (blkcount <= 0)
+			break;
+		sleep(MSGQ_BLOCKWAIT);
+	}
 
 	if  (ret >= 0)  {
 		struct	joborptr  *jp = getptr();

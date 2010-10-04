@@ -84,10 +84,10 @@ extern	struct	cluhash	*cluhashtab[];
 extern	unsigned tracing;
 extern	FILE	*tracefile;
 
-extern void	trace_op(const int_ugid_t, const char *);
-extern void	trace_op_res(const int_ugid_t, const char *, const char *);
-extern void	client_trace_op(const netid_t, const char *);
-extern void	client_trace_op_name(const netid_t, const char *, const char *);
+extern void  trace_op(const int_ugid_t, const char *);
+extern void  trace_op_res(const int_ugid_t, const char *, const char *);
+extern void  client_trace_op(const netid_t, const char *);
+extern void  client_trace_op_name(const netid_t, const char *, const char *);
 
 #define	TRACE_SYSOP		(1 << 0)
 #define	TRACE_APICONN		(1 << 1)
@@ -97,27 +97,27 @@ extern void	client_trace_op_name(const netid_t, const char *, const char *);
 #define	TRACE_CLIOPSTART	(1 << 5)
 #define	TRACE_CLIOPEND		(1 << 6)
 
-extern void	abort_job(struct pend_job *);
-extern void	convert_username(struct hhash *, struct spq *);
-extern void	process_api(void);
-extern void	process_ua(void);
-extern void	unpack_job(struct spq *, struct spq *);
-extern void	send_askall(void);
-extern void	tell_friends(struct hhash *);
+extern void  abort_job(struct pend_job *);
+extern void  convert_username(struct hhash *, struct spq *);
+extern void  process_api();
+extern void  process_ua();
+extern void  unpack_job(struct spq *, struct spq *);
+extern void  send_askall();
+extern void  tell_friends(struct hhash *);
 
-extern int	scan_job(struct pend_job *);
-extern int	tcp_serv_accept(const int, netid_t *);
-extern int	validate_job(struct spq *);
-extern int	checkpw(const char *, const char *);
+extern int  scan_job(struct pend_job *);
+extern int  tcp_serv_accept(const int, netid_t *);
+extern int  validate_job(struct spq *);
+extern int  checkpw(const char *, const char *);
 
-extern unsigned	process_alarm(void);
+extern unsigned  process_alarm();
 
-extern unsigned	calc_clu_hash(const char *);
-extern struct	hhash *	find_remote(const netid_t);
-extern struct	pend_job *	add_pend(const netid_t);
-extern struct pend_job *	find_j_by_jno(const jobno_t);
-extern FILE *goutfile(jobno_t *, char *, char *, const int);
+extern unsigned  calc_clu_hash(const char *);
+extern struct	hhash *find_remote(const netid_t);
+extern struct	pend_job *add_pend(const netid_t);
+extern struct	pend_job *find_j_by_jno(const jobno_t);
+extern FILE	*goutfile(jobno_t *, char *, char *, const int);
 
 extern struct cluhash *update_roam_name(struct hhash *, const char *);
 extern struct cluhash *new_roam_name(const netid_t, struct hhash **, const char *);
-extern int	update_nonroam_name(struct hhash *, const char *);
+extern int  update_nonroam_name(struct hhash *, const char *);

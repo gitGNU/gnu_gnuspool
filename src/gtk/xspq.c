@@ -59,11 +59,11 @@ static	char	rcsid2[] = "@(#) $Revision: 1.2 $";
 #define	DEFAULT_WIDTH	400
 #define	DEFAULT_HEIGHT	400
 
-void	load_optfile(void);
-void	job_redisplay(void);
-void	openjfile(void);
-void	openpfile(void);
-void	ptr_redisplay(void);
+extern  void  load_optfile();
+extern  void  job_redisplay();
+extern  void  openjfile();
+extern  void  openpfile();
+extern  void  ptr_redisplay();
 
 #define	IPC_MODE	0600
 
@@ -102,33 +102,33 @@ GtkListStore	*jlist_store,
 
 GtkTreeModelSort	*sorted_plist_store;
 
-static void	cb_about(void);
-static void	cb_quit(void);
-extern void	cb_viewopt(void);
-extern void	cb_saveopts(void);
-extern void	cb_syserr(void);
-extern void	cb_jact(void);
-extern void	cb_onemore(void);
-extern void	cb_pact(GtkAction *);
-extern void	cb_view(void);
-extern void	cb_jform(void);
-extern void	cb_jpages(void);
-extern void	cb_juser(void);
-extern void	cb_jretain(void);
-extern void	cb_jclass(void);
-extern void	cb_unqueue(void);
-extern void	cb_pform(void);
-extern void	cb_pclass(void);
-extern void	cb_pdev(void);
-extern void	cb_padd(void);
-extern void	cb_search(void);
-extern void	cb_rsearch(GtkAction *);
-extern void	cb_jmac(void);
-extern void	cb_pmac(void);
-extern void	cb_jmacedit(void);
-extern void	cb_pmacedit(void);
+static void  cb_about();
+static void  cb_quit();
+extern void  cb_viewopt();
+extern void  cb_saveopts();
+extern void  cb_syserr();
+extern void  cb_jact();
+extern void  cb_onemore();
+extern void  cb_pact(GtkAction *);
+extern void  cb_view();
+extern void  cb_jform();
+extern void  cb_jpages();
+extern void  cb_juser();
+extern void  cb_jretain();
+extern void  cb_jclass();
+extern void  cb_unqueue();
+extern void  cb_pform();
+extern void  cb_pclass();
+extern void  cb_pdev();
+extern void  cb_padd();
+extern void  cb_search();
+extern void  cb_rsearch(GtkAction *);
+extern void  cb_jmac();
+extern void  cb_pmac();
+extern void  cb_jmacedit();
+extern void  cb_pmacedit();
 
-extern void	loadmacs(const char, struct macromenitem *);
+extern void  loadmacs(const char, struct macromenitem *);
 
 static GtkActionEntry entries[] = {
 	{ "FileMenu", NULL, "_File"  },
@@ -175,14 +175,14 @@ static GtkActionEntry entries[] = {
 	{ "Pmacedit", NULL, "_Edit macro list", NULL, "Edit list of printer maros", G_CALLBACK(cb_pmacedit)  },
 	{ "About", NULL, "About xspq", NULL, "About xspq", G_CALLBACK(cb_about)}  };
 
-extern void	init_jlist_win(void);
-extern void	init_plist_win(void);
-extern void	init_jdisplay(void);
-extern void	init_pdisplay(void);
+extern void  init_jlist_win();
+extern void  init_plist_win();
+extern void  init_jdisplay();
+extern void  init_pdisplay();
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -190,7 +190,7 @@ void	nomem(void)
 
 /* If we get a message error die appropriately */
 
-static void	msg_error(const int ret)
+static void  msg_error(const int ret)
 {
 	doerror(ret);
 	exit(E_SETUP);
@@ -198,14 +198,21 @@ static void	msg_error(const int ret)
 
 /* Write messages to scheduler.  */
 
-void	womsg(const int act)
+void  womsg(const int act)
 {
+	int	blkcount = MSGQ_BLOCKS;
 	oreq.spr_un.o.spr_act = (USHORT) act;
-	if  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)
-		msg_error(errno == EAGAIN? $EH{IPC msg q full}: $EH{IPC msg q error});
+	while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
+		if  (errno != EAGAIN)
+			msg_error($EH{IPC msg q error});
+		blkcount--;
+		if  (blkcount <= 0)
+			msg_error($EH{IPC msg q full});
+		sleep(MSGQ_BLOCKWAIT);
+	}
 }
 
-void	my_wjmsg(const int act)
+void  my_wjmsg(const int act)
 {
 	int	ret;
 	jreq.spr_un.j.spr_act = (USHORT) act;
@@ -213,7 +220,7 @@ void	my_wjmsg(const int act)
 		msg_error(ret);
 }
 
-void	my_wpmsg(const int act)
+void  my_wpmsg(const int act)
 {
 	int	ret;
 	preq.spr_un.p.spr_act = (USHORT) act;
@@ -223,7 +230,7 @@ void	my_wpmsg(const int act)
 
 char	*authlist[] =  { "John M Collins", NULL  };
 
-static void	cb_about(void)
+static void  cb_about()
 {
 	GtkWidget  *dlg = gtk_about_dialog_new();
 	char	*cp = strchr(rcsid2, ':');
@@ -240,21 +247,21 @@ static void	cb_about(void)
 		vbuf[n] = '\0';
 	}
 	gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dlg), vbuf);
-	gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(dlg), "Xi Software Ltd 2008");
+	gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(dlg), "Xi Software Ltd 2009");
 	gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(dlg), "http://www.xisl.com");
 	gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(dlg), (const char **) authlist);
 	gtk_dialog_run(GTK_DIALOG(dlg));
 	gtk_widget_destroy(dlg);
 }
 
-static void	cb_quit(void)
+static void  cb_quit()
 {
 	if  (Dirty  &&  !Confirm($PH{xspq changes not saved ok}))
 		return;
 	gtk_main_quit();
 }
 
-gboolean	check_dirty(void)
+gboolean  check_dirty()
 {
 	if  (Dirty  &&  !Confirm($PH{xspq changes not saved ok}))
 		return  TRUE;
@@ -263,7 +270,7 @@ gboolean	check_dirty(void)
 
 /* Possibly redisplay if something has changed.  */
 
-gboolean	poll_changes(void)
+gboolean  poll_changes()
 {
 	if  (Ptr_seg.Last_ser != Ptr_seg.dptr->ps_serial)
 		ptr_redisplay();
@@ -272,7 +279,7 @@ gboolean	poll_changes(void)
 	return  TRUE;
 }
 
-static void	winit(void)
+static void  winit()
 {
 	GError *err;
 	char	*fn;
@@ -291,7 +298,7 @@ static void	winit(void)
 	g_signal_connect(G_OBJECT(toplevel), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 }
 
-GtkWidget *	wstart(void)
+GtkWidget *wstart()
 {
 	char	*mf;
 	GError *err;
@@ -319,12 +326,12 @@ GtkWidget *	wstart(void)
 	return  vbox;
 }
 
-void	view_popup_menu(GtkWidget * treeview, GdkEventButton * event, gpointer userdata)
+void  view_popup_menu(GtkWidget *treeview, GdkEventButton *event, gpointer userdata)
 {
 	gtk_menu_popup(GTK_MENU(gtk_ui_manager_get_widget(ui, (const char *) userdata)), NULL, NULL, NULL, NULL, event->button, gtk_get_current_event_time());
 }
 
-gboolean	view_clicked(GtkWidget * treeview, GdkEventButton * event, gpointer userdata)
+gboolean  view_clicked(GtkWidget *treeview, GdkEventButton *event, gpointer userdata)
 {
 	if  (event->type == GDK_BUTTON_PRESS  &&  event->button == 3)  {
 		GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
@@ -340,7 +347,7 @@ gboolean	view_clicked(GtkWidget * treeview, GdkEventButton * event, gpointer use
 	return  FALSE;
 }
 
-static void	wcomplete(GtkWidget * vbox)
+static void  wcomplete(GtkWidget *vbox)
 {
 	GtkWidget  *paned, *scroll1, *scroll2;
 
@@ -365,7 +372,7 @@ static void	wcomplete(GtkWidget * vbox)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	GtkWidget  *vbox;
 	int	ret;

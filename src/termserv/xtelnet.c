@@ -35,7 +35,7 @@
 #define	EXIT_USAGE	3
 #define	EXIT_SYSERROR	4
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	c, inp, portnum, sfd, debug = 0, loops = 3;
 	unsigned	loopwait = 1, endsleep = 0;

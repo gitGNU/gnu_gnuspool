@@ -30,7 +30,7 @@ static  fmt_t	fmt_range(const struct spq *jp, const int fwidth)
 	return  (fmt_t) strlen(bigbuff);
 }
 
-static  fmt_t	fmt_hat(const struct spq *jp, const int fwidth)
+static fmt_t  fmt_hat(const struct spq *jp, const int fwidth)
 {
 	if  (jp->spq_haltat == 0)
 		return  0;

@@ -50,7 +50,7 @@ static	struct	hhash	*hhashtab[NETHASHMOD], *nhashtab[NETHASHMOD];
 
 /* This routine is also used in sh_network and xtnetserv */
 
-unsigned	calcnhash(const netid_t netid)
+unsigned  calcnhash(const netid_t netid)
 {
 	int	i;
 	unsigned  result = 0;
@@ -61,7 +61,7 @@ unsigned	calcnhash(const netid_t netid)
 	return  result % NETHASHMOD;
 }
 
-static	unsigned	calchhash(const char *hostid)
+static	unsigned  calchhash(const char *hostid)
 {
 	unsigned  result = 0;
 	while  (*hostid)
@@ -69,7 +69,7 @@ static	unsigned	calchhash(const char *hostid)
 	return  result % NETHASHMOD;
 }
 
-static void	addtable(const netid_t netid, const char *hname, const int isalias)
+static void  addtable(const netid_t netid, const char *hname, const int isalias)
 {
 	struct  hhash  *hp;
 	unsigned  hhval = calchhash(hname);
@@ -89,10 +89,9 @@ static void	addtable(const netid_t netid, const char *hname, const int isalias)
 /* Split string into bits in result using delimiters given.
    Ignore bits after MAXPARSE-1 Assume string is manglable */
 
-static int	spliton(char ** result, char *string, const char *delims)
+static int  spliton(char **result, char *string, const char *delims)
 {
-	int	parsecnt = 1;
-	int	resc = 1;
+	int	parsecnt = 1, resc = 1;
 
 	/* Assumes no leading delimiters */
 
@@ -113,7 +112,7 @@ static int	spliton(char ** result, char *string, const char *delims)
 	return  resc;
 }
 
-static char  *shortestalias(const struct hostent *hp)
+static char *shortestalias(const struct hostent *hp)
 {
 	char	**ap, *which = (char *) 0;
 	int	minlen = 1000, ln;
@@ -154,7 +153,7 @@ char	dosuser[HOSTNSIZE+1];
 char	dosuser[UIDSIZE+1];
 #endif
 
-void	end_hostfile(void)
+void  end_hostfile()
 {
 	if  (hfile)  {
 		fclose(hfile);
@@ -162,7 +161,7 @@ void	end_hostfile(void)
 	}
 }
 
-struct	remote *	get_hostfile(void)
+struct	remote *get_hostfile()
 {
 	char	*line;
 	struct	hostent	*hp;
@@ -421,7 +420,7 @@ struct	remote *	get_hostfile(void)
 #else
 				ina = inet_addr(hostp);
 #endif
-				if  (ina == -1L || ina == myhostid)  {
+				if  (ina == -1L)  {
 					hostf_errors = 1;
 					free(line);
 					continue;
@@ -434,7 +433,7 @@ struct	remote *	get_hostfile(void)
 
 				/* This is a fixed common or garden user.  */
 
-				if  (!(hp = gethostbyname(hostp))  ||  *(netid_t *) hp->h_addr == myhostid)  {
+				if  (!(hp = gethostbyname(hostp)))  {
 					hostf_errors = 1;
 					free(line);
 					continue;
@@ -456,7 +455,7 @@ struct	remote *	get_hostfile(void)
 	return  (struct  remote  *) 0;
 }
 
-void	hash_hostfile(void)
+void  hash_hostfile()
 {
 	struct	remote	*lhost;
 	done_hostfile = 1;
@@ -471,10 +470,9 @@ void	hash_hostfile(void)
 	end_hostfile();
 }
 
-char 	*look_host(const netid_t netid)
+char  *look_host(const netid_t netid)
 {
-	struct  hhash  *hp;
-	struct	hhash  *hadname = (struct hhash *) 0;
+	struct  hhash  *hp, *hadname = (struct hhash *) 0;
 	struct	hostent	*dbhost;
 
 	if  (!done_hostfile)
@@ -510,7 +508,7 @@ char 	*look_host(const netid_t netid)
 	return  "Unknown";
 }
 
-netid_t	look_hostname(const char *name)
+netid_t  look_hostname(const char *name)
 {
 	netid_t  netid;
 	struct  hhash  *hp;
@@ -553,22 +551,22 @@ netid_t	look_hostname(const char *name)
 
 /* Dummy version to keep linker happy on machines whose linker chokes on null objects */
 
-void	end_hostfile(void)
+void  end_hostfile()
 {
 	return;
 }
 
-FUNCDE0(void, hash_hostfile)
+void  hash_hostfile()
 {
 	return;
 }
 
-char *	look_host(const netid_t netid)
+char *look_host(const netid_t netid)
 {
 	return  "Unknown";
 }
 
-netid_t	look_hostname(const char * name)
+netid_t  look_hostname(const char *name)
 {
 	return  0L;
 }

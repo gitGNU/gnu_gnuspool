@@ -58,14 +58,14 @@ int	utmp = -1;
 
 /* For benefit of library routines */
 
-void	nomem(void)
+void  nomem()
 {
 	exit(E_NOMEM);
 }
 
 /* Add file descriptor to list.  */
 
-static	void	addu(FILE *fp, const int isp)
+static	void  addu(FILE *fp, const int isp)
 {
 	if  (fcnt >= initfiles)  {
 		initfiles += INCFILES;
@@ -80,7 +80,7 @@ static	void	addu(FILE *fp, const int isp)
 /* Read through the utmp file to find every instance of the given user
    who is logged in, and try to open the corresponding terminal.  */
 
-static	void	opuser(const char *user)
+static	void  opuser(const char *user)
 {
 	struct	utmp	up;
 	int	fid, hadu = 0;
@@ -128,7 +128,7 @@ static	void	opuser(const char *user)
 	free(cmd);
 }
 
-static	void	bleepall(void)
+static	void  bleepall()
 {
 	int	i;
 	char	**spmsg = (char **) 0, **sp;
@@ -149,7 +149,7 @@ static	void	bleepall(void)
 
 /* Send string in buf to every user we noted.  */
 
-static	void	writeall(const char * buf)
+static	void  writeall(const char *buf)
 {
 	int	i;
 
@@ -162,7 +162,7 @@ static	void	writeall(const char * buf)
 /* Ye olde main routine.
    Arguments expected are a list of users to be splatted at. */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	i;
 	char	**hv, *inb;

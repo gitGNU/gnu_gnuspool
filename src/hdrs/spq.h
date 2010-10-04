@@ -236,8 +236,8 @@ struct	sp_cmsg	{
 
 #if	defined(NETWORK_VERSION) && defined(unix)
 struct	sp_nmsg	{
-	USHORT	spr_act;	/* Command */
-	USHORT	spr_seq;	/* Sequence */
+	USHORT	spr_act;		/* Command */
+	USHORT	spr_seq;		/* Sequence */
 	int_pid_t	spr_pid;	/* Originating process */
 	struct	remote	spr_n;		/* Network description */
 };

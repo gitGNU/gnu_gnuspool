@@ -60,13 +60,13 @@ extern char *hex_disp(const classcode_t, const int);
 
 /* Keep library happy */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-static void	init_jobdefaults(void)
+static void  init_jobdefaults()
 {
 	/* Assumes SPQ initialised to zero of course */
 	strcpy(wotform, mypriv.spu_form);
@@ -84,7 +84,7 @@ static void	init_jobdefaults(void)
 
 /* Interpret argument if any as being a "template job" job number */
 
-void	interp_args(char **args)
+void  interp_args(char **args)
 {
 	char	*arg = *args;
 	int	ret;
@@ -159,32 +159,32 @@ void	interp_args(char **args)
 char	had_hdr = 0, had_pri = 0, had_cps = 0;
 char	*buff_filename;
 
-static void	arg_jobdata(char *arg)
+static void  arg_jobdata(char *arg)
 {
 	if  (!had_hdr)
 		strncpy(SPQ.apispq_file, arg, MAXTITLE);
 }
 
-static void	arg_hdr(char *arg)
+static void  arg_hdr(char *arg)
 {
 	strncpy(SPQ.apispq_file, arg, MAXTITLE);
 	if  (arg[0])		/* Only if it isn't blank */
 		had_hdr = 1;
 }
 
-static void	arg_sp(char *arg)
+static void  arg_sp(char *arg)
 {
 	ULONG  v = strtoul(arg, (char **) 0, 0);
 	SPQ.apispq_start = v != 0? v - 1: 0;
 }
 
-static void	arg_ep(char *arg)
+static void  arg_ep(char *arg)
 {
 	ULONG  v = strtoul(arg, (char **) 0, 0);
 	SPQ.apispq_end = v != 0? v - 1: MAXLONG-1;
 }
 
-static void	arg_cps(char *arg)
+static void  arg_cps(char *arg)
 {
 	int	c = atoi(arg);
 
@@ -196,7 +196,7 @@ static void	arg_cps(char *arg)
 	}
 }
 
-static void	arg_pri(char *arg)
+static void  arg_pri(char *arg)
 {
 	int	n = atoi(arg);
 	if  (had_pri)
@@ -207,27 +207,27 @@ static void	arg_pri(char *arg)
 	}
 }
 
-static void	arg_form(char *arg)
+static void  arg_form(char *arg)
 {
 	strncpy(wotform, arg, MAXFORM);
 }
 
-static void	arg_ptr(char *arg)
+static void  arg_ptr(char *arg)
 {
 	strncpy(SPQ.apispq_ptr, arg, JPTRNAMESIZE);
 }
 
-static void	arg_npt(char *arg)
+static void  arg_npt(char *arg)
 {
 	SPQ.apispq_nptimeout = (USHORT) atoi(arg);
 }
 
-static void	arg_pt(char *arg)
+static void  arg_pt(char *arg)
 {
 	SPQ.apispq_ptimeout = (USHORT) atoi(arg);
 }
 
-static void	arg_jflags(char *arg, const unsigned flag)
+static void  arg_jflags(char *arg, const unsigned flag)
 {
 	switch  (*arg)  {
 	case  'y':case  'Y':
@@ -243,57 +243,57 @@ static void	arg_jflags(char *arg, const unsigned flag)
 	}
 }
 
-static void	arg_jflags_noh(char *arg)
+static void  arg_jflags_noh(char *arg)
 {
 	arg_jflags(arg, APISPQ_NOH);
 }
 
-static void	arg_jflags_wrt(char *arg)
+static void  arg_jflags_wrt(char *arg)
 {
 	arg_jflags(arg, APISPQ_WRT);
 }
 
-static void	arg_jflags_mail(char *arg)
+static void  arg_jflags_mail(char *arg)
 {
 	arg_jflags(arg, APISPQ_MAIL);
 }
 
-static void	arg_jflags_retn(char *arg)
+static void  arg_jflags_retn(char *arg)
 {
 	arg_jflags(arg, APISPQ_RETN);
 }
 
-static void	arg_jflags_oddp(char *arg)
+static void  arg_jflags_oddp(char *arg)
 {
 	arg_jflags(arg, APISPQ_ODDP);
 }
 
-static void	arg_jflags_evenp(char *arg)
+static void  arg_jflags_evenp(char *arg)
 {
 	arg_jflags(arg, APISPQ_EVENP);
 }
 
-static void	arg_jflags_revoe(char *arg)
+static void  arg_jflags_revoe(char *arg)
 {
 	arg_jflags(arg, APISPQ_REVOE);
 }
 
-static void	arg_jflags_mattn(char *arg)
+static void  arg_jflags_mattn(char *arg)
 {
 	arg_jflags(arg, APISPQ_MATTN);
 }
 
-static void	arg_jflags_wattn(char *arg)
+static void  arg_jflags_wattn(char *arg)
 {
 	arg_jflags(arg, APISPQ_WATTN);
 }
 
-static void	arg_jflags_loco(char *arg)
+static void  arg_jflags_loco(char *arg)
 {
 	arg_jflags(arg, APISPQ_LOCALONLY);
 }
 
-static void	arg_class(char *arg)
+static void  arg_class(char *arg)
 {
 	classcode_t	cl = strtoul(arg, (char **) 0, 0);
 	if  (!(mypriv.spu_flgs & PV_COVER))
@@ -307,7 +307,7 @@ static void	arg_class(char *arg)
 	SPQ.apispq_class = cl;
 }
 
-static void	arg_hold(char *arg)
+static void  arg_hold(char *arg)
 {
 	time_t	ht = atol(arg), now = time((time_t *) 0);
 	if  (ht < now)
@@ -315,14 +315,14 @@ static void	arg_hold(char *arg)
 	SPQ.apispq_hold = (LONG)ht;
 }
 
-static void	arg_puser(char *arg)
+static void  arg_puser(char *arg)
 {
 	strncpy(SPQ.apispq_puname,
 		lookup_uname(arg) == UNKNOWN_UID? realuname: arg,
 		UIDSIZE);
 }
 
-static void	arg_flags(char *arg)
+static void  arg_flags(char *arg)
 {
 	strncpy(SPQ.apispq_flags, arg, MAXFLAGS);
 }
@@ -359,7 +359,7 @@ struct	posttab  ptab[] =  {
 	{	(char *) 0  }
 };
 
-jobno_t	perform_submit(void)
+jobno_t  perform_submit()
 {
 	jobno_t	jn;
 	int	ch, ret;
@@ -394,7 +394,7 @@ jobno_t	perform_submit(void)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	**newargs;
 	int_ugid_t	chku;

@@ -77,12 +77,12 @@ extern	struct	sphdr	Spuhdr;
 #define	PTRS_UNLOCK		SEM_OP(pu, 1)
 #endif
 
-extern int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
-extern FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+extern int  rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+extern FILE *net_feed(const int, const netid_t, const slotno_t, const jobno_t);
 
 /* Exit and abort pending jobs */
 
-static	void	abort_exit(const int n)
+static	void  abort_exit(const int n)
 {
 	unsigned	cnt;
 	for  (cnt = 0;  cnt < MAX_PEND_JOBS;  cnt++)  {
@@ -99,16 +99,16 @@ static	void	abort_exit(const int n)
 
 /* Write messages to scheduler. */
 
-void	womsg(const int act, const ULONG arg)
+void  womsg(const int act, const ULONG arg)
 {
 	sp_req.spr_un.o.spr_act = (USHORT) act;
 	sp_req.spr_un.o.spr_arg1 = Realuid;
 	sp_req.spr_un.o.spr_jpslot = arg;
 	sp_req.spr_un.o.spr_pid = getpid();
-	msgsnd(Ctrl_chan, (struct msgbuf *) &sp_req, sizeof(struct sp_omsg), 0);
+	msgsnd(Ctrl_chan, (struct msgbuf *) &sp_req, sizeof(struct sp_omsg), 0); /* Wait until it goes */
 }
 
-static	void	setup_prod(void)
+static	void  setup_prod()
 {
 	BLOCK_ZERO(&apiret, sizeof(apiret));
 	apiret.sin_family = AF_INET;
@@ -122,7 +122,7 @@ static	void	setup_prod(void)
 	}
 }
 
-static	void	unsetup_prod(void)
+static	void  unsetup_prod()
 {
 	if  (prodsock >= 0)  {
 		close(prodsock);
@@ -130,7 +130,7 @@ static	void	unsetup_prod(void)
 	}
 }
 
-static	void	proc_refresh(const netid_t whofrom)
+static	void  proc_refresh(const netid_t whofrom)
 {
 	struct	api_msg	outmsg;
 	static	ULONG	jser, pser;
@@ -173,7 +173,7 @@ static	void	proc_refresh(const netid_t whofrom)
 	}
 }
 
-static	void	pushout(const int sock, char *cbufp, unsigned obytes)
+static	void  pushout(const int sock, char *cbufp, unsigned obytes)
 {
 	int	xbytes;
 
@@ -188,7 +188,7 @@ static	void	pushout(const int sock, char *cbufp, unsigned obytes)
 	}
 }
 
-static	void	pullin(const int sock, char *cbufp, unsigned ibytes)
+static	void  pullin(const int sock, char *cbufp, unsigned ibytes)
 {
 	int	xbytes;
 
@@ -203,7 +203,7 @@ static	void	pullin(const int sock, char *cbufp, unsigned ibytes)
 	}
 }
 
-static	void	err_result(const int sock, const int code, const ULONG seq)
+static	void  err_result(const int sock, const int code, const ULONG seq)
 {
 	struct	api_msg	outmsg;
 	outmsg.code = 0;
@@ -212,7 +212,7 @@ static	void	err_result(const int sock, const int code, const ULONG seq)
 	pushout(sock, (char *) &outmsg, sizeof(outmsg));
 }
 
-static	void	swapinj(struct spq *to, const struct spq *from)
+static	void  swapinj(struct spq *to, const struct spq *from)
 {
 	to->spq_job = ntohl((ULONG) from->spq_job);
 	to->spq_netid = 0L;
@@ -257,7 +257,7 @@ static	void	swapinj(struct spq *to, const struct spq *from)
 	strncpy(to->spq_flags, from->spq_flags, MAXFLAGS+1);
 }
 
-static	void	swapinp(struct spptr *to, const struct spptr *from)
+static	void  swapinp(struct spptr *to, const struct spptr *from)
 {
 	to->spp_netid = from->spp_netid;
 	to->spp_rslot = ntohl((ULONG) from->spp_rslot);
@@ -289,7 +289,7 @@ static	void	swapinp(struct spptr *to, const struct spptr *from)
 
 /* Reread job file if necessary.  */
 
-void	rerjobfile(void)
+void  rerjobfile()
 {
 #ifdef	USING_MMAP
 	if  (Job_seg.dinf.segsize != Job_seg.dptr->js_did)
@@ -305,7 +305,7 @@ void	rerjobfile(void)
 
 /* Ditto printer list.  */
 
-void	rerpfile(void)
+void  rerpfile()
 {
 #ifdef	USING_MMAP
 	if  (Ptr_seg.inf.segsize != Job_seg.dptr->js_psegid)
@@ -319,7 +319,7 @@ void	rerpfile(void)
 	}
 }
 
-static	void	reply_joblist(const int sock, const classcode_t classcode, const ULONG flags)
+static	void reply_joblist(const int sock, const classcode_t classcode, const ULONG flags)
 {
 
 	unsigned	njobs;
@@ -450,7 +450,7 @@ static	void  reply_ptrlist(const int sock, const classcode_t classcode, const UL
 		trace_op_res(Realuid, "ptrlist", "OK");
 }
 
-static  int  check_valid_job(const classcode_t classcode, const	ULONG flags, const struct spq *jp, const char *tmsg)
+static int check_valid_job(const classcode_t classcode, const ULONG flags, const struct spq *jp, const	char *tmsg)
 {
 	if  (jp->spq_job == 0 || (jp->spq_class & classcode) == 0 ||
 	     ((flags & XT_FLAG_LOCALONLY)  &&  jp->spq_netid != 0)  ||
@@ -462,7 +462,7 @@ static  int  check_valid_job(const classcode_t classcode, const	ULONG flags, con
 	return  1;
 }
 
-static  void  job_read_rest(const int sock, const struct spq *jp)
+static void  job_read_rest(const int sock, const struct spq *jp)
 {
 	struct	spq	outjob;
 
@@ -510,7 +510,7 @@ static  void  job_read_rest(const int sock, const struct spq *jp)
 	pushout(sock, (char *) &outjob, sizeof(outjob));
 }
 
-static void  reply_jobread(const int sock, const classcode_t classcode, const slotno_t slotno, const ULONG seq, const ULONG flags)
+static	void  reply_jobread(const int sock, const classcode_t classcode, const slotno_t	slotno, const ULONG seq, const ULONG flags)
 {
 	const  struct  spq  *jp;
 
@@ -542,7 +542,7 @@ static void  reply_jobread(const int sock, const classcode_t classcode, const sl
 		err_result(sock, XT_UNKNOWN_JOB, Job_seg.dptr->js_serial);
 }
 
-static  void  reply_jobfind(const int sock, const classcode_t classcode, const unsigned	code, const jobno_t jn, const netid_t nid, const ULONG flags)
+static void reply_jobfind(const	int sock, const	classcode_t classcode, const unsigned code, const jobno_t jn, const netid_t nid, const ULONG flags)
 {
 	LONG	jind;
 	const  struct  spq  *jp;
@@ -584,7 +584,7 @@ static  void  reply_jobfind(const int sock, const classcode_t classcode, const u
 		trace_op_res(Realuid, "findjob", "unkjob");
 }
 
-static  int  check_valid_ptr(const classcode_t classcode, const ULONG flags, const struct spptr *pp, const char *tmsg)
+static int  check_valid_ptr(const classcode_t classcode, const ULONG flags, const struct spptr *pp, const char *tmsg)
 {
 	if  (pp->spp_state == SPP_NULL  ||
 	     (pp->spp_class & classcode) == 0  ||
@@ -596,7 +596,7 @@ static  int  check_valid_ptr(const classcode_t classcode, const ULONG flags, con
 	return  1;
 }
 
-static  void  ptr_read_rest(const int sock, const struct spptr *pp)
+static void  ptr_read_rest(const int sock, const struct spptr *pp)
 {
 	struct	spptr	outptr;
 
@@ -729,7 +729,7 @@ static int reply_jobdel(const struct spdet *priv, const classcode_t classcode, c
 	return  XT_OK;
 }
 
-static int reply_ptrop(const struct spdet *priv, const classcode_t classcode, const slotno_t slotno, const ULONG seq, const ULONG flags, const ULONG op)
+static	int reply_ptrop(const struct spdet *priv, const classcode_t classcode, const slotno_t slotno, const ULONG seq, const ULONG flags, const ULONG op)
 {
 	const  struct  spptr  *pp;
 	unsigned	reqflag;
@@ -801,7 +801,7 @@ static int reply_ptrop(const struct spdet *priv, const classcode_t classcode, co
 	return  XT_OK;
 }
 
-static int reply_jobupd(const int sock, struct spdet *priv, const classcode_t classcode, const slotno_t	slotno, const ULONG seq, const ULONG flags)
+static int reply_jobupd(const int sock, struct spdet *priv, const classcode_t classcode, const slotno_t slotno, const ULONG seq, const ULONG flags)
 {
 	const  struct  spq  *jp;
 	struct	spq	injob, rjob;
@@ -905,7 +905,7 @@ static int reply_jobupd(const int sock, struct spdet *priv, const classcode_t cl
 	return  XT_OK;
 }
 
-static	int	reply_ptradd(const int sock, const struct spdet *priv)
+static	int  reply_ptradd(const int sock, const struct spdet *priv)
 {
 	struct	spptr	inptr, rptr;
 
@@ -1000,7 +1000,7 @@ static int reply_ptrupd(const int sock, const struct spdet *priv, const classcod
 	return  XT_OK;
 }
 
-static	void	api_jobstart(const int sock, struct hhash * frp, const jobno_t jobno)
+static	void  api_jobstart(const int sock, struct hhash *frp, const jobno_t jobno)
 {
 	int			ret;
 	char			*dp = (char *) 0;
@@ -1063,7 +1063,7 @@ static	void	api_jobstart(const int sock, struct hhash * frp, const jobno_t jobno
 		trace_op_res(Realuid, "jobadd", "OK");
 }
 
-static	void	api_jobcont(const int sock, const jobno_t jobno, const USHORT nbytes)
+static	void  api_jobcont(const int sock, const jobno_t jobno, const USHORT nbytes)
 {
 	unsigned		cnt;
 	unsigned	char	*bp;
@@ -1086,7 +1086,7 @@ static	void	api_jobcont(const int sock, const jobno_t jobno, const USHORT nbytes
 		trace_op_res(Realuid, "datain", "OK");
 }
 
-static	void	api_jobfinish(const int sock, const jobno_t jobno)
+static	void  api_jobfinish(const int sock, const jobno_t jobno)
 {
 	int			ret;
 	struct	pend_job	*pj;
@@ -1122,7 +1122,7 @@ static	void	api_jobfinish(const int sock, const jobno_t jobno)
 		trace_op_res(Realuid, "dataend", "OK");
 }
 
-static	void	api_jobabort(const int sock, const jobno_t jobno)
+static	void  api_jobabort(const int sock, const jobno_t jobno)
 {
 	struct	pend_job	*pj;
 	struct	api_msg		outmsg;
@@ -1140,13 +1140,7 @@ static	void	api_jobabort(const int sock, const jobno_t jobno)
 		trace_op_res(Realuid, "jobabort", "OK");
 }
 
-static	void  api_jobdata(const int sock,
-			  const struct spdet *priv,
-			  const classcode_t classcode,
-			  const slotno_t slotno,
-			  const ULONG seq,
-			  const ULONG flags,
-			  const int op)
+static void api_jobdata(const int sock, const struct spdet *priv, const classcode_t classcode, const slotno_t slotno, const ULONG seq, const ULONG flags, const int op)
 {
 	const  struct  spq  *jp;
 	struct	api_msg	outmsg;
@@ -1290,7 +1284,7 @@ static	void  api_jobdata(const int sock,
 		trace_op_res(Realuid, "jobdata", "OK");
 }
 
-void	process_api(void)
+void  process_api()
 {
 	int		sock, inbytes, cnt, ret;
 	classcode_t	classcode;
@@ -1524,12 +1518,7 @@ void	process_api(void)
 	/* Need to make a copy as subsequent calls overwrite static
 	   space in getspuentry */
 
-	if  (!(mpriv = getspuentry(realuid)))  {
-		if  (tracing & TRACE_APICONN)
-			trace_op_res(realuid, "unkuid", frp->actname);
-		err_result(sock, XT_UNKNOWN_USER, 0);
-		abort_exit(0);
-	}
+	mpriv = getspuentry(realuid);
 	Realuid = realuid;
 	if  (tracing & TRACE_APICONN)
 		trace_op_res(Realuid, "Login-OK", frp->actname);
@@ -1758,10 +1747,7 @@ void	process_api(void)
 
 			/* Still re-read it in case something changed */
 
-			if  (!(mpriv = getspuentry(ouid)))  {
-				ret = XT_UNKNOWN_USER;
-				break;
-			}
+			mpriv = getspuentry(ouid);
 			outspdet.spu_isvalid = mpriv->spu_isvalid;
 			outspdet.spu_user = htonl((ULONG) mpriv->spu_user);
 			outspdet.spu_minp = mpriv->spu_minp;
@@ -1855,10 +1841,7 @@ void	process_api(void)
 			/* In case something has changed */
 
 			if  (ouid == realuid)  {
-				if  (!(mpriv = getspuentry(ouid)))  {
-					ret = XT_UNKNOWN_USER;
-					break;
-				}
+				mpriv = getspuentry(ouid);
 				hispriv = *mpriv;
 				if  (!(hispriv.spu_flgs & PV_ADMIN))  {
 					/* Disallow everything except prio and form
@@ -1873,11 +1856,7 @@ void	process_api(void)
 					}
 				}
 			}
-			if  (!(mpriv = getspuentry(ouid)))  {
-				ret = XT_UNKNOWN_USER;
-				break;
-			}
-
+			mpriv = getspuentry(ouid);
 			mpriv->spu_minp = rspdet.spu_minp;
 			mpriv->spu_maxp = rspdet.spu_maxp;
 			mpriv->spu_defp = rspdet.spu_defp;
@@ -1932,10 +1911,7 @@ void	process_api(void)
 
 			/* Re-read file to get locking open */
 
-			if  (!(mpriv = getspuentry(realuid)))  {
-				ret = XT_UNKNOWN_USER;
-				break;
-			}
+			mpriv = getspuentry(realuid);
 			hispriv = *mpriv;
 			Spuhdr.sph_minp = rsphdr.sph_minp;
 			Spuhdr.sph_maxp = rsphdr.sph_maxp;
@@ -1948,7 +1924,7 @@ void	process_api(void)
 			Spuhdr.sph_class = rsphdr.sph_class;
 			Spuhdr.sph_cps = rsphdr.sph_cps;
 			Spuhdr.sph_version = GNU_SPOOL_MAJOR_VERSION;
-			putspulist((struct spdet *) 0, 0, 1);
+			putspuhdr();
 			ret = XT_OK;
 			break;
 		}

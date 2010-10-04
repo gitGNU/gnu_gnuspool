@@ -16,7 +16,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "config.h"
-
 #include <sys/types.h>
 #ifdef	HAVE_FCNTL_H
 #include <fcntl.h>
@@ -40,7 +39,6 @@
 #include "xfershm.h"
 #include "q_shm.h"
 
-unsigned Nusers;
 extern	struct	sphdr	Spuhdr;
 struct	spdet	*ulist;
 
@@ -102,12 +100,12 @@ struct	perm	{
 
 #define	MAXPERM	(sizeof (ptab)/sizeof(struct perm))
 
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
-int	spitoption(const int, const int, FILE *, const int, const int);
+extern	int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+extern	int	spitoption(const int, const int, FILE *, const int, const int);
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void	nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -115,7 +113,7 @@ void	nomem(void)
 
 /* Expand privilege codes into messages */
 
-static	void	expcodes(void)
+static	void	expcodes()
 {
 	int	i;
 
@@ -429,13 +427,6 @@ void	spit_options(FILE *dest, const char *name)
 	cancont = spitoption(copyall? $A{spuchange copy def}:
 			     $A{spuchange no copy def},
 			     $A{spuchange explain}, dest, ' ', cancont);
-	cancont = spitoption(rebuild_file? $A{spuchange rebuild}:
-			     $A{spuchange no rebuild},
-			     $A{spuchange explain}, dest, ' ', cancont);
-	cancont = spitoption(dump_opt == KILL_PW? $A{spuchange kill pw} :
-			     dump_opt == DO_DUMP_PW? $A{spuchange dump pw} :
-			     $A{spuchange aswas pw},
-			     $A{spuchange explain}, dest, ' ', cancont);
 	if  (min_p != 0)  {
 		spitoption($A{spuchange minp}, $A{spuchange explain}, dest, ' ', 0);
 		fprintf(dest, " %u", min_p);
@@ -504,7 +495,7 @@ struct spdet *find_user(const char *uname)
 		return  (struct spdet *) 0;
 
 	first = 0;
-	last = Nusers;
+	last = Npwusers;
 
 	while  (first < last)  {
 		middle = (first + last) / 2;
@@ -515,10 +506,10 @@ struct spdet *find_user(const char *uname)
 		else
 			last = middle;
 	}
-	return  (struct  spdet  *) 0;
+	return  (struct spdet *) 0;
 }
 
-static  void	u_update(struct spdet *up, const int metoo)
+static	void	u_update(struct spdet *up, const int metoo)
 {
 	if  (min_p != 0)
 		up->spu_minp = min_p;
@@ -556,9 +547,9 @@ static  void	u_update(struct spdet *up, const int metoo)
 	}
 }
 
-static  void	copy_all(void)
+static void	copy_all()
 {
-	struct  spdet	*up, *ue = &ulist[Nusers];
+	struct  spdet	*up, *ue = &ulist[Npwusers];
 	for  (up = ulist;  up < ue;  up++)  {
 		up->spu_minp = Spuhdr.sph_minp;
 		up->spu_maxp = Spuhdr.sph_maxp;
@@ -578,7 +569,7 @@ static  void	copy_all(void)
 
 MAINFN_TYPE	main(int argc, char **argv)
 {
-	int	nerrors = 0, fixusers = 0;
+	int	nerrors = 0;
 	struct	spdet	*mypriv;
 #if	defined(NHONSUID) || defined(DEBUG)
 	int_ugid_t	chk_uid;
@@ -601,16 +592,13 @@ MAINFN_TYPE	main(int argc, char **argv)
 	argv = optprocess(argv, Adefs, optprocs, $A{spuchange explain}, $A{spuchange freeze home}, 0);
 	SWAP_TO(Daemuid);
 
-	if  (!(mypriv = getspuentry(Realuid)))  {
-		print_error($E{Not registered yet});
-		exit(E_UNOTSETUP);
-	}
+	mypriv = getspuentry(Realuid);
+
 
 #define	FREEZE_EXIT
 #include "inline/freezecode.c"
 
-	if  (admin_privs > 0  ||  set_default  ||  copyall  ||  rebuild_file  ||
-	     (class_set && (classcode & ~mypriv->spu_class) != 0))  {
+	if  (admin_privs > 0  ||  set_default  ||  copyall  || (class_set && (classcode & ~mypriv->spu_class) != 0))  {
 		if  (!(mypriv->spu_flgs & PV_ADMIN))  {
 			print_error($E{shell no admin file priv});
 			exit(E_NOPRIV);
@@ -660,29 +648,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 		return  0;
 	}
 
-	if  (rebuild_file)  {
-		char  *name = envprocess(DUMPPWFILE);
-		int	wuz = access(name, 0);
-		un_rpwfile();
-		unlink(name);
-		free(name);
-		if  (spu_needs_rebuild)  {
-			print_error($E{Rebuilding spufile wait});
-			rebuild_spufile();
-			if  (dump_opt == DO_DUMP_PW  ||  (wuz >= 0 && dump_opt == DEFAULT_PW))
-				dump_pwfile();
-			produser();
-			print_error($E{Finished rebuild spufile});
-		}
-		else  {
-			fixusers++;
-			rpwfile();
-			if  (dump_opt == DO_DUMP_PW  ||  (wuz >= 0 && dump_opt == DEFAULT_PW))
-				dump_pwfile();
-		}
-	}
-
-	ulist = getspulist(&Nusers);
+	ulist = getspulist();
 
 	if  (def_form && def_formallow && !qmatch(def_formallow, def_form))  {
 		disp_str = def_form;
@@ -738,15 +704,11 @@ MAINFN_TYPE	main(int argc, char **argv)
 		}
 		if  (copyall)
 			copy_all();
-		putspulist(ulist, Nusers, 1);
+		putspulist(ulist);
 	}
 	else  {
-		struct	spdet	*up, *ue = &ulist[Nusers];
 		unsigned	ncurr = 0;
-
-		if  (fixusers) /* Set if rebuild file set but no rebuild done */
-			for  (up = ulist;  up < ue;  up++)
-				up->spu_isvalid = SPU_VALID;
+		struct	spdet	*up, *ue = &ulist[Npwusers];
 
 		if  (copyall)
 			copy_all();
@@ -769,8 +731,9 @@ MAINFN_TYPE	main(int argc, char **argv)
 				else
 					u_update(up, 1);
 			}
+
 		}
-		putspulist(ulist, Nusers, 0);
+		putspulist(ulist);
 	}
 	return  nerrors > 0? E_FALSE: E_TRUE;
 }

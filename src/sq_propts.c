@@ -56,17 +56,17 @@
 #define	getbegyx(win,y,x)	((y) = (win)->_begy, (x) = (win)->_begx)
 #endif
 
-void	dochelp(WINDOW *, const int);
-void	doerror(WINDOW *, const int);
-void	endhe(WINDOW *, WINDOW **);
+extern  void  dochelp(WINDOW *, const int);
+extern  void  doerror(WINDOW *, const int);
+extern  void  endhe(WINDOW *, WINDOW **);
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+extern  int  spitoption(const int, const int, FILE *, const int, const int);
+extern  int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
-char	**wotjform(const char *, const int);
-char	**wotjprin(const char *, const int);
+extern  char **wotjform(const char *, const int);
+extern  char **wotjprin(const char *, const int);
 #ifndef	HAVE_ATEXIT
-void	exit_cleanup(void);
+extern  void  exit_cleanup();
 #endif
 
 extern	struct	spdet	*mypriv;
@@ -103,96 +103,96 @@ struct	ltab	{
 	int	(*fn)(const struct ltab *);
 };
 
-static void	prd_printer(const struct ltab *lt)
+static void  prd_printer(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, Displayopts.opt_restrp? Displayopts.opt_restrp: "");
 }
 
-static void	prd_title(const struct ltab *lt)
+static void  prd_title(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, Displayopts.opt_restrt? Displayopts.opt_restrt: "");
 }
 
-static void	prd_incjobs(const struct ltab *lt)
+static void  prd_incjobs(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, Displayopts.opt_jinclude==JINCL_ALL? lt->prompts[2]:
 				   Displayopts.opt_jinclude==JINCL_NULL? lt->prompts[1]:
 				   lt->prompts[0]);
 }
 
-static void	prd_user(const struct ltab *lt)
+static void  prd_user(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, Displayopts.opt_restru? Displayopts.opt_restru: "");
 }
 
-static void	prd_unprinted(const struct ltab *lt)
+static void  prd_unprinted(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, Displayopts.opt_jprindisp==JRESTR_PRINT? lt->prompts[2]:
 				   Displayopts.opt_jprindisp==JRESTR_UNPRINT? lt->prompts[1]:
 				   lt->prompts[0]);
 }
 
-static void	prd_localonly(const struct ltab *lt)
+static void  prd_localonly(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, Displayopts.opt_localonly != NRESTR_NONE? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_psort(const struct ltab *lt)
+static void  prd_psort(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, Displayopts.opt_sortptrs != SORTP_NONE? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_class(const struct ltab *lt)
+static void  prd_class(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, hex_disp(Displayopts.opt_classcode, 1));
 }
 
-static void	prd_confabort(const struct ltab *lt)
+static void  prd_confabort(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, confabort > 1? lt->prompts[2]: confabort? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_helpbox(const struct ltab *lt)
+static void  prd_helpbox(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, helpbox? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_errbox(const struct ltab *lt)
+static void  prd_errbox(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, errbox? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_helpclr(const struct ltab *lt)
+static void  prd_helpclr(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, helpclr? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_nopage(const struct ltab *lt)
+static void  prd_nopage(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, nopage? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_scrkeep(const struct ltab *lt)
+static void  prd_scrkeep(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, scrkeep? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_plist(const struct ltab *lt)
+static void  prd_plist(const struct ltab *lt)
 {
 	mvprintw(lt->row, lt->col, "%*d", lt->size, int_PLINES);
 }
 
-static void	prd_pfirst(const struct ltab *lt)
+static void  prd_pfirst(const struct ltab *lt)
 {
 	mvaddstr(lt->row, lt->col, pfirst == P_DONT_CARE? lt->prompts[2]: pfirst? lt->prompts[1]: lt->prompts[0]);
 }
 
-static void	prd_pollinit(const struct ltab *lt)
+static void  prd_pollinit(const struct ltab *lt)
 {
 	mvprintw(lt->row, lt->col, "%*d", lt->size, Pollinit);
 }
 
-static int	pro_string(const struct ltab *lt, char ** strp, helpfn_t helpfn)
+static int  pro_string(const struct ltab *lt, char **strp, helpfn_t helpfn)
 {
 	char	*str, *orig = *strp? *strp: "";
 	struct	sctrl	wst_str;
@@ -222,22 +222,22 @@ static int	pro_string(const struct ltab *lt, char ** strp, helpfn_t helpfn)
 	return  wst_str.retv == 0? $K{key eol}: wst_str.retv;
 }
 
-static int	pro_printer(const struct ltab *lt)
+static int  pro_printer(const struct ltab *lt)
 {
 	return  pro_string(lt, &Displayopts.opt_restrp, wotjprin);
 }
 
-static int	pro_title(const struct ltab *lt)
+static int  pro_title(const struct ltab *lt)
 {
 	return  pro_string(lt, &Displayopts.opt_restrt, HELPLESS);
 }
 
-static int	pro_user(const struct ltab *lt)
+static int  pro_user(const struct ltab *lt)
 {
 	return  pro_string(lt, &Displayopts.opt_restru, gen_ulist);
 }
 
-static	int	pro_bool(const struct ltab *lt, unsigned * b)
+static	int  pro_bool(const struct ltab *lt, unsigned *b)
 {
 	int	ch;
 	unsigned  origb = *b;
@@ -291,7 +291,7 @@ static	int	pro_bool(const struct ltab *lt, unsigned * b)
 	}
 }
 
-static int	pro_incjobs(const struct ltab *lt)
+static int  pro_incjobs(const struct ltab *lt)
 {
 	unsigned  current = (unsigned) Displayopts.opt_jinclude;
 	int	ch = pro_bool(lt, &current);
@@ -304,7 +304,7 @@ static int	pro_incjobs(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_unprinted(const struct ltab *lt)
+static int  pro_unprinted(const struct ltab *lt)
 {
 	unsigned  current = (unsigned) Displayopts.opt_jprindisp;
 	int	ch = pro_bool(lt, &current);
@@ -317,7 +317,7 @@ static int	pro_unprinted(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_localonly(const struct ltab *lt)
+static int  pro_localonly(const struct ltab *lt)
 {
 	unsigned  current = (unsigned) Displayopts.opt_localonly;
 	int	ch = pro_bool(lt, &current);
@@ -331,7 +331,7 @@ static int	pro_localonly(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_psort(const struct ltab *lt)
+static int  pro_psort(const struct ltab *lt)
 {
 	unsigned	current = (unsigned) Displayopts.opt_sortptrs;
 	int	ch = pro_bool(lt, &current);
@@ -344,7 +344,7 @@ static int	pro_psort(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_class(const struct ltab *lt)
+static int  pro_class(const struct ltab *lt)
 {
 	classcode_t	in;
 	struct	sctrl	wht_cl;
@@ -380,7 +380,7 @@ static int	pro_class(const struct ltab *lt)
 	return  wht_cl.retv? wht_cl.retv: $K{key eol};
 }
 
-static int	pro_confabort(const struct ltab *lt)
+static int  pro_confabort(const struct ltab *lt)
 {
 	unsigned  current = confabort;
 	int	ch = pro_bool(lt, &current);
@@ -390,7 +390,7 @@ static int	pro_confabort(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_helpbox(const struct ltab *lt)
+static int  pro_helpbox(const struct ltab *lt)
 {
 	unsigned  current = helpbox;
 	int	ch = pro_bool(lt, &current);
@@ -400,7 +400,7 @@ static int	pro_helpbox(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_errbox(const struct ltab *lt)
+static int  pro_errbox(const struct ltab *lt)
 {
 	unsigned  current = errbox;
 	int	ch = pro_bool(lt, &current);
@@ -410,7 +410,7 @@ static int	pro_errbox(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_helpclr(const struct ltab *lt)
+static int  pro_helpclr(const struct ltab *lt)
 {
 	unsigned  current = helpclr;
 	int	ch = pro_bool(lt, &current);
@@ -420,7 +420,7 @@ static int	pro_helpclr(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_nopage(const struct ltab *lt)
+static int  pro_nopage(const struct ltab *lt)
 {
 	unsigned  current = nopage;
 	int	ch = pro_bool(lt, &current);
@@ -433,7 +433,7 @@ static int	pro_nopage(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_scrkeep(const struct ltab *lt)
+static int  pro_scrkeep(const struct ltab *lt)
 {
 	unsigned  current = scrkeep;
 	int	ch = pro_bool(lt, &current);
@@ -443,7 +443,7 @@ static int	pro_scrkeep(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_plist(const struct ltab *lt)
+static int  pro_plist(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_npt;
@@ -468,7 +468,7 @@ static int	pro_plist(const struct ltab *lt)
 	return  $K{key eol};
 }
 
-static int	pro_pfirst(const struct ltab *lt)
+static int  pro_pfirst(const struct ltab *lt)
 {
 	unsigned  current = pfirst == P_DONT_CARE? 2: pfirst? 1: 0;
 	unsigned  orig = current;
@@ -479,7 +479,7 @@ static int	pro_pfirst(const struct ltab *lt)
 	return  ch;
 }
 
-static int	pro_pollinit(const struct ltab *lt)
+static int  pro_pollinit(const struct ltab *lt)
 {
 	LONG	in;
 	struct	sctrl	wnt_pt;
@@ -531,7 +531,7 @@ static	struct	ltab	*lptrs[TABNUM+1];
 static	int	comeinat;
 static	char	**title;
 
-static	void	initnames(void)
+static	void  initnames()
 {
 	int	i, next;
 	struct  ltab	*lt;
@@ -626,7 +626,7 @@ static	void	initnames(void)
 	lptrs[next] = (struct ltab *) 0;
 }
 
-static	int	askyorn(const int code)
+static	int  askyorn(const int code)
 {
 	char	*prompt = gprompt(code);
 	int	ch;
@@ -681,7 +681,7 @@ static	int	askyorn(const int code)
 	}
 }
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0, cnt;
 	fprintf(dest, "%s", name);
@@ -717,7 +717,7 @@ void	spit_options(FILE *dest, const char *name)
 	fprintf(dest, " %d\n", Pollinit);
 }
 
-static	void	ask_build(void)
+static	void  ask_build()
 {
 	char	*hd;
 	int	ret, i;
@@ -764,11 +764,10 @@ static	void	ask_build(void)
 
 /* This accepts input from the screen.  */
 
-int	propts(void)
+int  propts()
 {
-	int	ch;
+	int	ch, i, whichel;
 	struct  ltab	*lt;
-	int	i, whichel;
 	char	**hv;
 	static	char	doneinit = 0;
 
@@ -834,7 +833,7 @@ int	propts(void)
 /* Variants of wgets and wnum for when we are possibly not displaying
    the relevant item.  */
 
-char *chk_wgets(WINDOW *w, const int row, struct sctrl *sc, const char *existing, const int minsize)
+char  *chk_wgets(WINDOW *w, const int row, struct sctrl *sc, const char *existing, const int minsize)
 {
 	int	begy, y, x;
 	char	*prompt, *ret;
@@ -989,7 +988,7 @@ static	char		*ltabmk, *rtabmk;
 #define	INITNUM		20
 #define	INCNUM		10
 
-static	void	conv_fmt(const char *fmt, struct sq_formatdef *utab, struct sq_formatdef *ltab)
+static	void  conv_fmt(const char *fmt, struct sq_formatdef *utab, struct sq_formatdef *ltab)
 {
 	struct	formatrow	*fr;
 
@@ -1057,7 +1056,7 @@ static	void	conv_fmt(const char *fmt, struct sq_formatdef *utab, struct sq_forma
 	}
 }
 
-static	char *unconv_fmt(void)
+static	char *unconv_fmt()
 {
 	int	cnt;
 	char	*cp;
@@ -1098,7 +1097,7 @@ static	char *unconv_fmt(void)
 	return  stracpy(cbuf);
 }
 
-static void	freeflist(void)
+static void  freeflist()
 {
 	int	cnt;
 
@@ -1114,7 +1113,7 @@ static void	freeflist(void)
 #define	DISP_CHAR(w, ch)	waddch(w, ch);
 #endif
 
-static	void	fmtdisplay(char **fmt_hdr, int start)
+static	void  fmtdisplay(char **fmt_hdr, int start)
 {
 	char	**hv;
 	int	rr;
@@ -1168,8 +1167,7 @@ static	void	fmtdisplay(char **fmt_hdr, int start)
 
 int  fmtprocess(char **fmt, const char hch, struct sq_formatdef *utab, struct sq_formatdef *ltab)
 {
-	int	ch;
-	int	err_no, hrows, tilines, start, srow, currow, incr, cnt, insertwhere, changes = 0;
+	int	ch, err_no, hrows, tilines, start, srow, currow, incr, cnt, insertwhere, changes = 0;
 	char	**fmt_hdr;
 
 	/* Save these for help function */
@@ -1560,7 +1558,7 @@ none2:			err_no = $E{spq fields none yet};
 	}
 }
 
-static  void  createnewhelp(FILE *ifl, FILE *ofl, const int statecode, char *fmt)
+static	void  createnewhelp(FILE *ifl, FILE *ofl, const int statecode, char *fmt)
 {
 	int	ch, ch2, nn, hadit = 0;
 
@@ -1635,12 +1633,12 @@ static	char	*wfile;
 extern	char	Cvarname[];
 extern	char	*Helpfile_path;
 
-static	void	make_confline(FILE *fp, const char *vname)
+static	void  make_confline(FILE *fp, const char *vname)
 {
 	fprintf(fp, "%s=%s\n", vname, wfile);
 }
 
-void	offersave(char *fmt, const int statecode)
+void  offersave(char *fmt, const int statecode)
 {
 	char	*hd, *wd, *str;
 	int	prow, pcol, ret;
@@ -1689,7 +1687,7 @@ void	offersave(char *fmt, const int statecode)
 	for  (;;)  {
 		struct	stat	sbuf1, sbuf2;
 		if  (!(str = wgets(stdscr, prow, &wst_fname, "")))  {
-			chdir(spdir);
+			Ignored_error = chdir(spdir);
 			free(wd);
 			return;
 		}
@@ -1736,7 +1734,7 @@ void	offersave(char *fmt, const int statecode)
 		do  ret = getkey(MAG_A|MAG_P);
 		while	(ret == EOF);
 	}
-	chdir(spdir);
+	Ignored_error = chdir(spdir);
 	free(wfile);
 	if  (!(wfile = malloc((unsigned) (strlen(wd) + strlen(str) + 2))))
 		nomem();

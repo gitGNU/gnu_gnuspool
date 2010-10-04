@@ -46,14 +46,14 @@ extern	struct	macromenitem	jobmacs[], ptrmacs[];
 
 #define	NOTE_PADDING	5
 
-extern void	wotjprin(struct stringvec *);
-extern char *	gen_jfmts(void);
-extern char *	gen_pfmts(void);
+extern void  wotjprin(struct stringvec *);
+extern char *gen_jfmts();
+extern char *gen_pfmts();
 
 /* Get the states of the class code button array to get the class code
    which has been set */
 
-classcode_t	read_cc_butts(GtkWidget **buttlist)
+classcode_t  read_cc_butts(GtkWidget **buttlist)
 {
 	classcode_t  ncc = 0;
 	int	cnt;
@@ -64,7 +64,7 @@ classcode_t	read_cc_butts(GtkWidget **buttlist)
 	return  ncc;
 }
 
-static void	set_cc_butts(GtkWidget **buttlist, const classcode_t cc)
+static void  set_cc_butts(GtkWidget **buttlist, const classcode_t cc)
 {
 	int	cnt;
 
@@ -72,7 +72,7 @@ static void	set_cc_butts(GtkWidget **buttlist, const classcode_t cc)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(buttlist[cnt]), cc & (1 << cnt)? TRUE: FALSE);
 }
 
-static void	cc_setall(GtkWidget **buttlist)
+static void  cc_setall(GtkWidget **buttlist)
 {
 	classcode_t  ncc = read_cc_butts(buttlist);
 	classcode_t  defcc = mypriv->spu_class;
@@ -93,7 +93,7 @@ static void	cc_setall(GtkWidget **buttlist)
 		set_cc_butts(buttlist, U_MAX_CLASS);
 }
 
-static void	cc_clearall(GtkWidget **buttlist)
+static void  cc_clearall(GtkWidget **buttlist)
 {
 	classcode_t  ncc = read_cc_butts(buttlist);
 	classcode_t  defcc = mypriv->spu_class;
@@ -112,7 +112,7 @@ static void	cc_clearall(GtkWidget **buttlist)
    Pass the array of checkboxes which we create.
    Pass the existing class code */
 
-void	cc_dlgsetup(GtkWidget * vbox, GtkWidget ** ccbuts, const classcode_t existing)
+void  cc_dlgsetup(GtkWidget *vbox, GtkWidget **ccbuts, const classcode_t existing)
 {
 	GtkWidget  	*hbox, *button;
 	int		rcnt, ccnt, bitnum;
@@ -201,7 +201,7 @@ struct	dialog_data  {
 	GtkWidget	*justprin, *prinplusnull, *anyprin;
 };
 
-GtkWidget  *create_viewopt_dlg(struct dialog_data *ddata)
+GtkWidget *create_viewopt_dlg(struct dialog_data *ddata)
 {
 	GtkWidget  *frame, *vbox;
 	char	*pr;
@@ -231,7 +231,7 @@ GtkWidget  *create_viewopt_dlg(struct dialog_data *ddata)
 	return  frame;
 }
 
-void	extract_viewopt_dlg(struct dialog_data *ddata)
+void  extract_viewopt_dlg(struct dialog_data *ddata)
 {
 	if  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ddata->noconfirm)))
 		confabort = 0;
@@ -241,7 +241,7 @@ void	extract_viewopt_dlg(struct dialog_data *ddata)
 		confabort = 2;
 }
 
-GtkWidget  *create_viewuser_dlg(struct dialog_data *ddata)
+GtkWidget *create_viewuser_dlg(struct dialog_data *ddata)
 {
 	GtkWidget  *frame, *vbox, *hbox, *lab;
 	char	*pr, **ulist, **ulp;
@@ -285,7 +285,7 @@ GtkWidget  *create_viewuser_dlg(struct dialog_data *ddata)
 	return  frame;
 }
 
-void	extract_viewuser_dlg(struct dialog_data *ddata)
+void  extract_viewuser_dlg(struct dialog_data *ddata)
 {
 	const  char	*newu = gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(ddata->usersel))));
 
@@ -302,7 +302,7 @@ void	extract_viewuser_dlg(struct dialog_data *ddata)
 		Displayopts.opt_localonly = NRESTR_NONE;
 }
 
-GtkWidget  *create_viewptr_dlg(struct dialog_data *ddata)
+GtkWidget *create_viewptr_dlg(struct dialog_data *ddata)
 {
 	GtkWidget  *frame, *vbox, *hbox, *lab;
 	char	*pr;
@@ -340,7 +340,7 @@ GtkWidget  *create_viewptr_dlg(struct dialog_data *ddata)
 	return  frame;
 }
 
-void	extract_viewptr_dlg(struct dialog_data *ddata)
+void  extract_viewptr_dlg(struct dialog_data *ddata)
 {
 	const  char	*newp = gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(ddata->ptrsel))));
 
@@ -359,7 +359,7 @@ void	extract_viewptr_dlg(struct dialog_data *ddata)
 		Displayopts.opt_jinclude = JINCL_ALL;
 }
 
-GtkWidget  *create_viewtit_dlg(struct dialog_data *ddata)
+GtkWidget *create_viewtit_dlg(struct dialog_data *ddata)
 {
 	GtkWidget  *frame, *vbox, *hbox, *lab;
 	char	*pr;
@@ -402,7 +402,7 @@ GtkWidget  *create_viewtit_dlg(struct dialog_data *ddata)
 	return  frame;
 }
 
-void	extract_viewtit_dlg(struct dialog_data *ddata)
+void  extract_viewtit_dlg(struct dialog_data *ddata)
 {
 	const  char	*newt = gtk_entry_get_text(GTK_ENTRY(ddata->titleres));
 
@@ -421,7 +421,7 @@ void	extract_viewtit_dlg(struct dialog_data *ddata)
 		Displayopts.opt_jprindisp = JRESTR_PRINT;
 }
 
-GtkWidget  *create_viewcc_dlg(struct dialog_data *ddata)
+GtkWidget *create_viewcc_dlg(struct dialog_data *ddata)
 {
 	GtkWidget  *frame, *vbox;
 	char	*pr;
@@ -438,7 +438,7 @@ GtkWidget  *create_viewcc_dlg(struct dialog_data *ddata)
 	return  frame;
 }
 
-void	extract_viewcc_dlg(struct dialog_data *ddata)
+void  extract_viewcc_dlg(struct dialog_data *ddata)
 {
 	classcode_t  ncc = read_cc_butts(ddata->classcodes);
 
@@ -449,7 +449,7 @@ void	extract_viewcc_dlg(struct dialog_data *ddata)
 	Displayopts.opt_classcode = ncc;
 }
 
-void	cb_viewopt(void)
+void  cb_viewopt()
 {
 	GtkWidget  *dlg, *lab, *notebook, *userdlg, *ptrdlg, *titdlg, *ccdlg, *optdlg;
 	char	*pr;
@@ -506,7 +506,7 @@ void	cb_viewopt(void)
 	gtk_widget_destroy(dlg);
 }
 
-void	cb_saveopts(void)
+void  cb_saveopts()
 {
 	PIDTYPE	pid;
 	static	char	*gtkprog;
@@ -590,7 +590,7 @@ void	cb_saveopts(void)
 extern	USHORT	*def_jobflds, *def_ptrflds;
 extern	int	ndef_jobflds, ndef_ptrflds;
 
-int	parse_fldarg(char *arg, USHORT ** list)
+int  parse_fldarg(char *arg, USHORT **list)
 {
 	char  *cp, *np;
 	int	result = 1;
@@ -615,7 +615,7 @@ int	parse_fldarg(char *arg, USHORT ** list)
 	return  result;
 }
 
-void	loadmac(struct macromenitem *mlist, const int cnt, const char *jorp)
+void  loadmac(struct macromenitem *mlist, const int cnt, const char *jorp)
 {
 	char	nbuf[16], *cmd, *descr;
 	sprintf(nbuf, "XSPQ%sMAC%d", jorp, cnt);
@@ -636,7 +636,7 @@ void	loadmac(struct macromenitem *mlist, const int cnt, const char *jorp)
 
 /* Put this here to co-ordinate with above hopefully */
 
-void	load_optfile(void)
+void  load_optfile()
 {
 	char	*homed = getenv("HOME");
 	char	*fn, *arg;
@@ -720,11 +720,11 @@ char	menutmpl[] =
 "</menubar>"
 "</ui>";
 
-extern void	jmacruncb(GtkAction *, struct macromenitem *);
-extern void	pmacruncb(GtkAction *, struct macromenitem *);
+extern void  jmacruncb(GtkAction *, struct macromenitem *);
+extern void  pmacruncb(GtkAction *, struct macromenitem *);
 extern	GtkUIManager 	*ui;
 
-void	setup_macro(const char jorp, struct macromenitem *mlist, const int macnum)
+void  setup_macro(const char jorp, struct macromenitem *mlist, const int macnum)
 {
 	GtkAction  *act;
 	GtkActionGroup  *grp;
@@ -746,7 +746,7 @@ void	setup_macro(const char jorp, struct macromenitem *mlist, const int macnum)
 	g_string_free(uif, TRUE);
 }
 
-void	delete_macro(const char jorp, struct macromenitem *mlist, const int macnum)
+void  delete_macro(const char jorp, struct macromenitem *mlist, const int macnum)
 {
 	GList  *groups, *lp;
 	char	gnbuf[10];
@@ -764,7 +764,7 @@ void	delete_macro(const char jorp, struct macromenitem *mlist, const int macnum)
 	}
 }
 
-void	loadmacs(const char jorp, struct macromenitem *mlist)
+void  loadmacs(const char jorp, struct macromenitem *mlist)
 {
 	int	cnt;
 
@@ -773,7 +773,7 @@ void	loadmacs(const char jorp, struct macromenitem *mlist)
 			setup_macro(jorp, mlist, cnt+1);
 }
 
-char	*get_macro_description(void)
+char *get_macro_description()
 {
 	GtkWidget *dlg, *lab, *ent;
 	char	*pr, *result = (char *) 0;
@@ -800,7 +800,7 @@ char	*get_macro_description(void)
 	return  result;
 }
 
-int	add_macro_to_list(const char *cmdtext, const char jorp, struct macromenitem *mlist)
+int  add_macro_to_list(const char *cmdtext, const char jorp, struct macromenitem *mlist)
 {
 	int	cnt;
 
@@ -828,7 +828,7 @@ struct	macupddata  {
 	struct macromenitem *mlist;
 };
 
-GtkWidget  *make_push_button(const int code)
+GtkWidget *make_push_button(const int code)
 {
 	GtkWidget  *button, *hbox, *lab;
 	button = gtk_button_new();
@@ -839,7 +839,7 @@ GtkWidget  *make_push_button(const int code)
 	return  button;
 }
 
-void	editmac(struct macupddata *mdata, const int cnt)
+void  editmac(struct macupddata *mdata, const int cnt)
 {
 	int	macnum = cnt + 1;
 	GtkWidget  *dlg, *hbox, *lab, *cmdw, *descrw;
@@ -905,7 +905,7 @@ void	editmac(struct macupddata *mdata, const int cnt)
 	gtk_widget_destroy(dlg);
 }
 
-void	newmac_clicked(struct macupddata *mdata)
+void  newmac_clicked(struct macupddata *mdata)
 {
 	int	cnt;
 	for  (cnt = 0;  cnt < MAXMACS;  cnt++)
@@ -915,7 +915,7 @@ void	newmac_clicked(struct macupddata *mdata)
 		}
 }
 
-void	delmac_clicked(struct macupddata *mdata)
+void  delmac_clicked(struct macupddata *mdata)
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(mdata->view));
 	GtkTreeIter  iter;
@@ -932,7 +932,7 @@ void	delmac_clicked(struct macupddata *mdata)
 	}
 }
 
-void	updmac_clicked(struct macupddata *mdata)
+void  updmac_clicked(struct macupddata *mdata)
 {
 	GtkTreeSelection  *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(mdata->view));
 	GtkTreeIter  iter;
@@ -953,7 +953,7 @@ static void mlist_dblclk(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewCo
 	}
 }
 
-void	macro_edit(const char jorp, struct macromenitem *mlist)
+void  macro_edit(const char jorp, struct macromenitem *mlist)
 {
 	GtkWidget  *dlg, *mwid, *scroll, *hbox, *butt;
 	GtkCellRenderer     *rend;
@@ -1020,12 +1020,12 @@ void	macro_edit(const char jorp, struct macromenitem *mlist)
 	gtk_widget_destroy(dlg);
 }
 
-void	cb_jmacedit(void)
+void  cb_jmacedit()
 {
 	macro_edit('j', jobmacs);
 }
 
-void	cb_pmacedit(void)
+void  cb_pmacedit()
 {
 	macro_edit('p', ptrmacs);
 }

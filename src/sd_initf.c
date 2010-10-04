@@ -54,12 +54,12 @@
 #include "ecodes.h"
 #include "incl_unix.h"
 
-void	pflush(void);
-void	pout(char *, int);
-int	opendev(void);
-RETSIGTYPE	stopit(int);
-void	seterrorstate(const char *);
-void	holdorignore(const int);
+extern  void  pflush();
+void  pout(char *, int);
+extern  int  opendev();
+RETSIGTYPE  stopit(int);
+void  seterrorstate(const char *);
+void  holdorignore(const int);
 
 extern	void	set_signal(const int, RETSIGTYPE (*)(int));
 
@@ -109,7 +109,7 @@ extern	struct	spr_req	reply;
 
 /* Open report file if possible write message to it.  */
 
-void	nfreport(const int msgno)
+void  nfreport(const int msgno)
 {
 	int	fid;
 	time_t	tim;
@@ -148,20 +148,20 @@ void	nfreport(const int msgno)
 	fflush(rpfile);
 }
 
-void	report(const int n)
+void  report(const int n)
 {
 	nfreport(n);
 	seterrorstate((const char *) 0);
 }
 
-void	nomem(void)
+void  nomem()
 {
 	report($E{NO MEMORY});
 }
 
 int	exec_stop;
 
-RETSIGTYPE	do_exec_stop(int n)
+RETSIGTYPE  do_exec_stop(int n)
 {
 #ifdef UNSAFE_SIGNALS
 	signal(n, SIG_IGN);
@@ -169,7 +169,7 @@ RETSIGTYPE	do_exec_stop(int n)
 	exec_stop++;
 }
 
-int	exec_wait(void)
+int  exec_wait()
 {
 	int	status;
 #ifndef	HAVE_WAITPID
@@ -196,12 +196,12 @@ int	exec_wait(void)
 	return  status;
 }
 
-void	exec_prep(const int ofd, const int ofd2)
+void  exec_prep(const int ofd, const int ofd2)
 {
 	close(1);
 	close(2);
-	dup(ofd);
-	dup(ofd2);
+	Ignored_error = dup(ofd);
+	Ignored_error = dup(ofd2);
 	close(ofd);
 	close(ofd2);
 #ifdef	SETPGRP_VOID
@@ -274,7 +274,7 @@ int  execorsend(char *name0, char *str, unsigned lng, const ULONG eflag, const i
 
 #define	MAX_EARGS	80
 
-void	path_execute(char *name0, char *lin, const int directex)
+void  path_execute(char *name0, char *lin, const int directex)
 {
 	if  (directex)  {
 		int	argc = 1;
@@ -381,7 +381,7 @@ void	path_execute(char *name0, char *lin, const int directex)
 /* Read parameters from setup file by invoking 'spdinit' process.
    Return 1 - ok 0 - error (reported to report file).  */
 
-int	rinitfile(void)
+int  rinitfile()
 {
 	int	status;
 	PIDTYPE	pid;
@@ -427,7 +427,7 @@ int	rinitfile(void)
 	if  ((pid = fork()) == 0)  {
 		close(pfs[0]);	/*  Read side  */
 		close(1);
-		dup(pfs[1]);	/*  Should be 1 now */
+		Ignored_error = dup(pfs[1]);	/*  Should be 1 now */
 		close(pfs[1]);
 		set_signal(SIGPIPE, SIG_IGN);
 		set_signal(SIGTERM, SIG_IGN);

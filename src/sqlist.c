@@ -88,21 +88,21 @@ static	char	*localptr;
 
 #define	IPC_MODE	0600
 
-int	spitoption(const int, const int, FILE *, const int, const int);
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+extern  int  spitoption(const int, const int, FILE *, const int, const int);
+extern  int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
 
-int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
-FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+extern  int  rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+extern  FILE *net_feed(const int, const netid_t, const slotno_t, const jobno_t);
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
 }
 
-static void	getwanted(char ** argv)
+static void  getwanted(char **argv)
 {
 	char	**ap;
 	struct	jobswanted  *wp;
@@ -135,7 +135,7 @@ static void	getwanted(char ** argv)
 	nwanted = actw;
 }
 
-static int	iswanted(const struct spq * jp)
+static int  iswanted(const struct spq *jp)
 {
 	unsigned	cnt;
 
@@ -183,7 +183,7 @@ typedef	unsigned	fmt_t;
 struct	formatdef  {
 	SHORT	statecode;	/* Code number for heading if applicable */
 	char	*msg;		/* Heading */
-	unsigned	(*fmt_fn)(const struct spq *, const int);
+	unsigned  (*fmt_fn)(const struct spq *, const int);
 };
 
 #define	NULLCP	(char *) 0
@@ -248,7 +248,7 @@ struct	formatdef
 
 /* Display contents of job file.  */
 
-void	jdisplay(void)
+void  jdisplay()
 {
 	int	jcnt;
 	char	*fp;
@@ -434,7 +434,7 @@ void	jdisplay(void)
    Return 0 if not in range.
    Return 1 if in range. */
 
-static int	inrange(const unsigned page)
+static int  inrange(const unsigned page)
 {
 	char	*cp;
 	ULONG	num1, num2;
@@ -468,7 +468,7 @@ static int	inrange(const unsigned page)
 	return  lessr? 0: -1;
 }
 
-static void	viewj(const struct spq * jp)
+static void  viewj(const struct spq *jp)
 {
 	int		haspages = 0;
 	char		*delim = (char *) 0;
@@ -547,7 +547,7 @@ endview:
 	}
 }
 
-void	check_viewj(const struct spq * jp)
+void  check_viewj(const struct spq *jp)
 {
 	if  (!(mypriv->spu_flgs & PV_VOTHERJ)  &&  strcmp(Realuname, jp->spq_uname) != 0)  {
 		disp_arg[0] = jp->spq_job;
@@ -567,7 +567,7 @@ void	check_viewj(const struct spq * jp)
 	viewj(jp);
 }
 
-static void	doview(void)
+static void  doview()
 {
 	unsigned  jcnt;
 
@@ -664,7 +664,7 @@ o_viewjob,	o_noviewjob,	o_viewpages,
 o_freezecd,	o_freezehd
 };
 
-void	spit_options(FILE *dest, const char *name)
+void  spit_options(FILE *dest, const char *name)
 {
 	int	cancont = 0;
 	fprintf(dest, "%s", name);
@@ -701,7 +701,7 @@ void	spit_options(FILE *dest, const char *name)
 
 /* Ye olde main routine.  */
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	char	*spdir;
 #if	defined(NHONSUID) || defined(DEBUG)

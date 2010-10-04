@@ -35,7 +35,7 @@
 extern int	ParseMacroFile(const char *);
 extern int	exec_script(struct command *);
 extern void	init_define(const char *, const char *);
-extern int	yyparse(void);
+extern int	yyparse();
 
 struct	command	*Control_list;
 int	debug;
@@ -49,7 +49,7 @@ extern	FILE	*yyin;
 
 /* Flush routine for when asked from script.  */
 
-void	do_flush(void)
+void  do_flush()
 {
 	static	char	esc_seq[] = "\033E";
 
@@ -57,10 +57,10 @@ void	do_flush(void)
 	   ourselves recursively.  */
 
 	if  (sock_fd >= 0)
-		write(sock_fd, esc_seq, sizeof(esc_seq) - 1);
+		Ignored_error = write(sock_fd, esc_seq, sizeof(esc_seq) - 1);
 }
 
-RETSIGTYPE	catchsig(int sig)
+RETSIGTYPE  catchsig(int sig)
 {
 #ifdef	UNSAFE_SIGNALS
 	signal(sig, SIG_IGN);
@@ -69,7 +69,7 @@ RETSIGTYPE	catchsig(int sig)
 	exit(0);
 }
 
-void	sock_write(char *buffer, int nbytes)
+void  sock_write(char *buffer, int nbytes)
 {
 	int	outbytes, ecode;
 
@@ -89,7 +89,7 @@ void	sock_write(char *buffer, int nbytes)
 netid_t  get_hostorip(const char *name)
 {
 	netid_t	hid;
-	
+
 	if  (isdigit(name[0]))  {
 #ifdef	DGAVIION
 		struct	in_addr  ina_str;
@@ -114,7 +114,7 @@ netid_t  get_hostorip(const char *name)
 	return  hid;
 }
 
-int	get_portornum(const char *name)
+int  get_portornum(const char *name)
 {
 	struct	servent	 *sp;
 
@@ -142,7 +142,7 @@ void  sock_init(const netid_t hostid, const netid_t myhostid, const int telnetpo
 	clisin.sin_addr.s_addr = snmp_cli.sin_addr.s_addr = myhostid;
 
 	/* Connect to telnet socket */
-	
+
 	if  ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)  {
 		perror("Telnet socket create");
 		exit(EXIT_DEVERROR);
@@ -167,8 +167,8 @@ void  sock_init(const netid_t hostid, const netid_t myhostid, const int telnetpo
 		exit(EXIT_SYSERROR);
 	}
 }
-	
-MAINFN_TYPE	main(int argc, char **argv)
+
+MAINFN_TYPE  main(int argc, char **argv)
 {
 	int	ecode, c, inp, portnum, snmpport, snmpdebug = 0;
 	char	*hostname = (char *) 0, *myhostname = (char *) 0, *port_text = "9100", *snmp_port = "snmp", *progname;

@@ -72,18 +72,18 @@ static	char	*startpmsg,
 static	char	*lastsearch;
 static	int	lastwrap = 0;
 
-extern int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
-extern FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+extern int  rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+extern FILE *net_feed(const int, const netid_t, const slotno_t, const jobno_t);
 
-static void	cb_vexitsave(GtkAction *, struct view_data *);
-static void	cb_vexitnosave(GtkAction *, struct view_data *);
-static void	cb_vsearch(GtkAction *, struct view_data *);
-static void	cb_vrsearch(GtkAction *, struct view_data *);
-static void	cb_vspage(GtkAction *, struct view_data *);
-static void	clearlog(GtkAction *, GtkWidget *);
-static void	cb_quitsel(GtkAction *, GtkWidget *);
+static void  cb_vexitsave(GtkAction *, struct view_data *);
+static void  cb_vexitnosave(GtkAction *, struct view_data *);
+static void  cb_vsearch(GtkAction *, struct view_data *);
+static void  cb_vrsearch(GtkAction *, struct view_data *);
+static void  cb_vspage(GtkAction *, struct view_data *);
+static void  clearlog(GtkAction *, GtkWidget *);
+static void  cb_quitsel(GtkAction *, GtkWidget *);
 
-const struct spq *	getselectedjob_chk(const ULONG);
+const struct spq *getselectedjob_chk(const ULONG);
 
 static GtkActionEntry ventries[] = {
 	{ "VFileMenu", NULL, "_File"  },
@@ -104,7 +104,7 @@ static GtkActionEntry slentries[] = {
 	{ "Clear", NULL, "_Clear log", NULL, "Clear log file and quit", G_CALLBACK(clearlog)},
 	{ "Quit", GTK_STOCK_QUIT, "_Quit", "<control>Q", "Quit", G_CALLBACK(cb_quitsel)}  };
 
-static int	get_top_scrolled_line(struct view_data * vd)
+static int  get_top_scrolled_line(struct view_data *vd)
 {
 	GdkRectangle	vis_rect;
 	GtkTextIter	vis_iter;
@@ -114,7 +114,7 @@ static int	get_top_scrolled_line(struct view_data * vd)
 	return  gtk_text_iter_get_line(&vis_iter);
 }
 
-static LONG	get_top_scrolled_page(struct view_data * vd)
+static LONG  get_top_scrolled_page(struct view_data *vd)
 {
 	int		linenum = get_top_scrolled_line(vd);
 	unsigned	pagenum;
@@ -125,13 +125,13 @@ static LONG	get_top_scrolled_page(struct view_data * vd)
 	return  vd->cj->spq_npages-1;
 }
 
-static void	vscroll_to(struct view_data *vd, GtkTextIter *posn)
+static void  vscroll_to(struct view_data *vd, GtkTextIter *posn)
 {
 	gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(vd->view), posn, 0.1, FALSE, 0.0, 0.0);
 	gtk_text_buffer_place_cursor(vd->fbuf, posn);
 }
 
-static void	execute_vsearch(struct view_data *vd, const int isback)
+static void  execute_vsearch(struct view_data *vd, const int isback)
 {
 	GtkTextIter  current_pos, match_start, buffbeg, buffend;
 	GtkTextMark  *cpos;
@@ -178,7 +178,7 @@ static void	execute_vsearch(struct view_data *vd, const int isback)
 	}
 }
 
-static void	cb_vsearch(GtkAction *action, struct view_data *vd)
+static void  cb_vsearch(GtkAction *action, struct view_data *vd)
 {
 	GtkWidget  *dlg, *hbox, *lab, *sstring, *wrapw, *backw;
 	char	*pr;
@@ -232,7 +232,7 @@ static void	cb_vsearch(GtkAction *action, struct view_data *vd)
 	gtk_widget_destroy(dlg);
 }
 
-static void	cb_vrsearch(GtkAction *action, struct view_data *vd)
+static void  cb_vrsearch(GtkAction *action, struct view_data *vd)
 {
 	const	char	*act = gtk_action_get_name(action);
 	int	isback = strcmp(act, "VSearchb") == 0;
@@ -245,7 +245,7 @@ static void	cb_vrsearch(GtkAction *action, struct view_data *vd)
 	execute_vsearch(vd, isback);
 }
 
-static void	cb_vspage(GtkAction *action, struct view_data *vd)
+static void  cb_vspage(GtkAction *action, struct view_data *vd)
 {
 	const	char	*act = gtk_action_get_name(action);
 
@@ -278,14 +278,14 @@ static void	cb_vspage(GtkAction *action, struct view_data *vd)
 	}
 }
 
-static void	buff_append(GtkTextBuffer *buf, char *tbuf, const int size)
+static void  buff_append(GtkTextBuffer *buf, char *tbuf, const int size)
 {
 	GtkTextIter  iter;
 	gtk_text_buffer_get_end_iter(buf, &iter);
 	gtk_text_buffer_insert(buf, &iter, tbuf, size);
 }
 
-static void	free_view_data(struct view_data *vd)
+static void  free_view_data(struct view_data *vd)
 {
 	if  (vd->isformfeed > 0)
 		free((char *) vd->physpages);
@@ -293,7 +293,7 @@ static void	free_view_data(struct view_data *vd)
 	free((char *) vd);
 }
 
-static void	fill_buff_spoolfile(FILE *inf, const struct spq *jp, struct view_data *vd)
+static void  fill_buff_spoolfile(FILE *inf, const struct spq *jp, struct view_data *vd)
 {
 	char	*delim;
 	struct	pages	pfe;
@@ -495,7 +495,7 @@ static void	fill_buff_spoolfile(FILE *inf, const struct spq *jp, struct view_dat
 	vd->endp = jp->spq_end;
 }
 
-static void	cb_vexitsave(GtkAction *action, struct view_data *vd)
+static void  cb_vexitsave(GtkAction *action, struct view_data *vd)
 {
 	GtkWidget *dlg;
 
@@ -528,14 +528,14 @@ static void	cb_vexitsave(GtkAction *action, struct view_data *vd)
 	gtk_dialog_response(GTK_DIALOG(dlg), GTK_RESPONSE_OK);
 }
 
-static void	cb_vexitnosave(GtkAction *action, struct view_data *vd)
+static void  cb_vexitnosave(GtkAction *action, struct view_data *vd)
 {
 	GtkWidget *dlg = vd->dlg;
 	free_view_data(vd);
 	gtk_dialog_response(GTK_DIALOG(dlg), GTK_RESPONSE_CANCEL);
 }
 
-static void	set_pagenum(struct view_data *vd)
+static void  set_pagenum(struct view_data *vd)
 {
 	ULONG	pnum = get_top_scrolled_page(vd);
 	char	nbuf[10];
@@ -546,7 +546,7 @@ static void	set_pagenum(struct view_data *vd)
 	gtk_label_set_text(GTK_LABEL(vd->endpl), vd->endp == pnum? endpmsg: "");
 }
 
-void	cb_view(void)
+void  cb_view()
 {
 	const  struct  spq  *cj = getselectedjob_chk(PV_VOTHERJ);
 	FILE	*infile;
@@ -707,7 +707,7 @@ void	cb_view(void)
  ******************************************************************************
  */
 
-static void	fill_buff_syserr(GtkTextBuffer *fbuf, FILE *inf)
+static void  fill_buff_syserr(GtkTextBuffer *fbuf, FILE *inf)
 {
 	int	ch, cp = 0, colnum = 0;
 	char	inbuf[INBUFSIZE+8];
@@ -754,19 +754,19 @@ static void	fill_buff_syserr(GtkTextBuffer *fbuf, FILE *inf)
 		buff_append(fbuf, inbuf, cp);
 }
 
-static void	cb_quitsel(GtkAction *action, GtkWidget *dlg)
+static void  cb_quitsel(GtkAction *action, GtkWidget *dlg)
 {
 	gtk_dialog_response(GTK_DIALOG(dlg), GTK_RESPONSE_OK);
 }
 
-static void	clearlog(GtkAction *action, GtkWidget *dlg)
+static void  clearlog(GtkAction *action, GtkWidget *dlg)
 {
 	if  (Confirm($PH{Clear syserr log}))
 		close(open(REPFILE, O_TRUNC|O_WRONLY));
 	gtk_dialog_response(GTK_DIALOG(dlg), GTK_RESPONSE_OK);
 }
 
-void	cb_syserr(void)
+void  cb_syserr()
 {
 	char	*pr;
 	FILE	*infile;

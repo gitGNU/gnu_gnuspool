@@ -59,30 +59,33 @@
 #define	CMODE		0666
 #define	IPC_MODE	0600
 
-void	delete_job(Hashspq *);
-void	dequeue(const int);
-void	docharge(struct sp_cmsg *, struct spq *);
-void	nfreport(const int);
-void	notify(struct spq *, struct spptr *, const int, const jobno_t, const int);
+extern	void  delete_job(Hashspq *);
+extern	void  dequeue(const int);
+extern	void  nfreport(const int);
+extern	void  notify(struct spq *, struct spptr *, const int, const jobno_t, const int);
 #ifdef	NETWORK_VERSION
-void	job_broadcast(Hashspq *, const int);
-void	job_message(const netid_t, struct spq *, const int, const ULONG, const ULONG);
-void	ptr_broadcast(Hashspptr *, const int);
-void	ptr_sendupdate(struct spptr *, struct spptr *, const int);
-void	ptr_message(struct spptr *, const int);
-void	ptr_assxmit(Hashspq *, Hashspptr *);
+extern	void  job_broadcast(Hashspq *, const int);
+extern	void  job_message(const netid_t, struct spq *, const int, const ULONG, const ULONG);
+extern	void  ptr_broadcast(Hashspptr *, const int);
+extern	void  ptr_sendupdate(struct spptr *, struct spptr *, const int);
+extern	void  ptr_message(struct spptr *, const int);
+extern	void  ptr_assxmit(Hashspq *, Hashspptr *);
 #endif
-void	report(const int);
-void	unassign(Hashspq *, Hashspptr *);
+extern	void  report(const int);
+extern	void  unassign(Hashspq *, Hashspptr *);
 
-int	gshmchan(struct spshm_info *, const int);
-slotno_t	find_rslot(const netid_t, const slotno_t);
+extern	int  gshmchan(struct spshm_info *, const int);
+extern	slotno_t  find_rslot(const netid_t, const slotno_t);
 
-struct spptr	*	printing(struct spq *);
-void	ptrnotify(struct spptr *);
+extern	struct spptr	*printing(struct spq *);
+void  ptrnotify(struct spptr *);
 
 extern	uid_t	Daemuid;
 extern	int	Ctrl_chan;
+#ifndef	USING_FLOCK
+extern	int	Sem_chan;
+#endif
+
 extern	int	Network_ok;
 
 #ifdef	NETWORK_VERSION
@@ -111,7 +114,7 @@ static	char	Sufchars[] = DEF_SUFCHARS;
 
 #ifdef	USING_FLOCK
 
-void	setphold(const int typ)
+void  setphold(const int typ)
 {
 	struct	flock	lck;
 	lck.l_type = typ;
@@ -131,12 +134,12 @@ void	setphold(const int typ)
 	}
 }
 
-static void	ptrs_lock(void)
+static void  ptrs_lock()
 {
 	setphold(F_WRLCK);
 }
 
-static void	ptrs_unlock(void)
+static void  ptrs_unlock()
 {
 #ifdef	USING_MMAP
 	msync(Ptr_seg.inf.seg, Ptr_seg.inf.segsize, MS_SYNC|MS_INVALIDATE);
@@ -146,7 +149,7 @@ static void	ptrs_unlock(void)
 
 #else
 
-static void	ptrs_lock(void)
+static void  ptrs_lock()
 {
 	for  (;;)  {
 		if  (semop(Sem_chan, pw, 2) >= 0)
@@ -157,7 +160,7 @@ static void	ptrs_lock(void)
 	}
 }
 
-static void	ptrs_unlock(void)
+static void  ptrs_unlock()
 {
 #ifdef	USING_MMAP
 	msync(Ptr_seg.inf.seg, Ptr_seg.inf.segsize, MS_SYNC|MS_INVALIDATE);
@@ -172,7 +175,7 @@ static void	ptrs_unlock(void)
 }
 #endif
 
-static void	free_rest(const LONG pind, const LONG nptrs)
+static void  free_rest(const LONG pind, const LONG nptrs)
 {
 	Hashspptr	*pp;
 	LONG		cnt;
@@ -195,7 +198,7 @@ static void	free_rest(const LONG pind, const LONG nptrs)
 
 /* Create/open print file. Read it into memory if it exists.  */
 
-void	createpfile(int psize)
+void  createpfile(int psize)
 {
 	Hashspptr	*hpp;
 	struct	spptr	*pp;
@@ -332,7 +335,7 @@ void	createpfile(int psize)
    longer correspond to those in the shm segment, but who cares,
    we aren't going to read it again before we finish. */
 
-void	rewrpq(void)
+void  rewrpq()
 {
 	int	fnptrs, nptrs;
 	LONG	pind;
@@ -366,7 +369,7 @@ void	rewrpq(void)
 			report($E{Panic couldnt lock ptr file});
 	}
 	if  (nptrs < fnptrs)
-		ftruncate(pfilefd, 0L);
+		Ignored_error = ftruncate(pfilefd, 0L);
 	lseek(pfilefd, 0L, 0);
 #else
 	if  (nptrs < fnptrs)  {
@@ -399,7 +402,7 @@ void	rewrpq(void)
 	while  (pind >= 0L)  {
 		Hashspptr  *pp = &Ptr_seg.plist[pind];
 		if  (pp->p.spp_state != SPP_NULL  &&  pp->p.spp_netid == 0)
-			write(pfilefd, (char *) &pp->p, sizeof(struct spptr));
+			Ignored_error = write(pfilefd, (char *) &pp->p, sizeof(struct spptr));
 		pind = pp->l_nxt;
 	}
 
@@ -412,7 +415,7 @@ void	rewrpq(void)
 	}
 }
 
-void	check_qclear(const LONG id)
+void  check_qclear(const LONG id)
 {
 	struct	spr_req	buf;
 
@@ -422,7 +425,7 @@ void	check_qclear(const LONG id)
 
 /* Send IPM to printer */
 
-void	pmsend(struct spptr * pp, struct spr_req * rq, const int bytes)
+void  pmsend(struct spptr *pp, struct spr_req *rq, const int bytes)
 {
 	if  (pp->spp_pid == 0)
 		return;
@@ -455,7 +458,7 @@ void	pmsend(struct spptr * pp, struct spr_req * rq, const int bytes)
    by allocating a new shared memory segment, and planting where
    we've gone in the old one.  */
 
-void	growpseg(void)
+void  growpseg()
 {
 	char		*newseg;
 	unsigned	oldmaxp = Ptr_seg.dptr->ps_maxptrs;
@@ -539,7 +542,7 @@ void	growpseg(void)
 #endif
 }
 
-static void	takeoff_l(const LONG pind)
+static void  takeoff_l(const LONG pind)
 {
 	struct	spptr	*cp = &Ptr_seg.plist[pind].p;
 	LONG  nxtind = Ptr_seg.plist[pind].l_nxt;
@@ -577,7 +580,7 @@ static void	takeoff_l(const LONG pind)
 	cp->spp_rslot = 0;
 }
 
-static void	puton_l(const LONG pind)
+static void  puton_l(const LONG pind)
 {
 	LONG		prv;
 	unsigned	hashval;
@@ -608,7 +611,7 @@ static void	puton_l(const LONG pind)
    This MUST be called after net_jclear as that routine relies on
    details of the dying printers being around.  */
 
-void	net_pclear(const netid_t netid)
+void  net_pclear(const netid_t netid)
 {
 	int	done = 0;
 	LONG	pind;
@@ -646,7 +649,7 @@ void	net_pclear(const netid_t netid)
 
 /* Start up a printer.  This routine just initiates the process.  */
 
-void	startp(Hashspptr * pp)
+void  startp(Hashspptr *pp)
 {
 	PIDTYPE	pid;
 #ifdef	OLD_VERSION
@@ -712,7 +715,7 @@ void	startp(Hashspptr * pp)
 /* Abort specified printer.
    This is only applied to local printers.  */
 
-void	prabort(struct spptr * pp)
+void  prabort(struct spptr *pp)
 {
 	if  (pp->spp_state < SPP_PROC)
 		return;
@@ -731,7 +734,7 @@ void	prabort(struct spptr * pp)
 
 /* Tell printer to stop.  This routine is called for local printers only. */
 
-void	finp(struct spptr * pp)
+void  finp(struct spptr *pp)
 {
 	struct	spr_req	rq;
 
@@ -744,7 +747,7 @@ void	finp(struct spptr * pp)
 
 /* Tell printer that 'awaiting oper' job has disappeared */
 
-void	nowaiting(struct spptr * pp)
+void  nowaiting(struct spptr *pp)
 {
 	struct	spr_req	rq;
 
@@ -758,7 +761,7 @@ void	nowaiting(struct spptr * pp)
    dealing with the addition of a non-local printer transmitted
    from some other machine.  */
 
-void	addptr(struct sp_xpmsg *rq, struct spptr *pdet)
+void  addptr(struct sp_xpmsg *rq, struct spptr *pdet)
 {
 	LONG		pind;
 	Hashspptr	*hrs;
@@ -830,7 +833,7 @@ void	addptr(struct sp_xpmsg *rq, struct spptr *pdet)
 
 /* Change printer - this is a command invoked by the user */
 
-void	chgptr(struct sp_xpmsg *rq, struct spptr *newp)
+void  chgptr(struct sp_xpmsg *rq, struct spptr *newp)
 {
 	Hashspptr	*hcp;
 	struct  spptr	 *cp;
@@ -930,7 +933,7 @@ void	chgptr(struct sp_xpmsg *rq, struct spptr *newp)
 #ifdef	NETWORK_VERSION
 /* Note remote printer no longer assigned */
 
-void	unassign_ptr(struct sp_xpmsg *rq, struct spptr *newp)
+void  unassign_ptr(struct sp_xpmsg *rq, struct spptr *newp)
 {
 	struct  spptr	 *cp;
 
@@ -953,7 +956,7 @@ void	unassign_ptr(struct sp_xpmsg *rq, struct spptr *newp)
 
 /* Delete printer from list.  */
 
-void	delptr(struct sp_omsg *rq)
+void  delptr(struct sp_omsg *rq)
 {
 	Hashspptr  *hcp;
 	struct  spptr  *cp;
@@ -984,7 +987,7 @@ void	delptr(struct sp_omsg *rq)
 
 /* Set printer going - i.e. if halted, start up process ready for first request.  */
 
-void	gop(struct sp_omsg *rq)
+void  gop(struct sp_omsg *rq)
 {
 	Hashspptr  *hcp;
 	struct	spptr	*cp;
@@ -1021,7 +1024,7 @@ void	gop(struct sp_omsg *rq)
 
 /* Tell printer to stop at the end of the current job.  */
 
-void	heoj(struct sp_omsg *rq)
+void  heoj(struct sp_omsg *rq)
 {
 	Hashspptr  *cp;
 
@@ -1059,7 +1062,7 @@ void	heoj(struct sp_omsg *rq)
 
 /* Tell printer to halt whatever it is doing.  */
 
-void	halt(struct sp_omsg *rq)
+void  halt(struct sp_omsg *rq)
 {
 	struct  spptr  *cp;
 
@@ -1088,7 +1091,7 @@ void	halt(struct sp_omsg *rq)
 
 /* Halt everything.  */
 
-void	haltall(void)
+void  haltall()
 {
 	LONG  pind = Ptr_seg.dptr->ps_l_head;
 
@@ -1117,7 +1120,7 @@ void	haltall(void)
 
 /* Restart current job. */
 
-void	restart(struct sp_omsg *rq)
+void  restart(struct sp_omsg *rq)
 {
 	struct  spptr  *cp;
 	if  (rq->spr_jpslot >= Ptr_seg.dptr->ps_maxptrs)
@@ -1133,7 +1136,7 @@ void	restart(struct sp_omsg *rq)
 
 /* Send start/continue job message.  */
 
-void	startj(Hashspq *jp, struct spptr *pp)
+void  startj(Hashspq *jp, struct spptr *pp)
 {
 	struct	spr_req	req;
 
@@ -1157,7 +1160,7 @@ void	startj(Hashspq *jp, struct spptr *pp)
    "spr_arg1" gives the slot number of the job in the remote machine's list
    and "spr_arg2" that of the printer in the remote machine's list.  */
 
-void	rempropose(struct sp_omsg *rq)
+void  rempropose(struct sp_omsg *rq)
 {
 	struct  spq  *jp;
 
@@ -1177,7 +1180,7 @@ void	rempropose(struct sp_omsg *rq)
 	}
 }
 
-static void	ptr_unpropose(struct spptr * pp)
+static void  ptr_unpropose(struct spptr *pp)
 {
 	pp->spp_job = 0;
 	pp->spp_rjhostid = 0;
@@ -1188,7 +1191,7 @@ static void	ptr_unpropose(struct spptr * pp)
 
 /* Handle confirmation of print */
 
-void	confirm_print(struct sp_omsg *rq)
+void  confirm_print(struct sp_omsg *rq)
 {
 	slotno_t	ind;
 	Hashspq		*hjp;
@@ -1262,7 +1265,7 @@ void	confirm_print(struct sp_omsg *rq)
 /* Proceed to assign a job (possibly a remote job, local copy) to a
    printer, which will always be a local printer.  */
 
-void	assign(Hashspq *hjp, Hashspptr *hpp)
+void  assign(Hashspq *hjp, Hashspptr *hpp)
 {
 	struct	spq	*jp = &hjp->j;
 	struct	spptr	*pp = &hpp->p;
@@ -1313,7 +1316,7 @@ void	assign(Hashspq *hjp, Hashspptr *hpp)
 
 /* This is the routine which allocates jobs to printers.  */
 
-unsigned	selectj(void)
+unsigned  selectj()
 {
 	LONG		pind, jind;
 	char		*dp;
@@ -1446,7 +1449,7 @@ unsigned	selectj(void)
 /* Note printer job done. 'ab' is SPD_DONE SPD_DAB or SPD_DERR
    This "can only happen" for a local printer. */
 
-void	prdone(struct sp_cmsg *rq, const unsigned ab)
+void  prdone(struct sp_cmsg *rq, const unsigned ab)
 {
 	Hashspptr  *hcp;
 	Hashspq	   *hjp;
@@ -1475,8 +1478,6 @@ void	prdone(struct sp_cmsg *rq, const unsigned ab)
 		/*  Unknown job  */
 		if  (ab == SPD_DERR)
 			unlink(mkspid(ERNAM, cp->spp_job));
-		else
-			docharge(rq, (struct spq *) 0);
 		if  (cp->spp_sflags & SPP_HEOJ)
 			finp(cp);
 		return;
@@ -1500,9 +1501,7 @@ void	prdone(struct sp_cmsg *rq, const unsigned ab)
 		return;
 	}
 
-	/* Otherwise apply charge and decrement number of copies.  */
-
-	docharge(rq, jp);
+	/* Otherwise decrement number of copies.  */
 
 	if  (ab == SPD_DERR)  {
 		jp->spq_cps = 0;
@@ -1541,7 +1540,7 @@ void	prdone(struct sp_cmsg *rq, const unsigned ab)
 
 /* Note that printer has finished.  */
 
-void	prdfin(struct sp_cmsg *rq)
+void  prdfin(struct sp_cmsg *rq)
 {
 	Hashspptr	*hcp;
 	struct  spptr  *cp;
@@ -1575,7 +1574,7 @@ void	prdfin(struct sp_cmsg *rq)
 
 /* Respond to state change message.  */
 
-void	proper(struct sp_cmsg *rq)
+void  proper(struct sp_cmsg *rq)
 {
 	Hashspptr	*hcp;
 	struct  spptr  *cp;
@@ -1629,7 +1628,7 @@ void	proper(struct sp_cmsg *rq)
 
 /* Deal with printing job being aborted */
 
-void	prjab(struct sp_omsg *rq)
+void  prjab(struct sp_omsg *rq)
 {
 	Hashspptr	*hcp;
 	struct  spptr  *cp;
@@ -1665,7 +1664,7 @@ void	prjab(struct sp_omsg *rq)
 
 /* Deal with responses from operator to awaiting operator state.  */
 
-void	msgptr(struct sp_omsg *rq)
+void  msgptr(struct sp_omsg *rq)
 {
 	Hashspptr	*hcp;
 	struct  spptr  *cp;
@@ -1710,7 +1709,7 @@ void	msgptr(struct sp_omsg *rq)
 
 /* Deal with interrupt job.  */
 
-void	interrupt(struct sp_omsg *rq)
+void  interrupt(struct sp_omsg *rq)
 {
 	Hashspptr	*hcp;
 	struct  spptr  *cp;

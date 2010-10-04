@@ -35,12 +35,13 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 
-void	dochelp(WINDOW *, const int);
-void	doerror(WINDOW *, const int);
-void	endhe(WINDOW *, WINDOW **);
+extern  void  dochelp(WINDOW *, const int);
+extern  void  doerror(WINDOW *, const int);
+extern  void  endhe(WINDOW *, WINDOW **);
 
-int	rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
-FILE	*net_feed(const int, const netid_t, const slotno_t, const jobno_t);
+extern  int  rdpgfile(const struct spq *, struct pages *, char **, unsigned *, LONG **);
+
+extern  FILE *net_feed(const int, const netid_t, const slotno_t, const jobno_t);
 
 extern	char	helpclr;
 extern	char	*Realuname;
@@ -93,10 +94,9 @@ static	char	*jnmsg,
 
 /* Read file to find where all the pages start.  */
 
-int	scanfile(FILE * fp)
+int  scanfile(FILE *fp)
 {
-	int	curline, curpage, lcnt, ppage;
-	int	ch;
+	int	curline, curpage, lcnt, ppage, ch;
 
 	if  ((pagestarts = (LONG *) malloc(INITPAGES*sizeof(LONG))) == (LONG *) 0)
 		return  -1;
@@ -156,7 +156,7 @@ int	scanfile(FILE * fp)
 	return  1;
 }
 
-static	int	readpgfile(FILE *fp, const struct spq *jp)
+static	int  readpgfile(FILE *fp, const struct spq *jp)
 {
 	int	ch, curline, curpage, lcnt, ppage;
 	LONG	char_count;
@@ -221,7 +221,7 @@ static	int	readpgfile(FILE *fp, const struct spq *jp)
 	}
 }
 
-static	void	centralise(const int row, char *msg, const int param)
+static	void  centralise(const int row, char *msg, const int param)
 {
 	move(row, (COLS - (int) strlen(msg)) / 2);
 	standout();
@@ -229,13 +229,13 @@ static	void	centralise(const int row, char *msg, const int param)
 	standend();
 }
 
-static	void	clrpost(void)
+static	void  clrpost()
 {
 	move(0, COLS-lpost);
 	clrtoeol();
 }
 
-static	void	post(char *msg)
+static	void  post(char *msg)
 {
 	move(0, COLS - strlen(msg));
 	standout();
@@ -243,7 +243,7 @@ static	void	post(char *msg)
 	standend();
 }
 
-static int	inmatches(const int page, const int row, const int col)
+static int  inmatches(const int page, const int row, const int col)
 {
 	int	first = 0, last = mcount, middle;
 	struct	match	*mp;
@@ -280,10 +280,9 @@ static int	inmatches(const int page, const int row, const int col)
 
 /* Display next screenful.  */
 
-static	void	displayscr(FILE *fp, const int lhcol, const int pnum)
+static	void  displayscr(FILE *fp, const int lhcol, const int pnum)
 {
-	int	row, col, wcol = 0, physp, drow, hilite = 0;
-	int	ch;
+	int	row, col, wcol = 0, physp, drow, hilite = 0, ch;
 	LONG	char_count, epagecnt;
 
 	row = FIRSTROW;
@@ -485,10 +484,9 @@ static	void	displayscr(FILE *fp, const int lhcol, const int pnum)
 	}
 }
 
-static	void	domarg(const int lhcol)
+static	void  domarg(const int lhcol)
 {
-	int	col = 0, k;
-	int	cy;
+	int	col = 0, k, cy;
 
 	move(FIRSTROW-1, 0);
 
@@ -511,7 +509,7 @@ static	void	domarg(const int lhcol)
 	}  while  (cy < FIRSTROW);
 }
 
-static	int	chmatch(int sch, int fch)
+static	int  chmatch(int sch, int fch)
 {
 	if  (fch < ' '  ||  fch > '~')
 		return  0;
@@ -526,11 +524,10 @@ static	int	chmatch(int sch, int fch)
 	return  0;
 }
 
-int	findmatches(FILE *fp, const char *str)
+int  findmatches(FILE *fp, const char *str)
 {
-	int	col, row, page, physp;
+	int	col, row, page, physp, ch;
 	LONG	fplace, char_count;
-	int	ch;
 	const	char	*cp;
 	struct	match	*mp;
 
@@ -630,7 +627,7 @@ int	findmatches(FILE *fp, const char *str)
 	}
 }
 
-static	int	gstring(char *msg, FILE *fp)
+static	int  gstring(char *msg, FILE *fp)
 {
 	struct	sctrl	ss;
 	char	*gstr;
@@ -684,7 +681,7 @@ static	char **gerr(const int num)
 	return  result;
 }
 
-static	void	initmsgs(void)
+static	void  initmsgs()
 {
 	int	i;
 	jnmsg = gprompt($P{Job view number form});
@@ -706,7 +703,7 @@ static	void	initmsgs(void)
 	Colstep = (COLS / (3 * 8)) * 8;
 }
 
-static	void	freeall(void)
+static	void  freeall()
 {
 	if  (pagestarts)  {
 		free((char *) pagestarts);
@@ -730,7 +727,7 @@ static	void	freeall(void)
 
 /* Process file view from error file display or interrogate */
 
-static  int  do_view(FILE *fp, const int state, const int help_no, const int err_no, int pnum)
+static	int  do_view(FILE *fp, const int state, const int help_no, const int err_no, int pnum)
 {
 	int	i, kch, lhcol = 0, changes = 0;
 
@@ -938,7 +935,7 @@ static  int  do_view(FILE *fp, const int state, const int help_no, const int err
 	}
 }
 
-int	viewfile(void)
+int  viewfile()
 {
 	FILE	*fp = (FILE *) 0;
 	char	**ev = (char **) 0;
@@ -1049,7 +1046,7 @@ int	viewfile(void)
 
 /* View system error file, or return 0 if there isn't one (yet) */
 
-int	view_errors(const int injobs)
+int  view_errors(const int injobs)
 {
 	FILE	*fp;
 

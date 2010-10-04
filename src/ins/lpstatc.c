@@ -58,7 +58,7 @@ char	*format;
 
 /* For when we run out of memory.....  */
 
-void	nomem(void)
+void  nomem()
 {
 	fprintf(stderr, "Ran out of memory\n");
 	exit(E_NOMEM);
@@ -66,7 +66,7 @@ void	nomem(void)
 
 /* Display contents of job file.  */
 
-void	jdisplay(void)
+void  jdisplay()
 {
 	int	jcnt;
 	const  struct  spq  *jp;
