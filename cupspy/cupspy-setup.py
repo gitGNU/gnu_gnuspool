@@ -1,5 +1,4 @@
 #! /usr/bin/python
-#
 # Copyright (C) 2009  Free Software Foundation
 #
 # This program is free software; you can redistribute it and/or modify
@@ -20,9 +19,16 @@
 # Originally written by John Collins <jmc@xisl.com>.
 
 import pygtk
-import gtk, gobject
-import string, re, sys, os
-import conf, confdefault
+import gtk
+import gobject
+import string
+import re
+import sys
+import os
+import pwd
+import socket
+import conf
+import printeratts
 
 def error_dlg(message):
     """Error message dialog"""
@@ -47,11 +53,13 @@ ui_string = """<ui>
       <menuitem action='Quit'/>
     </menu>
     <menu action='ParamsMenu'>
+      <menuitem action='Localaddr'/>
       <menuitem action='Log'/>
       <menuitem action='Directs'/>
       <menuitem action='Timeout'/>
       <separator/>
       <menuitem action='Defptr'/>
+      <menuitem action='Defuser'/>
     </menu>
     <menu action='PtrMenu'>
       <menuitem action='Add'/>
@@ -130,13 +138,13 @@ class Ptrdlg(gtk.Dialog):
 
         # media supported/default
 
-        tab.attach(gtk.Label("Media supported"), 0, 1, 4, 5, ypadding=5)
+        tab.attach(gtk.Label("Media default"), 0, 1, 4, 5, ypadding=5)
         self.media_supp = gtk.combo_box_entry_new_text()
         tab.attach(self.media_supp, 1, 2, 4, 5, ypadding=5)
 
         # document format supported/default
 
-        tab.attach(gtk.Label("Doc format supported"), 0, 1, 5, 6, ypadding=5)
+        tab.attach(gtk.Label("Doc format default"), 0, 1, 5, 6, ypadding=5)
         self.doc_format = gtk.combo_box_entry_new_text()
         tab.attach(self.doc_format, 1, 2, 5, 6, ypadding=5)
         self.show_all()
@@ -171,6 +179,46 @@ class Ptrdlg(gtk.Dialog):
             error_dlg("No doc format")
             return False
         return True
+
+class LocaddrDlg(gtk.Dialog):
+    """Dialog box for setting local address"""
+    def __init__(self, title="Set local address for URIs"):
+        gtk.Dialog.__init__(self, title, None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, (gtk.STOCK_OK, gtk.RESPONSE_OK, gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL))
+        self.locaddr = gtk.Entry()
+        self.vbox.pack_start(self.locaddr)
+        button = gtk.Button("Convert to/from IP")
+        self.vbox.pack_start(button)
+        button.connect('clicked', self.tofromip, self)
+        self.show_all()
+
+    def tofromip(self, p1, p2):
+        """Reset box to IP from host name or vice versa"""
+        current = self.locaddr.get_text()
+        if len(current) == 0:
+            error_dlg("No address yet")
+            return
+        if '0' <= current[0] <= '9':
+            try:
+                atup = socket.gethostbyaddr(current)
+                repl = atup[0]
+            except socket.herror:
+                error_dlg("invalid IP - " + current)
+                return
+        else:
+            try:
+                repl = socket.gethostbyname(current)
+            except socket.gaierror:
+                error_dlg("unknown host - " + current)
+                return
+        self.locaddr.set_text(repl)
+
+class DefUdlg(gtk.Dialog):
+    """Dialog box for setting default user"""
+    def __init__(self, title="Set default user name for jobs"):
+        gtk.Dialog.__init__(self, title, None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, (gtk.STOCK_OK, gtk.RESPONSE_OK, gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL))
+        self.userbox = gtk.combo_box_new_text()
+        self.vbox.pack_start(self.userbox)
+        self.show_all()
 
 class LogDlg(gtk.Dialog):
     """Dialog box for setting logging level"""
@@ -238,10 +286,12 @@ class Window(gtk.Window):
         if len(filename) != 0:
             self.load_file(filename)
         else:
-            confdefault.init_defaults(self.config_data)
+            self.config_data.setup_defaults()
 
     def load_file(self, filename):
         """Load up a config file"""
+
+        self.config_data = conf.Conf()
         try:
             self.config_data.parse_conf_file(filename)
             self.filename = filename
@@ -256,11 +306,10 @@ class Window(gtk.Window):
                 self.tree_model.append((isdef, p, inf))
             self.dirty = False
             self.has_data = True
-        except conf.ConfError, msg:
+        except conf.ConfError as msg:
             error_dlg(msg.args[0])
             self.filename = ""
-            self.config_data = conf.Conf()
-            confdefault.init_defaults(self.config_data)
+            self.config_data.setup_defaults()
             self.dirty = False
             self.has_data = False
 
@@ -297,11 +346,13 @@ class Window(gtk.Window):
             ('Save',     gtk.STOCK_SAVE, '_Save', '<control>S', 'Save a config file', self.file_save_cb),
             ('SaveAs',   gtk.STOCK_SAVE_AS, 'Save _As', '<shift><control>S', 'Save a config file in new file', self.file_saveas_cb),
             ('ParamsMenu', None, 'P_arameters'),
+            ('Localaddr', None, 'Local _Address', '<shift>A', 'Set local address in URIs', self.locaddr_cb),
             ('Log',      None, '_Logging', None, 'Log file settings', self.par_log_cb),
             ('Directs',  None, '_Directory for PPD files', None, 'Configure directory for PPD files', self.par_direct_cb),
             ('Timeout',  None, '_Timeout', None, 'Timeout setting for socket', self.par_timeout_cb),
             ('Defptr',   gtk.STOCK_PRINT, 'Def _ptr', None, 'Set printer as default', self.par_defptr_cb),
-            ('PtrMenu', None, '_Printers'),
+            ('Defuser',  None, 'Default _User', '<shift>U', 'Set default user name', self.defuser_cb),
+            ('PtrMenu',  None, '_Printers'),
             ('Add',      gtk.STOCK_GOTO_FIRST, '_Add', '<control>A', 'Add a new printer', self.file_newptr_cb),
             ('Delete',   gtk.STOCK_DELETE, '_Delete', 'Delete', 'Delete printer', self.file_delptr_cb),
             ('Update',   gtk.STOCK_EDIT, '_Update', '<control>E', 'Edit printer', self.file_editptr_cb),
@@ -334,7 +385,7 @@ class Window(gtk.Window):
         self.dirty = False
         self.filename = ""
         self.config_data = conf.Conf()
-        confdefault.init_defaults(self.config_data)
+        self.config_data.setup_defaults()
 
     def file_save_cb(self, action):
         """Save config data file"""
@@ -355,11 +406,12 @@ class Window(gtk.Window):
             if fn is None:
                 continue
             try:
-                self.config_data.write_config(fn, self.get_plist())
+                self.config_data.set_printer_list(self.get_plist())
+                self.config_data.write_config(fn)
                 self.filename = fn
                 self.dirty = False
                 break
-            except conf.ConfError, msg:
+            except conf.ConfError as msg:
                 error_dlg(msg.args[0])
         dlg.destroy()
 
@@ -384,11 +436,12 @@ class Window(gtk.Window):
             if fn is None:
                 continue
             try:
-                self.config_data.write_config(fn, self.get_plist())
+                self.config_data.set_printer_list(self.get_plist())
+                self.config_data.write_config(fn)
                 self.filename = fn
                 self.dirty = False
                 break
-            except conf.ConfError, msg:
+            except conf.ConfError as msg:
                 error_dlg(msg.args[0])
         dlg.destroy()
 
@@ -409,18 +462,14 @@ class Window(gtk.Window):
                     self.config_data.add_printer(pname)
                     inf = dlg.description.get_text()
                     self.config_data.set_attribute_value(pname, 'printer-info', inf)
-                    self.config_data.set_attribute_value(pname, 'media-supported', dlg.media_supp.child.get_text())
                     self.config_data.set_attribute_value(pname, 'media-default', dlg.media_supp.child.get_text())
-                    self.config_data.set_attribute_value(pname, 'document-format-supported', dlg.doc_format.child.get_text())
+                    self.config_data.set_attribute_value(pname, 'document-format-default', dlg.doc_format.child.get_text())
                     self.config_data.set_param_value(pname, "Form", dlg.form_type.get_text())
-                    gsp = string.strip(dlg.gs_printer_name.get_text())
-                    if len(gsp) == 0:
-                        gsp = ':'
-                    self.config_data.set_param_value(pname, "GSPrinter", gsp)
+                    self.config_data.set_param_value(pname, "GSPrinter", string.strip(dlg.gs_printer_name.get_text()))
                     self.tree_model.append((False, pname, inf))
                     self.has_data = True
                     break
-                except conf.ConfError, msg:
+                except conf.ConfError as msg:
                     error_dlg(msg.args[0])
                     continue
         dlg.destroy()
@@ -438,27 +487,23 @@ class Window(gtk.Window):
         if gsp == ':':
             gsp = ""
         dlg.gs_printer_name.set_text(gsp)
-        dlg.setup_cbentry(dlg.media_supp, self.config_data, 'media-supported', self.config_data.get_attribute_value(pname, 'media-supported'))
-        dlg.setup_cbentry(dlg.doc_format, self.config_data, 'document-format-supported', self.config_data.get_attribute_value(pname, 'document-format-supported'))
+        dlg.setup_cbentry(dlg.media_supp, self.config_data, 'media-supported', self.config_data.get_attribute_value(pname, 'media-default'))
+        dlg.setup_cbentry(dlg.doc_format, self.config_data, 'document-format-supported', self.config_data.get_attribute_value(pname, 'document-format-default'))
         dlg.description.set_text(self.config_data.get_attribute_value(pname, 'printer-info'))
         while dlg.run() == gtk.RESPONSE_OK:
             if dlg.all_set():
                 newpname = dlg.cups_printer_name.get_text()
                 inf = dlg.description.get_text()
                 self.config_data.set_attribute_value(pname, 'printer-info', inf)
-                self.config_data.set_attribute_value(pname, 'media-supported', dlg.media_supp.child.get_text())
                 self.config_data.set_attribute_value(pname, 'media-default', dlg.media_supp.child.get_text())
-                self.config_data.set_attribute_value(pname, 'document-format-supported', dlg.doc_format.child.get_text())
+                self.config_data.set_attribute_value(pname, 'document-format-default', dlg.doc_format.child.get_text())
                 self.config_data.set_param_value(pname, "Form", dlg.form_type.get_text())
-                gsp = string.strip(dlg.gs_printer_name.get_text())
-                if len(gsp) == 0:
-                    gsp = ':'
-                self.config_data.set_param_value(pname, "GSPrinter", gsp)
+                self.config_data.set_param_value(pname, "GSPrinter", string.strip(dlg.gs_printer_name.get_text()))
                 try:
                     if newpname != pname:
                         self.config_data.rename_printer(pname, newpname)
                         self.tree_model.set_value(sel, 1, newpname)
-                except conf.ConfError, msg:
+                except conf.ConfError as msg:
                     error_dlg(msg.args[0])
                 self.tree_model.set_value(sel, 2, inf)
                 self.dirty = True
@@ -473,21 +518,52 @@ class Window(gtk.Window):
             model.remove(sel)
             self.config_data.del_printer(pname)
 
+    def defuser_cb(self, action):
+        """Define default user"""
+        dlg = DefUdlg()
+        ul = [p.pw_name for p in pwd.getpwall()]
+        ul.sort()
+        for u in ul:
+            dlg.userbox.append_text(u)
+        try:
+            ind = ul.index(self.config_data.default_user())
+            dlg.userbox.set_active(ind)
+        except ValueError:
+            pass
+        if dlg.run() == gtk.RESPONSE_OK:
+            self.config_data.set_default_user(ul[dlg.userbox.get_active()])
+            self.dirty = True
+        dlg.destroy()
+
+    def locaddr_cb(self, action):
+        """Set local address"""
+        dlg = LocaddrDlg()
+        dlg.locaddr.set_text(self.config_data.serverip())
+        while dlg.run() == gtk.RESPONSE_OK:
+            ip = dlg.locaddr.get_text()
+            if len(ip) == 0:
+                error_dlg("No IP or host name given")
+                continue
+            self.config_data.set_serverip(ip)
+            self.dirty = True
+            break
+        dlg.destroy()
+
     def par_log_cb(self, action):
         """Reset log parameter"""
         dialog = LogDlg()
-        dialog.loglevel.set_active(self.config_data.loglevel)
+        dialog.loglevel.set_active(self.config_data.log_level())
         if  dialog.run() == gtk.RESPONSE_OK:
-            self.config_data.loglevel = dialog.loglevel.get_active()
+            self.config_data.set_log_level(dialog.loglevel.get_active())
             self.dirty = True
         dialog.destroy()
 
     def par_timeout_cb(self, action):
         """Reset timeout parameter"""
         dialog = ToDlg()
-        dialog.timeout.set_value(self.config_data.timeouts)
+        dialog.timeout.set_value(self.config_data.timeout_value())
         if  dialog.run() == gtk.RESPONSE_OK:
-            self.config_data.timeouts = dialog.timeout.get_value()
+            self.config_data.set_timeout_value(dialog.timeout.get_value())
             self.dirty = True
         dialog.destroy()
 
@@ -498,9 +574,9 @@ class Window(gtk.Window):
                                        (gtk.STOCK_OPEN, gtk.RESPONSE_OK,
                                         gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL))
         dialog.set_default_response(gtk.RESPONSE_OK)
-        dialog.set_current_folder(self.config_data.ppddir)
+        dialog.set_current_folder(self.config_data.ppddir())
         if  dialog.run() == gtk.RESPONSE_OK:
-            self.config_data.ppddir = dialog.get_current_folder()
+            self.config_data.set_ppddir(dialog.get_current_folder())
             self.dirty = True
         dialog.destroy()
 
@@ -520,6 +596,7 @@ class Window(gtk.Window):
 
     def file_open_cb(self, action):
         """Open config file"""
+        if self.check_dirty(): return
         dialog = gtk.FileChooserDialog("Open..", self,
                                        gtk.FILE_CHOOSER_ACTION_OPEN,
                                        (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,

@@ -15,14 +15,14 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static fmt_t	fmt_sizek(const struct spq *jp, const int fwidth)
+static fmt_t    fmt_sizek(const struct spq *jp, const int fwidth)
 {
-	char	*res = prin_size(jp->spq_size);
-	int	resl = strlen(res);
-	if  (resl >= fwidth)  {
-		strcpy(bigbuff, res);
-		return  (fmt_t) resl;
-	}
-	sprintf(bigbuff, "%*s", fwidth, res);
-	return  (fmt_t) fwidth;
+        char    *res = prin_size(jp->spq_size);
+        int     resl = strlen(res);
+        if  (resl >= fwidth)  {
+                strcpy(bigbuff, res);
+                return  (fmt_t) resl;
+        }
+        sprintf(bigbuff, "%*s", fwidth, res);
+        return  (fmt_t) fwidth;
 }

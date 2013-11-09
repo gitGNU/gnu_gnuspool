@@ -17,18 +17,18 @@
 
 OPTION(o_verbose)
 {
-	verbose = 1;
-	return  OPTRESULT_OK;
+        verbose = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_noverbose)
 {
-	verbose = 0;
-	return  OPTRESULT_OK;
+        verbose = 0;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_togverbose)
 {
-	verbose = !verbose;
-	return  OPTRESULT_OK;
+        verbose = !verbose;
+        return  OPTRESULT_OK;
 }

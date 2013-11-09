@@ -28,30 +28,30 @@
 
 /* This is needed by the standard error handling stuff in the library */
 
-void	nomem()
+void    nomem()
 {
-	print_error($E{NO MEMORY});
-	exit(E_NOMEM);
+        print_error($E{NO MEMORY});
+        exit(E_NOMEM);
 }
 
 MAINFN_TYPE  main(int argc, char **argv)
 {
-#if	defined(NHONSUID) || defined(DEBUG)
-	int_ugid_t	chk_uid;
+#if     defined(NHONSUID) || defined(DEBUG)
+        int_ugid_t      chk_uid;
 #endif
-	versionprint(argv, "$Revision: 1.3 $", 0);
+        versionprint(argv, "$Revision: 1.9 $", 0);
 
-	if  ((progname = strrchr(argv[0], '/')))
-		progname++;
-	else
-		progname = argv[0];
-	init_mcfile();
+        if  ((progname = strrchr(argv[0], '/')))
+                progname++;
+        else
+                progname = argv[0];
+        init_mcfile();
 
-	Realuid = getuid();
-	Effuid = geteuid();
-	INIT_DAEMUID;
-	Cfile = open_cfile(MISC_UCONFIG, "rest.help");
-	SCRAMBLID_CHECK
-	print_error($E{spcharge options});
-	return E_USAGE;
+        Realuid = getuid();
+        Effuid = geteuid();
+        INIT_DAEMUID;
+        Cfile = open_cfile(MISC_UCONFIG, "rest.help");
+        SCRAMBLID_CHECK
+        print_error($E{spcharge options});
+        return E_USAGE;
 }

@@ -15,69 +15,69 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#define	MAXARGNAME	30
+#define MAXARGNAME      30
 
-#define	HELPLETTER	'A'		/* Look for this letter in file */
-#define	ARG_STARTV	(' ' + 1)	/* Possible argument starting char */
-#define	ARG_ENDV	126		/* Possible argument ending char */
+#define HELPLETTER      'A'             /* Look for this letter in file */
+#define ARG_STARTV      (' ' + 1)       /* Possible argument starting char */
+#define ARG_ENDV        126             /* Possible argument ending char */
 
 /* This structure represents a chain of argument names starting from
    keywords of the same letter (only identifier characters allowed).  */
 
-typedef	struct	_hs	{
-	struct	_hs	*next;		/* Next in chain */
-	char		*chars;		/* Chars of keyword */
-	int		value;		/* State value */
+typedef struct  _hs     {
+        struct  _hs     *next;          /* Next in chain */
+        char            *chars;         /* Chars of keyword */
+        int             value;          /* State value */
 }  Helpargkey, *HelpargkeyRef;
 
 /* This structure gives an element of the vector to look up to find
    the arg value for a one-letter argument, or the start of a
    chain for multi-letter ones.  */
 
-typedef	struct	{
-	HelpargkeyRef	mult_chain;	/* Chain for multi-keywords */
-	int		value;		/* State value */
+typedef struct  {
+        HelpargkeyRef   mult_chain;     /* Chain for multi-keywords */
+        int             value;          /* State value */
 }  Helparg, *HelpargRef;
 
 /* Array for passing defaults in - terminated by null letter */
 
-typedef	struct	{
-	int		letter;		/* Letter in question */
-	int		value;		/* Default value */
+typedef struct  {
+        int             letter;         /* Letter in question */
+        int             value;          /* Default value */
 }  Argdefault;
 
-struct	optv	{
-	int	isplus;
-	union	{
-		int	letter;
-		char	*string;
-	}  aun;
+struct  optv    {
+        int     isplus;
+        union   {
+                int     letter;
+                char    *string;
+        }  aun;
 };
 
-extern	USHORT	Save_umask;
-extern	struct	optv	optvec[];
+extern  USHORT  Save_umask;
+extern  struct  optv    optvec[];
 
 /* This gives the maximum number of any kind of arguments */
 
-#define	MAX_ANY_ARGS		44
+#define MAX_ANY_ARGS            44
 
 /* Routine definitions to do with arguments */
 
-#define	OPTION(name)	static int name(const char *arg)
-typedef	int	(*optparam)(const char *);
+#define OPTION(name)    static int name(const char *arg)
+typedef int     (*optparam)(const char *);
 
-#define	OPTRESULT_OK		0	/* Result OK and no arg */
-#define	OPTRESULT_ARG_OK	1	/* Result OK - arg eaten */
-#define	OPTRESULT_LAST_ARG_OK	2	/* Result OK - arg eaten - last arg */
-#define	OPTRESULT_MISSARG	(-1)	/* Error result - missing arg */
+#define OPTRESULT_OK            0       /* Result OK and no arg */
+#define OPTRESULT_ARG_OK        1       /* Result OK - arg eaten */
+#define OPTRESULT_LAST_ARG_OK   2       /* Result OK - arg eaten - last arg */
+#define OPTRESULT_MISSARG       (-1)    /* Error result - missing arg */
 
-extern	void	doenv(char *, HelpargRef, optparam * const, int);
-extern	void	freehelpargs(HelpargRef);
-extern	void	makeoptvec(const HelpargRef, const int, const int);
+extern  void    doenv(char *, HelpargRef, optparam * const, int);
+extern  void    freehelpargs(HelpargRef);
+extern  void    makeoptvec(const HelpargRef, const int, const int);
 
-extern	char	**doopts(char **, HelpargRef, optparam * const, int);
-extern	char	**makevec(const char *);
-extern	char	**optprocess(char **, const Argdefault *, optparam * const, const int, const int, const int);
-extern	char	*make_varname();
+extern  char    **doopts(char **, HelpargRef, optparam * const, int);
+extern  char    **makevec(const char *);
+extern  char    **optprocess(char **, const Argdefault *, optparam * const, const int, const int, const int);
+extern  char    *make_varname();
 
-extern	HelpargRef  helpargs(const Argdefault *, const int, const int);
+extern  HelpargRef  helpargs(const Argdefault *, const int, const int);

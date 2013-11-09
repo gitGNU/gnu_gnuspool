@@ -17,36 +17,36 @@
 
 OPTION(o_helpclr)
 {
-	helpclr = 1;
-	return  OPTRESULT_OK;
+        helpclr = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nohelpclr)
 {
-	helpclr = 0;
-	return  OPTRESULT_OK;
+        helpclr = 0;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_helpbox)
 {
-	helpbox = 1;
-	return  OPTRESULT_OK;
+        helpbox = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nohelpbox)
 {
-	helpbox = 0;
-	return  OPTRESULT_OK;
+        helpbox = 0;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_errbox)
 {
-	errbox = 1;
-	return  OPTRESULT_OK;
+        errbox = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_noerrbox)
 {
-	errbox = 0;
-	return  OPTRESULT_OK;
+        errbox = 0;
+        return  OPTRESULT_OK;
 }

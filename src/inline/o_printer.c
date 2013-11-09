@@ -17,16 +17,16 @@
 
 OPTION(o_printer)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	ptr_changes++;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        ptr_changes++;
 #endif
-	if  (arg[0] == '-'  &&  arg[1] == '\0')
-		SPQ.spq_ptr[0] = '\0';
-	else
-		strncpy(SPQ.spq_ptr, arg, JPTRNAMESIZE);
-	SPQ.spq_ptr[JPTRNAMESIZE] = '\0';
-	return  OPTRESULT_ARG_OK;
+        if  (arg[0] == '-'  &&  arg[1] == '\0')
+                SPQ.spq_ptr[0] = '\0';
+        else
+                strncpy(SPQ.spq_ptr, arg, JPTRNAMESIZE);
+        SPQ.spq_ptr[JPTRNAMESIZE] = '\0';
+        return  OPTRESULT_ARG_OK;
 }

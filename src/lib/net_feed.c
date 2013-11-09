@@ -18,13 +18,11 @@
 #include "config.h"
 #include <stdio.h>
 #include <sys/types.h>
-#ifdef	HAVE_FCNTL_H
+#ifdef  HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 #include "defaults.h"
-#ifdef	NETWORK_VERSION
-#include "incl_net.h"
-#ifdef	HAVE_SYS_IOCTL_H
+#ifdef  HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
 #include "files.h"
@@ -37,60 +35,50 @@
 
 FILE *net_feed(const int type, const netid_t netid, const slotno_t jslot, const jobno_t jobno)
 {
-	int			sock;
-	FILE			*result;
-	struct	feeder		fd;
-	struct	sockaddr_in	sin;
+        int                     sock;
+        FILE                    *result;
+        struct  feeder          fd;
+        struct  sockaddr_in     sin;
 
-	if  ((sock = socket(PF_INET, SOCK_STREAM, 0)) < 0)
-		return  (FILE *) 0;
+        if  ((sock = socket(PF_INET, SOCK_STREAM, 0)) < 0)
+                return  (FILE *) 0;
 
-	/* Set up bits and pieces
-	   The port number is set up in the job shared memory segment.  */
+        /* Set up bits and pieces
+           The port number is set up in the job shared memory segment.  */
 
-	sin.sin_family = AF_INET;
-	sin.sin_port = Job_seg.dptr->js_viewport;
-	BLOCK_ZERO(sin.sin_zero, sizeof(sin.sin_zero));
-	sin.sin_addr.s_addr = netid;
+        sin.sin_family = AF_INET;
+        sin.sin_port = Job_seg.dptr->js_viewport;
+        BLOCK_ZERO(sin.sin_zero, sizeof(sin.sin_zero));
+        sin.sin_addr.s_addr = netid;
 
-	if  (connect(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0)  {
-		close(sock);
-		return  (FILE *) 0;
-	}
+        if  (connect(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0)  {
+                close(sock);
+                return  (FILE *) 0;
+        }
 
-	/* Send out initial packet saying what we want.  In fact the
-	   job slot number doesn't matter except for paged jobs.  */
+        /* Send out initial packet saying what we want.  In fact the
+           job slot number doesn't matter except for paged jobs.  */
 
-	fd.fdtype = (char) type;
-	fd.jobslot = htonl(jslot);
-	fd.jobno = htonl(jobno);
-	if  (write(sock, (char *) &fd, sizeof(fd)) != sizeof(fd))  {
-		close(sock);
-		return  (FILE *) 0;
-	}
+        fd.fdtype = (char) type;
+        fd.jobslot = htonl(jslot);
+        fd.jobno = htonl(jobno);
+        if  (write(sock, (char *) &fd, sizeof(fd)) != sizeof(fd))  {
+                close(sock);
+                return  (FILE *) 0;
+        }
 
-	/* Create result descriptor.
-	   We are strictly speaking cheating saying it's read-only, but
-	   we don't plan to do any writing and stdio doesn't mind.  */
+        /* Create result descriptor.
+           We are strictly speaking cheating saying it's read-only, but
+           we don't plan to do any writing and stdio doesn't mind.  */
 
-	if  ((result = fdopen(sock, "r")) == (FILE *) 0)  {
-		close(sock);
-		return  (FILE *) 0;
-	}
-#ifdef	SETVBUF_REVERSED
-	setvbuf(result, _IOFBF, (char *) 0, BUFSIZ);
+        if  ((result = fdopen(sock, "r")) == (FILE *) 0)  {
+                close(sock);
+                return  (FILE *) 0;
+        }
+#ifdef  SETVBUF_REVERSED
+        setvbuf(result, _IOFBF, (char *) 0, BUFSIZ);
 #else
-	setvbuf(result, (char *) 0, _IOFBF, BUFSIZ);
+        setvbuf(result, (char *) 0, _IOFBF, BUFSIZ);
 #endif
-	return  result;
+        return  result;
 }
-
-#else
-
-/* Dummy version to keep linker happy */
-
-FILE *net_feed(const int type, const netid_t netid, const slotno_t jslot, const jobno_t	jobno)
-{
-	return  (FILE *) 0;
-}
-#endif

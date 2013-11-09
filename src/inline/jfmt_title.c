@@ -15,7 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_title(const struct spq *jp, const int fwidth)
+static  fmt_t   fmt_title(const struct spq *jp, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, jp->spq_file));
+        return  (fmt_t) strlen(strcpy(bigbuff, jp->spq_file));
 }

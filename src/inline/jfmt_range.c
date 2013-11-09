@@ -15,29 +15,29 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_range(const struct spq *jp, const int fwidth)
+static  fmt_t   fmt_range(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_start != 0)  {
-		if  (jp->spq_end < LOTSANDLOTS)
-			sprintf(bigbuff, "%ld-%ld", jp->spq_start+1L, jp->spq_end+1L);
-		else
-			sprintf(bigbuff, "%ld-", jp->spq_start+1L);
-	}
-	else  if  (jp->spq_end < LOTSANDLOTS)
-		sprintf(bigbuff, "-%ld", jp->spq_end+1L);
-	else
-		return  0;
-	return  (fmt_t) strlen(bigbuff);
+        if  (jp->spq_start != 0)  {
+                if  (jp->spq_end < LOTSANDLOTS)
+                        sprintf(bigbuff, "%ld-%ld", jp->spq_start+1L, jp->spq_end+1L);
+                else
+                        sprintf(bigbuff, "%ld-", jp->spq_start+1L);
+        }
+        else  if  (jp->spq_end < LOTSANDLOTS)
+                sprintf(bigbuff, "-%ld", jp->spq_end+1L);
+        else
+                return  0;
+        return  (fmt_t) strlen(bigbuff);
 }
 
 static fmt_t  fmt_hat(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_haltat == 0)
-		return  0;
-#ifdef	CHARSPRINTF
-	sprintf(bigbuff, "%*ld", jp->spq_haltat+1L);
-	return  (fmt_t) strlen(bigbuff);
+        if  (jp->spq_haltat == 0)
+                return  0;
+#ifdef  CHARSPRINTF
+        sprintf(bigbuff, "%*ld", jp->spq_haltat+1L);
+        return  (fmt_t) strlen(bigbuff);
 #else
-	return  (fmt_t) sprintf(bigbuff, "%*ld", fwidth, jp->spq_haltat+1L);
+        return  (fmt_t) sprintf(bigbuff, "%*ld", fwidth, jp->spq_haltat+1L);
 #endif
 }

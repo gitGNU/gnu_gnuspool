@@ -15,63 +15,63 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-extern	int	arr_rtime, arr_rint;	/* Arrow repeat intervals */
+extern  int     arr_rtime, arr_rint;    /* Arrow repeat intervals */
 
-extern	int	hchanges,	/* Had changes to default */
-		uchanges;	/* Had changes to user(s) */
+extern  int     hchanges,       /* Had changes to default */
+                uchanges;       /* Had changes to user(s) */
 
-extern	char		alphsort;
-extern	struct	sphdr	Spuhdr;
-extern	struct	spdet	*ulist;
+extern  char            alphsort;
+extern  struct  sphdr   Spuhdr;
+extern  struct  spdet   *ulist;
 
 /* X stuff */
 
-extern	XtAppContext	app;
-extern	Display		*dpy;
+extern  XtAppContext    app;
+extern  Display         *dpy;
 
-extern	Widget	toplevel,	/* Main window */
-		dwid,		/* Default list */
-		uwid;		/* User scroll list */
+extern  Widget  toplevel,       /* Main window */
+                dwid,           /* Default list */
+                uwid;           /* User scroll list */
 
-extern	Widget	workw[];
+extern  Widget  workw[];
 
-#define	WORKW_SORTA	0
-#define	WORKW_MINPW	1
-#define	WORKW_DEFPW	2
-#define	WORKW_MAXPW	3
-#define	WORKW_CPSW	4
-#define	WORKW_ADMIN	5
-#define	WORKW_SSTOP	6
-#define	WORKW_FORMS	7
-#define	WORKW_OTHERP	8
-#define	WORKW_CPRIO	9
-#define	WORKW_OTHERJ	10
-#define	WORKW_PRINQ	11
-#define	WORKW_HALTGO	12
-#define	WORKW_ANYPRIO	13
-#define	WORKW_CDEFLT	14
-#define	WORKW_ADDDEL	15
-#define	WORKW_COVER	16
-#define	WORKW_UNQUEUE	17
-#define	WORKW_VOTHERJ	18
-#define	WORKW_REMOTEJ	19
-#define	WORKW_REMOTEP	20
-#define	WORKW_ACCESSOK	21
-#define	WORKW_FREEZEOK	22
-#define	WORKW_IMPW	1
-#define	WORKW_STXTW	0
-#define	WORKW_FORWW	1
-#define	WORKW_MATCHW	2
-#define	WORKW_WRAPW	3
+#define WORKW_SORTA     0
+#define WORKW_MINPW     1
+#define WORKW_DEFPW     2
+#define WORKW_MAXPW     3
+#define WORKW_CPSW      4
+#define WORKW_ADMIN     5
+#define WORKW_SSTOP     6
+#define WORKW_FORMS     7
+#define WORKW_OTHERP    8
+#define WORKW_CPRIO     9
+#define WORKW_OTHERJ    10
+#define WORKW_PRINQ     11
+#define WORKW_HALTGO    12
+#define WORKW_ANYPRIO   13
+#define WORKW_CDEFLT    14
+#define WORKW_ADDDEL    15
+#define WORKW_COVER     16
+#define WORKW_UNQUEUE   17
+#define WORKW_VOTHERJ   18
+#define WORKW_REMOTEJ   19
+#define WORKW_REMOTEP   20
+#define WORKW_ACCESSOK  21
+#define WORKW_FREEZEOK  22
+#define WORKW_IMPW      1
+#define WORKW_STXTW     0
+#define WORKW_FORWW     1
+#define WORKW_MATCHW    2
+#define WORKW_WRAPW     3
 
-#define	FORMETC_DFORM	0
-#define	FORMETC_DFORMA	1
-#define	FORMETC_UFORM	2
-#define	FORMETC_UFORMA	3
-#define	FORMETC_DPTR	4
-#define	FORMETC_DPTRA	5
-#define	FORMETC_UPTR	6
-#define	FORMETC_UPTRA	7
+#define FORMETC_DFORM   0
+#define FORMETC_DFORMA  1
+#define FORMETC_UFORM   2
+#define FORMETC_UFORMA  3
+#define FORMETC_DPTR    4
+#define FORMETC_DPTRA   5
+#define FORMETC_UPTR    6
+#define FORMETC_UPTRA   7
 
 extern void  cb_disporder(Widget);
 extern void  cb_pris(Widget, int);

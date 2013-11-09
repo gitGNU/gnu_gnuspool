@@ -21,223 +21,223 @@
 #include "incl_unix.h"
 #include "xtlhpdefs.h"
 
-extern	int	debug;
+extern  int     debug;
 
-#define	HASHMOD	509
+#define HASHMOD 509
 
-static	struct	macro	*hashtab[HASHMOD];
+static  struct  macro   *hashtab[HASHMOD];
 
 void  nomem()
 {
-	fprintf(stderr, "Run out of memory\n");
-	exit(255);
+        fprintf(stderr, "Run out of memory\n");
+        exit(255);
 }
 
 static unsigned  calchash(const char *name)
 {
-	unsigned	result = 0;
-	while  (*name)
-		result ^= (result << 1) | (result >> 31) | (unsigned) *name++;
-	return  result % HASHMOD;
+        unsigned        result = 0;
+        while  (*name)
+                result ^= (result << 1) | (result >> 31) | (unsigned) *name++;
+        return  result % HASHMOD;
 }
 
 struct macro *  lookupname(const char *name)
 {
-	unsigned  hashval = calchash(name);
-	struct	macro	*hp;
+        unsigned  hashval = calchash(name);
+        struct  macro   *hp;
 
-	for  (hp = hashtab[hashval]; hp;  hp = hp->next)
-		if  (strcmp(name, hp->name) == 0)
-			return  hp;
-	return  (struct macro *) 0;
+        for  (hp = hashtab[hashval]; hp;  hp = hp->next)
+                if  (strcmp(name, hp->name) == 0)
+                        return  hp;
+        return  (struct macro *) 0;
 }
 
-struct	macro *lookupcreatename(const char *name)
+struct  macro *lookupcreatename(const char *name)
 {
-	unsigned  hashval = calchash(name);
-	struct	macro	*hp, **hpp;
+        unsigned  hashval = calchash(name);
+        struct  macro   *hp, **hpp;
 
-	for  (hpp = &hashtab[hashval]; (hp = *hpp);  hpp = &hp->next)
-		if  (strcmp(name, hp->name) == 0)
-			return  hp;
-	if  (!(hp = (struct macro *) malloc(sizeof(struct macro))))
-		nomem();
-	hp->next = (struct macro *) 0;
-	hp->name = stracpy(name);
-	hp->expansion = (char *) 0;
-	*hpp = hp;
-	return  hp;
+        for  (hpp = &hashtab[hashval]; (hp = *hpp);  hpp = &hp->next)
+                if  (strcmp(name, hp->name) == 0)
+                        return  hp;
+        if  (!(hp = (struct macro *) malloc(sizeof(struct macro))))
+                nomem();
+        hp->next = (struct macro *) 0;
+        hp->name = stracpy(name);
+        hp->expansion = (char *) 0;
+        *hpp = hp;
+        return  hp;
 }
 
 int  ParseMacroFile(const char *name)
 {
-	FILE	*ifl;
-	int	ch, cnt, startquote;
-	struct	macro	*hp;
-	char	nbuf[MAXNAMESIZE+1], ebuf[MAXEXPSIZE], enbuf[MAXNAMESIZE+1];;
+        FILE    *ifl;
+        int     ch, cnt, startquote;
+        struct  macro   *hp;
+        char    nbuf[MAXNAMESIZE+1], ebuf[MAXEXPSIZE], enbuf[MAXNAMESIZE+1];;
 
-	if  (!(ifl = fopen(name, "r")))
-		return  0;
+        if  (!(ifl = fopen(name, "r")))
+                return  0;
 
-	for    (;;)  {
+        for    (;;)  {
 
-		/* Eat any preceding white space */
+                /* Eat any preceding white space */
 
-		do  ch = getc(ifl);
-		while  (isspace(ch));
+                do  ch = getc(ifl);
+                while  (isspace(ch));
 
-		if  (ch == EOF)
-			break;
+                if  (ch == EOF)
+                        break;
 
-		startquote = 0;
-		if  (ch == '\"'  ||  ch == '\'')  {
-			startquote = ch;
-			ch = getc(ifl);
-		}
-		if  (!isalpha(ch))  {
-	eatline:
-			while  (ch != '\n'  &&  ch != EOF)
-				ch = getc(ifl);
-			continue;
-		}
+                startquote = 0;
+                if  (ch == '\"'  ||  ch == '\'')  {
+                        startquote = ch;
+                        ch = getc(ifl);
+                }
+                if  (!isalpha(ch))  {
+        eatline:
+                        while  (ch != '\n'  &&  ch != EOF)
+                                ch = getc(ifl);
+                        continue;
+                }
 
-		/* Start of name string */
+                /* Start of name string */
 
-		cnt = 0;
-		do  {
-			if  (cnt < MAXNAMESIZE)
-				nbuf[cnt++] = ch;
-			ch = getc(ifl);
-		}  while  (isalnum(ch));
+                cnt = 0;
+                do  {
+                        if  (cnt < MAXNAMESIZE)
+                                nbuf[cnt++] = ch;
+                        ch = getc(ifl);
+                }  while  (isalnum(ch));
 
-		nbuf[cnt] = '\0';
+                nbuf[cnt] = '\0';
 
-		if  (startquote)  {
-			if  (ch != startquote)
-				goto  eatline;
-			ch = getc(ifl);
-		}
+                if  (startquote)  {
+                        if  (ch != startquote)
+                                goto  eatline;
+                        ch = getc(ifl);
+                }
 
-		if  (!isspace(ch))
-			goto  eatline;
+                if  (!isspace(ch))
+                        goto  eatline;
 
-		/* Look for expansion */
+                /* Look for expansion */
 
-		do  ch = getc(ifl);
-		while  (isspace(ch));
+                do  ch = getc(ifl);
+                while  (isspace(ch));
 
-		startquote = 0;
-		if  (ch == '\"'  ||  ch == '\'')  {
-			startquote = ch;
-			ch = getc(ifl);
-		}
+                startquote = 0;
+                if  (ch == '\"'  ||  ch == '\'')  {
+                        startquote = ch;
+                        ch = getc(ifl);
+                }
 
-		/* Allow definition to start with something we've already defined */
+                /* Allow definition to start with something we've already defined */
 
-		if  (!isalnum(ch))
-			goto  eatline;
+                if  (!isalnum(ch))
+                        goto  eatline;
 
-		cnt = 0;
+                cnt = 0;
 
-		if  (isalpha(ch))  {
-			do  {
-				if  (cnt < MAXNAMESIZE)
-					enbuf[cnt++] = ch;
-				ch = getc(ifl);
-			}  while  (isalnum(ch));
+                if  (isalpha(ch))  {
+                        do  {
+                                if  (cnt < MAXNAMESIZE)
+                                        enbuf[cnt++] = ch;
+                                ch = getc(ifl);
+                        }  while  (isalnum(ch));
 
-			enbuf[cnt] = '\0';
-			if  (!(hp = lookupname(enbuf)))  {
-				fprintf(stderr, "Warning: %s contains undefined macro %s\n", name, enbuf);
-				goto  eatline;
-			}
+                        enbuf[cnt] = '\0';
+                        if  (!(hp = lookupname(enbuf)))  {
+                                fprintf(stderr, "Warning: %s contains undefined macro %s\n", name, enbuf);
+                                goto  eatline;
+                        }
 
-			strcpy(ebuf, hp->expansion);
-			cnt = strlen(ebuf);
-		}
+                        strcpy(ebuf, hp->expansion);
+                        cnt = strlen(ebuf);
+                }
 
-		while  (isdigit(ch) ||  ch == '.')  {
-			if  (cnt < MAXEXPSIZE)
-				ebuf[cnt++] = ch;
-			ch = getc(ifl);
-		}
+                while  (isdigit(ch) ||  ch == '.')  {
+                        if  (cnt < MAXEXPSIZE)
+                                ebuf[cnt++] = ch;
+                        ch = getc(ifl);
+                }
 
-		if  (startquote)  {
-			if  (ch != startquote)
-				goto  eatline;
-			ch = getc(ifl);
-		}
-		ebuf[cnt] = '\0';
+                if  (startquote)  {
+                        if  (ch != startquote)
+                                goto  eatline;
+                        ch = getc(ifl);
+                }
+                ebuf[cnt] = '\0';
 
-		if  (cnt == 0  ||  ebuf[cnt] == '.')
-			goto  eatline;
+                if  (cnt == 0  ||  ebuf[cnt] == '.')
+                        goto  eatline;
 
-		hp = lookupcreatename(nbuf);
-		if  (hp->expansion)
-			free(hp->expansion);
-		hp->expansion = stracpy(ebuf);
-	}
+                hp = lookupcreatename(nbuf);
+                if  (hp->expansion)
+                        free(hp->expansion);
+                hp->expansion = stracpy(ebuf);
+        }
 
-	fclose(ifl);
-	return  1;
+        fclose(ifl);
+        return  1;
 }
 
 /* Set up initial definitions.  */
 
 void  init_define(const char *name, const char *val)
 {
-	struct	macro	*hp = lookupcreatename(name);
-	if  (hp->expansion)
-		free(hp->expansion);
-	hp->expansion = stracpy(val);
+        struct  macro   *hp = lookupcreatename(name);
+        if  (hp->expansion)
+                free(hp->expansion);
+        hp->expansion = stracpy(val);
 }
 
 /* This routine expands a string possibly containing macro names */
 
 char *expand(const char *value)
 {
-	const  char  *origvalue = value;
-	char	*ep;
-	int	ncnt;
-	struct	macro	*hp;
-	char	nbuf[MAXNAMESIZE+1], expbuf[BLDBUFF];
+        const  char  *origvalue = value;
+        char    *ep;
+        int     ncnt;
+        struct  macro   *hp;
+        char    nbuf[MAXNAMESIZE+1], expbuf[BLDBUFF];
 
-	ep = expbuf;
+        ep = expbuf;
 
-	/* Silently drop out if we overflow the buffer expbuf (or we
-	   could do).  We assume that nothing will expand to
-	   bigger than MAXEXPSIZE */
+        /* Silently drop out if we overflow the buffer expbuf (or we
+           could do).  We assume that nothing will expand to
+           bigger than MAXEXPSIZE */
 
-	while  (*value  &&  ep - expbuf  < BLDBUFF - MAXEXPSIZE)  {
-		if  (isalpha(*value) || *value == '_')  {
+        while  (*value  &&  ep - expbuf  < BLDBUFF - MAXEXPSIZE)  {
+                if  (isalpha(*value) || *value == '_')  {
 
-			/* We possibly have a name Slurp it up.  */
+                        /* We possibly have a name Slurp it up.  */
 
-			ncnt = 0;
-			do  {
-				if  (ncnt < MAXNAMESIZE)
-					nbuf[ncnt++] = *value;
-				value++;
-			}  while  (isalnum(*value) || *value == '_');
-			nbuf[ncnt] = '\0';
+                        ncnt = 0;
+                        do  {
+                                if  (ncnt < MAXNAMESIZE)
+                                        nbuf[ncnt++] = *value;
+                                value++;
+                        }  while  (isalnum(*value) || *value == '_');
+                        nbuf[ncnt] = '\0';
 
-			/* Look up the name, if we know it, then copy
-			   expansion into buffer in place of it,
-			   otherwise false alarm, copy the name
-			   instead.  */
+                        /* Look up the name, if we know it, then copy
+                           expansion into buffer in place of it,
+                           otherwise false alarm, copy the name
+                           instead.  */
 
-			if  ((hp = lookupname(nbuf))  &&  hp->expansion)
-				ep += strlen(strcpy(ep, hp->expansion));
-			else
-				ep += strlen(strcpy(ep, nbuf));
-		}
-		else		/* Some other char */
-			*ep++ = *value++;
-	}
-	*ep = '\0';
+                        if  ((hp = lookupname(nbuf))  &&  hp->expansion)
+                                ep += strlen(strcpy(ep, hp->expansion));
+                        else
+                                ep += strlen(strcpy(ep, nbuf));
+                }
+                else            /* Some other char */
+                        *ep++ = *value++;
+        }
+        *ep = '\0';
 
-	if  (debug > 2 || (debug > 1  && strcmp(origvalue, expbuf) != 0))
-		fprintf(stderr, "%s expanded to %s\n", origvalue, expbuf);
+        if  (debug > 2 || (debug > 1  && strcmp(origvalue, expbuf) != 0))
+                fprintf(stderr, "%s expanded to %s\n", origvalue, expbuf);
 
-	return  stracpy(expbuf);
+        return  stracpy(expbuf);
 }

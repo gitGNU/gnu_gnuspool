@@ -250,8 +250,11 @@ IPP_TAG_BOOLEAN = name_to_tag['IPP_TAG_BOOLEAN']
 IPP_TAG_DATE = name_to_tag['IPP_TAG_DATE']
 IPP_TAG_RESOLUTION = name_to_tag['IPP_TAG_RESOLUTION']
 IPP_TAG_RANGE = name_to_tag['IPP_TAG_RANGE']
+IPP_TAG_KEYWORD = name_to_tag['IPP_TAG_KEYWORD']
+IPP_TAG_NAME = name_to_tag['IPP_TAG_NAME']
 IPP_TAG_TEXTLANG = name_to_tag['IPP_TAG_TEXTLANG']
 IPP_TAG_NAMELANG = name_to_tag['IPP_TAG_NAMELANG']
+IPP_TAG_MIMETYPE = name_to_tag['IPP_TAG_MIMETYPE']
 IPP_TAG_BEGIN_COLLECTION = name_to_tag['IPP_TAG_BEGIN_COLLECTION']
 IPP_TAG_UNSUPPORTED_GROUP = name_to_tag['IPP_TAG_UNSUPPORTED_GROUP']
 IPP_TAG_UNSUPPORTED_VALUE = name_to_tag['IPP_TAG_UNSUPPORTED_VALUE']
@@ -272,6 +275,8 @@ IPP_JOB_PENDING=3
 IPP_JOB_HELD=4
 IPP_JOB_PROCESSING=5
 
+IPP_PRINTER_IDLE = name_to_pstate['IPP_PRINTER_IDLE']
+
 # Also have handy group names
 
 IPP_TAG_OPERATION=1
@@ -287,16 +292,16 @@ def generate_value(name, valuetup):
     tag = valuetup[0]
     value = valuetup[1]
     if tag == IPP_TAG_INTEGER or tag == IPP_TAG_ENUM:
-        resfld = struct.pack('!I', int(value))
+        resfld = struct.pack('!L', int(value))
     elif tag == IPP_TAG_BOOLEAN:
         resfld = chr(value)
     elif tag == IPP_TAG_DATE:
         year,month,day,hours,minutes,seconds,wday,yday,isdst = time.gmtime(value)
         resfld = struct.pack('!H6Bc2B', year, month, day, hours, minutes, seconds, 0, '+', 0, 0)
     elif tag == IPP_TAG_RESOLUTION:
-        resfld = struct.pack('!2Ic', *value)
+        resfld = struct.pack('!2LB', *value)
     elif tag == IPP_TAG_RANGE:
-        resfld = struct.pack('!2I', *value)
+        resfld = struct.pack('!2L', *value)
     elif tag == IPP_TAG_TEXTLANG or tag == IPP_TAG_NAMELANG:
         cs, t = value
         resfld = struct.pack('!H', len(cs)) + cs + struct.pack('!H', len(t)) + t
@@ -330,7 +335,7 @@ class ippvalue:
     def setnamevalues(self, name, values):
         """Initialise name and values"""
         self.name = name;
-        if isinstance(values,str) or isinstance(values,int):
+        if isinstance(values, str) or isinstance(values, int) or isinstance(values, tuple):
             self.value.append((self.tag, values))
         else:
             for v in values:
@@ -396,12 +401,15 @@ class ippgroup:
 
 class ipp:
     """Representation of IPP"""
-    def __init__(self, fb = None):
+    def __init__(self, fb = None, request = None):
         """Initialise with optional parse string"""
         self.filb = fb
         self.values = []
         self.majv = 1;
-        self.minv = 1;
+        self.minv = 0;
+        if request is not None:
+            self.majv = request.majv
+            self.minv = request.minv
         self.statuscode = IPP_OK
         self.id = 0
 
@@ -481,10 +489,10 @@ class ipp:
         """Parse a group of attributes"""
         grp = ippgroup(tag)
         while 1:
-            attr = self.parseattr()
-            grp.setvalue(attr)
             if self.filb.peekch() < IPP_TAG_UNSUPPORTED_VALUE:
                 return  grp
+            attr = self.parseattr()
+            grp.setvalue(attr)
 
     def parseipp(self):
         """Parse an IPP string"""
@@ -504,8 +512,12 @@ class ipp:
         """Parse an IPP structure and catch errors"""
         try:
             self.parseipp()
-        except (TypeError, struct.error, filebuf.filebufEOF):
-            raise IppError("Problem parsing input")
+        except TypeError:
+            raise IppError("Type error parsing input")
+        except struct.error:
+            raise IppError("Struct error parsing input")
+        except filebuf.filebufEOF:
+            raise IppError("EOF parsing input")
 
     def display(self, resp=0):
         """Display/trace an IPP structure

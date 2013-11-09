@@ -17,5 +17,5 @@
 
 static  fmt_t  fmt_kreached(const struct spq *jp, const int fwidth)
 {
-	return  (jp->spq_dflags & SPQ_PQ) ? (fmt_t) strlen(strcpy(bigbuff, prin_size(jp->spq_posn))): 0;
+        return  (jp->spq_dflags & SPQ_PQ) ? (fmt_t) strlen(strcpy(bigbuff, prin_size(jp->spq_posn))): 0;
 }

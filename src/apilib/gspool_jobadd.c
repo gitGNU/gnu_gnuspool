@@ -85,7 +85,7 @@ FILE *gspool_jobadd(const int fd, struct apispq *newjob, const char *delim, cons
 		return  (FILE *) 0;
 	}
 	if  (msg.retcode != 0)  {
-		gspool_dataerror = ntohs(msg.retcode);
+		gspool_dataerror = (SHORT) ntohs(msg.retcode);
 		return  (FILE *) 0;
 	}
 
@@ -160,5 +160,5 @@ int	gspool_jobres(const int fd, jobno_t *jno)
 	gspool_rmsg(fdp, &msg);
 	if  (msg.retcode == 0  &&  jno)
 		*jno = ntohl(msg.un.jobdata.jobno);
-	return  ntohs(msg.retcode);
+	return  (SHORT) ntohs(msg.retcode);
 }

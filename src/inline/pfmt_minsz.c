@@ -15,7 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_minsize(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_minsize(const struct spptr *pp, const int fwidth)
 {
-	return  pp->spp_minsize ? (fmt_t) strlen(strcpy(bigbuff, prin_size(pp->spp_minsize))) : 0;
+        return  pp->spp_minsize ? (fmt_t) strlen(strcpy(bigbuff, prin_size(pp->spp_minsize))) : 0;
 }

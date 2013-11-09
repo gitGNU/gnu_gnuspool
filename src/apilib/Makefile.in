@@ -73,11 +73,15 @@ gspool.h:	gspool.pre\
 	sh ./Hdrmake.sh $(BASE)/config.h $(HDRS)
 
 install: all
+	$(INSTALL) -d -m 755 $(LIBDIR)
+	$(INSTALL) -d -m 755 $(INCLUDEDIR)
 	libtool --mode=install $(INSTALL) $(APILIB) $(LIBDIR)
 	$(INSTALL_DATA) gspool.h $(INCLUDEDIR)
 	$(INSTALL_DATA) $(APILIB) $(LIBDIR)
 
 install-strip: all
+	$(INSTALL) -d -m 755 $(LIBDIR)
+	$(INSTALL) -d -m 755 $(INCLUDEDIR)
 	libtool --mode=install $(INSTALL) -s $(APILIB) $(LIBDIR)/$(APILIB)
 	$(INSTALL_DATA) gspool.h $(INCLUDEDIR)
 	$(INSTALL_DATA) $(APILIB) $(LIBDIR)

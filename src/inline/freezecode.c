@@ -16,30 +16,30 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 if  (freeze_wanted)  {
-	int	ret1 = 0, ret2 = 0;
+        int     ret1 = 0, ret2 = 0;
 
-	if  (!(mypriv->spu_flgs & PV_FREEZEOK))  {
-		print_error($E{No freeze permission});
-		exit(E_NOFREEZE);
-	}
-	if  (freeze_cd)  {
-		char	*varname = make_varname();
-		if  (!Curr_pwd  &&  !(Curr_pwd = getenv("PWD")))
-			Curr_pwd = runpwd();
-		if  ((ret1 = proc_save_opts(Curr_pwd, varname, spit_options)) != 0)
-			print_error(ret1);
-		free(varname);
-	}
-	if  (freeze_hd)  {
-		char  *hd = envprocess("${HOME-/}");
-		char	*varname = make_varname();
-		if  ((ret2 = proc_save_opts(hd, varname, spit_options)) != 0)
-			print_error(ret2);
-		free(hd);
-		free(varname);
-	}
-#ifdef	FREEZE_EXIT
-	if  (argv[0] == (char *) 0)
-		exit(ret1 != 0  ||  ret2 != 0? E_SETUP: 0);
+        if  (!(mypriv->spu_flgs & PV_FREEZEOK))  {
+                print_error($E{No freeze permission});
+                exit(E_NOFREEZE);
+        }
+        if  (freeze_cd)  {
+                char    *varname = make_varname();
+                if  (!Curr_pwd  &&  !(Curr_pwd = getenv("PWD")))
+                        Curr_pwd = runpwd();
+                if  ((ret1 = proc_save_opts(Curr_pwd, varname, spit_options)) != 0)
+                        print_error(ret1);
+                free(varname);
+        }
+        if  (freeze_hd)  {
+                char    *varname = make_varname();
+                if  ((ret2 = proc_save_opts((const char *) 0, varname, spit_options)) != 0)  {
+                        disp_str = "(Home)";
+                        print_error(ret2);
+                }
+                free(varname);
+        }
+#ifdef  FREEZE_EXIT
+        if  (argv[0] == (char *) 0)
+                exit(ret1 != 0  ||  ret2 != 0? E_SETUP: 0);
 #endif
 }

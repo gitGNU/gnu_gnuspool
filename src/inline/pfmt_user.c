@@ -15,11 +15,11 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_user(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_user(const struct spptr *pp, const int fwidth)
 {
-	if  (pp->spp_state >= SPP_PREST  &&  pp->spp_jslot >= 0  &&  pp->spp_jslot < Job_seg.dptr->js_maxjobs)  {
-		const struct  spq  *jp = &Job_seg.jlist[pp->spp_jslot].j;
-		return  (fmt_t) strlen(strcpy(bigbuff, jp->spq_uname));
-	}
-	return  0;
+        if  (pp->spp_state >= SPP_PREST  &&  pp->spp_jslot >= 0  &&  pp->spp_jslot < Job_seg.dptr->js_maxjobs)  {
+                const struct  spq  *jp = &Job_seg.jlist[pp->spp_jslot].j;
+                return  (fmt_t) strlen(strcpy(bigbuff, jp->spq_uname));
+        }
+        return  0;
 }

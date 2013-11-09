@@ -15,30 +15,19 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_printer(const struct spq *jp, const int fwidth)
+static  fmt_t   fmt_printer(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_dflags & SPQ_PQ)  {
-		if  (jp->spq_pslot < 0  || jp->spq_pslot >= Ptr_seg.dptr->ps_maxptrs)
-			return  (fmt_t) strlen(strcpy(bigbuff, localptr));
-		else  {
-			const struct  spptr  *pp = &Ptr_seg.plist[jp->spq_pslot].p;
-			if  (pp->spp_state == SPP_NULL)
-				return  (fmt_t) strlen(strcpy(bigbuff, localptr));
-#ifdef	CHARSPRINTF
-			if  (pp->spp_netid)
-				sprintf(bigbuff, "%s:%s", look_host(pp->spp_netid), pp->spp_ptr);
-			else
-				strcpy(bigbuff, pp->spp_ptr);
-			return  (fmt_t) strlen(bigbuff);
-#else
-			if  (pp->spp_netid)
-				return  (fmt_t) sprintf(bigbuff, "%s:%s", look_host(pp->spp_netid), pp->spp_ptr);
-			else
-				return  (fmt_t) strlen(strcpy(bigbuff, pp->spp_ptr));
-#endif
-		}
-	}
-	if  (jp->spq_ptr[0])
-		return  (fmt_t) strlen(strcpy(bigbuff, jp->spq_ptr));
-	return  0;
+        if  (jp->spq_dflags & SPQ_PQ)  {
+                if  (jp->spq_pslot < 0  || jp->spq_pslot >= Ptr_seg.dptr->ps_maxptrs)
+                        return  (fmt_t) strlen(strcpy(bigbuff, localptr));
+                else  {
+                        const struct  spptr  *pp = &Ptr_seg.plist[jp->spq_pslot].p;
+                        if  (pp->spp_state == SPP_NULL)
+                                return  (fmt_t) strlen(strcpy(bigbuff, localptr));
+                        return  (fmt_t) strlen(strcpy(bigbuff, PTR_NAME(pp)));
+                }
+        }
+        if  (jp->spq_ptr[0])
+                return  (fmt_t) strlen(strcpy(bigbuff, jp->spq_ptr));
+        return  0;
 }

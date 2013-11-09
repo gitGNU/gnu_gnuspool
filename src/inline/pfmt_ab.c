@@ -15,15 +15,15 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_ab(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_ab(const struct spptr *pp, const int fwidth)
 {
-	if  (pp->spp_dflags & SPP_HADAB)  {
-#ifdef	INLINE_SPLIST
-		static	char	*intermsg;
-		if  (!intermsg)
-			intermsg = gprompt($P{Printer interrupted});
+        if  (pp->spp_dflags & SPP_HADAB)  {
+#ifdef  INLINE_SPLIST
+                static  char    *intermsg;
+                if  (!intermsg)
+                        intermsg = gprompt($P{Printer interrupted});
 #endif
-		return  (fmt_t) strlen(strcpy(bigbuff, intermsg));
-	}
-	return  0;
+                return  (fmt_t) strlen(strcpy(bigbuff, intermsg));
+        }
+        return  0;
 }

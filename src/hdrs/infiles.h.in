@@ -28,9 +28,12 @@ extern char 	*mkspid(const char *, const jobno_t);
 #define	MASTER_CONFIG	"@sysconfdir@/gnuspool.conf"
 #define	EXTERNSPOOL	"@sysconfdir@/gnuspool.ext"
 #define USER_CONFIG	".gnuspool"
+#define HOME_CONFIG_DIR ".gspool"
+#define HOME_CONFIG_FILE "gnuspool@MAJOR_PACKAGE_VERSION@"
+#define HOME_CONFIG     "~/" HOME_CONFIG_DIR "/" HOME_CONFIG_FILE
 #define	HOSTFILE	"${HOSTFILE-@sysconfdir@/gnuspool.hosts}"
-#define	CONFIGPATH	"${GS_CONFIGPATH-~:!:.:-}"
-#define	HELPPATH	"${GS_HELPPATH-.:!:~}"
+#define CONFIGPATH      "${GS_CONFIGPATH-@:~:!:.:-}"
+#define HELPPATH        "${GS_HELPPATH-.:!:~:@}"
 #define	DEFAULT_FORM	"${DEFAULT_FORM-default}"
 
 #define	JIMMAP_FILE	"spmm_jobi"
@@ -95,6 +98,7 @@ extern char 	*mkspid(const char *, const jobno_t);
 #define	HTML_UFILE	"${SDATADIR-@pkgdatadir@}/html_ufile"
 #define HTML_TMPFILE	"/tmp/gscgi%ld.%d"
 #define GSPWFILE	"${SDATADIR-@pkgdatadir@}/gspwfile"
+#define WINUSER_MAP "@sysconfdir@/gsuser.map"
+#define XIPWFILE    "${SPROGDIR-@pkgexecdir@}/gspwfile"
 
-#define	XTNETTRACE	"${NETTRACE-0}"
-#define	XTNETTRFILE	"${NETTRFILE-@spooldir@/xtnettrace}"
+#define	XTTIMEOUTS	"${NETTIMEOUT:1000}"

@@ -17,12 +17,12 @@
 
 OPTION(o_usort)
 {
-	alphsort = SORT_USER;
-	return  OPTRESULT_OK;
+        alphsort = SORT_USER;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nsort)
 {
-	alphsort = SORT_NONE;
-	return  OPTRESULT_OK;
+        alphsort = SORT_NONE;
+        return  OPTRESULT_OK;
 }

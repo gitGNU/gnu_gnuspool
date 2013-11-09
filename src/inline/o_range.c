@@ -15,43 +15,43 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static int	o_range(const char * arg)
+static int      o_range(const char *arg)
 {
-	LONG	start = 1L, nd = MAXLONG;
+        LONG    start = 1L, nd = MAXLONG;
 
-	if  (!arg)
-		return  -1;
+        if  (!arg)
+                return  -1;
 
-	if  (*arg == '-')  {
-		if  (*++arg)
-			nd = atol(arg);
-	}
-	else  {
-		start = atol(arg);
-		while  (*++arg && *arg != '-')
-			;
-		if  (*arg == '-')  {
-			if  (*++arg)
-				nd = atol(arg);
-		}
-		else
-			nd = start;
-	}
-	if  (start > nd  ||  start <= 0L)  {
-		disp_arg[0] = start;
-		disp_arg[1] = nd;
-		print_error($E{Bad page range});
-		exit(E_USAGE);
-	}
+        if  (*arg == '-')  {
+                if  (*++arg)
+                        nd = atol(arg);
+        }
+        else  {
+                start = atol(arg);
+                while  (*++arg && *arg != '-')
+                        ;
+                if  (*arg == '-')  {
+                        if  (*++arg)
+                                nd = atol(arg);
+                }
+                else
+                        nd = start;
+        }
+        if  (start > nd  ||  start <= 0L)  {
+                disp_arg[0] = start;
+                disp_arg[1] = nd;
+                print_error($E{Bad page range});
+                exit(E_USAGE);
+        }
 
-	/* Humans number pages at 1...
-	   (silly people).  */
+        /* Humans number pages at 1...
+           (silly people).  */
 
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	range_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        range_changes++;
 #endif
-	SPQ.spq_start = start - 1L;
-	SPQ.spq_end = nd - 1L;
-	return  1;
+        SPQ.spq_start = start - 1L;
+        SPQ.spq_end = nd - 1L;
+        return  1;
 }

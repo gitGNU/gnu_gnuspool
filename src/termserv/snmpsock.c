@@ -18,7 +18,7 @@
 #include "config.h"
 #include <sys/types.h>
 #include <stdio.h>
-#ifdef	OS_FREEBSD
+#ifdef  OS_FREEBSD
 #include <sys/time.h>
 #endif
 #include <math.h>
@@ -27,40 +27,40 @@
 #include "incl_net.h"
 #include "defaults.h"
 
-extern	int	snmpsock;
-extern	double	udptimeout;
-extern	struct	sockaddr_in  snmp_serv, snmp_cli;
+extern  int     snmpsock;
+extern  double  udptimeout;
+extern  struct  sockaddr_in  snmp_serv, snmp_cli;
 
 void  snmp_xmit(char *buff, int nbytes)
 {
-	if  (sendto(snmpsock, buff, nbytes, 0, (struct sockaddr *) &snmp_serv, sizeof(snmp_serv)) != nbytes)  {
-		perror("SNMP Send fail");
-		exit(EXIT_SYSERROR);
-	}
+        if  (sendto(snmpsock, buff, nbytes, 0, (struct sockaddr *) &snmp_serv, sizeof(snmp_serv)) != nbytes)  {
+                perror("SNMP Send fail");
+                exit(EXIT_SYSERROR);
+        }
 }
 
 unsigned  snmp_recv(char *buff, int nbytes)
 {
-	int			nbs;
-	SOCKLEN_T		repl = sizeof(struct sockaddr_in);
-	struct	sockaddr_in	reply_addr;
+        int                     nbs;
+        SOCKLEN_T               repl = sizeof(struct sockaddr_in);
+        struct  sockaddr_in     reply_addr;
 
-	if  ((nbs = recvfrom(snmpsock, buff, nbytes, 0, (struct sockaddr *) &reply_addr, &repl)) < 0)  {
-		perror("SNMP Receive fail");
-		exit(EXIT_SYSERROR);
-	}
-	return  nbs;
+        if  ((nbs = recvfrom(snmpsock, buff, nbytes, 0, (struct sockaddr *) &reply_addr, &repl)) < 0)  {
+                perror("SNMP Receive fail");
+                exit(EXIT_SYSERROR);
+        }
+        return  nbs;
 }
 
 int  snmp_wait()
 {
-	fd_set	sel;
-	struct	timeval	 tv;
-	double  ipart, fpart;
-	FD_ZERO(&sel);
-	FD_SET(snmpsock, &sel);
-	fpart = modf(udptimeout, &ipart);
-	tv.tv_sec = (long) ipart;
-	tv.tv_usec = (long) (fpart * 1000000.0);
-	return  select(snmpsock+1, &sel, 0, 0, &tv) > 0;
+        fd_set  sel;
+        struct  timeval  tv;
+        double  ipart, fpart;
+        FD_ZERO(&sel);
+        FD_SET(snmpsock, &sel);
+        fpart = modf(udptimeout, &ipart);
+        tv.tv_sec = (long) ipart;
+        tv.tv_usec = (long) (fpart * 1000000.0);
+        return  select(snmpsock+1, &sel, 0, 0, &tv) > 0;
 }

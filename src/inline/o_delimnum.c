@@ -17,14 +17,14 @@
 
 OPTION(o_delimnum)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	pfe.delimnum = atoi(arg);
-	if  (pfe.delimnum <= 0)  {
-		disp_arg[0] = pfe.delimnum;
-		disp_str = arg;
-		print_error($E{Invalid delim num});
-		exit(E_USAGE);
-	}
-	return  OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        pfe.delimnum = atoi(arg);
+        if  (pfe.delimnum <= 0)  {
+                disp_arg[0] = pfe.delimnum;
+                disp_str = arg;
+                print_error($E{Invalid delim num});
+                exit(E_USAGE);
+        }
+        return  OPTRESULT_ARG_OK;
 }

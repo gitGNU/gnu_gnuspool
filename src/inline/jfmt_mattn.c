@@ -17,11 +17,11 @@
 
 static  fmt_t  fmt_mattn(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_jflags & SPQ_MATTN)  {
-		static	char	*mattn_msg;
-		if  (!mattn_msg)
-			mattn_msg = gprompt($P{Fmt mattn});
-		return  (fmt_t) strlen(strcpy(bigbuff, mattn_msg));
-	}
-	return  0;
+        if  (jp->spq_jflags & SPQ_MATTN)  {
+                static  char    *mattn_msg;
+                if  (!mattn_msg)
+                        mattn_msg = gprompt($P{Fmt mattn});
+                return  (fmt_t) strlen(strcpy(bigbuff, mattn_msg));
+        }
+        return  0;
 }

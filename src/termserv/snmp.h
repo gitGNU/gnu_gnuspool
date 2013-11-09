@@ -15,25 +15,25 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-struct	snmp_result  {
-	unsigned  res_type;
-	unsigned  res_length;
-	char	  *res_id_string;
-#define	RES_TYPE_SIGNED		0
-#define	RES_TYPE_UNSIGNED	1
-#define	RES_TYPE_STRING		2
-	union  {
-		char		*res_string;
-		long		res_signed;
-		unsigned  long	res_unsigned;
-	}  res_un;
+struct  snmp_result  {
+        unsigned  res_type;
+        unsigned  res_length;
+        char      *res_id_string;
+#define RES_TYPE_SIGNED         0
+#define RES_TYPE_UNSIGNED       1
+#define RES_TYPE_STRING         2
+        union  {
+                char            *res_string;
+                long            res_signed;
+                unsigned  long  res_unsigned;
+        }  res_un;
 };
 
-#define	RES_OK		0
-#define	RES_OFFLINE	1
-#define	RES_UNDEF	2
-#define	RES_ERROR	3
-#define	RES_NULL	4
+#define RES_OK          0
+#define RES_OFFLINE     1
+#define RES_UNDEF       2
+#define RES_ERROR       3
+#define RES_NULL        4
 
 extern asn_octet *gen_snmp_get(const char *, const char *, unsigned *, const int);
 extern int  snmp_parse_result(asn_octet *, const unsigned, struct snmp_result *);

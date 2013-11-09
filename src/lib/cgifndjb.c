@@ -35,103 +35,99 @@
 
 int  numeric(const char *x)
 {
-	while  (*x)  {
-		if  (!isdigit(*x))
-			return  0;
-		x++;
-	}
-	return  1;
+        while  (*x)  {
+                if  (!isdigit(*x))
+                        return  0;
+                x++;
+        }
+        return  1;
 }
 
 int  decode_jnum(char *jnum, struct jobswanted *jwp)
 {
-	char	*cp;
+        char    *cp;
 
-	if  ((cp = strchr(jnum, ':')))  {
-		*cp = '\0';
-		if  ((jwp->host = look_hostname(jnum)) == 0L)  {
-			*cp = ':';
-			disp_str = jnum;
-			return  $E{Unknown host name};
-		}
-		if  (jwp->host == myhostid)
-			jwp->host = 0L;
-		*cp++ = ':';
-	}
-	else  {
-		jwp->host = 0L;
-		cp = jnum;
-	}
-	if  (!numeric(cp)  ||  (jwp->jno = (jobno_t) atol(cp)) == 0)  {
-		disp_str = jnum;
-		return  $E{job num not numeric};
-	}
-	return  0;
+        if  ((cp = strchr(jnum, ':')))  {
+                *cp = '\0';
+                if  ((jwp->host = look_int_hostname(jnum)) == -1)  {
+                        *cp = ':';
+                        disp_str = jnum;
+                        return  $E{Unknown host name};
+                }
+                *cp++ = ':';
+        }
+        else  {
+                jwp->host = 0L;
+                cp = jnum;
+        }
+        if  (!numeric(cp)  ||  (jwp->jno = (jobno_t) atol(cp)) == 0)  {
+                disp_str = jnum;
+                return  $E{job num not numeric};
+        }
+        return  0;
 }
 
 int  decode_pname(char *pname, struct ptrswanted *pwp)
 {
-	char	*cp;
+        char    *cp;
 
-	if  ((cp = strchr(pname, ':')))  {
-		*cp = '\0';
-		if  ((pwp->host = look_hostname(pname)) == 0L)
-			return  0;
-		if  (pwp->host == myhostid)
-			pwp->host = 0L;
-		*cp++ = ':';
-	}
-	else  {
-		pwp->host = 0L;
-		cp = pname;
-	}
+        if  ((cp = strchr(pname, ':')))  {
+                *cp = '\0';
+                if  ((pwp->host = look_int_hostname(pname)) == -1)
+                        return  0;
+                *cp++ = ':';
+        }
+        else  {
+                pwp->host = 0L;
+                cp = pname;
+        }
 
- 	pwp->ptrname = stracpy(cp);
-	return  1;
+        pwp->ptrname = stracpy(cp);
+        return  1;
 }
 
 const Hashspq *find_job(struct jobswanted *jw)
 {
-	LONG  jind;
+        LONG  jind;
 
-	jobshm_lock();
-	jind = Job_seg.hashp_jno[jno_jhash(jw->jno)];
+        jobshm_lock();
+        jind = Job_seg.hashp_jno[jno_jhash(jw->jno)];
 
-	while  (jind >= 0L)  {
-		const  Hashspq  *hjp = &Job_seg.jlist[jind];
-		if  (hjp->j.spq_job == jw->jno  &&  hjp->j.spq_netid == jw->host  &&  (hjp->j.spq_class & Displayopts.opt_classcode) != 0)  {
-			jobshm_unlock();
-			jw->jp = &hjp->j;
-			return  hjp;
-		}
-		jind = hjp->nxt_jno_hash;
-	}
-	jobshm_unlock();
-	jw->jp = (const struct spq *) 0;
-	return  (Hashspq *) 0;
+        while  (jind >= 0L)  {
+                const  Hashspq  *hjp = &Job_seg.jlist[jind];
+                if  (hjp->j.spq_job == jw->jno  &&  hjp->j.spq_netid == jw->host  &&  (hjp->j.spq_class & Displayopts.opt_classcode) != 0)  {
+                        jobshm_unlock();
+                        jw->jp = &hjp->j;
+                        return  hjp;
+                }
+                jind = hjp->nxt_jno_hash;
+        }
+        jobshm_unlock();
+        jw->jp = (const struct spq *) 0;
+        return  (Hashspq *) 0;
 }
 
 const Hashspptr *find_ptr(struct ptrswanted *pw)
 {
-	LONG  pind;
+        LONG  pind;
 
-	ptrshm_lock();
-	pind = Ptr_seg.dptr->ps_l_head;
+        ptrshm_lock();
+        pind = Ptr_seg.dptr->ps_l_head;
 
-	while  (pind >= 0L)  {
-		const  Hashspptr  *cp = &Ptr_seg.plist[pind];
-		pind = cp->l_nxt;
-		if  (cp->p.spp_state == SPP_NULL  ||  cp->p.spp_netid != pw->host)
-			continue;
-		/* Warning - this finds the first printer of that name on that
-		   host only - is this a problem? If so, may have to identify by
- 		   device */
-		if  (strcmp(cp->p.spp_ptr, pw->ptrname) != 0)
-			continue;
-		pw->pp = &cp->p;
-		ptrshm_unlock();
-		return  cp;
-	}
-	ptrshm_unlock();
-	return  (Hashspptr *) 0;
+        while  (pind >= 0L)  {
+                const  Hashspptr  *cp = &Ptr_seg.plist[pind];
+                pind = cp->l_nxt;
+                if  (cp->p.spp_state == SPP_NULL  ||  cp->p.spp_netid != pw->host)
+                        continue;
+                /* Warning - this finds the first printer of that name on that
+                   host only - is this a problem? If so, may have to identify by
+                   device */
+                if  (strcmp(cp->p.spp_ptr, pw->ptrname) != 0)
+                        continue;
+                pw->pp = &cp->p;
+                ptrshm_unlock();
+                return  cp;
+        }
+        ptrshm_unlock();
+        return  (Hashspptr *) 0;
 }

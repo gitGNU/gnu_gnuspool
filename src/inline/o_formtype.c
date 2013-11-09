@@ -17,16 +17,16 @@
 
 OPTION(o_formtype)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
 
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	form_changes++;
-	strncpy(SPQ.spq_form, arg, MAXFORM);
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        form_changes++;
+        strncpy(SPQ.spq_form, arg, MAXFORM);
 #else
-	strncpy(wotform, arg, MAXFORM);
-	wotform[MAXFORM] = '\0';
+        strncpy(wotform, arg, MAXFORM);
+        wotform[MAXFORM] = '\0';
 #endif
-	return  OPTRESULT_ARG_OK;
+        return  OPTRESULT_ARG_OK;
 }

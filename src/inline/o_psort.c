@@ -17,12 +17,12 @@
 
 OPTION(o_punsorted)
 {
-	Displayopts.opt_sortptrs = SORTP_NONE;
-	return  OPTRESULT_OK;
+        Displayopts.opt_sortptrs = SORTP_NONE;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_psorted)
 {
-	Displayopts.opt_sortptrs = SORTP_BYNAME;
-	return  OPTRESULT_OK;
+        Displayopts.opt_sortptrs = SORTP_BYNAME;
+        return  OPTRESULT_OK;
 }

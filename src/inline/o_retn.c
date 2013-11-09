@@ -17,20 +17,20 @@
 
 OPTION(o_retn)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	retn_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        retn_changes++;
 #endif
-	SPQ.spq_jflags |= SPQ_RETN;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags |= SPQ_RETN;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_noretn)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	retn_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        retn_changes++;
 #endif
-	SPQ.spq_jflags &= ~SPQ_RETN;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags &= ~SPQ_RETN;
+        return  OPTRESULT_OK;
 }

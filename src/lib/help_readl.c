@@ -24,20 +24,20 @@
 
 char  *help_readl(int *percentflag)
 {
-	LONG	w = ftell(Cfile);
-	unsigned	l = 1;		/*  Final null  */
-	int	ch;
-	char	*result, *rp;
+        LONG    w = ftell(Cfile);
+        unsigned        l = 1;          /*  Final null  */
+        int     ch;
+        char    *result, *rp;
 
-	while  ((ch = getc(Cfile)) != '\n' && ch != EOF)
-		l++;
+        while  ((ch = getc(Cfile)) != '\n' && ch != EOF)
+                l++;
 
-	fseek(Cfile, (long) w, 0);
-	if  ((rp = result = (char *) malloc(l)) == (char *) 0)
-		nomem();
-	while  ((ch = getc(Cfile)) != '\n' && ch != EOF)
-		if  ((*rp++ = (char) ch) == '%')
-			*percentflag |= 1;
-	*rp = '\0';
-	return  result;
+        fseek(Cfile, (long) w, 0);
+        if  ((rp = result = (char *) malloc(l)) == (char *) 0)
+                nomem();
+        while  ((ch = getc(Cfile)) != '\n' && ch != EOF)
+                if  ((*rp++ = (char) ch) == '%')
+                        *percentflag |= 1;
+        *rp = '\0';
+        return  result;
 }

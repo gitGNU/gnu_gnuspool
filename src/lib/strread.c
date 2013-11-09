@@ -19,49 +19,49 @@
 #include <stdio.h>
 #include "incl_unix.h"
 
-#define	INITSIZE	80
-#define	INCSIZE		40
+#define INITSIZE        80
+#define INCSIZE         40
 
 char *strread(FILE *fp, const char *delim)
 {
-	int	ch, ccnt;
-	unsigned  bufsize;
-	char	*resbuf;
-	char	initbuf[INITSIZE];
+        int     ch, ccnt;
+        unsigned  bufsize;
+        char    *resbuf;
+        char    initbuf[INITSIZE];
 
-	ccnt = 0;
-	do  {
-		if  ((ch = getc(fp)) == EOF)
-			return  (char *) 0;
-		if  (strchr(delim, ch) != (char *) 0)  {
-			initbuf[ccnt] = '\0';
-			return  stracpy(initbuf);
-		}
-		initbuf[ccnt] = (char) ch;
-	}  while  (++ccnt < INITSIZE-1);
+        ccnt = 0;
+        do  {
+                if  ((ch = getc(fp)) == EOF)
+                        return  (char *) 0;
+                if  (strchr(delim, ch) != (char *) 0)  {
+                        initbuf[ccnt] = '\0';
+                        return  stracpy(initbuf);
+                }
+                initbuf[ccnt] = (char) ch;
+        }  while  (++ccnt < INITSIZE-1);
 
-	/* Our fixed-size buffer wasn't enough.  Allocate another one.  */
+        /* Our fixed-size buffer wasn't enough.  Allocate another one.  */
 
-	initbuf[ccnt] = '\0';
-	bufsize = INITSIZE+INCSIZE;
-	if  ((resbuf = (char *) malloc(bufsize)) == (char *) 0)
-		nomem();
-	strcpy(resbuf, initbuf);
+        initbuf[ccnt] = '\0';
+        bufsize = INITSIZE+INCSIZE;
+        if  ((resbuf = (char *) malloc(bufsize)) == (char *) 0)
+                nomem();
+        strcpy(resbuf, initbuf);
 
-	for  (;;)  {
-		if  ((ch = getc(fp)) == EOF)  {
-			free(resbuf);
-			return  (char *) 0;
-		}
-		if  (strchr(delim, ch) != (char *) 0)  {
-			resbuf[ccnt] = '\0';
-			return  resbuf;
-		}
-		resbuf[ccnt] = (char) ch;
-		if  (++ccnt >= bufsize)  {
-			bufsize += INCSIZE;
-			if  ((resbuf = (char *) realloc(resbuf, bufsize)) == 0)
-				nomem();
-		}
-	}
+        for  (;;)  {
+                if  ((ch = getc(fp)) == EOF)  {
+                        free(resbuf);
+                        return  (char *) 0;
+                }
+                if  (strchr(delim, ch) != (char *) 0)  {
+                        resbuf[ccnt] = '\0';
+                        return  resbuf;
+                }
+                resbuf[ccnt] = (char) ch;
+                if  (++ccnt >= bufsize)  {
+                        bufsize += INCSIZE;
+                        if  ((resbuf = (char *) realloc(resbuf, bufsize)) == 0)
+                                nomem();
+                }
+        }
 }

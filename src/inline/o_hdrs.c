@@ -17,20 +17,20 @@
 
 OPTION(o_hdrs)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	noh_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        noh_changes++;
 #endif
-	SPQ.spq_jflags &= ~SPQ_NOH;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags &= ~SPQ_NOH;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nohdrs)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	noh_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        noh_changes++;
 #endif
-	SPQ.spq_jflags |= SPQ_NOH;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags |= SPQ_NOH;
+        return  OPTRESULT_OK;
 }

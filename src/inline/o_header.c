@@ -17,12 +17,12 @@
 
 OPTION(o_header)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	title_changes++;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        title_changes++;
 #endif
-	strncpy(SPQ.spq_file, arg, MAXTITLE);
-	return  OPTRESULT_ARG_OK;
+        strncpy(SPQ.spq_file, arg, MAXTITLE);
+        return  OPTRESULT_ARG_OK;
 }

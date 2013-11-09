@@ -15,17 +15,17 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#define	RECURSE_MAX	10
-#define	HINILWIDTH	120
+#define RECURSE_MAX     10
+#define HINILWIDTH      120
 
-#define	HTML_TMPNAME	"tempfiles"
+#define HTML_TMPNAME    "tempfiles"
 
-#define	DEFLT_COOKEXP_DAYS	10		/* Default time for cookie expiry */
+#define DEFLT_COOKEXP_DAYS      10              /* Default time for cookie expiry */
 
-struct	posttab  {
-	char	*postname;	/* Name in pair */
-	void	(*post_fn)(char *);
-	char	**postfile;	/* For file name controls - temp file name inserted */
+struct  posttab  {
+        char    *postname;      /* Name in pair */
+        void    (*post_fn)(char *);
+        char    **postfile;     /* For file name controls - temp file name inserted */
 };
 
 extern void  html_error(const char *);

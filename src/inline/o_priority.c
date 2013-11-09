@@ -17,37 +17,37 @@
 
 OPTION(o_priority)
 {
-	int	num;
+        int     num;
 
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	num = atoi(arg);
-	if  (num <= 0 || num > 255)  {
-		disp_arg[3] = 255;
-		disp_arg[1] = num;
-		disp_arg[2] = 1;
-		print_error($E{Priority range});
-		exit(E_USAGE);
-	}
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        num = atoi(arg);
+        if  (num <= 0 || num > 255)  {
+                disp_arg[3] = 255;
+                disp_arg[1] = num;
+                disp_arg[2] = 1;
+                print_error($E{Priority range});
+                exit(E_USAGE);
+        }
 
-#ifdef	INLINE_SQCHANGE
-	if  (!(mypriv->spu_flgs & PV_CPRIO))  {
-		print_error($E{No change prio priv});
-		exit(E_NOPRIV);
-	}
+#ifdef  INLINE_SQCHANGE
+        if  (!(mypriv->spu_flgs & PV_CPRIO))  {
+                print_error($E{No change prio priv});
+                exit(E_NOPRIV);
+        }
 
-	if  (!(mypriv->spu_flgs & PV_ANYPRIO)  &&
-	     (num < (int) mypriv->spu_minp || num > (int) mypriv->spu_maxp))  {
-		disp_arg[0] = num;
-		disp_arg[1] = mypriv->spu_minp;
-		disp_arg[2] = mypriv->spu_maxp;
-		print_error($E{Change prio out of range});
-		exit(E_BADPRI);
-	}
+        if  (!(mypriv->spu_flgs & PV_ANYPRIO)  &&
+             (num < (int) mypriv->spu_minp || num > (int) mypriv->spu_maxp))  {
+                disp_arg[0] = num;
+                disp_arg[1] = mypriv->spu_minp;
+                disp_arg[2] = mypriv->spu_maxp;
+                print_error($E{Change prio out of range});
+                exit(E_BADPRI);
+        }
 
-	doing_something++;
-	pri_changes++;
+        doing_something++;
+        pri_changes++;
 #endif
-	SPQ.spq_pri = (unsigned char) num;
-	return  OPTRESULT_ARG_OK;
+        SPQ.spq_pri = (unsigned char) num;
+        return  OPTRESULT_ARG_OK;
 }

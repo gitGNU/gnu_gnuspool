@@ -22,11 +22,11 @@
 #include <sys/stat.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
-#ifndef	USING_FLOCK
+#ifndef USING_FLOCK
 #include <sys/sem.h>
 #endif
 #include <errno.h>
-#ifdef	HAVE_FCNTL_H
+#ifdef  HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 #include "defaults.h"
@@ -48,284 +48,278 @@
 #include "shutilmsg.h"
 #include "xfershm.h"
 
-#define	MAXLONG	0x7fffffffL	/*  Change this?  */
+#define MAXLONG 0x7fffffffL     /*  Change this?  */
 
-#define	HTIME	5		/* Forge prompt if one doesn't come */
+#define HTIME   5               /* Forge prompt if one doesn't come */
 
-int  spitoption(const int, const int, FILE *, const int, const int);
-int  proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
+extern  char    freeze_wanted;
+char    freeze_cd,
+        freeze_hd,
+        dset,                   /* Directory set (for freeze options) */
+        unqueue,                /* Unqueue job */
+        nodel;                  /* Do not delete */
 
-extern	char	freeze_wanted;
-char	freeze_cd,
-	freeze_hd,
-	dset,			/* Directory set (for freeze options) */
-	unqueue,		/* Unqueue job */
-	nodel;			/* Do not delete */
+char    *Curr_pwd,              /* PWD on entry */
+        *Olddir,                /* Directory to send to */
+        *jobprefix,             /* Prefix for job file */
+        *cmdprefix;             /* Prefix for command file */
 
-char	*Curr_pwd,		/* PWD on entry */
-	*Olddir,		/* Directory to send to */
-	*jobprefix,		/* Prefix for job file */
-	*cmdprefix;		/* Prefix for command file */
+#define IPC_MODE        0600
 
-#define	IPC_MODE	0600
+char    *Realuname;
 
-char	*Realuname;
+struct  spdet   *mypriv;
 
-struct	spdet	*mypriv;
-
-int	exit_code,
-	force;
+int     exit_code,
+        force;
 
 /* Keep library happy */
 
 void  nomem()
 {
-	fprintf(stderr, "Ran out of memory\n");
-	exit(E_NOMEM);
+        fprintf(stderr, "Ran out of memory\n");
+        exit(E_NOMEM);
 }
 
 /* "Read" job file.  */
 
 void  rjobfile()
 {
-	jobshm_lock();
-#ifdef	USING_MMAP
-	if  (Job_seg.dinf.segsize != Job_seg.dptr->js_did)
+        jobshm_lock();
+#ifdef  USING_MMAP
+        if  (Job_seg.dinf.segsize != Job_seg.dptr->js_did)
 #else
-	if  (Job_seg.dinf.base != Job_seg.dptr->js_did)
+        if  (Job_seg.dinf.base != Job_seg.dptr->js_did)
 #endif
-		jobgrown();
-	Job_seg.Last_ser = Job_seg.dptr->js_serial;
-	jobshm_unlock();
+                jobgrown();
+        Job_seg.Last_ser = Job_seg.dptr->js_serial;
+        jobshm_unlock();
 }
 
 /* Run job dump program if possible */
 
-static	void  dounqueue(const struct spq *jp)
+static  void  dounqueue(const struct spq *jp)
 {
-	PIDTYPE	pid;
-	int	ac;
-	char	*argv[7], *udprog, jnobuf[HOSTNSIZE+10], cprefbuf[30], jprefbuf[30];
+        PIDTYPE pid;
+        int     ac;
+        const   char    *argv[7];
+        char   *udprog, cprefbuf[30], jprefbuf[30];
 
-	if  ((pid = fork()))  {
-		int	status;
+        if  ((pid = fork()))  {
+                int     status;
 
-		if  (pid < 0)  {
-			print_error($E{Unqueue no fork});
-			return;
-		}
-#ifdef	HAVE_WAITPID
-		while  (waitpid(pid, &status, 0) < 0)
-			;
+                if  (pid < 0)  {
+                        print_error($E{Unqueue no fork});
+                        return;
+                }
+#ifdef  HAVE_WAITPID
+                while  (waitpid(pid, &status, 0) < 0)
+                        ;
 #else
-		while  (wait(&status) != pid)
-			;
+                while  (wait(&status) != pid)
+                        ;
 #endif
-		if  (status == 0)	/* All ok */
-			return;
-		if  (status & 0xff)  {
-			disp_arg[9] = status & 0xff;
-			print_error($E{Unqueue program fault});
-			return;
-		}
-		status = (status >> 8) & 0xff;
-		disp_arg[0] = jp->spq_job;
-		disp_str = (char *) jp->spq_file;
-		switch  (status)  {
-		case  E_SETUP:
-			print_error($E{Cannot find unqueue});
-			return;
-		default:
-			disp_arg[1] = status;
-			print_error($E{Unqueue misc error});
-			return;
-		case  E_JDFNFND:
-			print_error($E{Unqueue spool not found});
-			return;
-		case  E_JDNOCHDIR:
-			disp_str2 = Olddir;
-			print_error($E{Unqueue dir not found});
-			return;
-		case  E_JDFNOCR:
-			disp_str2 = Olddir;
-			print_error($E{Unqueue no create});
-			return;
-		}
-	}
+                if  (status == 0)       /* All ok */
+                        return;
+                if  (status & 0xff)  {
+                        disp_arg[9] = status & 0xff;
+                        print_error($E{Unqueue program fault});
+                        return;
+                }
+                status = (status >> 8) & 0xff;
+                disp_arg[0] = jp->spq_job;
+                disp_str = (char *) jp->spq_file;
+                switch  (status)  {
+                case  E_SETUP:
+                        print_error($E{Cannot find unqueue});
+                        return;
+                default:
+                        disp_arg[1] = status;
+                        print_error($E{Unqueue misc error});
+                        return;
+                case  E_JDFNFND:
+                        print_error($E{Unqueue spool not found});
+                        return;
+                case  E_JDNOCHDIR:
+                        disp_str2 = Olddir;
+                        print_error($E{Unqueue dir not found});
+                        return;
+                case  E_JDFNOCR:
+                        disp_str2 = Olddir;
+                        print_error($E{Unqueue no create});
+                        return;
+                }
+        }
 
-	/* Child process */
+        /* Child process */
 
-	udprog = envprocess(DUMPJOB);
-	setuid(Realuid);
-	Ignored_error = chdir(Curr_pwd);	/* So that it picks up config file correctly */
-	if  (jp->spq_netid)
-		sprintf(jnobuf, "%s:%ld", look_host(jp->spq_netid), (long) jp->spq_job);
-	else
-		sprintf(jnobuf, "%ld", (long) jp->spq_job);
-	sprintf(cprefbuf, "%s%.6ld", cmdprefix, (long) jp->spq_job);
-	sprintf(jprefbuf, "%s%.6ld", jobprefix, (long) jp->spq_job);
-	if  (!(argv[0] = strrchr(udprog, '/')))
-		argv[0] = udprog;
-	else
-		argv[0]++;
-	ac = 0;
-	if  (nodel)
-		argv[++ac] = "-n";
-	argv[++ac] = jnobuf;
-	argv[++ac] = Olddir;
-	argv[++ac] = cprefbuf;
-	argv[++ac] = jprefbuf;
-	argv[++ac] = (char *) 0;
-	execv(udprog, argv);
-	exit(E_SETUP);
+        udprog = envprocess(DUMPJOB);
+        setuid(Realuid);
+        Ignored_error = chdir(Curr_pwd);        /* So that it picks up config file correctly */
+        sprintf(cprefbuf, "%s%.6ld", cmdprefix, (long) jp->spq_job);
+        sprintf(jprefbuf, "%s%.6ld", jobprefix, (long) jp->spq_job);
+        if  (!(argv[0] = strrchr(udprog, '/')))
+                argv[0] = udprog;
+        else
+                argv[0]++;
+        ac = 0;
+        if  (nodel)
+                argv[++ac] = "-n";
+        argv[++ac] = JOB_NUMBER(jp);
+        argv[++ac] = Olddir;
+        argv[++ac] = cprefbuf;
+        argv[++ac] = jprefbuf;
+        argv[++ac] = (char *) 0;
+        execv(udprog, (char **) argv);
+        exit(E_SETUP);
 }
 
 /* This is the main processing routine.  */
 
 void  process(char **joblist)
 {
-	char	*jobc;
-	struct	spr_req	oreq;
+        char    *jobc;
+        struct  spr_req oreq;
 
-	oreq.spr_mtype = MT_SCHED;
-	oreq.spr_un.o.spr_act = SO_AB;
-	oreq.spr_un.o.spr_pid = getpid();
-	oreq.spr_un.o.spr_arg1 = Realuid;
-	oreq.spr_un.o.spr_arg2 = 0;
-	oreq.spr_un.o.spr_seq = 0;
-	oreq.spr_un.o.spr_netid = 0;
+        oreq.spr_mtype = MT_SCHED;
+        oreq.spr_un.o.spr_act = SO_AB;
+        oreq.spr_un.o.spr_pid = getpid();
+        oreq.spr_un.o.spr_arg1 = Realuid;
+        oreq.spr_un.o.spr_arg2 = 0;
+        oreq.spr_un.o.spr_seq = 0;
+        oreq.spr_un.o.spr_netid = 0;
 
-	while  ((jobc = *joblist++))  {
-		const  Hashspq		*hjp;
-		const  struct  spq	*jp;
-		int			ret;
-		struct	jobswanted	jw;
-		int	blkcount = MSGQ_BLOCKS;
+        while  ((jobc = *joblist++))  {
+                const  Hashspq          *hjp;
+                const  struct  spq      *jp;
+                int                     ret;
+                struct  jobswanted      jw;
+                int     blkcount = MSGQ_BLOCKS;
 
-		disp_str = jobc;	/* What we're wingeing about in case of any error */
+                disp_str = jobc;        /* What we're wingeing about in case of any error */
 
-		if  ((ret = decode_jnum(jobc, &jw)) != 0)  {
-			print_error(ret);
-			exit_code = E_NOJOB;
-			continue;
-		}
+                if  ((ret = decode_jnum(jobc, &jw)) != 0)  {
+                        print_error(ret);
+                        exit_code = E_NOJOB;
+                        continue;
+                }
 
-		if  (jw.host  &&  !(mypriv->spu_flgs & PV_REMOTEJ))  {
-			print_error($E{sqdel no remote job priv});
-			exit_code = E_NOPRIV;
-			continue;
-		}
+                if  (jw.host  &&  !(mypriv->spu_flgs & PV_REMOTEJ))  {
+                        print_error($E{sqdel no remote job priv});
+                        exit_code = E_NOPRIV;
+                        continue;
+                }
 
-		if  (!(hjp = find_job(&jw)))  {
-			print_error($E{Unknown job number});
-			exit_code = E_NOJOB;
-			continue;
-		}
-		jp = &hjp->j;
+                if  (!(hjp = find_job(&jw)))  {
+                        print_error($E{Unknown job number});
+                        exit_code = E_NOJOB;
+                        continue;
+                }
+                jp = &hjp->j;
 
-		if  (!(mypriv->spu_flgs & PV_OTHERJ)  &&  strcmp(Realuname, jp->spq_uname) != 0)  {
-			print_error($E{Chngdel not yours});
-			exit_code = E_NOPRIV;
-			continue;
-		}
+                if  (!(mypriv->spu_flgs & PV_OTHERJ)  &&  strcmp(Realuname, jp->spq_uname) != 0)  {
+                        print_error($E{Chngdel not yours});
+                        exit_code = E_NOPRIV;
+                        continue;
+                }
 
-		if  (unqueue)  {
-			dounqueue(jp);
-			continue;
-		}
+                if  (unqueue)  {
+                        dounqueue(jp);
+                        continue;
+                }
 
-		if  (!(force  || (jp->spq_dflags & SPQ_PRINTED)))  {
-			print_error($E{sqdel not printed});
-			exit_code = E_FALSE;
-			continue;
-		}
+                if  (!(force  || (jp->spq_dflags & SPQ_PRINTED)))  {
+                        print_error($E{sqdel not printed});
+                        exit_code = E_FALSE;
+                        continue;
+                }
 
-		oreq.spr_un.o.spr_jobno = jp->spq_job;
-		oreq.spr_un.o.spr_jpslot = hjp - Job_seg.jlist;
+                oreq.spr_un.o.spr_jobno = jp->spq_job;
+                oreq.spr_un.o.spr_jpslot = hjp - Job_seg.jlist;
 
-		while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
-			if  (errno != EAGAIN)  {
-				print_error($E{IPC msg q error});
-				exit(E_SETUP);
-			}
-			blkcount--;
-			if  (blkcount <= 0)  {
-				print_error($E{IPC msg q full});
-				exit(E_SETUP);
-			}
-			sleep(MSGQ_BLOCKWAIT);
-		}
-		waitsig();
-	}
+                while  (msgsnd(Ctrl_chan, (struct msgbuf *) &oreq, sizeof(struct sp_omsg), IPC_NOWAIT) < 0)  {
+                        if  (errno != EAGAIN)  {
+                                print_error($E{IPC msg q error});
+                                exit(E_SETUP);
+                        }
+                        blkcount--;
+                        if  (blkcount <= 0)  {
+                                print_error($E{IPC msg q full});
+                                exit(E_SETUP);
+                        }
+                        sleep(MSGQ_BLOCKWAIT);
+                }
+                waitsig();
+        }
 }
 
 OPTION(o_explain)
 {
-	print_error($E{sqdel options});
-	exit(0);
+        print_error($E{sqdel options});
+        exit(0);
 }
 
 OPTION(o_noforce)
 {
-	force = 0;
-	return  OPTRESULT_OK;
+        force = 0;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_force)
 {
-	force = 1;
-	return  OPTRESULT_OK;
+        force = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nounqueue)
 {
-	unqueue = 0;
-	return  OPTRESULT_OK;
+        unqueue = 0;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_unqueue)
 {
-	unqueue = 1;
-	return  OPTRESULT_OK;
+        unqueue = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nodel)
 {
-	nodel = 1;
-	return  OPTRESULT_OK;
+        nodel = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_del)
 {
-	nodel = 0;
-	return  OPTRESULT_OK;
+        nodel = 0;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_jobprefix)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	free(jobprefix);
-	jobprefix = stracpy(arg);
-	return  OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        free(jobprefix);
+        jobprefix = stracpy(arg);
+        return  OPTRESULT_ARG_OK;
 }
 
 OPTION(o_cmdprefix)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	free(cmdprefix);
-	cmdprefix = stracpy(arg);
-	return  OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        free(cmdprefix);
+        cmdprefix = stracpy(arg);
+        return  OPTRESULT_ARG_OK;
 }
 
 OPTION(o_directory)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	Olddir = stracpy(arg);
-	dset = 1;
-	return	OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        Olddir = stracpy(arg);
+        dset = 1;
+        return  OPTRESULT_ARG_OK;
 }
 
 #include "inline/o_classc.c"
@@ -333,142 +327,142 @@ OPTION(o_directory)
 
 /* Defaults and proc table for arg interp.  */
 
-static	const	Argdefault	Adefs[] = {
-	{  '?', $A{sqdel explain}	},
-	{  'n', $A{sqdel keep unp}	},
-	{  'N', $A{sqdel keep unp}	},
-	{  'y', $A{sqdel del unp}	},
-	{  'Y', $A{sqdel del unp}	},
-	{  'C', $A{sqdel classcode}	},
-	{  'u', $A{sqdel unqueue}	},
-	{  'e', $A{sqdel no unqueue}	},
-	{  'k', $A{sqdel no delete}	},
-	{  'd', $A{sqdel delete}	},
-	{  'J', $A{sqdel job pref}	},
-	{  'S', $A{sqdel cmd pref}	},
-	{  'D', $A{sqdel directory}	},
-	{ 0, 0 }
+static  const   Argdefault      Adefs[] = {
+        {  '?', $A{sqdel explain}       },
+        {  'n', $A{sqdel keep unp}      },
+        {  'N', $A{sqdel keep unp}      },
+        {  'y', $A{sqdel del unp}       },
+        {  'Y', $A{sqdel del unp}       },
+        {  'C', $A{sqdel classcode}     },
+        {  'u', $A{sqdel unqueue}       },
+        {  'e', $A{sqdel no unqueue}    },
+        {  'k', $A{sqdel no delete}     },
+        {  'd', $A{sqdel delete}        },
+        {  'J', $A{sqdel job pref}      },
+        {  'S', $A{sqdel cmd pref}      },
+        {  'D', $A{sqdel directory}     },
+        { 0, 0 }
 };
 
 optparam  optprocs[] = {
-o_explain,	o_noforce,	o_force,	o_classcode,
-o_unqueue,	o_nounqueue,	o_nodel,	o_del,
-o_jobprefix,	o_cmdprefix,	o_directory,
-o_freezecd,	o_freezehd
+o_explain,      o_noforce,      o_force,        o_classcode,
+o_unqueue,      o_nounqueue,    o_nodel,        o_del,
+o_jobprefix,    o_cmdprefix,    o_directory,
+o_freezecd,     o_freezehd
 };
 
 void  spit_options(FILE *dest, const char *name)
 {
-	int	cancont = 0;
-	char	*fmt = " %s";
-	fprintf(dest, "%s", name);
-	cancont = spitoption(force? $A{sqdel del unp}: $A{sqdel keep unp}, $A{sqdel explain}, dest, '=', 0);
-	cancont = spitoption(nodel? $A{sqdel no delete}: $A{sqdel delete}, $A{sqdel explain}, dest, ' ', cancont);
-	cancont = spitoption(unqueue? $A{sqdel unqueue}: $A{sqdel no unqueue}, $A{sqdel explain}, dest, ' ', cancont);
-	spitoption($A{sqdel classcode}, $A{sqdel explain}, dest, ' ', 0);
-	fprintf(dest, fmt, hex_disp(Displayopts.opt_classcode, 0));
-	spitoption($A{sqdel job pref}, $A{sqdel explain}, dest, ' ', 0);
-	fprintf(dest, fmt, jobprefix);
-	spitoption($A{sqdel cmd pref}, $A{sqdel explain}, dest, ' ', 0);
-	fprintf(dest, fmt, cmdprefix);
-	if  (dset)  {
-		spitoption($A{sqdel directory}, $A{sqdel explain}, dest, ' ', 0);
-		fprintf(dest, fmt, Olddir);
-	}
-	putc('\n', dest);
+        int     cancont = 0;
+        char    *fmt = " %s";
+        fprintf(dest, "%s", name);
+        cancont = spitoption(force? $A{sqdel del unp}: $A{sqdel keep unp}, $A{sqdel explain}, dest, '=', 0);
+        cancont = spitoption(nodel? $A{sqdel no delete}: $A{sqdel delete}, $A{sqdel explain}, dest, ' ', cancont);
+        cancont = spitoption(unqueue? $A{sqdel unqueue}: $A{sqdel no unqueue}, $A{sqdel explain}, dest, ' ', cancont);
+        spitoption($A{sqdel classcode}, $A{sqdel explain}, dest, ' ', 0);
+        fprintf(dest, fmt, hex_disp(Displayopts.opt_classcode, 0));
+        spitoption($A{sqdel job pref}, $A{sqdel explain}, dest, ' ', 0);
+        fprintf(dest, fmt, jobprefix);
+        spitoption($A{sqdel cmd pref}, $A{sqdel explain}, dest, ' ', 0);
+        fprintf(dest, fmt, cmdprefix);
+        if  (dset)  {
+                spitoption($A{sqdel directory}, $A{sqdel explain}, dest, ' ', 0);
+                fprintf(dest, fmt, Olddir);
+        }
+        putc('\n', dest);
 }
 
 /* Ye olde main routine.  */
 
 MAINFN_TYPE  main(int argc, char **argv)
 {
-	int	ec;
-#if	defined(NHONSUID) || defined(DEBUG)
-	int_ugid_t	chk_uid;
+        int     ec;
+#if     defined(NHONSUID) || defined(DEBUG)
+        int_ugid_t      chk_uid;
 #endif
 
-	versionprint(argv, "$Revision: 1.2 $", 0);
+        versionprint(argv, "$Revision: 1.9 $", 0);
 
-	if  ((progname = strrchr(argv[0], '/')))
-		progname++;
-	else
-		progname = argv[0];
+        if  ((progname = strrchr(argv[0], '/')))
+                progname++;
+        else
+                progname = argv[0];
 
-	init_mcfile();
+        init_mcfile();
 
-	Realuid = getuid();
-	Effuid = geteuid();
-	INIT_DAEMUID;
-	Cfile = open_cfile(MISC_UCONFIG, "rest.help");
+        Realuid = getuid();
+        Effuid = geteuid();
+        INIT_DAEMUID;
+        Cfile = open_cfile(MISC_UCONFIG, "rest.help");
 
-	jobprefix = gprompt($P{sqdel default job prefix});
-	cmdprefix = gprompt($P{sqdel default cmd prefix});
+        jobprefix = gprompt($P{sqdel default job prefix});
+        cmdprefix = gprompt($P{sqdel default cmd prefix});
 
-	SCRAMBLID_CHECK
-	SWAP_TO(Daemuid);
-	mypriv = getspuser(Realuid);
-	Displayopts.opt_classcode = mypriv->spu_class;
-	if  ((mypriv->spu_flgs & (PV_OTHERJ|PV_VOTHERJ)) != (PV_OTHERJ|PV_VOTHERJ))
-		Realuname = prin_uname(Realuid);
-	SWAP_TO(Realuid);
-	argv = optprocess(argv, Adefs, optprocs, $A{sqdel explain}, $A{sqdel freeze home}, 0);
-	if  (unqueue)  {
-		if  (!Curr_pwd  &&  !(Curr_pwd = getenv("PWD")))
-			Curr_pwd = runpwd();
-		if  (!Olddir)
-			Olddir = Curr_pwd;
-	}
-	SWAP_TO(Daemuid);
+        SCRAMBLID_CHECK
+        SWAP_TO(Daemuid);
+        mypriv = getspuser(Realuid);
+        Displayopts.opt_classcode = mypriv->spu_class;
+        if  ((mypriv->spu_flgs & (PV_OTHERJ|PV_VOTHERJ)) != (PV_OTHERJ|PV_VOTHERJ))
+                Realuname = prin_uname(Realuid);
+        SWAP_TO(Realuid);
+        argv = optprocess(argv, Adefs, optprocs, $A{sqdel explain}, $A{sqdel freeze home}, 0);
+        if  (unqueue)  {
+                if  (!Curr_pwd  &&  !(Curr_pwd = getenv("PWD")))
+                        Curr_pwd = runpwd();
+                if  (!Olddir)
+                        Olddir = Curr_pwd;
+        }
+        SWAP_TO(Daemuid);
 
-#define	FREEZE_EXIT
+#define FREEZE_EXIT
 #include "inline/freezecode.c"
 
-	/* Winge now if no unqueue priv as we might as well let the
-	   guy bung things in the .gnuspool file if he wants.  */
+        /* Winge now if no unqueue priv as we might as well let the
+           guy bung things in the .gnuspool file if he wants.  */
 
-	if  (unqueue  &&  !(mypriv->spu_class & PV_UNQUEUE))  {
-		print_error($E{sqdel cannot unqueue});
-		return  E_NOPRIV;
-	}
+        if  (unqueue  &&  !(mypriv->spu_class & PV_UNQUEUE))  {
+                print_error($E{sqdel cannot unqueue});
+                return  E_NOPRIV;
+        }
 
-	if  (argv[0] == (char *) 0)  {
-		print_error($E{sqdel no jobs});
-		return  E_USAGE;
-	}
+        if  (argv[0] == (char *) 0)  {
+                print_error($E{sqdel no jobs});
+                return  E_USAGE;
+        }
 
-	/* Grab message id */
+        /* Grab message id */
 
-	if  ((Ctrl_chan = msgget(MSGID, 0)) < 0)  {
-		print_error($E{Spooler not running});
-		return  E_NOTRUN;
-	}
+        if  ((Ctrl_chan = msgget(MSGID, 0)) < 0)  {
+                print_error($E{Spooler not running});
+                return  E_NOTRUN;
+        }
 
-#ifndef	USING_FLOCK
-	/* Set up semaphores */
+#ifndef USING_FLOCK
+        /* Set up semaphores */
 
-	if  ((Sem_chan = semget(SEMID, SEMNUMS, IPC_MODE)) < 0)  {
-		print_error($E{Cannot open semaphore});
-		return  E_SETUP;
-	}
+        if  ((Sem_chan = semget(SEMID, SEMNUMS, IPC_MODE)) < 0)  {
+                print_error($E{Cannot open semaphore});
+                return  E_SETUP;
+        }
 #endif
 
-	/* Open the other files. No read yet until the spool scheduler
-	   is aware of our existence, which it won't be until we
-	   send it a message.  */
+        /* Open the other files. No read yet until the spool scheduler
+           is aware of our existence, which it won't be until we
+           send it a message.  */
 
-	if  (!jobshminit(0))  {
-		print_error($E{Cannot open jshm});
-		return  E_JOBQ;
-	}
-	if  ((ec = msg_log(SO_MON, 1)) != 0)  {
-		print_error(ec);
-		return  E_SETUP;
-	}
-	rjobfile();
-	process(&argv[0]);
-	if  ((ec = msg_log(SO_DMON, 0)) != 0)  {
-		print_error(ec);
-		return  E_SETUP;
-	}
-	return  exit_code;
+        if  (!jobshminit(0))  {
+                print_error($E{Cannot open jshm});
+                return  E_JOBQ;
+        }
+        if  ((ec = msg_log(SO_MON, 1)) != 0)  {
+                print_error(ec);
+                return  E_SETUP;
+        }
+        rjobfile();
+        process(&argv[0]);
+        if  ((ec = msg_log(SO_DMON, 0)) != 0)  {
+                print_error(ec);
+                return  E_SETUP;
+        }
+        return  exit_code;
 }

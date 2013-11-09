@@ -25,22 +25,22 @@
 #include "spq.h"
 #include "incl_unix.h"
 
-static	char	result[NAMESIZE+4+1];
+static  char    result[NAMESIZE+4+1];
 
-int	spid_subdirs = -1;
+int     spid_subdirs = -1;
 
 char  *mkspid(const char *nam, const jobno_t jnum)
 {
-	if  (spid_subdirs < 0)  {
-		char	*ss = envprocess("${SPOOLSUBDS-0}");
-		spid_subdirs = atoi(ss);
-		if  (spid_subdirs < 0 || spid_subdirs > 999)
-			spid_subdirs = 0;
-		free(ss);
-	}
-	if  (spid_subdirs > 0)
-		sprintf(result, "%.3lu/%s%.8lu", (unsigned long) (jnum % spid_subdirs), nam, (unsigned long) jnum);
-	else
-		sprintf(result, "%s%.8lu", nam, (unsigned long) jnum);
-	return	result;
+        if  (spid_subdirs < 0)  {
+                char    *ss = envprocess("${SPOOLSUBDS-0}");
+                spid_subdirs = atoi(ss);
+                if  (spid_subdirs < 0 || spid_subdirs > 999)
+                        spid_subdirs = 0;
+                free(ss);
+        }
+        if  (spid_subdirs > 0)
+                sprintf(result, "%.3lu/%s%.8lu", (unsigned long) (jnum % spid_subdirs), nam, (unsigned long) jnum);
+        else
+                sprintf(result, "%s%.8lu", nam, (unsigned long) jnum);
+        return  result;
 }

@@ -695,7 +695,7 @@ MAINFN_TYPE	main(int argc, char **argv)
 #if	defined(NHONSUID) || defined(DEBUG)
 	int_ugid_t	chk_uid;
 #endif
-	versionprint(argv, "$Revision: 1.2 $", 0);
+	versionprint(argv, "$Revision: 1.9 $", 0);
 
 	if  ((progname = strrchr(argv[0], '/')))
 		progname++;

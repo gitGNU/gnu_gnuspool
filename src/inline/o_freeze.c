@@ -17,14 +17,14 @@
 
 OPTION(o_freezecd)
 {
-	freeze_wanted = 1;
-	freeze_cd = 1;
-	return  OPTRESULT_OK;
+        freeze_wanted = 1;
+        freeze_cd = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_freezehd)
 {
-	freeze_wanted = 1;
-	freeze_hd = 1;
-	return  OPTRESULT_OK;
+        freeze_wanted = 1;
+        freeze_hd = 1;
+        return  OPTRESULT_OK;
 }

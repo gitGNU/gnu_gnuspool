@@ -17,37 +17,37 @@
 
 /* These 4 don't do anything, they are just for the benefit of M4 */
 
-#define	XRES_COMMENT(s,n)
-#define	XRES_SPACE(n)
-#define	XRES_APPLICATION(n)
-#define	XRES_WIDGETOFFSETS(l,r,t,b)
+#define XRES_COMMENT(s,n)
+#define XRES_SPACE(n)
+#define XRES_APPLICATION(n)
+#define XRES_WIDGETOFFSETS(l,r,t,b)
 
-#define	XRES_LAYOUT(name, foreg, backg)	name,xmPanedWindowWidgetClass
-#define	XRES_LISTWIDGET(name, foreg, backg, items)	name
+#define XRES_LAYOUT(name, foreg, backg) name,xmPanedWindowWidgetClass
+#define XRES_LISTWIDGET(name, foreg, backg, items)      name
 
 /* Set up resources entries */
 
-#define	XRES_TYPE_BOOLEAN	XtRBoolean,sizeof(Boolean)
-#define	XRES_TYPE_INT		XtRInt,sizeof(int)
-#define	XRES_TYPE_STRING	XtRString,sizeof(String)
+#define XRES_TYPE_BOOLEAN       XtRBoolean,sizeof(Boolean)
+#define XRES_TYPE_INT           XtRInt,sizeof(int)
+#define XRES_TYPE_STRING        XtRString,sizeof(String)
 
-#define	XRES_VALUE_BOOLEAN(val)	XtRImmediate,(XtPointer)val
-#define	XRES_VALUE_INT(val)	XtRImmediate,(XtPointer)val
-#define	XRES_VALUE_STRING(val)	XtRString,val
+#define XRES_VALUE_BOOLEAN(val) XtRImmediate,(XtPointer)val
+#define XRES_VALUE_INT(val)     XtRImmediate,(XtPointer)val
+#define XRES_VALUE_STRING(val)  XtRString,val
 
-#define	XRES_RESOURCE(name, class, type, field, proginit, resinit)	{ name, class, type, XtOffsetOf(vrec_t, field), proginit }
+#define XRES_RESOURCE(name, class, type, field, proginit, resinit)      { name, class, type, XtOffsetOf(vrec_t, field), proginit }
 
-#define	XRES_MENUSTART(name, foreg, backg, border)
-#define	XRES_MENUHDR(name, label, mnem)			name
-#define	XRES_MENUITEM(name, label, mnem, acc, acctxt)	name
-#define	XRES_MENUEND()
-#define	XRES_TOOLSTART(name, foreg, backg, border)
-#define	XRES_TOOLBARITEM(name, label)			name
+#define XRES_MENUSTART(name, foreg, backg, border)
+#define XRES_MENUHDR(name, label, mnem)                 name
+#define XRES_MENUITEM(name, label, mnem, acc, acctxt)   name
+#define XRES_MENUEND()
+#define XRES_TOOLSTART(name, foreg, backg, border)
+#define XRES_TOOLBARITEM(name, label)                   name
 
-#define	XRES_STDDIALOG(name, title, foreg, backg)	name
-#define	XRES_DIALOG(name, title, foreg, backg)		name
-#define	XRES_LABELWIDGET(name, foreg, backg, label, align)	name
-#define	XRES_LABELGADGET(name, label)			name,xmLabelGadgetClass
-#define	XRES_TOGGLEBUTTONGADGET(name, label)		name,xmToggleButtonGadgetClass
-#define	XRES_PUSHBUTTONWIDGET(name, label)		name
-#define	XRES_PUSHBUTTONGADGET(name, label)		name,xmPushButtonGadgetClass
+#define XRES_STDDIALOG(name, title, foreg, backg)       name
+#define XRES_DIALOG(name, title, foreg, backg)          name
+#define XRES_LABELWIDGET(name, foreg, backg, label, align)      name
+#define XRES_LABELGADGET(name, label)                   name,xmLabelGadgetClass
+#define XRES_TOGGLEBUTTONGADGET(name, label)            name,xmToggleButtonGadgetClass
+#define XRES_PUSHBUTTONWIDGET(name, label)              name
+#define XRES_PUSHBUTTONGADGET(name, label)              name,xmPushButtonGadgetClass

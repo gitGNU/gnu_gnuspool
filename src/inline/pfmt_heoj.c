@@ -15,15 +15,15 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_heoj(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_heoj(const struct spptr *pp, const int fwidth)
 {
-	if  (pp->spp_sflags & SPP_HEOJ)  {
-#ifdef	INLINE_SPLIST
-		static	char	*halteoj;
-		if  (!halteoj)
-			halteoj = gprompt($P{Printer heoj});
+        if  (pp->spp_sflags & SPP_HEOJ)  {
+#ifdef  INLINE_SPLIST
+                static  char    *halteoj;
+                if  (!halteoj)
+                        halteoj = gprompt($P{Printer heoj});
 #endif
-		return  (fmt_t) strlen(strcpy(bigbuff, halteoj));
-	}
-	return  0;
+                return  (fmt_t) strlen(strcpy(bigbuff, halteoj));
+        }
+        return  0;
 }

@@ -15,20 +15,20 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-extern	int	hchanges,	/* Had changes to default */
-		uchanges;	/* Had changes to user(s) */
+extern  int     hchanges,       /* Had changes to default */
+                uchanges;       /* Had changes to user(s) */
 
-extern	struct	sphdr	Spuhdr;
-extern	struct	spdet	*ulist;
+extern  struct  sphdr   Spuhdr;
+extern  struct  spdet   *ulist;
 
 /* X stuff */
 
-extern	GtkWidget	*toplevel,	/* Main window */
-			*dwid,		/* Default list */
-			*uwid;		/* User scroll list */
+extern  GtkWidget       *toplevel,      /* Main window */
+                        *dwid,          /* Default list */
+                        *uwid;          /* User scroll list */
 
-extern	GtkListStore		*raw_ulist_store;
-extern	GtkTreeModelSort	*ulist_store;
+extern  GtkListStore            *raw_ulist_store;
+extern  GtkTreeModelSort        *ulist_store;
 
 extern void  activate_action(GtkAction *);
 
@@ -44,7 +44,7 @@ extern void  cb_copydef(GtkAction *);
 
 extern void  defdisplay();
 extern void  doerror(const int);
-#ifdef	NOTYET
+#ifdef  NOTYET
 extern void  displaybusy(const int);
 #endif
 extern void  update_all_users();
@@ -56,14 +56,14 @@ extern int  Confirm(const int);
 
 /* Column numbers for user list */
 
-#define	INDEX_COL	0
-#define	UID_COL		1
-#define	USNAM_COL	2
-#define	DEFPRI_COL	3
-#define	MINPRI_COL	4
-#define	MAXPRI_COL	5
-#define	COPIES_COL	6
-#define	DEFFORM_COL	7
-#define	DEFPTR_COL	8
-#define	CLASS_COL	9
-#define	PRIV_COL	10
+#define INDEX_COL       0
+#define UID_COL         1
+#define USNAM_COL       2
+#define DEFPRI_COL      3
+#define MINPRI_COL      4
+#define MAXPRI_COL      5
+#define COPIES_COL      6
+#define DEFFORM_COL     7
+#define DEFPTR_COL      8
+#define CLASS_COL       9
+#define PRIV_COL        10

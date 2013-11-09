@@ -23,12 +23,12 @@
 
 char  *runpwd()
 {
-	FILE	*fp;
-	char	*result;
+        FILE    *fp;
+        char    *result;
 
-	if  ((fp = popen("/bin/pwd", "r")) == (FILE *) 0)
-		return  (char *) 0;
-	result = strread(fp, "\n");
-	pclose(fp);
-	return  result;
+        if  ((fp = popen("/bin/pwd", "r")) == (FILE *) 0)
+                return  (char *) 0;
+        result = strread(fp, "\n");
+        pclose(fp);
+        return  result;
 }

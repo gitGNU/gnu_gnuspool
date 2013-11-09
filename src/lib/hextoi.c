@@ -21,35 +21,35 @@
 
 classcode_t  hextoi(const char *arg)
 {
-	classcode_t  result  =  0;
-	unsigned  ch;
+        classcode_t  result  =  0;
+        unsigned  ch;
 
-	while  (*arg)  {
-		if  (isalpha(*arg))  {
-			if  (toupper(*arg) > 'P')
-				return  result;
-			if  (isupper(*arg))
-				ch = *arg++ - 'A';
-			else
-				ch = *arg++ - 'a' + 16;
-			result |= 1 << ch;
-			if  (arg[0] == '-'  &&  isalpha(arg[1])  &&  toupper(arg[1]) <= 'P')  {
-				unsigned	ch2;
-				arg++;
-				if  (isupper(*arg))
-					ch2 = *arg++ - 'A';
-				else
-					ch2 = *arg++ - 'a' + 16;
-				if  (ch2 < ch)
-					return  result;
-				while  (ch <= ch2)
-					result |= 1 << ch++;
-			}
-		}
-		else  if  (*arg == '.')
-			arg++;
-		else
-			return  result;
-	}
-	return  result;
+        while  (*arg)  {
+                if  (isalpha(*arg))  {
+                        if  (toupper(*arg) > 'P')
+                                return  result;
+                        if  (isupper(*arg))
+                                ch = *arg++ - 'A';
+                        else
+                                ch = *arg++ - 'a' + 16;
+                        result |= 1 << ch;
+                        if  (arg[0] == '-'  &&  isalpha(arg[1])  &&  toupper(arg[1]) <= 'P')  {
+                                unsigned        ch2;
+                                arg++;
+                                if  (isupper(*arg))
+                                        ch2 = *arg++ - 'A';
+                                else
+                                        ch2 = *arg++ - 'a' + 16;
+                                if  (ch2 < ch)
+                                        return  result;
+                                while  (ch <= ch2)
+                                        result |= 1 << ch++;
+                        }
+                }
+                else  if  (*arg == '.')
+                        arg++;
+                else
+                        return  result;
+        }
+        return  result;
 }

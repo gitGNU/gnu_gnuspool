@@ -22,22 +22,22 @@
 
 char *gprompt(const int code)
 {
-	char	*result;
+        char    *result;
 
-	if  ((result = helpprmpt(code)) == (char *) 0)  {
-		char	**hv;
+        if  ((result = helpprmpt(code)) == (char *) 0)  {
+                char    **hv;
 
-		disp_arg[0] = code;
-		hv = helpvec($E{Missing prompt code}, 'E');
+                disp_arg[0] = code;
+                hv = helpvec($E{Missing prompt code}, 'E');
 
-		if  (!*hv)  {
-			free((char *) hv);
-			result = stracpy("Very mangled control file");
-		}
-		else  {
-			result = hv[0];
-			free((char *) hv);
-		}
-	}
-	return  result;
+                if  (!*hv)  {
+                        free((char *) hv);
+                        result = stracpy("Very mangled control file");
+                }
+                else  {
+                        result = hv[0];
+                        free((char *) hv);
+                }
+        }
+        return  result;
 }

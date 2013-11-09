@@ -15,17 +15,17 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_state(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_state(const struct spptr *pp, const int fwidth)
 {
-	int	staten = pp->spp_state >= SPP_NSTATES? SPP_NULL: pp->spp_state;
-#ifdef	CHARSPRINTF
-	if  (staten < SPP_HALT  &&  pp->spp_feedback[0])  {
-		sprintf(bigbuff, "%s:%s", statenames[staten], pp->spp_feedback);
-		return  (fmt_t) strlen(bigbuff);
-	}
+        int     staten = pp->spp_state >= SPP_NSTATES? SPP_NULL: pp->spp_state;
+#ifdef  CHARSPRINTF
+        if  (staten < SPP_HALT  &&  pp->spp_feedback[0])  {
+                sprintf(bigbuff, "%s:%s", statenames[staten], pp->spp_feedback);
+                return  (fmt_t) strlen(bigbuff);
+        }
 #else
-	if  (staten < SPP_HALT  &&  pp->spp_feedback[0])
-		return  (fmt_t) sprintf(bigbuff, "%s:%s", statenames[staten], pp->spp_feedback);
+        if  (staten < SPP_HALT  &&  pp->spp_feedback[0])
+                return  (fmt_t) sprintf(bigbuff, "%s:%s", statenames[staten], pp->spp_feedback);
 #endif
-	return  (fmt_t) strlen(strcpy(bigbuff, statenames[staten]));
+        return  (fmt_t) strlen(strcpy(bigbuff, statenames[staten]));
 }

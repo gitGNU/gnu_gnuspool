@@ -22,101 +22,101 @@
 
 char *match_comma(char *patt)
 {
-	while  (*patt  &&  *patt != ',')  {
-		if  (*patt == '[')  {
-			do  patt++;
-			while  (*patt  &&  *patt != ']');
-		}
-		if  (!*patt)
-			return  (char *) 0;
-		patt++;
-	}
-	if  (!*patt)
-		return  (char *) 0;
-	return  patt;
+        while  (*patt  &&  *patt != ',')  {
+                if  (*patt == '[')  {
+                        do  patt++;
+                        while  (*patt  &&  *patt != ']');
+                }
+                if  (!*patt)
+                        return  (char *) 0;
+                patt++;
+        }
+        if  (!*patt)
+                return  (char *) 0;
+        return  patt;
 }
 
 int  isinrange(const int ch, const char *patt, int *cnt)
 {
-	int	nott = 0;
-	const	char	*patta = patt;
+        int     nott = 0;
+        const   char    *patta = patt;
 
-	if  (*++patta == '!')  {
-		nott = 1;
-		patta++;
-	}
+        if  (*++patta == '!')  {
+                nott = 1;
+                patta++;
+        }
 
-	/* Safety in case pattern truncated */
+        /* Safety in case pattern truncated */
 
-	if  (*patta == '\0')
-		return  0;
+        if  (*patta == '\0')
+                return  0;
 
-	do  {
-		int  lrange, hrange, lv, uv;
+        do  {
+                int  lrange, hrange, lv, uv;
 
-		/* Initialise limits of range */
+                /* Initialise limits of range */
 
-		lrange = hrange = *patta++;
-		if  (*patta == '-')  {
-			hrange = *++patta;
-			if  (hrange == 0) /* Safety in case trunacated */
-				return  0;
+                lrange = hrange = *patta++;
+                if  (*patta == '-')  {
+                        hrange = *++patta;
+                        if  (hrange == 0) /* Safety in case trunacated */
+                                return  0;
 
-			/* Be relaxed about backwards ranges */
+                        /* Be relaxed about backwards ranges */
 
-			if  (hrange < lrange)  {
-				int	tmp = hrange;
-				hrange = lrange;
-				lrange = tmp;
-			}
-			patta++; /* Past rhs of range */
-		}
+                        if  (hrange < lrange)  {
+                                int     tmp = hrange;
+                                hrange = lrange;
+                                lrange = tmp;
+                        }
+                        patta++; /* Past rhs of range */
+                }
 
-		/* If value matches, and we are excluding range, then
-		   pattern doesn't and we quit.  Otherwise we
-		   skip to the end.  */
+                /* If value matches, and we are excluding range, then
+                   pattern doesn't and we quit.  Otherwise we
+                   skip to the end.  */
 
-		lv = uv = ch;
-		if  (isupper(lv))
-			lv = tolower(lv);
-		if  (islower(uv))
-			uv = toupper(uv);
-		if  ((lv >= lrange  &&  lv <= hrange)  ||  (uv >= lrange  &&  uv <= hrange))  {
-			if  (nott)
-				return  0;
-			while  (*patta  &&  *patta != ']')
-				patta++;
-			if  (*patta == '\0') /* Safety */
-				return  0;
-			patta++;
-			*cnt = patta - patt;
-			return  1;
-		}
-	}  while  (*patta  &&  *patta != ']');
+                lv = uv = ch;
+                if  (isupper(lv))
+                        lv = tolower(lv);
+                if  (islower(uv))
+                        uv = toupper(uv);
+                if  ((lv >= lrange  &&  lv <= hrange)  ||  (uv >= lrange  &&  uv <= hrange))  {
+                        if  (nott)
+                                return  0;
+                        while  (*patta  &&  *patta != ']')
+                                patta++;
+                        if  (*patta == '\0') /* Safety */
+                                return  0;
+                        patta++;
+                        *cnt = patta - patt;
+                        return  1;
+                }
+        }  while  (*patta  &&  *patta != ']');
 
-	if  (*patta == '\0') /* Safety */
-		return  0;
-	while  (*patta++ != ']')
-		;
-	if  (!nott)
-		return  0;
-	*cnt = patta - patt;
-	return  1;
+        if  (*patta == '\0') /* Safety */
+                return  0;
+        while  (*patta++ != ']')
+                ;
+        if  (!nott)
+                return  0;
+        *cnt = patta - patt;
+        return  1;
 }
 
 int  repattok(const char *str)
 {
-	while  (*str)  {
-		if  (*str == '[')  {
-			do  {
-				str++;
-				if  (*str == ',' || *str == '[')
-					return  0;
-			}  while  (*str && *str != ']');
-			if  (!*str)
-				return  0;
-		}
-		str++;
-	}
-	return  1;
+        while  (*str)  {
+                if  (*str == '[')  {
+                        do  {
+                                str++;
+                                if  (*str == ',' || *str == '[')
+                                        return  0;
+                        }  while  (*str && *str != ']');
+                        if  (!*str)
+                                return  0;
+                }
+                str++;
+        }
+        return  1;
 }

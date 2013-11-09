@@ -15,12 +15,12 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#define	CONNECTPORT_NAME1	"gnuspool"
-#define	CONNECTPORT_NAME2	"spshed"
-#define	CONNECTPORT_NAME3	"xitext"		/* For all those folk out there */
-#define	CONNECTPORT_NAME4	"spooler"
-#define	VIEWPORT_NAME1		"gnuspool-feeder"
-#define	VIEWPORT_NAME2		"spq"
-#define	GSNETSERV_PORT		"gnuspool-netsrv"
-#define	API_DEFAULT_SERVICE	"gnuspool-api"
-#define	API_MON_SERVICE		"gnuspool-api"
+#define CONNECTPORT_NAME1       "gnuspool"
+#define CONNECTPORT_NAME2       "spshed"
+#define CONNECTPORT_NAME3       "xitext"                /* For all those folk out there */
+#define CONNECTPORT_NAME4       "spooler"
+#define VIEWPORT_NAME1          "gnuspool-feeder"
+#define VIEWPORT_NAME2          "spq"
+#define GSNETSERV_PORT          "gnuspool-netsrv"
+#define API_DEFAULT_SERVICE     "gnuspool-api"
+#define API_MON_SERVICE         "gnuspool-api"

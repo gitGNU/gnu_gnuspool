@@ -15,13 +15,13 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_localonly(const struct spq *jp, const int fwidth)
+static  fmt_t   fmt_localonly(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_jflags & SPQ_LOCALONLY)  {
-		static	char	*loc_msg;
-		if  (!loc_msg)
-			loc_msg = gprompt($P{Fmt local});
-		return  (fmt_t) strlen(strcpy(bigbuff, loc_msg));
-	}
-	return  0;
+        if  (jp->spq_jflags & SPQ_LOCALONLY)  {
+                static  char    *loc_msg;
+                if  (!loc_msg)
+                        loc_msg = gprompt($P{Fmt local});
+                return  (fmt_t) strlen(strcpy(bigbuff, loc_msg));
+        }
+        return  0;
 }

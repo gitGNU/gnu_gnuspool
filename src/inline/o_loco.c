@@ -17,20 +17,20 @@
 
 OPTION(o_localonly)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	local_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        local_changes++;
 #endif
-	SPQ.spq_jflags |= SPQ_LOCALONLY;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags |= SPQ_LOCALONLY;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nolocalonly)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	local_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        local_changes++;
 #endif
-	SPQ.spq_jflags &= ~SPQ_LOCALONLY;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags &= ~SPQ_LOCALONLY;
+        return  OPTRESULT_OK;
 }

@@ -17,46 +17,46 @@
 
 OPTION(o_jobwait)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	jobtimeout = atoi(arg);
-	return  OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        jobtimeout = atoi(arg);
+        return  OPTRESULT_ARG_OK;
 }
 
 OPTION(o_pagelimit)
 {
-	int	num;
+        int     num;
 
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
 
-	if  (*arg == '-')  {
-	zapit:
-		SPQ.spq_dflags &= ~(SPQ_ERRLIMIT|SPQ_PGLIMIT);
-		SPQ.spq_pglim = 0;
-		return  OPTRESULT_ARG_OK;
-	}
-	if  (toupper(*arg) == 'N')  {
-		SPQ.spq_dflags &= ~SPQ_ERRLIMIT;
-		arg++;
-	}
-	else  if  (toupper(*arg) == 'E')  {
-		SPQ.spq_dflags |= SPQ_ERRLIMIT;
-		arg++;
-	}
+        if  (*arg == '-')  {
+        zapit:
+                SPQ.spq_dflags &= ~(SPQ_ERRLIMIT|SPQ_PGLIMIT);
+                SPQ.spq_pglim = 0;
+                return  OPTRESULT_ARG_OK;
+        }
+        if  (toupper(*arg) == 'N')  {
+                SPQ.spq_dflags &= ~SPQ_ERRLIMIT;
+                arg++;
+        }
+        else  if  (toupper(*arg) == 'E')  {
+                SPQ.spq_dflags |= SPQ_ERRLIMIT;
+                arg++;
+        }
 
-	num = 0;
-	while  (isdigit(*arg))
-		num = num * 10 + *arg++ - '0';
+        num = 0;
+        while  (isdigit(*arg))
+                num = num * 10 + *arg++ - '0';
 
-	if  (num <= 0  ||  num  > 65535)
-		goto  zapit;
+        if  (num <= 0  ||  num  > 65535)
+                goto  zapit;
 
-	SPQ.spq_pglim = (USHORT) num;
+        SPQ.spq_pglim = (USHORT) num;
 
-	if  (toupper(*arg) == 'P')
-		SPQ.spq_dflags |= SPQ_PGLIMIT;
-	else
-		SPQ.spq_dflags &= ~SPQ_PGLIMIT;
-	return  OPTRESULT_ARG_OK;
+        if  (toupper(*arg) == 'P')
+                SPQ.spq_dflags |= SPQ_PGLIMIT;
+        else
+                SPQ.spq_dflags &= ~SPQ_PGLIMIT;
+        return  OPTRESULT_ARG_OK;
 }

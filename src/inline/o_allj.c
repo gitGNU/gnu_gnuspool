@@ -17,18 +17,18 @@
 
 OPTION(o_allj)
 {
-	Displayopts.opt_jprindisp = JRESTR_ALL;
-	return  OPTRESULT_OK;
+        Displayopts.opt_jprindisp = JRESTR_ALL;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_justnp)
 {
-	Displayopts.opt_jprindisp = JRESTR_UNPRINT;
-	return  OPTRESULT_OK;
+        Displayopts.opt_jprindisp = JRESTR_UNPRINT;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_justp)
 {
-	Displayopts.opt_jprindisp = JRESTR_PRINT;
-	return  OPTRESULT_OK;
+        Displayopts.opt_jprindisp = JRESTR_PRINT;
+        return  OPTRESULT_OK;
 }

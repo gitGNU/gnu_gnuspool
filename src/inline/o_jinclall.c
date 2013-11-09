@@ -17,18 +17,18 @@
 
 OPTION(o_jinclnonull)
 {
-	Displayopts.opt_jinclude = JINCL_NONULL;
-	return  OPTRESULT_OK;
+        Displayopts.opt_jinclude = JINCL_NONULL;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_jinclnull)
 {
-	Displayopts.opt_jinclude = JINCL_NULL;
-	return  OPTRESULT_OK;
+        Displayopts.opt_jinclude = JINCL_NULL;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_jinclall)
 {
-	Displayopts.opt_jinclude = JINCL_ALL;
-	return  OPTRESULT_OK;
+        Displayopts.opt_jinclude = JINCL_ALL;
+        return  OPTRESULT_OK;
 }

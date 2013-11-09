@@ -17,40 +17,40 @@
 
 OPTION(o_setclass)
 {
-	classcode_t	num;
+        classcode_t     num;
 
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
 
-	num = hextoi(arg);
-#ifndef	INLINE_RSPR
-	if  (!(mypriv->spu_flgs & PV_COVER))
-		num &= mypriv->spu_class;
+        num = hextoi(arg);
+#ifndef INLINE_RSPR
+        if  (!(mypriv->spu_flgs & PV_COVER))
+                num &= mypriv->spu_class;
 #endif
-	if  (num == 0)  {
-		disp_str = arg;
-		disp_str2 = hex_disp(mypriv->spu_class, 0);
-#ifdef	INLINE_SQCHANGE
-		print_error($E{setting zero class});
+        if  (num == 0)  {
+                disp_str = arg;
+                disp_str2 = hex_disp(mypriv->spu_class, 0);
+#ifdef  INLINE_SQCHANGE
+                print_error($E{setting zero class});
 #endif
-#ifdef	INLINE_RSPR
-		print_error($E{setting zero class});
+#ifdef  INLINE_RSPR
+                print_error($E{setting zero class});
 #endif
-#ifdef	INLINE_SPR
-		print_error($E{setting zero class});
+#ifdef  INLINE_SPR
+                print_error($E{setting zero class});
 #endif
-		exit(E_BADCLASS);
-	}
+                exit(E_BADCLASS);
+        }
 
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	cc_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        cc_changes++;
 #endif
-#ifdef	INLINE_SPSTART
-	set_classcode = num;
-	setc++;
+#ifdef  INLINE_SPSTART
+        set_classcode = num;
+        setc++;
 #else
-	SPQ.spq_class = num;
+        SPQ.spq_class = num;
 #endif
-	return  OPTRESULT_ARG_OK;
+        return  OPTRESULT_ARG_OK;
 }

@@ -46,9 +46,9 @@
    I think this is secure but if it isn't please let me know
    ASAP!!! (and suggest how to fix) */
 
-void	nomem()
+void    nomem()
 {
-	exit(E_NOMEM);
+        exit(E_NOMEM);
 }
 
 
@@ -59,88 +59,88 @@ void	nomem()
 
 char **rewrite(char **argv)
 {
-	unsigned  nargs = 1;	/* Including null */
-	char	**ap, *sp, *np;
-	char	**result, **rp;
+        unsigned  nargs = 1;    /* Including null */
+        char    **ap, *sp, *np;
+        char    **result, **rp;
 
-	/* If it doesn't have spaces in, nothing to do */
+        /* If it doesn't have spaces in, nothing to do */
 
-	if  (!strchr(argv[0], ' '))
-		return  argv;
+        if  (!strchr(argv[0], ' '))
+                return  argv;
 
-	/* Count the number of args */
+        /* Count the number of args */
 
-	for  (ap = argv;  *ap;  ap++)
-		nargs++;
+        for  (ap = argv;  *ap;  ap++)
+                nargs++;
 
-	/* Assume increase in number of args is same as number of spaces
-	   this may be an overestimate */
+        /* Assume increase in number of args is same as number of spaces
+           this may be an overestimate */
 
-	for  (sp = argv[0];  (np = strchr(sp, ' '));  sp = np + 1)
-		nargs++;
+        for  (sp = argv[0];  (np = strchr(sp, ' '));  sp = np + 1)
+                nargs++;
 
-	result = (char **) malloc(nargs * sizeof(char *));
-	if  (!result)
-		exit(E_NOMEM);
+        result = (char **) malloc(nargs * sizeof(char *));
+        if  (!result)
+                exit(E_NOMEM);
 
-	rp = result;
+        rp = result;
 
-	for  (sp = argv[0];  (np = strchr(sp, ' '));  sp = np)  {
-		*np = '\0';	/* Assume doesn't matter if we clobber it */
-		*rp++ = sp;
-		do  np++;
-		while  (*np == ' ');
-	}
+        for  (sp = argv[0];  (np = strchr(sp, ' '));  sp = np)  {
+                *np = '\0';     /* Assume doesn't matter if we clobber it */
+                *rp++ = sp;
+                do  np++;
+                while  (*np == ' ');
+        }
 
-	/* Add trailing stuff */
+        /* Add trailing stuff */
 
-	if  (*sp)
-		*rp++ = sp;
+        if  (*sp)
+                *rp++ = sp;
 
-	/* Add rest of args */
+        /* Add rest of args */
 
-	for  (ap = argv + 1;  *ap;  ap++)
-		*rp++ = *ap;
-	*rp = (char *) 0;
+        for  (ap = argv + 1;  *ap;  ap++)
+                *rp++ = *ap;
+        *rp = (char *) 0;
 
-	return  result;
+        return  result;
 }
 
 MAINFN_TYPE  main(int argc, char **argv)
 {
-	struct  passwd  *pw = getpwnam(SPUNAME);
-	uid_t  duid = ROOTID, myuid = getuid();
-	char	**newargv;
+        struct  passwd  *pw = getpwnam(SPUNAME);
+        uid_t  duid = ROOTID, myuid = getuid();
+        char    **newargv;
 
-	versionprint(argv, "$Revision: 1.2 $", 1);
+        versionprint(argv, "$Revision: 1.9 $", 1);
 
-	/* Get spooler uid */
+        /* Get spooler uid */
 
-	if  (pw)
-		duid = pw->pw_uid;
-	endpwent();
+        if  (pw)
+                duid = pw->pw_uid;
+        endpwent();
 
-	/* If the real user id is "spooler" this is either because we have invoked the
-	   original ui program as spooler or because we have invoked a GTK program which
-	   switched the real uid to spooler. In such cases we fish the uid out of the
-	   home directory and use that.
+        /* If the real user id is "spooler" this is either because we have invoked the
+           original ui program as spooler or because we have invoked a GTK program which
+           switched the real uid to spooler. In such cases we fish the uid out of the
+           home directory and use that.
 
-	   Refuse to work if no home directory or it looks strange */
+           Refuse to work if no home directory or it looks strange */
 
-	if  (myuid == duid)  {
-		char	*homed = getenv("HOME");
-		struct  stat  sbuf;
+        if  (myuid == duid)  {
+                char    *homed = getenv("HOME");
+                struct  stat  sbuf;
 
-		if  (!homed  ||  stat(homed, &sbuf) < 0  ||  (sbuf.st_mode & S_IFMT) != S_IFDIR)
-			exit(E_SETUP);
+                if  (!homed  ||  stat(homed, &sbuf) < 0  ||  (sbuf.st_mode & S_IFMT) != S_IFDIR)
+                        exit(E_SETUP);
 
-		myuid = sbuf.st_uid;
-	}
+                myuid = sbuf.st_uid;
+        }
 
-	/* Switch completely to the user id and do the bizniz. */
+        /* Switch completely to the user id and do the bizniz. */
 
-	setuid(myuid);
-	newargv = rewrite(argv);
-	execvp(newargv[0], newargv);
-	exit(E_SPEXEC2);
+        setuid(myuid);
+        newargv = rewrite(argv);
+        execvp(newargv[0], newargv);
+        exit(E_SPEXEC2);
 }

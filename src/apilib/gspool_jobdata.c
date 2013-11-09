@@ -31,7 +31,7 @@ extern int	gspool_rmsg(const struct api_fd *, struct api_msg *);
 extern int	gspool_wmsg(const struct api_fd *, struct api_msg *);
 extern struct	api_fd *gspool_look_fd(const int);
 
-static	void	soakupdata(const struct api_fd * fdp)
+static	void  soakupdata(const struct api_fd *fdp)
 {
 	int	bcount;
 	struct	api_msg	msg;
@@ -70,7 +70,7 @@ static FILE *gspool_jdread(const int fd, const unsigned flags, const slotno_t sl
 	if  (msg.un.r_reader.seq != 0)
 		fdp->jserial = ntohl(msg.un.r_reader.seq);
 	if  (msg.retcode != 0)  {
-		gspool_dataerror = ntohs(msg.retcode);
+		gspool_dataerror = (SHORT) ntohs(msg.retcode);
 		return  (FILE *) 0;
 	}
 

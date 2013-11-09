@@ -17,12 +17,12 @@
 
 OPTION(o_flags)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	flags_changes++;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        flags_changes++;
 #endif
-	strncpy(SPQ.spq_flags, arg, MAXFLAGS);
-	return  OPTRESULT_ARG_OK;
+        strncpy(SPQ.spq_flags, arg, MAXFLAGS);
+        return  OPTRESULT_ARG_OK;
 }

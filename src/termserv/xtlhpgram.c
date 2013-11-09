@@ -143,55 +143,55 @@
 #include "incl_unix.h"
 #include "xtlhpdefs.h"
 
-extern int	yylex(void);
+extern int      yylex(void);
 
-int	errors = 0;
+int     errors = 0;
 
-extern	int	line_count;
+extern  int     line_count;
 
-extern	struct	command	*Control_list;
+extern  struct  command *Control_list;
 
-void	yyerror(char *msg)
+void    yyerror(char *msg)
 {
-	fprintf(stderr, "Parse error: %s on line %d\n", msg, line_count);
-	errors++;
+        fprintf(stderr, "Parse error: %s on line %d\n", msg, line_count);
+        errors++;
 }
 
-struct	compare	 *alloc_compare(int type)
+struct  compare  *alloc_compare(int type)
 {
-	struct	compare	*result;
-	if  (!(result = (struct compare *) malloc(sizeof(struct compare))))
-		nomem();
-	result->type = type;
-	return  result;
+        struct  compare *result;
+        if  (!(result = (struct compare *) malloc(sizeof(struct compare))))
+                nomem();
+        result->type = type;
+        return  result;
 }
 
 struct value  *alloc_value(int type)
 {
-	struct	value	*result;
-	if  (!(result = (struct value *) malloc(sizeof(struct value))))
-		nomem();
-	result->type = type;
-	return  result;
+        struct  value   *result;
+        if  (!(result = (struct value *) malloc(sizeof(struct value))))
+                nomem();
+        result->type = type;
+        return  result;
 }
 
 struct boolexpr  *alloc_boolexpr(int type)
 {
-	struct  boolexpr  *result;
-	if  (!(result = (struct boolexpr *) malloc(sizeof(struct boolexpr))))
-		nomem();
-	result->type = type;
-	return  result;
+        struct  boolexpr  *result;
+        if  (!(result = (struct boolexpr *) malloc(sizeof(struct boolexpr))))
+                nomem();
+        result->type = type;
+        return  result;
 }
 
-struct	command	 *alloc_cmd(int type)
+struct  command  *alloc_cmd(int type)
 {
-	struct	command	*result;
-	if  (!(result = (struct command *) malloc(sizeof(struct command))))
-		nomem();
-	result->type = type;
-	result->next = (struct command *) 0;
-	return  result;
+        struct  command *result;
+        if  (!(result = (struct command *) malloc(sizeof(struct command))))
+                nomem();
+        result->type = type;
+        result->next = (struct command *) 0;
+        return  result;
 }
 
 
@@ -218,18 +218,18 @@ struct	command	 *alloc_cmd(int type)
 typedef union YYSTYPE
 #line 77 "xtlhpgram.y"
 {
-	int		intval;
-	long		longval;
-	char		*stringval;
-	struct	value	*valval;
-	struct	macro	*nameval;
-	struct	boolexpr *exprval;
-	struct	compare	*cmpval;
-	struct	command	*cmdval;
+        int             intval;
+        long            longval;
+        char            *stringval;
+        struct  value   *valval;
+        struct  macro   *nameval;
+        struct  boolexpr *exprval;
+        struct  compare *cmpval;
+        struct  command *cmdval;
 }
 /* Line 193 of yacc.c.  */
 #line 232 "y.tab.c"
-	YYSTYPE;
+        YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
@@ -373,7 +373,7 @@ YYID (i)
 #  endif
 #  if (defined __cplusplus && ! defined _STDLIB_H \
        && ! ((defined YYMALLOC || defined malloc) \
-	     && (defined YYFREE || defined free)))
+             && (defined YYFREE || defined free)))
 #   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
 #   ifndef _STDLIB_H
 #    define _STDLIB_H 1
@@ -399,7 +399,7 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 
 #if (! defined yyoverflow \
      && (! defined __cplusplus \
-	 || (defined YYSTYPE_IS_TRIVIAL && YYSTYPE_IS_TRIVIAL)))
+         || (defined YYSTYPE_IS_TRIVIAL && YYSTYPE_IS_TRIVIAL)))
 
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
@@ -424,13 +424,13 @@ union yyalloc
 #   define YYCOPY(To, From, Count) \
       __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
 #  else
-#   define YYCOPY(To, From, Count)		\
-      do					\
-	{					\
-	  YYSIZE_T yyi;				\
-	  for (yyi = 0; yyi < (Count); yyi++)	\
-	    (To)[yyi] = (From)[yyi];		\
-	}					\
+#   define YYCOPY(To, From, Count)              \
+      do                                        \
+        {                                       \
+          YYSIZE_T yyi;                         \
+          for (yyi = 0; yyi < (Count); yyi++)   \
+            (To)[yyi] = (From)[yyi];            \
+        }                                       \
       while (YYID (0))
 #  endif
 # endif
@@ -440,15 +440,15 @@ union yyalloc
    elements in the stack, and YYPTR gives the new location of the
    stack.  Advance YYPTR to a properly aligned location for the next
    stack.  */
-# define YYSTACK_RELOCATE(Stack)					\
-    do									\
-      {									\
-	YYSIZE_T yynewbytes;						\
-	YYCOPY (&yyptr->Stack, Stack, yysize);				\
-	Stack = &yyptr->Stack;						\
-	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
-	yyptr += yynewbytes / sizeof (*yyptr);				\
-      }									\
+# define YYSTACK_RELOCATE(Stack)                                        \
+    do                                                                  \
+      {                                                                 \
+        YYSIZE_T yynewbytes;                                            \
+        YYCOPY (&yyptr->Stack, Stack, yysize);                          \
+        Stack = &yyptr->Stack;                                          \
+        yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+        yyptr += yynewbytes / sizeof (*yyptr);                          \
+      }                                                                 \
     while (YYID (0))
 
 #endif
@@ -471,7 +471,7 @@ union yyalloc
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   288
 
-#define YYTRANSLATE(YYX)						\
+#define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[YYLEX] -- Bison symbol number corresponding to YYLEX.  */
@@ -705,44 +705,44 @@ static const yytype_uint8 yystos[] =
       20,    38,    47,    38,    20,    38
 };
 
-#define yyerrok		(yyerrstatus = 0)
-#define yyclearin	(yychar = YYEMPTY)
-#define YYEMPTY		(-2)
-#define YYEOF		0
+#define yyerrok         (yyerrstatus = 0)
+#define yyclearin       (yychar = YYEMPTY)
+#define YYEMPTY         (-2)
+#define YYEOF           0
 
-#define YYACCEPT	goto yyacceptlab
-#define YYABORT		goto yyabortlab
-#define YYERROR		goto yyerrorlab
+#define YYACCEPT        goto yyacceptlab
+#define YYABORT         goto yyabortlab
+#define YYERROR         goto yyerrorlab
 
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
    Once GCC version 2 has supplanted version 1, this can go.  */
 
-#define YYFAIL		goto yyerrlab
+#define YYFAIL          goto yyerrlab
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
-#define YYBACKUP(Token, Value)					\
-do								\
-  if (yychar == YYEMPTY && yylen == 1)				\
-    {								\
-      yychar = (Token);						\
-      yylval = (Value);						\
-      yytoken = YYTRANSLATE (yychar);				\
-      YYPOPSTACK (1);						\
-      goto yybackup;						\
-    }								\
-  else								\
-    {								\
+#define YYBACKUP(Token, Value)                                  \
+do                                                              \
+  if (yychar == YYEMPTY && yylen == 1)                          \
+    {                                                           \
+      yychar = (Token);                                         \
+      yylval = (Value);                                         \
+      yytoken = YYTRANSLATE (yychar);                           \
+      YYPOPSTACK (1);                                           \
+      goto yybackup;                                            \
+    }                                                           \
+  else                                                          \
+    {                                                           \
       yyerror (YY_("syntax error: cannot back up")); \
-      YYERROR;							\
-    }								\
+      YYERROR;                                                  \
+    }                                                           \
 while (YYID (0))
 
 
-#define YYTERROR	1
-#define YYERRCODE	256
+#define YYTERROR        1
+#define YYERRCODE       256
 
 
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
@@ -751,22 +751,22 @@ while (YYID (0))
 
 #define YYRHSLOC(Rhs, K) ((Rhs)[K])
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)				\
-    do									\
+# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
+    do                                                                  \
       if (YYID (N))                                                    \
-	{								\
-	  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
-	  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
-	  (Current).last_line    = YYRHSLOC (Rhs, N).last_line;		\
-	  (Current).last_column  = YYRHSLOC (Rhs, N).last_column;	\
-	}								\
-      else								\
-	{								\
-	  (Current).first_line   = (Current).last_line   =		\
-	    YYRHSLOC (Rhs, 0).last_line;				\
-	  (Current).first_column = (Current).last_column =		\
-	    YYRHSLOC (Rhs, 0).last_column;				\
-	}								\
+        {                                                               \
+          (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;        \
+          (Current).first_column = YYRHSLOC (Rhs, 1).first_column;      \
+          (Current).last_line    = YYRHSLOC (Rhs, N).last_line;         \
+          (Current).last_column  = YYRHSLOC (Rhs, N).last_column;       \
+        }                                                               \
+      else                                                              \
+        {                                                               \
+          (Current).first_line   = (Current).last_line   =              \
+            YYRHSLOC (Rhs, 0).last_line;                                \
+          (Current).first_column = (Current).last_column =              \
+            YYRHSLOC (Rhs, 0).last_column;                              \
+        }                                                               \
     while (YYID (0))
 #endif
 
@@ -777,10 +777,10 @@ while (YYID (0))
 
 #ifndef YY_LOCATION_PRINT
 # if YYLTYPE_IS_TRIVIAL
-#  define YY_LOCATION_PRINT(File, Loc)			\
-     fprintf (File, "%d.%d-%d.%d",			\
-	      (Loc).first_line, (Loc).first_column,	\
-	      (Loc).last_line,  (Loc).last_column)
+#  define YY_LOCATION_PRINT(File, Loc)                  \
+     fprintf (File, "%d.%d-%d.%d",                      \
+              (Loc).first_line, (Loc).first_column,     \
+              (Loc).last_line,  (Loc).last_column)
 # else
 #  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 # endif
@@ -803,21 +803,21 @@ while (YYID (0))
 #  define YYFPRINTF fprintf
 # endif
 
-# define YYDPRINTF(Args)			\
-do {						\
-  if (yydebug)					\
-    YYFPRINTF Args;				\
+# define YYDPRINTF(Args)                        \
+do {                                            \
+  if (yydebug)                                  \
+    YYFPRINTF Args;                             \
 } while (YYID (0))
 
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)			  \
-do {									  \
-  if (yydebug)								  \
-    {									  \
-      YYFPRINTF (stderr, "%s ", Title);					  \
-      yy_symbol_print (stderr,						  \
-		  Type, Value); \
-      YYFPRINTF (stderr, "\n");						  \
-    }									  \
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)                    \
+do {                                                                      \
+  if (yydebug)                                                            \
+    {                                                                     \
+      YYFPRINTF (stderr, "%s ", Title);                                   \
+      yy_symbol_print (stderr,                                            \
+                  Type, Value); \
+      YYFPRINTF (stderr, "\n");                                           \
+    }                                                                     \
 } while (YYID (0))
 
 
@@ -849,7 +849,7 @@ yy_symbol_value_print (yyoutput, yytype, yyvaluep)
   switch (yytype)
     {
       default:
-	break;
+        break;
     }
 }
 
@@ -901,10 +901,10 @@ yy_stack_print (bottom, top)
   YYFPRINTF (stderr, "\n");
 }
 
-# define YY_STACK_PRINT(Bottom, Top)				\
-do {								\
-  if (yydebug)							\
-    yy_stack_print ((Bottom), (Top));				\
+# define YY_STACK_PRINT(Bottom, Top)                            \
+do {                                                            \
+  if (yydebug)                                                  \
+    yy_stack_print ((Bottom), (Top));                           \
 } while (YYID (0))
 
 
@@ -927,21 +927,21 @@ yy_reduce_print (yyvsp, yyrule)
   int yyi;
   unsigned long int yylno = yyrline[yyrule];
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
-	     yyrule - 1, yylno);
+             yyrule - 1, yylno);
   /* The symbols being reduced.  */
   for (yyi = 0; yyi < yynrhs; yyi++)
     {
       fprintf (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr, yyrhs[yyprhs[yyrule] + yyi],
-		       &(yyvsp[(yyi + 1) - (yynrhs)])
-		       		       );
+                       &(yyvsp[(yyi + 1) - (yynrhs)])
+                                       );
       fprintf (stderr, "\n");
     }
 }
 
-# define YY_REDUCE_PRINT(Rule)		\
-do {					\
-  if (yydebug)				\
+# define YY_REDUCE_PRINT(Rule)          \
+do {                                    \
+  if (yydebug)                          \
     yy_reduce_print (yyvsp, Rule); \
 } while (YYID (0))
 
@@ -957,7 +957,7 @@ int yydebug;
 
 
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
-#ifndef	YYINITDEPTH
+#ifndef YYINITDEPTH
 # define YYINITDEPTH 200
 #endif
 
@@ -972,7 +972,8 @@ int yydebug;
 # define YYMAXDEPTH 10000
 #endif
 
-
+
+
 
 #if YYERROR_VERBOSE
 
@@ -1044,27 +1045,27 @@ yytnamerr (char *yyres, const char *yystr)
       char const *yyp = yystr;
 
       for (;;)
-	switch (*++yyp)
-	  {
-	  case '\'':
-	  case ',':
-	    goto do_not_strip_quotes;
+        switch (*++yyp)
+          {
+          case '\'':
+          case ',':
+            goto do_not_strip_quotes;
 
-	  case '\\':
-	    if (*++yyp != '\\')
-	      goto do_not_strip_quotes;
-	    /* Fall through.  */
-	  default:
-	    if (yyres)
-	      yyres[yyn] = *yyp;
-	    yyn++;
-	    break;
+          case '\\':
+            if (*++yyp != '\\')
+              goto do_not_strip_quotes;
+            /* Fall through.  */
+          default:
+            if (yyres)
+              yyres[yyn] = *yyp;
+            yyn++;
+            break;
 
-	  case '"':
-	    if (yyres)
-	      yyres[yyn] = '\0';
-	    return yyn;
-	  }
+          case '"':
+            if (yyres)
+              yyres[yyn] = '\0';
+            return yyn;
+          }
     do_not_strip_quotes: ;
     }
 
@@ -1102,7 +1103,7 @@ yysyntax_error (char *yyresult, int yystate, int yychar)
 
 # if 0
       /* This is so xgettext sees the translatable formats that are
-	 constructed on the fly.  */
+         constructed on the fly.  */
       YY_("syntax error, unexpected %s");
       YY_("syntax error, unexpected %s, expecting %s");
       YY_("syntax error, unexpected %s, expecting %s or %s");
@@ -1115,13 +1116,13 @@ yysyntax_error (char *yyresult, int yystate, int yychar)
       static char const yyexpecting[] = ", expecting %s";
       static char const yyor[] = " or %s";
       char yyformat[sizeof yyunexpected
-		    + sizeof yyexpecting - 1
-		    + ((YYERROR_VERBOSE_ARGS_MAXIMUM - 2)
-		       * (sizeof yyor - 1))];
+                    + sizeof yyexpecting - 1
+                    + ((YYERROR_VERBOSE_ARGS_MAXIMUM - 2)
+                       * (sizeof yyor - 1))];
       char const *yyprefix = yyexpecting;
 
       /* Start YYX at -YYN if negative to avoid negative indexes in
-	 YYCHECK.  */
+         YYCHECK.  */
       int yyxbegin = yyn < 0 ? -yyn : 0;
 
       /* Stay within bounds of both yycheck and yytname.  */
@@ -1133,22 +1134,22 @@ yysyntax_error (char *yyresult, int yystate, int yychar)
       yyfmt = yystpcpy (yyformat, yyunexpected);
 
       for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-	if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-	  {
-	    if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-	      {
-		yycount = 1;
-		yysize = yysize0;
-		yyformat[sizeof yyunexpected - 1] = '\0';
-		break;
-	      }
-	    yyarg[yycount++] = yytname[yyx];
-	    yysize1 = yysize + yytnamerr (0, yytname[yyx]);
-	    yysize_overflow |= (yysize1 < yysize);
-	    yysize = yysize1;
-	    yyfmt = yystpcpy (yyfmt, yyprefix);
-	    yyprefix = yyor;
-	  }
+        if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
+          {
+            if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+              {
+                yycount = 1;
+                yysize = yysize0;
+                yyformat[sizeof yyunexpected - 1] = '\0';
+                break;
+              }
+            yyarg[yycount++] = yytname[yyx];
+            yysize1 = yysize + yytnamerr (0, yytname[yyx]);
+            yysize_overflow |= (yysize1 < yysize);
+            yysize = yysize1;
+            yyfmt = yystpcpy (yyfmt, yyprefix);
+            yyprefix = yyor;
+          }
 
       yyf = YY_(yyformat);
       yysize1 = yysize + yystrlen (yyf);
@@ -1156,34 +1157,35 @@ yysyntax_error (char *yyresult, int yystate, int yychar)
       yysize = yysize1;
 
       if (yysize_overflow)
-	return YYSIZE_MAXIMUM;
+        return YYSIZE_MAXIMUM;
 
       if (yyresult)
-	{
-	  /* Avoid sprintf, as that infringes on the user's name space.
-	     Don't have undefined behavior even if the translation
-	     produced a string with the wrong number of "%s"s.  */
-	  char *yyp = yyresult;
-	  int yyi = 0;
-	  while ((*yyp = *yyf) != '\0')
-	    {
-	      if (*yyp == '%' && yyf[1] == 's' && yyi < yycount)
-		{
-		  yyp += yytnamerr (yyp, yyarg[yyi++]);
-		  yyf += 2;
-		}
-	      else
-		{
-		  yyp++;
-		  yyf++;
-		}
-	    }
-	}
+        {
+          /* Avoid sprintf, as that infringes on the user's name space.
+             Don't have undefined behavior even if the translation
+             produced a string with the wrong number of "%s"s.  */
+          char *yyp = yyresult;
+          int yyi = 0;
+          while ((*yyp = *yyf) != '\0')
+            {
+              if (*yyp == '%' && yyf[1] == 's' && yyi < yycount)
+                {
+                  yyp += yytnamerr (yyp, yyarg[yyi++]);
+                  yyf += 2;
+                }
+              else
+                {
+                  yyp++;
+                  yyf++;
+                }
+            }
+        }
       return yysize;
     }
 }
 #endif /* YYERROR_VERBOSE */
-
+
+
 
 /*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
@@ -1212,10 +1214,11 @@ yydestruct (yymsg, yytype, yyvaluep)
     {
 
       default:
-	break;
+        break;
     }
 }
-
+
+
 
 /* Prevent warnings from -Wmissing-prototypes.  */
 
@@ -1272,7 +1275,7 @@ yyparse ()
 #endif
 #endif
 {
-  
+
   int yystate;
   int yyn;
   int yyresult;
@@ -1325,7 +1328,7 @@ yyparse ()
   yystate = 0;
   yyerrstatus = 0;
   yynerrs = 0;
-  yychar = YYEMPTY;		/* Cause a token to be read.  */
+  yychar = YYEMPTY;             /* Cause a token to be read.  */
 
   /* Initialize stack pointers.
      Waste one element of value and location stack
@@ -1355,25 +1358,25 @@ yyparse ()
 
 #ifdef yyoverflow
       {
-	/* Give user a chance to reallocate the stack.  Use copies of
-	   these so that the &'s don't force the real ones into
-	   memory.  */
-	YYSTYPE *yyvs1 = yyvs;
-	yytype_int16 *yyss1 = yyss;
+        /* Give user a chance to reallocate the stack.  Use copies of
+           these so that the &'s don't force the real ones into
+           memory.  */
+        YYSTYPE *yyvs1 = yyvs;
+        yytype_int16 *yyss1 = yyss;
 
 
-	/* Each stack pointer address is followed by the size of the
-	   data in use in that stack, in bytes.  This used to be a
-	   conditional around just the two extra args, but that might
-	   be undefined if yyoverflow is a macro.  */
-	yyoverflow (YY_("memory exhausted"),
-		    &yyss1, yysize * sizeof (*yyssp),
-		    &yyvs1, yysize * sizeof (*yyvsp),
+        /* Each stack pointer address is followed by the size of the
+           data in use in that stack, in bytes.  This used to be a
+           conditional around just the two extra args, but that might
+           be undefined if yyoverflow is a macro.  */
+        yyoverflow (YY_("memory exhausted"),
+                    &yyss1, yysize * sizeof (*yyssp),
+                    &yyvs1, yysize * sizeof (*yyvsp),
 
-		    &yystacksize);
+                    &yystacksize);
 
-	yyss = yyss1;
-	yyvs = yyvs1;
+        yyss = yyss1;
+        yyvs = yyvs1;
       }
 #else /* no yyoverflow */
 # ifndef YYSTACK_RELOCATE
@@ -1381,23 +1384,23 @@ yyparse ()
 # else
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
-	goto yyexhaustedlab;
+        goto yyexhaustedlab;
       yystacksize *= 2;
       if (YYMAXDEPTH < yystacksize)
-	yystacksize = YYMAXDEPTH;
+        yystacksize = YYMAXDEPTH;
 
       {
-	yytype_int16 *yyss1 = yyss;
-	union yyalloc *yyptr =
-	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
-	if (! yyptr)
-	  goto yyexhaustedlab;
-	YYSTACK_RELOCATE (yyss);
-	YYSTACK_RELOCATE (yyvs);
+        yytype_int16 *yyss1 = yyss;
+        union yyalloc *yyptr =
+          (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
+        if (! yyptr)
+          goto yyexhaustedlab;
+        YYSTACK_RELOCATE (yyss);
+        YYSTACK_RELOCATE (yyvs);
 
 #  undef YYSTACK_RELOCATE
-	if (yyss1 != yyssa)
-	  YYSTACK_FREE (yyss1);
+        if (yyss1 != yyssa)
+          YYSTACK_FREE (yyss1);
       }
 # endif
 #endif /* no yyoverflow */
@@ -1407,10 +1410,10 @@ yyparse ()
 
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
-		  (unsigned long int) yystacksize));
+                  (unsigned long int) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
-	YYABORT;
+        YYABORT;
     }
 
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
@@ -1459,7 +1462,7 @@ yybackup:
   if (yyn <= 0)
     {
       if (yyn == 0 || yyn == YYTABLE_NINF)
-	goto yyerrlab;
+        goto yyerrlab;
       yyn = -yyn;
       goto yyreduce;
     }
@@ -1519,189 +1522,189 @@ yyreduce:
         case 2:
 #line 110 "xtlhpgram.y"
     {
-			Control_list = (yyvsp[(1) - (1)].cmdval);
-		}
+                        Control_list = (yyvsp[(1) - (1)].cmdval);
+                }
     break;
 
   case 4:
 #line 118 "xtlhpgram.y"
     {
-			struct	command	*cp;
-			for  (cp = (yyvsp[(1) - (2)].cmdval);  cp->next;  cp = cp->next)
-				;
-			cp->next = (yyvsp[(2) - (2)].cmdval);
-			(yyval.cmdval) = (yyvsp[(1) - (2)].cmdval);
-		}
+                        struct  command *cp;
+                        for  (cp = (yyvsp[(1) - (2)].cmdval);  cp->next;  cp = cp->next)
+                                ;
+                        cp->next = (yyvsp[(2) - (2)].cmdval);
+                        (yyval.cmdval) = (yyvsp[(1) - (2)].cmdval);
+                }
     break;
 
   case 10:
 #line 130 "xtlhpgram.y"
     {
-			(yyval.cmdval) = alloc_cmd(CMD_ASS);
-			(yyval.cmdval)->cmd_un.ass.ass_name = (yyvsp[(1) - (3)].nameval);
-			(yyval.cmdval)->cmd_un.ass.ass_value = (yyvsp[(3) - (3)].valval);
-		}
+                        (yyval.cmdval) = alloc_cmd(CMD_ASS);
+                        (yyval.cmdval)->cmd_un.ass.ass_name = (yyvsp[(1) - (3)].nameval);
+                        (yyval.cmdval)->cmd_un.ass.ass_value = (yyvsp[(3) - (3)].valval);
+                }
     break;
 
   case 11:
 #line 137 "xtlhpgram.y"
     {
-			(yyval.cmdval) = alloc_cmd(CMD_ONEASS);
-			(yyval.cmdval)->cmd_un.ass.ass_name = (yyvsp[(1) - (3)].nameval);
-			(yyval.cmdval)->cmd_un.ass.ass_value = (yyvsp[(3) - (3)].valval);
-		}
+                        (yyval.cmdval) = alloc_cmd(CMD_ONEASS);
+                        (yyval.cmdval)->cmd_un.ass.ass_name = (yyvsp[(1) - (3)].nameval);
+                        (yyval.cmdval)->cmd_un.ass.ass_value = (yyvsp[(3) - (3)].valval);
+                }
     break;
 
   case 12:
 #line 145 "xtlhpgram.y"
     {
-			(yyval.cmdval) = alloc_cmd(CMD_IF);
-			(yyval.cmdval)->cmd_un.ifthen.comp_expr = (yyvsp[(2) - (6)].exprval);
-			(yyval.cmdval)->cmd_un.ifthen.thenpart = (yyvsp[(4) - (6)].cmdval);
-			(yyval.cmdval)->cmd_un.ifthen.elsepart = (yyvsp[(5) - (6)].cmdval);
-		}
+                        (yyval.cmdval) = alloc_cmd(CMD_IF);
+                        (yyval.cmdval)->cmd_un.ifthen.comp_expr = (yyvsp[(2) - (6)].exprval);
+                        (yyval.cmdval)->cmd_un.ifthen.thenpart = (yyvsp[(4) - (6)].cmdval);
+                        (yyval.cmdval)->cmd_un.ifthen.elsepart = (yyvsp[(5) - (6)].cmdval);
+                }
     break;
 
   case 13:
 #line 154 "xtlhpgram.y"
     {
-			(yyval.cmdval) = (struct command *) 0;
-		}
+                        (yyval.cmdval) = (struct command *) 0;
+                }
     break;
 
   case 14:
 #line 159 "xtlhpgram.y"
     {
-			(yyval.cmdval) = (yyvsp[(2) - (2)].cmdval);
-		}
+                        (yyval.cmdval) = (yyvsp[(2) - (2)].cmdval);
+                }
     break;
 
   case 16:
 #line 166 "xtlhpgram.y"
     {
-			struct  command	 *cp;
-			for  (cp = (yyvsp[(1) - (3)].cmdval);  cp->cmd_un.ifthen.elsepart;  cp = cp->cmd_un.ifthen.elsepart)
-				;
-			cp->cmd_un.ifthen.elsepart = (yyvsp[(3) - (3)].cmdval);
-		}
+                        struct  command  *cp;
+                        for  (cp = (yyvsp[(1) - (3)].cmdval);  cp->cmd_un.ifthen.elsepart;  cp = cp->cmd_un.ifthen.elsepart)
+                                ;
+                        cp->cmd_un.ifthen.elsepart = (yyvsp[(3) - (3)].cmdval);
+                }
     break;
 
   case 17:
 #line 175 "xtlhpgram.y"
     {
-			(yyval.cmdval) = alloc_cmd(CMD_IF);
-			(yyval.cmdval)->cmd_un.ifthen.comp_expr = (yyvsp[(2) - (4)].exprval);
-			(yyval.cmdval)->cmd_un.ifthen.thenpart = (yyvsp[(4) - (4)].cmdval);
-			(yyval.cmdval)->cmd_un.ifthen.elsepart = (struct command *) 0;
-		}
+                        (yyval.cmdval) = alloc_cmd(CMD_IF);
+                        (yyval.cmdval)->cmd_un.ifthen.comp_expr = (yyvsp[(2) - (4)].exprval);
+                        (yyval.cmdval)->cmd_un.ifthen.thenpart = (yyvsp[(4) - (4)].cmdval);
+                        (yyval.cmdval)->cmd_un.ifthen.elsepart = (struct command *) 0;
+                }
     break;
 
   case 18:
 #line 183 "xtlhpgram.y"
     {
-			struct  command	 *cp, *ep;
-			for  (cp = (yyvsp[(1) - (5)].cmdval);  cp->cmd_un.ifthen.elsepart;  cp = cp->cmd_un.ifthen.elsepart)
-				;
-			cp->cmd_un.ifthen.elsepart = ep = alloc_cmd(CMD_IF);
-			ep->cmd_un.ifthen.comp_expr = (yyvsp[(3) - (5)].exprval);
-			ep->cmd_un.ifthen.thenpart = (yyvsp[(5) - (5)].cmdval);
-			ep->cmd_un.ifthen.elsepart = (struct command *) 0;
-		}
+                        struct  command  *cp, *ep;
+                        for  (cp = (yyvsp[(1) - (5)].cmdval);  cp->cmd_un.ifthen.elsepart;  cp = cp->cmd_un.ifthen.elsepart)
+                                ;
+                        cp->cmd_un.ifthen.elsepart = ep = alloc_cmd(CMD_IF);
+                        ep->cmd_un.ifthen.comp_expr = (yyvsp[(3) - (5)].exprval);
+                        ep->cmd_un.ifthen.thenpart = (yyvsp[(5) - (5)].cmdval);
+                        ep->cmd_un.ifthen.elsepart = (struct command *) 0;
+                }
     break;
 
   case 19:
 #line 195 "xtlhpgram.y"
     {
-			(yyval.cmdval) = alloc_cmd(CMD_MSG);
-			(yyval.cmdval)->cmd_un.msgval = (yyvsp[(2) - (2)].valval);
-		}
+                        (yyval.cmdval) = alloc_cmd(CMD_MSG);
+                        (yyval.cmdval)->cmd_un.msgval = (yyvsp[(2) - (2)].valval);
+                }
     break;
 
   case 20:
 #line 202 "xtlhpgram.y"
     {
-			(yyval.cmdval) = alloc_cmd(CMD_EXIT);
-			(yyval.cmdval)->cmd_un.exitcode = (yyvsp[(2) - (2)].valval);
-		}
+                        (yyval.cmdval) = alloc_cmd(CMD_EXIT);
+                        (yyval.cmdval)->cmd_un.exitcode = (yyvsp[(2) - (2)].valval);
+                }
     break;
 
   case 21:
 #line 209 "xtlhpgram.y"
     {
-			(yyval.cmdval) = alloc_cmd(CMD_FLUSH);
-		}
+                        (yyval.cmdval) = alloc_cmd(CMD_FLUSH);
+                }
     break;
 
   case 23:
 #line 217 "xtlhpgram.y"
     {
-				(yyval.exprval) = alloc_boolexpr(NOTEXPR);
-				(yyval.exprval)->left_un.expr = 0;
-				(yyval.exprval)->rightexpr = (yyvsp[(2) - (2)].exprval);
-			}
+                                (yyval.exprval) = alloc_boolexpr(NOTEXPR);
+                                (yyval.exprval)->left_un.expr = 0;
+                                (yyval.exprval)->rightexpr = (yyvsp[(2) - (2)].exprval);
+                        }
     break;
 
   case 24:
 #line 224 "xtlhpgram.y"
     {
-				(yyval.exprval) = (yyvsp[(2) - (3)].exprval);
-			}
+                                (yyval.exprval) = (yyvsp[(2) - (3)].exprval);
+                        }
     break;
 
   case 25:
 #line 229 "xtlhpgram.y"
     {
-				(yyval.exprval) = alloc_boolexpr(ANDEXPR);
-				(yyval.exprval)->left_un.expr = (yyvsp[(1) - (3)].exprval);
-				(yyval.exprval)->rightexpr = (yyvsp[(3) - (3)].exprval);
-			}
+                                (yyval.exprval) = alloc_boolexpr(ANDEXPR);
+                                (yyval.exprval)->left_un.expr = (yyvsp[(1) - (3)].exprval);
+                                (yyval.exprval)->rightexpr = (yyvsp[(3) - (3)].exprval);
+                        }
     break;
 
   case 26:
 #line 236 "xtlhpgram.y"
     {
-				(yyval.exprval) = alloc_boolexpr(OREXPR);
-				(yyval.exprval)->left_un.expr = (yyvsp[(1) - (3)].exprval);
-				(yyval.exprval)->rightexpr = (yyvsp[(3) - (3)].exprval);
-			}
+                                (yyval.exprval) = alloc_boolexpr(OREXPR);
+                                (yyval.exprval)->left_un.expr = (yyvsp[(1) - (3)].exprval);
+                                (yyval.exprval)->rightexpr = (yyvsp[(3) - (3)].exprval);
+                        }
     break;
 
   case 31:
 #line 246 "xtlhpgram.y"
     {
-			struct  compare  *cmp = alloc_compare((yyvsp[(2) - (3)].intval));
-			cmp->left = (yyvsp[(1) - (3)].valval);
-			cmp->right = (yyvsp[(3) - (3)].valval);
-			(yyval.exprval) = alloc_boolexpr(COMPARE);
-			(yyval.exprval)->left_un.comp = cmp;
-			(yyval.exprval)->rightexpr = 0;
-		}
+                        struct  compare  *cmp = alloc_compare((yyvsp[(2) - (3)].intval));
+                        cmp->left = (yyvsp[(1) - (3)].valval);
+                        cmp->right = (yyvsp[(3) - (3)].valval);
+                        (yyval.exprval) = alloc_boolexpr(COMPARE);
+                        (yyval.exprval)->left_un.comp = cmp;
+                        (yyval.exprval)->rightexpr = 0;
+                }
     break;
 
   case 32:
 #line 257 "xtlhpgram.y"
     {
-			(yyval.exprval) = alloc_boolexpr(BITOPER);
-			(yyval.exprval)->left_un.snmpstring = (yyvsp[(1) - (3)].stringval);
-			(yyval.exprval)->rightexpr = alloc_boolexpr(ISNUMVAL);
-			(yyval.exprval)->rightexpr->left_un.val = (yyvsp[(3) - (3)].valval);
-			(yyval.exprval)->rightexpr->rightexpr = 0;
-			if  ((yyvsp[(2) - (3)].intval) == BIT_CLEAR)  {
-				struct boolexpr *nr = alloc_boolexpr(NOTEXPR);
-				nr->left_un.expr = 0;
-				nr->rightexpr = (yyval.exprval);
-				(yyval.exprval) = nr;
-			}
-		}
+                        (yyval.exprval) = alloc_boolexpr(BITOPER);
+                        (yyval.exprval)->left_un.snmpstring = (yyvsp[(1) - (3)].stringval);
+                        (yyval.exprval)->rightexpr = alloc_boolexpr(ISNUMVAL);
+                        (yyval.exprval)->rightexpr->left_un.val = (yyvsp[(3) - (3)].valval);
+                        (yyval.exprval)->rightexpr->rightexpr = 0;
+                        if  ((yyvsp[(2) - (3)].intval) == BIT_CLEAR)  {
+                                struct boolexpr *nr = alloc_boolexpr(NOTEXPR);
+                                nr->left_un.expr = 0;
+                                nr->rightexpr = (yyval.exprval);
+                                (yyval.exprval) = nr;
+                        }
+                }
     break;
 
   case 33:
 #line 272 "xtlhpgram.y"
     {
-			(yyval.exprval) = alloc_boolexpr(ALL_CLEAR);
-			(yyval.exprval)->left_un.snmpstring = (yyvsp[(2) - (2)].stringval);
-			(yyval.exprval)->rightexpr = 0;
-		}
+                        (yyval.exprval) = alloc_boolexpr(ALL_CLEAR);
+                        (yyval.exprval)->left_un.snmpstring = (yyvsp[(2) - (2)].stringval);
+                        (yyval.exprval)->rightexpr = 0;
+                }
     break;
 
   case 35:
@@ -1712,119 +1715,119 @@ yyreduce:
   case 36:
 #line 282 "xtlhpgram.y"
     {
-				(yyval.exprval) = alloc_boolexpr(VARDEFINED);
-				(yyval.exprval)->left_un.snmpstring = (yyvsp[(1) - (1)].stringval);
-				(yyval.exprval)->rightexpr = 0;
-			}
+                                (yyval.exprval) = alloc_boolexpr(VARDEFINED);
+                                (yyval.exprval)->left_un.snmpstring = (yyvsp[(1) - (1)].stringval);
+                                (yyval.exprval)->rightexpr = 0;
+                        }
     break;
 
   case 37:
 #line 289 "xtlhpgram.y"
     {
-				(yyval.exprval) = alloc_boolexpr(VARUNDEFINED);
-				(yyval.exprval)->left_un.snmpstring = (yyvsp[(1) - (1)].stringval);
-				(yyval.exprval)->rightexpr = 0;
-			}
+                                (yyval.exprval) = alloc_boolexpr(VARUNDEFINED);
+                                (yyval.exprval)->left_un.snmpstring = (yyvsp[(1) - (1)].stringval);
+                                (yyval.exprval)->rightexpr = 0;
+                        }
     break;
 
   case 38:
 #line 297 "xtlhpgram.y"
     {
-				(yyval.exprval) = alloc_boolexpr(ISNUMVAL);
-				(yyval.exprval)->left_un.val = (yyvsp[(2) - (2)].valval);
-				(yyval.exprval)->rightexpr = 0;
-			}
+                                (yyval.exprval) = alloc_boolexpr(ISNUMVAL);
+                                (yyval.exprval)->left_un.val = (yyvsp[(2) - (2)].valval);
+                                (yyval.exprval)->rightexpr = 0;
+                        }
     break;
 
   case 39:
 #line 304 "xtlhpgram.y"
     {
-				(yyval.exprval) = alloc_boolexpr(ISSTRINGVAL);
-				(yyval.exprval)->left_un.val = (yyvsp[(2) - (2)].valval);
-				(yyval.exprval)->rightexpr = 0;
-			}
+                                (yyval.exprval) = alloc_boolexpr(ISSTRINGVAL);
+                                (yyval.exprval)->left_un.val = (yyvsp[(2) - (2)].valval);
+                                (yyval.exprval)->rightexpr = 0;
+                        }
     break;
 
   case 40:
 #line 312 "xtlhpgram.y"
     {
-			(yyval.valval) = alloc_value(NAME_VALUE);
-			(yyval.valval)->val_un.namev = (yyvsp[(1) - (1)].nameval);
-		}
+                        (yyval.valval) = alloc_value(NAME_VALUE);
+                        (yyval.valval)->val_un.namev = (yyvsp[(1) - (1)].nameval);
+                }
     break;
 
   case 43:
 #line 322 "xtlhpgram.y"
     {
-			(yyval.valval) = alloc_value(LASTVAL_VALUE);
-			(yyval.valval)->val_un.longval = 0;
-		}
+                        (yyval.valval) = alloc_value(LASTVAL_VALUE);
+                        (yyval.valval)->val_un.longval = 0;
+                }
     break;
 
   case 44:
 #line 329 "xtlhpgram.y"
     {
-			(yyval.valval) = alloc_value(CMD_STRING_VALUE);
-			(yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
-		}
+                        (yyval.valval) = alloc_value(CMD_STRING_VALUE);
+                        (yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
+                }
     break;
 
   case 45:
 #line 335 "xtlhpgram.y"
     {
-			(yyval.valval) = alloc_value(FSTRING_VALUE);
-			(yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
-		}
+                        (yyval.valval) = alloc_value(FSTRING_VALUE);
+                        (yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
+                }
     break;
 
   case 46:
 #line 341 "xtlhpgram.y"
     {
-			(yyval.valval) = alloc_value(STRING_VALUE);
-			(yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
-		}
+                        (yyval.valval) = alloc_value(STRING_VALUE);
+                        (yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
+                }
     break;
 
   case 47:
 #line 347 "xtlhpgram.y"
     {
 
-			(yyval.valval) = alloc_value(BRACE_VALUE);
-			(yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
-		}
+                        (yyval.valval) = alloc_value(BRACE_VALUE);
+                        (yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
+                }
     break;
 
   case 48:
 #line 354 "xtlhpgram.y"
     {
-			(yyval.valval) = alloc_value(SNMPVAR_VALUE);
-			(yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
-		}
+                        (yyval.valval) = alloc_value(SNMPVAR_VALUE);
+                        (yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
+                }
     break;
 
   case 49:
 #line 361 "xtlhpgram.y"
     {
-			(yyval.valval) = alloc_value(NUM_VALUE);
-			(yyval.valval)->val_un.longval = (yyvsp[(1) - (1)].longval);
-		}
+                        (yyval.valval) = alloc_value(NUM_VALUE);
+                        (yyval.valval)->val_un.longval = (yyvsp[(1) - (1)].longval);
+                }
     break;
 
   case 50:
 #line 367 "xtlhpgram.y"
     {
 
-			(yyval.valval) = alloc_value(CMD_NUM_VALUE);
-			(yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
-		}
+                        (yyval.valval) = alloc_value(CMD_NUM_VALUE);
+                        (yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
+                }
     break;
 
   case 51:
 #line 374 "xtlhpgram.y"
     {
-			(yyval.valval) = alloc_value(SNMPVAR_VALUE);
-			(yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
-		}
+                        (yyval.valval) = alloc_value(SNMPVAR_VALUE);
+                        (yyval.valval)->val_un.stringval = (yyvsp[(1) - (1)].stringval);
+                }
     break;
 
 
@@ -1868,35 +1871,35 @@ yyerrlab:
       yyerror (YY_("syntax error"));
 #else
       {
-	YYSIZE_T yysize = yysyntax_error (0, yystate, yychar);
-	if (yymsg_alloc < yysize && yymsg_alloc < YYSTACK_ALLOC_MAXIMUM)
-	  {
-	    YYSIZE_T yyalloc = 2 * yysize;
-	    if (! (yysize <= yyalloc && yyalloc <= YYSTACK_ALLOC_MAXIMUM))
-	      yyalloc = YYSTACK_ALLOC_MAXIMUM;
-	    if (yymsg != yymsgbuf)
-	      YYSTACK_FREE (yymsg);
-	    yymsg = (char *) YYSTACK_ALLOC (yyalloc);
-	    if (yymsg)
-	      yymsg_alloc = yyalloc;
-	    else
-	      {
-		yymsg = yymsgbuf;
-		yymsg_alloc = sizeof yymsgbuf;
-	      }
-	  }
+        YYSIZE_T yysize = yysyntax_error (0, yystate, yychar);
+        if (yymsg_alloc < yysize && yymsg_alloc < YYSTACK_ALLOC_MAXIMUM)
+          {
+            YYSIZE_T yyalloc = 2 * yysize;
+            if (! (yysize <= yyalloc && yyalloc <= YYSTACK_ALLOC_MAXIMUM))
+              yyalloc = YYSTACK_ALLOC_MAXIMUM;
+            if (yymsg != yymsgbuf)
+              YYSTACK_FREE (yymsg);
+            yymsg = (char *) YYSTACK_ALLOC (yyalloc);
+            if (yymsg)
+              yymsg_alloc = yyalloc;
+            else
+              {
+                yymsg = yymsgbuf;
+                yymsg_alloc = sizeof yymsgbuf;
+              }
+          }
 
-	if (0 < yysize && yysize <= yymsg_alloc)
-	  {
-	    (void) yysyntax_error (yymsg, yystate, yychar);
-	    yyerror (yymsg);
-	  }
-	else
-	  {
-	    yyerror (YY_("syntax error"));
-	    if (yysize != 0)
-	      goto yyexhaustedlab;
-	  }
+        if (0 < yysize && yysize <= yymsg_alloc)
+          {
+            (void) yysyntax_error (yymsg, yystate, yychar);
+            yyerror (yymsg);
+          }
+        else
+          {
+            yyerror (YY_("syntax error"));
+            if (yysize != 0)
+              goto yyexhaustedlab;
+          }
       }
 #endif
     }
@@ -1906,20 +1909,20 @@ yyerrlab:
   if (yyerrstatus == 3)
     {
       /* If just tried and failed to reuse look-ahead token after an
-	 error, discard it.  */
+         error, discard it.  */
 
       if (yychar <= YYEOF)
-	{
-	  /* Return failure if at end of input.  */
-	  if (yychar == YYEOF)
-	    YYABORT;
-	}
+        {
+          /* Return failure if at end of input.  */
+          if (yychar == YYEOF)
+            YYABORT;
+        }
       else
-	{
-	  yydestruct ("Error: discarding",
-		      yytoken, &yylval);
-	  yychar = YYEMPTY;
-	}
+        {
+          yydestruct ("Error: discarding",
+                      yytoken, &yylval);
+          yychar = YYEMPTY;
+        }
     }
 
   /* Else will try to reuse look-ahead token after shifting the error
@@ -1951,29 +1954,29 @@ yyerrorlab:
 | yyerrlab1 -- common code for both syntax error and YYERROR.  |
 `-------------------------------------------------------------*/
 yyerrlab1:
-  yyerrstatus = 3;	/* Each real token shifted decrements this.  */
+  yyerrstatus = 3;      /* Each real token shifted decrements this.  */
 
   for (;;)
     {
       yyn = yypact[yystate];
       if (yyn != YYPACT_NINF)
-	{
-	  yyn += YYTERROR;
-	  if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
-	    {
-	      yyn = yytable[yyn];
-	      if (0 < yyn)
-		break;
-	    }
-	}
+        {
+          yyn += YYTERROR;
+          if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
+            {
+              yyn = yytable[yyn];
+              if (0 < yyn)
+                break;
+            }
+        }
 
       /* Pop the current state because it cannot handle the error token.  */
       if (yyssp == yyss)
-	YYABORT;
+        YYABORT;
 
 
       yydestruct ("Error: popping",
-		  yystos[yystate], yyvsp);
+                  yystos[yystate], yyvsp);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -2019,7 +2022,7 @@ yyexhaustedlab:
 yyreturn:
   if (yychar != YYEOF && yychar != YYEMPTY)
      yydestruct ("Cleanup: discarding lookahead",
-		 yytoken, &yylval);
+                 yytoken, &yylval);
   /* Do not reclaim the symbols of the rule which action triggered
      this YYABORT or YYACCEPT.  */
   YYPOPSTACK (yylen);
@@ -2027,7 +2030,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-		  yystos[*yyssp], yyvsp);
+                  yystos[*yyssp], yyvsp);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow

@@ -16,10 +16,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /*APISTART - beginning of section copied for API*/
-struct	pages	{
-	LONG	delimnum;	/* Number of delimiters */
-	LONG	deliml;		/* Length of delimiters */
-	LONG	lastpage;	/* Delimiters remaining on last page */
+struct  pages   {
+        LONG    delimnum;       /* Number of delimiters */
+        LONG    deliml;         /* Length of delimiters */
+        LONG    lastpage;       /* Delimiters remaining on last page */
 };
 /*APIEND - end of section copied for API */
 

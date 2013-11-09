@@ -7,7 +7,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
@@ -17,517 +17,508 @@
 
 # Originally written by John Collins <jmc@xisl.com>.
 
-import re, socket, string, copy, time, ipp, sys, os, stat
+# import copy, sys
+
+import socket
+import os
+import os.path
+import pwd
+import time
+import re
+import string
+import ConfigParser
+import printeratts
+
+# Map of user names
+
+Usermap = dict()
+
+def getrootuser():
+    """Get root user name being particular"""
+    try:
+        p = pwd.getpwuid(0)
+	return	p.pw_name
+    except KeyError:
+	return 'root'
 
 class ConfError(Exception):
     """Error report in config file"""
     pass
 
-class ConfEOF(Exception):
-    """Just exception to raise when we read EOF"""
-    pass
+class confConfig(ConfigParser.ConfigParser):
+    """Add extra conditional functionality to ConfigParser"""
 
-class Confdef:
-    def __init__(self, name, *istrings):
-        self.descr = name
-        self.attrlist = list()
-        self.attrs = dict()
-        self.defs = dict()
-        for i in istrings:
-            self.defs[i] = ''
+    def getcheck(self, section, option):
+	"""Get option and raise appropriate error"""
+	try:
+            return self.get(section, option)
+	except ConfigParser.NoSectionError as e:
+            raise ConfError("Config file error - no section " + e.section, 100)
+	except ConfigParser.NoOptionError as e:
+            raise ConfError("Config file error - no option " + e.option, 101)
+	except ConfigParser.InterpolationMissingOptionError as e:
+            raise ConfError("Config file error - interpolation problem with " + e.reference, 102)
 
-    def setdef(self, name, value):
-        """Set a default name to given value"""
-        if name not in self.defs:
-            raise ConfError("Unknown keyword " + name)
-        self.defs[name] = value;
-
-    def setattr(self, name, typ, value):
-        """Set up attribute name/type/value"""
-        if typ not in ipp.name_to_tag:
-            raise ConfError("Unknown type " + typ)
-        self.attrlist.append(name)
-        self.attrs[name] = (typ, value)
-
-    def check_complete(self):
-        """Check we've got all the bits we should have"""
-        for k,v in dict.items(self.defs):
-            if len(v) == 0:
-                raise ConfError("Definition of " + k + " missing in " + self.descr)
-
-    def write_defs(self, outfile):
-        """Write out definitions to file"""
-
-        outfile.write("# Definitions for %s\n\n%s:\n\n" % (self.descr, self.descr))
-
-        for k,v in dict.items(self.defs):
-            outfile.write("\t%s=%s\n" % (k, v))
-
-        outfile.write("\n")
-        for a in self.attrlist:
-            typ, val = self.attrs[a]
-            outfile.write("\t%s %s %s\n" % (a, typ, val))
-        outfile.write("\n")
-        
-
-def readuncommline(f):
-    """Read a non-empty line from file
-Also strip comments"""
-    while 1:
-        result = f.readline()
-        if len(result) == 0:
-            raise ConfEOF
-        m = re.match("([^#]*)#", result)
-        if m:
-            result = m.group(1)
-        result = string.strip(result)
-        if  len(result) != 0:
-            return  result
-
-def readfullline(f):
-    """Read a line in joining lines ending with \\ to the next one"""
-    result = readuncommline(f)
-    while result[-1] == '\\':
-        result = result[0:-1]
-        r2 = readuncommline(f)
-        result += r2
-    return result
-
-def procparam(line, cdef):
-    """Add the parameter list to the given entry
-This might be the defaults or the entry for a given printer"""
-    # Split line into attribute name, type and args
-    try:
-        name, typ, args = re.split("\s+", line, 2)
-    except ValueError:
-        raise ConfError("Expecting name/type/args in ")
-    cdef.setattr(name, typ, args)
-
-def parse_loop(f, cdef):
-    """Loop to read definitions from file"""
-    while 1:
-        # Remember where we were
-        where = f.tell()
-        line = readfullline(f)
-
-        # If start of next section rewind and drop out
-        if re.match("\w+\s*:$", line):
-            f.seek(where)
-            return
-
+    def getvalue(self, section, option, lookup = None):
+        """Get option and attempt to make it a list etc if possible"""
         try:
-            # Def specs have name=string in
-            m = re.match("(\w+)\s*=\s*(.*)", line)
-            if m:
-                cdef.setdef(m.group(1), m.group(2))
-            else:
-                procparam(line, cdef)
-        except ConfError as Err:
-            raise ConfError(Err.args[0] + " in " + line)
+            v = self.get(section, option, 0, lookup)
+        except (ConfigParser.NoSectionError, ConfigParser.NoOptionError, ConfigParser.InterpolationMissingOptionError):
+            raise ConfError("Config file error - no option " + option, 101)
+        try:
+            f = v[0]
+            if '0' <= f <= '9': v = int(v)
+            elif f == '(' or f == '[': v = eval(v)
+        except (IndexError, ValueError, SyntaxError):
+            pass
+        return v
+
+def findonpath(p):
+    """Find program p on PATH environment variable"""
+    for possp in string.split(os.environ['PATH'],':'):
+	if len(possp) == 0 or possp[0] != '/': continue
+	fp = os.path.join(possp, p)
+	if os.path.isfile(fp): return fp
+    return None
+
+def finduserpath(p):
+    """Find program p on USERPATH in case it's not on the PATH"""
+    try:
+	for m in open('/etc/Xitext-config'):
+            ms = re.match('\s*USERPATH\s*=\s*(\S+)', m)
+            if ms:
+		fp = os.path.join(ms.group(1), p)
+		if os.path.isfile(fp): return fp
+    except IOError:
+	pass
+    return	None
+
+class Params:
+    """Parameters for system"""
+
+    # Fields for system paramaters and default 
+    fields = (('servername', 'CUPS/1.4'),
+              ('loglevel', 1),
+              ('timeouts', 20.0),
+              ('serverip', '0.0.0.0'),
+              ('ppddir', ''),
+              ('formarg', '-f %s'),
+              ('titlearg', '-h %s'),
+              ('gsprinterarg', '-P %s'),
+              ('copiesarg', '-c %d'),
+              ('userarg', '-U %s'),
+              ('defaultuser', 'nobody'),
+              ('usermap', '/etc/xi-user.map'),
+              ('prefixcommand', ''),
+              ('default_ptr', None))
+
+    def __init__(self):
+        self.sectionname = "System Parameters"
+        for f in Params.fields:
+            name, defv = f
+            setattr(self, name, defv)
+	self.serverip = socket.gethostname()
+	self.defaultuser = getrootuser()
+        sprcmd = findonpath('gspl-pr')
+	if not sprcmd:
+            sprcmd = finduserpath('gspl-pr')
+            if not sprcmd:
+                sprcmd = 'gspl-pr'
+        self.prefixcommand = sprcmd + ' --verbose -s'
+	self.plist = []
+
+    def setup_defaults(self, c):
+        """Initialise local parameters section"""
+	if not c.has_section(self.sectionname):
+            c.add_section(self.sectionname)
+        for f in Params.fields:
+            name = f[0]
+            v = getattr(self, name)
+            if v is not None:
+                c.set(self.sectionname, name, v)
+	c.set(self.sectionname, 'porder', '')
+
+    def loadconfig(self, c):
+        """Load parameters from config file"""
+        for f in Params.fields:
+            name, defv = f
+            try:
+                v = c.get(self.sectionname, name)
+                # Convert values to types given by default value
+                if isinstance(defv,int):
+                    v = int(v)
+                elif isinstance(defv, float):
+                    v = float(v)
+                setattr(self, name, v)
+            except (ConfigParser.NoOptionError, ConfigParser.NoSectionError, ValueError):
+                pass
+	
+	if c.has_option(self.sectionname, 'porder'):
+	    pord = c.get(self.sectionname, 'porder')
+	    if len(pord) != 0:
+		self.plist = string.split(pord, ' ')
+	    else:
+		self.plist = []
 
 class Conf:
     """Content of config file"""
 
+    tmatch = re.compile("[^\w\s.]+")
+
     def __init__(self):
-        self.defaults = Confdef("DEFAULTS", "Prefix", "Form", "GSPrinter", "Copies", "Title", "User", "Printer")
-        self.printers = dict()
-        self.plist = []
-        self.loglevel = 1
-        self.timeouts = 20
-        self.conf_dir = os.getcwd()
-        self.ppddir = self.conf_dir
+        self.parameters = Params()
+	self.confparser = confConfig()
+	self.conf_dir = os.getcwd()
+	self.conf_file = None
 
-    def parse_conf_params(self, f):
-        """Parse parameters section of a config file"""
+    def setup_defaults(self):
+	"""Create default printer attributes the first time we start"""
+	for attname, vals in printeratts.Printer_atts.iteritems():
+            self.confparser.set('DEFAULT', attname, vals[1])
+            self.parameters.setup_defaults(self.confparser)
 
-        hadppd = False
-        while 1:
-            # Remember where we wre
-            where = f.tell()
-            line = readfullline(f)
-            # If start of next section rewind and drop out
-            if re.match("\w+\s*:$", line):
-                f.seek(where)
-                break
-            m = re.match("(\w+)\s*=\s*(.*)", line)
-            if not m:
-                break
-            opt = m.group(1)
-            arg = m.group(2)
-            if opt == "LOGLEVEL":
-                try:
-                    self.loglevel = int(arg)
-                    if self.loglevel < 0 or self.loglevel > 4:
-                        raise ValueError
-                except ValueError:
-                    raise ConfError("Invalid LOGLEVEL " + arg + " (should be int < 5)")
-            elif opt == "PPDDIR":
-                self.ppddir = arg
-                if  len(arg) == 0:
-                    raise ConfError("Invalid null PPDDIR")
-                hadppd = True
-            elif opt == "TIMEOUT":
-                try:
-                    self.timeouts = float(arg)
-                    if self.timeouts <= 0:
-                        raise ValueError
-                except ValueError:
-                    raise ConfError("Invalid TIMEOUT " + arg + " (should be >0)")
+    def get_printer_list(self):
+        """Get list of printer sections
 
-        # If ppdir was specified and not absolute, put confdir in front
+System sections have a space in"""
+	return sorted([s for s in self.confparser.sections() if s.find(' ') < 0])
 
-        if hadppd:
-            if self.ppddir[0] != '/':
-                self.ppddir = os.path.join(self.conf_dir, self.ppddir)
+    def load_user_map(self):
+	"""Load user map
+
+Entries consist of username:External user name"""
+	global Usermap
+	try:
+            fname = self.parameters.usermap
+            if not os.path.isabs(fname):
+                fname = os.path.join(self.conf_dir, fname)
+            f = open(fname, 'rt')
+	except IOError:
+            return
+	lm = re.compile("^(\w+):(.+)")
+	while 1:
+            l = f.readline()
+            if len(l) == 0:
+		break
+            m = lm.match(string.rstrip(l))
+            if m is None: continue
+            un, wn = m.groups()
             try:
-                s = os.stat(self.ppddir)
-                if not stat.S_ISDIR(s[0]):
-                    raise ConfError("PPDDIR " + self.ppddir + " not directory")
-            except OSError:
-                raise ConfError("Invalid PPDDIR " + self.ppddir)
+		pwd.getpwnam(un)
+            except KeyError:
+		continue
+            Usermap[wn.lower()] = un
+	f.close()
 
-    def parse_conf_defaults(self, f):
-        """Parse the defaults section of a config file"""
-        parse_loop(f, self.defaults)
+    def parse_conf_file(self, fname, checkdp = True):
+        """Parse a config file"""
 
-    def parse_conf_printer(self, pname, f):
-        """Parse printer definition in a config file"""
-        if pname in self.printers:
-            raise ConfError("Already had definition of " + pname)
-        self.plist.append(pname)
-        pd = Confdef(pname, "GSPrinter", "Form", "Command")
-        pd.defs["Command"] = ':'
-        self.printers[pname] = pd
-        parse_loop(f, pd)
+	r = self.confparser.read(fname)
+	if len(r) == 0:
+            raise ConfError("Cannot open " + fname, 2)
+	self.conf_file = fname
 
-    def parse_conf_file(self, fname):
-        """Parse a config file and set up defaults"""
+	# Set the config directory to where we read the config file from
 
-        # Set base directory for conf stuff to be the directory we are reading the file from
-        # That might reset it later
+	confd, filen = os.path.split(os.path.abspath(fname))
+	self.conf_dir = confd
+	self.parameters.loadconfig(self.confparser)
+        if len(self.parameters.plist) == 0:
+            self.parameters.plist = self.get_printer_list()
+	if self.parameters.default_ptr is None:
+            if len(self.parameters.plist) > 0:
+                self.parameters.default_ptr = self.parameters.plist[0]
+	dp = self.parameters.default_ptr
+	if checkdp and (dp is None or dp not in self.parameters.plist):
+	    if dp is None:
+		dp = ""
+	    else:
+		dp = " (" + dp + ")"
+            raise ConfError("Default printer" + dp + " not set up", 150)
+        self.load_user_map()
 
-        confd, filen = os.path.split(os.path.abspath(fname))
-        self.conf_dir = confd
-        self.ppddir = confd
+    def write_config(self, fname = None):
+        """Write out a config file to the specified file"""
 
-        # Open the silly thing
+        if fname is None:
+            fname = self.conf_file
+            if fname is None:
+		raise ConfError('No output file given', 3)
 
-        try:
-            cfile = open(fname, 'rb')
-        except IOError:
-            raise ConfError("Cannot open " + fname)
-        try:
-            while 1:
-                line = readfullline(cfile)
-                m = re.match("\s*(\w+)\s*:$", line)
-                if not m:
-                    raise ConfError("Unrecognised section start - " + line)
-                if m.group(1) == "PARAMS":
-                    self.parse_conf_params(cfile)
-                elif m.group(1) == "DEFAULTS":
-                    self.parse_conf_defaults(cfile)
-                else:
-                    self.parse_conf_printer(m.group(1), cfile)
-        except ConfEOF:
-            pass
-        cfile.close()
-
-        # Check things make sense
-
-        self.defaults.check_complete()
-        for ptr in self.printers.values():
-            ptr.check_complete()
-        if self.defaults.defs['Printer'] not in self.printers:
-            raise ConfError("Default printer " + self.defaults['Printer'] + " not set up")
-
-    def write_config(self, fname, plist=None):
-        """Write out a config file to the specified file
-Optionally write printers out in the order given"""
-        try:
+	try:
             outfile = open(fname, "wb")
-        except IOError:
-            raise ConfError("Cannot open " + fname)
+	except IOError:
+            raise ConfError("Cannot open " + fname, 4)
 
-        outd, filen = os.path.split(os.path.abspath(fname))
-     
-        # Write parameters
-        
-        outfile.write("# CUPSPY configuration file written on %s\n\n" % time.ctime())
-        outfile.write("# Parameters section\n\nPARAMS:\n\tLOGLEVEL=%d\n\tTIMEOUT=%d\n" % (self.loglevel, self.timeouts))
+	outd, filen = os.path.split(os.path.abspath(fname))
 
-        # Write out ppddir as relative or not at all if it's the same as outd
+	# If outd is different from conf_dir, update it.
+	# Also possibly change ppd directory if that is a subdirectory
 
-        ppd = self.ppddir
-        if outd != ppd:
-            lout = len(outd)
-            if lout < len(ppd) and outd == ppd[0:lout]  and  ppd[lout] == '/':
-                ppd = ppd[lout+1:]
-            outfile.write("\tPPDDIR=%s\n" % ppd)
+	if outd != self.conf_dir:
+            ppd = self.parameters.ppddir
+            if len(ppd) != 0:
+		if os.path.isabs(ppd):
+                    rp = os.path.relpath(ppd, outd)
+                    if rp[0:2] != '..':
+                        self.parameters.ppddir = rp
+            self.conf_dir = outd
 
-        outfile.write("\n")
-        
-        # Write defaults
-        
-        self.defaults.write_defs(outfile)
-        if not plist:
-            plist = self.plist
-        for p in plist:
-            if p in self.printers:
-                self.printers[p].write_defs(outfile)
-        outfile.close()
+	# If we have a printer order, write it
 
-    # The following things are enquiries on the config data
-    # Not too many errors now
+	self.confparser.set(self.parameters.sectionname, 'porder', string.join(self.parameters.plist, ' '))
+
+	# Write parameters
+
+	outfile.write("# CUPSPY configuration file written on %s\n\n" % time.ctime())
+	self.confparser.write(outfile)
+	outfile.close()
+
+	# The following things are enquiries on the config data
+	# Not too many errors now
 
     def list_printers(self):
-        """Get a list of printers"""
-        return self.plist
+	"""Get a list of printers
+
+All our parameters have spaces in"""
+	pl = self.parameters.plist
+	if len(pl) == 0:
+            pl = self.get_printer_list()
+	return pl
+
+    def set_printer_list(self, plist):
+        """Set order of printers"""
+	elist = self.get_printer_list()
+	if len(set(elist) ^ set(plist)) != 0:
+            raise ConfError("Printer list does not accord with existing", 103)
+	self.parameters.plist = plist
 
     def default_printer(self):
-        """Get default printer name"""
-        return  self.defaults.defs['Printer']
+	"""Get default printer name"""
+	if self.parameters.default_ptr is None: return ""
+	return	self.parameters.default_ptr
 
     def set_default_printer(self, pname):
-        """Set default printer"""
-        self.defaults.defs['Printer'] = pname
+	"""Set default printer"""
+	if pname is None or len(pname) == 0:
+            pname = None
+            self.confparser.remove_option(self.parameters.sectionname, 'Default_ptr')
+	else:
+            if pname not in self.confparser.sections():
+                raise ConfError("No such printer - " + pname, 104)
+            self.confparser.set(self.parameters.sectionname, 'Default_ptr', pname)
+            self.parameters.default_ptr = pname
+
+    def default_user(self):
+	"""Get default user name"""
+	return	self.parameters.defaultuser
+
+    def set_default_user(self, username):
+	"""Set default user name - check known"""
+	try:
+            pwd.getpwnam(username)
+            self.parameters.defaultuser = username
+	except (KeyError, TypeError):
+            self.parameters.defaultuser = getrootuser()
+
+        self.confparser.set(self.parameters.sectionname, 'Defaultuser', self.parameters.defaultuser)
+
+    def log_level(self):
+	"""Get log level"""
+	return self.parameters.loglevel
+
+    def set_log_level(self, value = 1):
+	"""Set log level"""
+	if value not in range(0,5):
+            raise ConfError("Invalid log level", 105)
+	self.parameters.loglevel = value
+	self.confparser.set(self.parameters.sectionname, 'LOGLEVEL', str(value))
+
+    def timeout_value(self):
+	"""Get log level"""
+	return self.parameters.timeouts
+
+    def set_timeout_value(self, value=20):
+	"""Set timeout value"""
+	self.parameters.timeouts = value
+	self.confparser.set(self.parameters.sectionname, 'TIMEOUT', str(value))
+
+    def ppddir(self):
+	"""Get PPD directory"""
+	ret = self.parameters.ppddir
+	if len(ret) == 0:
+            return self.conf_dir
+	if os.path.isabs(ret):
+            return ret
+        return os.path.join(self.conf_dir, ret)
+
+    def set_ppddir(self, value):
+	"""Set PPD directory"""
+	if os.path.isabs(value):
+            cp = os.path.commonprefix([self.conf_dir, value])
+            if cp == self.conf_dir:
+		v = value[len(cp):]
+		if len(v) == 0 or v[0] == '/':
+                    value = v
+	self.parameters.ppddir = value
+	self.confparser.set(self.parameters.sectionname, 'PPDDIR', value)
+
+    def serverip(self):
+	"""Get what we're using as the server IP"""
+	return self.parameters.serverip
+
+    def set_serverip(self, value):
+	"""Set the server IP"""
+        self.parameters.serverip = value
+	self.confparser.set(self.parameters.sectionname, "SERVERIP", value)
 
     def print_command(self, pname, copies=1, user='root', title='No title'):
-        """Get print command for printer"""
+	"""Get print command for printer"""
 
-        # If specific command given (not ':') use that
-
-        try:
-            pdefs = self.printers[pname].defs
-        except (KeyError, AttributeError):
-            return None
-        
-        try:
-            cmd = pdefs['Command']
-        except KeyError:
-            cmd = ':'
-
-        if cmd != ':':
-            return cmd
-
-        # Put quotes round title if needed
-
-        title = re.sub("[^\w\s.]+", "_", title)
-        if re.search("\s", title):
+	title = Conf.tmatch.sub("_", title)
+	if re.search("\s", title):
             title = "'" + title + "'"
 
-        # Create copies, printer, user, title args
-
-        try:
-            cmd = self.defaults.defs['Prefix']
-            cpsarg = self.defaults.defs['Copies'] % copies
-            titlearg = self.defaults.defs['Title'] % title
-            userarg = self.defaults.defs['User'] % user
-            if len(pdefs['GSPrinter']) != 0 and  pdefs['GSPrinter'] != ':':
-                printerarg = self.defaults.defs['GSPrinter'] % pdefs['GSPrinter']
-            else:
-                printerarg = ""
-            formarg = self.defaults.defs['Form'] % pdefs['Form']
-        except (TypeError, KeyError, AttributeError):
+	titlearg = self.parameters.titlearg % title
+	cpsarg = self.parameters.copiesarg % copies
+	userarg = self.parameters.userarg % user
+	try:
+            formarg = self.parameters.formarg % self.confparser.getcheck(pname, "Form")
+	except ConfError:
             return None
+	try:
+            printerarg = self.parameters.gsprinterarg % self.confparser.getcheck(pname, 'GSPrinter')
+	except ConfError:
+            printerarg = ""
 
-        return string.join([cmd, cpsarg, titlearg, userarg, printerarg, formarg], ' ')
-
-    def get_attnames(self, pname):
-        """Get list of applicable attributes for specified printer
-in order that they are supposed to be"""
-        try:
-            attlist = copy.deepcopy(self.defaults.attrlist)
-            for att in self.printers[pname].attrlist:
-                if att not in attlist:
-                    attlist.append(att)
-            return attlist
-        except KeyError:
-            return None
+	return string.join([self.parameters.prefixcommand,
+			cpsarg, titlearg, userarg, printerarg, formarg], ' ')
 
     def get_config(self, pname, al):
-        """Get specified configuration information for specified printer"""
+	"""Get specified configuration information for specified printer"""
 
-        if pname not in self.printers:
+	if not self.confparser.has_section(pname):
             return None
 
-        # First get Default attributes
-        # We want a copy not a reference as we're going to overwrite bits
+	now = int(time.time())
+	lookup = dict(PTRNAME = pname,
+                      NOW = str(now),
+                      SERVERIP = self.parameters.serverip,
+                      STATECHANGE = str(now - 3600),
+                      UPTIME = str(now - 7200))
 
-        datts = copy.deepcopy(self.defaults.attrs)
-        for k,v in dict.items(self.printers[pname].attrs):
-            datts[k] = v
+	pendresult = []
 
-        pendresult = []
-        for att in al:
-            if att in datts:
-                pendresult.append((att, datts[att]))
+	for att in al:
+            try:
+		v = self.confparser.getvalue(pname, att, lookup)
+            except ConfError:
+		continue
+            try:
+                attdescr = printeratts.Printer_atts[att]
+            except KeyError:
+                continue
+            vtype = attdescr[0]
+            # Fix resolution and ranges?
+            pendresult.append((att, vtype, v))
 
-        result = []
-
-        # Now decode any symbolic names and argument lists
-
-        for r in pendresult:
-            name, att = r
-            typestr, argstring = att
-            typenum = ipp.name_to_tag[typestr]
-
-            # Deal with "" strings as a special case - only one of them
-
-            m = re.match('"(.*)"', argstring)
-            if  m:
-                res = m.group(1)
-            elif re.match("NOW", argstring):
-                # Simple expressions involving current time
-                m = re.match("NOW(([-+])(\d+))?", argstring)
-                if not m:
-                    raise ConfError("Cannot decipher " + argstring)
-                when = time.time()
-                if m.group(1):
-                    offset = int(m.group(3))
-                    if m.group(2) == '-':
-                        when -= offset
-                    else:
-                        when += offset
-                res = when
-            elif re.match("MAKE\w+URI", argstring):
-                if argstring == "MAKELOCALURI":
-                    res = "ipp://localhost:631/printers/" + pname
-                elif argstring == "MAKENETURI":
-                    res = "ipp://" + socket.gethostname() + ":631/printers/" + pname
-                elif argstring == "MAKEDEVURI":
-                    res = "hal:///org/freedesktop/Hal/devices/" + pname
-                else:
-                    raise ConfError("Cannot decipher " + argstring)
-            elif argstring == "PRINTERNAME":
-                res = pname
-            else:
-                res = re.split("\s+", argstring)
-                if typenum == ipp.IPP_TAG_INTEGER or typenum == ipp.IPP_TAG_ENUM or typenum == ipp.IPP_TAG_BOOLEAN or typenum == ipp.IPP_TAG_DATE:
-                    try:
-                        res = map(int, res)
-                    except ValueError:
-                        raise ConfError("Invalid number for " + typestr + " in attr " + name)
-                elif typenum == ipp.IPP_TAG_RESOLUTION:
-                    if len(res) != 3:
-                        raise ConfError("Invalid resolution " + argstring)
-                    units = res.pop();
-                    try:
-                        res = map(int, res)
-                    except ValueError:
-                        raise ConfError("Invalid number for resolution " + name)
-                    res.append(units);
-                    res = tuple(res)
-                elif typenum == ipp.IPP_TAG_RANGE:
-                    if len(res) != 2:
-                        raise ConfError("Invalid range " + argstring)
-                    try:
-                        res = map(int, res)
-                    except ValueError:
-                        raise ConfError("Invalid number for range " + name)
-                    res = tuple(res)
-
-            if not isinstance(res, list):
-                res = [res]
-
-            result.append((name, typenum, res))
-
-        return result
+	return pendresult
 
     def get_default_attribute(self, attr):
-        """Get default attribute value as a list"""
-        if attr not in self.defaults.attrs:
+	"""Get default attribute value as a list"""
+	try:
+            v = self.confparser.getvalue('DEFAULT', attr)
+            if not isinstance(v, list):
+                v = [v]
+            return v
+        except ConfError:
             return None
-        return  re.split('\s+', self.defaults.attrs[attr][1])
 
     def get_attribute_value(self, pname, attr):
-        """Get specified attribute value as single item"""
-        if pname not in self.printers:
+	"""Get specified attribute value as single item"""
+	atts = self.get_config(pname, [attr])
+	if len(atts) == 0:
             return None
-        atts = self.get_config(pname, [attr])
-        if len(atts) == 0:
-            return None
-        atts = atts[0][2]
-        if len(atts) == 1:
+	atts = atts[0][2]
+	if len(atts) == 1:
             return atts[0]
-        return atts
+	return atts
 
     def set_attribute_value(self, pname, attrname, value):
-        """Set specified attribute value"""
-        if pname not in self.printers:
-            raise ConfError("No such printer - " + pname)
-        ptrdef = self.printers[pname]
-        pattrs = ptrdef.attrs
-
-        # Set value to list if it isn't
-
-        if isinstance(value, list):
-            value = string.join(map(list, str), ' ')
-        
-        # If something is already defined just update it otherwise
-        # get type from default or throw wobbly
-        
-        if attrname in pattrs:
-            ty, ev = pattrs[attrname]
-            if ty == "IPP_TAG_TEXT":
-                value = '"' + value + '"'
-            pattrs[attrname] = (ty, value)
-        else:
-            if attrname not in self.defaults.attrs:
-                raise ConfError("Unknown attribute " + attrname)
-            # Need first level copy as we're overwriting value part
-            ty, ev = self.defaults.attrs[attrname]
-            if ty == "IPP_TAG_TEXT":
-                value = '"' + value + '"'
-            newatt = (ty, value)
-            pattrs[attrname] = newatt
-            ptrdef.attrlist.append(attrname)
+	"""Set specified attribute value"""
+	if pname not in self.confparser.sections():
+            raise ConfError("No such printer - " + pname, 104)
+	self.confparser.set(pname, attrname, str(value))
 
     def get_param_value(self, pname, param):
-        """Get specified printer parameter"""
-        if pname not in self.printers:
-            raise ConfError("No such printer - " + pname)
-        pdefs = self.printers[pname].defs
-        if param not in pdefs:
-            raise ConfError("No such parameter - " + param)
-        return pdefs[param]
-        
+	"""Get specified printer parameter"""
+	if pname not in self.confparser.sections():
+            raise ConfError("No such printer - " + pname, 104)
+	try:
+            return self.confparser.get(pname, param)
+	except ConfigParser.NoOptionError:
+            raise ConfError("No such parameter - " + param, 101)
+
     def set_param_value(self, pname, param, value):
-        """Set specified printer parameter"""
-        if pname not in self.printers:
-            raise ConfError("No such printer - " + pname)
-        pdefs = self.printers[pname].defs
-        if param not in pdefs:
-            raise ConfError("No such parameter - " + param)
-        pdefs[param] = value
-        
+	"""Set specified printer parameter
+
+Always assume it to be a string"""
+	if pname not in self.confparser.sections():
+            raise ConfError("No such printer - " + pname, 104)
+	self.confparser.set(pname, param, value)
+
     def add_printer(self, pname):
-        """Add a new printer to the list"""
-        if pname in self.printers:
-            raise ConfError("Duplicate printer " + pname)
-        self.plist.append(pname)
-        pd = Confdef(pname, "GSPrinter", "Form", "Command")
-        pd.defs["Command"] = ':'
-        self.printers[pname] = pd
+	"""Add a new printer to the list"""
+	if self.confparser.has_section(pname):
+            raise ConfError("Duplicate printer " + pname, 106)
+	self.confparser.add_section(pname)
+	self.parameters.plist.append(pname)
+
+    def copy_printer(self, pname, newpname):
+        """Copy a printer definition for clone or rename"""
+        if not self.confparser.has_section(pname):
+            raise ConfError("Unknown printer " + pname, 104)
+	if self.confparser.has_section(newpname):
+            raise ConfError("Duplicate printer name " + newpname, 106)
+	self.confparser.add_section(newpname)
+        # Cream out the ones different from defaults
+        defs = self.confparser.defaults()
+	for opt in self.confparser.options(pname):
+            orig = self.confparser.get(pname, opt, raw=True)
+            try:
+                if defs[opt] == orig: continue
+            except KeyError:
+                pass
+            self.confparser.set(newpname, opt, orig)
 
     def rename_printer(self, pname, newpname):
-        """Rename a printer"""
-        if newpname in self.printers:
-            raise ConfError("Duplicate printer name " + newpname)
-        self.printers[newpname] = self.printers[pname]
-        del self.printers[pname]
-        self.plist[self.plist.index(pname)] = newpname
-        # If it's the default printer rename that
-        if self.defaults.defs['Printer'] == pname:
-            self.defaults.defs['Printer'] = newpname
-        
+	"""Rename a printer"""
+	self.copy_printer(pname, newpname)
+	self.confparser.remove_section(pname)
+	# If it's the default printer rename that
+	if pname == self.parameters.default_ptr:
+            self.parameters.default_ptr = newpname
+	if pname in self.parameters.plist:
+            self.parameters.plist.remove(pname)
+        self.parameters.plist.append(newpname)
+
+    def clone_printer(self, pname, newpname, queue=None, form=None, info=None):
+        """Clone a printer, setting the gsprinter name"""
+        self.copy_printer(pname, newpname)
+        if queue is not None:
+            self.confparser.set(newpname, 'gsprinter', queue)
+        if form is not None:
+            self.confparser.set(newpname, 'form', form)
+        if info is not None:
+            self.confparser.set(newpname, 'printer-info', info)
+        self.parameters.plist.append(newpname)
+
     def del_printer(self, pname):
         """Delete a printer from the list"""
-        if pname not in self.printers:
-            raise ConfError("Unknown printer " + pname)
-        del self.printers[pname]
-        try:
-            del self.plist[self.plist.index(pname)]
-        except:
-            pass
-        if self.defaults.defs['Printer'] == pname:
-            self.defaults.defs['Printer'] = ""
+        if not self.confparser.has_section(pname):
+            raise ConfError("Unknown printer " + pname, 104)
+        self.confparser.remove_section(pname)
+        if pname == self.parameters.default_ptr:
+            self.parameters.default_ptr = ""
+        if pname in self.parameters.plist:
+            self.parameters.plist.remove(pname)

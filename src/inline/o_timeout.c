@@ -17,48 +17,48 @@
 
 OPTION(o_ptimeout)
 {
-	int	num;
+        int     num;
 
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
 
-	num = atoi(arg);
-	if  (num <= 0 || num > 32767)  {
-		disp_arg[3] = 32767;
-		disp_arg[1] = num;
-		disp_arg[2] = 1;
-		print_error($E{Timeout range});
-		exit(E_USAGE);
-	}
+        num = atoi(arg);
+        if  (num <= 0 || num > 32767)  {
+                disp_arg[3] = 32767;
+                disp_arg[1] = num;
+                disp_arg[2] = 1;
+                print_error($E{Timeout range});
+                exit(E_USAGE);
+        }
 
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	pto_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        pto_changes++;
 #endif
-	SPQ.spq_ptimeout = (USHORT) num;
-	return  OPTRESULT_ARG_OK;
+        SPQ.spq_ptimeout = (USHORT) num;
+        return  OPTRESULT_ARG_OK;
 }
 
 OPTION(o_nptimeout)
 {
-	int	num;
+        int     num;
 
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
 
-	num = atoi(arg);
-	if  (num <= 0 || num > 32767)  {
-		disp_arg[3] = 32767;
-		disp_arg[1] = num;
-		disp_arg[2] = 1;
-		print_error($E{Timeout range});
-		exit(E_USAGE);
-	}
+        num = atoi(arg);
+        if  (num <= 0 || num > 32767)  {
+                disp_arg[3] = 32767;
+                disp_arg[1] = num;
+                disp_arg[2] = 1;
+                print_error($E{Timeout range});
+                exit(E_USAGE);
+        }
 
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	npto_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        npto_changes++;
 #endif
-	SPQ.spq_nptimeout = (USHORT) num;
-	return  OPTRESULT_ARG_OK;
+        SPQ.spq_nptimeout = (USHORT) num;
+        return  OPTRESULT_ARG_OK;
 }

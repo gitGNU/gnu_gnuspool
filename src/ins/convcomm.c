@@ -18,7 +18,7 @@
 #include "config.h"
 #include <stdio.h>
 #include <sys/types.h>
-#ifdef	HAVE_LIMITS_H
+#ifdef  HAVE_LIMITS_H
 #include <limits.h>
 #endif
 #include "incl_unix.h"
@@ -31,44 +31,44 @@
 
 char *expand_srcdir(char *dir)
 {
-	if  (!strchr(dir, '/'))  {
-		char	*rd;
-		char	fpath[100];
+        if  (!strchr(dir, '/'))  {
+                char    *rd;
+                char    fpath[100];
 
-		if  (strlen(dir) >= sizeof(fpath)-1)
-			return  (char *) 0;
+                if  (strlen(dir) >= sizeof(fpath)-1)
+                        return  (char *) 0;
 
-		init_mcfile();
+                init_mcfile();
 
-		/* Have to do it like this and not use getenv to save
-		   having to cater specially for SPOOLDIR */
+                /* Have to do it like this and not use getenv to save
+                   having to cater specially for SPOOLDIR */
 
-		if  (strcmp(dir, "SPOOLDIR") == 0)
-			rd = SPDIR;
-		else  {
-			sprintf(fpath, "$%s", dir);
-			rd = fpath;
-		}
-		rd = envprocess(rd);
-		return  rd && *rd == '/'? rd: (char *) 0;
-	}
-	return  dir;
+                if  (strcmp(dir, "SPOOLDIR") == 0)
+                        rd = SPDIR;
+                else  {
+                        sprintf(fpath, "$%s", dir);
+                        rd = fpath;
+                }
+                rd = envprocess(rd);
+                return  rd && *rd == '/'? rd: (char *) 0;
+        }
+        return  dir;
 }
 
 /* Make a path name absolute before we change directory */
 
 char *make_absolute(char *file)
 {
-	char	*curr, *res;
+        char    *curr, *res;
 
-	if  (file[0] == '/')
-		return  file;
+        if  (file[0] == '/')
+                return  file;
 
-	curr = runpwd();
-	if  (!(res = malloc((unsigned) (strlen(curr) + strlen(file) + 2))))
-		nomem();
+        curr = runpwd();
+        if  (!(res = malloc((unsigned) (strlen(curr) + strlen(file) + 2))))
+                nomem();
 
-	sprintf(res, "%s/%s", curr, file);
-	free(curr);
-	return  res;
+        sprintf(res, "%s/%s", curr, file);
+        free(curr);
+        return  res;
 }

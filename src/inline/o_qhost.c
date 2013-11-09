@@ -17,31 +17,23 @@
 
 OPTION(o_queuehost)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-#ifdef	NETWORK_VERSION
-	if  (strcmp(arg, "-") == 0)  {
-		Out_host = 0L;
-		return  OPTRESULT_ARG_OK;
-	}
-	if  (!(Out_host = look_hostname(arg)))  {
-		disp_str = arg;
-		print_error($E{Unknown host name});
-		exit(E_USAGE);
-	}
-#ifdef	INLINE_SPR
-	if  (Out_host == myhostid) /* Not an error - zaps it */
-		Out_host = 0L;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        if  (strcmp(arg, "-") == 0)  {
+                Out_host = 0L;
+                return  OPTRESULT_ARG_OK;
+        }
+        if  ((Out_host = look_int_hostname(arg)) == -1)  {
+                disp_str = arg;
+                print_error($E{Unknown host name});
+                exit(E_USAGE);
+        }
+#ifdef  INLINE_RSPR
+        if  (Out_host == 0)  {
+                disp_str = arg;
+                print_error($E{Send to self});
+                exit(E_USAGE);
+        }
 #endif
-#ifdef	INLINE_RSPR
-	if  (Out_host == myhostid)  {
-		disp_str = arg;
-		print_error($E{Send to self});
-		exit(E_USAGE);
-	}
-#endif
-#else
-	Out_host = 0L;
-#endif
-	return  OPTRESULT_ARG_OK;
+        return  OPTRESULT_ARG_OK;
 }

@@ -23,48 +23,48 @@
 #include <stdio.h>
 #include "incl_unix.h"
 
-#define	INITV	20
-#define	INCV	5
+#define INITV   20
+#define INCV    5
 
 char **makevec(const char *arg)
 {
-	char	*resv, **res;
-	int  count, tot, rbits = 0, quote;
-	char	**ores;
+        char    *resv, **res;
+        int  count, tot, rbits = 0, quote;
+        char    **ores;
 
-	ores = res = (char **)malloc((unsigned)(INITV * sizeof(char *)));
-	resv = (char *)malloc((unsigned)(strlen(arg) + 1));
-	tot = INITV;
-	count = INITV - 1;
-	if  (res == (char **) 0 || resv == (char *) 0)
-		nomem();
-	strcpy(resv, arg);
-	*res++ = resv;
-	rbits++;
+        ores = res = (char **)malloc((unsigned)(INITV * sizeof(char *)));
+        resv = (char *)malloc((unsigned)(strlen(arg) + 1));
+        tot = INITV;
+        count = INITV - 1;
+        if  (res == (char **) 0 || resv == (char *) 0)
+                nomem();
+        strcpy(resv, arg);
+        *res++ = resv;
+        rbits++;
 
-	for  (;;)  {
-		quote = 0;
-		while  (*resv == ' ')
-			resv++;
-		if  (*resv == '\0')  {
-			*res = (char *) 0;
-			return  ores;
-		}
-		if  (*resv == '\'' || *resv == '\"')
-			quote = *resv++;
-		*res++ = resv;
-		rbits++;
-		while  (*resv != '\0'  &&  (*resv != ' ' || quote)  &&  *resv != quote)
-			resv++;
-		if  (*resv)
-			*resv++ = '\0';
-		if  (--count <= 0)  {
-			tot += INCV;
-			count = INCV;
-			ores = (char **)realloc((char *) ores, (unsigned) tot * sizeof(char *));
-			if  (ores == (char **) 0)
-				nomem();
-			res = &ores[rbits];
-		}
-	}
+        for  (;;)  {
+                quote = 0;
+                while  (*resv == ' ')
+                        resv++;
+                if  (*resv == '\0')  {
+                        *res = (char *) 0;
+                        return  ores;
+                }
+                if  (*resv == '\'' || *resv == '\"')
+                        quote = *resv++;
+                *res++ = resv;
+                rbits++;
+                while  (*resv != '\0'  &&  (*resv != ' ' || quote)  &&  *resv != quote)
+                        resv++;
+                if  (*resv)
+                        *resv++ = '\0';
+                if  (--count <= 0)  {
+                        tot += INCV;
+                        count = INCV;
+                        ores = (char **)realloc((char *) ores, (unsigned) tot * sizeof(char *));
+                        if  (ores == (char **) 0)
+                                nomem();
+                        res = &ores[rbits];
+                }
+        }
 }

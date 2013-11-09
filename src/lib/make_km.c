@@ -23,166 +23,166 @@
 #include "incl_unix.h"
 #include "errnums.h"
 
-struct	keymap_vec	gen_map[MAPSIZE];
-struct	keymap_vec	*curr_map;
-struct	state_map	*state_map;
+struct  keymap_vec      gen_map[MAPSIZE];
+struct  keymap_vec      *curr_map;
+struct  state_map       *state_map;
 
-int	keyerrors;
-static	int	maxkchars, nstates, last_state = 0;
+int     keyerrors;
+static  int     maxkchars, nstates, last_state = 0;
 
 static void append_rest(struct keymap_sparse **kvp, const int n, const char *text, const int length, const int value)
 {
-	struct  keymap_sparse	*kp, **pp;
-	int	ch = text[n] & (MAPSIZE-1);
+        struct  keymap_sparse   *kp, **pp;
+        int     ch = text[n] & (MAPSIZE-1);
 
-	for  (pp = kvp;  (kp = *pp);  pp = &kp->ks_next)
-		if  (ch == kp->ks_char)
-			goto  found;
+        for  (pp = kvp;  (kp = *pp);  pp = &kp->ks_next)
+                if  (ch == kp->ks_char)
+                        goto  found;
 
-	/* Run off end, just allocate a new one (easy!)  */
+        /* Run off end, just allocate a new one (easy!)  */
 
-	if  ((kp = (struct keymap_sparse *)malloc(sizeof(struct keymap_sparse))) == (struct  keymap_sparse *) 0)
-	     nomem();
+        if  ((kp = (struct keymap_sparse *)malloc(sizeof(struct keymap_sparse))) == (struct  keymap_sparse *) 0)
+             nomem();
 
-	kp->ks_char = (char) ch;
-	kp->ks_next = (struct  keymap_sparse  *) 0;
-	kp->ks_link = (struct  keymap_sparse  *) 0;
+        kp->ks_char = (char) ch;
+        kp->ks_next = (struct  keymap_sparse  *) 0;
+        kp->ks_link = (struct  keymap_sparse  *) 0;
 
-	if  (n + 1 >= length)  {
-		kp->ks_type = KV_CHAR;
-		kp->ks_value = (SHORT) value;
-	}
-	else  {
-		kp->ks_type = KV_SMAP;
-		append_rest(&kp->ks_link, n+1, text, length, value);
-	}
-	*pp = kp;
-	return;
+        if  (n + 1 >= length)  {
+                kp->ks_type = KV_CHAR;
+                kp->ks_value = (SHORT) value;
+        }
+        else  {
+                kp->ks_type = KV_SMAP;
+                append_rest(&kp->ks_link, n+1, text, length, value);
+        }
+        *pp = kp;
+        return;
 
 found:
-	if  (n + 1 >= length)  {
-		if  (kp->ks_type & KV_CHAR && kp->ks_value != value)  {
-			disp_arg[0] = text[n];
-			disp_arg[1] = value;
-			disp_arg[2] = kp->ks_value;
-			disp_arg[3] = n;
-			print_error($E{Key sequence error});
-			keyerrors++;
-			return;
-		}
-		kp->ks_type |= KV_CHAR;
-		kp->ks_value = (SHORT) value;
-	}
-	else  {
-		kp->ks_type |= KV_SMAP;
-		append_rest(&kp->ks_link, n+1, text, length, value);
-	}
+        if  (n + 1 >= length)  {
+                if  (kp->ks_type & KV_CHAR && kp->ks_value != value)  {
+                        disp_arg[0] = text[n];
+                        disp_arg[1] = value;
+                        disp_arg[2] = kp->ks_value;
+                        disp_arg[3] = n;
+                        print_error($E{Key sequence error});
+                        keyerrors++;
+                        return;
+                }
+                kp->ks_type |= KV_CHAR;
+                kp->ks_value = (SHORT) value;
+        }
+        else  {
+                kp->ks_type |= KV_SMAP;
+                append_rest(&kp->ks_link, n+1, text, length, value);
+        }
 }
 
 static void insert_key(struct keymap_vec *kv, const char *text, const int length, const int value, const int ecode)
 {
-	if  (length > maxkchars)
-		maxkchars = length;
+        if  (length > maxkchars)
+                maxkchars = length;
 
-	if  (length > 1)  {
-		kv->kv_type |= KV_SMAP;
-		append_rest(&kv->kv_link, 1, text, length, value);
-	}
-	else  if  (kv->kv_type & KV_CHAR  &&  kv->kv_value != value)  {
-		disp_arg[0] = text[0];
-		disp_arg[1] = value;
-		disp_arg[2] = kv->kv_value;
-		print_error(ecode);
-		keyerrors++;
-	}
-	else  {
-		kv->kv_type |= KV_CHAR;
-		kv->kv_value = (SHORT) value;
-	}
+        if  (length > 1)  {
+                kv->kv_type |= KV_SMAP;
+                append_rest(&kv->kv_link, 1, text, length, value);
+        }
+        else  if  (kv->kv_type & KV_CHAR  &&  kv->kv_value != value)  {
+                disp_arg[0] = text[0];
+                disp_arg[1] = value;
+                disp_arg[2] = kv->kv_value;
+                print_error(ecode);
+                keyerrors++;
+        }
+        else  {
+                kv->kv_type |= KV_CHAR;
+                kv->kv_value = (SHORT) value;
+        }
 }
 
 void  insert_global_key(const char *text, const int length, const int value)
 {
-	insert_key(&gen_map[text[0] & (MAPSIZE-1)], text, length, value, $E{Global key error});
+        insert_key(&gen_map[text[0] & (MAPSIZE-1)], text, length, value, $E{Global key error});
 }
 
 void  map_dup(struct keymap_sparse **ksp)
 {
-	struct  keymap_sparse  *newp;
+        struct  keymap_sparse  *newp;
 
-	if  ((newp = (struct keymap_sparse *)malloc(sizeof(struct keymap_sparse))) == (struct keymap_sparse *) 0)
-	     nomem();
-	*newp = **ksp;
-	*ksp = newp;
-	if  (newp->ks_next)
-		map_dup(&newp->ks_next);
-	if  (newp->ks_link)
-		map_dup(&newp->ks_link);
+        if  ((newp = (struct keymap_sparse *)malloc(sizeof(struct keymap_sparse))) == (struct keymap_sparse *) 0)
+             nomem();
+        *newp = **ksp;
+        *ksp = newp;
+        if  (newp->ks_next)
+                map_dup(&newp->ks_next);
+        if  (newp->ks_link)
+                map_dup(&newp->ks_link);
 }
 
 void  insert_state_key(const int state, const char *text, const int length, const int value)
 {
-	struct	state_map	*sm;
-	int	i;
+        struct  state_map       *sm;
+        int     i;
 
-	disp_arg[3] = state;		/*  In case of error  */
+        disp_arg[3] = state;            /*  In case of error  */
 
-	if  (state_map)  {
-		for  (sm = state_map;  sm < &state_map[nstates];  sm++)
-			if  (sm->state_number == state)  {
-				insert_key(&sm->state_map[text[0] & (MAPSIZE-1)], text, length, value, $E{State key error});
-				return;
-			}
+        if  (state_map)  {
+                for  (sm = state_map;  sm < &state_map[nstates];  sm++)
+                        if  (sm->state_number == state)  {
+                                insert_key(&sm->state_map[text[0] & (MAPSIZE-1)], text, length, value, $E{State key error});
+                                return;
+                        }
 
-		nstates++;
-		if  ((state_map = (struct state_map *)
-		      realloc((char *) state_map,
-			      (unsigned)(nstates * sizeof(struct state_map))))
-		     == (struct state_map *) 0)
-			nomem();
-		sm = &state_map[nstates-1];
-	}
-	else  {
-		nstates = 1;
-		if  ((sm = state_map = (struct state_map *) malloc(sizeof(struct state_map))) == (struct state_map *) 0)
-			nomem();
-	}
+                nstates++;
+                if  ((state_map = (struct state_map *)
+                      realloc((char *) state_map,
+                              (unsigned)(nstates * sizeof(struct state_map))))
+                     == (struct state_map *) 0)
+                        nomem();
+                sm = &state_map[nstates-1];
+        }
+        else  {
+                nstates = 1;
+                if  ((sm = state_map = (struct state_map *) malloc(sizeof(struct state_map))) == (struct state_map *) 0)
+                        nomem();
+        }
 
-	/* Initialise to general map */
+        /* Initialise to general map */
 
-	sm->state_number = state;
-	for  (i = 0;  i < MAPSIZE;  i++)  {
-		sm->state_map[i] = gen_map[i];
-		if  (gen_map[i].kv_type & KV_SMAP)
-			map_dup(&sm->state_map[i].kv_link);
-	}
+        sm->state_number = state;
+        for  (i = 0;  i < MAPSIZE;  i++)  {
+                sm->state_map[i] = gen_map[i];
+                if  (gen_map[i].kv_type & KV_SMAP)
+                        map_dup(&sm->state_map[i].kv_link);
+        }
 
-	insert_key(&sm->state_map[text[0] & (MAPSIZE-1)], text, length, value, $E{State key error});
+        insert_key(&sm->state_map[text[0] & (MAPSIZE-1)], text, length, value, $E{State key error});
 }
 
 void  select_state(const int state)
 {
-	struct	state_map	*sm;
+        struct  state_map       *sm;
 
-	if  (last_state == state)
-		return;
+        if  (last_state == state)
+                return;
 
-	disp_arg[3] = state;		/*  In case of error  */
+        disp_arg[3] = state;            /*  In case of error  */
 
-	if  (state_map)  {
-		for  (sm = state_map;  sm < &state_map[nstates];  sm++)
-			if  (sm->state_number == state)  {
-				curr_map = sm->state_map;
-				last_state = state;
-				return;
-			}
-	}
-	print_error($E{Key state not defined});
-	exit(E_BADCFILE);
+        if  (state_map)  {
+                for  (sm = state_map;  sm < &state_map[nstates];  sm++)
+                        if  (sm->state_number == state)  {
+                                curr_map = sm->state_map;
+                                last_state = state;
+                                return;
+                        }
+        }
+        print_error($E{Key state not defined});
+        exit(E_BADCFILE);
 }
 
 void  reset_state()
 {
-	curr_map = gen_map;
-	last_state = 0;
+        curr_map = gen_map;
+        last_state = 0;
 }

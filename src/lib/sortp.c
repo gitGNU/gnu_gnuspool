@@ -29,14 +29,14 @@
 
 int  qsort_ptrs(const Hashspptr **a, const Hashspptr **b)
 {
-	const  struct  spptr  *ap = &(*a)->p, *bp = &(*b)->p;
-	int	ret;
+        const  struct  spptr  *ap = &(*a)->p, *bp = &(*b)->p;
+        int     ret;
 
-	if  (ap->spp_netid != bp->spp_netid)
-		return  ap->spp_netid == 0? -1:
-			bp->spp_netid == 0? 1:
-			ap->spp_netid < bp->spp_netid? -1: 1;
-	if  ((ret = strcmp(ap->spp_ptr, bp->spp_ptr)) != 0)
-		return  ret;
-	return  strcmp(ap->spp_dev, bp->spp_dev);
+        if  (ap->spp_netid != bp->spp_netid)
+                return  ap->spp_netid == 0? -1:
+                        bp->spp_netid == 0? 1:
+                        ap->spp_netid < bp->spp_netid? -1: 1;
+        if  ((ret = strcmp(ap->spp_ptr, bp->spp_ptr)) != 0)
+                return  ret;
+        return  strcmp(ap->spp_dev, bp->spp_dev);
 }

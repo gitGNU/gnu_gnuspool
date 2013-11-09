@@ -15,6 +15,6 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-extern RETSIGTYPE	markit(int);
-extern void	waitsig(void);
-extern int	msg_log(const int, const int);
+extern RETSIGTYPE  markit(int);
+extern void  waitsig();
+extern int  msg_log(const int, const int);

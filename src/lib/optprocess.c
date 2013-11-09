@@ -23,102 +23,122 @@
 #include "defaults.h"
 #include "helpargs.h"
 #include "errnums.h"
+#include "stringvec.h"
 #include "incl_unix.h"
 #include "incl_ugid.h"
 #include "cfile.h"
 #include "files.h"
 
-#ifndef	PATH_MAX
-#define	PATH_MAX	1024
-#endif
-
-char	freeze_wanted;
+char    freeze_wanted;
 
 /* Construct environment variable name from program name */
 
-char	*make_varname()
+char    *make_varname()
 {
-	char  *varname = malloc((unsigned) strlen(progname) + 1), *vp;
-	const  char  *pp;
+        char  *varname = malloc((unsigned) strlen(progname) + 1), *vp;
+        const  char  *pp;
 
-	if  (!varname)
-		nomem();
+        if  (!varname)
+                nomem();
 
-	pp = progname;
-	vp = varname;
+        pp = progname;
+        vp = varname;
 
-	while  (*pp)  {
-		int  ch = *pp++;
-		if  (!isalpha(ch))
-			*vp++ = '_';
-		else
-			*vp++ = toupper(ch);
-	}
-	*vp = '\0';
-	return  varname;
+        while  (*pp)  {
+                int  ch = *pp++;
+                if  (!isalpha(ch))
+                        *vp++ = '_';
+                else
+                        *vp++ = toupper(ch);
+        }
+        *vp = '\0';
+        return  varname;
 }
 
 char **optprocess(char **argv, const Argdefault *defaultopts, optparam *const optlist, const int minstate, const int maxstate, const int keepargs)
 {
-	char	*loclist = envprocess(CONFIGPATH), *nxt, *name;
-	const	char	*configname = USER_CONFIG;
-	HelpargRef	avec = helpargs(defaultopts, minstate, maxstate);
-	int	hadargv = 0;
-	char	*Varname = make_varname();
+	HelpargRef      avec = helpargs(defaultopts, minstate, maxstate);
+	char    *loclist, *cfilename, *dirname, *name;
+	int     hadargv = 0, part;
+        char    *Varname = make_varname();
+        struct  stringvec  cpath;
 
-	nxt = loclist;
-	for  (;;)  {
-		char	*colp, *dirname;
+        /* Break the path into components */
 
-		if  ((colp = strchr(nxt, ':')))
-			*colp = '\0';
+        loclist = envprocess(CONFIGPATH);
+        stringvec_split(&cpath, loclist, ':');
+        free(loclist);
 
-		if  (nxt[0] == '-'  &&  nxt[1] == '\0')  {	/* Process Command Line Options */
-			if  (!hadargv)
-				argv = doopts(&argv[0], avec, optlist, minstate);
-			hadargv++;
-		}
-		else  if  (*nxt == '\0'  ||  (nxt[0] == '!' && nxt[1] == '\0'))
-			doenv(getenv(Varname), avec, optlist, minstate);
-		else  {
-			char	cfilename[PATH_MAX];
-			if  (strchr(nxt, '~'))  {
-				if  (!(dirname = unameproc(nxt, ".", Realuid)))
-					goto  donxt;
-				if  (strchr(dirname, '$'))  {
-					char	*tmp = envprocess(dirname);
-					free(dirname);
-					dirname = tmp;
-				}
-				sprintf(cfilename, "%s/%s", dirname, configname);
-				free(dirname);
-			}
-			else  if  (strchr(nxt, '$'))  {
-				dirname = envprocess(nxt);
-				sprintf(cfilename, "%s/%s", dirname, configname);
-				free(dirname);
-			}
-			else
-				sprintf(cfilename, "%s/%s", nxt, configname);
+        for  (part = 0;  part < stringvec_count(cpath);  part++)  {
+                const  char  *pathseg = stringvec_nth(cpath, part);
+                unsigned  lng  = strlen(pathseg);
 
-			if  ((name = rdoptfile(cfilename, Varname)))  {
-				doenv(name, avec, optlist, minstate);
-				free(name);
-			}
-		}
-	donxt:
-		if  (!colp)
-			break;
-		*colp++ = ':';
-		nxt = colp;
-	}
-	close_optfile();
+                /* Treat null segments as reference to environment */
 
-	if  (keepargs || freeze_wanted)
-		makeoptvec(avec, minstate, maxstate);
-	freehelpargs(avec);
-	if  (!hadargv)
-		argv++;
+                if  (lng == 0)  {
+                        doenv(getenv(Varname), avec, optlist, minstate);
+                        continue;
+                }
+
+                /* Treat '-' as reference to command args, '@' as new home directory config files,
+                   '!' as reference to environment */
+
+                if  (lng == 1)  {
+
+                        /* Arg list */
+
+                        if  (pathseg[0] == '-')  {
+                                if  (!hadargv)          /* Only once */
+                                        argv = doopts(&argv[0], avec, optlist, minstate);
+                                hadargv++;
+                                continue;
+                        }
+
+                        /* Environment */
+
+                        if  (pathseg[0] == '!')  {
+                                doenv(getenv(Varname), avec, optlist, minstate);
+                                continue;
+                        }
+
+                        /* New style config file */
+
+                        if  (pathseg[0] == '@')  {
+                                cfilename = recursive_unameproc(HOME_CONFIG, ".", Realuid);
+                                name = rdoptfile(cfilename, Varname);
+                                free(cfilename);
+                                if  (name)  {
+                                        doenv(name, avec, optlist, minstate);
+                                        free(name);
+                                }
+                                continue;
+                        }
+                }
+
+                /* Something else, treat as name of directory */
+
+                dirname = recursive_unameproc(pathseg, ".", Realuid);
+                cfilename = malloc((unsigned) (strlen(dirname) + sizeof(USER_CONFIG) + 1));
+                if  (!cfilename)
+                        nomem();
+                strcpy(cfilename, dirname);
+                strcat(cfilename, "/" USER_CONFIG);
+                free(dirname);
+                if  ((name = rdoptfile(cfilename, Varname)))  {
+                        doenv(name, avec, optlist, minstate);
+                        free(name);
+                }
+                free(cfilename);
+        }
+
+        close_optfile();
+        stringvec_free(&cpath);
+
+        if  (keepargs || freeze_wanted)
+                makeoptvec(avec, minstate, maxstate);
+        freehelpargs(avec);
+        if  (!hadargv)
+                argv++;
 	free(Varname);
-	return  argv;
+        return  argv;
 }

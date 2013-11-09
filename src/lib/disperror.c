@@ -22,16 +22,16 @@
 
 void  fprint_error(FILE *fp, const int Errnum)
 {
-	char	**emess = helpvec(Errnum, 'E'), **ep;
+        char    **emess = helpvec(Errnum, 'E'), **ep;
 
-	for  (ep = emess;  *ep;  ep++)  {
-		fprintf(fp, "%s\n", *ep);
-		free(*ep);
-	}
-	free((char *) emess);
+        for  (ep = emess;  *ep;  ep++)  {
+                fprintf(fp, "%s\n", *ep);
+                free(*ep);
+        }
+        free((char *) emess);
 }
 
 void  print_error(const int Errnum)
 {
-	fprint_error(stderr, Errnum);
+        fprint_error(stderr, Errnum);
 }

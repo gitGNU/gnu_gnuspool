@@ -15,18 +15,18 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-struct	jobswanted	{
-	jobno_t		jno;		/* Job number */
-	netid_t		host;		/* Host id */
-	const  struct  spq  *jp;	/* Job structure pointer */
+struct  jobswanted      {
+        jobno_t         jno;            /* Job number */
+        netid_t         host;           /* Host id */
+        const  struct  spq  *jp;        /* Job structure pointer */
 };
-struct	ptrswanted	{
-	char		*ptrname;	/* Job number */
-	netid_t		host;		/* Host id */
-	const  struct  spptr  *pp;	/* Ptr structure pointer */
+struct  ptrswanted      {
+        char            *ptrname;       /* Job number */
+        netid_t         host;           /* Host id */
+        const  struct  spptr  *pp;      /* Ptr structure pointer */
 };
 
-int	decode_jnum(char *, struct jobswanted *);
-int	decode_pname(char *, struct ptrswanted *);
-extern	const Hashspq *find_job(struct jobswanted *);
-extern	const Hashspptr *find_ptr(struct ptrswanted *);
+int     decode_jnum(char *, struct jobswanted *);
+int     decode_pname(char *, struct ptrswanted *);
+extern  const Hashspq *find_job(struct jobswanted *);
+extern  const Hashspptr *find_ptr(struct ptrswanted *);

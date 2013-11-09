@@ -17,12 +17,12 @@
 
 OPTION(o_localonly)
 {
-	Displayopts.opt_localonly = NRESTR_LOCALONLY;
-	return  OPTRESULT_OK;
+        Displayopts.opt_localonly = NRESTR_LOCALONLY;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nolocalonly)
 {
-	Displayopts.opt_localonly = NRESTR_NONE;
-	return  OPTRESULT_OK;
+        Displayopts.opt_localonly = NRESTR_NONE;
+        return  OPTRESULT_OK;
 }

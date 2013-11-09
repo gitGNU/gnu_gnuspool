@@ -15,9 +15,9 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-extern void	doerror(int);
-extern int	Confirm(int);
-extern void	gtk_chk_uid(void);
+extern void     doerror(int);
+extern int      Confirm(int);
+extern void     gtk_chk_uid();
 
 /* Functions to make "gprompt"-stuff easier */
 

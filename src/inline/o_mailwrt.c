@@ -17,62 +17,62 @@
 
 OPTION(o_wrt)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	wrt_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        wrt_changes++;
 #endif
-	SPQ.spq_jflags |= SPQ_WRT;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags |= SPQ_WRT;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_mail)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	mail_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        mail_changes++;
 #endif
-	SPQ.spq_jflags |= SPQ_MAIL;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags |= SPQ_MAIL;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_mattn)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	mattn_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        mattn_changes++;
 #endif
-	SPQ.spq_jflags |= SPQ_MATTN;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags |= SPQ_MATTN;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_wattn)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	wattn_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        wattn_changes++;
 #endif
-	SPQ.spq_jflags |= SPQ_WATTN;
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags |= SPQ_WATTN;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nomailwrt)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	wrt_changes++;
-	mail_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        wrt_changes++;
+        mail_changes++;
 #endif
-	SPQ.spq_jflags &= ~(SPQ_WRT|SPQ_MAIL);
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags &= ~(SPQ_WRT|SPQ_MAIL);
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_noattn)
 {
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	mattn_changes++;
-	wattn_changes++;
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        mattn_changes++;
+        wattn_changes++;
 #endif
-	SPQ.spq_jflags &= ~(SPQ_MATTN|SPQ_WATTN);
-	return  OPTRESULT_OK;
+        SPQ.spq_jflags &= ~(SPQ_MATTN|SPQ_WATTN);
+        return  OPTRESULT_OK;
 }

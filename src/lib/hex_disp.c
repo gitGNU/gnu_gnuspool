@@ -24,53 +24,53 @@
 
 char  *hex_disp(const classcode_t value, const int plustrail)
 {
-	int	i;
-	static	char	result[33];
-	char	*rp = result;
+        int     i;
+        static  char    result[33];
+        char    *rp = result;
 
-	if  (plustrail)  {
-		for  (i = 0;  i < 16;  i++)
-			*rp++ = (value & (1 << i))? 'A' + i: '.';
-		for  (;  i < 32;  i++)
-			*rp++ = (value & (1 << i))? 'a' - 16 + i: '.';
-	}
-	else  {
-		int	bitcnt, pi;
-		for  (i = 0;  i < 16;  i++)  {
-			if  (value & (1 << i))  {
-				bitcnt = 1;
-				i++;
-				while  (i < 16  &&  value & (1 << i))  {
-					i++;
-					bitcnt++;
-				}
-				if  (bitcnt > 3)  {
-					*rp++ = 'A' + i - bitcnt;
-					*rp++ = '-';
-					*rp++ = 'A' + i - 1;
-				}
-				else  for  (pi = i - bitcnt;  pi < i;  pi++)
-					*rp++ = 'A' + pi;
-			}
-		}
-		for  (i = 16;  i < 32;  i++)  {
-			if  (value & (1 << i))  {
-				bitcnt = 1;
-				i++;
-				while  (i < 32  &&  value & (1 << i))  {
-					i++;
-					bitcnt++;
-				}
-				if  (bitcnt > 3)  {
-					*rp++ = 'a' + i - bitcnt - 16;
-					*rp++ = '-';
-					*rp++ = 'a' + i - 17;
-				}
-				else  for  (pi = i - bitcnt;  pi < i;  pi++)
-					*rp++ = 'a' + pi - 16;
-			}
-		}
-	}
-	*rp = '\0';
-	return  result;
+        if  (plustrail)  {
+                for  (i = 0;  i < 16;  i++)
+                        *rp++ = (value & (1 << i))? 'A' + i: '.';
+                for  (;  i < 32;  i++)
+                        *rp++ = (value & (1 << i))? 'a' - 16 + i: '.';
+        }
+        else  {
+                int     bitcnt, pi;
+                for  (i = 0;  i < 16;  i++)  {
+                        if  (value & (1 << i))  {
+                                bitcnt = 1;
+                                i++;
+                                while  (i < 16  &&  value & (1 << i))  {
+                                        i++;
+                                        bitcnt++;
+                                }
+                                if  (bitcnt > 3)  {
+                                        *rp++ = 'A' + i - bitcnt;
+                                        *rp++ = '-';
+                                        *rp++ = 'A' + i - 1;
+                                }
+                                else  for  (pi = i - bitcnt;  pi < i;  pi++)
+                                        *rp++ = 'A' + pi;
+                        }
+                }
+                for  (i = 16;  i < 32;  i++)  {
+                        if  (value & (1 << i))  {
+                                bitcnt = 1;
+                                i++;
+                                while  (i < 32  &&  value & (1 << i))  {
+                                        i++;
+                                        bitcnt++;
+                                }
+                                if  (bitcnt > 3)  {
+                                        *rp++ = 'a' + i - bitcnt - 16;
+                                        *rp++ = '-';
+                                        *rp++ = 'a' + i - 17;
+                                }
+                                else  for  (pi = i - bitcnt;  pi < i;  pi++)
+                                        *rp++ = 'a' + pi - 16;
+                        }
+                }
+        }
+        *rp = '\0';
+        return  result;
 }

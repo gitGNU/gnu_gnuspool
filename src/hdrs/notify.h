@@ -15,7 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#define	PRESENT_TENSE		0
-#define	PAST_TENSE		1
+#define PRESENT_TENSE           0
+#define PAST_TENSE              1
 
-typedef	enum { NOTIFY_MAIL, NOTIFY_WRITE, NOTIFY_DOSWRITE } cmd_type;
+typedef enum { NOTIFY_MAIL, NOTIFY_WRITE, NOTIFY_DOSWRITE } cmd_type;

@@ -17,9 +17,9 @@
  /*
 
  *----------------------------------------------------------------------
- *	Read header lines from help file.
- *	Return vector of character vectors.
- *	Everything is null terminated.
+ *      Read header lines from help file.
+ *      Return vector of character vectors.
+ *      Everything is null terminated.
  */
 
 #include "config.h"
@@ -27,48 +27,48 @@
 #include "incl_unix.h"
 #include "errnums.h"
 
-#define	MAXLINES	10
+#define MAXLINES        10
 
 char **helphdr(const char chr)
 {
-	char	**result;
-	int	lnum, maxl = 0, ch, perc = 0, hadeof = 0;
+        char    **result;
+        int     lnum, maxl = 0, ch, perc = 0, hadeof = 0;
 
-	if  ((result = (char **) malloc((MAXLINES+1) * sizeof(char *))) == (char **) 0)
-		nomem();
-	for  (lnum = 0;  lnum < MAXLINES+1;  lnum++)
-		result[lnum] = (char *) 0;
+        if  ((result = (char **) malloc((MAXLINES+1) * sizeof(char *))) == (char **) 0)
+                nomem();
+        for  (lnum = 0;  lnum < MAXLINES+1;  lnum++)
+                result[lnum] = (char *) 0;
 
-	for  (;;)  {
-		if  ((ch = getc(Cfile)) == EOF)  {
-			if  (hadeof)
-				goto  dun;
-			fseek(Cfile, 0L, 0);
-			hadeof++;
-			continue;
-		}
+        for  (;;)  {
+                if  ((ch = getc(Cfile)) == EOF)  {
+                        if  (hadeof)
+                                goto  dun;
+                        fseek(Cfile, 0L, 0);
+                        hadeof++;
+                        continue;
+                }
 
-		if  (ch == chr  ||  ch == chr - 'A' + 'a')  {
-			lnum = helprdn();
-			if  ((ch = getc(Cfile)) != ':')
-				goto  skipl;
-			if  (lnum <= 0 || lnum > MAXLINES)
-				goto  skipl;
-			if  (lnum > maxl)
-				maxl = lnum;
-			result[lnum - 1] = help_readl(&perc);
-			continue;
-		}
-	skipl:
-		while  (ch != '\n' && ch != EOF)
-			ch = getc(Cfile);
-		continue;
-	}
+                if  (ch == chr  ||  ch == chr - 'A' + 'a')  {
+                        lnum = helprdn();
+                        if  ((ch = getc(Cfile)) != ':')
+                                goto  skipl;
+                        if  (lnum <= 0 || lnum > MAXLINES)
+                                goto  skipl;
+                        if  (lnum > maxl)
+                                maxl = lnum;
+                        result[lnum - 1] = help_readl(&perc);
+                        continue;
+                }
+        skipl:
+                while  (ch != '\n' && ch != EOF)
+                        ch = getc(Cfile);
+                continue;
+        }
 dun:
-	for  (lnum = 0;  lnum < maxl;  lnum++)
-		if  (!result[lnum])
-			result[lnum] = stracpy("");
-	if  (perc)
-		result = mmangle(result);
-	return  result;
+        for  (lnum = 0;  lnum < maxl;  lnum++)
+                if  (!result[lnum])
+                        result[lnum] = stracpy("");
+        if  (perc)
+                result = mmangle(result);
+        return  result;
 }

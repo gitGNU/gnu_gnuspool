@@ -18,6 +18,8 @@
 # Originally written by John Collins <jmc@xisl.com>.
 
 import select
+import socket
+import syslog
 
 class filebufEOF(Exception):
     """Throw me on EOF"""
@@ -34,6 +36,8 @@ class filebuf:
 	self.expected = 0
 	self.timeout = tout
 	f.setblocking(0)
+        self.pollobj = select.poll()
+        self.pollobj.register(f, select.POLLIN|select.POLLERR|select.POLLHUP)
 
     def set_expected(self, l):
 	"""Set expected value from HTTP header
@@ -45,13 +49,18 @@ Remember to adjust for anything we already read"""
 	"""Read a bufferful up to length
 
 We are set to non-blocking so we wait for something to arrive first"""
-	try:
-	    sr = select.select((self.sock,),(),(), self.timeout)
-	    if len(sr[0]) == 0:
-		raise filebufEOF()
-	    return self.sock.recv(length)
-	except:
-	    raise filebufEOF()
+        try:
+            pollres = self.pollobj.poll(int(self.timeout * 1000))
+            if len(pollres) == 0:
+                syslog.syslog(syslog.LOG_INFO, "Timeout on poll")
+                raise filebufEOF()
+            pollfd, pollev = pollres[0]
+            if pollev == select.POLLIN: return self.sock.recv(length)
+            syslog.syslog(syslog.LOG_INFO, "Error on poll")
+            raise filebufEOF()
+        except socket.error:
+            syslog.syslog(syslog.LOG_INFO, "Exception on select")
+            raise filebufEOF()
 
     def want(self, length):
 	"""Say we want a string of length given from buffer"""
@@ -72,7 +81,7 @@ We are set to non-blocking so we wait for something to arrive first"""
 	"""Get a string of length given from the file"""
 	self.want(length)
 	result = self.buffer[self.ptr:self.ptr+length]
-	self.ptr += length;
+	self.ptr += length
 	return result
 
     def peek(self, length):

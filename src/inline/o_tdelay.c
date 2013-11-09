@@ -17,54 +17,54 @@
 
 OPTION(o_tdelay)
 {
-	int	num, hours, mins, secs;
+        int     num, hours, mins, secs;
 
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
 
-	disp_str = arg;		/* In case we get an error */
+        disp_str = arg;         /* In case we get an error */
 
-	if  (*arg == '-')  {
-		SPQ.spq_hold = 0l;
-		return  OPTRESULT_ARG_OK;
-	}
+        if  (*arg == '-')  {
+                SPQ.spq_hold = 0l;
+                return  OPTRESULT_ARG_OK;
+        }
 
-	if  (!isdigit(*arg))  {
-	badtim:
-		print_error($E{Invalid time digit});
-		exit(E_USAGE);
-	}
+        if  (!isdigit(*arg))  {
+        badtim:
+                print_error($E{Invalid time digit});
+                exit(E_USAGE);
+        }
 
-	num = 0;
-	do  num = num * 10 + *arg++ - '0';
-	while  (isdigit(*arg));
+        num = 0;
+        do  num = num * 10 + *arg++ - '0';
+        while  (isdigit(*arg));
 
-	if  (*arg != ':')  {
-		if  (*arg != '\0')
-			goto  badtim;
-		hours = 0;
-		mins = num;
-		secs = 0;
-	}
-	else  {
-		hours = num;
-		mins = 0;
-		arg++;
-		while  (isdigit(*arg))
-			mins = mins * 10 + *arg++ - '0';
-		secs = 0;
-		if  (*arg == ':')  {
-			arg++;
-			while  (isdigit(*arg))
-				secs = secs * 10 + *arg++ - '0';
-		}
-		if  (*arg != '\0'  ||  mins >= 60  ||  secs >= 60)
-			goto  badtim;
-	}
-#ifdef	INLINE_SQCHANGE
-	doing_something++;
-	tdel_changes++;
+        if  (*arg != ':')  {
+                if  (*arg != '\0')
+                        goto  badtim;
+                hours = 0;
+                mins = num;
+                secs = 0;
+        }
+        else  {
+                hours = num;
+                mins = 0;
+                arg++;
+                while  (isdigit(*arg))
+                        mins = mins * 10 + *arg++ - '0';
+                secs = 0;
+                if  (*arg == ':')  {
+                        arg++;
+                        while  (isdigit(*arg))
+                                secs = secs * 10 + *arg++ - '0';
+                }
+                if  (*arg != '\0'  ||  mins >= 60  ||  secs >= 60)
+                        goto  badtim;
+        }
+#ifdef  INLINE_SQCHANGE
+        doing_something++;
+        tdel_changes++;
 #endif
-	SPQ.spq_hold = (LONG) (time((time_t *) 0) + (hours * 60 + mins) * 60 + secs);
-	return  OPTRESULT_ARG_OK;
+        SPQ.spq_hold = (LONG) (time((time_t *) 0) + (hours * 60 + mins) * 60 + secs);
+        return  OPTRESULT_ARG_OK;
 }

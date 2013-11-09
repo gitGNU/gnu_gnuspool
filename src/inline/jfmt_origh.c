@@ -15,15 +15,15 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_orighost(const struct spq *jp, const int fwidth)
+static  fmt_t   fmt_orighost(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_jflags & HT_ROAMUSER)  {
-#ifdef	CHARSPRINTF
-		sprintf(bigbuff, "(%s)", jp->spq_uname);
-		return  (fmt_t) strlen(bigbuff);
+        if  (jp->spq_jflags & HT_ROAMUSER)  {
+#ifdef  CHARSPRINTF
+                sprintf(bigbuff, "(%s)", jp->spq_uname);
+                return  (fmt_t) strlen(bigbuff);
 #else
-		return	(fmt_t) sprintf(bigbuff, "(%s)", jp->spq_uname);
+                return  (fmt_t) sprintf(bigbuff, "(%s)", jp->spq_uname);
 #endif
-	}
-	return  (fmt_t) strlen(strcpy(bigbuff, look_host(jp->spq_orighost? jp->spq_orighost: myhostid)));
+        }
+        return  (fmt_t) strlen(strcpy(bigbuff, look_int_host(jp->spq_orighost)));
 }

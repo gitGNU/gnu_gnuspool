@@ -1,6 +1,6 @@
 include(xres.m4)
 include(stdcolours.m4)
-XRES_APPLICATION(gspl-xmuser, {GSPL-XMUSER - Edit userr options}, 32)
+XRES_APPLICATION(gspl-xmuser, {GSPL-XMUSER - Edit user options}, 32)
 
 TOPLEVEL_RESOURCE(toolTipEnable, True)
 TOPLEVEL_RESOURCE(titlePresent, True)
@@ -102,6 +102,7 @@ XRES_GENERALLABEL(remotej, Access remote jobs)
 XRES_GENERALLABEL(remotep, Access remote printers)
 XRES_GENERALLABEL(accessok, Access non-displayed parameters)
 XRES_GENERALLABEL(freezeok, Save default parameters)
+XRES_GENERALLABEL(masq, Masquerade as other users)
 
 XRES_COMMENT(Dialog titles etc for help/error/info/confirm)
 XRES_STDDIALOG(help, {On line help.....})

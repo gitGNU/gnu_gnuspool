@@ -15,7 +15,10 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-extern	void  close_optfile(void);
-extern	char  *rdoptfile(const char *, const char *);
-extern	FILE  *open_cfile(const char *, const char *);
-extern	FILE  *open_icfile(void);
+extern  void  close_optfile();
+extern  char  *rdoptfile(const char *, const char *);
+extern  FILE  *open_cfile(const char *, const char *);
+extern  FILE  *open_icfile();
+extern  char  *optkeyword(const char *);
+extern  int   spitoption(const int, const int, FILE *, const int, const int);
+extern  int   proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));

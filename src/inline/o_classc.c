@@ -17,20 +17,20 @@
 
 OPTION(o_classcode)
 {
-	classcode_t	ca;
+        classcode_t     ca;
 
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
 
-	ca = Displayopts.opt_classcode = hextoi(arg);
-	if  (!(mypriv->spu_flgs & PV_COVER))
-		Displayopts.opt_classcode &= mypriv->spu_class;
-	if  (Displayopts.opt_classcode == 0)  {
-		disp_str = arg;
-		disp_str2 = hex_disp(mypriv->spu_class, 0);
-		print_error(ca? $E{setting zero class}: $E{specifying zero class});
-		exit(E_BADCLASS);
-	}
+        ca = Displayopts.opt_classcode = hextoi(arg);
+        if  (!(mypriv->spu_flgs & PV_COVER))
+                Displayopts.opt_classcode &= mypriv->spu_class;
+        if  (Displayopts.opt_classcode == 0)  {
+                disp_str = arg;
+                disp_str2 = hex_disp(mypriv->spu_class, 0);
+                print_error(ca? $E{setting zero class}: $E{specifying zero class});
+                exit(E_BADCLASS);
+        }
 
-	return  OPTRESULT_ARG_OK;
+        return  OPTRESULT_ARG_OK;
 }

@@ -332,19 +332,19 @@ E{remote job message queue full} ++	"Remote rejected job - message queue is full
 E{remote job unknown client} ++	"Remote rejected job - unknown client"
 E{write failure remote job} ++	"Trouble writing job to remote"
 E{remote job file truncated} ++	"Outgoing Remote file truncated???"
+E{xtnet cannot open apisock} ++	"%P - cannot open socket for API transactions"
 E{Cannot bind UDP socket} ++	"Cannot bind UDP socket for remote enquiry"
 E{Cannot create UDP socket} ++	"Cannot create UDP socket for remote enquiry"
 E{Cannot create TCP socket} ++	"Cannot create tcp socket for remote queue"
-E{No TCP protocol} ++		"Cannot determine TCP protocol number"
-E{No UDP protocol} ++		"Cannot determine UDP protocol number"
-E{No TCP service} ++		"Cannot determine TCP service number - looking for ""%s"""
+E{No listening port} =107		"No service port set up for listening for connections"
+E{No TCP service} = 109		"Cannot determine TCP service number - looking for ""%s"""
 E{No UDP service} ++		"Cannot determine UDP service number - looking for ""%s"""
 E{User invalid at remote} ++	"%s is not a valid user on %t"
 E{Cannot send on UDP socket} ++	"Cannot send on UDP socket to %s"
 E{Cannot receive on UDP socket} ++	"Cannot receive on UDP socket from %s"
 E{Trouble writing socket file} ++	"Cannot write output file to remote"
 E{Cannot open print file} ++		"%P - cannot open file %s"
-E{remote job lost sync} ++	"Lost TCP synchronisation during send remote job"
+E{remote job lost sync} = 117	"Lost TCP synchronisation during send remote job"
 E{remote job lost seq} ++	"Lost data sequence during send remote job"
 E{remote job truncated} ++	"Job `%s' (%d0) exceeded size limit - truncated"
 
@@ -474,7 +474,7 @@ E{spstart cannot delete remote printer} ++
 "Sorry but you cannot delete remote printers. You must rlogin to the
 machine %s and do it from there."
 
-E{sqcrcgi no file supplied} = ROUND(@, 20) "No file supplied with job create - probable CGI error"
+E{sqcrcgi no file supplied} = 200 "No file supplied with job create - probable CGI error"
 E{sqcrcgi cannot reopen temp file} ++ "CGI error - cannot reopen temp file"
 E{sqcrcgi no job data} ++	"No job data received"
 E{sqcrcgi file full} ++		"Spool write failed - file system full on server?"
@@ -503,6 +503,7 @@ P{Priv remj} ++ COPY				"Remj"
 P{Priv remp} ++ COPY				"Remp"
 P{Priv access} ++ COPY				"Accessj"
 P{Priv freeze} ++ COPY				"Freeze"
+P{Priv masq} ++ COPY				"Masq"
 
 ##  SPUCHANGE
 
@@ -515,7 +516,7 @@ E{spuchange priority range} ++			"Invalid priority `%s', should be between 1 and
 E{spuchange copies error} ++			"The copies `%s' specified is not numeric."
 E{spuchange copies range} ++			"Invalid copies `%s', should be between 1 and 255."
 E{Privilege specification error} ++		"Unknown privilege code `%s'"
-E{Unexpected arguments follow defaults} ++	"Unexpected arguments follow set of defaults."
+E{Unexpected arguments follow defaults} ++	"%P: Unexpected arguments follow set of defaults."
 E{Form type doesnt match allowed} ++		"Default form type %s doesn't fit the restriction of %t"
 E{Ptr type doesnt match allowed} ++		"Default printer %s doesn't fit the restriction of %t"
 
@@ -523,7 +524,7 @@ E{Unknown user name ignored} ++			"Unknown user name `%s' - ignored"
 
 E{Rebuilding spufile wait} ++			"Rebuilding user control file, please wait."
 
-E{spulist nothing to do} ++			"Both header and user lines suppressed - nothing to do"
+E{spulist nothing to do} = 441			"Both header and user lines suppressed - nothing to do"
 E{spuchange nothing to do} ++			"%P - Nothing to do"
 E{spuchange no change default} ++		"%P - you are not allowed to change your default prio/printer/form"
 
@@ -938,7 +939,7 @@ E{spstart options} +6 COPY
 -?            Explain
 -D            Description associated with printer
 -N            Specify network printer
--l            Specify device name  
+-l            Specify device name
 -L            Specify line number
 -s            Make available local only
 -w            Make available network wide"
@@ -2226,13 +2227,7 @@ will always take effect in this directory unless overridden
 on the command line, current directory or environment?
 Your home directory is %s"
 
-P,H{Save in current home directory} ++
-"Save in home (also current) directory? ",
-"Do you want to save them in your home directory which is
-is also your current directory?
-(i.e. %s)"
-
-E{spq options bad state code} ++
+E{spq options bad state code} = @ + 2
 "Invalid state code number %d9 in options state code list in
 help file %F"
 
@@ -2256,12 +2251,7 @@ P,H{Save format codes} ++
 "Do you want to save the format field codes just set to
 recover them on entry?"
 
-P,H{Sure you want to overwrite} ++
-"Overwrite existing file?",
-"Are you sure that you want to overwrite the existing file
-%s"
-
-P,H{spq field width} ++
+P,H{spq field width} = @ + 2
 "Width of field",
 "This is the maximum width of the field"
 
@@ -2275,11 +2265,7 @@ P,H{spq field sep} ++
 "This is the field to generate the separator with. Enter nothing
 to just give a single space."
 
-P,H{spq field fname} ++
-"What file:",
-"What file name would you like to save the new message file in."
-
-E{spq fields unknownc} ++	"Unknown command editing format list"
+E{spq fields unknownc} = @ + 2	"Unknown command editing format list"
 E{spq fields off bottom} ++	"Off end of list of formats"
 E{spq fields off top} ++	"Off beginning of list of formats"
 E{spq fields none yet} ++	"No formats to edit yet - please create some"
@@ -2317,27 +2303,7 @@ E{saveopts cannot fork} = {saveopts crashed} + 4
 E{saveopts file error} + {saveopts nomem}
 "No memory available creating init file."
 
-E,H{spq help not flat file} = ROUND(@, 10)
-"Your proposed saved help file is not a regular file",
-"The file name you gave is not a file name but the name
-of an existing directory etc."
-
-E,H{spq help would overwrite} ++
-"Your proposed saved help file would overwrite the current one.",
-"You are trying to save a help file on top of the one currently
-in use"
-
-E,H{spq help file cannot open} ++
-"Cannot open %s for writing.",
-"I am trying to open the file %s to write the new help file
-to it but I cannot open it. Maybe the permissions are wrong."
-
-E,H{spq help file cannot create} ++
-"Cannot create %s",
-"I am trying to create the file %s to write the new help file
-to it but I cannot do so. Maybe the permissions are wrong."
-
-E,H{No freeze permission} ++
+E,H{No freeze permission} = ROUND(@, 10) + 4
 "No freeze permission",
 "Your account is not permitted to save default options.
 Sorry about that."
@@ -2890,10 +2856,6 @@ H{xmspq new sep dlg} ++
 "Use this dialog to create a separator string in the variable display
 If you just accept nothing a single space will be used."
 
-H{xmspq save help file help} ++
-"Please use this dialog to save the new help file
-containing the new screen formats."
-
 P,H{Sure about deleting not printed} = ROUND(@, 10)
 "Job has not been printed. Are you sure?",
 "This job has not been printed so you are being
@@ -3250,7 +3212,7 @@ H{xmspuser users menu help} ++
 
     Copy       - copy defaults to selected users"
 
-H{xmspuser search help} ++
+H{xmspuser search help} = 8
 "Search menu - Choose from:
     Search - for particular string
     Search forwards - using same
@@ -3338,7 +3300,9 @@ H{xmspuser user privs} ++
 "This menu selects the privileges for the selected users
 Use the ""Set Default"" button to set to the defaults."
 
-H{xmspuser system forms} ++
+# Deleted one here
+
+H{xmspuser system forms} = 28
 "Use this menu to set the default form type which will
 be automatically assigned to new users.
 The list gives all known default user form types
@@ -3401,7 +3365,9 @@ You can also set up whether you want the search to wrap around
 and whether you want exact upper/lower-case matches of strings.
 Use ""."" to signify a wild card."
 
-E,H{No users selected} ++
+# Deleted 3 here
+
+E,H{No users selected} = 103
 "No users selected - please choose some",
 "Please select one or more users by clicking the left mouse
 button on the users, using Ctrl+left button to select more
@@ -3433,7 +3399,9 @@ E,H{xmspuser zero class} ++
 bits set to zero as the jobs would be invisible and
 unprintable."
 
-E,H{Fsearch user not found} ++
+# Item deleted
+
+E,H{Fsearch user not found} = 110
 "User not found",
 "No matching user was found searching forwards."
 
@@ -3446,14 +3414,6 @@ E,H{No admin file permission} ++
 or adjust charges records.",
 "You do not have any permission to edit the admin file and
 adjust the charges records which you do for this operation"
-
-E,H{xmspq app-default cannot open} ++
-"Trouble opening application defaults file",
-"I don't seem to be able to open your application defaults file"
-
-E,H{xmspq app-default cannot create} ++
-"Trouble creating application resource file",
-"I don't seem to be able to a new application defaults file"
 
 # Rest of the errors
 
@@ -3832,7 +3792,7 @@ p  Set printer type"
 ({spuser cdef state})K{spuser key own def pri} ++	"d,D"
 ({spuser cdef state})K{spuser key own def ptr} ++	"p,P"
 
-E{Unknown command askyorn} ++
+E{Unknown command askyorn} = 7
 "Unknown command - please say Y or N do you want to save options"
 
 [
@@ -4056,6 +4016,7 @@ P{Priv descr remote jobs} ++			"Edit remote jobs"
 P{Priv descr remote printers} ++		"Edit remote printers"
 P{Priv descr access queue} ++			"Access queue options"
 P{Priv descr freeze options} ++			"Save new default options"
+P{Priv descr masquerade user} ++		"Can masquerade as other users"
 
 {Priv descr start row} = {Priv descr edit admin file} - 1
 
@@ -4069,7 +4030,8 @@ Select starting row for cursor of list of perms, and initial display row
 Define row order for priv descrs on spuser
 ]
 ({Priv descr edit admin file})	N	{Priv descr override class}
-({Priv descr override class})	N	{Priv descr stop spooler}
+({Priv descr override class})	N	{Priv descr masquerade user}
+({Priv descr masquerade user})	N	{Priv descr stop spooler}
 ({Priv descr stop spooler})	N	{Priv descr use other forms}
 ({Priv descr use other forms})	N	{Priv descr use other ptrs}
 ({Priv descr use other ptrs})	N	{Priv descr change priority on Q}
@@ -4249,39 +4211,39 @@ P{xspuser priv hdr} ++ COPY	"Priv"
 Xspuser dialog frame labels
 ]
 
-P{xspuser framelab pricps} = ROUND(@, 20) "Priorities and copies"
+P{xspuser framelab pricps} = 1420     "Priorities and copies"
 P{xspuser framelab forms} ++		  "Form types"
 P{xspuser framelab printers} ++		  "Printer types"
 P{xspuser framelab ccodes} ++		  "Class codes"
 P{xspuser framelab privs} ++		  "Privileges"
 
-P{xspuser frametab pricps} = ROUND(@, 5)  "Pri/cps"
+P{xspuser frametab pricps} = 1425     "Pri/cps"
 P{xspuser frametab forms} ++		  "Forms"
 P{xspuser frametab printers} ++		  "Ptrs"
 P{xspuser frametab ccodes} ++		  "ClassC"
 P{xspuser frametab privs} ++		  "Privs"
 
-P{xspuser deflab} = ROUND(@, 5)		  "Default parameters"
+P{xspuser deflab} = 1430		  "Default parameters"
 P{xspuser udlgtit} ++			  "User parameters"
 P{xspuser ddlgtit} ++			  "Default parameters"
 
-P{xspuser pcdlg minp} = ROUND(@, 5)	  "Minimum priority"
+P{xspuser pcdlg minp} = 1435	  "Minimum priority"
 P{xspuser pcdlg defp} ++		  "Default priority"
 P{xspuser pcdlg maxp} ++		  "Maximum priority"
 P{xspuser pcdlg cps} ++			  "Max copies"
 
-P{xspuser fmdlg deffm} = ROUND(@, 5)	  "Default formtype"
+P{xspuser fmdlg deffm} = 1440	  "Default formtype"
 P{xspuser fmdlg allfm} ++		  "Allowed formtype"
 
-P{xspuser ptrdlg defptr} = ROUND(@, 5)	  "Default printer type"
+P{xspuser ptrdlg defptr} = 1445	  "Default printer type"
 P{xspuser ptrdlg allptr} ++		  "Allowed printer type"
 
-P{xspuser ccdlg setall} = ROUND(@, 5)	  "Set All"
+P{xspuser ccdlg setall} = 1450	  "Set All"
 P{xspuser ccdlg clearall} ++		  "Clear All"
 
-P{xspuser priv setdef} = ROUND(@, 5)	  "Set to default"
+P{xspuser priv setdef} = 1455	  "Set to default"
 
-P{xspuser app title} = ROUND(@, 5)	  "Set spool user permissions"
+P{xspuser app title} = 1460		   "Set spool user permissions"
 
 [
 Messages for xspq
@@ -4542,7 +4504,7 @@ P{xspq opt all hosts} ++		 "Show all hosts"
 P{xspq opt local only} ++		 "Show local host only"
 
 P{xspq framelab vof ptr} ++		 "Limit display to printer(s)"
-P{xspq opt ptr lab} ++			 "Printers (multiple with ,s)" 
+P{xspq opt ptr lab} ++			 "Printers (multiple with ,s)"
 P{xspq opt pincl match} ++		 "Show jobs matching printer"
 P{xspq opt pincl matchnull} ++		 "Show jobs matching printer plus null"
 P{xspq opt pincl all} ++		 "Show all jobs"
@@ -4675,7 +4637,12 @@ E,H{Transfer buffer full up} ++
 This should normally be the same as the number of messages
 on a message queue."
 
-E{Cannot create xfer shm} ++		"Failed to create transfer buffer shm segment"
+E{Probe incorrect IP 1} ++		"Probe invoked with incorrect IP %s"
+E{Probe incorrect IP 2} ++		"Called from IP %s"
+
+# Deleted a couple of lines here
+
+E{Cannot create xfer shm} = 8116	"Failed to create transfer buffer shm segment"
 E{Cannot attach xfer shm} ++		"Created, buf failed to attach transfer buffer shm segment"
 
 E{No messages on queue} ++		"Failed to find messages in transfer buffer"
@@ -4689,19 +4656,22 @@ E{Wait to come up} ++
 "Waiting for scheduler process to come up fully.
 Please be patient!"
 
-E{Warn errors in host file} ++
-"%P: Warning: There are errors in the gnuspool.hosts file"
+E{Masquerade not allowed} ++
+"Sorry, but you need to be allowed to masquerade users
+to reset the user or originating host"
+
+E{Invalid masquerade user} ++
+"User %s for masquerade is not valid"
+
+E{Warn errors in host file} = 8130
+"%P: Warning: There are errors in the /etc/Xitext-hosts file"
 
 E{Reconnection whilst still connected} ++
 "Warning: host %s - reconnection of unclosed connection"
 
-E{Connection attempt from unknown host} ++
-"Rejected connection attempt from unknown host %s"
+# Deleted 2 lines here
 
-E{Hash function error free_poss} ++
-"Panic: hash failure error free_poss hid %s"
-
-E{Hash function error free_probe} ++
+E{Hash function error free_probe} = 8134
 "Panic: hash failure error free_probe hid %s"
 
 # Key definition errors
@@ -4857,32 +4827,32 @@ Error messages follow:
 "
 
 E{Job autodel msg} - {No title offset}
-"Subject: GNUSpool job number %d0 deleted automatically
+"Subject: Xi-Text Spool job number %d0 deleted automatically
 
 Your print job, job number %d0, was automatically deleted.
 This is because it was held on the queue beyond one of the
 ""automatic deletion"" times set with spr options -t n or -T n."
 
 E{Job completed msg}
-"Subject: GNUSpool job `%t', number %d0 completed
+"Subject: Xi-Text Spool job `%t', number %d0 completed
 
 Your print job `%t', job number %d0, completed
 on printer %s."
 
 E{Job deleted msg}
-"Subject: GNUSpool job `%t', number %d0 deleted
+"Subject: Xi-Text Spool job `%t', number %d0 deleted
 
 Your print job `%t', job number %d0, was deleted
 before it could be printed."
 
 E{Job aborted msg}
-"Subject: GNUSpool job `%t', number %d0 aborted
+"Subject: Xi-Text Spool job `%t', number %d0 aborted
 
 Your print job `%t', job number %d0, was aborted
 during printing on printer %s."
 
 E{Job awoper msg}
-"Subject: GNUSpool job `%t`, number %d0 awaiting attention
+"Subject: Xi-Text Spool job `%t`, number %d0 awaiting attention
 
 Your print job `%t', job number %d0, is awaiting
 attention. Operator intervention may be required
@@ -4890,7 +4860,7 @@ to change or align the form.
 Printer is: %s"
 
 E{Job errors msg}
-"Subject: GNUSpool job `%t', number %d0 errors
+"Subject: Xi-Text Spool job `%t', number %d0 errors
 
 Your print job `%t', job number %d0, generated error messages
 from ""postprocessing filters"" on printer %s.
@@ -4899,7 +4869,7 @@ Error messages follow:
 "
 
 E{Job autodel msg}
-"Subject: GNUSpool job `%t', number %d0 deleted automatically
+"Subject: Xi-Text Spool job `%t', number %d0 deleted automatically
 
 Your print job `%t', job number %d0, was automatically deleted.
 This is because it was held on the queue beyond one of the
@@ -4985,7 +4955,7 @@ E{Banner program error halted} ++		"Banner program `%s' terminated with exit %d0
 E{Cannot run banner program} ++			"Cannot run banner program `%s'"
 E{Log error header} ++				"Error report from printer %t on device %s"
 E{Log error report} ++				"Report was: %s"
-E{spd invalid job slot} ++			"Attempt to print invalid job slot %d1 0x%x1 ptr %s dev %t jobnum %d0" 
+E{spd invalid job slot} ++			"Attempt to print invalid job slot %d1 0x%x1 ptr %s dev %t jobnum %d0"
 
 P,E{spd network filter hung} ++
 "Term serv hung",
@@ -5034,6 +5004,7 @@ E{Sched network message length error} ++	"Invalid network internal message lengt
 E{Sched network message error} ++		"Invalid network internal message code %x9 (%d9)"
 E{Semaphore create error} ++			"%P fatal error - could not create semaphore - %E"
 E{Semaphore reset error} ++			"%P fatal error - could not reset ownership of semaphore - %E"
+E{Invalid replacement originating host} ++	"Replacement originating host %s is not valid"
 E{Shm create error} ++
 "Trouble creating shared memory id %x9 - %E
 Possibly some other software is using it all up, or the maximum shared
@@ -5057,16 +5028,16 @@ E{Message synch lost} ++
 "Incoming message sequence from %s lost.
 Expected %d0, read %d1
 Command packet was %d2"
-
-E{Unknown network packet} ++			"Unknown incoming message packet %d0 0x%x0"
+#Deleted a line here
+E{Unknown network packet} = 1135	"Unknown incoming message packet %d0 0x%x0"
 E{Lost track of job} ++				"Lost track of job on %s slot number %d1 0x%x1"
 E{Lost track of printer} ++			"Lost track of printer on %s slot number %d1 0x%x1"
 
 E{Recompile port} ++
-"Sorry but the scheduler cannot send a signal to a user process such as gspl-pq
+"Sorry but the scheduler cannot send a signal to a user process such as spq
 using the ""kill(2)"" system call. It may be that it will have to be recompiled
 to run as the superuser.
-However probably the permissions of programs such as ""spshed"" and ""gspl-pq""
+However probably the permissions of programs such as ""spshed"" and ""gspl-q""
 are incorrect - is it possible that these were restored from backup and the
 permissions not reset correctly?"
 
@@ -5074,15 +5045,12 @@ permissions not reset correctly?"
 Xtnetserv messages
 ]
 
-E{xtnet aborted} ++				"Aborted %P due to failure to establish network connections"
-E{xtnet no TCP protocol} ++			"%P Unable to obtain TCP protocol number."
-E{xtnet no UDP protocol} ++			"%P Unable to obtain UDP protocol number."
-E{xtnet unknown qserv} ++			"%P Unable to obtain %t service %s for queue port"
+E{xtnet aborted} = 1139				"Aborted %P due to failure to establish network connections"
+E{xtnet unknown qserv} = 1142		"%P Unable to obtain %t service %s for queue port"
 E{xtnet unknown uaserv} ++			"%P Unable to obtain %t service %s for user access port"
 E{xtnet cannot open qsock} ++			"%P Unable to open TCP port number %d0 for queue port"
 E{xtnet cannot open uasock} ++			"%P Unable to open UDP port number %d0 for user access port"
-E{xtnet unknown apiserv} ++			"%P Unable to obtain %t service %s for API request port
-(not fatal - but API won't run)"
+E{xtnet unknown apiserv} ++			"%P Unable to obtain %t service %s for API request port"
 E{xtnet unknown apipserv} ++
 "%P Unable to obtain %t service %s for API prompt port
 (not fatal - but API won't run)"

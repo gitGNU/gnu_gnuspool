@@ -17,20 +17,20 @@
 
 OPTION(o_justu)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	if  (Displayopts.opt_restru)
-		free(Displayopts.opt_restru);
-	Displayopts.opt_restru = (arg[0] && (arg[0] != '-' || arg[1]))? stracpy(arg): (char *) 0;
-	return  OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        if  (Displayopts.opt_restru)
+                free(Displayopts.opt_restru);
+        Displayopts.opt_restru = (arg[0] && (arg[0] != '-' || arg[1]))? stracpy(arg): (char *) 0;
+        return  OPTRESULT_ARG_OK;
 }
 
 OPTION(o_justt)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	if  (Displayopts.opt_restrt)
-		free(Displayopts.opt_restrt);
-	Displayopts.opt_restrt = (arg[0] && (arg[0] != '-' || arg[1]))? stracpy(arg): (char *) 0;
-	return  OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        if  (Displayopts.opt_restrt)
+                free(Displayopts.opt_restrt);
+        Displayopts.opt_restrt = (arg[0] && (arg[0] != '-' || arg[1]))? stracpy(arg): (char *) 0;
+        return  OPTRESULT_ARG_OK;
 }

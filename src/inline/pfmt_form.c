@@ -15,12 +15,12 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_form(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_form(const struct spptr *pp, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, pp->spp_form));
+        return  (fmt_t) strlen(strcpy(bigbuff, pp->spp_form));
 }
 
-static  fmt_t	fmt_comment(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_comment(const struct spptr *pp, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, pp->spp_comment));
+        return  (fmt_t) strlen(strcpy(bigbuff, pp->spp_comment));
 }

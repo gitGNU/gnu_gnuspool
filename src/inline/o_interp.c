@@ -17,12 +17,12 @@
 
 OPTION(o_interp)
 {
-	interpolate = 1;
-	return  OPTRESULT_OK;
+        interpolate = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nointerp)
 {
-	interpolate = 0;
-	return  OPTRESULT_OK;
+        interpolate = 0;
+        return  OPTRESULT_OK;
 }

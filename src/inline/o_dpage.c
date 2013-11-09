@@ -17,12 +17,12 @@
 
 OPTION(o_nopage)
 {
-	nopage = 1;
-	return  OPTRESULT_OK;
+        nopage = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_page)
 {
-	nopage = 0;
-	return  OPTRESULT_OK;
+        nopage = 0;
+        return  OPTRESULT_OK;
 }

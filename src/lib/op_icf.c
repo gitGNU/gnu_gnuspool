@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 #include <sys/types.h>
-#ifdef	HAVE_FCNTL_H
+#ifdef  HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 #include "defaults.h"
@@ -27,21 +27,21 @@
 #include "incl_unix.h"
 #include "cfile.h"
 
-extern	char	*Helpfile_path;
+extern  char    *Helpfile_path;
 
 FILE *open_icfile()
 {
-	char	*filename;
-	FILE	*res;
+        char    *filename;
+        FILE    *res;
 
-	filename = envprocess(INT_CONFIG);
-	if  ((res = fopen(filename, "r")) == (FILE *) 0)  {
-		fprintf(stderr,
-			"Help cannot open internal config file `%s'\n",
-			filename);
-		return  (FILE *) 0;
-	}
-	Helpfile_path = filename;
-	fcntl(fileno(res), F_SETFD, 1);
-	return  res;
+        filename = envprocess(INT_CONFIG);
+        if  ((res = fopen(filename, "r")) == (FILE *) 0)  {
+                fprintf(stderr,
+                        "Help cannot open internal config file `%s'\n",
+                        filename);
+                return  (FILE *) 0;
+        }
+        Helpfile_path = filename;
+        fcntl(fileno(res), F_SETFD, 1);
+        return  res;
 }

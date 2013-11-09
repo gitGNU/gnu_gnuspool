@@ -24,89 +24,92 @@
 #include "incl_unix.h"
 #include "incl_ugid.h"
 
+extern  struct  group  *my_getgrent();
+extern  void  my_endgrent();
+
 /* Structure used to hash group ids.  */
 
-struct	ghash	{
-	struct	ghash	*grph_next, *grpu_next;
-	int_ugid_t	grph_gid;
-	char	grph_name[1];
+struct  ghash   {
+        struct  ghash   *grph_next, *grpu_next;
+        int_ugid_t      grph_gid;
+        char    grph_name[1];
 };
 
-#define	HASHMOD	37
+#define HASHMOD 37
 
-static	int	doneit;
-static	struct	ghash	*ghash[HASHMOD];
-static	struct	ghash	*gnhash[HASHMOD];
+static  int     doneit;
+static  struct  ghash   *ghash[HASHMOD];
+static  struct  ghash   *gnhash[HASHMOD];
 
 /* Read group file to build up hash table of group ids.
    This is done once only at the start of the program.  */
 
 void  rgrpfile()
 {
-	struct  group  *ugrp;
-	struct  ghash  *hp, **hpp, **hnpp;
-	char	*pn;
-	unsigned  sum;
+        struct  group  *ugrp;
+        struct  ghash  *hp, **hpp, **hnpp;
+        char    *pn;
+        unsigned  sum;
 
-	while  ((ugrp = getgrent()) != (struct group *) 0)  {
-		pn = ugrp->gr_name;
-		sum = 0;
-		while  (*pn)
-			sum += *pn++;
+        while  ((ugrp = my_getgrent()))  {
+                pn = ugrp->gr_name;
+                sum = 0;
+                while  (*pn)
+                        sum += *pn++;
 
-		for  (hpp = &ghash[(ULONG)ugrp->gr_gid % HASHMOD]; (hp = *hpp); hpp = &hp->grph_next)
-			;
+                for  (hpp = &ghash[(ULONG)ugrp->gr_gid % HASHMOD]; (hp = *hpp); hpp = &hp->grph_next)
+                        ;
 
-		hnpp = &gnhash[sum % HASHMOD];
-		if  ((hp = (struct ghash *) malloc(sizeof(struct ghash) + strlen(ugrp->gr_name))) == (struct ghash *) 0)
-			nomem();
-		hp->grph_gid = ugrp->gr_gid;
-		strcpy(hp->grph_name, ugrp->gr_name);
-		hp->grph_next = *hpp;
-		hp->grpu_next = *hnpp;
-		*hpp = hp;
-		*hnpp = hp;
-	}
-	endgrent();
-	doneit = 1;
+                hnpp = &gnhash[sum % HASHMOD];
+                if  ((hp = (struct ghash *) malloc(sizeof(struct ghash) + strlen(ugrp->gr_name))) == (struct ghash *) 0)
+                        nomem();
+                hp->grph_gid = ugrp->gr_gid;
+                strcpy(hp->grph_name, ugrp->gr_name);
+                hp->grph_next = *hpp;
+                hp->grpu_next = *hnpp;
+                *hpp = hp;
+                *hnpp = hp;
+        }
+        my_endgrent();
+        doneit = 1;
 }
 
 /* Given a group id, return a group name.  */
 
 char *prin_gname(const gid_t gid)
 {
-	struct  ghash  *hp;
+        struct  ghash  *hp;
 
-	if  (!doneit)
-		rgrpfile();
-	hp = ghash[(ULONG) gid % HASHMOD];
+        if  (!doneit)
+                rgrpfile();
+        hp = ghash[(ULONG) gid % HASHMOD];
 
-	while  (hp)  {
-		if  (gid == hp->grph_gid)
-			return	hp->grph_name;
-		hp = hp->grph_next;
-	}
-	return	"???";
+        while  (hp)  {
+                if  (gid == hp->grph_gid)
+                        return  hp->grph_name;
+                hp = hp->grph_next;
+        }
+        return  "???";
 }
 
 /* Do the opposite (long because Amdahl uids are unsigned) */
 
 int_ugid_t  lookup_gname(const char *name)
 {
-	const	char	*cp;
-	unsigned  sum = 0;
-	struct  ghash  *hp;
+        const   char    *cp;
+        unsigned  sum = 0;
+        struct  ghash  *hp;
 
-	if  (!doneit)
-		rgrpfile();
-	cp = name;
-	while  (*cp)
-		sum += *cp++;
-	hp = gnhash[sum % HASHMOD];
-	while  (hp)  {
-		if  (strcmp(name, hp->grph_name) == 0)
-			return  hp->grph_gid;
-		hp = hp->grpu_next;
-	}
-	return  -1;
+        if  (!doneit)
+                rgrpfile();
+        cp = name;
+        while  (*cp)
+                sum += *cp++;
+        hp = gnhash[sum % HASHMOD];
+        while  (hp)  {
+                if  (strcmp(name, hp->grph_name) == 0)
+                        return  hp->grph_gid;
+                hp = hp->grpu_next;
+        }
+        return  -1;
 }

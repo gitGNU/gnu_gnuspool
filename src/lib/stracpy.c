@@ -21,7 +21,7 @@
 
 /* Include this here as it's used virtually everywhere */
 
-int	Ignored_error;
+int     Ignored_error;
 
 /* Yes I have heard of strdup but the versions of Unix on which this
    was first implemented back in 1984 hadn't. Yes I'll change it later.
@@ -29,9 +29,9 @@ int	Ignored_error;
 
 char *stracpy(const char *s)
 {
-	unsigned  l = strlen(s) + 1;
-	char	*r;
-	if  ((r = (char *) malloc(l)) == (char *) 0)
-		nomem();
-	return	strcpy(r, s);
+        unsigned  l = strlen(s) + 1;
+        char    *r;
+        if  ((r = (char *) malloc(l)) == (char *) 0)
+                nomem();
+        return  strcpy(r, s);
 }

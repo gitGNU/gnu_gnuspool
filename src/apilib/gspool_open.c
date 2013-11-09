@@ -71,8 +71,8 @@ int	gspool_read(const int fd, char *buff, unsigned size)
 {
 	int	ibytes;
 	while  (size != 0)  {
-		if  ((ibytes = read(fd, buff, size)) < 0)  {
-			if  (errno == EINTR)
+		if  ((ibytes = read(fd, buff, size)) <= 0)  {
+			if  (ibytes < 0  &&  errno == EINTR)
 				continue;
 			return  GSPOOL_BADREAD;
 		}
@@ -115,38 +115,26 @@ static	struct api_fd *find_prod(const int fd)
 }
 #endif
 
-int	gspool_open(const char *hostname, const char *servname, const classcode_t classcode)
+static	int  getportnum(const char *servname)
 {
-	int	portnum, sock, ret;
-	unsigned	result;
-	struct	api_fd	*ret_fd;
-	netid_t	hostid;
-	const	char	*serv;
-	struct	passwd	*pw;
-	struct	hostent	*hp;
-	struct	servent	*sp;
-	struct	sockaddr_in	sin;
-	struct	api_msg	outmsg;
+	const	char	*serv = servname? servname: API_DEFAULT_SERVICE;
+	struct  servent  *sp;
 
-	hp = gethostbyname(hostname);
-	if  (!hp)  {
-		endhostent();
-		return  GSPOOL_INVALID_HOSTNAME;
-	}
-	hostid = * (LONG *) hp->h_addr;
-	endhostent();
-
-	serv = servname? servname: API_DEFAULT_SERVICE;
 	if  (!(sp = getservbyname(serv, "tcp")))
 		sp = getservbyname(serv, "TCP");
-	if  (!sp)  {
+	if  (sp)  {
+		int	portnum = ntohs(sp->s_port);
 		endservent();
-		return  servname? GSPOOL_INVALID_SERVICE: GSPOOL_NODEFAULT_SERVICE;
+		return  portnum;
 	}
-	portnum = ntohs(sp->s_port);
 	endservent();
+	return  servname? GSPOOL_INVALID_SERVICE: GSPOOL_NODEFAULT_SERVICE;
+}
 
-	/* And now for the groovy socket stuff....  */
+static	int	opensock(const netid_t hostid, const int portnum)
+{
+	int	sock;
+	struct  sockaddr_in  sin;
 
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(portnum);
@@ -161,16 +149,24 @@ int	gspool_open(const char *hostname, const char *servname, const classcode_t cl
 		return  GSPOOL_NOCONNECT;
 	}
 
+	return  sock;
+}
 
-	/* Allocate ourselves a "file descriptor" and stuff our stuff in it.  */
+static  int	get_fd()
+{
+	int	result;
 
 	for  (result = 0;  result < api_max;  result++)
 		if  (apilist[result].sockfd < 0)
-			goto  found;
-	if  (++api_max >= MAXFDS)
+			return  result;
+	if   (++api_max >= MAXFDS)
 		return  GSPOOL_NOMEM;
- found:
-	ret_fd = &apilist[result];
+	return  result;
+}
+
+static  void	init_fd(const int fdnum, const int sock, const netid_t hostid, const int portnum, const classcode_t classcode)
+{
+	struct  api_fd  *ret_fd = &apilist[fdnum];
 	ret_fd->portnum = (SHORT) portnum;
 	ret_fd->sockfd = (SHORT) sock;
 	ret_fd->prodfd = -1;
@@ -182,26 +178,193 @@ int	gspool_open(const char *hostname, const char *servname, const classcode_t cl
 	ret_fd->pserial = 0;
 	ret_fd->bufmax = 0;
 	ret_fd->buff = (char *) 0;
-	pw = getpwuid(geteuid());
-	strncpy(ret_fd->username, pw? pw->pw_name: SPUNAME, UIDSIZE);
-	ret_fd->username[UIDSIZE] = '\0';
+	ret_fd->servuid = 0;
+}
+
+static  int  open_common(const char *hostname, const char *servname, const classcode_t classcode)
+{
+	int	portnum, sock, result;
+	netid_t	hostid;
+	struct  hostent  *hp;
+
+	hp = gethostbyname(hostname);
+	if  (!hp)  {
+		endhostent();
+		return  GSPOOL_INVALID_HOSTNAME;
+	}
+	hostid = *(LONG *) hp->h_addr;
+	endhostent();
+	portnum = getportnum(servname);
+	if  (portnum < 0)
+		return  portnum;
+	sock = opensock(hostid, portnum);
+	if  (sock < 0)
+		return  sock;
+	result = get_fd();
+	if  (result < 0)  {
+		close(sock);
+		return  result;
+	}
+	init_fd(result, sock, hostid, portnum, classcode);
+	return  result;
+}
+
+int	gspool_open(const char *hostname, const char *servname, const classcode_t classcode)
+{
+	int	ret, result;
+	const	char	*username = SPUNAME;
+	struct	api_fd	*ret_fd;
+	struct	passwd	*pw;
+	struct	api_msg	outmsg;
+
+	result = open_common(hostname, servname, classcode);
+	if  (result < 0)
+		return  result;
+	ret_fd = &apilist[result];
 	outmsg.code = API_SIGNON;
-	strcpy(outmsg.un.signon.username, ret_fd->username);
+	if  ((pw = getpwuid(geteuid())))
+		username = pw->pw_name;
+	strncpy(outmsg.un.signon.username, username, WUIDSIZE);
+	outmsg.un.signon.username[WUIDSIZE] = '\0';
+	endpwent();
 	outmsg.un.signon.classcode = htonl(classcode);
+
 	if  ((ret = gspool_wmsg(ret_fd, &outmsg)))  {
-		gspool_close((int) result);
+		gspool_close(result);
 		return  ret;
 	}
 	if  ((ret = gspool_rmsg(ret_fd, &outmsg)))  {
-		gspool_close((int) result);
+		gspool_close(result);
 		return  ret;
 	}
 	if  (outmsg.retcode != 0)  {
-		gspool_close((int) result);
+		gspool_close(result);
 		return  (SHORT) ntohs(outmsg.retcode);
 	}
 	ret_fd->classcode = ntohl(outmsg.un.r_signon.classcode);
-	return  (int) result;
+	return  result;
+}
+
+static  int  login_common(const int apicode, int fd, const char *username, const char *passwd)
+{
+        int     ret;
+	struct	api_fd	*ret_fd;
+	struct	api_msg	outmsg;
+	char    pwbuf[API_PASSWDSIZE+1];
+
+        ret_fd = &apilist[fd];
+	outmsg.code = apicode;
+	strncpy(outmsg.un.signon.username, username, WUIDSIZE);
+	outmsg.un.signon.username[WUIDSIZE] = '\0';
+	outmsg.un.signon.classcode = htonl(ret_fd->classcode);
+
+	if  ((ret = gspool_wmsg(ret_fd, &outmsg)))  {
+	errret:
+		gspool_close(fd);
+		return  ret;
+	}
+	if  ((ret = gspool_rmsg(ret_fd, &outmsg)))  {
+		gspool_close(fd);
+		return  ret;
+	}
+	ret = (SHORT) ntohs(outmsg.retcode);
+	if  (ret != GSPOOL_OK)  {
+		if  (ret != GSPOOL_NO_PASSWD)
+			goto  errret;
+		strncpy(pwbuf, passwd, API_PASSWDSIZE);
+		pwbuf[API_PASSWDSIZE] = '\0';
+		if  ((ret = gspool_write(ret_fd->sockfd, pwbuf, sizeof(pwbuf))))
+			goto  errret;
+		if  ((ret = gspool_rmsg(ret_fd, &outmsg)))
+			goto  errret;
+		ret = (SHORT) ntohs(outmsg.retcode);
+		if  (ret != GSPOOL_OK)
+			goto  errret;
+	}
+	ret_fd->classcode = ntohl(outmsg.un.r_signon.classcode);
+	ret_fd->servuid = ntohl(outmsg.un.r_signon.servuid);
+        return  fd;
+}
+
+int  gspool_login(const char *hostname, const char *servname, const char *username, const char *passwd, const classcode_t classcode)
+{
+	int	result;
+	result = open_common(hostname, servname, classcode);
+	if  (result < 0)
+		return  result;
+        return  login_common(API_LOGIN, result, username, passwd);
+}
+
+int  gspool_wlogin(const char *hostname, const char *servname, const char *username, const char *passwd, const classcode_t classcode)
+{
+	int	result;
+	result = open_common(hostname, servname, classcode);
+	if  (result < 0)
+		return  result;
+        return  login_common(API_WLOGIN, result, username, passwd);
+}
+
+int	gspool_locallogin_byid(const char *servname, const int_ugid_t tou, const classcode_t classcode)
+{
+	int	result, sock, portnum, ret;
+	struct	api_fd	*ret_fd;
+	struct	api_msg	outmsg;
+
+	outmsg.un.local_signon.fromuser = htonl(geteuid());
+	outmsg.un.local_signon.touser = htonl(tou);
+	portnum = getportnum(servname);
+	if  (portnum < 0)
+		return  portnum;
+	sock = opensock(htonl(INADDR_LOOPBACK), portnum);
+	if  (sock < 0)
+		return  sock;
+	result = get_fd();
+	if  (result < 0)  {
+		close(sock);
+		return  result;
+	}
+
+	init_fd(result, sock, htonl(INADDR_LOOPBACK), portnum, classcode);
+	ret_fd = &apilist[result];
+
+	outmsg.code = API_LOCALLOGIN;
+	outmsg.un.local_signon.classcode = htonl(classcode);
+
+	if  ((ret = gspool_wmsg(ret_fd, &outmsg)))  {
+		gspool_close(result);
+		return  ret;
+	}
+	if  ((ret = gspool_rmsg(ret_fd, &outmsg)))  {
+		gspool_close(result);
+		return  ret;
+	}
+	if  (outmsg.retcode != 0)  {
+		gspool_close(result);
+		return  (SHORT) ntohs(outmsg.retcode);
+	}
+	ret_fd->classcode = ntohl(outmsg.un.r_signon.classcode);
+	ret_fd->servuid = ntohl(outmsg.un.r_signon.servuid);
+	return  result;
+}
+
+int	gspool_locallogin(const char *servname, const char *username, const classcode_t classcode)
+{
+	int_ugid_t	tou;
+
+	if  (username)  {
+		struct	passwd	*pw = getpwnam(username);
+		if  (!pw)  {
+                        /* Change 13/3/12 don't be silent about unknown users */
+                        endpwent();
+                        return  GSPOOL_UNKNOWN_USER;
+                }
+		tou = pw->pw_uid;
+		endpwent();
+	}
+	else
+		tou = geteuid();
+
+	return  gspool_locallogin_byid(servname, tou, classcode);
 }
 
 #if	defined(FASYNC) && defined(F_SETOWN)
@@ -217,6 +380,7 @@ static	void	procpoll(int fd)
 
 	if  (recvfrom(fdp->prodfd, (char *) &imsg, sizeof(imsg), 0, (struct sockaddr *) &reply_addr, &repl) < 0)
 		return;
+
 	switch  (imsg.code)  {
 	default:
 		return;
@@ -273,17 +437,9 @@ static	int	setmon(struct api_fd *fdp)
 #ifdef	STRUCT_SIG
 	struct	sigstruct_name	z;
 #endif
-	int	protonum;
-	struct	protoent	*pp;
 	struct	sockaddr_in	sin;
 	struct	api_msg	msg;
 
-	if  (!(pp = getprotobyname("udp")) && !(pp = getprotobyname("UDP")))  {
-		endprotoent();
-		return  GSPOOL_NODEFAULT_SERVICE;
-	}
-	protonum = pp->p_proto;
-	endprotoent();
 	if  (!(sp = getservbyname(serv, "udp")))
 		sp = getservbyname(serv, "UDP");
 	if  (!sp)  {
@@ -308,7 +464,7 @@ static	int	setmon(struct api_fd *fdp)
 #else
 	signal(SIGIO, catchpoll);
 #endif
-	if  ((sockfd = socket(PF_INET, SOCK_DGRAM, protonum)) < 0)
+	if  ((sockfd = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
 		return  GSPOOL_NOSOCKET;
 	if  (bind(sockfd, (struct sockaddr *) &sin, sizeof(sin)) < 0)  {
 		close(sockfd);

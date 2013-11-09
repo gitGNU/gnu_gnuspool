@@ -17,6 +17,6 @@
 
 OPTION(o_explain)
 {
-	print_error($E{spr options});
-	exit(0);
+        print_error($E{spr options});
+        exit(0);
 }

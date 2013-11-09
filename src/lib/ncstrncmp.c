@@ -23,35 +23,35 @@
 /* Yes I have heard of strcasecmp etc but the versions of Unix on which this
    was first implemented back in 1984 hadn't. Yes I'll change it later */
 
-int	ncstrcmp(const char *a, const char *b)
+int     ncstrcmp(const char *a, const char *b)
 {
-	int	ac, bc;
+        int     ac, bc;
 
-	for  (;;)  {
-		ac = toupper(*a);
-		bc = toupper(*b);
-		if  (ac == 0  ||  bc == 0  ||  ac != bc)
-			return  ac - bc;
-		a++;
-		b++;
-	}
+        for  (;;)  {
+                ac = toupper(*a);
+                bc = toupper(*b);
+                if  (ac == 0  ||  bc == 0  ||  ac != bc)
+                        return  ac - bc;
+                a++;
+                b++;
+        }
 }
 
 int  ncstrncmp(const char *a, const char *b, int n)
 {
-	int	ac, bc;
+        int     ac, bc;
 
-	while  (--n >= 0)  {
-		ac = *a++;
-		bc = *b++;
-		if  (ac == 0  ||  bc == 0)
-			return  ac - bc;
-		if  (islower(ac))
-			ac += 'A' - 'a';
-		if  (islower(bc))
-			bc += 'A' - 'a';
-		if  (ac != bc)
-			return  ac - bc;
-	}
-	return  0;
+        while  (--n >= 0)  {
+                ac = *a++;
+                bc = *b++;
+                if  (ac == 0  ||  bc == 0)
+                        return  ac - bc;
+                if  (islower(ac))
+                        ac += 'A' - 'a';
+                if  (islower(bc))
+                        bc += 'A' - 'a';
+                if  (ac != bc)
+                        return  ac - bc;
+        }
+        return  0;
 }

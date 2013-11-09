@@ -29,88 +29,88 @@
 
 /* Include this here to resolve library undefined symbol */
 
-dispopt_t	Displayopts =  { JINCL_NULL, JRESTR_ALL, NRESTR_NONE, SORTP_NONE };
+dispopt_t       Displayopts =  { JINCL_NULL, JRESTR_ALL, NRESTR_NONE, SORTP_NONE };
 
 /* Read through job queue and prune according to the options */
 
 void  readjoblist(const int andunlock)
 {
-	LONG  jind;
+        LONG  jind;
 
-	jobshm_lock();
-#ifdef	USING_MMAP
-	if  (Job_seg.dinf.segsize != Job_seg.dptr->js_did)
+        jobshm_lock();
+#ifdef  USING_MMAP
+        if  (Job_seg.dinf.segsize != Job_seg.dptr->js_did)
 #else
-	if  (Job_seg.dinf.base != Job_seg.dptr->js_did)
+        if  (Job_seg.dinf.base != Job_seg.dptr->js_did)
 #endif
-		jobgrown();
+                jobgrown();
 
-	/* Do nothing if no changes have taken place */
+        /* Do nothing if no changes have taken place */
 
-	if  (Job_seg.dptr->js_serial != Job_seg.Last_ser)  {
+        if  (Job_seg.dptr->js_serial != Job_seg.Last_ser)  {
 
-		Job_seg.Last_ser = Job_seg.dptr->js_serial;
-		Job_seg.njobs = 0;		/* Ones we're interested in */
+                Job_seg.Last_ser = Job_seg.dptr->js_serial;
+                Job_seg.njobs = 0;              /* Ones we're interested in */
 
-		jind = Job_seg.dptr->js_q_head;
+                jind = Job_seg.dptr->js_q_head;
 
-		while  (jind >= 0L)  {
-			const  Hashspq  *hjp = &Job_seg.jlist[jind];
-			const  struct  spq  *jp = &hjp->j;
+                while  (jind >= 0L)  {
+                        const  Hashspq  *hjp = &Job_seg.jlist[jind];
+                        const  struct  spq  *jp = &hjp->j;
 
-			jind = hjp->q_nxt;
+                        jind = hjp->q_nxt;
 
-			if  ((jp->spq_class & Displayopts.opt_classcode) == 0)
-				continue;
+                        if  ((jp->spq_class & Displayopts.opt_classcode) == 0)
+                                continue;
 
-			if  (jp->spq_netid  &&  Displayopts.opt_localonly != NRESTR_NONE)
-				continue;
+                        if  (jp->spq_netid  &&  Displayopts.opt_localonly != NRESTR_NONE)
+                                continue;
 
-			switch  (Displayopts.opt_jprindisp)  {
-			case  JRESTR_UNPRINT:
-				if  (jp->spq_dflags & SPQ_PRINTED)
-					continue;
-				break;
+                        switch  (Displayopts.opt_jprindisp)  {
+                        case  JRESTR_UNPRINT:
+                                if  (jp->spq_dflags & SPQ_PRINTED)
+                                        continue;
+                                break;
 
-			case  JRESTR_PRINT:
-				if  (!(jp->spq_dflags & SPQ_PRINTED))
-					continue;
-			default:
-				break;
-			}
+                        case  JRESTR_PRINT:
+                                if  (!(jp->spq_dflags & SPQ_PRINTED))
+                                        continue;
+                        default:
+                                break;
+                        }
 
-			if  (Displayopts.opt_restru  &&  !qmatch(Displayopts.opt_restru, jp->spq_uname))
-				continue;
+                        if  (Displayopts.opt_restru  &&  !qmatch(Displayopts.opt_restru, jp->spq_uname))
+                                continue;
 
-			if  (Displayopts.opt_restrt  &&  !qmatch(Displayopts.opt_restrt, jp->spq_file))
-				continue;
+                        if  (Displayopts.opt_restrt  &&  !qmatch(Displayopts.opt_restrt, jp->spq_file))
+                                continue;
 
-			if  (Displayopts.opt_restrp)  {
-				/* Gyrations as jp is read-only (and issubset modifies args) */
-				char	pb[JPTRNAMESIZE+1];
+                        if  (Displayopts.opt_restrp)  {
+                                /* Gyrations as jp is read-only (and issubset modifies args) */
+                                char    pb[JPTRNAMESIZE+1];
 
-				switch  (Displayopts.opt_jinclude)  {
-				case  JINCL_NONULL:
-					if  (!jp->spq_ptr[0])
-						continue;
-					goto  chkmtch;
-				case  JINCL_NULL:
-					if  (!jp->spq_ptr[0])
-						break;
-				chkmtch:
-					strncpy(pb, jp->spq_ptr, JPTRNAMESIZE);
-					pb[JPTRNAMESIZE] = '\0';
-					if  (!issubset(Displayopts.opt_restrp, pb))
-						continue;
+                                switch  (Displayopts.opt_jinclude)  {
+                                case  JINCL_NONULL:
+                                        if  (!jp->spq_ptr[0])
+                                                continue;
+                                        goto  chkmtch;
+                                case  JINCL_NULL:
+                                        if  (!jp->spq_ptr[0])
+                                                break;
+                                chkmtch:
+                                        strncpy(pb, jp->spq_ptr, JPTRNAMESIZE);
+                                        pb[JPTRNAMESIZE] = '\0';
+                                        if  (!issubset(Displayopts.opt_restrp, pb))
+                                                continue;
 
-				default:
-					break;
-				}
-			}
-			Job_seg.jj_ptrs[Job_seg.njobs] = hjp;
-			Job_seg.njobs++;
-		}
-	}
-	if  (andunlock)
-		jobshm_unlock();
+                                default:
+                                        break;
+                                }
+                        }
+                        Job_seg.jj_ptrs[Job_seg.njobs] = hjp;
+                        Job_seg.njobs++;
+                }
+        }
+        if  (andunlock)
+                jobshm_unlock();
 }

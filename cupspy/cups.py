@@ -19,7 +19,24 @@
 
 # Originally written by John Collins <jmc@xisl.com>.
 
-import filebuf, ipp, conf, subprocess, sys, os, stat, socket, select, threading, re, time, signal, syslog, errno
+import filebuf
+import ipp
+import conf
+import subprocess
+import sys
+import os
+import pwd
+import stat
+import socket
+import select
+import threading
+import re
+import time
+import signal
+import string
+import syslog
+import errno
+import attrib_tools
 
 # Get us a job id in case gspl-pr doesn't give one
 
@@ -28,6 +45,12 @@ Jobid_lock = threading.Lock()
 
 Var_run = "/var/run/cups"
 Procid_file = "cupsd.pid"
+
+def exit_msg(msg, code):
+    """Exit with message to stderr and defined exit code"""
+    sys.stdout = sys.stderr
+    print msg
+    sys.exit(code)
 
 # Thread-safe get job ID
 
@@ -61,79 +84,39 @@ default_attr_values = {'attributes-charset': 'utf-8',
                        'copies': 1,
                        'job-name': 'No Title'}
 
-# List of attributes to include in description
-
-printer_description_atts = ["charset-configured",
-                            "charset-supported",
-                            "color-supported",
-                            "compression-supported",
-                            "document-format-default",
-                            "document-format-supported",
-                            "generated-natural-language-supported",
-                            "ipp-versions-supported",
-                            "job-impressions-supported",
-                            "job-k-octets-supported",
-                            "job-media-sheets-supported",
-                            "multiple-document-jobs-supported",
-                            "multiple-operation-time-out",
-                            "natural-language-configured",
-                            "notify-attributes-supported",
-                            "notify-lease-duration-default",
-                            "notify-lease-duration-supported",
-                            "notify-max-events-supported",
-                            "notify-events-default",
-                            "notify-events-supported",
-                            "notify-pull-method-supported",
-                            "notify-schemes-supported",
-                            "operations-supported",
-                            "pages-per-minute",
-                            "pages-per-minute-color",
-                            "pdl-override-supported",
-                            "printer-alert",
-                            "printer-alert-description",
-                            "printer-current-time",
-                            "printer-driver-installer",
-                            "printer-info",
-                            "printer-is-accepting-jobs",
-                            "printer-location",
-                            "printer-make-and-model",
-                            "printer-message-from-operator",
-                            "printer-more-info",
-                            "printer-more-info-manufacturer",
-                            "printer-name",
-                            "printer-state",
-                            "printer-state-message",
-                            "printer-state-reasons",
-                            "printer-up-time",
-                            "printer-uri-supported",
-                            "queued-job-count",
-                            "reference-uri-schemes-supported",
-                            "uri-authentication-supported",
-                            "uri-security-supported"]
-
-# List of attributes if none asked
-
-printer_default_atts = ["copies-default",
-                        "document-format-default",
-                        "finishings-default",
-                        "job-hold-until-default",
-                        "job-priority-default",
-                        "job-sheets-default",
-                        "media-default",
-                        "number-up-default",
-                        "orientation-requested-default",
-                        "sides-default"]
-
 # Parse config file
 # Use argument if one given, otherwise look for "cupspy.conf"
+# We are of course doing this from the main path so any exit codes will
+# be returned.
+
 try:
     Config_data = conf.Conf()
     Cfile = 'cupspy.conf'
     if len(sys.argv) > 1:
         Cfile = sys.argv[1]
+
+    # If the config file doesnt exist, see if we can find where
+    # it lives from the path to me (usually /etc/cups/cupspy)
+    # This is to avoid having to chdir before we enter to suit
+    # startup programs
+
+    if not os.path.exists(Cfile) and not os.path.isabs(Cfile):
+	prog = sys.argv[0]
+	if os.path.isabs(prog):
+	    try:
+		os.chdir(os.path.dirname(prog))
+	    except OSError:
+		exit_msg("Cannot change to directory of " + prog, 11)
+
+    # Now parse file
+
     Config_data.parse_conf_file(Cfile)
+
 except conf.ConfError as msg:
-    sys.exit(msg.args[0])
+    exit_msg(msg.args[0], msg.args[1])
+
+Printer_list = Config_data.list_printers()
+Log_level = Config_data.log_level()
 
 # Now for the meat of the stuff
 
@@ -175,8 +158,9 @@ def opgrp_hdr(req):
 def ipp_ok(req):
     """Report that everything went OK with IPP request
 (Even if nothing was done)"""
-    syslog.syslog(syslog.LOG_NOTICE, "No-op OK response to op %s" % ipp.op_to_name[req.statuscode])
-    response = ipp.ipp()
+    lmsg = "No-op OK response to op %s" % ipp.op_to_name[req.statuscode]
+    syslog.syslog(syslog.LOG_NOTICE, lmsg)
+    response = ipp.ipp(request=req)
     response.setrespcode(ipp.IPP_OK, req.id)
     response.pushvalue(opgrp_hdr(req))
     return  response.generate()
@@ -185,8 +169,9 @@ def ipp_ok(req):
 
 def ipp_status(req, code, msg):
     """Deliver a status message back to sender"""
-    syslog.syslog(syslog.LOG_WARNING, "Op code %s returning result %s - %s" % (ipp.op_to_name[req.statuscode], code, msg))
-    response = ipp.ipp()
+    lmsg = "Op code %s returning result %s - %s" % (ipp.op_to_name[req.statuscode], code, msg)
+    syslog.syslog(syslog.LOG_WARNING, lmsg)
+    response = ipp.ipp(request=req)
     response.setrespcode(code, req.id)  # If code is a string it gets converted
     opgrp = opgrp_hdr(req)
     msgv = ipp.ippvalue(ipp.IPP_TAG_TEXT)
@@ -213,17 +198,23 @@ def get_pname_from_uri(req):
         raise CupsError('IPP_BAD_REQUEST', 'Cannot determine printer name from URI')
     pname = m.group(1)
 
-    if pname not in Config_data.printers:
+    if pname not in Printer_list:
         raise CupsError('IPP_NOT_FOUND', 'The printer ' + pname + ' was not found')
     return pname
 
 def get_req_user_name(req):
     """Extract requesting user name"""
-
     user = req.find_attribute('requesting-user-name')
     if not user:
-	raise CupsError('IPP_BAD_REQUEST', 'No requesting user')
-    user = user.get_value()
+        raise CupsError('IPP_BAD_REQUEST', 'No requesting user')
+    user = user.get_value().lower()
+    try:
+        user = conf.Usermap[user]
+    except KeyError:
+        try:
+            pwd.getpwnam(user)
+        except KeyError:
+            return Config_data.default_user()
     return user
 
 # The following operations are "done" by just returning OK
@@ -290,7 +281,7 @@ def promote_job(req):
 def schedule_job_after(req):
     return ipp_ok(req)
 def private(req):
-    return ipp_ok(req)
+    return ipp_status(req, 'IPP_OPERATION_NOT_SUPPORTED', 'IPP_PRIVATE not supported!')
 def add_modify_printer(req):
     return ipp_ok(req)
 def delete_printer(req):
@@ -344,24 +335,6 @@ def get_ppd(req):
 
 ################################################################################
 
-def expand_multi_attributes(val):
-    """Expand multiple attribute names
-
-Currently these are printer-description and printer-defaults"""
-
-    reslist = []
-    for v in val.value:
-        n = v[1]
-        if n == "printer-description":
-            for item in printer_description_atts:
-                reslist.append(item)
-        elif n == "printer-defaults":
-            for item in printer_default_atts:
-                reslist.append(item)
-        else:
-            reslist.append(n)
-    return reslist
-
 # Get printers gets us a list of printers.
 
 def get_printers(req):
@@ -369,19 +342,18 @@ def get_printers(req):
 
     # Get the list of requested attributes from the request
     req_al = req.find_attribute('requested-attributes')
-    if not req_al:
-        return  ipp_status(req, 'IPP_BAD_REQUEST', 'No requested-attributes')
 
     try:
         # Just get the requested attributes strings
-        req_al = expand_multi_attributes(req_al)
+        if req_al:
+            req_al = attrib_tools.expand_multi_attributes(req_al)
 
         # Now get the list of available printers
         ptr_list = Config_data.list_printers()
 
         # Set up response
 
-        response = ipp.ipp()
+        response = ipp.ipp(request=req)
         response.setrespcode(ipp.IPP_OK, req.id)
         response.pushvalue(opgrp_hdr(req))
 
@@ -406,7 +378,7 @@ def get_ptr_attributes(req, pname, al):
 
     # Set up response
 
-    response = ipp.ipp()
+    response = ipp.ipp(request=req)
     response.setrespcode(ipp.IPP_OK, req.id)
     response.pushvalue(opgrp_hdr(req))
 
@@ -426,35 +398,45 @@ def get_ptr_attributes(req, pname, al):
     response.pushvalue(ptrgrp)
     return  response.generate()
 
+def get_attributes_for_ptr(req, pname):
+    """Get attributes for specified printer"""
+
+    # Get the list of requested attributes from the request
+    req_al = req.find_attribute('requested-attributes')
+    if req_al:
+        req_al = attrib_tools.expand_multi_attributes(req_al)
+    else:
+        # No attributes list in request.
+        # We behave as if there was just one attribute group specified, 'all'
+        req_al = attrib_tools.expand_attributes(["all"])
+    try:
+        return  get_ptr_attributes(req, pname, req_al)
+    except:
+        return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'Error in get_printer_attributes()')
+
+
 def get_printer_attributes(req):
     """Get_printer_attributes request"""
     try:
         pname = get_pname_from_uri(req)
     except CupsError as err:
         return  ipp_status(req, err.codename, err.args[0])
-
-    # Get the list of requested attributes from the request
-    req_al = req.find_attribute('requested-attributes')
-    if not req_al:
-        return  ipp_status(req, 'IPP_BAD_REQUEST', 'No requested-attributes')
-
-    try:
-        return  get_ptr_attributes(req, pname, expand_multi_attributes(req_al))
-    except:
-        return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'Error in get_printers()')
+    return get_attributes_for_ptr(req, pname)
 
 def get_default(req):
     """Get default printer and attributes"""
     try:
         pname = Config_data.default_printer()
-        return  get_ptr_attributes(req, pname, Config_data.get_attnames(pname))
+        if len(pname) == 0:
+            return ipp_ok(req)
+        return get_attributes_for_ptr(req, pname)
     except:
         return  ipp_status(req, 'IPP_INTERNAL_ERROR', 'Error in get_default()')
 
-def created_job_ok(req, pname, jobnum):
-    """Return response that job was created OK"""
+def created_job_ok(req, jobnum):
+    """Return response that document was sent OK"""
 
-    response = ipp.ipp()
+    response = ipp.ipp(request=req)
     response.setrespcode(ipp.IPP_OK, req.id)
     opgrp = opgrp_hdr(req)
     msg = ipp.ippvalue(ipp.IPP_TAG_TEXT)
@@ -466,7 +448,7 @@ def created_job_ok(req, pname, jobnum):
     idval = ipp.ippvalue(ipp.IPP_TAG_INTEGER)
     idval.setnamevalues('job-id', jobnum)
     jobgrp.setvalue(idval)
-    iduri = "ipp://%s/%s/%d" % (socket.gethostname(), pname, jobnum)
+    iduri = "ipp://%s:631/jobs/%d" % (Config_data.serverip(), jobnum)
     idval = ipp.ippvalue(ipp.IPP_TAG_URI)
     idval.setnamevalues('job-uri', iduri)
     jobgrp.setvalue(idval)
@@ -502,11 +484,13 @@ Throw a print_error if something goes wrong"""
     # Send the data
 
     sti = outf.stdin
+
     while 1:
         # If we get some kind of reception error do the best we can
         try:
             b = req.filb.getrem()
         except:
+            syslog.syslog(syslog.LOG_DEBUG, "Error reading in job")
             outf.terminate()
             (sto, ste) = outf.communicate()
             raise print_err(256, 'Input error on socket')
@@ -553,7 +537,6 @@ Throw a print_error if something goes wrong"""
 
     return jobid
 
-
 def print_error(req, pname, code, ste):
     """Generate return code from print"""
 
@@ -578,7 +561,7 @@ def print_job(req):
         jobid = process_print(req, pname, copies, title, uname)
     except print_err as err:
         return print_error(req, pname, err.code, err.stderr)
-    return created_job_ok(req, pname, jobid)
+    return created_job_ok(req, jobid)
 
 def extract_jobid(reqop):
     """Extract job id from a request (send-document or cancel job)"""
@@ -617,7 +600,7 @@ def create_job(req):
         return  ipp_status(req, err.codename, err.args[0])
 
     pj = pend_job(pname, uname, copy_or_default(req, 'job-name', True), copy_or_default(req, 'copies'))
-    return created_job_ok(req, pname, pj.jobnum)
+    return created_job_ok(req, pj.jobnum)
 
 def send_document(req):
     """Send document to pending job created by create job"""
@@ -641,7 +624,7 @@ def send_document(req):
         process_print(req, pj.pname, pj.copies, pj.title, pj.uname)
     except print_err as err:
         return print_error(req, pj.pname, err.code, err.stderr)
-    return created_job_ok(req, pj.pname, jobid)
+    return sent_doc_ok(req, jobid)
 
 def cancel_job(req):
     """Cancel job - dont worry if not pending"""
@@ -719,6 +702,9 @@ functab = dict(IPP_PRINT_JOB=print_job,
 def process_get(f, l):
     """Process a http get request"""
 
+    hadka = False
+    kato = 60
+
     # First read up to end of request
 
     while 1:
@@ -728,23 +714,34 @@ def process_get(f, l):
         line = line.rstrip()
         if len(line) == 0:
             break
+        m = re.match('Connection:\s+Keep-Alive', l, re.I)
+        if m:
+            hadka = True
+            continue
+
+        m = re.match('Keep-Alive:\s+timeout=(\d+)', l, re.I)
+        if m:
+            kato = int(m.group(1))
+            continue
 
     # Try to parse the starting line
 
     m = re.match("GET\s+/printers/(.+)\s+HTTP", l)
     if not m:
-        syslog.syslog(syslog.LOG_ERR, "Get request no match in %s" % l)
-        return
+        msg = "Get request no match in %s" % l
+        syslog.syslog(syslog.LOG_ERR, msg)
+        return None
 
     # Try to open the file
 
     pf = None
     for ptr in (m.group(1), Config_data.default_printer() + ".ppd", "Default.ppd"):
         try:
-            fn = os.path.join(Config_data.ppddir, ptr)
+            fn = os.path.join(Config_data.ppddir(), ptr)
             pf = open(fn, "rb")
-            if Config_data.loglevel > 2:
-                syslog.syslog(syslog.LOG_INFO, "Opened .ppd file %s" % fn)
+            if Log_level > 2:
+                msg = "Opened .ppd file %s" % fn
+                syslog.syslog(syslog.LOG_INFO, msg)
             break
         except:
             pass
@@ -756,13 +753,15 @@ def process_get(f, l):
     else:
         tim = time.time()
         fsize = 0
-        syslog.syslog(syslog.LOG_ERR, "Get request file not found for %s" % m.group(1))
+        msg = "Get request file not found for %s" % m.group(1)
+        syslog.syslog(syslog.LOG_ERR, msg)
 
     f.write("HTTP/1.1 200 OK\n")
     f.write("Date: %s\n" % time.ctime())
-    f.write("Server: CUPS/1.2\n")
-    f.write("Connection: Keep-Alive\n")
-    f.write("Keep-Alive: timeout=60\n")
+    f.write("Server: %s\n" % Config_data.parameters.servername)
+    if hadka:
+        f.write("Connection: Keep-Alive\n")
+        f.write("Keep-Alive: timeout=%d\n" % kato)
     f.write("Content-Language: en_US\n")
     f.write("Content-Type: application/vnd.cups-ppd\n")
     f.write("Last-Modified: %s\n" % tim)
@@ -777,25 +776,30 @@ def process_get(f, l):
             f.write(buf)
         pf.close()
 
+    if hadka: return kato
+    return None
+
 def process_post(f):
     """Process an HTTP POST request"""
 
     ipplength=0
     exp = False
     chnk = False
+    hadka = False
+    kato = 60
 
     # Read rest of header
 
     while 1:
         line = f.readline()
         if line is None:
-            return
+            return None
 
         l = line.rstrip()
         if  len(l) == 0:
             break
 
-        m = re.search('Content-Length:\s*(\d+)', l, re.I)
+        m = re.match('Content-Length:\s*(\d+)', l, re.I)
         if m:
             ipplength=int(m.group(1))
             continue
@@ -808,6 +812,17 @@ def process_post(f):
         m = re.match('Transfer-Encoding:\s+chunked', l, re.I)
         if m:
             chnk = True
+            continue
+
+        m = re.match('Connection:\s+Keep-Alive', l, re.I)
+        if m:
+            hadka = True
+            continue
+
+        m = re.match('Keep-Alive:\s+timeout=(\d+)', l, re.I)
+        if m:
+            kato = int(m.group(1))
+            continue
 
     # If we've had a request to request more, satisfy it
 
@@ -817,9 +832,10 @@ def process_post(f):
     if chnk:
         f.set_chunked()
     else:
+        syslog.syslog(syslog.LOG_DEBUG, "Expecting %d bytes" % ipplength)
         if ipplength == 0:
             syslog.syslog(syslog.LOG_ERR, "No POST data")
-            return
+            return None
         f.set_expected(ipplength)
 
     # Parse IPP request
@@ -827,10 +843,11 @@ def process_post(f):
     ipr = ipp.ipp(f)
     try:
         ipr.parse()
-        if Config_data.loglevel > 3:
+        if Log_level > 3:
             ipr.display()
-    except ipp.IppError as mm:
-        return
+    except ipp.IppError as err:
+        syslog.syslog(syslog.LOG_DEBUG, "Had IPP error: %s" % err.args[0])
+        return None
 
     iprcode = ipr.statuscode
 
@@ -839,13 +856,13 @@ def process_post(f):
         syslog.syslog(syslog.LOG_INFO, "Request operation %s" % iprname)
         func = functab[iprname]
     except KeyError:
-        return
+        return None
 
     # Actually do the business and return an IPP string (filebuf is a structure member)
 
     resp = func(ipr)
     
-    if  Config_data.loglevel > 2:
+    if  Log_level > 2:
         ipresp = ipp.ipp(filebuf.stringbuf(resp, 0))
         ipresp.parse()
         syslog.syslog(syslog.LOG_INFO, "Reply sent %s" % ipp.resp_to_name[ipresp.statuscode])
@@ -854,13 +871,16 @@ def process_post(f):
 
     f.write("HTTP/1.1 200 OK\r\n")
     f.write("Date: %s\n" % time.ctime())
-    f.write("Server: CUPS/1.2\r\n")
-    f.write("Connection: Keep-Alive\r\n")
-    f.write("Keep-Alive: timeout=60\r\n")
+    f.write("Server: %s\r\n" % Config_data.parameters.servername)
+    if hadka:
+        f.write("Connection: Keep-Alive\r\n")
+        f.write("Keep-Alive: timeout=%d\r\n" % kato)
     f.write("Content-Language: en_US\r\n")
     f.write("Content-Type: application/ipp\r\n")
     f.write("Content-Length: %d\r\n\r\n" % len(resp))
     f.write(resp)
+    if hadka: return kato
+    return None
 
 def parsefd(fd):
     """Parse incoming requests with HTTP header"""
@@ -874,21 +894,20 @@ def parsefd(fd):
             if line is None:
                 return
             l = line.strip()
-            if len(l) == 0:
-                return
+            # Ignore blank lines
+            if len(l) == 0: continue
 
             m = re.match("(GET|PUT|POST|DELETE|TRACE|OPTIONS|HEAD)\s", l)
             if m:
                 op = m.group(1)
-                if op == "GET":
-                    process_get(fd, l)
-                elif op == "POST":
-                    process_post(fd)
+                if op == "GET": kato = process_get(fd, l)
+                elif op == "POST": kato = process_post(fd)
                 else:
                     syslog.syslog(syslog.LOG_ERR, "Dont know how to handle %s http ops" % op)
                     return
+                if kato is None: return
             else:
-                syslog.syslog(syslog.LOG_ERR, "No match for HTTP op")
+                syslog.syslog(syslog.LOG_ERR, "No match for HTTP op %s" % l.translate(None, string.join([chr(x) for x in range(0,256) if x<32 or x>126],'')))
                 return
         except (socket.error, filebuf.filebufEOF):
             syslog.syslog(syslog.LOG_DEBUG, "Had EOF on socket")
@@ -898,9 +917,12 @@ def parsefd(fd):
 
 def cups_proc(conn, addr):
     """Process a connection and handle request"""
-    fd = filebuf.httpfilebuf(conn, Config_data.timeouts)
+    fr = addr[0]
+    syslog.syslog(syslog.LOG_INFO, "Connection from address %s" % fr)
+    fd = filebuf.httpfilebuf(conn, Config_data.timeout_value())
     parsefd(fd)
     conn.close()
+    syslog.syslog(syslog.LOG_INFO, "Closed connection from %s" % fr)
 
 # Meat of the thing
 
@@ -926,25 +948,28 @@ def cups_server():
                 act_socks.append(p)
                 break
 
-    for p in  act_socks:
+    for p in act_socks:
         af, socktype, proto, canonname, sa = p
         try:
             s = socket.socket(af, socktype, proto)
-        except socket.error, msg:
+
+        except socket.error as msg:
             continue
 
         try:
             s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            if af == socket.AF_INET6:
+                s.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 1)
             s.bind(sa)
             s.listen(5)
 
         except socket.error as msg:
             if msg.args[0] == errno.EACCES:
-                sys.exit("Cannot access socket - no permission")
+		exit_msg("Cannot access socket - no permission", 10)
 
             # We may get EADDRINUSE from IPV4 if we've just set up IPV6 which we ignore
             if msg.args[0] == errno.EADDRINUSE and len(socklist) == 0 and af != socket.AF_INET:
-                sys.exit("Socket in use - is CUPS running?")
+                exit_msg("Socket in use - is CUPS running?", 11)
 
             s.close()
             continue
@@ -953,7 +978,7 @@ def cups_server():
 
     # If no success, abort
     if len(socklist) == 0:
-        sys.exit("Sorry cannot start - unable to allocate socket?")
+        exit_msg("Sorry cannot start - unable to allocate socket?", 12)
 
     while 1:
         rlist,wlist,xlist = select.select(socklist,(),())
@@ -971,7 +996,7 @@ Kill anything that's there already"""
     try:
         st = os.stat(file)
         if not stat.S_ISREG(st[stat.ST_MODE]):
-            sys.exit("Unknown type file " + file)
+           exit_msg("Unknown type file " + file, 20)
         f = open(file, "rb")
         pidstr = f.read(100)
         f.close()
@@ -991,13 +1016,13 @@ Kill anything that's there already"""
         os.mkdir(Var_run, 0755)
     except OSError as err:
         if err.args[0] != errno.EEXIST:
-            sys.exit("Cannot create " + Var_run + " " + err.args[1])
+            exit_msg("Cannot create " + Var_run + " " + err.args[1], 21)
     try:
         f = open(file, "wb")
         f.write(str(os.getpid()) + "\n")
         f.close()
     except IOError as err:
-        sys.exit("Cannot create " + file + " - " + err.args[1])
+        exit_msg("Cannot create " + file + " - " + err.args[1], 22)
 
 def remove_pid(signum, frame):
     """Remove pid entry in /var/run/cups/cupsd.pid"""
@@ -1006,7 +1031,7 @@ def remove_pid(signum, frame):
     except OSError:
         # Ignore errors
         pass
-    sys.exit("CUPSPY terminated by signal")
+    exit_msg("CUPSPY terminated by signal", 200)
 
 # Run the stuff
 
@@ -1017,7 +1042,7 @@ if __name__ == "__main__":
     if os.fork() != 0:
         os._exit(0)
     syslog.openlog('cupspy', syslog.LOG_NDELAY|syslog.LOG_PID, syslog.LOG_LPR)
-    syslog.setlogmask(syslog.LOG_UPTO(Config_data.loglevel + syslog.LOG_ERR))
+    syslog.setlogmask(syslog.LOG_UPTO(Log_level + syslog.LOG_ERR))
     syslog.syslog(syslog.LOG_INFO, "Starting")
     setup_pid()
     signal.signal(signal.SIGTERM, remove_pid)

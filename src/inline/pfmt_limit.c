@@ -15,17 +15,17 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_limit(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_limit(const struct spptr *pp, const int fwidth)
 {
-	char	*lbp = bigbuff;
-	fmt_t	ret = 0;
-	if  (pp->spp_minsize != 0)  {
-		*lbp++ = '<';
-		ret++;
-	}
-	if  (pp->spp_maxsize != 0)  {
-		*lbp++ = '>';
-		ret++;
-	}
-	return  ret;
+        char    *lbp = bigbuff;
+        fmt_t   ret = 0;
+        if  (pp->spp_minsize != 0)  {
+                *lbp++ = '<';
+                ret++;
+        }
+        if  (pp->spp_maxsize != 0)  {
+                *lbp++ = '>';
+                ret++;
+        }
+        return  ret;
 }

@@ -21,116 +21,116 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <errno.h>
-#undef	CONST			/* Because CONST is redefined by some peoples' Intrinsic.h */
+#undef  CONST                   /* Because CONST is redefined by some peoples' Intrinsic.h */
 #include <Xm/DialogS.h>
-#include "config.h"		/* Because CONST is undefed by some people's Intrinsic.h */
+#include "config.h"             /* Because CONST is undefed by some people's Intrinsic.h */
 #include "files.h"
 #include "errnums.h"
 #include "unixdefs.h"
 
-static	FILE	*bodgefile;
+static  FILE    *bodgefile;
 
-#ifndef	PATH_MAX
-#define	PATH_MAX	1024
+#ifndef PATH_MAX
+#define PATH_MAX        1024
 #endif
 
 void  bodge_open()
 {
-	char	*hm;
-	char	Path[PATH_MAX];
+        char    *hm;
+        char    Path[PATH_MAX];
 
-	if  ((bodgefile = fopen(".xisizes", "r")))
-		return;
-	if  (!(hm = getenv("HOME")))
-		return;
-	sprintf(Path, "%s/.xisizes", hm);
-	if  ((bodgefile = fopen(Path, "r")))
-		return;
-	hm = envprocess(CFILEDIR);
-	sprintf(Path, "%sxisizes", hm);
-	free(hm);
-	bodgefile = fopen(Path, "r");
+        if  ((bodgefile = fopen(".xisizes", "r")))
+                return;
+        if  (!(hm = getenv("HOME")))
+                return;
+        sprintf(Path, "%s/.xisizes", hm);
+        if  ((bodgefile = fopen(Path, "r")))
+                return;
+        hm = envprocess(CFILEDIR);
+        sprintf(Path, "%sxisizes", hm);
+        free(hm);
+        bodgefile = fopen(Path, "r");
 }
 
 void  bodge_size(Widget w, CONST char *dlgname)
 {
-	int	ch, hadeof = 0;
-	Dimension	width, height;
-	CONST	char	*cp;
+        int     ch, hadeof = 0;
+        Dimension       width, height;
+        CONST   char    *cp;
 
-	if  (!bodgefile)
-		return;
+        if  (!bodgefile)
+                return;
 
-	for  (;;)  {
-		ch = getc(bodgefile);
-		if  (ch == EOF)  {
-			if  (hadeof)
-				return;
-			fseek(bodgefile, 0L, 0);
-			hadeof++;
-			continue;
-		}
+        for  (;;)  {
+                ch = getc(bodgefile);
+                if  (ch == EOF)  {
+                        if  (hadeof)
+                                return;
+                        fseek(bodgefile, 0L, 0);
+                        hadeof++;
+                        continue;
+                }
 
-		/* Expect programname:dlgname: width , height */
+                /* Expect programname:dlgname: width , height */
 
-		cp = progname;
-		if  (tolower(ch) != tolower(*cp))  {
-		skiprest:
-			while  (ch != '\n'  &&  ch != EOF)
-				ch = getc(bodgefile);
-			continue;
-		}
-		cp++;
-		while  (*cp)  {
-			ch = getc(bodgefile);
-			if  (tolower(ch) != tolower(*cp))
-				goto  skiprest;
-			cp++;
-		}
-		ch = getc(bodgefile);
-		if  (ch != ':')
-			goto  skiprest;
+                cp = progname;
+                if  (tolower(ch) != tolower(*cp))  {
+                skiprest:
+                        while  (ch != '\n'  &&  ch != EOF)
+                                ch = getc(bodgefile);
+                        continue;
+                }
+                cp++;
+                while  (*cp)  {
+                        ch = getc(bodgefile);
+                        if  (tolower(ch) != tolower(*cp))
+                                goto  skiprest;
+                        cp++;
+                }
+                ch = getc(bodgefile);
+                if  (ch != ':')
+                        goto  skiprest;
 
-		/* Read pgm name, get dlg name */
+                /* Read pgm name, get dlg name */
 
-		cp = dlgname;
-		do  {
-			ch = getc(bodgefile);
-			if  (ch != *cp)
-				goto  skiprest;
-			cp++;
-		}  while  (*cp);
-		ch = getc(bodgefile);
-		if  (ch != ':')
-			goto  skiprest;
+                cp = dlgname;
+                do  {
+                        ch = getc(bodgefile);
+                        if  (ch != *cp)
+                                goto  skiprest;
+                        cp++;
+                }  while  (*cp);
+                ch = getc(bodgefile);
+                if  (ch != ':')
+                        goto  skiprest;
 
-		/* Skip over any space and read width */
+                /* Skip over any space and read width */
 
-		do  ch = getc(bodgefile);
-		while  (isspace(ch));
-		width = 0;
-		while  (isdigit(ch))  {
-			width = width * 10 + ch - '0';
-			ch = getc(bodgefile);
-		}
-		while  (isspace(ch))
-			ch = getc(bodgefile);
+                do  ch = getc(bodgefile);
+                while  (isspace(ch));
+                width = 0;
+                while  (isdigit(ch))  {
+                        width = width * 10 + ch - '0';
+                        ch = getc(bodgefile);
+                }
+                while  (isspace(ch))
+                        ch = getc(bodgefile);
 
-		/* Read , and repeat for height, reject trailing garbage. */
+                /* Read , and repeat for height, reject trailing garbage. */
 
-		if  (ch != ',')
-			goto  skiprest;
-		do  ch = getc(bodgefile);
-		while  (isspace(ch));
-		height = 0;
-		while  (isdigit(ch))  {
-			height = height * 10 + ch - '0';
-			ch = getc(bodgefile);
-		}
-		while  (ch == ' '  ||  ch == '\t')
-			ch = getc(bodgefile);
-		if  (ch != '\n')
-			goto  skiprest;
-		XtVaSetValues(w, XmNwidth, width, XmNheight, height, NULL);
-	}
+                if  (ch != ',')
+                        goto  skiprest;
+                do  ch = getc(bodgefile);
+                while  (isspace(ch));
+                height = 0;
+                while  (isdigit(ch))  {
+                        height = height * 10 + ch - '0';
+                        ch = getc(bodgefile);
+                }
+                while  (ch == ' '  ||  ch == '\t')
+                        ch = getc(bodgefile);
+                if  (ch != '\n')
+                        goto  skiprest;
+                XtVaSetValues(w, XmNwidth, width, XmNheight, height, NULL);
+        }
 }

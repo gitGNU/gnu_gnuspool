@@ -1,6 +1,6 @@
 /* remote.h -- structure for host details in hostedit
 
-   Copyright 2008 Free Software Foundation, Inc.
+   Copyright 2009 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 struct	remote	{
 	/* NB we assume in various places that HOSTNSIZE > UIDSIZE */
 	char	hostname[HOSTNSIZE];	/* Actual host name (alternatively user name) */
-	char	alias[HOSTNSIZE];	/* Alias for within Xi-Text */
+	char	alias[HOSTNSIZE];	/* Alias for within software */
 #if	HOSTNSIZE > UIDSIZE
 	char	dosuser[HOSTNSIZE+1];
 #else

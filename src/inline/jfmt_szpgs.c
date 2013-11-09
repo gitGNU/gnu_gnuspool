@@ -15,25 +15,25 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_szpages(const struct spq *jp, const int fwidth)
+static  fmt_t   fmt_szpages(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_npages > 1)  {
-		char	*res = prin_size(jp->spq_npages);
-		int	resl = strlen(res);
-		if  (resl + 1 >= fwidth)  {
-			sprintf(bigbuff, "=%s", res);
-			return	(fmt_t) (resl + 1);
-		}
-		sprintf(bigbuff, "=%*s", fwidth-1, res);
-	}
-	else  {
-		char	*res = prin_size(jp->spq_size);
-		int	resl = strlen(res);
-		if  (resl >= fwidth)  {
-			strcpy(bigbuff, res);
-			return  (fmt_t) resl;
-		}
-		sprintf(bigbuff, "%*s", fwidth, res);
-	}
-	return  (fmt_t) fwidth;
+        if  (jp->spq_npages > 1)  {
+                char    *res = prin_size(jp->spq_npages);
+                int     resl = strlen(res);
+                if  (resl + 1 >= fwidth)  {
+                        sprintf(bigbuff, "=%s", res);
+                        return  (fmt_t) (resl + 1);
+                }
+                sprintf(bigbuff, "=%*s", fwidth-1, res);
+        }
+        else  {
+                char    *res = prin_size(jp->spq_size);
+                int     resl = strlen(res);
+                if  (resl >= fwidth)  {
+                        strcpy(bigbuff, res);
+                        return  (fmt_t) resl;
+                }
+                sprintf(bigbuff, "%*s", fwidth, res);
+        }
+        return  (fmt_t) fwidth;
 }

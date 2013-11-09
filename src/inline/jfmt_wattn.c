@@ -15,14 +15,14 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_wattn(const struct spq *jp, const int fwidth)
+static  fmt_t   fmt_wattn(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_jflags & SPQ_WATTN)  {
-		static	char	*wattn_msg;
+        if  (jp->spq_jflags & SPQ_WATTN)  {
+                static  char    *wattn_msg;
 
-		if  (!wattn_msg)
-			wattn_msg = gprompt($P{Fmt wattn});
-		return  (fmt_t) strlen(strcpy(bigbuff, wattn_msg));
-	}
-	return  0;
+                if  (!wattn_msg)
+                        wattn_msg = gprompt($P{Fmt wattn});
+                return  (fmt_t) strlen(strcpy(bigbuff, wattn_msg));
+        }
+        return  0;
 }

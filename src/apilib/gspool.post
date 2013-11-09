@@ -19,6 +19,10 @@
 extern	"C"	{
 #endif
 extern	int	gspool_open(const char *, const char *, const classcode_t),
+                gspool_login(const char *, const char *, const char *, const char *, const classcode_t),
+                gspool_wlogin(const char *, const char *, const char *, const char *, const classcode_t),
+		gspool_locallogin(const char *, const char *, const classcode_t),
+		gspool_locallogin_byid(const char *, const int_ugid_t, const classcode_t),
 		gspool_close(const int),
 		gspool_jobfind(const int, const unsigned, const jobno_t, const netid_t, slotno_t *, struct apispq *),
 		gspool_jobfindslot(const int, const unsigned, const jobno_t, const netid_t, slotno_t *),

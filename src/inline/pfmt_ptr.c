@@ -15,16 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_printer(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_printer(const struct spptr *pp, const int fwidth)
 {
-#ifdef	CHARSPRINTF
-	if  (pp->spp_netid)  {
-		sprintf(bigbuff, "%s:%s", look_host(pp->spp_netid), pp->spp_ptr);
-		return  (fmt_t) strlen(bigbuff);
-	}
-#else
-	if  (pp->spp_netid)
-		return  sprintf(bigbuff, "%s:%s", look_host(pp->spp_netid), pp->spp_ptr);
-#endif
-	return  (fmt_t) strlen(strcpy(bigbuff, pp->spp_ptr));
+        return  (fmt_t) strlen(strcpy(bigbuff, PTR_NAME(pp)));
 }

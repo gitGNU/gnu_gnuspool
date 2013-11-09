@@ -15,22 +15,22 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_oddeven(const struct spq *jp, const int fwidth)
+static  fmt_t   fmt_oddeven(const struct spq *jp, const int fwidth)
 {
-	if  (jp->spq_jflags & (SPQ_ODDP|SPQ_EVENP))  {
-		static	char	*no_odd, *no_even, *swap;
-		if  (!no_odd)  {
-			no_odd = gprompt($P{Fmt no odd});
-			no_even = gprompt($P{Fmt no even});
-			swap = gprompt($P{Fmt swap});
-		}
-		if  (jp->spq_jflags & SPQ_ODDP)
-			strcpy(bigbuff, no_odd);
-		else
-			strcpy(bigbuff, no_even);
-		if  (jp->spq_jflags & SPQ_REVOE)
-			strcat(bigbuff, swap);
-		return  (fmt_t) strlen(bigbuff);
-	}
-	return  0;
+        if  (jp->spq_jflags & (SPQ_ODDP|SPQ_EVENP))  {
+                static  char    *no_odd, *no_even, *swap;
+                if  (!no_odd)  {
+                        no_odd = gprompt($P{Fmt no odd});
+                        no_even = gprompt($P{Fmt no even});
+                        swap = gprompt($P{Fmt swap});
+                }
+                if  (jp->spq_jflags & SPQ_ODDP)
+                        strcpy(bigbuff, no_odd);
+                else
+                        strcpy(bigbuff, no_even);
+                if  (jp->spq_jflags & SPQ_REVOE)
+                        strcat(bigbuff, swap);
+                return  (fmt_t) strlen(bigbuff);
+        }
+        return  0;
 }

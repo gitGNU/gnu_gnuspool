@@ -18,29 +18,29 @@
 #include "config.h"
 #include <stdio.h>
 
-static	char	resbuf[16];
+static  char    resbuf[16];
 
-static	struct  dtbl	{
-	LONG	compar;
-	int	shift;
-	char	*fmt;
+static  struct  dtbl    {
+        LONG    compar;
+        int     shift;
+        char    *fmt;
 }  dtbl[] = {
-	{ 10000L, 0, "%ld" },
-	{ 10L << 20, 10, "%ldK" },
-	{ 1L << 30, 20, "%ldM" },
-	{ 0L, 30, "%ldG" }
+        { 10000L, 0, "%ld" },
+        { 10L << 20, 10, "%ldK" },
+        { 1L << 30, 20, "%ldM" },
+        { 0L, 30, "%ldG" }
 };
 
 char  *prin_size(LONG l)
 {
-	struct  dtbl	*dt;
+        struct  dtbl    *dt;
 
-	for  (dt = dtbl;  dt->compar  &&  l >= dt->compar;  dt++)
-		;
+        for  (dt = dtbl;  dt->compar  &&  l >= dt->compar;  dt++)
+                ;
 
-	if  (dt->shift)
-		l = (l + (1L << (dt->shift-1))) >> dt->shift;
+        if  (dt->shift)
+                l = (l + (1L << (dt->shift-1))) >> dt->shift;
 
-	sprintf(resbuf, dt->fmt, l);
-	return  resbuf;
+        sprintf(resbuf, dt->fmt, l);
+        return  resbuf;
 }

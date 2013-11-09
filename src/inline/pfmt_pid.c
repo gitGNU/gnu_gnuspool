@@ -15,14 +15,14 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_pid(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_pid(const struct spptr *pp, const int fwidth)
 {
-	if  (pp->spp_netid  ||  pp->spp_state < SPP_PROC)
-		return  0;
-#ifdef	CHARSPRINTF
-	sprintf(bigbuff, "%*ld", fwidth, (long) pp->spp_pid);
-	return  (fmt_t) strlen(bigbuff);
+        if  (pp->spp_netid  ||  pp->spp_state < SPP_PROC)
+                return  0;
+#ifdef  CHARSPRINTF
+        sprintf(bigbuff, "%*ld", fwidth, (long) pp->spp_pid);
+        return  (fmt_t) strlen(bigbuff);
 #else
-	return  (fmt_t) sprintf(bigbuff, "%*ld", fwidth, (long) pp->spp_pid);
+        return  (fmt_t) sprintf(bigbuff, "%*ld", fwidth, (long) pp->spp_pid);
 #endif
 }

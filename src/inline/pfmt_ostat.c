@@ -15,8 +15,8 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_ostate(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_ostate(const struct spptr *pp, const int fwidth)
 {
-	int	staten = pp->spp_state >= SPP_NSTATES? SPP_NULL: pp->spp_state;
-	return  (fmt_t) strlen(strcpy(bigbuff, statenames[staten]));
+        int     staten = pp->spp_state >= SPP_NSTATES? SPP_NULL: pp->spp_state;
+        return  (fmt_t) strlen(strcpy(bigbuff, statenames[staten]));
 }

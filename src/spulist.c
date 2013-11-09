@@ -18,7 +18,7 @@
 #include "config.h"
 #include <stdio.h>
 #include <sys/types.h>
-#ifdef	HAVE_FCNTL_H
+#ifdef  HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 #include <ctype.h>
@@ -37,387 +37,384 @@
 #include "xfershm.h"
 #include "q_shm.h"
 
-char	*Curr_pwd;
+char    *Curr_pwd;
 
-#define	SORT_NONE	0
-#define	SORT_USER	1
+#define SORT_NONE       0
+#define SORT_USER       1
 
-extern	char	freeze_wanted;
-char	freeze_cd, freeze_hd, headerflag;
-static	char	alphsort = SORT_NONE, defline = 1, ulines = 1;
+extern  char    freeze_wanted;
+char    freeze_cd, freeze_hd, headerflag;
+static  char    alphsort = SORT_NONE, defline = 1, ulines = 1;
 
-extern	struct	sphdr	Spuhdr;
+extern  struct  sphdr   Spuhdr;
 
-static	char	*defaultname, *allname, *privnames[NUM_PRIVS];
-static	ULONG	privbits[] = {
-PV_ADMIN,	PV_SSTOP,	PV_FORMS,	PV_OTHERP,
-PV_CPRIO,	PV_OTHERJ,	PV_PRINQ,	PV_HALTGO,
-PV_ANYPRIO,	PV_CDEFLT,	PV_ADDDEL,	PV_COVER,
-PV_UNQUEUE,	PV_VOTHERJ,	PV_REMOTEJ,	PV_REMOTEP,
-PV_ACCESSOK,	PV_FREEZEOK
+static  char    *defaultname, *allname, *privnames[NUM_PRIVS];
+static  ULONG   privbits[] = {
+PV_ADMIN,       PV_SSTOP,       PV_FORMS,       PV_OTHERP,
+PV_CPRIO,       PV_OTHERJ,      PV_PRINQ,       PV_HALTGO,
+PV_ANYPRIO,     PV_CDEFLT,      PV_ADDDEL,      PV_COVER,
+PV_UNQUEUE,     PV_VOTHERJ,     PV_REMOTEJ,     PV_REMOTEP,
+PV_ACCESSOK,    PV_FREEZEOK,    PV_MASQ
 };
 
-char		*formatstring;
+char            *formatstring;
 
-char	sdefaultfmt[] = "%u %d %l %m %n %c %p";
+char    sdefaultfmt[] = "%u %d %l %m %n %c %p";
 
-char	bigbuff[80];
-
-int	proc_save_opts(const char *, const char *, void (*)(FILE *, const char *));
-int	spitoption(const int, const int, FILE *, const int, const int);
+char    bigbuff[250];
 
 /* For benefit of library routines */
 
-void	nomem()
+void    nomem()
 {
-	print_error($E{NO MEMORY});
-	exit(E_NOMEM);
+        print_error($E{NO MEMORY});
+        exit(E_NOMEM);
 }
 
-typedef	unsigned	fmt_t;
+typedef unsigned        fmt_t;
 
 static  fmt_t  fmt_form(struct spdet *up, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_form: Spuhdr.sph_form));
+        return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_form: Spuhdr.sph_form));
 }
 
 static  fmt_t  fmt_printer(struct spdet *up, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_ptr: Spuhdr.sph_ptr));
+        return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_ptr: Spuhdr.sph_ptr));
 }
 
 static  fmt_t  fmt_formallow(struct spdet *up, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_formallow: Spuhdr.sph_formallow));
+        return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_formallow: Spuhdr.sph_formallow));
 }
 
 static  fmt_t  fmt_ptrallow(struct spdet *up, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_ptrallow: Spuhdr.sph_ptrallow));
+        return  (fmt_t) strlen(strcpy(bigbuff, up? up->spu_ptrallow: Spuhdr.sph_ptrallow));
 }
 
 static  fmt_t  fmt_class(struct spdet *up, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, hex_disp(up? up->spu_class: Spuhdr.sph_class, 0)));
+        return  (fmt_t) strlen(strcpy(bigbuff, hex_disp(up? up->spu_class: Spuhdr.sph_class, 0)));
 }
 
 static  fmt_t  fmt_defpri(struct spdet *up, const int fwidth)
 {
-#ifdef	CHARSPRINTF
-	sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_defp: (unsigned) Spuhdr.sph_defp);
-	return  (fmt_t) strlen(bigbuff);
+#ifdef  CHARSPRINTF
+        sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_defp: (unsigned) Spuhdr.sph_defp);
+        return  (fmt_t) strlen(bigbuff);
 #else
-	return	(fmt_t) sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_defp: (unsigned) Spuhdr.sph_defp);
+        return  (fmt_t) sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_defp: (unsigned) Spuhdr.sph_defp);
 #endif
 }
 
 static  fmt_t  fmt_minpri(struct spdet *up, const int fwidth)
 {
-#ifdef	CHARSPRINTF
-	sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_minp: (unsigned) Spuhdr.sph_minp);
-	return  (fmt_t) strlen(bigbuff);
+#ifdef  CHARSPRINTF
+        sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_minp: (unsigned) Spuhdr.sph_minp);
+        return  (fmt_t) strlen(bigbuff);
 #else
-	return	(fmt_t) sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_minp: (unsigned) Spuhdr.sph_minp);
+        return  (fmt_t) sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_minp: (unsigned) Spuhdr.sph_minp);
 #endif
 }
 
 static  fmt_t  fmt_maxpri(struct spdet *up, const int fwidth)
 {
-#ifdef	CHARSPRINTF
-	sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_maxp: (unsigned) Spuhdr.sph_maxp);
-	return  (fmt_t) strlen(bigbuff);
+#ifdef  CHARSPRINTF
+        sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_maxp: (unsigned) Spuhdr.sph_maxp);
+        return  (fmt_t) strlen(bigbuff);
 #else
-	return	(fmt_t) sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_maxp: (unsigned) Spuhdr.sph_maxp);
+        return  (fmt_t) sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_maxp: (unsigned) Spuhdr.sph_maxp);
 #endif
 }
 
 static  fmt_t  fmt_copies(struct spdet *up, const int fwidth)
 {
-#ifdef	CHARSPRINTF
-	sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_cps: (unsigned) Spuhdr.sph_cps);
-	return  (fmt_t) strlen(bigbuff);
+#ifdef  CHARSPRINTF
+        sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_cps: (unsigned) Spuhdr.sph_cps);
+        return  (fmt_t) strlen(bigbuff);
 #else
-	return	(fmt_t) sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_cps: (unsigned) Spuhdr.sph_cps);
+        return  (fmt_t) sprintf(bigbuff, "%*u", fwidth, up? (unsigned) up->spu_cps: (unsigned) Spuhdr.sph_cps);
 #endif
 }
 
 static  fmt_t  fmt_priv(struct spdet *up, const int fwidth)
 {
-	ULONG	priv = up? up->spu_flgs: Spuhdr.sph_flgs;
+        ULONG   priv = up? up->spu_flgs: Spuhdr.sph_flgs;
 
-	if  ((priv & ALLPRIVS) == ALLPRIVS)
-		return  (fmt_t) strlen(strcpy(bigbuff, allname));
-	else  {
-		char	*nxt = bigbuff;
-		unsigned  pn, totl = 0, lng;
-		for  (pn = 0;  pn < NUM_PRIVS;  pn++)
-			if  (priv & privbits[pn])  {
-				lng = strlen(strcpy(nxt, privnames[pn]));
-				nxt += lng;
-				*nxt++ = ' ';
-				totl += lng + 1;
-			}
-		if  (totl == 0)
-			return  0;
-		*--nxt = '\0';
-		return  totl - 1;
-	}
+        if  ((priv & ALLPRIVS) == ALLPRIVS)
+                return  (fmt_t) strlen(strcpy(bigbuff, allname));
+        else  {
+                char    *nxt = bigbuff;
+                unsigned  pn, totl = 0, lng;
+                for  (pn = 0;  pn < NUM_PRIVS;  pn++)
+                        if  (priv & privbits[pn])  {
+                                lng = strlen(strcpy(nxt, privnames[pn]));
+                                nxt += lng;
+                                *nxt++ = ' ';
+                                totl += lng + 1;
+                        }
+                if  (totl == 0)
+                        return  0;
+                *--nxt = '\0';
+                return  totl - 1;
+        }
 }
 
 static  fmt_t  fmt_uid(struct spdet *up, const int fwidth)
 {
-#ifdef	CHARSPRINTF
-	if  (up)
-		sprintf(bigbuff, "%*u", fwidth, (unsigned) up->spu_user);
-	else
-		sprintf(bigbuff, "%*s", fwidth, "-");
-	return  (fmt_t) strlen(bigbuff);
+#ifdef  CHARSPRINTF
+        if  (up)
+                sprintf(bigbuff, "%*u", fwidth, (unsigned) up->spu_user);
+        else
+                sprintf(bigbuff, "%*s", fwidth, "-");
+        return  (fmt_t) strlen(bigbuff);
 #else
-	if  (up)
-		return  (fmt_t) sprintf(bigbuff, "%*u", fwidth, (unsigned) up->spu_user);
-	else
-		return  (fmt_t)  sprintf(bigbuff, "%*s", fwidth, "-");
+        if  (up)
+                return  (fmt_t) sprintf(bigbuff, "%*u", fwidth, (unsigned) up->spu_user);
+        else
+                return  (fmt_t)  sprintf(bigbuff, "%*s", fwidth, "-");
 #endif
 }
 
 static  fmt_t  fmt_user(struct spdet *up, const int fwidth)
 {
-	return  (fmt_t) strlen(strcpy(bigbuff, up? prin_uname((uid_t) up->spu_user) : defaultname));
+        return  (fmt_t) strlen(strcpy(bigbuff, up? prin_uname((uid_t) up->spu_user) : defaultname));
 }
 
 /* Mapping of format characters (assumed A-Z a-z) and format routines */
 
-struct	formatdef  {
-	SHORT	statecode;	/* Code number for heading if applicable */
-	char	*msg;		/* Heading */
-	unsigned  (*fmt_fn)(struct spdet *, const int);
+struct  formatdef  {
+        SHORT   statecode;      /* Code number for heading if applicable */
+        char    *msg;           /* Heading */
+        unsigned  (*fmt_fn)(struct spdet *, const int);
 };
 
-#define	NULLCP	(char *) 0
+#define NULLCP  (char *) 0
 
-struct	formatdef
-	lowertab[] = { /* a-z */
-	{	$P{Spulist title}+'a'-1,	NULLCP,	fmt_formallow	},	/* a */
-	{	$P{Spulist title}+'b'-1,	NULLCP,	fmt_ptrallow	},	/* b */
-	{	$P{Spulist title}+'c'-1,	NULLCP,	fmt_class	},	/* c */
-	{	$P{Spulist title}+'d'-1,	NULLCP,	fmt_defpri	},	/* d */
-	{	0,				NULLCP,	0		},	/* e */
-	{	$P{Spulist title}+'f'-1,	NULLCP,	fmt_form	},	/* f */
-	{	0,				NULLCP,	0		},	/* g */
-	{	0,				NULLCP,	0		},	/* h */
-	{	$P{Spulist title}+'i'-1,	NULLCP,	fmt_uid		},	/* i */
-	{	0,				NULLCP,	0		},	/* j */
-	{	0,				NULLCP,	0		},	/* k */
-	{	$P{Spulist title}+'l'-1,	NULLCP,	fmt_minpri	},	/* l */
-	{	$P{Spulist title}+'m'-1,	NULLCP,	fmt_maxpri	},	/* m */
-	{	$P{Spulist title}+'n'-1,	NULLCP,	fmt_copies	},	/* n */
-	{	$P{Spulist title}+'o'-1,	NULLCP,	fmt_printer	},	/* o */
-	{	$P{Spulist title}+'p'-1,	NULLCP, fmt_priv	},	/* p */
-	{	0,				NULLCP,	0		},	/* q */
-	{	0,				NULLCP, 0		},	/* r */
-	{	0,				NULLCP, 0		},	/* s */
-	{	0,				NULLCP, 0		},	/* t */
-	{	$P{Spulist title}+'u'-1,	NULLCP, fmt_user	},	/* u */
-	{	0,				NULLCP,	0		},	/* v */
-	{	0,				NULLCP,	0		},	/* w */
-	{	0,				NULLCP,	0		},	/* x */
-	{	0,				NULLCP,	0		},	/* y */
-	{	0,				NULLCP,	0		}	/* z */
+struct  formatdef
+        lowertab[] = { /* a-z */
+        {       $P{Spulist title}+'a'-1,        NULLCP, fmt_formallow   },      /* a */
+        {       $P{Spulist title}+'b'-1,        NULLCP, fmt_ptrallow    },      /* b */
+        {       $P{Spulist title}+'c'-1,        NULLCP, fmt_class       },      /* c */
+        {       $P{Spulist title}+'d'-1,        NULLCP, fmt_defpri      },      /* d */
+        {       0,                              NULLCP, 0               },      /* e */
+        {       $P{Spulist title}+'f'-1,        NULLCP, fmt_form        },      /* f */
+        {       0,                              NULLCP, 0               },      /* g */
+        {       0,                              NULLCP, 0               },      /* h */
+        {       $P{Spulist title}+'i'-1,        NULLCP, fmt_uid         },      /* i */
+        {       0,                              NULLCP, 0               },      /* j */
+        {       0,                              NULLCP, 0               },      /* k */
+        {       $P{Spulist title}+'l'-1,        NULLCP, fmt_minpri      },      /* l */
+        {       $P{Spulist title}+'m'-1,        NULLCP, fmt_maxpri      },      /* m */
+        {       $P{Spulist title}+'n'-1,        NULLCP, fmt_copies      },      /* n */
+        {       $P{Spulist title}+'o'-1,        NULLCP, fmt_printer     },      /* o */
+        {       $P{Spulist title}+'p'-1,        NULLCP, fmt_priv        },      /* p */
+        {       0,                              NULLCP, 0               },      /* q */
+        {       0,                              NULLCP, 0               },      /* r */
+        {       0,                              NULLCP, 0               },      /* s */
+        {       0,                              NULLCP, 0               },      /* t */
+        {       $P{Spulist title}+'u'-1,        NULLCP, fmt_user        },      /* u */
+        {       0,                              NULLCP, 0               },      /* v */
+        {       0,                              NULLCP, 0               },      /* w */
+        {       0,                              NULLCP, 0               },      /* x */
+        {       0,                              NULLCP, 0               },      /* y */
+        {       0,                              NULLCP, 0               }       /* z */
 };
 
 /* Display contents of user list.  */
 
 void  udisplay(struct spdet *ul, const unsigned nu)
 {
-	struct  spdet	*up, *ep = &ul[nu];
-	char	*fp;
-	unsigned  pieces, pc, *lengths = (unsigned *) 0;
-	int	lng;
+        struct  spdet   *up, *ep = &ul[nu];
+        char    *fp;
+        unsigned  pieces, pc, *lengths = (unsigned *) 0;
+        int     lng;
 
-	pieces = 0;
-	fp = formatstring;
-	while  (*fp)  {
-		if  (*fp == '%')  {
-			if  (!*++fp)
-				break;
-			if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
-				pieces++;
-		}
-		fp++;
-	}
-	if  (pieces  &&  !(lengths = (unsigned *) malloc(pieces * sizeof(unsigned))))
-		nomem();
-	for  (pc = 0;  pc < pieces;  pc++)
-		lengths[pc] = 0;
+        pieces = 0;
+        fp = formatstring;
+        while  (*fp)  {
+                if  (*fp == '%')  {
+                        if  (!*++fp)
+                                break;
+                        if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
+                                pieces++;
+                }
+                fp++;
+        }
+        if  (pieces  &&  !(lengths = (unsigned *) malloc(pieces * sizeof(unsigned))))
+                nomem();
+        for  (pc = 0;  pc < pieces;  pc++)
+                lengths[pc] = 0;
 
-	/* First scan to get width of each format */
+        /* First scan to get width of each format */
 
-	if  (defline)  {
-		fp = formatstring;
-		pc = 0;
-		while  (*fp)  {
-			if  (*fp == '%')  {
-				if  (!*++fp)
-					break;
-				if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
-					lng = (lowertab[*fp - 'a'].fmt_fn)((struct spdet *) 0, 0);
-				else  {
-					fp++;
-					continue;
-				}
-				if  (lng > lengths[pc])
-					lengths[pc] = lng;
-				pc++;
-			}
-			fp++;
-		}
-	}
-	if  (ulines)  {
-		for  (up = ul;  up < ep;  up++)  {
-			fp = formatstring;
-			pc = 0;
-			while  (*fp)  {
-				if  (*fp == '%')  {
-					if  (!*++fp)
-						break;
-					if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
-						lng = (lowertab[*fp - 'a'].fmt_fn)(up, 0);
-					else  {
-						fp++;
-						continue;
-					}
-					if  (lng > lengths[pc])
-						lengths[pc] = lng;
-					pc++;
-				}
-				fp++;
-			}
-		}
-	}
+        if  (defline)  {
+                fp = formatstring;
+                pc = 0;
+                while  (*fp)  {
+                        if  (*fp == '%')  {
+                                if  (!*++fp)
+                                        break;
+                                if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
+                                        lng = (lowertab[*fp - 'a'].fmt_fn)((struct spdet *) 0, 0);
+                                else  {
+                                        fp++;
+                                        continue;
+                                }
+                                if  (lng > lengths[pc])
+                                        lengths[pc] = lng;
+                                pc++;
+                        }
+                        fp++;
+                }
+        }
+        if  (ulines)  {
+                for  (up = ul;  up < ep;  up++)  {
+                        fp = formatstring;
+                        pc = 0;
+                        while  (*fp)  {
+                                if  (*fp == '%')  {
+                                        if  (!*++fp)
+                                                break;
+                                        if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
+                                                lng = (lowertab[*fp - 'a'].fmt_fn)(up, 0);
+                                        else  {
+                                                fp++;
+                                                continue;
+                                        }
+                                        if  (lng > lengths[pc])
+                                                lengths[pc] = lng;
+                                        pc++;
+                                }
+                                fp++;
+                        }
+                }
+        }
 
-	/* Possibly expand columns for header */
+        /* Possibly expand columns for header */
 
-	if  (headerflag)  {
-		fp = formatstring;
-		pc = 0;
-		while  (*fp)  {
-			if  (*fp == '%')  {
-				if  (!*++fp)
-					break;
-				if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)  {
-					if  (!lowertab[*fp - 'a'].msg)
-						lowertab[*fp - 'a'].msg = gprompt(lowertab[*fp - 'a'].statecode);
-					lng = strlen(lowertab[*fp - 'a'].msg);
-				}
-				else  {
-					fp++;
-					continue;
-				}
-				if  (lng > lengths[pc])
-					lengths[pc] = lng;
-				pc++;
-			}
-			fp++;
-		}
+        if  (headerflag)  {
+                fp = formatstring;
+                pc = 0;
+                while  (*fp)  {
+                        if  (*fp == '%')  {
+                                if  (!*++fp)
+                                        break;
+                                if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)  {
+                                        if  (!lowertab[*fp - 'a'].msg)
+                                                lowertab[*fp - 'a'].msg = gprompt(lowertab[*fp - 'a'].statecode);
+                                        lng = strlen(lowertab[*fp - 'a'].msg);
+                                }
+                                else  {
+                                        fp++;
+                                        continue;
+                                }
+                                if  (lng > lengths[pc])
+                                        lengths[pc] = lng;
+                                pc++;
+                        }
+                        fp++;
+                }
 
-		/* And now output it...  */
+                /* And now output it...  */
 
-		fp = formatstring;
-		pc = 0;
-		while  (*fp)  {
-			if  (*fp == '%')  {
-				if  (!*++fp)
-					break;
-				if  (!(islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn))
-					goto  putit1;
-				fputs(lowertab[*fp - 'a'].msg, stdout);
-				lng = strlen(lowertab[*fp - 'a'].msg);
-				if  (pc != pieces - 1)
-					while  (lng < lengths[pc])  {
-						putchar(' ');
-						lng++;
-					}
-				do  fp++;
-				while  (lengths[pc] == 0  &&  *fp == ' ');
-				pc++;
-				continue;
-			}
-		putit1:
-			putchar(*fp);
-			fp++;
-		}
-		putchar('\n');
-	}
+                fp = formatstring;
+                pc = 0;
+                while  (*fp)  {
+                        if  (*fp == '%')  {
+                                if  (!*++fp)
+                                        break;
+                                if  (!(islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn))
+                                        goto  putit1;
+                                fputs(lowertab[*fp - 'a'].msg, stdout);
+                                lng = strlen(lowertab[*fp - 'a'].msg);
+                                if  (pc != pieces - 1)
+                                        while  (lng < lengths[pc])  {
+                                                putchar(' ');
+                                                lng++;
+                                        }
+                                do  fp++;
+                                while  (lengths[pc] == 0  &&  *fp == ' ');
+                                pc++;
+                                continue;
+                        }
+                putit1:
+                        putchar(*fp);
+                        fp++;
+                }
+                putchar('\n');
+        }
 
-	/* Final run-through to output stuff */
+        /* Final run-through to output stuff */
 
-	if  (defline)  {
-		fp = formatstring;
-		pc = 0;
-		while  (*fp)  {
-			if  (*fp == '%')  {
-				if  (!*++fp)
-					break;
-				bigbuff[0] = '\0'; /* Zap last thing */
-				if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
-					lng = (lowertab[*fp - 'a'].fmt_fn)((struct spdet *) 0, (int) lengths[pc]);
-				else
-					goto  putit;
-				fputs(bigbuff, stdout);
-				if  (pc != pieces - 1)
-					while  (lng < lengths[pc])  {
-						putchar(' ');
-						lng++;
-					}
-				do  fp++;
-				while  (lengths[pc] == 0  &&  *fp == ' ');
-				pc++;
-				continue;
-			}
-		putit:
-			putchar(*fp);
-			fp++;
-		}
-		putchar('\n');
-	}
+        if  (defline)  {
+                fp = formatstring;
+                pc = 0;
+                while  (*fp)  {
+                        if  (*fp == '%')  {
+                                if  (!*++fp)
+                                        break;
+                                bigbuff[0] = '\0'; /* Zap last thing */
+                                if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
+                                        lng = (lowertab[*fp - 'a'].fmt_fn)((struct spdet *) 0, (int) lengths[pc]);
+                                else
+                                        goto  putit;
+                                fputs(bigbuff, stdout);
+                                if  (pc != pieces - 1)
+                                        while  (lng < lengths[pc])  {
+                                                putchar(' ');
+                                                lng++;
+                                        }
+                                do  fp++;
+                                while  (lengths[pc] == 0  &&  *fp == ' ');
+                                pc++;
+                                continue;
+                        }
+                putit:
+                        putchar(*fp);
+                        fp++;
+                }
+                putchar('\n');
+        }
 
-	if  (ulines)  {
-		for  (up = ul;  up < ep;  up++)  {
-			fp = formatstring;
-			pc = 0;
-			while  (*fp)  {
-				if  (*fp == '%')  {
-					if  (!*++fp)
-						break;
-					bigbuff[0] = '\0'; /* Zap last thing */
-					if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
-						lng = (lowertab[*fp - 'a'].fmt_fn)(up, (int) lengths[pc]);
-					else
-						goto  putit2;
-					fputs(bigbuff, stdout);
-					if  (pc != pieces - 1)
-						while  (lng < lengths[pc])  {
-							putchar(' ');
-							lng++;
-						}
-					do  fp++;
-					while  (lengths[pc] == 0  &&  *fp == ' ');
-					pc++;
-					continue;
-				}
-			putit2:
-				putchar(*fp);
-				fp++;
-			}
-			putchar('\n');
-		}
-	}
+        if  (ulines)  {
+                for  (up = ul;  up < ep;  up++)  {
+                        fp = formatstring;
+                        pc = 0;
+                        while  (*fp)  {
+                                if  (*fp == '%')  {
+                                        if  (!*++fp)
+                                                break;
+                                        bigbuff[0] = '\0'; /* Zap last thing */
+                                        if  (islower(*fp)  &&  lowertab[*fp - 'a'].fmt_fn)
+                                                lng = (lowertab[*fp - 'a'].fmt_fn)(up, (int) lengths[pc]);
+                                        else
+                                                goto  putit2;
+                                        fputs(bigbuff, stdout);
+                                        if  (pc != pieces - 1)
+                                                while  (lng < lengths[pc])  {
+                                                        putchar(' ');
+                                                        lng++;
+                                                }
+                                        do  fp++;
+                                        while  (lengths[pc] == 0  &&  *fp == ' ');
+                                        pc++;
+                                        continue;
+                                }
+                        putit2:
+                                putchar(*fp);
+                                fp++;
+                        }
+                        putchar('\n');
+                }
+        }
 }
 
 OPTION(o_explain)
 {
-	print_error($E{spulist options});
-	exit(0);
+        print_error($E{spulist options});
+        exit(0);
 }
 
 #include "inline/o_usort.c"
@@ -426,168 +423,168 @@ OPTION(o_explain)
 
 OPTION(o_defline)
 {
-	defline = 1;
-	return  OPTRESULT_OK;
+        defline = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_nodefline)
 {
-	defline = 0;
-	return  OPTRESULT_OK;
+        defline = 0;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_ulines)
 {
-	ulines = 1;
-	return  OPTRESULT_OK;
+        ulines = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_noulines)
 {
-	ulines = 0;
-	return  OPTRESULT_OK;
+        ulines = 0;
+        return  OPTRESULT_OK;
 }
 
 /* Defaults and proc table for arg interp.  */
 
-static	const	Argdefault  Adefs[] = {
-	{  '?', $A{spulist explain}	},
-	{  'u', $A{spulist sort user}	},
-	{  'n', $A{spulist sort uid}	},
-	{  'd', $A{spulist default line}},
-	{  's', $A{spulist no default line}},
-	{  'U', $A{spulist user lines}},
-	{  'S', $A{spulist no user lines}},
-	{  'F', $A{spulist format}	},
-	{  'D', $A{spulist default format}},
-	{  'H', $A{spulist header}	},
-	{  'N', $A{spulist no header}	},
-	{ 0, 0 }
+static  const   Argdefault  Adefs[] = {
+        {  '?', $A{spulist explain}     },
+        {  'u', $A{spulist sort user}   },
+        {  'n', $A{spulist sort uid}    },
+        {  'd', $A{spulist default line}},
+        {  's', $A{spulist no default line}},
+        {  'U', $A{spulist user lines}},
+        {  'S', $A{spulist no user lines}},
+        {  'F', $A{spulist format}      },
+        {  'D', $A{spulist default format}},
+        {  'H', $A{spulist header}      },
+        {  'N', $A{spulist no header}   },
+        { 0, 0 }
 };
 
 optparam  optprocs[] = {
-o_explain,	o_usort,	o_nsort,	o_defline,
-o_nodefline,	o_ulines,	o_noulines,	o_formatstr,
-o_formatdflt,	o_header,	o_noheader,
-o_freezecd,	o_freezehd
+o_explain,      o_usort,        o_nsort,        o_defline,
+o_nodefline,    o_ulines,       o_noulines,     o_formatstr,
+o_formatdflt,   o_header,       o_noheader,
+o_freezecd,     o_freezehd
 };
 
 void  spit_options(FILE *dest, const char *name)
 {
-	int	cancont = 0;
-	fprintf(dest, "%s", name);
-	cancont = spitoption(alphsort == SORT_USER?
-			  $A{spulist sort user}:
-			  $A{spulist sort uid},
-			  $A{spulist explain}, dest, '=', cancont);
-	cancont = spitoption(headerflag? $A{spulist header}:
-			     $A{spulist no header},
-			     $A{spulist explain}, dest, ' ', cancont);
-	cancont = spitoption(defline? $A{spulist default line}:
-			     $A{spulist no default line},
-			     $A{spulist explain}, dest, ' ', cancont);
-	cancont = spitoption(ulines? $A{spulist user lines}:
-			     $A{spulist no user lines},
-			     $A{spulist explain}, dest, ' ', cancont);
-	if  (formatstring)  {
-		spitoption($A{spulist format}, $A{spulist explain}, dest, ' ', 0);
-		fprintf(dest, " \"%s\"", formatstring);
-		cancont = 0;
-	}
-	else
-		cancont = spitoption($A{spulist default format}, $A{spulist explain}, dest, ' ', cancont);
-	putc('\n', dest);
+        int     cancont = 0;
+        fprintf(dest, "%s", name);
+        cancont = spitoption(alphsort == SORT_USER?
+                          $A{spulist sort user}:
+                          $A{spulist sort uid},
+                          $A{spulist explain}, dest, '=', cancont);
+        cancont = spitoption(headerflag? $A{spulist header}:
+                             $A{spulist no header},
+                             $A{spulist explain}, dest, ' ', cancont);
+        cancont = spitoption(defline? $A{spulist default line}:
+                             $A{spulist no default line},
+                             $A{spulist explain}, dest, ' ', cancont);
+        cancont = spitoption(ulines? $A{spulist user lines}:
+                             $A{spulist no user lines},
+                             $A{spulist explain}, dest, ' ', cancont);
+        if  (formatstring)  {
+                spitoption($A{spulist format}, $A{spulist explain}, dest, ' ', 0);
+                fprintf(dest, " \"%s\"", formatstring);
+                cancont = 0;
+        }
+        else
+                cancont = spitoption($A{spulist default format}, $A{spulist explain}, dest, ' ', cancont);
+        putc('\n', dest);
 }
 
-static	int  sort_u(struct spdet *a, struct spdet *b)
+static  int  sort_u(struct spdet *a, struct spdet *b)
 {
-	return  strcmp(prin_uname((uid_t) a->spu_user), prin_uname((uid_t) b->spu_user));
+        return  strcmp(prin_uname((uid_t) a->spu_user), prin_uname((uid_t) b->spu_user));
 }
 
-MAINFN_TYPE	main(int argc, char **argv)
+MAINFN_TYPE     main(int argc, char **argv)
 {
-#if	defined(NHONSUID) || defined(DEBUG)
-	int_ugid_t	chk_uid;
+#if     defined(NHONSUID) || defined(DEBUG)
+        int_ugid_t      chk_uid;
 #endif
-	struct	spdet	*mypriv, *ulist = (struct spdet *) 0;
-	unsigned	pn, nusers = 0;
+        struct  spdet   *mypriv, *ulist = (struct spdet *) 0;
+        unsigned        pn, nusers = 0;
 
-	versionprint(argv, "$Revision: 1.2 $", 0);
+        versionprint(argv, "$Revision: 1.9 $", 0);
 
-	if  ((progname = strrchr(argv[0], '/')))
-		progname++;
-	else
-		progname = argv[0];
-	init_mcfile();
+        if  ((progname = strrchr(argv[0], '/')))
+                progname++;
+        else
+                progname = argv[0];
+        init_mcfile();
 
-	Realuid = getuid();
-	Effuid = geteuid();
-	INIT_DAEMUID;
-	Cfile = open_cfile(MISC_UCONFIG, "rest.help");
-	SCRAMBLID_CHECK
-	argv = optprocess(argv, Adefs, optprocs, $A{spulist explain}, $A{spulist freeze home}, 0);
-	SWAP_TO(Daemuid);
+        Realuid = getuid();
+        Effuid = geteuid();
+        INIT_DAEMUID;
+        Cfile = open_cfile(MISC_UCONFIG, "rest.help");
+        SCRAMBLID_CHECK
+        argv = optprocess(argv, Adefs, optprocs, $A{spulist explain}, $A{spulist freeze home}, 0);
+        SWAP_TO(Daemuid);
 
-	if  (!(defline || ulines))  {
-		print_error($E{spulist nothing to do});
-		exit(E_USAGE);
-	}
-	defaultname = gprompt($P{Spulist default name});
-	allname = gprompt($P{Spulist all name});
+        if  (!(defline || ulines))  {
+                print_error($E{spulist nothing to do});
+                exit(E_USAGE);
+        }
+        defaultname = gprompt($P{Spulist default name});
+        allname = gprompt($P{Spulist all name});
 
-	for  (pn = 0;  pn < NUM_PRIVS;  pn++)
-		privnames[pn] = gprompt($P{Priv adm} + pn);
+        for  (pn = 0;  pn < NUM_PRIVS;  pn++)
+                privnames[pn] = gprompt($P{Priv adm} + pn);
 
-	mypriv = getspuentry(Realuid);
+        mypriv = getspuentry(Realuid);
 
 #include "inline/freezecode.c"
-	if  (freeze_wanted)
-		exit(0);
-	if  (!(mypriv->spu_flgs & PV_ADMIN))  {
-		print_error($E{shell no admin file priv});
-		exit(E_NOPRIV);
-	}
-	if  (ulines)  {
-		if  (*argv)  {
-			char  **av = argv;
-			struct  spdet  *up;
-			nusers = 1;
-			while  (*++av)
-				nusers++;
-			ulist = (struct spdet *) malloc(nusers * sizeof(struct spdet));
-			if  (!ulist)
-				nomem();
-			up = ulist;
-			for  (av = argv;  *av;  av++)  {
-				char  *uname = *av;
-				int_ugid_t  uid;
-				if  (isdigit(uname[0]))
-					uid = atoi(uname);
-				else  if  ((uid = lookup_uname(uname)) == UNKNOWN_UID)  {
-					nusers--;
-					disp_str = uname;
-					print_error($E{Unknown user name ignored});
-					continue;
-				}
-				/* Get spuentry always returns something these days */
-				*up++ = *getspuentry(uid);
-			}
-		}
-		else  {
-			ulist = getspulist();
-			nusers = Npwusers;
-		}
-		if  (alphsort == SORT_USER)
-			qsort(QSORTP1 ulist, nusers, sizeof(struct spdet), QSORTP4 sort_u);
+        if  (freeze_wanted)
+                exit(0);
+        if  (!(mypriv->spu_flgs & PV_ADMIN))  {
+                print_error($E{shell no admin file priv});
+                exit(E_NOPRIV);
+        }
+        if  (ulines)  {
+                if  (*argv)  {
+                        char  **av = argv;
+                        struct  spdet  *up;
+                        nusers = 1;
+                        while  (*++av)
+                                nusers++;
+                        ulist = (struct spdet *) malloc(nusers * sizeof(struct spdet));
+                        if  (!ulist)
+                                nomem();
+                        up = ulist;
+                        for  (av = argv;  *av;  av++)  {
+                                char  *uname = *av;
+                                int_ugid_t  uid;
+                                if  (isdigit(uname[0]))
+                                        uid = atoi(uname);
+                                else  if  ((uid = lookup_uname(uname)) == UNKNOWN_UID)  {
+                                        nusers--;
+                                        disp_str = uname;
+                                        print_error($E{Unknown user name ignored});
+                                        continue;
+                                }
+                                /* Get spuentry always returns something these days */
+                                *up++ = *getspuentry(uid);
+                        }
+                }
+                else  {
+                        ulist = getspulist();
+                        nusers = Npwusers;
+                }
+                if  (alphsort == SORT_USER)
+                        qsort(QSORTP1 ulist, nusers, sizeof(struct spdet), QSORTP4 sort_u);
 
-	}
-	else  if  (!*argv)  {
-		print_error($E{Unexpected arguments follow defaults});
-		return  E_USAGE;
-	}
+        }
+        else  if  (*argv)  {
+                print_error($E{Unexpected arguments follow defaults});
+                return  E_USAGE;
+        }
 
-	if  (!formatstring)
-		formatstring = sdefaultfmt;
-	udisplay(ulist, nusers);
-	exit(0);
+        if  (!formatstring)
+                formatstring = sdefaultfmt;
+        udisplay(ulist, nusers);
+        exit(0);
 }

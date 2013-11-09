@@ -15,11 +15,11 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static fmt_t	fmt_class(const struct spq *jp, const int fwidth)
+static fmt_t    fmt_class(const struct spq *jp, const int fwidth)
 {
-#ifdef	INLINE_SQLIST
-	return  (fmt_t) strlen(strcpy(bigbuff, hex_disp(jp->spq_class, 0)));
+#ifdef  INLINE_SQLIST
+        return  (fmt_t) strlen(strcpy(bigbuff, hex_disp(jp->spq_class, 0)));
 #else
-	return  (fmt_t) strlen(strcpy(bigbuff, hex_disp(jp->spq_class, 1)));
+        return  (fmt_t) strlen(strcpy(bigbuff, hex_disp(jp->spq_class, 1)));
 #endif
 }

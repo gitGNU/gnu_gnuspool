@@ -17,10 +17,10 @@
 
 OPTION(o_justq)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	if  (Displayopts.opt_restrp)
-		free(Displayopts.opt_restrp);
-	Displayopts.opt_restrp = (arg[0] && (arg[0] != '-' || arg[1]))? stracpy(arg): (char *) 0;
-	return  OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        if  (Displayopts.opt_restrp)
+                free(Displayopts.opt_restrp);
+        Displayopts.opt_restrp = (arg[0] && (arg[0] != '-' || arg[1]))? stracpy(arg): (char *) 0;
+        return  OPTRESULT_ARG_OK;
 }

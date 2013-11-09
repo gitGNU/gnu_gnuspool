@@ -15,15 +15,15 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_na(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_na(const struct spptr *pp, const int fwidth)
 {
-	if  (pp->spp_dflags & SPP_REQALIGN)  {
-#ifdef	INLINE_SPLIST
-		static	char	*namsg;
-		if  (!namsg)
-			namsg = gprompt($P{Printer not aligned});
+        if  (pp->spp_dflags & SPP_REQALIGN)  {
+#ifdef  INLINE_SPLIST
+                static  char    *namsg;
+                if  (!namsg)
+                        namsg = gprompt($P{Printer not aligned});
 #endif
-		return  (fmt_t) strlen(strcpy(bigbuff, namsg));
-	}
-	return  0;
+                return  (fmt_t) strlen(strcpy(bigbuff, namsg));
+        }
+        return  0;
 }

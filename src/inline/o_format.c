@@ -17,31 +17,31 @@
 
 OPTION(o_formatstr)
 {
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
-	if  (formatstring)
-		free(formatstring);
-	formatstring = stracpy(arg);
-	return  OPTRESULT_ARG_OK;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
+        if  (formatstring)
+                free(formatstring);
+        formatstring = stracpy(arg);
+        return  OPTRESULT_ARG_OK;
 }
 
 OPTION(o_formatdflt)
 {
-	if  (formatstring)  {
-		free(formatstring);
-		formatstring = (char *) 0;
-	}
-	return  OPTRESULT_OK;
+        if  (formatstring)  {
+                free(formatstring);
+                formatstring = (char *) 0;
+        }
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_header)
 {
-	headerflag = 1;
-	return	OPTRESULT_OK;
+        headerflag = 1;
+        return  OPTRESULT_OK;
 }
 
 OPTION(o_noheader)
 {
-	headerflag = 0;
-	return	OPTRESULT_OK;
+        headerflag = 0;
+        return  OPTRESULT_OK;
 }

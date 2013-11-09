@@ -17,35 +17,21 @@
 
 static fmt_t fmt_jobno(const struct spq *jp, const int fwidth)
 {
-#ifdef	INLINE_SQLIST
-#ifdef	CHARSPRINTF
-	if  (jp->spq_netid)
-		sprintf(bigbuff, "%s:%.*ld", look_host(jp->spq_netid), jno_width, (long) jp->spq_job);
-	else
-		sprintf(bigbuff, "%.*ld", jno_width, (long) jp->spq_job);
-	return  (fmt_t) strlen(bigbuff);
+#ifdef  INLINE_SQLIST
+        /* Sqlist case we zero-fill */
+#ifdef  CHARSPRINTF
+        if  (jp->spq_netid)
+                sprintf(bigbuff, "%s:%.*ld", look_host(jp->spq_netid), jno_width, (long) jp->spq_job);
+        else
+                sprintf(bigbuff, "%.*ld", jno_width, (long) jp->spq_job);
+        return  (fmt_t) strlen(bigbuff);
 #else
-	if  (jp->spq_netid)
-		return  (fmt_t) sprintf(bigbuff, "%s:%.*ld", look_host(jp->spq_netid), (int) jno_width, (long) jp->spq_job);
-	else
-		return  (fmt_t) sprintf(bigbuff, "%.*ld", (int) jno_width, (long) jp->spq_job);
+        if  (jp->spq_netid)
+                return  (fmt_t) sprintf(bigbuff, "%s:%.*ld", look_host(jp->spq_netid), (int) jno_width, (long) jp->spq_job);
+        else
+                return  (fmt_t) sprintf(bigbuff, "%.*ld", (int) jno_width, (long) jp->spq_job);
 #endif
 #else  /* ! INLINE_SQLIST */
-	if  (jp->spq_netid)  {
-		char	fbuf[HOSTNSIZE+30];
-		sprintf(fbuf, "%s:%ld", look_host(jp->spq_netid), (long) jp->spq_job);
-#ifdef	CHARSPRINTF
-		sprintf(bigbuff, "%*s", fwidth, fbuf);
-		return  (fmt_t) strlen(bigbuff);
-#else
-		return  (fmt_t) sprintf(bigbuff, "%*s", fwidth, fbuf);
-#endif
-	}
-	else
-#ifdef	CHARSPRINTF
-		sprintf(bigbuff, "%*ld", fwidth, (long) jp->spq_job);
-#else
-		return  (fmt_t) sprintf(bigbuff, "%*ld", fwidth, (long) jp->spq_job);
-#endif
+        return  (fmt_t) strlen(strcpy(bigbuff, JOB_NUMBER(jp)));
 #endif
 }

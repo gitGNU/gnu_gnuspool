@@ -15,10 +15,10 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#define	SV_CL_DATA		0	/* Data from server */
-#define	CL_SV_OK		0	/* Data ok */
-#define	CL_SV_OFFLINE		1	/* Device is offline */
-#define	CL_SV_ERROR		2	/* Device is error-bound */
+#define SV_CL_DATA              0       /* Data from server */
+#define CL_SV_OK                0       /* Data ok */
+#define CL_SV_OFFLINE           1       /* Device is offline */
+#define CL_SV_ERROR             2       /* Device is error-bound */
 
-#define	SV_CL_BUFFSIZE		256
-#define	SV_CL_MSGBUFF		1024		/* Buffer for spwrite-type messages */
+#define SV_CL_BUFFSIZE          256
+#define SV_CL_MSGBUFF           1024            /* Buffer for spwrite-type messages */

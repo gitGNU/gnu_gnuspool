@@ -15,9 +15,9 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_shriek(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_shriek(const struct spptr *pp, const int fwidth)
 {
-	if  (pp->spp_dflags)
-		return  (fmt_t) strlen(strcpy(bigbuff, pp->spp_dflags & SPP_HADAB? intermsg: namsg));
-	return  0;
+        if  (pp->spp_dflags)
+                return  (fmt_t) strlen(strcpy(bigbuff, pp->spp_dflags & SPP_HADAB? intermsg: namsg));
+        return  0;
 }

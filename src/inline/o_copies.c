@@ -17,30 +17,30 @@
 
 OPTION(o_copies)
 {
-	int	num;
+        int     num;
 
-	if  (!arg)
-		return  OPTRESULT_MISSARG;
+        if  (!arg)
+                return  OPTRESULT_MISSARG;
 
-	num = atoi(arg);
-	if  (num < 0 || num > 255)  {
-		disp_arg[3] = 255;
-		disp_arg[1] = num;
-		disp_arg[2] = 0;
-		print_error($E{Bad arg copies});
-		exit(E_USAGE);
-	}
+        num = atoi(arg);
+        if  (num < 0 || num > 255)  {
+                disp_arg[3] = 255;
+                disp_arg[1] = num;
+                disp_arg[2] = 0;
+                print_error($E{Bad arg copies});
+                exit(E_USAGE);
+        }
 
-#ifdef	INLINE_SQCHANGE
-	if  (!(mypriv->spu_flgs & PV_ANYPRIO)  &&  num > (int) mypriv->spu_cps)  {
-		disp_arg[0] = num;
-		disp_arg[1] = mypriv->spu_cps;
-		print_error($E{Invalid copies});
-		exit(E_BADCPS);
-	}
-	doing_something++;
-	cps_changes++;
+#ifdef  INLINE_SQCHANGE
+        if  (!(mypriv->spu_flgs & PV_ANYPRIO)  &&  num > (int) mypriv->spu_cps)  {
+                disp_arg[0] = num;
+                disp_arg[1] = mypriv->spu_cps;
+                print_error($E{Invalid copies});
+                exit(E_BADCPS);
+        }
+        doing_something++;
+        cps_changes++;
 #endif
-	SPQ.spq_cps = (unsigned char) num;
-	return  OPTRESULT_ARG_OK;
+        SPQ.spq_cps = (unsigned char) num;
+        return  OPTRESULT_ARG_OK;
 }

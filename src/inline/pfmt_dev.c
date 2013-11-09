@@ -15,19 +15,19 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-static  fmt_t	fmt_device(const struct spptr *pp, const int fwidth)
+static  fmt_t   fmt_device(const struct spptr *pp, const int fwidth)
 {
-	if  (pp->spp_netflags & SPP_LOCALNET)  {
-#ifdef	INLINE_SPLIST
-		static	char	*nsmsg, *nemsg;
-		if  (!nsmsg)  {
-			nsmsg = gprompt($P{Netdev start str});
-			nemsg = gprompt($P{Netdev end str});
-		}
+        if  (pp->spp_netflags & SPP_LOCALNET)  {
+#ifdef  INLINE_SPLIST
+                static  char    *nsmsg, *nemsg;
+                if  (!nsmsg)  {
+                        nsmsg = gprompt($P{Netdev start str});
+                        nemsg = gprompt($P{Netdev end str});
+                }
 #endif
-		sprintf(bigbuff, "%s%s%s", nsmsg, pp->spp_dev, nemsg);
-	}
-	else
-		strcpy(bigbuff, pp->spp_dev);
-	return  (fmt_t) strlen(bigbuff);
+                sprintf(bigbuff, "%s%s%s", nsmsg, pp->spp_dev, nemsg);
+        }
+        else
+                strcpy(bigbuff, pp->spp_dev);
+        return  (fmt_t) strlen(bigbuff);
 }

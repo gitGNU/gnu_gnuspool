@@ -25,7 +25,7 @@
 extern int	gspool_read(const int, char *, unsigned);
 extern int	gspool_rmsg(const struct api_fd *, struct api_msg *);
 extern int	gspool_wmsg(const struct api_fd *, struct api_msg *);
-extern struct	api_fd *	gspool_look_fd(const int);
+extern struct	api_fd *gspool_look_fd(const int);
 
 int	gspool_getspu(const int fd, const char *username, struct apispdet *res)
 {
@@ -36,9 +36,11 @@ int	gspool_getspu(const int fd, const char *username, struct apispdet *res)
 
 	if  (!fdp)
 		return  GSPOOL_INVALID_FD;
+	/* We now just pass a bufferfull of nulls to mean the current user */
+	BLOCK_ZERO(&msg, sizeof(msg));
 	msg.code = API_GETSPU;
-	strncpy(msg.un.us.username, username? username: fdp->username, UIDSIZE);
-	msg.un.us.username[UIDSIZE] = '\0';
+	if  (username  &&  username[0])
+		strncpy(msg.un.us.username, username, UIDSIZE);
 	if  ((ret = gspool_wmsg(fdp, &msg)))
 		return  ret;
 	if  ((ret = gspool_rmsg(fdp, &msg)))

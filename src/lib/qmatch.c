@@ -25,70 +25,70 @@ extern char *match_comma(char *);
 
 static int  ematch(char *pattern, const char *value)
 {
-	int	cnt;
+        int     cnt;
 
-	for  (;;)  {
+        for  (;;)  {
 
-		switch  (*pattern)  {
-		case  '\0':
-			if  (*value == '\0')
-				return  1;
-			return  0;
+                switch  (*pattern)  {
+                case  '\0':
+                        if  (*value == '\0')
+                                return  1;
+                        return  0;
 
-		default:
-			if  (*pattern != *value  &&
-			     (!(isalpha(*pattern) && isalpha(*value)) ||  toupper(*pattern) != toupper(*value)))
-				return  0;
-			pattern++;
-			value++;
-			continue;
+                default:
+                        if  (*pattern != *value  &&
+                             (!(isalpha(*pattern) && isalpha(*value)) ||  toupper(*pattern) != toupper(*value)))
+                                return  0;
+                        pattern++;
+                        value++;
+                        continue;
 
-		case  '?':
-			if  (*value == '\0')
-				return  0;
-			pattern++;
-			value++;
-			continue;
+                case  '?':
+                        if  (*value == '\0')
+                                return  0;
+                        pattern++;
+                        value++;
+                        continue;
 
-		case  '*':
-			pattern++;
-			for  (cnt = strlen(value); cnt >= 0;  cnt--)
-				if  (ematch(pattern, value+cnt))
-					return  1;
-			return  0;
+                case  '*':
+                        pattern++;
+                        for  (cnt = strlen(value); cnt >= 0;  cnt--)
+                                if  (ematch(pattern, value+cnt))
+                                        return  1;
+                        return  0;
 
-		case  '[':
-			if  (*value == '\0')
-				return  0;
-			if  (!isinrange(*value, pattern, &cnt))
-				return  0;
-			value++;
-			pattern += cnt;
-			continue;
-		}
-	}
+                case  '[':
+                        if  (*value == '\0')
+                                return  0;
+                        if  (!isinrange(*value, pattern, &cnt))
+                                return  0;
+                        value++;
+                        pattern += cnt;
+                        continue;
+                }
+        }
 }
 
 int  qmatch(char *pattern, const char *value)
 {
-	int	res;
-	char	*cp;
+        int     res;
+        char    *cp;
 
-	do  {
-		cp = match_comma(pattern);
-		if  (cp)  {
-			*cp = '\0';
-			res = ematch(pattern, value);
-			*cp = ',';
-			pattern = cp + 1;
-		}
-		else
-			res = ematch(pattern, value);
-		if  (res)
-			return  1;
-	}  while  (cp);
+        do  {
+                cp = match_comma(pattern);
+                if  (cp)  {
+                        *cp = '\0';
+                        res = ematch(pattern, value);
+                        *cp = ',';
+                        pattern = cp + 1;
+                }
+                else
+                        res = ematch(pattern, value);
+                if  (res)
+                        return  1;
+        }  while  (cp);
 
-	/* Not found...  */
+        /* Not found...  */
 
-	return  0;
+        return  0;
 }
