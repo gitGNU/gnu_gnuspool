@@ -71,7 +71,7 @@ if Have_argparse:
     parser.add_argument('-p', '--printer-name', help='Printer to create/delete')
     parser.add_argument('-D', '--delete-printer', action='store_true', help='Delete the printer')
     parser.add_argument('-C', '--clone-from', help='Clone unspecified attributes from this printer')
-    parser.add_argument('-q', '--queue-name', help='Xi-Text Queue name to use')
+    parser.add_argument('-q', '--queue-name', help='GNUspool Queue name to use')
     parser.add_argument('-i', '--information', help='Information for new printer')
     parser.add_argument('-f', '--form-type', help='Form type for new printer')
     parser.add_argument('-n', '--no-check', action='store_true', help='Turn off checks')
@@ -96,14 +96,14 @@ if Have_argparse:
 else:
 
     # Here is optparse version of argument parsing needed for Python 2.6 or earlier
-    
+
     parser = optparse.OptionParser("%prog [options]", version="%prog 1.0 (c) Xi Software Ltd")
     parser.add_option('-c', '--configfile', action='store', type='string', dest='configfile', default='cupspy.conf', metavar="FILE", help='Configuration file')
     parser.add_option('-o', '--output-file', action='store', type='string', dest='output_file', metavar="FILE", help='Config file to output to if not source file')
     parser.add_option('-p', '--printer-name', action='store', type='string', dest='printer_name', metavar="NAME", help='Printer to create/delete')
     parser.add_option('-D', '--delete-printer', action='store_true', dest='delete_printer', default=False, help='Delete the printer')
     parser.add_option('-C', '--clone-from', action='store', type='string', dest='clone_from', metavar="NAME", help='Clone unspecified attributes from this printer')
-    parser.add_option('-q', '--queue-name', action='store', type='string', dest='queue_name', metavar="NAME", help='Xi-Text Queue name to use')
+    parser.add_option('-q', '--queue-name', action='store', type='string', dest='queue_name', metavar="NAME", help='GNUspool Queue name to use')
     parser.add_option('-i', '--information', action='store', type='string', dest='information', metavar="DESCRIPTION", help='Information for new printer')
     parser.add_option('-f', '--form-type', action='store', type='string', dest='form_type', metavar='FORM', help='Form type for new printer')
     parser.add_option('-n', '--no-check', action='store_true', dest='no_check', default=False, help='Turn off checks')
@@ -129,49 +129,49 @@ else:
 if not os.path.exists(confin) and not os.path.isabs(confin):
     prog = sys.argv[0]
     if os.path.isabs(prog):
-	try:
-	    os.chdir(os.path.dirname(prog))
-	except OSError:
-	    exit_msg("Cannot change to directory of " + prog, 11)
+        try:
+            os.chdir(os.path.dirname(prog))
+        except OSError:
+            exit_msg("Cannot change to directory of " + prog, 11)
 
 if initialising:
     if cloning is not None or deleting:
-	exit_msg("Confused about action - initialise + other op?", 2)
+        exit_msg("Confused about action - initialise + other op?", 2)
     if confout is None: confout = confin
     if not nocheck and os.path.exists(confout):
-	exit_msg("Will not overwrite existing " + confout, 23)
+        exit_msg("Will not overwrite existing " + confout, 23)
     try:
-	configuration = conf.Conf()
-	configuration.setup_defaults()
-	configuration.write_config(confout)
-	sys.exit(0)
+        configuration = conf.Conf()
+        configuration.setup_defaults()
+        configuration.write_config(confout)
+        sys.exit(0)
     except conf.ConfError as err:
-	sys.exit(err.args[0], err.args[1])
+        sys.exit(err.args[0], err.args[1])
 
 if cloning is not None and deleting:
     exit_msg("Confused about action - clone + delete?", 2)
 
 if cupsptr is None:
     if gs_q is None or not deleting:
-	exit_msg("Must give printer name", 1)
+        exit_msg("Must give printer name", 1)
 
-# If no Xi-Text printer name given, error, unless we are just setting the default
+# If no GNUspool printer name given, error, unless we are just setting the default
 
 if gs_q is None:
     if setdef:
-	if confout is None: confout = confin
-	configuration = conf.Conf()
-	try:
-	    configuration.parse_conf_file(confin, False)
-	    configuration.set_default_printer(cupsptr)
-	    configuration.write_config(confout)
-	    sys.exit(0)
-	except conf.ConfError as err:
-	    exit_msg(err.args[0], err.args[1])
+        if confout is None: confout = confin
+        configuration = conf.Conf()
+        try:
+            configuration.parse_conf_file(confin, False)
+            configuration.set_default_printer(cupsptr)
+            configuration.write_config(confout)
+            sys.exit(0)
+        except conf.ConfError as err:
+            exit_msg(err.args[0], err.args[1])
     elif not deleting:
-	exit_msg("Must give queue name", 1)
+        exit_msg("Must give queue name", 1)
 
-# Get ourselves a list of existing printers that Xi-Text knows about.
+# Get ourselves a list of existing printers that GNUspool knows about.
 
 plist = []
 pdict = dict()
@@ -185,7 +185,7 @@ try:
         pdict[pp.ptr] = pp
     ecode = pl.wait()
     if ecode != 0:
-	exit_msg("Warning: splist exited with non-zero exit code " + str(ecode), 102)
+        exit_msg("Warning: splist exited with non-zero exit code " + str(ecode), 102)
 except OSError:
     exit_msg("***Warning: could not run splist", 101)
 
@@ -199,31 +199,33 @@ if cloning is None:
     # specify, don't ask stupid questions
 
     if gs_q is None:
-        if not deleting and len(plist) != 1: exit_msg("No Xi-Text print queue specified", 3)
+        if not deleting and len(plist) != 1: exit_msg("No GNUspool print queue specified", 3)
         gs_q = plist[0].ptr
 
-    # If we don't have info but we can get it from description here, get it
+    if not deleting:
 
-    if info is None:
-        if gs_q not in pdict: exit_msg("No printer information given", 4)
-        info = pdict[gs_q].comment
+        # If we don't have info but we can get it from description here, get it
 
-    # If form isn't given try to get it from printer
+        if info is None:
+            if gs_q not in pdict: exit_msg("No printer information given", 4)
+            info = pdict[gs_q].comment
 
-    if form is None:
-        if gs_q not in pdict: exit_msg("No Xi-Text form type given", 5)
-        form = pdict[gs_q].form
-        m = re.search('(.*?)\..*', form)
-        if m:
-            paper = m.group(1)
-        else:
-            paper = form
-        form = paper + '.ps'
+            # If form isn't given try to get it from printer
+
+        if form is None:
+            if gs_q not in pdict: exit_msg("No GNUspool form type given", 5)
+            form = pdict[gs_q].form
+            m = re.search('(.*?)\..*', form)
+            if m:
+                paper = m.group(1)
+            else:
+                paper = form
+            form = paper + '.ps'
 
 # Protest if the specified printer name is unknown
 
 if not deleting and not nocheck and gs_q is not None and gs_q not in pdict:
-    exit_msg("Unknown Xi-Text printer " + gs_q, 5)
+    exit_msg("Unknown GNUspool printer " + gs_q, 5)
 
 # If there isn't a config file already it is a mistake to clone or delete
 
@@ -231,21 +233,21 @@ configuration = conf.Conf()
 
 if os.path.exists(confin):
     if not os.path.isfile(confin):
-	exit_msg("***Warning:" + conffile + ' exists but is not a file', 10)
+        exit_msg("***Warning:" + conffile + ' exists but is not a file', 10)
 
     # Now parse the thing, bombing with appropriate errors if not parseable
 
     try:
         configuration.parse_conf_file(confin, False)
     except conf.ConfError as err:
-	exit_msg(err.args[0], err.args[1])
+        exit_msg(err.args[0], err.args[1])
 
 else:
 
     # Case were there is no config file
 
     if cloning is not None or deleting:
-	exit_msg("No config file " + confin + " to operate on", 6)
+        exit_msg("No config file " + confin + " to operate on", 6)
     if confout is None: confout = confin
 
     # Initialise the default settings
@@ -256,18 +258,18 @@ else:
 
 try:
     if deleting:
-	# Deleting case - either CUPSPY printer or specify Xi-Text printer
-	# to delete all CUPSPY ones using it.
-	if cupsptr is not None:
-	    configuration.del_printer(cupsptr)
-	else:
-	    plist = configuration.list_printers()
-	    dlist = []
-	    for p in plist:
-		if configuration.get_param_value(p, 'gsprinter') == gs_q:
-		    dlist.append(p)
-	    for p in dlist:
-		configuration.del_printer(p)
+        # Deleting case - either CUPSPY printer or specify GNUspool printer
+        # to delete all CUPSPY ones using it.
+        if cupsptr is not None:
+            configuration.del_printer(cupsptr)
+        else:
+            plist = configuration.list_printers()
+            dlist = []
+            for p in plist:
+                if configuration.get_param_value(p, 'gsprinter') == gs_q:
+                    dlist.append(p)
+            for p in dlist:
+                configuration.del_printer(p)
         if configuration.default_printer() == "":
             pl = configuration.list_printers()
             if len(pl) != 0:

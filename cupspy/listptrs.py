@@ -9,7 +9,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
@@ -46,7 +46,7 @@ if Have_argparse:
     parser = argparse.ArgumentParser(description='List cupspy printers', prog='List_printers')
     parser.add_argument('--version', action='version', version="%(prog)s 1.0 (c) Xi Software Ltd")
     parser.add_argument('-c', '--configfile', default='cupspy.conf', help='Configuration file')
-    parser.add_argument('-q', '--queue-name', help='Xi-Text Queue name to restrict view for')
+    parser.add_argument('-q', '--queue-name', help='GNUspool Queue name to restrict view for')
     parser.add_argument('-s', '--separator', help='Separator string between columns')
     parser.add_argument('-t', '--tabulate', action='store_true', help='Left-justify columns')
     adict = vars(parser.parse_args())
@@ -61,7 +61,7 @@ else:
 
     parser = optparse.OptionParser("%prog [options]", version='%prog 1.0 (c) Xi Software Ltd')
     parser.add_option('-c', '--configfile', action='store', type='string', dest='configfile', default='cupspy.conf', metavar='FILE', help='Configuration file')
-    parser.add_option('-q', '--queue-name', action='store', type='string', dest='queue_name', metavar='NAME', help='Xi-Text Queue name to restrict view for')
+    parser.add_option('-q', '--queue-name', action='store', type='string', dest='queue_name', metavar='NAME', help='GNUspool Queue name to restrict view for')
     parser.add_option('-s', '--separator', action='store', type='string', dest='separator', metavar='STRING', help='Separator string between columns')
     parser.add_option('-t', '--tabulate', action='store_true', dest='tabulate', default=False, help='Left-justify columns')
     (options, args) = parser.parse_args()
@@ -75,12 +75,12 @@ else:
 if not os.path.exists(confin) and not os.path.isabs(confin):
     prog = sys.argv[0]
     if os.path.isabs(prog):
-	try:
-	    os.chdir(os.path.dirname(prog))
-	except OSError:
-	    sys.stdout = sys.stderr
-	    print "Cannot change to directory of " + prog
-	    sys.exit(11)
+        try:
+            os.chdir(os.path.dirname(prog))
+        except OSError:
+            sys.stdout = sys.stderr
+            print "Cannot change to directory of " + prog
+            sys.exit(11)
 
 configuration = conf.Conf()
 try:
@@ -105,7 +105,7 @@ try:
 except conf.ConfError as err:
     # Specific case of no printers at all - just exit
     if err.args[1] == 150:
-	sys.exit(0)
+        sys.exit(0)
     sys.stdout = sys.stderr
     print err.args[0]
     sys.exit(err.args[1])

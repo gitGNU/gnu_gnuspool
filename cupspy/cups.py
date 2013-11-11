@@ -69,8 +69,8 @@ class pend_job:
     """Hold details of pending job"""
 
     def __init__(self, p, u, t, c):
-	global Pending_jobs
-	self.jobnum = get_next_jobid()
+        global Pending_jobs
+        self.jobnum = get_next_jobid()
         self.pname = p
         self.uname = u
         self.title = t
@@ -101,12 +101,12 @@ try:
     # startup programs
 
     if not os.path.exists(Cfile) and not os.path.isabs(Cfile):
-	prog = sys.argv[0]
-	if os.path.isabs(prog):
-	    try:
-		os.chdir(os.path.dirname(prog))
-	    except OSError:
-		exit_msg("Cannot change to directory of " + prog, 11)
+        prog = sys.argv[0]
+        if os.path.isabs(prog):
+            try:
+                os.chdir(os.path.dirname(prog))
+            except OSError:
+                exit_msg("Cannot change to directory of " + prog, 11)
 
     # Now parse file
 
@@ -134,7 +134,7 @@ def copy_or_default(req, name, blank_def = False):
         res = val.get_value()
         if blank_def:
             res = res.strip()
-            if len(res) == 0: res = default_attr_values[name]           
+            if len(res) == 0: res = default_attr_values[name]
     else:
         res = default_attr_values[name]
     return  res
@@ -550,7 +550,7 @@ def print_job(req):
     # Get printer name
     try:
         pname = get_pname_from_uri(req)
-	uname = get_req_user_name(req)
+        uname = get_req_user_name(req)
     except CupsError as err:
         return  ipp_status(req, err.codename, err.args[0])
 
@@ -595,7 +595,7 @@ def create_job(req):
     # Get printer name
     try:
         pname = get_pname_from_uri(req)
-	uname = get_req_user_name(req)
+        uname = get_req_user_name(req)
     except CupsError as err:
         return  ipp_status(req, err.codename, err.args[0])
 
@@ -861,7 +861,7 @@ def process_post(f):
     # Actually do the business and return an IPP string (filebuf is a structure member)
 
     resp = func(ipr)
-    
+
     if  Log_level > 2:
         ipresp = ipp.ipp(filebuf.stringbuf(resp, 0))
         ipresp.parse()
@@ -965,7 +965,7 @@ def cups_server():
 
         except socket.error as msg:
             if msg.args[0] == errno.EACCES:
-		exit_msg("Cannot access socket - no permission", 10)
+                exit_msg("Cannot access socket - no permission", 10)
 
             # We may get EADDRINUSE from IPV4 if we've just set up IPV6 which we ignore
             if msg.args[0] == errno.EADDRINUSE and len(socklist) == 0 and af != socket.AF_INET:
