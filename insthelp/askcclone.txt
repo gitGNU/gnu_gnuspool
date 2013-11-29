@@ -1,0 +1,12 @@
+You might want to set up your new printer as a "clone"
+(implemented as a symbolic link) of an existing printer.
+
+This will share all the interface and emulation parameters
+of the existing printer, being distinguished only by the
+device type.
+
+Please reply Y if you want this.
+
+You can opt to "split" it into a printer in its own right
+if you want later.
+

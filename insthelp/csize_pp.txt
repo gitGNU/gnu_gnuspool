@@ -1,0 +1,5 @@
+This gives the character size for the serial interface.
+
+If your printer doesn't use either 7 or 8 bit characters it
+is probably an antique.
+

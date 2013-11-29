@@ -1,0 +1,3 @@
+This gives the main timeout for FTP
+operations in milliseconds.
+

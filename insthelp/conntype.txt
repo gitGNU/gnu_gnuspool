@@ -1,0 +1,16 @@
+This is asking for what protocol type is used to speak to the
+printer network interface.
+
+Currently we provide support for 4 types:
+
+LPD - the original LPD protocol (usually safe to use)
+Telnet - "reverse telnet" - data is just sent with no handshake
+FTP - uses FTP protocol to send data
+HPNPF - as Telnet, but checks status of printer after each block
+
+All except Telnet employ some sort of handshake so that errors can
+be detected.
+
+HPNPF protocol cab supply more information about erros like out of
+paper, paper jam etc.
+

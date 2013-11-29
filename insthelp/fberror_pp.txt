@@ -1,0 +1,9 @@
+This indicates that the last line of any error
+message from the network device should be copies to
+the status message for the printer on the job/printer
+display screens.
+
+You almost certainly want this, especially when the
+interface is clever enough to distinguish error conditions
+like "out of paper", "paper jam" etc.
+

@@ -1,0 +1,8 @@
+The display gives various options and parameters
+relating to the printer emulation.
+
+You may want to adjust some of these.
+
+If you do opt to change them, you can usually
+hit return to leave them unchanged.
+

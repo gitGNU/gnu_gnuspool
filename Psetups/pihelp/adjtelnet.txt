@@ -1,2 +1,0 @@
-To you want to adjust timeout etc parameters specifically for the
-telnet connection?

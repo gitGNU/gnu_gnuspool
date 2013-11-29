@@ -1,4 +1,0 @@
-Please specify here the printer name which the printer server
-requires your printer to be addressed at.
-
-You may have to consult the printer or server manual.

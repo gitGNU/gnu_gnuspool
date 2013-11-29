@@ -1,0 +1,5 @@
+This gives the file name for the protocol control file
+for the network command.
+
+Leave this unless you know what you are doing.
+

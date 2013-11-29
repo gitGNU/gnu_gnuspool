@@ -1,0 +1,4 @@
+Please give an appropriate description of this
+printer. This may appear on people's displays if they
+opt for this or otherwise appear in various place.
+

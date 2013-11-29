@@ -1,0 +1,2 @@
+Set this if your printer can print colour.
+

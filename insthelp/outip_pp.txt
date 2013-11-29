@@ -1,0 +1,6 @@
+This gives the host name or IP for "this machine"
+not the printer to go in the connection.
+
+Some printer interfaces are fussy about what IPs they
+accept connections from and the default is rejected.
+

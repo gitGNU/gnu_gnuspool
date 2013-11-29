@@ -1,0 +1,6 @@
+When the printer was previously installed, it used the
+displayed device.
+
+This is asking if it is OK to re-use it or whether you
+want something else.
+

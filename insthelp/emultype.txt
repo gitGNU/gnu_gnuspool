@@ -1,0 +1,21 @@
+This is asking which basic type of emulation your printer uses.
+
+We understand 6 types with various options, plus "plain" letting you
+customise the handling.
+
+Epson - Epson-style printer
+IBM - IBM proprinter
+
+Plus various combinations of PCL, Postscript and combinations
+
+PCL - PCL printer (HP LaserJet) style only
+PS - PostScipt only
+PCL/PS - alternative PCL or PS, the printer recognises which
+PJL - Printer Job Language with options to select PCL or PS
+
+If you have "Ghostscript" loaded, with the filter HPIJS, you
+can convert PostScript to PCL. This is often richer in facilities
+than just Postscript, so you may prefer this for a printer
+which can select either, or you can do it for a PCL-only printer
+and select the "use ghostscript option" on a PCL/PS printer.
+

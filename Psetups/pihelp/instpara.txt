@@ -1,4 +1,0 @@
-As you seem to have a parallel printer connected to your Linux system,
-you might want to install it.
-
-Please select "y" if you want to install it otherwise select "n".

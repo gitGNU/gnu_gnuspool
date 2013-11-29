@@ -1,0 +1,4 @@
+This gives the SNMP "community" parameter.
+
+It is usually "public".
+

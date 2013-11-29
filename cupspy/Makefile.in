@@ -23,12 +23,13 @@ BASE		=	..
 PARENT		=	..
 prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
+datarootdir	=	@datarootdir@
 CUPSPYDIR	=	$(DESTDIR)@cupspydir@
 INSTALL		=	@INSTALL@
 INSTALL_DATA	=	@INSTALL_DATA@
-MAINPROGS	=	cups.py cupspy-setup.py
-PYMODS		=	confdefault.py conf.py filebuf.py ipp.py
-CONFIGDATA	=	Default.ppd cupspy.conf
+MAINPROGS	=	cups.py cupspy-setup.py initconf.py listptrs.py
+PYMODS		=	attrib_tools.py conf.py filebuf.py ipp.py printeratts.py
+CONFIGDATA	=	Default.ppd
 STAGED_INSTALL	=	false
 
 all:	cupspy

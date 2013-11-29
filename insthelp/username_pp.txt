@@ -1,0 +1,6 @@
+This gives the username which the FTP
+interface requires.
+
+On some interfaces this may select the
+printer to be used.
+

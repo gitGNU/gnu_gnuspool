@@ -1,0 +1,11 @@
+If headers are being printed, this parameter indicates
+that every copy should have its own header page.
+
+Without it, copies printed successively will just have
+one header page.
+
+All copies of a job are not necessarily printed together
+if a higher-priority job is printed in between copies. When
+the interrupted job is resumed the first copy printed afterwards
+will have a header page in all cases if one is being printed.
+

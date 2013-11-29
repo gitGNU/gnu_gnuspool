@@ -1,6 +1,0 @@
-Please give the outgoing IP to send from.
-
-We are referring to this computer not the IP or host name of the printer.
-
-This is often necessary if you have two or more network devices on your
-computer.

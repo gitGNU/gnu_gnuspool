@@ -1,0 +1,433 @@
+#! /usr/bin/perl
+#
+#   Copyright 2013 Free Software Foundation, Inc.
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+use Getopt::Long;
+
+sub usage {
+	print <<EOF;
+Usage:
+	$0 options
+
+Options may be one of the following:
+
+	--list  List printers
+	--add   Add a printer
+	--delete  Delete a printer
+	--all-delete	Delete all printers
+	--restore-cups  Reenable CUPS
+
+Otherwise an existing printer is updated
+
+Other options are
+
+	--printer=printer-name or --ptr=printer-name	Specify name
+	--qname=name or --qname=name  GNUspool queue name
+	--form=name GNUspool form name
+	--nocolour=y/n  Set grayscale
+	--size=name	  Set standard size
+	--orientation=p/l		Set portrait/landscape
+
+	--quiet  Suprress messages.
+
+EOF
+	exit 0;
+}
+
+# Catch signals and delete temp file
+
+sub catchsig {
+	if  ($tmpf)  {
+		unlink $tmpf;
+	}
+	exit 1;
+}
+
+# Extract form and printer from existing command, return 2-element list
+
+sub getformptr {
+	my $sc = shift;
+	my $cmd = $sc->{H}->{Command};
+	my $f;
+	my $q;
+	$f = $1 if $cmd =~ /-f\s*(\S+)/;
+	$q = $1 if $cmd =~ /-P\s*(\S+)/;
+	[$q, $f];
+}
+
+# Initial values for options
+
+my $lofile = "/etc/libreoffice/psprint.conf";
+my $print_command = 'gspl-pr';
+my $quiet = 0;
+my $add = 0;
+my $delete = 0;
+my $list = 0;
+my $delall = 0;
+my $setdef = 0;
+my $restore = 0;
+
+my $pname = '';
+my $qname = '';
+my $ftype = '';
+
+my $nocolour = '';
+my $psize = '';
+my $orient = '';
+
+# Possible mapping of sizes
+
+my %Papsizes;
+
+for my $p (qw/A0 A1 A2 A3 A4 A5 A6 B4 B5 B6 Legal Letter Executive Statement Tabloid Ledger AnsiC AnsiD ARCHA ARCHB ARCHC
+			  ARCHD ARCHE EnvMonarch EnvC4 EnvC5 EnvC6 Env10 EnvC65 Folio/) {
+	$Papsizes{lc $p} = $p;
+}
+
+GetOptions('help|?' => \&usage,
+		   'lo-conf=s' => \$lofile,
+		   'print-cmd=s' => \$print_command,
+		   'add' => \$add,
+		   'delete' => \$delete,
+		   'list' => \$list,
+		   'all-delete' => \$delall,
+		   'set-default' => \$setdef,
+		   'restore-cups' => \$restore,
+		   'silent' => \$quiet,
+		   'printer|ptr=s' => \$pname,
+		   'qname|queue=s' => \$qname,
+		   'form=s' => \$ftype,
+		   'nocolour|bw=s' => \$nocolour,
+		   'size=s' => \$psize,
+		   'orientation=s' => \$orient);
+
+# Check that lot
+
+unless  ($list || $restore || $delall)  {
+	unless (length($pname) > 0)  {
+		if  ($delete)  {
+			die "You did not give a queue or printer name\n" unless length($qname) > 0;
+		}
+		else  {
+			die "You did not give a printer name\n"
+		} 
+	}
+	die "Do not understand orientation $orient\n" unless length($orient) == 0 || $orient =~ /^[pl]/i;
+	if  ($add)  {
+		die "You did not give a queue name\n" unless length($qname) > 0;
+		die "You did not give a form type\n" unless length($ftype) > 0;
+	}
+}
+
+if  ($add)  {
+	die "Add and delete specified\n" if $delete || $delall;
+	die "Add and list specified\n" if $list;
+	die "Add and restore specified\n" if $restore;
+	die "No paper size given\n" if length($psize) == 0;
+}
+
+if ($list)  {
+	die "List and delete specified\n" if $delete || $delall;
+	die "List and restore specified\n" if $restore;
+}
+elsif ($delall || $delete)  {
+	die "Delete and set default specified\n" if $setdef;
+}
+else {
+	if (length($psize) != 0)  {
+		die "Do not understand paper size $psize\n" unless defined $Papsizes{lc $psize};
+		$psize = $Papsizes{lc $psize};
+	}
+}
+
+open(LOF, $lofile) or die "Cannot open Libreoffice file $lofile\n";
+
+# Read it all into memory first
+
+my @Lines;
+my $csect;
+
+while (<LOF>)  {
+	s/\r?\n$//;
+	my $item;
+	if  (/^\s*;(.*)/)  {		# A comment
+		$item = {T => 'C', V => $1};
+	}
+	elsif (/^\s*$/)  {			# A blank line
+		$item = {T => 'B'};
+	}
+	elsif (/^\s*(.+)=(.*)/)  {
+		$item = {T => 'I', K => $1, V => $2};
+	}
+	elsif (/^\s*\[(.*)\]/) {
+		$sname = $1;
+		if ($sname =~ /^__.*__$/)  {	# Globals
+			$item = {T => 'G', N => $sname, L => []};
+		}
+		else  {
+			$item = {T => 'S', N => $sname, L => []};
+		}
+		$csect = $item;
+		push @Lines, $csect;
+		next;
+	}
+	else  {
+		print STDERR "Did not understand $_\n";
+		next;
+	}
+	if ($csect) {
+		push @{$csect->{L}}, $item;
+	}
+	else {
+		push @Lines, $item;
+	}
+}
+
+close LOF;
+
+# Build lookups for all the keyword stuff and for the printer names
+
+for my $i (@Lines)  {
+	next unless $i->{T} eq 'G' or $i->{T} eq 'S';
+	for my $l (@{$i->{L}})  {
+		next unless $l->{T} eq 'I';
+		$i->{H}->{$l->{K}} = $l->{V};
+	}
+	if ($i->{T} eq 'G') {
+		$Globs = $i;
+	}
+	else  {
+		$Sect{$i->{N}} = $i;
+	}
+}
+
+# Set or reset CUPS disabling
+
+$Ghash = $Globs->{H};
+if  ($restore)  {
+	if  ($Ghash->{DisableCUPS} eq 'true')  {
+		print STDERR "Reenabling CUPS\n" unless $quiet;
+		$Ghash->{DisableCUPS} = 'false';
+	}
+}
+else  {
+	if  (!defined($Ghash->{DisableCUPS}))  {
+		$Ghash->{DisableCUPS} = 'true';
+		push @{$Globs->{L}}, {T => 'I', K => 'DisableCUPS', V => 'true'};
+		print STDERR "Disabling CUPS\n" unless $quiet;
+	}
+	elsif  ($Ghash->{DisableCUPS} ne 'true')  {
+		$Ghash->{DisableCUPS} = 'true';
+		print STDERR "Setting CUPS to disabled\n" unless $quiet;
+	}
+}
+
+if ($list)  {
+	my @out;
+	for my $s (sort keys %Sect)  {
+		my $sc = $Sect{$s};
+		my $qf = getformptr($sc);
+		my $size = $sc->{H}->{PPD_PageSize};
+		my ($q, $f) = @$qf;
+		$size .= " (Default)" if $sc->{H}->{DefaultPrinter} != 0;
+		push @out, {N => $s, Q => $q, F => $f, S => $size};
+	}
+	my ($nl, $ql, $fl, $sl) = (0,0,0,0);
+	for my $o (@out) {
+		$nl = length($o->{N}) if $nl < length($o->{N});
+		$ql = length($o->{Q}) if $ql < length($o->{Q});
+		$fl = length($o->{F}) if $fl < length($o->{F});
+		$sl = length($o->{S}) if $sl < length($o->{S});
+	}
+	for my $o (@out) {
+		print $o->{N}, ' ' x (1+$nl - length($o->{N}));
+		print $o->{Q}, ' ' x (1+$ql - length($o->{Q}));
+		print $o->{F}, ' ' x (1+$fl - length($o->{F}));
+		print $o->{S},"\n";
+	}
+
+	exit 0;
+}
+
+# Add new printer
+
+if ($add)  {
+	die "$pname clashes with existing name\n" if defined $Sect{$pname};
+	my $newptr = {T => 'S', N => $pname};
+	my @l;
+	my %as;
+	if (length($orient) == 0  ||  $orient =~ /p/i)  {
+		$orient = "Portrait";
+	}
+	else  {
+		$orient = "Landscape";
+	}
+	if (length($nocolour) != 0)  {
+		if ($nocolour =~ /y/i)  {
+			$nocolour = -1;
+		}
+		else  {
+			$nocolour = 0;
+		}
+	}
+	my @Fs = ([Printer => "SGENPRT/$pname"],
+			  [DefaultPrinter => 0],
+			  [Location => ''],
+			  [Comment => "Created by GNUspool install"],
+			  [Command => "$print_command -f $ftype -P $qname"],
+			  [Quickcommand => ''],
+			  [Features => ''],
+			  [Copies => 1],
+			  [Orientation => $orient],
+			  [PSLevel => 0],
+			  [PDFDevice => 0],
+			  [ColorDevice => $nocolour],
+			  [ColorDepth => 24],
+			  [MarginAdjust => "0,0,0,0"],
+			  [PPD_PageSize => $psize],
+			  [PerformFontSubstitution => 'false']);
+	for my $f (@Fs)  {
+		my ($k, $v) = @$f;
+		push @l, {T => 'I', K => $k, V => $v};
+		$as{$k} = $v;
+	}
+	for my $f (@{$Globs->{L}})  {
+		next unless $f->{T} eq 'I';
+		next unless $f->{K} =~ /^SubstFont_/;
+		push @l, {T => 'I', K => $f->{K}, V => $f->{V}};
+		$as{$f->{K}} = $f->{V};
+	}
+	$newptr->{L} = \@l;
+	$newptr->{H} = \%as;
+	$Sect{$pname} = $newptr;
+	push @Lines, $newptr;
+}
+elsif ($delete)  {
+	if  (length($pname) > 0)  {
+		die "Unknown printer $pname\n" unless defined($Sect{$pname});
+		undef $Sect{$pname};
+	}
+	else  {
+		my @dlist;
+		for my $pn (keys %Sect)  {
+			my $sc = $Sect{$pn};
+			my $qf = getformptr($sc);
+			push @dlist, $pn if $qf->[0] eq $qname;
+		}
+		print STDERR "Did not find any printers to delete\n" unless @dlist || $quiet;
+		for my $d (@dlist) {
+			undef $Sect{$d};
+		}
+	}
+}
+elsif ($delall)  {
+	undef %Sect;
+}
+elsif (!$restore)  {
+	die "Unknown printer $pname\n" unless defined($Sect{$pname});
+	my $sc = $Sect{$pname};
+	$sc->{H}->{PPD_PageSize} = $psize if length($psize) != 0;
+	my $qf = getformptr($sc);
+	my ($q, $f) = @$qf;
+	$q = $qname if length($qname) > 0;
+	$f = $ftype if length($ftype) > 0;
+	$sc->{H}->{Command} = "$print_command -f $f -P $q";
+	if  (length($orient) != 0)  {
+		if  ($orient =~ /p/i)  {
+			$sc->{H}->{Orientation} = "Portrait";
+		}
+		else  {
+			$sc->{H}->{Orientation} = "Landscape";
+		}
+	}
+
+	if (length($nocolour) != 0)  {
+		if ($nocolour =~ /y/i)  {
+			$sc->{H}->{ColorDevice} = -1;
+		}
+		else  {
+			$sc->{H}->{ColorDevice} = 0;
+		}
+	}
+}
+
+if ($setdef)  {
+	die "Unknown printer $pname\n" unless defined($Sect{$pname});
+	for my $s (keys %Sect)  {
+		my $cs = $Sect{$s};
+		if  ($s eq $pname)  {
+			$cs->{H}->{DefaultPrinter} = 1;
+		}
+		else  {
+			$cs->{H}->{DefaultPrinter} = 0;
+		}
+	}
+}
+
+$SIG{INT} = \&catchsig;
+$SIG{QUIT} = \$catchsig;
+$SIG{TERM} = \$catchsig;
+
+$tmpf = "/tmp/loconv.$$";
+open(TF, "+>$tmpf") or die "Cannot create temporary file\n";
+
+# Now write out the result
+
+for my $line (@Lines)  {
+	if ($line->{T} eq 'C')  {
+		print TF ";$line->{V}\n";
+	}
+	elsif ($line->{T} eq 'B')  {
+		print TF "\n";
+	}
+	else  {
+		# We undef-ed the hash entry if we deleted a printer
+		next if $line->{T} ne 'G' && !defined $Sect{$line->{N}};
+		my $vals = $line->{H};
+		my $lines = $line->{L};
+		print TF "[$line->{N}]\n";
+		for my $sline (@$lines)  {
+			if ($sline->{T} eq 'C')  {
+				print TF ";$sline->{V}\n";
+			}
+			elsif ($sline->{T} eq 'B')  {
+				print TF "\n";
+			}
+			else  {
+				# The original value was left in the array, any new in the hash
+				my $k = $sline->{K};
+				my $v = $vals->{$k};
+				print TF "$k=$v\n";
+			}
+		}
+	}
+}
+
+# Now rewrite the config file
+
+$SIG{INT} = $SIG{QUIT} = $SIG{TERM} = 'IGNORE';
+
+seek TF, 0, 0;
+unless  (open(LOF, ">$lofile"))  {
+	unlink $tmpf;
+	die "Cannot reopen $lofile\n";
+}
+print LOF while (<TF>);
+close LOF;
+close TF;
+unlink $tmpf;
+print "Rewrote $lofile\n" unless $quiet;
+exit  0;

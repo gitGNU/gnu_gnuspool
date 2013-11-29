@@ -1,0 +1,4 @@
+This sets the baud rate for the serial device.
+
+THis can be only one of a standard set of options.
+

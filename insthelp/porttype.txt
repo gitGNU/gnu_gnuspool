@@ -1,0 +1,13 @@
+This is asking what the method of connection of the
+printer is.
+
+It might be:
+
+Parallel - parallel port / centronics interface
+Serial - RS232 serial with baud rates (probably obsolete now)
+USB - USB connection
+Network - some kind of network connection
+
+Most printers these days are either USB or Network but serial
+and parallel continue to be supported.
+

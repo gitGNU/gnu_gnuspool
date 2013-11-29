@@ -25,6 +25,7 @@ extern char 	*mkspid(const char *, const jobno_t);
 #define	GNU_SPOOL_MAJOR_VERSION	@MAJOR_PACKAGE_VERSION@
 #define	GNU_SPOOL_VERSION_STRING	"@PACKAGE_VERSION@"
 
+#define	datarootdir	"@datarootdir@"
 #define	MASTER_CONFIG	"@sysconfdir@/gnuspool.conf"
 #define	EXTERNSPOOL	"@sysconfdir@/gnuspool.ext"
 #define USER_CONFIG	".gnuspool"

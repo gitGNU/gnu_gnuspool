@@ -1,0 +1,5 @@
+Always include page 1 when printing page ranges.
+
+Sometimes page 1 includes font data etc so this
+needs to be printed each time.
+

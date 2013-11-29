@@ -1,2 +1,0 @@
-This is a text description of the printer which may appear
-on user's displays.

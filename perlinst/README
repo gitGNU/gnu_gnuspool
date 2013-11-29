@@ -1,0 +1,7 @@
+Printer installation modules
+
+The process for configuring and installing printers has now been
+rewritten as a set of Perl modules.
+
+This is all "command-line interactive" rather than GUI-based.
+

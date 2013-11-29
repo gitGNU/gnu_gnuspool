@@ -1,4 +1,0 @@
-The only way of talking to this printer appears to be
-via the given connection protocol. Is it OK to use that?
-
-(I don't know what to do if not).

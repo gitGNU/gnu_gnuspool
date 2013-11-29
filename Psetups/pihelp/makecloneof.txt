@@ -1,3 +1,0 @@
-Do you want to clone the specified printer?
-
-It is the only one suitable.

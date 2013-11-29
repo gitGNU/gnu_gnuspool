@@ -1,0 +1,12 @@
+This gives the number of seconds to wait for a write
+operation to the device to complete before regarding it
+as offline.
+
+Remember that many devices (expecially network ones) have a large
+buffer which will continue to accept data and return immediately even
+though printing has otherwise stopped, which this will not detect.
+
+Others do not respond to a "write" until a situation has cleared.
+
+You may have to experiment with this parameter.
+

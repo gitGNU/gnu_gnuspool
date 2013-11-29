@@ -1,0 +1,2 @@
+This specifies odd parity with the parity enabled.
+

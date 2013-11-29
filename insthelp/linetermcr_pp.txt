@@ -1,0 +1,14 @@
+This parameter adjusts PCL line terminators
+between modes so as to accept or not lines without
+carriage returns.
+
+If successive lines of output
+
+Look
+     like
+          this
+
+and eventually run off the edge of the page you may want to tune this parameter.
+
+If all else fails, try this and/or the "addcr" parameter in spooler options.
+

@@ -1,0 +1,13 @@
+Set this option to resolve the problem
+of no carriage returns letting lines
+
+Look
+     like
+          this
+
+and running off the page by "brute force".
+
+THe spooler will insert CRs in front of every LF.
+
+Use this with care as you might damage graphic downloads to the printer.
+

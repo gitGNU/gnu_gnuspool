@@ -1,0 +1,12 @@
+This indicates whether the serial interface should put a
+carriage-return character in front of every linefeed
+character.
+
+If you are just printing text, this may be a good idea, but
+it is a mistake if your printer ever takes binary data for
+graphics or font downloads as it will cause very strange
+things to happen.
+
+It is much better to select one of the other options on the
+emulation for this.
+

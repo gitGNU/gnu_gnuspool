@@ -1,0 +1,10 @@
+Some devices, particularly on legacy UNIX systems, can
+hang up "immortally" with some process being impossible to kill.
+
+This can cause the whole spooler to crash or otherwise become
+stuck.
+
+This parameter will cause the last process to close the connection
+to close all other connections first and isolate itself so being
+"immortal" in this way does no damage.
+

@@ -1,0 +1,6 @@
+This gives the configuration file for the
+HPNPF interface and contains SNMP definition
+macros.
+
+You probably don't need to change this.
+

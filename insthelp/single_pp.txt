@@ -1,0 +1,9 @@
+Set single-job mode.
+
+The printer will halt in state "a/w oper" at the start of each
+job and the user will have to use the client interfaces to
+release the job.
+
+Also available is an alignment page routine to send a standard
+page to the printer, but you will need to set this manually.
+

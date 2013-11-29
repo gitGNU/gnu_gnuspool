@@ -1,0 +1,3 @@
+This gives the interface linger time in seconds,
+which may be fractional.
+

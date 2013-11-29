@@ -1,2 +1,0 @@
-Select this if you want to set this formtype
-as the default form type for all users.

@@ -1,0 +1,7 @@
+Only print one copy if the job has multiple copies.
+
+This may be used to force one copy, or if some
+printing routine in used manages multiple copy
+printing itself (the specified copies are in SPOOLCPS
+environment variable).
+

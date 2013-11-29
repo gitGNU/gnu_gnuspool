@@ -1,0 +1,4 @@
+Set this to disable all banner
+printing for the printer, the user
+cannot turn it on.
+

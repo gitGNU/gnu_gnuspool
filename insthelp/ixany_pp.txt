@@ -1,0 +1,5 @@
+This says that any character can release the
+serial interface after "XOFF" not just "XON".
+
+Use of this is highly frowned upon.
+

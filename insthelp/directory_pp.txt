@@ -1,0 +1,6 @@
+This gives the directory on the interface
+which the FTP interface requires.
+
+This may be how the printer is selected on
+some interfaces.
+

@@ -1,0 +1,6 @@
+This gives the output file name to be
+used on the FTP interface.
+
+Some devices use this name to select the
+output device.
+

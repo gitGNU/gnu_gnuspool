@@ -1,0 +1,4 @@
+This gives the number of stop bits your printer uses.
+
+Usually 1 is the correct number.
+

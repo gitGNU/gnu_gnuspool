@@ -1,0 +1,10 @@
+This gives the timeout for close on the device before
+giving up and regarding the device as offline.
+
+Some devices denote error conditions by holding close
+commands up until the condition is relieved.
+
+You may well want to set the "canhang" parameter as well
+if this is to be set so that the spooler system does
+not get paralysed by half-dead processes.
+

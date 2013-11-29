@@ -1,0 +1,7 @@
+This parameter gives the number of seconds that
+the spooler will wait for the device to conplete an
+"open" system call before giving up and regarding
+the device as offline.
+
+The default is 30 which is usually enough.
+

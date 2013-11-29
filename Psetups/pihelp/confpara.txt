@@ -1,3 +1,0 @@
-There do not seem to be any parallel ports available for this.
-
-Are you sure?

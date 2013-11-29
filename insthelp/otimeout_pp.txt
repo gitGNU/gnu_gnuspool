@@ -1,0 +1,4 @@
+This give the number of seconds to wait for an output
+part of a handshake with the printer to complete before
+giving up.
+

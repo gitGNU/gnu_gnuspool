@@ -1,0 +1,4 @@
+This sets whether parity is enabled on the printer.
+
+This is in addition to the character size and stopbits.
+

@@ -1,0 +1,6 @@
+This parameter indicates that the next higher
+SNMP variable should be chosen if it cannot find
+the specified one.
+
+Set this unless you are sure you know what you are doing.
+

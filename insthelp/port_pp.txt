@@ -1,0 +1,7 @@
+This gives the TCP port to be used for
+the interface.
+
+The standard one is suggested but some
+interfaces have more than one port for
+different printers.
+

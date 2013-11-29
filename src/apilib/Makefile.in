@@ -19,6 +19,7 @@
 
 prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
+datarootdir	=	@datarootdir@
 SHELL		=	/bin/sh
 PARENT		=	..
 BASE		=	../..

@@ -1,0 +1,13 @@
+Please specify a directory for the stated purpose.
+
+You can "walk" the directory tree by typing space or
+TAB, possibly after typing the first letter or so of
+the required directory.
+
+Space and TAB are slightly different in that TAB looks
+around the tree at the same level and space looks down
+from the current level.
+
+You can also type CTRL-W to "eat" the last part of the
+currently-displayed directory.
+

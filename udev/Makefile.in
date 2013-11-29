@@ -23,6 +23,7 @@ BASE		=	..
 PARENT		=	..
 prefix		=	@prefix@
 exec_prefix	=	@exec_prefix@
+datarootdir	=	@datarootdir@
 UDEVDIR		=	$(DESTDIR)/lib/udev
 RULESDIR	=	$(UDEVDIR)/rules.d
 INSTALL		=	@INSTALL@

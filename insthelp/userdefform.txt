@@ -1,0 +1,16 @@
+Please specify the form type for all users to have
+as their default.
+
+It would be normal for this to be something like "a4"
+or "legal" or some in-house name, rather than the
+installation setting of "standard".
+
+Do not confuse this with the form file of "default".
+
+When the printer starts up, it will use a form file of
+the same name as the form (less any suffixes) and will
+use "default" if it cannot find that.
+
+Each user should have a default form type name appropriate
+to the installation.
+

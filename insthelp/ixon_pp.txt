@@ -1,0 +1,6 @@
+This sets XON/XOFF flow control protocol for
+serial lines.
+
+It is very much frowned upon and DSR/DTR flow
+control is preferred.
+

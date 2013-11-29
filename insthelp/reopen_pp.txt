@@ -1,0 +1,8 @@
+This indicates that the device/network port should
+be closed and reopened between successive prints.
+
+You almost always want to do this for network devices.
+
+You may also want to do this with other devices which do not
+print the last few bytes unless the device is closed.
+

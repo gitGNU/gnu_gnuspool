@@ -1,0 +1,9 @@
+This sets whether the printer permits
+non-reserved ports (i.e. above 512) to be used to
+speak to the printer.
+
+Some printers are fussy about this.
+
+Avoid using reserved ports if you can (i.e. set
+this parameter) as they are limited in number.
+

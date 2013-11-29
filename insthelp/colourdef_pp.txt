@@ -1,0 +1,6 @@
+Set this if you want colour printing by default.
+
+You should still be able to select grayscale or
+colour printing as required if your printer can
+select colour by using the right suffix.
+

@@ -1,0 +1,8 @@
+This gives the time for the process to
+sleep at the end of each job before attempting
+to close it.
+
+Some devices don't like to have a close immediately
+after the end of the data so this is to keep them
+happy.
+

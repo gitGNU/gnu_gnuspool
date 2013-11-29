@@ -1,0 +1,7 @@
+The spooler works too fast for some devices and if they
+are reopend too soon after they have finished receiving a job
+they can get indigestion.
+
+This gives a number of seconds to wait before attempting
+to reopen the device.
+

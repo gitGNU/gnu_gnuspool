@@ -1,0 +1,10 @@
+This gives the printer name specified in the LPD
+protocol.
+
+Some interfaces are fussy about this (and some
+multi-printer interfaces use this to select
+which printer is meant).
+
+This parameter enables this to be set, otherwise
+the spooler printer name is used.
+

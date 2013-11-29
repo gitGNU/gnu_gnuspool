@@ -1,0 +1,3 @@
+If printing ranges, and the job is halted before
+printing is complete, wind back the given number of pages 
+

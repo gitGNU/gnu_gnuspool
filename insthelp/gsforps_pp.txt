@@ -1,0 +1,13 @@
+This parameter indicates that Ghostscript should be used
+for printing PostScript files.
+
+You must select this if you want to be able to print
+PostScript on PCL-only printers.
+
+You must also have Ghostscript and HPIJS available.
+
+Boih are commonly found in Linux distributions.
+
+Select this if you want to have a bit more control over the
+output (duplex etc) at the printing stage.
+

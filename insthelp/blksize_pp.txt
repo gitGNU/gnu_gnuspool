@@ -1,0 +1,8 @@
+This gives the block size after which an
+SNMP command is invoked to get the printer status.
+
+Do not confuse with the output buffer. This gives the
+number of bytes to be send to the printer before
+the SNMP request takes place to determine that it
+is still printing.
+

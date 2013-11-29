@@ -1,0 +1,3 @@
+This gives the number of seconds to wait between each
+attmpt to connect to the device before retrying.
+

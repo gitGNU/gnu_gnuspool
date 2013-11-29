@@ -1,0 +1,5 @@
+Set this to cause page ranges to be ignored.
+
+Page ranges only really work for text data terminated
+with newlines or formfeeds.
+

@@ -1,0 +1,3 @@
+This is set to force text mode on the FTP
+interface and is almost certainly a bad idea.
+

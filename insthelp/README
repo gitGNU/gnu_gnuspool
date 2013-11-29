@@ -1,0 +1,14 @@
+Printer installation help files
+===============================
+
+The printer installation suite now uses a Perl script
+gspl-ptrinstall and the Perl library in perlinst.
+
+The library asks questions and when the user asks for
+help the message given comes from this file.
+
+The helpfile names are given in the routine calls and have
+".txt" stuck on the end.
+
+Ones in printer parameter routines have _pp.txt stuck on the end.
+

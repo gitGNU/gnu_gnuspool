@@ -1,6 +1,0 @@
-There are some "standard" network parameters which you may want to
-adjust.
-
-These are things like timeouts, logging, buffer size.
-
-You may want to fine-tune this for your system.

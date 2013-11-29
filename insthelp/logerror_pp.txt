@@ -1,0 +1,5 @@
+This indicates that error messages from the network command
+should be copied to the system log file.
+
+You will almost certainly want to use this.
+
